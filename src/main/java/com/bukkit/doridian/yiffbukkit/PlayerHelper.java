@@ -1,0 +1,298 @@
+package com.bukkit.doridian.yiffbukkit;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.lang.reflect.Field;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import com.nijiko.configuration.DefaultConfiguration;
+import com.nijikokun.bukkit.Permissions.Permissions;
+
+public class PlayerHelper {
+	private YiffBukkit plugin;
+	public PlayerHelper(YiffBukkit plug) {
+		plugin = plug;
+		ReloadAll();
+	}
+	
+	public void ReloadAll() {
+		LoadRanks();
+		LoadPlayerRanks();
+		LoadPlayerTags();
+		LoadPlayerHomePositions();
+	}
+	
+	public Player MatchPlayerSingle(Player ply, String arg0) {
+		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(arg0);
+		int c = otherplys.size();
+		if(c <= 0) {
+			SendDirectedMessage(ply, "Sorry, no player found!");
+			return null;
+		} else if(c > 1) {
+			SendDirectedMessage(ply, "Sorry, multiple players found!");
+			return null;	
+		}
+		return otherplys.get(0);
+	}
+	
+	public String GetFullPlayerName(Player ply) {
+		return plugin.playerHelper.GetPlayerTag(ply) + ply.getName();
+	}
+	
+	//Home position stuff
+	private Hashtable<String,Location> playerhomepos = new Hashtable<String,Location>();
+	public Location GetPlayerHomePosition(Player ply) {
+		String name = ply.getName().toLowerCase();
+		if(playerhomepos.containsKey(name))
+			return playerhomepos.get(name);
+		else
+			return ply.getWorld().getSpawnLocation();
+	}
+	public void SetPlayerHomePosition(Player ply, Location pos) {
+		String name = ply.getName().toLowerCase(); 
+		playerhomepos.put(name, pos);
+		SavePlayerHomePositions();
+	}
+	
+	public void LoadPlayerHomePositions() {
+		playerhomepos.clear();
+    	try {
+    		BufferedReader stream = new BufferedReader(new FileReader("player-homepositions.txt"));
+			String line; int lpos;
+			while((line = stream.readLine()) != null) {
+				lpos = line.lastIndexOf('=');
+				playerhomepos.put(line.substring(0,lpos), plugin.utils.UnserializeLocation(line.substring(lpos+1)));
+			}
+			stream.close();
+		}
+    	catch (Exception e) { }		
+	}
+	public void SavePlayerHomePositions() {
+    	try {
+    		BufferedWriter stream = new BufferedWriter(new FileWriter("player-homepositions.txt"));
+    		Enumeration<String> e = playerhomepos.keys();
+    		while(e.hasMoreElements()) {
+    			String key = e.nextElement();
+    			stream.write(key + "=" + plugin.utils.SerializeLocation(playerhomepos.get(key)));
+        		stream.newLine();	
+    		}
+    		stream.close();
+    	}
+    	catch(Exception e) { }		
+	}
+	
+	//Messaging stuff
+    public void SendPermissionDenied(Player ply) {
+    	ply.sendMessage("§4[YB]§f Permission denied!");
+    }
+    public void SendServerMessage(String msg) {
+    	plugin.getServer().broadcastMessage("§5[YB]§f " + msg);
+    }
+    public void SendDirectedMessage(Player ply, String msg) {
+    	ply.sendMessage("§5[YB]§f " + msg);
+    }
+    
+    //Ranks
+    private Hashtable<String,String> playerranks = new Hashtable<String,String>();
+    public String GetPlayerRank(Player ply) {
+    	return GetPlayerRank(ply.getName());
+    }
+    public String GetPlayerRank(String name) {
+    	return plugin.permissions.getHandler().getGroup(name);
+    }
+    public void SetPlayerRank(String name, String rankname) {
+    	try {
+	    	BufferedReader fileread = new BufferedReader(new FileReader("plugins/Permissions/config.yml"));
+	    	String filebuff = ""; byte state = 0;
+	    	String line; String newline = System.getProperty("line.separator"); String newtab = "    ";
+	    	while((line = fileread.readLine()) != null) {
+	    		switch(state) {
+		    		case 0:
+		    			if(line.equals("users:")) {
+		    				state++;
+		    			}
+		    			break; 
+		    		case 1:
+		    			if(line.equalsIgnoreCase(newtab + name + ":")) {
+		    				state++;
+		    			}
+		    			break;
+		    		case 2:
+		    			if(line.startsWith(newtab + newtab + "group:")) {
+		    				line = newtab + newtab + "group: " + rankname;
+		    				state++;
+		    			}
+		    			break;
+				}
+	    		filebuff += line + newline;
+	    	}
+	    	if(state == 0) {
+	    		filebuff += "users:" + newline;
+	    	}
+	    	if(state < 2) {
+	    		filebuff += newtab + name + ":" + newline + newtab + newtab + "group: " + rankname + newline; 
+	    	}
+	    	fileread.close();
+	    	BufferedWriter filewrite = new BufferedWriter(new FileWriter("plugins/Permissions/config.yml"));
+	    	filewrite.write(filebuff);
+	    	filewrite.close();
+	    	try {
+	            plugin.permissions.getConfiguration().load();
+	            DefaultConfiguration config = getPrivateValue(Permissions.class,plugin.permissions,"config");
+	            config.load();
+	            plugin.permissions.setupPermissions();
+	    	} catch(Exception e) { }
+    	}
+    	catch(Exception e) {
+    		
+    	}
+    }
+    
+	@SuppressWarnings("unchecked")
+	public static <T, E> T getPrivateValue(Class<? super E> class1, E permissions, String field)
+	{
+		try
+		{
+			Field f = class1.getDeclaredField(field);
+			f.setAccessible(true);
+			return (T) f.get(permissions);
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+    
+    public void LoadPlayerRanks() {
+    	//playerranks.clear();
+    	try {
+    		BufferedReader stream = new BufferedReader(new FileReader("ranks.txt"));
+			String line; int lpos;
+			while((line = stream.readLine()) != null) {
+				lpos = line.lastIndexOf('=');
+				if(lpos < 0) continue;
+				SetPlayerRank(line.substring(0,lpos), line.substring(lpos+1));
+			}
+			stream.close();
+		}
+    	catch (Exception e) { }
+    }
+    public void SavePlayerRanks() {
+    	/*try {
+    		BufferedWriter stream = new BufferedWriter(new FileWriter("ranks.txt"));
+    		Enumeration<String> e = playerranks.keys();
+    		while(e.hasMoreElements()) {
+    			String key = e.nextElement();
+    			String value = playerranks.get(key);
+    			if(value.equals("guest")) continue;
+    			stream.write(key + "=" + value);
+        		stream.newLine();	
+    		}
+    		stream.close();
+    	}
+    	catch(Exception e) { }*/
+    }
+    
+    //Permission levels
+    private Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
+    public Integer GetPlayerLevel(Player ply) {
+    	return GetPlayerLevel(ply.getName());
+    }
+    
+    public Integer GetPlayerLevel(String name) {
+    	return GetRankLevel(GetPlayerRank(name));
+    }
+    public Integer GetRankLevel(String rankname) {
+    	rankname = rankname.toLowerCase();
+    	if(ranklevels.containsKey(rankname))
+    		return ranklevels.get(rankname);
+    	else
+    		return 0;   	
+    }
+    
+    public void LoadRanks() {
+    	ranklevels.clear();
+    	ranktags.clear();
+    	try {
+    		BufferedReader stream = new BufferedReader(new FileReader("ranks-config.txt"));
+			String line; String[] split;
+			while((line = stream.readLine()) != null) {
+				split = line.split("=");
+				ranklevels.put(split[0], Integer.valueOf(split[1]));
+				ranktags.put(split[0], split[2]);
+			}
+			stream.close();
+		}
+    	catch (Exception e) { }   	
+    }
+    public void SaveRanks() {
+    	try {
+    		BufferedWriter stream = new BufferedWriter(new FileWriter("ranks-config.txt"));
+    		Enumeration<String> e = playerranks.keys();
+    		while(e.hasMoreElements()) {
+    			String key = e.nextElement();
+    			stream.write(key + "=" + playerranks.get(key) + "=" + ranktags.get(key));
+        		stream.newLine();	
+    		}
+    		stream.close();
+    	}
+    	catch(Exception e) { }
+    }
+    
+    //Tags
+    private Hashtable<String,String> ranktags = new Hashtable<String,String>();
+    private Hashtable<String,String> playertags = new Hashtable<String,String>();
+    public String GetPlayerTag(Player ply) {
+    	return GetPlayerTag(ply.getName());
+    }
+    public String GetPlayerTag(String name) {
+    	name = name.toLowerCase();
+    	String rank = GetPlayerRank(name).toLowerCase();
+    	if(playertags.containsKey(name))
+    		return playertags.get(name);
+    	else if(ranktags.containsKey(rank))
+    		return ranktags.get(rank);
+    	else
+    		return "§7";
+    }
+    public void SetPlayerTag(String name, String tag) {
+    	name = name.toLowerCase();
+    	if(tag.equalsIgnoreCase("none"))
+    		playertags.remove(name);
+    	else
+    		playertags.put(name, tag);
+    	SavePlayerTags();
+    }
+    
+    public void LoadPlayerTags() {
+    	playertags.clear();
+    	try {
+    		BufferedReader stream = new BufferedReader(new FileReader("player-tags.txt"));
+			String line; int lpos;
+			while((line = stream.readLine()) != null) {
+				lpos = line.lastIndexOf('=');
+				playertags.put(line.substring(0,lpos), line.substring(lpos+1));
+			}
+			stream.close();
+		}
+    	catch (Exception e) { }
+    }
+    public void SavePlayerTags() {
+    	try {
+    		BufferedWriter stream = new BufferedWriter(new FileWriter("player-tags.txt"));
+    		Enumeration<String> e = playertags.keys();
+    		while(e.hasMoreElements()) {
+    			String key = e.nextElement();
+    			stream.write(key + "=" + playertags.get(key));
+        		stream.newLine();	
+    		}
+    		stream.close();
+    	}
+    	catch(Exception e) { }
+    }
+}
