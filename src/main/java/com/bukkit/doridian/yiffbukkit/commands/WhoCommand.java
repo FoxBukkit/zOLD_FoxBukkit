@@ -23,7 +23,7 @@ public class WhoCommand extends ICommand {
 			plugin.playerHelper.SendDirectedMessage(ply, "NameTag: " + plugin.playerHelper.GetFullPlayerName(target));
 			plugin.playerHelper.SendDirectedMessage(ply, "World: " + target.getWorld().getName());
 			if(plugin.playerHelper.GetPlayerLevel(ply) < 3) return;
-			plugin.playerHelper.SendDirectedMessage(ply, "IP: " + ply.getAddress().getAddress().toString().substring(1));
+			plugin.playerHelper.SendDirectedMessage(ply, "IP: " + target.getAddress().getAddress().toString().substring(1));
 		} else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: " + players[0].getName();
