@@ -42,6 +42,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         commands.put("gonether", new GoNetherCommand(plugin));
         commands.put("home", new HomeCommand(plugin));
         commands.put("sethome", new SetHomeCommand(plugin));
+        commands.put("spawn", new SpawnCommand(plugin));
         
         commands.put("give", new GiveCommand(plugin));
     }
