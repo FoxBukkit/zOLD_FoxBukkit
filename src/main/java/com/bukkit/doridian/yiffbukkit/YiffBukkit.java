@@ -31,7 +31,7 @@ public class YiffBukkit extends JavaPlugin {
     public PlayerHelper playerHelper = null;
     public final Utils utils;
     public Permissions permissions;
-    
+
     public YiffBukkit(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
         super(pluginLoader, instance, desc, folder, plugin, cLoader);
         playerListener = new YiffBukkitPlayerListener(this);
@@ -47,11 +47,11 @@ public class YiffBukkit extends JavaPlugin {
     	permissions = (Permissions)getServer().getPluginManager().getPlugin("Permissions");
     	System.out.println( "Permissions loaded!" );
     }
-    
+
     public void onEnable() {
     	setupPermissions();
     	playerHelper = new PlayerHelper(this);
-    	
+
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Highest, this);
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
@@ -65,28 +65,28 @@ public class YiffBukkit extends JavaPlugin {
         pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Priority.Normal, this);
         //pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
-        
+
         System.out.println( "YiffBukkit is enabled!" );
     }
-    
+
     public Hashtable<String,ICommand> GetCommands() {
     	return playerListener.commands;
     }
-    
+
     public Location TogglePlayerWorlds(Player ply, Location pos) {
     	World world = ToggleWorlds(ply.getWorld());
     	pos.setWorld(world);
-    	pos.setZ(world.getHighestBlockYAt(pos.getBlockX(), pos.getBlockZ()));
+    	pos.setY(world.getHighestBlockYAt(pos.getBlockX(), pos.getBlockZ()));
     	return pos;
     }
-    
+
     public World ToggleWorlds(World world) {
     	if(world.getEnvironment() == Environment.NORMAL)
     		return GetOrCreateWorld(world.getName() + "_nether", Environment.NETHER);
     	else
     		return GetOrCreateWorld(world.getName().substring(0, world.getName().length() - 7), Environment.NORMAL);
     }
-    
+
     public World GetOrCreateWorld(String name, Environment env) {
     	name = name.toLowerCase();
     	List<World> worlds = getServer().getWorlds();
