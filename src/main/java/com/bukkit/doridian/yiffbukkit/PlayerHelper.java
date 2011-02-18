@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 
 import org.bukkit.Location;
@@ -26,6 +27,7 @@ public class PlayerHelper {
 		LoadPlayerRanks();
 		LoadPlayerTags();
 		LoadPlayerHomePositions();
+		LoadPortPermissions();
 	}
 	
 	public Player MatchPlayerSingle(Player ply, String arg0) {
@@ -300,6 +302,54 @@ public class PlayerHelper {
     		while(e.hasMoreElements()) {
     			String key = e.nextElement();
     			stream.write(key + "=" + playertags.get(key));
+        		stream.newLine();	
+    		}
+    		stream.close();
+    	}
+    	catch(Exception e) { }
+    }
+
+	public HashSet<String> playerTpPermissions = new HashSet<String>();
+	public HashSet<String> playerSummonPermissions = new HashSet<String>();
+    
+	public void LoadPortPermissions() {
+		playerTpPermissions.clear();
+    	try {
+    		BufferedReader stream = new BufferedReader(new FileReader("player-notp.txt"));
+			String line;
+			while((line = stream.readLine()) != null) {
+				playerTpPermissions.add(line);
+			}
+			stream.close();
+		}
+    	catch (Exception e) { }
+		
+    	playerSummonPermissions.clear();
+    	try {
+    		BufferedReader stream = new BufferedReader(new FileReader("player-nosummon.txt"));
+			String line;
+			while((line = stream.readLine()) != null) {
+				playerSummonPermissions.add(line);
+			}
+			stream.close();
+		}
+    	catch (Exception e) { }
+    }
+    public void SavePortPermissions() {
+    	try {
+    		BufferedWriter stream = new BufferedWriter(new FileWriter("player-notp.txt"));
+    		for (String element : playerTpPermissions) {
+    			stream.write(element);
+        		stream.newLine();	
+    		}
+    		stream.close();
+    	}
+    	catch(Exception e) { }
+    	
+    	try {
+    		BufferedWriter stream = new BufferedWriter(new FileWriter("player-nosummon.txt"));
+    		for (String element : playerSummonPermissions) {
+    			stream.write(element);
         		stream.newLine();	
     		}
     		stream.close();

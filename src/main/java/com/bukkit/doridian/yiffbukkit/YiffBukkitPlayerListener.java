@@ -36,13 +36,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         commands.put("unban", new UnbanCommand(plugin));
         commands.put("pardon", new UnbanCommand(plugin));
         
-        SummonCommand summonCommand = new SummonCommand(plugin);
-        TpCommand tpCommand = new TpCommand(plugin);
-        commands.put("summon", summonCommand);
-        commands.put("tp", tpCommand);
-        commands.put("notp", new NoPortCommand(plugin, tpCommand, null));
-        commands.put("nosummon", new NoPortCommand(plugin, null, summonCommand));
-        commands.put("noport", new NoPortCommand(plugin, tpCommand, summonCommand));
+        commands.put("tp", new TpCommand(plugin));
+        commands.put("summon", new SummonCommand(plugin));
+        
+        commands.put("notp", new NoTpCommand(plugin));
+        commands.put("nosummon", new NoSummonCommand(plugin));
+        commands.put("noport", new NoPortCommand(plugin));
         
         commands.put("gonether", new GoNetherCommand(plugin));
         commands.put("home", new HomeCommand(plugin));
