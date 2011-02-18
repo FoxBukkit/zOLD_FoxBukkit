@@ -8,6 +8,7 @@ import com.bukkit.doridian.yiffbukkit.YiffBukkit;
 
 public class TpCommand extends ICommand {
 	HashSet<String> playerForbidsPort = new HashSet<String>();
+	HashSet<String> playerPortExceptions = new HashSet<String>();
 	
 	public int GetMinLevel() {
 		return 1;
@@ -21,25 +22,30 @@ public class TpCommand extends ICommand {
 		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
 		if(otherply == null) return;
 		
+		String playerName = ply.getName();
+		String otherName = otherply.getName();
+		
 		int level = plugin.playerHelper.GetPlayerLevel(ply);
 		int otherlevel = plugin.playerHelper.GetPlayerLevel(otherply);
 		
 		boolean denied = false;
 		
-		if(level < otherlevel) {
+		if (level < otherlevel) {
 			denied = true;
 		}
 		else if (level == otherlevel) {
-			if (playerForbidsPort.contains(otherply.getName())) {
+			if (playerForbidsPort.contains(otherName)) {
 				denied = true;
 			}
 		}
+		
+		if (playerPortExceptions.contains(playerName+" "+otherName))
+			denied = false;
 		
 		if (denied) {
 			plugin.playerHelper.SendPermissionDenied(ply);
 			return;
 		}
-		
 		
 		ply.teleportTo(otherply);
 		

@@ -22,13 +22,48 @@ public class NoPortCommand extends ICommand {
 		boolean newState;
 		String playerName = ply.getName();
 		
-		if (argStr.equals("on")) {
+		String arg0 = args.length >= 1 ? args[0] : "";
+		
+		if (argStr.equals("on") || argStr.equals("1")) {
 			newState = true;
 		}
-		else if (argStr.equals("off")) {
+		else if (argStr.equals("off") || argStr.equals("0")) {
 			newState = false;
 		}
-		else {
+		else if (arg0.equals("allow") || arg0.equals("accept")) {
+			if (args.length < 2) {
+				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				return;
+			}
+			
+			String otherName = plugin.playerHelper.CompletePlayerName(args[1]);
+			if (otherName == null) {
+				plugin.playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
+			}
+			else {
+				setException(playerName, otherName, true);
+				plugin.playerHelper.SendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
+			}
+			return;
+		}
+		else if (arg0.equals("deny") || arg0.equals("reject") || arg0.equals("revoke") || arg0.equals("forbid")) {
+			if (args.length < 2) {
+				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				return;
+			}
+			
+			String otherName = plugin.playerHelper.CompletePlayerName(args[1]);
+			if (otherName == null) {
+				plugin.playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
+			}
+			else {
+				setException(playerName, otherName, false);
+				plugin.playerHelper.SendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
+			}
+			return;
+		}
+		else if (argStr.isEmpty()) {
+			// toggle
 			if (tpCommand == null) {
 				newState = !summonCommand.playerForbidsPort.contains(playerName);
 			}
@@ -39,6 +74,10 @@ public class NoPortCommand extends ICommand {
 				plugin.playerHelper.SendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
 				return;
 			}
+		}
+		else {
+			plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+			return;
 		}
 		
 		if (tpCommand != null) {
@@ -56,6 +95,23 @@ public class NoPortCommand extends ICommand {
 		}
 		
 		plugin.playerHelper.SendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
+	}
+
+	private void setException(String playerName, String otherName, boolean newState) {
+		String pair = playerName+" "+otherName;
+		
+		if (tpCommand != null) {
+			if (newState)
+				tpCommand.playerPortExceptions.add(pair);
+			else
+				tpCommand.playerPortExceptions.remove(pair);
+		}
+		if (summonCommand != null) {
+			if (newState)
+				summonCommand.playerPortExceptions.add(pair);
+			else
+				summonCommand.playerPortExceptions.remove(pair);
+		}
 	}
 
 	private String what() {
@@ -78,6 +134,6 @@ public class NoPortCommand extends ICommand {
 	}
 
 	public String GetUsage() {
-		return "[<on|off>]";
+		return "[on|off|allow <name>|deny <name>]";
 	}
 }
