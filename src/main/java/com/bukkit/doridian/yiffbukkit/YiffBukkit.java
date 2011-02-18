@@ -25,17 +25,14 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 * @author Doridian
 */
 public class YiffBukkit extends JavaPlugin {
-    private final YiffBukkitPlayerListener playerListener;
-    private final YiffBukkitBlockListener blockListener;
-    private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
+    private YiffBukkitPlayerListener playerListener;
+    private YiffBukkitBlockListener blockListener;
     public PlayerHelper playerHelper = null;
     public final Utils utils;
     public Permissions permissions;
 
     public YiffBukkit(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
         super(pluginLoader, instance, desc, folder, plugin, cLoader);
-        playerListener = new YiffBukkitPlayerListener(this);
-        blockListener = new YiffBukkitBlockListener(this);
         utils = new Utils(this);
     }
 
@@ -53,6 +50,7 @@ public class YiffBukkit extends JavaPlugin {
     	playerHelper = new PlayerHelper(this);
 
         PluginManager pm = getServer().getPluginManager();
+        playerListener = new YiffBukkitPlayerListener(this);
         pm.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Highest, this);
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
         pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Highest, this);
@@ -61,6 +59,7 @@ public class YiffBukkit extends JavaPlugin {
         pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Priority.Highest, this);
         pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
 
+        blockListener = new YiffBukkitBlockListener(this);
         pm.registerEvent(Event.Type.BLOCK_PLACED, blockListener, Priority.Normal, this);
         pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Priority.Normal, this);
         //pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
@@ -95,17 +94,5 @@ public class YiffBukkit extends JavaPlugin {
     	}
     	World world = getServer().createWorld(name, env);
     	return world;
-    }
-
-    public boolean isDebugging(final Player player) {
-        if (debugees.containsKey(player)) {
-            return debugees.get(player);
-        } else {
-            return false;
-        }
-    }
-
-    public void setDebugging(final Player player, final boolean value) {
-        debugees.put(player, value);
     }
 }
