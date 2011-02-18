@@ -39,7 +39,7 @@ public class TpCommand extends ICommand {
 			}
 		}
 		
-		if (playerPortExceptions.contains(playerName+" "+otherName))
+		if (playerPortExceptions.contains(otherName+" "+playerName))
 			denied = false;
 		
 		if (denied) {
