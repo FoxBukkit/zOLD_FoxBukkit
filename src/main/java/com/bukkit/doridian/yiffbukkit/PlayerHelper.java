@@ -41,6 +41,17 @@ public class PlayerHelper {
 		return otherplys.get(0);
 	}
 	
+	public String CompletePlayerName(String arg0) {
+		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(arg0);
+		int c = otherplys.size();
+		if(c <= 0) {
+			return arg0;
+		} else if(c > 1) {
+			return null;	
+		}
+		return otherplys.get(0).getName();
+	}
+	
 	public String GetFullPlayerName(Player ply) {
 		return plugin.playerHelper.GetPlayerTag(ply) + ply.getName();
 	}
