@@ -25,6 +25,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         plugin = instance;
         
         commands.put("me", new MeCommand(plugin));
+        commands.put("pm", new PmCommand(plugin));
+
         commands.put("who", new WhoCommand(plugin));
         commands.put("help", new HelpCommand(plugin));
         

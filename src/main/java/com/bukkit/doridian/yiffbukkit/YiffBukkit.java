@@ -1,7 +1,6 @@
 package com.bukkit.doridian.yiffbukkit;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
