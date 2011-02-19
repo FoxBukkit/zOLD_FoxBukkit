@@ -2,7 +2,7 @@ package com.bukkit.doridian.yiffbukkit.commands;
 
 import net.minecraft.server.Packet1Login;
 
-import org.bukkit.World;
+//import org.bukkit.World;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
