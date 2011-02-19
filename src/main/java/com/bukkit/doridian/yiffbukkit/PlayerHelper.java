@@ -341,4 +341,6 @@ public class PlayerHelper {
     	}
     	catch(Exception e) { }
     }
+
+	public Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
 }

@@ -1,10 +1,20 @@
 package com.bukkit.doridian.yiffbukkit;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+
+import com.bukkit.doridian.network.YiffBukkitNetworkManager;
 import com.bukkit.doridian.yiffbukkit.commands.*;
+
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.NetLoginHandler;
+import net.minecraft.server.NetworkListenThread;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -52,13 +62,31 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         commands.put("compass", new CompassCommand(plugin));
         
         commands.put("give", new GiveCommand(plugin));
+        commands.put("time", new TimeCommand(plugin));
     }
     
     public void onPlayerLogin(PlayerLoginEvent event) {
     	String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
     	if(rank.equals("banned")) event.disallow(Result.KICK_BANNED, "[YB] You're banned");
+
+    	replaceNetworkManagers(event.getPlayer());
     }
-    
+
+    private void replaceNetworkManagers(Player ply) {
+    	CraftPlayer cply = (CraftPlayer)ply;
+    	EntityPlayer eply = cply.getHandle();
+
+    	MinecraftServer srv = eply.b;
+    	NetworkListenThread nlt = srv.c;
+    	ArrayList<NetLoginHandler> loginHandlerList = Utils.getPrivateValue(NetworkListenThread.class, nlt, "g");
+    	for (NetLoginHandler handler : loginHandlerList) {
+    		if (handler.b.getClass().equals(YiffBukkitNetworkManager.class))
+    			continue;
+
+    		handler.b = new YiffBukkitNetworkManager(handler.b, plugin, ply);
+    	}
+	}
+
     public void onPlayerJoin(PlayerEvent event) {
     	plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e joined!");
     }
