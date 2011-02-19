@@ -33,10 +33,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         commands.put("setrank", new SetRankCommand(plugin));
         commands.put("settag", new SetTagCommand(plugin));
         
-        commands.put("kick", new KickCommand(plugin));
-        commands.put("ban", new BanCommand(plugin));
-        commands.put("unban", new UnbanCommand(plugin));
-        commands.put("pardon", new UnbanCommand(plugin));
+        //commands.put("kick", new KickCommand(plugin));
+        //commands.put("ban", new BanCommand(plugin));
+        //commands.put("unban", new UnbanCommand(plugin));
+        //commands.put("pardon", new UnbanCommand(plugin));
         
         commands.put("tp", new TpCommand(plugin));
         commands.put("summon", new SummonCommand(plugin));
