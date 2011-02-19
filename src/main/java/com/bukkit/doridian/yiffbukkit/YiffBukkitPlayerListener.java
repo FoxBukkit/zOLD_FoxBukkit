@@ -49,6 +49,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         commands.put("home", new HomeCommand(plugin));
         commands.put("sethome", new SetHomeCommand(plugin));
         commands.put("spawn", new SpawnCommand(plugin));
+        commands.put("compass", new CompassCommand(plugin));
         
         commands.put("give", new GiveCommand(plugin));
     }
