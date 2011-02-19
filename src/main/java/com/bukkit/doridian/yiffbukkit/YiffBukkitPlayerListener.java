@@ -63,6 +63,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
         
         commands.put("give", new GiveCommand(plugin));
         commands.put("time", new TimeCommand(plugin));
+        commands.put("servertime", new ServerTimeCommand(plugin));
     }
     
     public void onPlayerLogin(PlayerLoginEvent event) {

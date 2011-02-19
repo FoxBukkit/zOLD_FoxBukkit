@@ -10,7 +10,7 @@ public class SetHomeCommand extends ICommand {
 	}
 	
 	public SetHomeCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

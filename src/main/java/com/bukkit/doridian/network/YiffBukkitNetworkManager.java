@@ -12,7 +12,6 @@ import com.bukkit.doridian.yiffbukkit.YiffBukkit;
 import net.minecraft.server.NetHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet;
-import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
 
 public class YiffBukkitNetworkManager extends NetworkManager {
@@ -28,11 +27,16 @@ public class YiffBukkitNetworkManager extends NetworkManager {
 				Packet4UpdateTime timePacket = (Packet4UpdateTime)packet;
 				timePacket.a = frozenTimes.get(playerName);
 			}
+			else if (plugin.playerHelper.frozenServerTime != null) {
+				Packet4UpdateTime timePacket = (Packet4UpdateTime)packet;
+				timePacket.a = plugin.playerHelper.frozenServerTime;
+			}
 		}
 		
 		instance.a(packet);
 	}
 
+	@SuppressWarnings("deprecation")
 	public YiffBukkitNetworkManager(NetworkManager other, YiffBukkit plugin, Player ply) {
 		super((Socket)new NullSocket(), (String)Utils.getPrivateValue(NetworkManager.class, other, "s"), (NetHandler)null);
 		this.instance = other;

@@ -12,7 +12,7 @@ public class PmCommand extends ICommand {
 	}
 	
 	public PmCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

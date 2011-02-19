@@ -13,7 +13,7 @@ public class GiveCommand extends ICommand {
 	}
 	
 	public GiveCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

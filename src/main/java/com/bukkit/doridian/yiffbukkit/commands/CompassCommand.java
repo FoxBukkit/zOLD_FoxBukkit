@@ -12,7 +12,7 @@ public class CompassCommand extends ICommand {
 	}
 	
 	public CompassCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

@@ -14,7 +14,7 @@ public class SummonCommand extends ICommand {
 	}
 	
 	public SummonCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 		playerPortPermissions = plugin.playerHelper.playerSummonPermissions;
 	}
 

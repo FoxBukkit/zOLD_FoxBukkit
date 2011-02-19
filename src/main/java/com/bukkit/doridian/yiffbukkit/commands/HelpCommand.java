@@ -13,7 +13,7 @@ public class HelpCommand extends ICommand {
 	}
 	
 	public HelpCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 	
 	public void Run(Player ply, String[] args, String argStr) {

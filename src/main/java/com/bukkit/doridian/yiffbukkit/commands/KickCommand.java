@@ -11,7 +11,7 @@ public class KickCommand extends ICommand {
 	}
 	
 	public KickCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

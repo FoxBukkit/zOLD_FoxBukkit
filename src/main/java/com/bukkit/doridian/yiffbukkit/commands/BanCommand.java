@@ -11,7 +11,7 @@ public class BanCommand extends ICommand {
 	}
 	
 	public BanCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

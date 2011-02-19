@@ -10,7 +10,7 @@ public class MeCommand extends ICommand {
 	}
 	
 	public MeCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

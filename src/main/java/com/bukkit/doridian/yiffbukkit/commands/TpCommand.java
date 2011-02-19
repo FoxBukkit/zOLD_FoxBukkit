@@ -14,7 +14,7 @@ public class TpCommand extends ICommand {
 	}
 	
 	public TpCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 		playerPortPermissions = plugin.playerHelper.playerTpPermissions;
 	}
 

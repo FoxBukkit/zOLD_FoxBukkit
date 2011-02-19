@@ -10,7 +10,7 @@ public class SetRankCommand extends ICommand {
 	}
 	
 	public SetRankCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

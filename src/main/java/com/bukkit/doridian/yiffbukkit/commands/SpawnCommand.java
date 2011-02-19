@@ -10,7 +10,7 @@ public class SpawnCommand extends ICommand {
 	}
 	
 	public SpawnCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

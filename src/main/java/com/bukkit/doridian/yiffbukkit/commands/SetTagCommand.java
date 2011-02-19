@@ -11,7 +11,7 @@ public class SetTagCommand extends ICommand {
 	}
 	
 	public SetTagCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

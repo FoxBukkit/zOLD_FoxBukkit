@@ -15,7 +15,7 @@ public class NoPortCommand extends ICommand {
 	}
 	
 	public NoPortCommand(YiffBukkit plug) {
-		plugin = plug;
+		super(plug);
 		tpPermissions = plugin.playerHelper.playerTpPermissions;
 		summonPermissions = plugin.playerHelper.playerSummonPermissions;
 	}
