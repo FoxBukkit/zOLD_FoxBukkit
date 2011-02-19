@@ -31,16 +31,31 @@ public class Utils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T, E> T getPrivateValue(Class<? super E> class1, E permissions, String field)
-	{
+	public static <T, E> T getPrivateValue(Class<? super E> class1, E instance, String field) {
 		try
 		{
 			Field f = class1.getDeclaredField(field);
 			f.setAccessible(true);
-			return (T) f.get(permissions);
+			return (T) f.get(instance);
 		} catch (Exception e) {
 	
 		}
 		return null;
 	}
+	
+	public static <T, E> void setPrivateValue(Class<? super T> instanceclass, T instance, String field, E value) {
+    try
+    {
+      Field field_modifiers = Field.class.getDeclaredField("modifiers");
+      field_modifiers.setAccessible(true);
+      
+      
+      Field f = instanceclass.getDeclaredField(field);
+      int modifiers = field_modifiers.getInt(f);
+      if ((modifiers & 0x10) != 0)
+        field_modifiers.setInt(f, modifiers & 0xFFFFFFEF);
+      f.setAccessible(true);
+      f.set(instance, value);
+    } catch (Exception e) { }
+  }
 }
