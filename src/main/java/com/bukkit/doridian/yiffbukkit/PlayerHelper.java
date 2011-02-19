@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.lang.reflect.Field;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -157,7 +156,7 @@ public class PlayerHelper {
 	    	filewrite.close();
 	    	try {
 	            plugin.permissions.getConfiguration().load();
-	            DefaultConfiguration config = getPrivateValue(Permissions.class,plugin.permissions,"config");
+	            DefaultConfiguration config = Utils.getPrivateValue(Permissions.class,plugin.permissions,"config");
 	            config.load();
 	            plugin.permissions.setupPermissions();
 	    	} catch(Exception e) { }
@@ -167,21 +166,7 @@ public class PlayerHelper {
     	}
     }
     
-	@SuppressWarnings("unchecked")
-	public static <T, E> T getPrivateValue(Class<? super E> class1, E permissions, String field)
-	{
-		try
-		{
-			Field f = class1.getDeclaredField(field);
-			f.setAccessible(true);
-			return (T) f.get(permissions);
-		} catch (Exception e) {
-
-		}
-		return null;
-	}
-    
-    public void LoadPlayerRanks() {
+	public void LoadPlayerRanks() {
     	//playerranks.clear();
     	try {
     		BufferedReader stream = new BufferedReader(new FileReader("ranks.txt"));

@@ -1,5 +1,7 @@
 package com.bukkit.doridian.yiffbukkit;
 
+import java.lang.reflect.Field;
+
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 
@@ -26,5 +28,19 @@ public class Utils {
 	public Location UnserializeLocation(String str) {
 		String[] split = str.split(";");
 		return new Location(this.plugin.GetOrCreateWorld(split[5], Environment.valueOf(split[6])), Double.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]), Float.valueOf(split[3]), Float.valueOf(split[4]));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, E> T getPrivateValue(Class<? super E> class1, E permissions, String field)
+	{
+		try
+		{
+			Field f = class1.getDeclaredField(field);
+			f.setAccessible(true);
+			return (T) f.get(permissions);
+		} catch (Exception e) {
+	
+		}
+		return null;
 	}
 }
