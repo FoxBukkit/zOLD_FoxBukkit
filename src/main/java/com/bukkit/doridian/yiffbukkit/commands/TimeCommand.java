@@ -1,6 +1,7 @@
 package com.bukkit.doridian.yiffbukkit.commands;
 
 import com.bukkit.doridian.yiffbukkit.YiffBukkit;
+import net.minecraft.server.MinecraftServer;
 
 public class TimeCommand extends ServerTimeCommand {
 	public int GetMinLevel() {
@@ -14,10 +15,10 @@ public class TimeCommand extends ServerTimeCommand {
 	@Override
 	protected void setTime(String playerName, Long settime) {
 		if (settime == null) {
-			plugin.playerHelper.frozenTimes.remove(playerName);
+			MinecraftServer.frozenTimes.remove(playerName);
 		}
 		else {
-			plugin.playerHelper.frozenTimes.put(playerName, settime);
+			MinecraftServer.frozenTimes.put(playerName, settime);
 		}
 	}
 
