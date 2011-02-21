@@ -10,7 +10,7 @@ public class PmCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
-	
+
 	public PmCommand(YiffBukkit plug) {
 		super(plug);
 	}
@@ -20,13 +20,13 @@ public class PmCommand extends ICommand {
 			plugin.playerHelper.SendDirectedMessage(ply, "Usage: /pm " + GetUsage());
 			return;
 		}
-		
+
 		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
 		if (otherply == null)
 			return;
 
 		String message = Utils.concatArray(args, 1, "");
-		
+
 		plugin.playerHelper.SendDirectedMessage(ply, "§e[PM >] §f" + otherply.getName() + "§f: " + message);
 		plugin.playerHelper.SendDirectedMessage(otherply, "§e[PM <] §f" + ply.getName() + "§f: " + message);
 	}

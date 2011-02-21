@@ -8,7 +8,7 @@ public class UnbanCommand extends ICommand {
 	public int GetMinLevel() {
 		return 3;
 	}
-	
+
 	public UnbanCommand(YiffBukkit plug) {
 		super(plug);
 	}
@@ -19,11 +19,11 @@ public class UnbanCommand extends ICommand {
 			plugin.playerHelper.SendDirectedMessage(ply, "Player is not banned!");
 			return;
 		}
-		
+
 		plugin.playerHelper.SetPlayerRank(otherply, "guest");
 		plugin.playerHelper.SendServerMessage(ply.getName() + " unbanned " + otherply + "!");
 	}
-	
+
 	public String GetHelp() {
 		return "Unbans specified user";
 	}

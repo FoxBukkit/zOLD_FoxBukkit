@@ -8,7 +8,7 @@ public class SetHomeCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
-	
+
 	public SetHomeCommand(YiffBukkit plug) {
 		super(plug);
 	}
@@ -17,7 +17,7 @@ public class SetHomeCommand extends ICommand {
 		plugin.playerHelper.SetPlayerHomePosition(ply, ply.getLocation());
 		plugin.playerHelper.SendDirectedMessage(ply, "Home location saved!");
 	}
-	
+
 	public String GetHelp() {
 		return "Sets your home position (see /home)";
 	}

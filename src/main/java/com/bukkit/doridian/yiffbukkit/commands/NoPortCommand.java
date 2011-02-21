@@ -9,11 +9,11 @@ import com.bukkit.doridian.yiffbukkit.YiffBukkit;
 public class NoPortCommand extends ICommand {
 	protected HashSet<String> tpPermissions;
 	protected HashSet<String> summonPermissions;
-	
+
 	public int GetMinLevel() {
 		return 1;
 	}
-	
+
 	public NoPortCommand(YiffBukkit plug) {
 		super(plug);
 		tpPermissions = plugin.playerHelper.playerTpPermissions;
@@ -23,9 +23,9 @@ public class NoPortCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) {
 		boolean newState;
 		String playerName = ply.getName();
-		
+
 		String arg0 = args.length >= 1 ? args[0] : "";
-		
+
 		if (argStr.equals("on") || argStr.equals("1")) {
 			newState = true;
 		}
@@ -37,7 +37,7 @@ public class NoPortCommand extends ICommand {
 				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
-			
+
 			String otherName = plugin.playerHelper.CompletePlayerName(args[1]);
 			if (otherName == null) {
 				plugin.playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
@@ -53,7 +53,7 @@ public class NoPortCommand extends ICommand {
 				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
-			
+
 			String otherName = plugin.playerHelper.CompletePlayerName(args[1]);
 			if (otherName == null) {
 				plugin.playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
@@ -81,14 +81,14 @@ public class NoPortCommand extends ICommand {
 			plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 			return;
 		}
-		
+
 		if (tpPermissions != null) {
 			if (newState)
 				tpPermissions.add(playerName);
 			else
 				tpPermissions.remove(playerName);
 		}
-		
+
 		if (summonPermissions != null) {
 			if (newState)
 				summonPermissions.add(playerName);
@@ -96,13 +96,13 @@ public class NoPortCommand extends ICommand {
 				summonPermissions.remove(playerName);
 		}
 		plugin.playerHelper.SavePortPermissions();
-		
+
 		plugin.playerHelper.SendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
 	}
 
 	private void setException(String playerName, String otherName, boolean newState) {
 		String pair = playerName+" "+otherName;
-		
+
 		if (tpPermissions != null) {
 			if (newState)
 				tpPermissions.add(pair);
@@ -121,7 +121,7 @@ public class NoPortCommand extends ICommand {
 	protected String what() {
 		return "teleportation and summoning";
 	}
-	
+
 	public String GetHelp() {
 		return "Prevents "+what()+" or grants/revokes exceptions.";
 	}

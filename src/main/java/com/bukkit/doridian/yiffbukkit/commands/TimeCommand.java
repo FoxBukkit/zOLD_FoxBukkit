@@ -7,7 +7,7 @@ public class TimeCommand extends ServerTimeCommand {
 	public int GetMinLevel() {
 		return 1;
 	}
-	
+
 	public TimeCommand(YiffBukkit plug) {
 		super(plug);
 	}

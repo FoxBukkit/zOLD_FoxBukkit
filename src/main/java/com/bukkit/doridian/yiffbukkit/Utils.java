@@ -10,7 +10,7 @@ public class Utils {
 	public Utils(YiffBukkit iface) {
 		plugin = iface;
 	}
-	
+
 	public static String concatArray(String[] array, int start, String def) {
 		if(array.length <= start) return def;
 		if(array.length <= start + 1) return array[start];
@@ -20,14 +20,14 @@ public class Utils {
 		}
 		return ret;
 	}
-	
+
 	public String SerializeLocation(Location loc) {
 		return loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getYaw() + ";" + loc.getPitch() + ";" + loc.getWorld().getName() + ";" + loc.getWorld().getEnvironment().name();
 	}
-	
+
 	public Location UnserializeLocation(String str) {
 		String[] split = str.split(";");
-		return new Location(this.plugin.GetOrCreateWorld(split[5], Environment.valueOf(split[6])), Double.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]), Float.valueOf(split[3]), Float.valueOf(split[4]));
+		return new Location(plugin.GetOrCreateWorld(split[5], Environment.valueOf(split[6])), Double.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]), Float.valueOf(split[3]), Float.valueOf(split[4]));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,24 +38,24 @@ public class Utils {
 			f.setAccessible(true);
 			return (T) f.get(instance);
 		} catch (Exception e) {
-	
+
 		}
 		return null;
 	}
-	
+
 	public static <T, E> void setPrivateValue(Class<? super T> instanceclass, T instance, String field, E value) {
-    try
-    {
-      Field field_modifiers = Field.class.getDeclaredField("modifiers");
-      field_modifiers.setAccessible(true);
-      
-      
-      Field f = instanceclass.getDeclaredField(field);
-      int modifiers = field_modifiers.getInt(f);
-      if ((modifiers & 0x10) != 0)
-        field_modifiers.setInt(f, modifiers & 0xFFFFFFEF);
-      f.setAccessible(true);
-      f.set(instance, value);
-    } catch (Exception e) { }
-  }
+		try
+		{
+			Field field_modifiers = Field.class.getDeclaredField("modifiers");
+			field_modifiers.setAccessible(true);
+
+
+			Field f = instanceclass.getDeclaredField(field);
+			int modifiers = field_modifiers.getInt(f);
+			if ((modifiers & 0x10) != 0)
+				field_modifiers.setInt(f, modifiers & 0xFFFFFFEF);
+			f.setAccessible(true);
+			f.set(instance, value);
+		} catch (Exception e) { }
+	}
 }

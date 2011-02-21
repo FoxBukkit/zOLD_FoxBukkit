@@ -8,7 +8,7 @@ public class HomeCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
-	
+
 	public HomeCommand(YiffBukkit plug) {
 		super(plug);
 	}

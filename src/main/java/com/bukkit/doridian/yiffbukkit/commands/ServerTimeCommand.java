@@ -14,21 +14,21 @@ public class ServerTimeCommand extends ICommand {
 		timeSwatches.put("day", 12L);
 		timeSwatches.put("afternoon", 18L);
 	};
-	
+
 
 	public int GetMinLevel() {
 		return 3;
 	}
-	
+
 	public ServerTimeCommand(YiffBukkit plug) {
 		super(plug);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
 		String playerName = ply.getName();
-		
+
 		long settime;
-		
+
 		if (argStr.isEmpty() || argStr.equalsIgnoreCase("normal")) {
 			setTime(playerName, null);
 			return;
@@ -45,10 +45,10 @@ public class ServerTimeCommand extends ICommand {
 				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
-        }
-		
-        settime = ((settime+18)%24)*1000;
-		
+		}
+
+		settime = ((settime+18)%24)*1000;
+
 		setTime(playerName, settime);
 	}
 

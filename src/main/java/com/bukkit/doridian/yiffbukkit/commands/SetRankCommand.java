@@ -8,7 +8,7 @@ public class SetRankCommand extends ICommand {
 	public int GetMinLevel() {
 		return 3;
 	}
-	
+
 	public SetRankCommand(YiffBukkit plug) {
 		super(plug);
 	}
@@ -24,7 +24,7 @@ public class SetRankCommand extends ICommand {
 		plugin.playerHelper.SetPlayerRank(otherply, newrank);
 		plugin.playerHelper.SendServerMessage(ply.getName() + " set rank of " + otherply + " to " + newrank);
 	}
-	
+
 	public String GetHelp() {
 		return "Sets rank of specified user";
 	}

@@ -13,7 +13,7 @@ public class TestCommand extends ICommand {
 	public int GetMinLevel() {
 		return 5;
 	}
-	
+
 	public TestCommand(YiffBukkit plug) {
 		super(plug);
 	}

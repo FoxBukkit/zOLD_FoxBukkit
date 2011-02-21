@@ -9,7 +9,7 @@ public class WhoCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
-	
+
 	public WhoCommand(YiffBukkit plug) {
 		super(plug);
 	}

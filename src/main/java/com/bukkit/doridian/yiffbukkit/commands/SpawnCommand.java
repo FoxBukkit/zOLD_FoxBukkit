@@ -8,7 +8,7 @@ public class SpawnCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
-	
+
 	public SpawnCommand(YiffBukkit plug) {
 		super(plug);
 	}
