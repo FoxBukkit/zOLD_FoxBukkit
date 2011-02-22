@@ -20,6 +20,7 @@ public class SetRankCommand extends ICommand {
 		
 		if(!plugin.playerHelper.ranklevels.containsKey(newrank)) {
 			plugin.playerHelper.SendDirectedMessage(ply, "Rank does not exist!");
+			return;
 		}
 		
 		if(selflvl <= plugin.playerHelper.GetPlayerLevel(otherply) || selflvl <= plugin.playerHelper.GetRankLevel(newrank)) {
