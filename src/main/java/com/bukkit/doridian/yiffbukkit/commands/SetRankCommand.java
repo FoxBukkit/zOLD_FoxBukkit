@@ -17,6 +17,11 @@ public class SetRankCommand extends ICommand {
 		String otherply = args[0];
 		String newrank = args[1];
 		int selflvl = plugin.playerHelper.GetPlayerLevel(ply);
+		
+		if(!plugin.playerHelper.ranklevels.containsKey(newrank)) {
+			plugin.playerHelper.SendDirectedMessage(ply, "Rank does not exist!");
+		}
+		
 		if(selflvl <= plugin.playerHelper.GetPlayerLevel(otherply) || selflvl <= plugin.playerHelper.GetRankLevel(newrank)) {
 			plugin.playerHelper.SendPermissionDenied(ply);
 			return;

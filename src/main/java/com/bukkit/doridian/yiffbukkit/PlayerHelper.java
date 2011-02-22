@@ -197,7 +197,7 @@ public class PlayerHelper {
 	}
 
 	//Permission levels
-	private Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
+	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
 	public Integer GetPlayerLevel(Player ply) {
 		return GetPlayerLevel(ply.getName());
 	}
