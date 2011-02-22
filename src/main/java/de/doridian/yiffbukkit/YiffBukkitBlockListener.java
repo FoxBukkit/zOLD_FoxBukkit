@@ -68,7 +68,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
 			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
 			ItemStack item = event.getItemInHand();
-			item.setType(Material.WOOD_AXE);
+			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
 		}
