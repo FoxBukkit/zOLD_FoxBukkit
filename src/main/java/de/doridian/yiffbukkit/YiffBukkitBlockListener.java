@@ -58,7 +58,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		Player ply = event.getPlayer();
 		if(ply.getHealth() <= 0) {
 			ItemStack item = event.getItemInHand();
-			item.setType(Material.WOOD_AXE);
+			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
 			return;
