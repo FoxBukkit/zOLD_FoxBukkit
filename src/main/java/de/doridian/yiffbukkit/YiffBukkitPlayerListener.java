@@ -83,10 +83,16 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
+		Player ply = event.getPlayer();
+		if(ply.getHealth() <= 0) {
+			event.setCancelled(true);
+			return;
+		}
+		
 		Location pos = event.getTo();
 		Block block = pos.getWorld().getBlockAt(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 		if(block.getType() == Material.PORTAL) {
-			event.getPlayer().teleportTo(plugin.TogglePlayerWorlds(event.getPlayer(),pos));
+			ply.teleportTo(plugin.TogglePlayerWorlds(ply,pos));
 			event.setCancelled(true);
 		}
 	}

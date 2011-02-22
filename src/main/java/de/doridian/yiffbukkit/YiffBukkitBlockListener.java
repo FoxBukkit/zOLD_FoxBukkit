@@ -38,6 +38,11 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
+		if(ply.getHealth() <= 0) {
+			event.setBuild(false);
+			return;
+		}
+		
 		Material block = event.getBlock().getType();
 		Integer selflvl = plugin.playerHelper.GetPlayerLevel(ply);
 		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
@@ -47,8 +52,18 @@ public class YiffBukkitBlockListener extends BlockListener {
 	}
 
 	public void onBlockRightClick(BlockRightClickEvent event) {
-		Player ply = event.getPlayer();
 		Material block = event.getItemInHand().getType();
+		if(block == Material.AIR) return;
+		
+		Player ply = event.getPlayer();
+		if(ply.getHealth() <= 0) {
+			ItemStack item = event.getItemInHand();
+			item.setType(Material.WOOD_AXE);
+			item.setAmount(1);
+			item.setDurability(Short.MAX_VALUE);
+			return;
+		}
+		
 		Integer selflvl = plugin.playerHelper.GetPlayerLevel(ply);
 		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
 			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
@@ -60,8 +75,14 @@ public class YiffBukkitBlockListener extends BlockListener {
 	}
 
 	public void onBlockDamage(BlockDamageEvent event) {
-		if(plugin.playerHelper.GetPlayerLevel(event.getPlayer()) < 0 && event.getDamageLevel() == BlockDamageLevel.BROKEN) {
-			plugin.playerHelper.SendServerMessage(event.getPlayer().getName() + " tried to illegaly break a block!");
+		Player ply = event.getPlayer();
+		if(ply.getHealth() <= 0) {
+			event.setCancelled(true);
+			return;
+		}
+		
+		if(plugin.playerHelper.GetPlayerLevel(ply) < 0 && event.getDamageLevel() == BlockDamageLevel.BROKEN) {
+			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
 		}
 	}
