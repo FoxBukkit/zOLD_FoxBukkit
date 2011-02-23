@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit.commands;
 
 import java.util.Hashtable;
 
+import net.minecraft.server.MinecraftServer;
+
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -25,21 +27,19 @@ public class ServerTimeCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		String playerName = ply.getName();
-
-		long settime;
+		long displayTime;
 
 		if (argStr.isEmpty() || argStr.equalsIgnoreCase("normal")) {
-			setTime(playerName, null);
+			setTime(ply, null, null);
 			return;
 		}
 		else if (timeSwatches.containsKey(argStr.toLowerCase())) {
-			settime = timeSwatches.get(argStr.toLowerCase());
+			displayTime = timeSwatches.get(argStr.toLowerCase());
 		}
 		else {
 			try
 			{
-				settime = Integer.valueOf(args[1]);
+				displayTime = Integer.valueOf(args[1]);
 			}
 			catch (Exception e) {
 				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
@@ -47,13 +47,17 @@ public class ServerTimeCommand extends ICommand {
 			}
 		}
 
-		settime = ((settime+18)%24)*1000;
-
-		setTime(playerName, settime);
+		setTime(ply, ((displayTime+18)%24)*1000, displayTime);
 	}
 
-	protected void setTime(String playerName, Long settime) {
-		//plugin.playerHelper.frozenServerTime = settime;
+	protected void setTime(Player ply, Long setTime, Long displayTime) {
+		MinecraftServer.frozenServerTime = setTime;
+		if (setTime == null) {
+			plugin.playerHelper.SendServerMessage(ply.getName() + " reset the Server Time back to normal!");
+		}
+		else {
+			plugin.playerHelper.SendServerMessage(ply.getName() + " forced the Server Time to be: " + displayTime + ":00");
+		}
 	}
 
 	public String GetHelp() {
