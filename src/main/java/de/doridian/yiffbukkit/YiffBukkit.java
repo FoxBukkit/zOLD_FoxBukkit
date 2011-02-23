@@ -30,6 +30,7 @@ public class YiffBukkit extends JavaPlugin {
 	public PlayerHelper playerHelper = null;
 	public final Utils utils;
 	public Permissions permissions;
+	public AdvertismentSigns adHandler;
 
 	public YiffBukkit(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		super(pluginLoader, instance, desc, folder, plugin, cLoader);
@@ -64,6 +65,8 @@ public class YiffBukkit extends JavaPlugin {
 		pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Priority.Normal, this);
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
+		
+		adHandler = new AdvertismentSigns(this);
 
 		System.out.println( "YiffBukkit is enabled!" );
 	}

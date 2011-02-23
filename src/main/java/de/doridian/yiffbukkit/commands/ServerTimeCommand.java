@@ -53,7 +53,7 @@ public class ServerTimeCommand extends ICommand {
 	}
 
 	protected void setTime(String playerName, Long settime) {
-		plugin.playerHelper.frozenServerTime = settime;
+		//plugin.playerHelper.frozenServerTime = settime;
 	}
 
 	public String GetHelp() {

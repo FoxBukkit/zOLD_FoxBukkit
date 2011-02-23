@@ -15,10 +15,10 @@ public class TimeCommand extends ServerTimeCommand {
 	@Override
 	protected void setTime(String playerName, Long settime) {
 		if (settime == null) {
-			MinecraftServer.frozenTimes.remove(playerName);
+			//MinecraftServer.frozenTimes.remove(playerName);
 		}
 		else {
-			MinecraftServer.frozenTimes.put(playerName, settime);
+			//MinecraftServer.frozenTimes.put(playerName, settime);
 		}
 	}
 
