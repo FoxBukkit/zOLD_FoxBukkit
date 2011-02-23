@@ -39,7 +39,7 @@ public class AdvertismentSigns {
 			try {
 				timers.get(i).cancel();
 			}
-			catch(Exception e) { }
+			catch(Exception e) { e.printStackTrace(); }
 		}
 		timers.clear();
 		try {
@@ -57,8 +57,10 @@ public class AdvertismentSigns {
 				line = innerStream.readLine().toLowerCase();
 				
 				if(line.equals("pixels")) {
+					innerStream.mark(256);
 					fullx = innerStream.readLine().length();
-					innerStream.reset(); innerStream.readLine();
+					innerStream.reset();
+
 					fileData = new byte[fullx][fully];
 					
 					parseFileIntoArray(0, fileData, innerStream, 'p');
@@ -84,7 +86,7 @@ public class AdvertismentSigns {
 				origin = plugin.utils.UnserializeLocation(lsplit[4]);
 				newtask = new AdvertismentSignTask(origin, Byte.valueOf(lsplit[1]), Integer.valueOf(lsplit[2]), fully, fileData);
 				timer = new Timer();
-				timer.schedule(newtask, 0, 200);
+				timer.schedule(newtask, 200, 200);
 				timers.add(timer);
 			}
 			stream.close();
