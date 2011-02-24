@@ -103,7 +103,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerChat(PlayerChatEvent event) {
 		String msg = event.getMessage();
 		if(msg.charAt(0) == '!') {
-			onPlayerCommand(event);
+			//onPlayerCommand(event);
+			plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "!commands are disabled because they show up in the web chat. Please use /commands.");
 			event.setCancelled(true);
 			return;
 		}
