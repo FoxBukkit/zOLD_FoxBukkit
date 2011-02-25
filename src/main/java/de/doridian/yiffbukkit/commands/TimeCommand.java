@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
-import net.minecraft.server.MinecraftServer;
 
 public class TimeCommand extends ServerTimeCommand {
 	public int GetMinLevel() {

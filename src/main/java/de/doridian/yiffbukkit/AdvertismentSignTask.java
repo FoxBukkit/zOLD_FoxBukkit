@@ -30,7 +30,7 @@ public class AdvertismentSignTask extends TimerTask {
 		lengthxd = lengthx * 2;
 	}
 	
-	public void run() {
+	public synchronized void run() {
 		Location current = origin.clone();
 		for(int y=0;y<sizey;y++) {
 			for(int x=0;x<sizex;x++) {

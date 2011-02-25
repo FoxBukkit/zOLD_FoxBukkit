@@ -42,8 +42,9 @@ public class AdvertismentSigns {
 			catch(Exception e) { e.printStackTrace(); }
 		}
 		timers.clear();
+		BufferedReader stream = null;
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("advertisments/list.txt"));
+			stream = new BufferedReader(new FileReader("advertisments/list.txt"));
 			String line; BufferedReader innerStream; Timer timer; String[] lsplit; Location origin; AdvertismentSignTask newtask; byte[][] fileData = null;  
 			
 			while((line = stream.readLine()) != null) {
@@ -89,10 +90,15 @@ public class AdvertismentSigns {
 				timer.schedule(newtask, 200, 200);
 				timers.add(timer);
 			}
-			stream.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+		}
+		try {
+			stream.close();
+		}
+		catch(Exception e) {
+			
 		}
 	}
 	

@@ -2,8 +2,6 @@ package de.doridian.yiffbukkit.commands;
 
 import java.util.Hashtable;
 
-import net.minecraft.server.MinecraftServer;
-
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
