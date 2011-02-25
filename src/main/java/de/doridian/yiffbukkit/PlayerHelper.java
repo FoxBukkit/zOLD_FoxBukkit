@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -29,8 +31,8 @@ public class PlayerHelper {
 		LoadPortPermissions();
 	}
 
-	public Player MatchPlayerSingle(Player ply, String arg0) {
-		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(arg0);
+	public Player MatchPlayerSingle(Player ply, String subString) {
+		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
 		int c = otherplys.size();
 		if(c <= 0) {
 			SendDirectedMessage(ply, "Sorry, no player found!");
@@ -42,11 +44,16 @@ public class PlayerHelper {
 		return otherplys.get(0);
 	}
 
-	public String CompletePlayerName(String arg0) {
-		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(arg0);
+	public String CompletePlayerName(String subString) {
+		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(subString);
+		
+		if (matcher.matches())
+			return matcher.group(1);
+		
+		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
 		int c = otherplys.size();
 		if(c <= 0) {
-			return arg0;
+			return subString;
 		} else if(c > 1) {
 			return null;
 		}
