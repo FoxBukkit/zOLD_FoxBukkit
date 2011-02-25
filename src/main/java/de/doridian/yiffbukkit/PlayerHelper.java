@@ -344,4 +344,5 @@ public class PlayerHelper {
 
 	public Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
 	public Long frozenServerTime;
+	public HashSet<String> vanishedPlayers = new HashSet<String>();
 }

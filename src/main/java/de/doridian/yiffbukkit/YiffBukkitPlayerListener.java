@@ -41,6 +41,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		//commands.put("pardon", new UnbanCommand(plugin));
 
 		commands.put("banish", new BanishCommand(plugin));
+		commands.put("vanish", new VanishCommand(plugin));
 
 		commands.put("tp", new TpCommand(plugin));
 		commands.put("summon", new SummonCommand(plugin));

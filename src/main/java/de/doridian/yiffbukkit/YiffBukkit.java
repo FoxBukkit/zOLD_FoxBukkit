@@ -72,6 +72,15 @@ public class YiffBukkit extends JavaPlugin {
 
 		//NetLoginHandler.offlineLoginVerifier = new DoriLoginVerifier();
 		NetServerHandler.addPacketListener(true, 4, new YiffBukkitPacketListener(this));
+		
+		VanishPacketListener vanishPacketListener = new VanishPacketListener(this);
+		NetServerHandler.addPacketListener(true, 18, vanishPacketListener);
+		NetServerHandler.addPacketListener(true, 20, vanishPacketListener);
+		NetServerHandler.addPacketListener(true, 30, vanishPacketListener);
+		NetServerHandler.addPacketListener(true, 31, vanishPacketListener);
+		NetServerHandler.addPacketListener(true, 32, vanishPacketListener);
+		NetServerHandler.addPacketListener(true, 33, vanishPacketListener);
+		NetServerHandler.addPacketListener(true, 34, vanishPacketListener);
 
 		System.out.println( "YiffBukkit is enabled!" );
 	}
