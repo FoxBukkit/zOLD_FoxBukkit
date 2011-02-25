@@ -17,11 +17,11 @@ public class TimeCommand extends ServerTimeCommand {
 	@Override
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
 		if (setTime == null) {
-			MinecraftServer.frozenTimes.remove(ply.getName());
+			plugin.playerHelper.frozenTimes.remove(ply.getName());
 			plugin.playerHelper.SendDirectedMessage(ply, "Reset Your Time back to normal!");
 		}
 		else {
-			MinecraftServer.frozenTimes.put(ply.getName(), setTime);
+			plugin.playerHelper.frozenTimes.put(ply.getName(), setTime);
 			plugin.playerHelper.SendDirectedMessage(ply, "You Forced Your Time to be: " + displayTime + ":00");
 		}
 	}

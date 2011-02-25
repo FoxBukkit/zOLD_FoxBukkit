@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
 
+import net.minecraft.server.NetServerHandler;
+
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -65,8 +67,11 @@ public class YiffBukkit extends JavaPlugin {
 		pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Priority.Normal, this);
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
-		
+
 		adHandler = new AdvertismentSigns(this);
+
+		//NetLoginHandler.offlineLoginVerifier = new DoriLoginVerifier();
+		NetServerHandler.addPacketListener(true, 4, new YiffBukkitPacketListener(this));
 
 		System.out.println( "YiffBukkit is enabled!" );
 	}

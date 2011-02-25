@@ -51,7 +51,7 @@ public class ServerTimeCommand extends ICommand {
 	}
 
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
-		MinecraftServer.frozenServerTime = setTime;
+		plugin.playerHelper.frozenServerTime = setTime;
 		if (setTime == null) {
 			plugin.playerHelper.SendServerMessage(ply.getName() + " reset the Server Time back to normal!");
 		}
