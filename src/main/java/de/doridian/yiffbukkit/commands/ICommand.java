@@ -6,10 +6,7 @@ import de.doridian.yiffbukkit.YiffBukkit;
 
 public abstract class ICommand {
 	protected YiffBukkit plugin;
-	public ICommand()
-	{
-	}
-	public ICommand(YiffBukkit plug)
+	protected ICommand(YiffBukkit plug)
 	{
 		plugin = plug;
 	}
