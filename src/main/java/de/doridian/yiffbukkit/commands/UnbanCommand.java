@@ -15,13 +15,13 @@ public class UnbanCommand extends ICommand {
 
 	public void Run(Player ply, String[] args, String argStr) {
 		String otherply = args[0];
-		if(!plugin.playerHelper.GetPlayerRank(otherply).equals("banned")) {
-			plugin.playerHelper.SendDirectedMessage(ply, "Player is not banned!");
+		if(!playerHelper.GetPlayerRank(otherply).equals("banned")) {
+			playerHelper.SendDirectedMessage(ply, "Player is not banned!");
 			return;
 		}
 
-		plugin.playerHelper.SetPlayerRank(otherply, "guest");
-		plugin.playerHelper.SendServerMessage(ply.getName() + " unbanned " + otherply + "!");
+		playerHelper.SetPlayerRank(otherply, "guest");
+		playerHelper.SendServerMessage(ply.getName() + " unbanned " + otherply + "!");
 	}
 
 	public String GetHelp() {

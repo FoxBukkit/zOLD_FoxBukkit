@@ -34,17 +34,17 @@ public class GiveCommand extends ICommand {
 			PlayerInventory inv = ply.getInventory();
 			int empty = inv.firstEmpty();
 			inv.setItem(empty, stack);
-			plugin.playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
+			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
 		}
 		else {
-			Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, otherName);
+			Player otherply = playerHelper.MatchPlayerSingle(ply, otherName);
 			if (otherply == null)
 				return;
 
 			PlayerInventory inv = otherply.getInventory();
 			int empty = inv.firstEmpty();
 			inv.setItem(empty, stack);
-			plugin.playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of "+otherply.getName()+"'s inventory!");
+			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of "+otherply.getName()+"'s inventory!");
 		}
 	}
 

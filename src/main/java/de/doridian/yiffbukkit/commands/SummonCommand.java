@@ -15,18 +15,18 @@ public class SummonCommand extends ICommand {
 
 	public SummonCommand(YiffBukkit plug) {
 		super(plug);
-		playerPortPermissions = plugin.playerHelper.playerSummonPermissions;
+		playerPortPermissions = playerHelper.playerSummonPermissions;
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
+		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
 		if(otherply == null) return;
 
 		String playerName = ply.getName();
 		String otherName = otherply.getName();
 
-		int level = plugin.playerHelper.GetPlayerLevel(ply);
-		int otherlevel = plugin.playerHelper.GetPlayerLevel(otherply);
+		int level = playerHelper.GetPlayerLevel(ply);
+		int otherlevel = playerHelper.GetPlayerLevel(otherply);
 
 		boolean denied = false;
 
@@ -43,13 +43,13 @@ public class SummonCommand extends ICommand {
 			denied = false;
 
 		if (denied) {
-			plugin.playerHelper.SendPermissionDenied(ply);
+			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
 
 		otherply.teleportTo(ply);
 
-		plugin.playerHelper.SendServerMessage(ply.getName() + " summoned " + otherply.getName());
+		playerHelper.SendServerMessage(ply.getName() + " summoned " + otherply.getName());
 	}
 
 	public String GetHelp() {

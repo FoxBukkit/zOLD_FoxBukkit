@@ -14,8 +14,8 @@ public class HomeCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		ply.teleportTo(plugin.playerHelper.GetPlayerHomePosition(ply));
-		plugin.playerHelper.SendServerMessage(ply.getName() + " went home!");
+		ply.teleportTo(playerHelper.GetPlayerHomePosition(ply));
+		playerHelper.SendServerMessage(ply.getName() + " went home!");
 	}
 
 	public String GetHelp() {

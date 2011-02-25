@@ -16,12 +16,12 @@ public class TimeCommand extends ServerTimeCommand {
 	@Override
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
 		if (setTime == null) {
-			plugin.playerHelper.frozenTimes.remove(ply.getName());
-			plugin.playerHelper.SendDirectedMessage(ply, "Reset Your Time back to normal!");
+			playerHelper.frozenTimes.remove(ply.getName());
+			playerHelper.SendDirectedMessage(ply, "Reset Your Time back to normal!");
 		}
 		else {
-			plugin.playerHelper.frozenTimes.put(ply.getName(), setTime);
-			plugin.playerHelper.SendDirectedMessage(ply, "You Forced Your Time to be: " + displayTime + ":00");
+			playerHelper.frozenTimes.put(ply.getName(), setTime);
+			playerHelper.SendDirectedMessage(ply, "You Forced Your Time to be: " + displayTime + ":00");
 		}
 	}
 

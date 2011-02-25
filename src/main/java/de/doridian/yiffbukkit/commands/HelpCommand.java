@@ -17,17 +17,17 @@ public class HelpCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		int selflevel = plugin.playerHelper.GetPlayerLevel(ply);
+		int selflevel = playerHelper.GetPlayerLevel(ply);
 		Hashtable<String,ICommand> commands = plugin.GetCommands();
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
 			if(val == null || val.GetMinLevel() > selflevel) {
-				plugin.playerHelper.SendDirectedMessage(ply, "Command not found!");
+				playerHelper.SendDirectedMessage(ply, "Command not found!");
 				return;
 			}
-			plugin.playerHelper.SendDirectedMessage(ply, val.GetHelp());
-			plugin.playerHelper.SendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.GetUsage());
+			playerHelper.SendDirectedMessage(ply, val.GetHelp());
+			playerHelper.SendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.GetUsage());
 		} else {
 			String ret = "Available commands: /";
 			Enumeration<String> e = commands.keys();
@@ -38,7 +38,7 @@ public class HelpCommand extends ICommand {
 				ret += key + ", /";
 			}
 			ret = ret.substring(0,ret.length() - 3);
-			plugin.playerHelper.SendDirectedMessage(ply, ret);
+			playerHelper.SendDirectedMessage(ply, ret);
 		}
 	}
 

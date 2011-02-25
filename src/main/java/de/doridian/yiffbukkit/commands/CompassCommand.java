@@ -22,7 +22,7 @@ public class CompassCommand extends ICommand {
 		if (intdeg < 0) intdeg += 16;
 		if (intdeg >= 16) intdeg -= 16;
 
-		plugin.playerHelper.SendDirectedMessage(ply, "Direction: "+directions[intdeg]+" ("+Math.round(yaw)+")");
+		playerHelper.SendDirectedMessage(ply, "Direction: "+directions[intdeg]+" ("+Math.round(yaw)+")");
 	}
 
 	public String GetHelp() {

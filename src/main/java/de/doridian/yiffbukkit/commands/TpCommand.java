@@ -15,18 +15,18 @@ public class TpCommand extends ICommand {
 
 	public TpCommand(YiffBukkit plug) {
 		super(plug);
-		playerPortPermissions = plugin.playerHelper.playerTpPermissions;
+		playerPortPermissions = playerHelper.playerTpPermissions;
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
+		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
 		if(otherply == null) return;
 
 		String playerName = ply.getName();
 		String otherName = otherply.getName();
 
-		int level = plugin.playerHelper.GetPlayerLevel(ply);
-		int otherlevel = plugin.playerHelper.GetPlayerLevel(otherply);
+		int level = playerHelper.GetPlayerLevel(ply);
+		int otherlevel = playerHelper.GetPlayerLevel(otherply);
 
 		boolean denied = false;
 
@@ -43,18 +43,18 @@ public class TpCommand extends ICommand {
 			denied = false;
 
 		if (denied) {
-			plugin.playerHelper.SendPermissionDenied(ply);
+			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
 
 		ply.teleportTo(otherply);
 
-		if (plugin.playerHelper.vanishedPlayers.contains(ply.getName())) {
-			plugin.playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName(), 3);
+		if (playerHelper.vanishedPlayers.contains(ply.getName())) {
+			playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName(), 3);
 		}
 		else {
 			
-			plugin.playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName());
+			playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName());
 		}
 	}
 

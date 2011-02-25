@@ -16,8 +16,8 @@ public class NoPortCommand extends ICommand {
 
 	public NoPortCommand(YiffBukkit plug) {
 		super(plug);
-		tpPermissions = plugin.playerHelper.playerTpPermissions;
-		summonPermissions = plugin.playerHelper.playerSummonPermissions;
+		tpPermissions = playerHelper.playerTpPermissions;
+		summonPermissions = playerHelper.playerSummonPermissions;
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
@@ -34,33 +34,33 @@ public class NoPortCommand extends ICommand {
 		}
 		else if (arg0.equals("allow") || arg0.equals("accept")) {
 			if (args.length < 2) {
-				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
 
-			String otherName = plugin.playerHelper.CompletePlayerName(args[1]);
+			String otherName = playerHelper.CompletePlayerName(args[1]);
 			if (otherName == null) {
-				plugin.playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
+				playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
 			else {
 				setException(playerName, otherName, true);
-				plugin.playerHelper.SendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
+				playerHelper.SendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
 			}
 			return;
 		}
 		else if (arg0.equals("deny") || arg0.equals("reject") || arg0.equals("revoke") || arg0.equals("forbid")) {
 			if (args.length < 2) {
-				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
 
-			String otherName = plugin.playerHelper.CompletePlayerName(args[1]);
+			String otherName = playerHelper.CompletePlayerName(args[1]);
 			if (otherName == null) {
-				plugin.playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
+				playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
 			else {
 				setException(playerName, otherName, false);
-				plugin.playerHelper.SendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
+				playerHelper.SendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
 			}
 			return;
 		}
@@ -73,12 +73,12 @@ public class NoPortCommand extends ICommand {
 				newState = !tpPermissions.contains(playerName);
 			}
 			else {
-				plugin.playerHelper.SendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
+				playerHelper.SendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
 				return;
 			}
 		}
 		else {
-			plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+			playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 			return;
 		}
 
@@ -95,9 +95,9 @@ public class NoPortCommand extends ICommand {
 			else
 				summonPermissions.remove(playerName);
 		}
-		plugin.playerHelper.SavePortPermissions();
+		playerHelper.SavePortPermissions();
 
-		plugin.playerHelper.SendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
+		playerHelper.SendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
 	}
 
 	private void setException(String playerName, String otherName, boolean newState) {
@@ -115,7 +115,7 @@ public class NoPortCommand extends ICommand {
 			else
 				summonPermissions.remove(pair);
 		}
-		plugin.playerHelper.SavePortPermissions();
+		playerHelper.SavePortPermissions();
 	}
 
 	protected String what() {

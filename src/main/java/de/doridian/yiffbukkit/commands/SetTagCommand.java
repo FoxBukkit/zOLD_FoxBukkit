@@ -15,16 +15,16 @@ public class SetTagCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
+		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
 		if(otherply == null) return;
 
 		String newtag = Utils.concatArray(args, 1, "").replace('$', '§');
-		if(plugin.playerHelper.GetPlayerLevel(ply) < plugin.playerHelper.GetPlayerLevel(otherply)) {
-			plugin.playerHelper.SendPermissionDenied(ply);
+		if(playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherply)) {
+			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
-		plugin.playerHelper.SetPlayerTag(otherply.getName(), newtag);
-		plugin.playerHelper.SendServerMessage(ply.getName() + " set tag of " + otherply.getName() + " to " + newtag + "!");
+		playerHelper.SetPlayerTag(otherply.getName(), newtag);
+		playerHelper.SendServerMessage(ply.getName() + " set tag of " + otherply.getName() + " to " + newtag + "!");
 	}
 
 	public String GetHelp() {

@@ -16,19 +16,19 @@ public class SetRankCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) {
 		String otherply = args[0];
 		String newrank = args[1];
-		int selflvl = plugin.playerHelper.GetPlayerLevel(ply);
+		int selflvl = playerHelper.GetPlayerLevel(ply);
 		
-		if(!plugin.playerHelper.ranklevels.containsKey(newrank)) {
-			plugin.playerHelper.SendDirectedMessage(ply, "Rank does not exist!");
+		if(!playerHelper.ranklevels.containsKey(newrank)) {
+			playerHelper.SendDirectedMessage(ply, "Rank does not exist!");
 			return;
 		}
 		
-		if(selflvl <= plugin.playerHelper.GetPlayerLevel(otherply) || selflvl <= plugin.playerHelper.GetRankLevel(newrank)) {
-			plugin.playerHelper.SendPermissionDenied(ply);
+		if(selflvl <= playerHelper.GetPlayerLevel(otherply) || selflvl <= playerHelper.GetRankLevel(newrank)) {
+			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
-		plugin.playerHelper.SetPlayerRank(otherply, newrank);
-		plugin.playerHelper.SendServerMessage(ply.getName() + " set rank of " + otherply + " to " + newrank);
+		playerHelper.SetPlayerRank(otherply, newrank);
+		playerHelper.SendServerMessage(ply.getName() + " set rank of " + otherply + " to " + newrank);
 	}
 
 	public String GetHelp() {

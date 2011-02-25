@@ -15,7 +15,7 @@ public class SpawnCommand extends ICommand {
 
 	public void Run(Player ply, String[] args, String argStr) {
 		ply.teleportTo(ply.getWorld().getSpawnLocation());
-		plugin.playerHelper.SendServerMessage(ply.getName() + " returned to the spawn!");
+		playerHelper.SendServerMessage(ply.getName() + " returned to the spawn!");
 	}
 
 	public String GetHelp() {

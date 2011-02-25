@@ -16,21 +16,21 @@ public class WhoCommand extends ICommand {
 
 	public void Run(Player ply, String[] args, String argStr) {
 		if(args.length > 0) {
-			Player target = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
+			Player target = playerHelper.MatchPlayerSingle(ply, args[0]);
 			if(target == null) return;
-			plugin.playerHelper.SendDirectedMessage(ply, "Name: " + target.getName());
-			plugin.playerHelper.SendDirectedMessage(ply, "Rank: " + plugin.playerHelper.GetPlayerRank(target));
-			plugin.playerHelper.SendDirectedMessage(ply, "NameTag: " + plugin.playerHelper.GetFullPlayerName(target));
-			plugin.playerHelper.SendDirectedMessage(ply, "World: " + target.getWorld().getName());
-			if(plugin.playerHelper.GetPlayerLevel(ply) < 3) return;
-			plugin.playerHelper.SendDirectedMessage(ply, "IP: " + target.getAddress().getAddress().toString().substring(1));
+			playerHelper.SendDirectedMessage(ply, "Name: " + target.getName());
+			playerHelper.SendDirectedMessage(ply, "Rank: " + playerHelper.GetPlayerRank(target));
+			playerHelper.SendDirectedMessage(ply, "NameTag: " + playerHelper.GetFullPlayerName(target));
+			playerHelper.SendDirectedMessage(ply, "World: " + target.getWorld().getName());
+			if(playerHelper.GetPlayerLevel(ply) < 3) return;
+			playerHelper.SendDirectedMessage(ply, "IP: " + target.getAddress().getAddress().toString().substring(1));
 		} else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: " + players[0].getName();
 			for(int i=1;i<players.length;i++) {
 				str += ", " + players[i].getName();
 			}
-			plugin.playerHelper.SendDirectedMessage(ply, str);
+			playerHelper.SendDirectedMessage(ply, str);
 		}
 	}
 

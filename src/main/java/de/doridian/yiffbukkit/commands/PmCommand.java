@@ -17,18 +17,18 @@ public class PmCommand extends ICommand {
 
 	public void Run(Player ply, String[] args, String argStr) {
 		if(args.length < 1){
-			plugin.playerHelper.SendDirectedMessage(ply, "Usage: /pm " + GetUsage());
+			playerHelper.SendDirectedMessage(ply, "Usage: /pm " + GetUsage());
 			return;
 		}
 
-		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
+		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
 		if (otherply == null)
 			return;
 
 		String message = Utils.concatArray(args, 1, "");
 
-		plugin.playerHelper.SendDirectedMessage(ply, "§e[PM >] §f" + otherply.getName() + "§f: " + message);
-		plugin.playerHelper.SendDirectedMessage(otherply, "§e[PM <] §f" + ply.getName() + "§f: " + message);
+		playerHelper.SendDirectedMessage(ply, "§e[PM >] §f" + otherply.getName() + "§f: " + message);
+		playerHelper.SendDirectedMessage(otherply, "§e[PM <] §f" + ply.getName() + "§f: " + message);
 	}
 
 	public String GetHelp() {

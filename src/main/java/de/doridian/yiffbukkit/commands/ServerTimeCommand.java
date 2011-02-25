@@ -40,7 +40,7 @@ public class ServerTimeCommand extends ICommand {
 				displayTime = Integer.valueOf(args[1]);
 			}
 			catch (Exception e) {
-				plugin.playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
 		}
@@ -49,12 +49,12 @@ public class ServerTimeCommand extends ICommand {
 	}
 
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
-		plugin.playerHelper.frozenServerTime = setTime;
+		playerHelper.frozenServerTime = setTime;
 		if (setTime == null) {
-			plugin.playerHelper.SendServerMessage(ply.getName() + " reset the Server Time back to normal!");
+			playerHelper.SendServerMessage(ply.getName() + " reset the Server Time back to normal!");
 		}
 		else {
-			plugin.playerHelper.SendServerMessage(ply.getName() + " forced the Server Time to be: " + displayTime + ":00");
+			playerHelper.SendServerMessage(ply.getName() + " forced the Server Time to be: " + displayTime + ":00");
 		}
 	}
 

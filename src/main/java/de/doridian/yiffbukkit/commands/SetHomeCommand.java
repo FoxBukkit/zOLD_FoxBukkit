@@ -14,8 +14,8 @@ public class SetHomeCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		plugin.playerHelper.SetPlayerHomePosition(ply, ply.getLocation());
-		plugin.playerHelper.SendDirectedMessage(ply, "Home location saved!");
+		playerHelper.SetPlayerHomePosition(ply, ply.getLocation());
+		playerHelper.SendDirectedMessage(ply, "Home location saved!");
 	}
 
 	public String GetHelp() {

@@ -17,15 +17,15 @@ public class BanishCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) {
 		boolean resetHome = args.length >= 2 && (args[1].equals("resethome") || args[1].equals("sethome") || args[1].equals("withhome"));
 
-		Player otherply = plugin.playerHelper.MatchPlayerSingle(ply, args[0]);
+		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
 		if (otherply == null) return;
 
-		int level = plugin.playerHelper.GetPlayerLevel(ply);
-		int otherlevel = plugin.playerHelper.GetPlayerLevel(otherply);
+		int level = playerHelper.GetPlayerLevel(ply);
+		int otherlevel = playerHelper.GetPlayerLevel(otherply);
 
 		// Players with the same levels can banish each other, but not reset each other's homes
 		if (level < otherlevel || (level == otherlevel && resetHome)) {
-			plugin.playerHelper.SendPermissionDenied(ply);
+			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
 
@@ -33,23 +33,23 @@ public class BanishCommand extends ICommand {
 		otherply.teleportTo(otherply.getWorld().getSpawnLocation());
 
 		if (resetHome) {
-			plugin.playerHelper.SetPlayerHomePosition(otherply, otherply.getWorld().getSpawnLocation());
+			playerHelper.SetPlayerHomePosition(otherply, otherply.getWorld().getSpawnLocation());
 		}
 		else {
-			Vector homePos = plugin.playerHelper.GetPlayerHomePosition(otherply).toVector();
+			Vector homePos = playerHelper.GetPlayerHomePosition(otherply).toVector();
 
 			long unitsFromPrevious = Math.round(homePos.distance(previousPos));
 			long unitsFromYou = Math.round(homePos.distance(ply.getLocation().toVector()));
 			long unitsFromSpawn = Math.round(homePos.distance(otherply.getWorld().getSpawnLocation().toVector()));
 
-			plugin.playerHelper.SendDirectedMessage(
+			playerHelper.SendDirectedMessage(
 					ply, otherply.getName() + "'s home is " +
 					unitsFromPrevious + "m from the previous location, " +
 					unitsFromYou + "m from you and " +
 					unitsFromSpawn + "m from the spawn. Use '!banish " + otherply.getName() + " resethome' to move it to the spawn.");
 		}
 
-		plugin.playerHelper.SendServerMessage(ply.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
+		playerHelper.SendServerMessage(ply.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
 	}
 
 	public String GetHelp() {

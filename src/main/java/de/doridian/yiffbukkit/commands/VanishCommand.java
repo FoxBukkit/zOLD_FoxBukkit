@@ -17,13 +17,13 @@ public class VanishCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		String playerName = ply.getName();
-		if (plugin.playerHelper.vanishedPlayers.contains(playerName)) {
-			plugin.playerHelper.vanishedPlayers.remove(playerName);
-			plugin.playerHelper.SendServerMessage(ply.getName() + " reappeared.", plugin.playerHelper.GetPlayerLevel(ply));
+		if (playerHelper.vanishedPlayers.contains(playerName)) {
+			playerHelper.vanishedPlayers.remove(playerName);
+			playerHelper.SendServerMessage(ply.getName() + " reappeared.", playerHelper.GetPlayerLevel(ply));
 		}
 		else {
-			plugin.playerHelper.vanishedPlayers.add(playerName);
-			plugin.playerHelper.SendServerMessage(ply.getName() + " vanished.", plugin.playerHelper.GetPlayerLevel(ply));
+			playerHelper.vanishedPlayers.add(playerName);
+			playerHelper.SendServerMessage(ply.getName() + " vanished.", playerHelper.GetPlayerLevel(ply));
 		}
 		
 	}
