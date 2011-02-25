@@ -106,6 +106,16 @@ public class PlayerHelper {
 	public void SendServerMessage(String msg) {
 		plugin.getServer().broadcastMessage("§5[YB]§f " + msg);
 	}
+	public void SendServerMessage(String msg, int minLevel) {
+		Player[] players = plugin.getServer().getOnlinePlayers();
+
+		for (Player player : players) {
+			if (GetPlayerLevel(player) < minLevel)
+				continue;
+
+			player.sendMessage(msg);
+		}
+	}
 	public void SendDirectedMessage(Player ply, String msg) {
 		ply.sendMessage("§5[YB]§f " + msg);
 	}

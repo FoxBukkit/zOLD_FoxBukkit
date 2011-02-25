@@ -49,7 +49,13 @@ public class TpCommand extends ICommand {
 
 		ply.teleportTo(otherply);
 
-		plugin.playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName());
+		if (plugin.playerHelper.vanishedPlayers.contains(ply.getName())) {
+			plugin.playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName(), 3);
+		}
+		else {
+			
+			plugin.playerHelper.SendServerMessage(ply.getName() + " teleported to " + otherply.getName());
+		}
 	}
 
 	public String GetHelp() {

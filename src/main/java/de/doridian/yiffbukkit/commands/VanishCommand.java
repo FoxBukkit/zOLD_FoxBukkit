@@ -19,11 +19,11 @@ public class VanishCommand extends ICommand {
 		String playerName = ply.getName();
 		if (plugin.playerHelper.vanishedPlayers.contains(playerName)) {
 			plugin.playerHelper.vanishedPlayers.remove(playerName);
-			plugin.playerHelper.SendDirectedMessage(ply, "Reappearing...");
+			plugin.playerHelper.SendServerMessage(ply.getName() + " reappeared.", plugin.playerHelper.GetPlayerLevel(ply));
 		}
 		else {
 			plugin.playerHelper.vanishedPlayers.add(playerName);
-			plugin.playerHelper.SendDirectedMessage(ply, "Vanishing...");
+			plugin.playerHelper.SendServerMessage(ply.getName() + " vanished.", plugin.playerHelper.GetPlayerLevel(ply));
 		}
 		
 	}
