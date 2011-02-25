@@ -33,6 +33,9 @@ public class VanishPacketListener implements IPacketListener {
 	
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+		if (playerHelper.GetPlayerLevel(ply) >= 4)
+			return true;
+
 		String otherName;
 		switch (packetID) {
 		case 18:
