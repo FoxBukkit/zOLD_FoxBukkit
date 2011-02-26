@@ -26,7 +26,7 @@ public class SetTagCommand extends ICommand {
 			return;
 		}
 		playerHelper.SetPlayerTag(otherName, newtag);
-		playerHelper.SendServerMessage(ply.getName() + " set tag of " + otherName + " to " + newtag + "!");
+		playerHelper.SendServerMessage(ply.getName() + " set tag of " + newtag + otherName + "§f!");
 	}
 
 	public String GetHelp() {
