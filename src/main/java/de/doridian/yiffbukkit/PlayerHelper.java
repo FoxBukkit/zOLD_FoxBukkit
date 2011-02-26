@@ -44,24 +44,26 @@ public class PlayerHelper {
 		return otherplys.get(0);
 	}
 
-	public String CompletePlayerName(String subString) {
+	public String CompletePlayerName(String subString, boolean implicitlyLiteralNames) {
 		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(subString);
-		
+
 		if (matcher.matches())
 			return matcher.group(1);
-		
+
 		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
 		int c = otherplys.size();
-		if(c <= 0) {
+
+		if (c == 0 && implicitlyLiteralNames)
 			return subString;
-		} else if(c > 1) {
-			return null;
-		}
-		return otherplys.get(0).getName();
+
+		if (c == 1)
+			return otherplys.get(0).getName();
+
+		return null;
 	}
 
 	public String GetFullPlayerName(Player ply) {
-		return plugin.playerHelper.GetPlayerTag(ply) + ply.getName();
+		return GetPlayerTag(ply) + ply.getName();
 	}
 
 	//Home position stuff

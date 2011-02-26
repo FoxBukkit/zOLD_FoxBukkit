@@ -38,7 +38,7 @@ public class NoPortCommand extends ICommand {
 				return;
 			}
 
-			String otherName = playerHelper.CompletePlayerName(args[1]);
+			String otherName = playerHelper.CompletePlayerName(args[1], true);
 			if (otherName == null) {
 				playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
@@ -54,7 +54,7 @@ public class NoPortCommand extends ICommand {
 				return;
 			}
 
-			String otherName = playerHelper.CompletePlayerName(args[1]);
+			String otherName = playerHelper.CompletePlayerName(args[1], true);
 			if (otherName == null) {
 				playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
 			}

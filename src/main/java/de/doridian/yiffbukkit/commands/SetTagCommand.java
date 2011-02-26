@@ -15,16 +15,18 @@ public class SetTagCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
-		if(otherply == null) return;
+		String otherName = playerHelper.CompletePlayerName(args[0], false);
+		if (otherName == null) {
+			return;
+		}
 
 		String newtag = Utils.concatArray(args, 1, "").replace('$', '§');
-		if(playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherply)) {
+		if (playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherName)) {
 			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
-		playerHelper.SetPlayerTag(otherply.getName(), newtag);
-		playerHelper.SendServerMessage(ply.getName() + " set tag of " + otherply.getName() + " to " + newtag + "!");
+		playerHelper.SetPlayerTag(otherName, newtag);
+		playerHelper.SendServerMessage(ply.getName() + " set tag of " + otherName + " to " + newtag + "!");
 	}
 
 	public String GetHelp() {
@@ -32,6 +34,6 @@ public class SetTagCommand extends ICommand {
 	}
 
 	public String GetUsage() {
-		return "<name> <tag or none>";
+		return "<name> <tag>|none";
 	}
 }
