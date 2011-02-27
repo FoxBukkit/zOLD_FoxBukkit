@@ -18,7 +18,7 @@ public class ThreadDoriLoginVerifier extends Thread {
 		this.loginHandler = loginHandler;
 		this.loginPacket = loginPacket;
 	}
-	
+
 
 	@Override
 	public void run() {
@@ -29,22 +29,15 @@ public class ThreadDoriLoginVerifier extends Thread {
 		BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(url.openStream()));
 		String result = bufferedreader.readLine();
 		bufferedreader.close();
-		*/
+		 */
 
-		try
-		{
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/minecraftsql3", "root", "");
-			Statement stmt = con.createStatement();
-
-			ResultSet resultSet = stmt.executeQuery("SELECT username FROM logincookies WHERE ip=\"" + ip + "\"");
-
-			loginHandler.g = resultSet.getString(1);
-			NetLoginHandler.a(loginHandler, loginPacket);
-
-		}
-		catch(SQLException exception)
-		{
+		String username = DoriLogin.verifyLogin(ip);
+		if (username == null) {
 			loginHandler.a("Failed to verify username!");
+		}
+		else {
+			loginHandler.g = username;
+			NetLoginHandler.a(loginHandler, loginPacket);
 		}
 	}
 
