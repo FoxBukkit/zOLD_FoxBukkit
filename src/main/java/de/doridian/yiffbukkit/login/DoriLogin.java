@@ -31,7 +31,9 @@ public class DoriLogin {
 	public static boolean setPassword(String name, String password) {
 		try
 		{
-			PreparedStatement pstmt = getConnection().prepareStatement("REPLACE INTO users (name, password) VALUES (?, ?)");
+			PreparedStatement pstmt = getConnection().prepareStatement("REPLACE INTO users (name, password) VALUES (?, MD5(?))");
+			pstmt.setString(1, name);
+			pstmt.setString(1, saltPassword(name, password));
 			int changed = pstmt.executeUpdate();
 
 			return changed > 0;
@@ -40,6 +42,10 @@ public class DoriLogin {
 		{
 			return false;
 		}
+	}
+
+	public static String saltPassword(String name, String password) {
+		return name+" yiff "+password+" bukkit";
 	}
 
 }
