@@ -27,6 +27,9 @@ public class SetWarpCommand extends ICommand {
 		catch (WarpException e) {
 			playerHelper.SendDirectedMessage(ply, e.getMessage());
 		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
+		}
 	}
 
 	@Override

@@ -65,10 +65,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		
 		commands.put("warp", new WarpCommand(plugin));
 		commands.put("setwarp", new SetWarpCommand(plugin));
-		commands.put("removewarp", new RemoveWarpCommand(plugin));
-		commands.put("cwarp", new CWarpCommand(plugin));
-		commands.put("warpinfo", new WarpInfoCommand(plugin));
-		// TODO: maybe merge warp, cwarp and warpinfo into /warp <name>, /warp <name> <command> and /warp <name> info
 	}
 
 	@Override

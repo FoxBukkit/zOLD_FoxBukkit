@@ -192,6 +192,5 @@ public class WarpDescriptor {
 				System.err.println("Unknown key in warps.txt.");
 			}
 		}
-		System.out.println(location.getWorld());
 	}
 }
