@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 //import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -35,10 +36,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setrank", new SetRankCommand(plugin));
 		commands.put("settag", new SetTagCommand(plugin));
 
-		//commands.put("kick", new KickCommand(plugin));
-		//commands.put("ban", new BanCommand(plugin));
-		//commands.put("unban", new UnbanCommand(plugin));
-		//commands.put("pardon", new UnbanCommand(plugin));
+		commands.put("kick", new KickCommand(plugin));
+		commands.put("ban", new BanCommand(plugin));
+		commands.put("unban", new UnbanCommand(plugin));
+		commands.put("pardon", new UnbanCommand(plugin));
 
 		commands.put("banish", new BanishCommand(plugin));
 		commands.put("vanish", new VanishCommand(plugin));
@@ -72,8 +73,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
-		//String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
-		//if(rank.equals("banned")) event.disallow(Result.KICK_BANNED, "[YB] You're banned");
+		String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
+		if(rank.equals("banned")) event.disallow(Result.KICK_BANNED, "[YB] You're banned");
 	}
 
 	@Override
