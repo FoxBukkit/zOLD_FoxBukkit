@@ -22,7 +22,7 @@ public class WarpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		String playerName = ply.getName();
-		if (argStr == "") {
+		if (argStr.isEmpty()) {
 			//warp
 			StringBuilder sb = new StringBuilder("Available warps: ");
 			boolean first = true;
@@ -48,7 +48,7 @@ public class WarpCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, sb.toString());
 			return;
 		}
-		if (argStr == "help") {
+		if (argStr.equals("help")) {
 			//warp help
 			playerHelper.SendDirectedMessage(ply, "/warp <warp point name> [<command>[ <args>]]");
 			playerHelper.SendDirectedMessage(ply, "commands:");
