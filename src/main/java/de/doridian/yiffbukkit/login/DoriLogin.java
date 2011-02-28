@@ -13,8 +13,7 @@ public class DoriLogin {
 	}
 
 	public static String verifyLogin(SocketAddress ip) {
-		try
-		{
+		try {
 			PreparedStatement pstmt = getConnection().prepareStatement("SELECT username FROM logincookies WHERE ip=?");
 			pstmt.setString(1, ip.toString());
 
@@ -22,15 +21,31 @@ public class DoriLogin {
 
 			return resultSet.getString(1);
 		}
-		catch(SQLException exception)
-		{
+		catch (SQLException exception) {
 			return null;
 		}
 	}
 
+	private static String saltPassword(String name, String password) {
+		return name+" yiff "+password+" bukkit";
+	}
+	
+	public static boolean checkPassword(String name, String password) {
+		try {
+			PreparedStatement pstmt = getConnection().prepareStatement("SELECT name FROM users WHERE name=? AND password=MD5(?)");
+			pstmt.setString(1, name);
+			pstmt.setString(1, saltPassword(name, password));
+			ResultSet resultSet = pstmt.executeQuery();
+
+			return resultSet.getString(1) == name;
+		}
+		catch (SQLException exception) {
+			return false;
+		}
+	}
+
 	public static boolean setPassword(String name, String password) {
-		try
-		{
+		try {
 			PreparedStatement pstmt = getConnection().prepareStatement("REPLACE INTO users (name, password) VALUES (?, MD5(?))");
 			pstmt.setString(1, name);
 			pstmt.setString(1, saltPassword(name, password));
@@ -38,14 +53,8 @@ public class DoriLogin {
 
 			return changed > 0;
 		}
-		catch(SQLException exception)
-		{
+		catch (SQLException exception) {
 			return false;
 		}
 	}
-
-	public static String saltPassword(String name, String password) {
-		return name+" yiff "+password+" bukkit";
-	}
-
 }

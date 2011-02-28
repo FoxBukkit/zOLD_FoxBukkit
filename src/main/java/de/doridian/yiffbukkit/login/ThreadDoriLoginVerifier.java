@@ -1,11 +1,6 @@
 package de.doridian.yiffbukkit.login;
 
 import java.net.SocketAddress;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import net.minecraft.server.NetLoginHandler;
 import net.minecraft.server.Packet1Login;

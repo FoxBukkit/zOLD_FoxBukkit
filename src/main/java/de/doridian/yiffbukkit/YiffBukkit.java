@@ -21,6 +21,7 @@ import org.bukkit.plugin.PluginManager;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.warp.WarpEngine;
 
 /**
  * YiffBukkit
@@ -33,6 +34,7 @@ public class YiffBukkit extends JavaPlugin {
 	public final Utils utils;
 	public Permissions permissions;
 	public AdvertismentSigns adHandler;
+	public WarpEngine warpEngine;
 
 	public YiffBukkit(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		super(pluginLoader, instance, desc, folder, plugin, cLoader);
@@ -51,6 +53,7 @@ public class YiffBukkit extends JavaPlugin {
 	public void onEnable() {
 		setupPermissions();
 		playerHelper = new PlayerHelper(this);
+		warpEngine = new WarpEngine(this);
 
 		PluginManager pm = getServer().getPluginManager();
 		playerListener = new YiffBukkitPlayerListener(this);
