@@ -22,7 +22,7 @@ public class SetWarpCommand extends ICommand {
 		try {
 			// TODO: error for argStr==""
 			WarpDescriptor warp = plugin.warpEngine.setWarp(ply.getName(), argStr, ply.getLocation());
-			playerHelper.SendDirectedMessage(ply, "Created warp §9" + warp.name + "§f here. Use /cwarp to modify it.");
+			playerHelper.SendDirectedMessage(ply, "Created warp §9" + warp.name + "§f here. Use '/warp help' to see how to modify it.");
 		}
 		catch (WarpException e) {
 			playerHelper.SendDirectedMessage(ply, e.getMessage());

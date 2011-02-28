@@ -60,6 +60,7 @@ public class WarpCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "addop <name> - Grant op access (can add guests)");
 			playerHelper.SendDirectedMessage(ply, "deny <name> - Deny access");
 			playerHelper.SendDirectedMessage(ply, "move - Move the warp to your current position");
+			playerHelper.SendDirectedMessage(ply, "remove - Deletes the warp. This cannot be undone!");
 			return;
 		}
 
@@ -174,7 +175,7 @@ public class WarpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, "Removed warp §9" + warp.name + "§f.");
 			}
 			else {
-				throw new WarpException("Unknown /cwarp command.");
+				throw new WarpException("Unknown /warp command.");
 			}
 			plugin.warpEngine.SaveWarps();
 		}
