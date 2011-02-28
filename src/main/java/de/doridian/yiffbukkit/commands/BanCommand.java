@@ -20,7 +20,7 @@ public class BanCommand extends ICommand {
 
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + ply.getName());
 
-		if(playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherply)) {
+		if(playerHelper.GetPlayerLevel(ply) <= playerHelper.GetPlayerLevel(otherply)) {
 			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
