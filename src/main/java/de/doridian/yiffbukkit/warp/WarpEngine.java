@@ -84,28 +84,29 @@ public class WarpEngine {
 	}
 
 	public WarpDescriptor removeWarp(String commandSenderName, String name) throws WarpException {
-		WarpDescriptor warp = warps.get(name);
+		WarpDescriptor warp = warps.get(name.toLowerCase());
 
 		if (warp == null)
 			throw new WarpException("Warp not found.");
 
 		warp.checkAccess(commandSenderName);
 
-		warps.remove(name);
+		warps.remove(name.toLowerCase());
 		SaveWarps();
 
 		return warp;
 	}
 
 	public WarpDescriptor getWarp(String playerName, String name) throws WarpException {
-		WarpDescriptor warp = warps.get(name);
+		WarpDescriptor warp = warps.get(name.toLowerCase());
 
 		if (warp == null)
 			throw new WarpException("Warp not found.");
 
-		if (warp.checkAccess(playerName) >= 1)
-			return warp;
-		throw new WarpException("Permission denied.");
+		if (warp.checkAccess(playerName) < 1)
+			throw new WarpException("Permission denied.");
+
+		return warp;
 	}
 
 	public Map<String, WarpDescriptor> getWarps() {
