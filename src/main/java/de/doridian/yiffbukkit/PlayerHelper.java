@@ -10,8 +10,12 @@ import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.server.Packet;
+
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.nijiko.configuration.DefaultConfiguration;
 import com.nijikokun.bukkit.Permissions.Permissions;
@@ -364,4 +368,34 @@ public class PlayerHelper {
 	public Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
 	public Long frozenServerTime;
 	public HashSet<String> vanishedPlayers = new HashSet<String>();
+
+	public void sendPacketToPlayer(Player ply, Packet packet) {
+		((CraftPlayer)ply).getHandle().a.b(packet);
+	}
+	
+	public void sendPacketToPlayersAround(Location location, double radius, Packet packet) {
+		sendPacketToPlayersAround(location, radius, packet, null);
+	}
+	public void sendPacketToPlayersAround(Location location, double radius, Packet packet, Player except) {
+		sendPacketToPlayersAround(location, radius, packet, except, Integer.MAX_VALUE);
+	}
+	public void sendPacketToPlayersAround(Location location, double radius, Packet packet, Player except, int maxLevel) {
+		radius *= radius;
+		Vector locationVector = location.toVector();
+		for (Player ply : plugin.getServer().getOnlinePlayers()) {
+			if (ply.equals(except))
+				continue;
+			
+			if (!ply.getWorld().equals(location.getWorld()))
+				continue;
+			
+			if (GetPlayerLevel(ply) >= maxLevel)
+				continue;
+
+			if (locationVector.distanceSquared(ply.getLocation().toVector()) > radius)
+				continue;
+
+			sendPacketToPlayer(ply, packet);
+		}
+	}
 }
