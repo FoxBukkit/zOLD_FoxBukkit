@@ -20,13 +20,20 @@ public class SetTagCommand extends ICommand {
 			return;
 		}
 
-		String newtag = Utils.concatArray(args, 1, "").replace('$', '§');
+		String newTag = Utils.concatArray(args, 1, "").replace('$', '§');
 		if (playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherName)) {
 			playerHelper.SendPermissionDenied(ply);
 			return;
 		}
-		playerHelper.SetPlayerTag(otherName, newtag);
-		playerHelper.SendServerMessage(ply.getName() + " set tag of " + newtag + otherName + "§f!");
+
+		if (newTag.equals("none")) {
+			playerHelper.SetPlayerTag(otherName, null);
+			playerHelper.SendServerMessage(ply.getName() + " reset tag of " + playerHelper.GetPlayerTag(otherName) + otherName + "§f!");
+		}
+		else {
+			playerHelper.SetPlayerTag(otherName, newTag);
+			playerHelper.SendServerMessage(ply.getName() + " set tag of " + newTag + otherName + "§f!");
+		}
 	}
 
 	public String GetHelp() {

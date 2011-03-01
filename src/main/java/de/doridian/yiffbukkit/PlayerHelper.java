@@ -283,7 +283,7 @@ public class PlayerHelper {
 	}
 	public void SetPlayerTag(String name, String tag) {
 		name = name.toLowerCase();
-		if(tag.equalsIgnoreCase("none"))
+		if (tag == null)
 			playertags.remove(name);
 		else
 			playertags.put(name, tag);
