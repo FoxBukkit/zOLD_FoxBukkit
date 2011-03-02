@@ -1,14 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 
 public class NoPortCommand extends ICommand {
-	protected HashSet<String> tpPermissions;
-	protected HashSet<String> summonPermissions;
+	protected Set<String> tpPermissions;
+	protected Set<String> summonPermissions;
 
 	public int GetMinLevel() {
 		return 1;

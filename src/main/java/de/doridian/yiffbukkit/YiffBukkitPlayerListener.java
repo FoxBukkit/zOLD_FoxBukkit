@@ -46,6 +46,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		commands.put("tp", new TpCommand(plugin));
 		commands.put("summon", new SummonCommand(plugin));
+		commands.put("send", new SendCommand(plugin));
 
 		commands.put("notp", new NoTpCommand(plugin));
 		commands.put("nosummon", new NoSummonCommand(plugin));

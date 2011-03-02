@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -317,8 +318,41 @@ public class PlayerHelper {
 		catch(Exception e) { }
 	}
 
-	public HashSet<String> playerTpPermissions = new HashSet<String>();
-	public HashSet<String> playerSummonPermissions = new HashSet<String>();
+	public Set<String> playerTpPermissions = new HashSet<String>();
+	public Set<String> playerSummonPermissions = new HashSet<String>();
+
+	public boolean CanTp (Player commandSender, Player target) {
+		return CanPort(playerTpPermissions, commandSender, target);
+	}
+	public boolean CanSummon (Player commandSender, Player target) {
+		return CanPort(playerSummonPermissions, commandSender, target);
+	}
+	private boolean CanPort (Set<String> playerPortPermissions, Player commandSender, Player target) {
+		int commandSenderLevel = GetPlayerLevel(commandSender);
+		int targetLevel = GetPlayerLevel(target);
+
+		String commandSenderName = commandSender.getName();
+		String targetName = target.getName();
+
+		// Was an exception given?
+		if (playerPortPermissions.contains(targetName+" "+commandSenderName))
+			return true;
+
+		// Lower-ranked people can only port if an exception is given.
+		if (commandSenderLevel < targetLevel)
+			return false;
+
+		// Higher-ranked people can always port.
+		if (commandSenderLevel > targetLevel)
+			return true;
+
+		// Same-ranked people can deny each other teleportation.
+		if (playerPortPermissions.contains(targetName))
+			return false;
+
+		// Yay not denied!
+		return true;
+	}
 
 	public void LoadPortPermissions() {
 		playerTpPermissions.clear();
@@ -372,7 +406,7 @@ public class PlayerHelper {
 	public void sendPacketToPlayer(Player ply, Packet packet) {
 		((CraftPlayer)ply).getHandle().a.b(packet);
 	}
-	
+
 	public void sendPacketToPlayersAround(Location location, double radius, Packet packet) {
 		sendPacketToPlayersAround(location, radius, packet, null);
 	}
@@ -385,10 +419,10 @@ public class PlayerHelper {
 		for (Player ply : plugin.getServer().getOnlinePlayers()) {
 			if (ply.equals(except))
 				continue;
-			
+
 			if (!ply.getWorld().equals(location.getWorld()))
 				continue;
-			
+
 			if (GetPlayerLevel(ply) >= maxLevel)
 				continue;
 
