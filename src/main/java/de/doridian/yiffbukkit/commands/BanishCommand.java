@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -30,10 +31,11 @@ public class BanishCommand extends ICommand {
 		}
 
 		Vector previousPos = otherply.getLocation().toVector();
-		otherply.teleportTo(otherply.getWorld().getSpawnLocation());
+		Location teleportTarget = otherply.getWorld().getSpawnLocation();
+		otherply.teleportTo(teleportTarget);
 
 		if (resetHome) {
-			playerHelper.SetPlayerHomePosition(otherply, otherply.getWorld().getSpawnLocation());
+			playerHelper.SetPlayerHomePosition(otherply, teleportTarget);
 		}
 		else {
 			Vector homePos = playerHelper.GetPlayerHomePosition(otherply).toVector();
