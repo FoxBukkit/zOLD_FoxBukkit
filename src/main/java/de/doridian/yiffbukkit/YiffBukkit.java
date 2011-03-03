@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit;
 
+import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -7,10 +8,13 @@ import net.minecraft.server.NetServerHandler;
 
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -32,8 +36,8 @@ public class YiffBukkit extends JavaPlugin {
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 
-	public YiffBukkit() {
-		super();
+	public YiffBukkit(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
+		super(pluginLoader, instance, desc, folder, plugin, cLoader);
 		utils = new Utils(this);
 	}
 
@@ -57,7 +61,7 @@ public class YiffBukkit extends JavaPlugin {
 		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
 

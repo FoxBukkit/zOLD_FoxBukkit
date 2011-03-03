@@ -119,7 +119,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
-	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
+	public void onPlayerCommand(PlayerChatEvent event) {
 		String baseCmd = event.getMessage().trim().substring(1);
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
