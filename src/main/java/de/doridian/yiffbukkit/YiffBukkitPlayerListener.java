@@ -66,6 +66,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		
 		commands.put("warp", new WarpCommand(plugin));
 		commands.put("setwarp", new SetWarpCommand(plugin));
+		
+		commands.put("jail", new JailCommand(plugin));
+		commands.put("setjail", new SetJailCommand(plugin));
 	}
 
 	@Override

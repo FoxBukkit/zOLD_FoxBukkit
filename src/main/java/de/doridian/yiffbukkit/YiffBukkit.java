@@ -19,9 +19,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.jail.JailEngine;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 
 /**
@@ -34,8 +36,10 @@ public class YiffBukkit extends JavaPlugin {
 	public PlayerHelper playerHelper = null;
 	public final Utils utils;
 	public Permissions permissions;
+	public WorldEditPlugin worldEdit;
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
+	public JailEngine jailEngine = new JailEngine();
 
 	public YiffBukkit(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		super(pluginLoader, instance, desc, folder, plugin, cLoader);
@@ -46,13 +50,16 @@ public class YiffBukkit extends JavaPlugin {
 		System.out.println( "YiffBukkit is disabled!" );
 	}
 
-	public void setupPermissions() {
+	public void setupIPC() {
 		permissions = (Permissions)getServer().getPluginManager().getPlugin("Permissions");
-		System.out.println( "Permissions loaded!" );
+		System.out.println( "YiffBukkit found Permissions!" );
+
+		worldEdit = (WorldEditPlugin)getServer().getPluginManager().getPlugin("WorldEdit");
+		System.out.println( "YiffBukkit found WorldEdit!" );
 	}
 
 	public void onEnable() {
-		setupPermissions();
+		setupIPC();
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 
@@ -76,7 +83,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		//NetLoginHandler.offlineLoginVerifier = new DoriLoginVerifier();
 		NetServerHandler.addPacketListener(true, 4, new YiffBukkitPacketListener(this));
-		
+
 		VanishPacketListener vanishPacketListener = new VanishPacketListener(this);
 		NetServerHandler.addPacketListener(true, 18, vanishPacketListener);
 		NetServerHandler.addPacketListener(true, 20, vanishPacketListener);

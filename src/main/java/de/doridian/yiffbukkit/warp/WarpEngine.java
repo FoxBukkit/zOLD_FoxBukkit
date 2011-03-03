@@ -52,8 +52,7 @@ public class WarpEngine {
 	}
 
 	public void SaveWarps() {
-		try 
-		{
+		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("warps.txt"));
 			for (Map.Entry<String, WarpDescriptor> entry : warps.entrySet()) {
 				WarpDescriptor warp = entry.getValue();
