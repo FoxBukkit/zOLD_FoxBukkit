@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.advertisement;
 
 import java.util.TimerTask;
 

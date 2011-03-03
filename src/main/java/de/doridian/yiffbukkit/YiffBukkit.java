@@ -20,6 +20,7 @@ import org.bukkit.plugin.PluginManager;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
 
+import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 

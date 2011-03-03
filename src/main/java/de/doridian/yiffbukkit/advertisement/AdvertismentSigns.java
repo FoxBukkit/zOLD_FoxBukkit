@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.advertisement;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import org.bukkit.Location;
+
+import de.doridian.yiffbukkit.YiffBukkit;
 
 public class AdvertismentSigns {
 	private YiffBukkit plugin;
