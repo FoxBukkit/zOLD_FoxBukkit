@@ -321,18 +321,24 @@ public class PlayerHelper {
 	public Set<String> playerTpPermissions = new HashSet<String>();
 	public Set<String> playerSummonPermissions = new HashSet<String>();
 
-	public boolean CanTp (Player commandSender, Player target) {
+	public boolean CanTp(Player commandSender, Player target) {
 		return CanPort(playerTpPermissions, commandSender, target);
 	}
-	public boolean CanSummon (Player commandSender, Player target) {
+	public boolean CanSummon(Player commandSender, Player target) {
 		return CanPort(playerSummonPermissions, commandSender, target);
 	}
-	private boolean CanPort (Set<String> playerPortPermissions, Player commandSender, Player target) {
+	private boolean CanPort(Set<String> playerPortPermissions, Player commandSender, Player target) {
 		int commandSenderLevel = GetPlayerLevel(commandSender);
 		int targetLevel = GetPlayerLevel(target);
 
 		String commandSenderName = commandSender.getName();
 		String targetName = target.getName();
+
+		if (plugin.jailEngine.isJailed(commandSender))
+			return true;
+
+		if (plugin.jailEngine.isJailed(target))
+			return true;
 
 		// Was an exception given?
 		if (playerPortPermissions.contains(targetName+" "+commandSenderName))

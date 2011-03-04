@@ -14,6 +14,11 @@ public class SpawnCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
+		if (plugin.jailEngine.isJailed(ply)) {
+			playerHelper.SendDirectedMessage(ply, "You are jailed!");
+			return;
+		}
+
 		ply.teleportTo(ply.getWorld().getSpawnLocation());
 		playerHelper.SendServerMessage(ply.getName() + " returned to the spawn!");
 	}

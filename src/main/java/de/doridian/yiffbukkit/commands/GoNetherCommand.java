@@ -15,6 +15,11 @@ public class GoNetherCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
+		if (plugin.jailEngine.isJailed(ply)) {
+			playerHelper.SendDirectedMessage(ply, "You are jailed!");
+			return;
+		}
+
 		if (argStr == "old") {
 			Location pos = ply.getLocation().clone();
 			pos.setZ(0);

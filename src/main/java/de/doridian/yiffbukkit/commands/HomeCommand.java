@@ -14,6 +14,11 @@ public class HomeCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
+		if (plugin.jailEngine.isJailed(ply)) {
+			playerHelper.SendDirectedMessage(ply, "You are jailed!");
+			return;
+		}
+
 		ply.teleportTo(playerHelper.GetPlayerHomePosition(ply));
 		playerHelper.SendServerMessage(ply.getName() + " went home!");
 	}
