@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.Utils;
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Utils;
 
 public class PmCommand extends ICommand {
 

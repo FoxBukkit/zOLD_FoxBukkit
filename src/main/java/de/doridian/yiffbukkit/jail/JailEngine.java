@@ -35,7 +35,7 @@ public class JailEngine {
 	}
 
 	private List<JailDescriptor> jails = new ArrayList<JailDescriptor>();
-	private Map<String, Location> jailedPlayers = new HashMap<String, Location>();
+	private Map<String, Location> inmates = new HashMap<String, Location>();
 
 	public JailEngine() {
 		LoadJails();
@@ -48,18 +48,18 @@ public class JailEngine {
 	}
 
 	public boolean isJailed(Player ply) {
-		return jailedPlayers.containsKey(ply.getName());
+		return inmates.containsKey(ply.getName());
 	}
 	
 	public void jailPlayer(Player ply, boolean jailed) {
 		if (jailed) {
 			int index = (int) Math.floor(Math.random() * jails.size());
 
-			jailedPlayers.put(ply.getName(), ply.getLocation());
+			inmates.put(ply.getName(), ply.getLocation());
 			jails.get(index).jailPlayer(ply);
 		}
 		else {
-			Location previousLocation = jailedPlayers.remove(ply.getName());
+			Location previousLocation = inmates.remove(ply.getName());
 			ply.teleportTo(previousLocation);
 		}
 	}

@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,6 +20,8 @@ import org.bukkit.util.Vector;
 
 import com.nijiko.configuration.DefaultConfiguration;
 import com.nijikokun.bukkit.Permissions.Permissions;
+
+import de.doridian.yiffbukkit.YiffBukkit;
 
 public class PlayerHelper {
 	private YiffBukkit plugin;

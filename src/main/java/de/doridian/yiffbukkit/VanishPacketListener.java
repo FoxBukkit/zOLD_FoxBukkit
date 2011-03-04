@@ -4,6 +4,8 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
+
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.IPacketListener;

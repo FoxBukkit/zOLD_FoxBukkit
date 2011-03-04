@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.PlayerHelper;
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 
 public abstract class ICommand {
 	protected YiffBukkit plugin;

@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit;
 
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
+
 import net.minecraft.server.IPacketListener;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet4UpdateTime;

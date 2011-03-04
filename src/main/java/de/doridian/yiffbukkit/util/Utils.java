@@ -1,9 +1,11 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.util;
 
 import java.lang.reflect.Field;
 
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
+
+import de.doridian.yiffbukkit.YiffBukkit;
 
 public class Utils {
 	private YiffBukkit plugin;
