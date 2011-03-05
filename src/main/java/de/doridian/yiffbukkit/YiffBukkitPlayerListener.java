@@ -69,6 +69,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		
 		commands.put("jail", new JailCommand(plugin));
 		commands.put("setjail", new SetJailCommand(plugin));
+		
+		commands.put("§", new CheaterCommand(plugin));
 	}
 
 	@Override

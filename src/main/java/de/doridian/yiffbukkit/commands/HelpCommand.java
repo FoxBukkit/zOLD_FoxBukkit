@@ -33,8 +33,13 @@ public class HelpCommand extends ICommand {
 			Enumeration<String> e = commands.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
+				if (key == "§")
+					continue;
+
 				ICommand val = commands.get(key);
-				if(val.GetMinLevel() > selflevel) continue;
+				if(val.GetMinLevel() > selflevel)
+					continue;
+
 				ret += key + ", /";
 			}
 			ret = ret.substring(0,ret.length() - 3);
