@@ -142,7 +142,9 @@ public class PlayerHelper {
 		return GetPlayerRank(ply.getName());
 	}
 	public String GetPlayerRank(String name) {
-		return plugin.permissions.getHandler().getGroup(name);
+		name = plugin.permissions.getHandler().getGroup("world", name);
+		if(name == null) name = "guest";
+		return name;
 	}
 	public void SetPlayerRank(String name, String rankname) {
 		try {
