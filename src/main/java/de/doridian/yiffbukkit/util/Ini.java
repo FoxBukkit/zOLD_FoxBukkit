@@ -34,10 +34,13 @@ public abstract class Ini {
 				}
 
 				String sectionName = matcher.group(1);
-				if (!sections.containsKey(sectionName))
-					sections.put(sectionName, new ArrayList<Map<String,List<String>>>());
 
-				sections.get(sectionName).add(loadSection(stream));
+				List<Map<String, List<String>>> namesakes = sections.get(sectionName);
+
+				if (namesakes == null)
+					sections.put(sectionName, namesakes = new ArrayList<Map<String,List<String>>>());
+
+				namesakes.add(loadSection(stream));
 			}
 			stream.close();
 		}
@@ -68,10 +71,12 @@ public abstract class Ini {
 			String key = matcher.group(1);
 			String value = matcher.group(2);
 
-			if (!section.containsKey(key))
-				section.put(key, new ArrayList<String>());
+			List<String> values = section.get(key);
 
-			section.get(key).add(value);
+			if (values == null)
+				section.put(key, values = new ArrayList<String>());
+
+			values.add(value);
 		}
 		return section;
 	}
@@ -94,7 +99,7 @@ public abstract class Ini {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void saveSection(BufferedWriter stream, Map<String, ? extends Iterable<String>> section) throws IOException {
 		for (Map.Entry<String, ? extends Iterable<String>> entry : section.entrySet()) {
 			String key = entry.getKey();
