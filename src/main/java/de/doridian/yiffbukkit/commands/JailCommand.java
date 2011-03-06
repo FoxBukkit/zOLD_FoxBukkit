@@ -27,7 +27,7 @@ public class JailCommand extends ICommand {
 			plugin.jailEngine.jailPlayer(otherply, true);
 			playerHelper.SendServerMessage(ply.getName()+" sent "+otherply.getName()+" to jail.");
 		}
-		else if (args[1].equals("release")) {
+		else if (args[1].equals("release") || args[1].equals("rel") || args[1].equals("r")) {
 			plugin.jailEngine.jailPlayer(otherply, false);
 			playerHelper.SendServerMessage(ply.getName()+" released "+otherply.getName()+" from jail.");
 		}

@@ -4,9 +4,6 @@ import java.util.Hashtable;
 
 import de.doridian.yiffbukkit.commands.*;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;

@@ -18,9 +18,6 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.nijiko.configuration.DefaultConfiguration;
-import com.nijikokun.bukkit.Permissions.Permissions;
-
 import de.doridian.yiffbukkit.YiffBukkit;
 
 public class PlayerHelper {
