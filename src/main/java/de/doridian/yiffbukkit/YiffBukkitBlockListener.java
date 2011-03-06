@@ -5,11 +5,14 @@ import java.util.Hashtable;
 import org.bukkit.Material;
 import org.bukkit.block.BlockDamageLevel;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.Event.Priority;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRightClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginManager;
 
 /**
  * Handle events for all Block related events
@@ -34,7 +37,13 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		blocklevels.put(Material.FLINT_AND_STEEL, 3);
 		blocklevels.put(Material.FIRE, 3);
-	}
+
+		PluginManager pm = plugin.getServer().getPluginManager();
+		pm.registerEvent(Event.Type.BLOCK_PLACED, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, this, Priority.Normal, plugin);
+		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.BLOCK_DAMAGED, this, Priority.Normal, plugin);
+}
 
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();

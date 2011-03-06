@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.IPacketListener;
+import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
@@ -22,7 +23,15 @@ public class VanishPacketListener implements IPacketListener {
 	public VanishPacketListener(YiffBukkit instance) {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
-	}
+
+		NetServerHandler.addPacketListener(true, 18, this);
+		NetServerHandler.addPacketListener(true, 20, this);
+		NetServerHandler.addPacketListener(true, 30, this);
+		NetServerHandler.addPacketListener(true, 31, this);
+		NetServerHandler.addPacketListener(true, 32, this);
+		NetServerHandler.addPacketListener(true, 33, this);
+		NetServerHandler.addPacketListener(true, 34, this);
+}
 
 	private static final String nameFromEntityId(World world, int entityID) {
 		Entity entity = ((CraftWorld)world).getHandle().a(entityID);

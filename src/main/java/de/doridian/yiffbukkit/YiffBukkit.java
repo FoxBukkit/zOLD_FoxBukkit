@@ -3,17 +3,11 @@ package de.doridian.yiffbukkit;
 import java.util.Hashtable;
 import java.util.List;
 
-import net.minecraft.server.NetServerHandler;
-
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.PluginManager;
-
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
@@ -30,7 +24,12 @@ import de.doridian.yiffbukkit.warp.WarpEngine;
  */
 public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitPlayerListener playerListener;
+	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
+	@SuppressWarnings("unused")
+	private YiffBukkitPacketListener yiffBukkitPacketListener;
+	@SuppressWarnings("unused")
+	private VanishPacketListener vanishPacketListener;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils;
 	public Permissions permissions;
@@ -60,36 +59,11 @@ public class YiffBukkit extends JavaPlugin {
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
-
-		PluginManager pm = getServer().getPluginManager();
 		playerListener = new YiffBukkitPlayerListener(this);
-		pm.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Priority.Normal, this);
-
 		blockListener = new YiffBukkitBlockListener(this);
-		pm.registerEvent(Event.Type.BLOCK_PLACED, blockListener, Priority.Normal, this);
-		pm.registerEvent(Event.Type.BLOCK_RIGHTCLICKED, blockListener, Priority.Normal, this);
-		//pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
-		pm.registerEvent(Event.Type.BLOCK_DAMAGED, blockListener, Priority.Normal, this);
-
+		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
+		vanishPacketListener = new VanishPacketListener(this);
 		adHandler = new AdvertismentSigns(this);
-
-		//NetLoginHandler.offlineLoginVerifier = new DoriLoginVerifier();
-		NetServerHandler.addPacketListener(true, 4, new YiffBukkitPacketListener(this));
-
-		VanishPacketListener vanishPacketListener = new VanishPacketListener(this);
-		NetServerHandler.addPacketListener(true, 18, vanishPacketListener);
-		NetServerHandler.addPacketListener(true, 20, vanishPacketListener);
-		NetServerHandler.addPacketListener(true, 30, vanishPacketListener);
-		NetServerHandler.addPacketListener(true, 31, vanishPacketListener);
-		NetServerHandler.addPacketListener(true, 32, vanishPacketListener);
-		NetServerHandler.addPacketListener(true, 33, vanishPacketListener);
-		NetServerHandler.addPacketListener(true, 34, vanishPacketListener);
 
 		System.out.println( "YiffBukkit is enabled!" );
 	}

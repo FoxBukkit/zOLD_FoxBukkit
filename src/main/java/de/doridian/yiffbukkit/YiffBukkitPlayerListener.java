@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -16,6 +18,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 //import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.PluginManager;
 
 /**
  * Handle events for all Player related events
@@ -70,7 +73,16 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setjail", new SetJailCommand(plugin));
 		
 		commands.put("§", new CheaterCommand(plugin));
-	}
+
+		PluginManager pm = plugin.getServer().getPluginManager();
+		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_KICK, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
+}
 
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
@@ -116,7 +128,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
-	public void onPlayerCommand(PlayerChatEvent event) {
+	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
 		String baseCmd = event.getMessage().trim().substring(1);
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
