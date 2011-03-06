@@ -96,6 +96,7 @@ public class JailEngine {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void SaveJails() {
 		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
 		List<Map<String, List<String>>> jailSections = new ArrayList<Map<String, List<String>>>();  
