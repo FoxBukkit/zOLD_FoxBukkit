@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit;
 
-import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -8,13 +7,10 @@ import net.minecraft.server.NetServerHandler;
 
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -41,7 +37,7 @@ public class YiffBukkit extends JavaPlugin {
 	public WorldEditPlugin worldEdit;
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
-	public JailEngine jailEngine = new JailEngine();
+	public JailEngine jailEngine;
 
 	public YiffBukkit() {
 		utils = new Utils(this);
@@ -63,6 +59,7 @@ public class YiffBukkit extends JavaPlugin {
 		setupIPC();
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
+		jailEngine = new JailEngine(this);
 
 		PluginManager pm = getServer().getPluginManager();
 		playerListener = new YiffBukkitPlayerListener(this);
