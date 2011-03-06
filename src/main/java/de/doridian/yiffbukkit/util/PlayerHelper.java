@@ -148,7 +148,7 @@ public class PlayerHelper {
 	}
 	public void SetPlayerRank(String name, String rankname) {
 		try {
-			BufferedReader fileread = new BufferedReader(new FileReader("plugins/Permissions/config.yml"));
+			BufferedReader fileread = new BufferedReader(new FileReader("plugins/Permissions/world.yml"));
 			String filebuff = ""; byte state = 0;
 			String line; String newline = System.getProperty("line.separator"); String newtab = "    ";
 			while((line = fileread.readLine()) != null) {
@@ -179,7 +179,7 @@ public class PlayerHelper {
 				filebuff += newtab + name + ":" + newline + newtab + newtab + "group: " + rankname + newline;
 			}
 			fileread.close();
-			BufferedWriter filewrite = new BufferedWriter(new FileWriter("plugins/Permissions/config.yml"));
+			BufferedWriter filewrite = new BufferedWriter(new FileWriter("plugins/Permissions/world.yml"));
 			filewrite.write(filebuff);
 			filewrite.close();
 			try {
