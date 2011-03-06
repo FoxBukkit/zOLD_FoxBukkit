@@ -336,10 +336,10 @@ public class PlayerHelper {
 		String targetName = target.getName();
 
 		if (plugin.jailEngine.isJailed(commandSender))
-			return true;
+			return false;
 
 		if (plugin.jailEngine.isJailed(target))
-			return true;
+			return false;
 
 		// Was an exception given?
 		if (playerPortPermissions.contains(targetName+" "+commandSenderName))
