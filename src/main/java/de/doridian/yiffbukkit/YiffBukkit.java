@@ -98,20 +98,6 @@ public class YiffBukkit extends JavaPlugin {
 		return playerListener.commands;
 	}
 
-	public Location TogglePlayerWorlds(Player ply, Location pos) {
-		World world = ToggleWorlds(ply.getWorld());
-		pos.setWorld(world);
-		pos.setY(world.getHighestBlockYAt(pos.getBlockX(), pos.getBlockZ()));
-		return pos;
-	}
-
-	public World ToggleWorlds(World world) {
-		if(world.getEnvironment() == Environment.NORMAL)
-			return GetOrCreateWorld(world.getName() + "_nether", Environment.NETHER);
-		else
-			return GetOrCreateWorld(world.getName().substring(0, world.getName().length() - 7), Environment.NORMAL);
-	}
-
 	public World GetOrCreateWorld(String name, Environment env) {
 		name = name.toLowerCase();
 		List<World> worlds = getServer().getWorlds();

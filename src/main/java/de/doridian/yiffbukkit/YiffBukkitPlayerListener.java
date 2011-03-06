@@ -52,7 +52,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("nosummon", new NoSummonCommand(plugin));
 		commands.put("noport", new NoPortCommand(plugin));
 
-		commands.put("gonether", new GoNetherCommand(plugin));
 		commands.put("home", new HomeCommand(plugin));
 		commands.put("sethome", new SetHomeCommand(plugin));
 		commands.put("spawn", new SpawnCommand(plugin));
@@ -100,13 +99,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if(ply.getHealth() <= 0) {
 			event.setCancelled(true);
 			return;
-		}
-		
-		Location pos = event.getTo();
-		Block block = pos.getWorld().getBlockAt(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
-		if(block.getType() == Material.PORTAL) {
-			ply.teleportTo(plugin.TogglePlayerWorlds(ply,pos));
-			event.setCancelled(true);
 		}
 	}
 
