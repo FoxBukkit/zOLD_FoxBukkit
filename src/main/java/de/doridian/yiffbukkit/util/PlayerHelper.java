@@ -183,10 +183,7 @@ public class PlayerHelper {
 			filewrite.write(filebuff);
 			filewrite.close();
 			try {
-				plugin.permissions.getConfiguration().load();
-				DefaultConfiguration config = Utils.getPrivateValue(Permissions.class,plugin.permissions,"config");
-				config.load();
-				plugin.permissions.setupPermissions();
+				plugin.permissions.getHandler().reload();
 			} catch(Exception e) { }
 		}
 		catch(Exception e) {
