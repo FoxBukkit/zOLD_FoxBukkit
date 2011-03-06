@@ -22,7 +22,10 @@ public class WhoCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "Rank: " + playerHelper.GetPlayerRank(target));
 			playerHelper.SendDirectedMessage(ply, "NameTag: " + playerHelper.GetFullPlayerName(target));
 			playerHelper.SendDirectedMessage(ply, "World: " + target.getWorld().getName());
-			if(playerHelper.GetPlayerLevel(ply) < 3) return;
+			int playerLevel = playerHelper.GetPlayerLevel(ply);
+			if (playerLevel < 3) return;
+			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
+			playerHelper.SendDirectedMessage(ply, "Position: " + target.getLocation().toVector());
 			playerHelper.SendDirectedMessage(ply, "IP: " + target.getAddress().getAddress().toString().substring(1));
 		} else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
