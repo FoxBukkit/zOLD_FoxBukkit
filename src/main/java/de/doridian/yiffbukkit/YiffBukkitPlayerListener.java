@@ -67,6 +67,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("jail", new JailCommand(plugin));
 		commands.put("setjail", new SetJailCommand(plugin));
 		
+		commands.put("isee", new ISeeCommand(plugin));
+		
 		commands.put("§", new CheaterCommand(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
@@ -113,7 +115,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerChat(PlayerChatEvent event) {
 		String msg = event.getMessage();
 		if(msg.charAt(0) == '!') {
-			//onPlayerCommand(event);
 			plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "!commands are disabled because they show up in the web chat. Please use /commands.");
 			event.setCancelled(true);
 			return;
@@ -140,7 +141,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			Player ply = event.getPlayer();
 			ICommand icmd = commands.get(cmd);
-			if(icmd.GetMinLevel() > plugin.playerHelper.GetPlayerLevel(ply)) {
+			if(icmd.CanPlayerUseCommand(ply)) {
 				plugin.playerHelper.SendPermissionDenied(ply);
 				return;
 			}

@@ -18,4 +18,14 @@ public abstract class ICommand {
 	public abstract void Run(Player ply, String[] args, String argStr);
 	public abstract String GetHelp();
 	public abstract String GetUsage();
+	
+	public boolean CanPlayerUseCommand(Player ply)
+	{
+		int plylvl = plugin.playerHelper.GetPlayerLevel(ply);
+		int reqlvl = GetMinLevel();
+		
+		
+		
+		return (plylvl >= reqlvl);
+	}
 }
