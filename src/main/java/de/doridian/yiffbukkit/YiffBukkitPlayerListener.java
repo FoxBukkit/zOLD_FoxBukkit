@@ -148,6 +148,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			try {
 				icmd.Run(ply,args,argStr);
 			}
+			catch(YiffBukkitCommandException e) {
+				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage());
+			}
 			catch(Exception e) {
 				plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
 			}

@@ -20,7 +20,7 @@ public class WarpCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws WarpException {
 		if (plugin.jailEngine.isJailed(ply)) {
 			playerHelper.SendDirectedMessage(ply, "You are jailed!");
 			return;
@@ -183,9 +183,6 @@ public class WarpCommand extends ICommand {
 				throw new WarpException("Unknown /warp command.");
 			}
 			plugin.warpEngine.SaveWarps();
-		}
-		catch (WarpException e) {
-			playerHelper.SendDirectedMessage(ply, e.getMessage());
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
 			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
