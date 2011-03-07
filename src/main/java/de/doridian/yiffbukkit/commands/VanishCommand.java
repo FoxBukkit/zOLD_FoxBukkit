@@ -39,10 +39,4 @@ public class VanishCommand extends ICommand {
 	public String GetHelp() {
 		return "Makes you invisible";
 	}
-
-	@Override
-	public String GetUsage() {
-		return "";
-	}
-
 }

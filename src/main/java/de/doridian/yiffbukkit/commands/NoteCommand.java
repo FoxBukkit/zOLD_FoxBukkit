@@ -54,13 +54,4 @@ public class NoteCommand extends ICommand {
 		
 		playerHelper.SendDirectedMessage(ply, "sent note "+instrument + "/" + note);
 	}
-
-	public String GetHelp() {
-		return "Faggot";
-	}
-
-	public String GetUsage() {
-		return "Faggot";
-	}
-
 }

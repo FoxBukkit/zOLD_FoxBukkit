@@ -39,6 +39,6 @@ public class ISeeCommand extends ICommand {
 	}
 
 	public String GetUsage() {
-		return "[player]";
+		return "<player>";
 	}
 }

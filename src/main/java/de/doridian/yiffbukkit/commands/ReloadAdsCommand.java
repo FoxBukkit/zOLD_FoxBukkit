@@ -20,8 +20,4 @@ public class ReloadAdsCommand extends ICommand {
 	public String GetHelp() {
 		return "Reload ads";
 	}
-
-	public String GetUsage() {
-		return "";
-	}
 }

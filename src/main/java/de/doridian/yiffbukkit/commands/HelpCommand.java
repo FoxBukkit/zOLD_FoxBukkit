@@ -52,6 +52,6 @@ public class HelpCommand extends ICommand {
 	}
 
 	public String GetUsage() {
-		return "[command]";
+		return "[<command>]";
 	}
 }

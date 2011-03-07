@@ -30,15 +30,4 @@ public class CheaterCommand extends ICommand {
 		playerHelper.sendPacketToPlayer(ply, new Packet3Chat("§3"));
 
 	}
-
-	@Override
-	public String GetHelp() {
-		return null;
-	}
-
-	@Override
-	public String GetUsage() {
-		return null;
-	}
-
 }

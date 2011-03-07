@@ -28,8 +28,4 @@ public class CompassCommand extends ICommand {
 	public String GetHelp() {
 		return "Gives you your current bearing";
 	}
-
-	public String GetUsage() {
-		return "";
-	}
 }

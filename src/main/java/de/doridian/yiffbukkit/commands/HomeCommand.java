@@ -26,8 +26,4 @@ public class HomeCommand extends ICommand {
 	public String GetHelp() {
 		return "Teleports you to your home position (see /sethome)";
 	}
-
-	public String GetUsage() {
-		return "";
-	}
 }

@@ -22,13 +22,4 @@ public class TestCommand extends ICommand {
 		//CraftServer cserver = (CraftServer)plugin.getServer();
 		playerHelper.sendPacketToPlayer(ply, new Packet1Login("","",ply.getEntityId(),0,(byte)ply.getWorld().getEnvironment().ordinal()));
 	}
-
-	public String GetHelp() {
-		return "Faggot";
-	}
-
-	public String GetUsage() {
-		return "Faggot";
-	}
-
 }

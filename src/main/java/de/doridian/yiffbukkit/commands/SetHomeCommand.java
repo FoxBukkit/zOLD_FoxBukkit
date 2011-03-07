@@ -21,8 +21,4 @@ public class SetHomeCommand extends ICommand {
 	public String GetHelp() {
 		return "Sets your home position (see /home)";
 	}
-
-	public String GetUsage() {
-		return "";
-	}
 }

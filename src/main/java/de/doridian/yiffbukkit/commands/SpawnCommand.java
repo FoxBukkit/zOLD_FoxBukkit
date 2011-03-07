@@ -26,8 +26,4 @@ public class SpawnCommand extends ICommand {
 	public String GetHelp() {
 		return "Teleports you to the spawn position";
 	}
-
-	public String GetUsage() {
-		return "";
-	}
 }
