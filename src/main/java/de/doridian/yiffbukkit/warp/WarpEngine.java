@@ -1,17 +1,17 @@
 package de.doridian.yiffbukkit.warp;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.bukkit.Location;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Ini;
 
 public class WarpEngine {
 	public Map<String, String> warpMRU = new Hashtable<String, String>(); // TODO!
@@ -25,29 +25,21 @@ public class WarpEngine {
 	}
 
 	public void LoadWarps() {
-		Pattern sectionStartPattern = Pattern.compile("^\\[(.+)\\]$");
+		warps.clear();
 
-		try {
-			BufferedReader stream = new BufferedReader(new FileReader("warps.txt"));
-			String line;
-			while((line = stream.readLine()) != null) {
-				if (line.trim().isEmpty())
-					continue;
+		Map<String, List<Map<String, List<String>>>> sections = Ini.load("warps.txt");
+		if (sections == null)
+			return;
 
-				Matcher matcher = sectionStartPattern.matcher(line);
+		for (Entry<String, List<Map<String, List<String>>>> entry : sections.entrySet()) {
+			String warpName = entry.getKey();
+			List<Map<String, List<String>>> namesakes = entry.getValue();
 
-				if (!matcher.matches()) {
-					System.err.println("Malformed line in warps.txt.");
-					continue;
-				}
+			warps.put(warpName.toLowerCase(), new WarpDescriptor(plugin, warpName, namesakes.get(0)));
 
-				String warpName = matcher.group(1);
-				warps.put(warpName.toLowerCase(), new WarpDescriptor(plugin, warpName, stream));
+			if (namesakes.size() > 1) {
+				System.err.println("Duplicate section in warps.txt.");
 			}
-			stream.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

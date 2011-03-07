@@ -11,7 +11,7 @@ import de.doridian.yiffbukkit.YiffBukkit;
 
 public class ISeeCommand extends ICommand {
 	public int GetMinLevel() {
-		return 0;
+		return 4;
 	}
 
 	public ISeeCommand(YiffBukkit plug) {
@@ -21,7 +21,7 @@ public class ISeeCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) {
 		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
 		if(otherply == null) return;
-		
+
 		// Get the EntityPlayer handle from the sender
 		EntityPlayer eh = ((CraftPlayer)ply).getHandle();
 

@@ -1,17 +1,15 @@
 package de.doridian.yiffbukkit.warp;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.bukkit.Location;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Ini;
 
 public class WarpDescriptor {
 	private YiffBukkit plugin;
@@ -34,10 +32,10 @@ public class WarpDescriptor {
 		this.location = location.clone();
 	}
 
-	public WarpDescriptor(YiffBukkit plugin, String name, BufferedReader stream) throws IOException {
+	public WarpDescriptor(YiffBukkit plugin, String name, Map<String, List<String>> section) {
 		this.plugin = plugin;
 		this.name = name;
-		load(stream);
+		load(section);
 	}
 
 	public int checkAccess(String playerName) {
@@ -139,58 +137,17 @@ public class WarpDescriptor {
 		}
 	}
 
-	private void load(BufferedReader stream) throws IOException {
-		location = new Location(null, 0, 0, 0);
+	private void load(Map<String, List<String>> section) {
+		ownerName = section.get("owner").get(0);
+		location = Ini.loadLocation(section, "%s", plugin.getServer());
+		isPublic = Boolean.valueOf(section.get("public").get(0));
 
-		Pattern linePattern = Pattern.compile("^([^=]+)=(.*)$");
-		String line;
-		while((line = stream.readLine()) != null) {
-			if (line.trim().isEmpty())
-				break;
+		if (section.containsKey("guest"))
+			for (String name : section.get("guest"))
+				ranks.put(name, 1);
 
-			Matcher matcher = linePattern.matcher(line);
-
-			if (!matcher.matches()) {
-				System.err.println("Malformed line in warps.txt.");
-				continue;
-			}
-
-			String key = matcher.group(1);
-			String value = matcher.group(2);
-
-			if (key.equals("owner")) {
-				ownerName = value;
-			}
-			else if (key.equals("world")) {
-				location.setWorld(plugin.getServer().getWorld(value));
-			}
-			else if (key.equals("x")) {
-				location.setX(Double.valueOf(value));
-			}
-			else if (key.equals("y")) {
-				location.setY(Double.valueOf(value));
-			}
-			else if (key.equals("z")) {
-				location.setZ(Double.valueOf(value));
-			}
-			else if (key.equals("pitch")) {
-				location.setPitch(Float.valueOf(value));
-			}
-			else if (key.equals("yaw")) {
-				location.setYaw(Float.valueOf(value));
-			}
-			else if (key.equals("public")) {
-				isPublic = Boolean.valueOf(value);
-			}
-			else if (key.equals("guest")) {
-				ranks.put(value, 1);
-			}
-			else if (key.equals("op")) {
-				ranks.put(value, 2);
-			}
-			else {
-				System.err.println("Unknown key in warps.txt.");
-			}
-		}
+		if (section.containsKey("op"))
+			for (String name : section.get("op"))
+				ranks.put(name, 2);
 	}
 }
