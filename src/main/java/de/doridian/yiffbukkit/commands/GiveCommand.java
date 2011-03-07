@@ -45,6 +45,7 @@ public class GiveCommand extends ICommand {
 		aliases.put("diode_block", Material.DIODE_BLOCK_OFF);
 		aliases.put("gunpowder", Material.SULPHUR);
 		aliases.put("fish", Material.RAW_FISH);
+		aliases.put("button", Material.STONE_BUTTON);
 	};
 	
 	public int GetMinLevel() {
