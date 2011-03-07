@@ -141,7 +141,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			Player ply = event.getPlayer();
 			ICommand icmd = commands.get(cmd);
-			if(icmd.CanPlayerUseCommand(ply)) {
+			if(!icmd.CanPlayerUseCommand(ply)) {
 				plugin.playerHelper.SendPermissionDenied(ply);
 				return;
 			}
