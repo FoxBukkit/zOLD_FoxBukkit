@@ -1,9 +1,19 @@
 package de.doridian.yiffbukkit.warp;
 
-public class WarpException extends Exception {
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+
+public class WarpException extends YiffBukkitCommandException {
 	private static final long serialVersionUID = 1L;
 
 	public WarpException(String message) {
 		super(message);
+	}
+
+	public WarpException(Throwable cause) {
+		super(cause);
+	}
+
+	public WarpException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }
