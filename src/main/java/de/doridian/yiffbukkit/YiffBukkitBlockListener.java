@@ -50,15 +50,16 @@ public class YiffBukkitBlockListener extends BlockListener {
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGED, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.SIGN_CHANGE, this, Priority.Highest, plugin);
-}
+	}
 
+	@Override
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
 		if(ply.getHealth() <= 0) {
 			event.setBuild(false);
 			return;
 		}
-		
+
 		Material block = event.getBlock().getType();
 		Integer selflvl = plugin.playerHelper.GetPlayerLevel(ply);
 		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
@@ -67,10 +68,11 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 	}
 
+	@Override
 	public void onBlockRightClick(BlockRightClickEvent event) {
 		Material block = event.getItemInHand().getType();
 		if(block == Material.AIR) return;
-		
+
 		Player ply = event.getPlayer();
 		if(ply.getHealth() <= 0) {
 			ItemStack item = event.getItemInHand();
@@ -79,7 +81,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 			item.setDurability(Short.MAX_VALUE);
 			return;
 		}
-		
+
 		Integer selflvl = plugin.playerHelper.GetPlayerLevel(ply);
 		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
 			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
@@ -90,13 +92,14 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 	}
 
+	@Override
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
 		if(ply.getHealth() <= 0) {
 			event.setCancelled(true);
 			return;
 		}
-		
+
 		if(plugin.playerHelper.GetPlayerLevel(ply) < 0 && event.getDamageLevel() == BlockDamageLevel.BROKEN) {
 			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
