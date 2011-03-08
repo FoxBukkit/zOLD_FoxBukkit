@@ -23,7 +23,7 @@ public class Utils {
 		return ret;
 	}
 
-	public String SerializeLocation(Location loc) {
+	public static String SerializeLocation(Location loc) {
 		return loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getYaw() + ";" + loc.getPitch() + ";" + loc.getWorld().getName() + ";" + loc.getWorld().getEnvironment().name();
 	}
 
@@ -40,9 +40,8 @@ public class Utils {
 			f.setAccessible(true);
 			return (T) f.get(instance);
 		} catch (Exception e) {
-
+			return null;
 		}
-		return null;
 	}
 
 	public static <T, E> void setPrivateValue(Class<? super T> instanceclass, T instance, String field, E value) {
