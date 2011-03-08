@@ -152,7 +152,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage());
 			}
 			catch(Exception e) {
-				plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
+				if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {
+					plugin.playerHelper.SendDirectedMessage(ply,"Command error: "+e);
+				}
+				else {
+					plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
+				}
 			}
 		}
 	}
