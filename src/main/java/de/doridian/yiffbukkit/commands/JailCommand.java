@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.jail.JailException;
 
 public class JailCommand extends ICommand {
 	public JailCommand(YiffBukkit plug) {
@@ -15,7 +16,7 @@ public class JailCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws JailException {
 		if (args.length == 0) {
 			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
 			return;

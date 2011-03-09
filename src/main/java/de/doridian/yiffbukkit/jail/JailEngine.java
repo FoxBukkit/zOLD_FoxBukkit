@@ -119,15 +119,22 @@ public class JailEngine {
 		return inmates.containsKey(ply.getName());
 	}
 
-	public void jailPlayer(Player ply, boolean jailed) {
+	public void jailPlayer(Player ply, boolean jailed) throws JailException {
+		String playerName = ply.getName();
 		if (jailed) {
 			int index = (int) Math.floor(Math.random() * jails.size());
 
-			inmates.put(ply.getName(), ply.getLocation());
+			if (inmates.containsKey(playerName))
+				throw new JailException("Player is already jailed!");
+
+			inmates.put(playerName, ply.getLocation());
 			jails.get(index).jailPlayer(ply);
 		}
 		else {
-			Location previousLocation = inmates.remove(ply.getName());
+			if (!inmates.containsKey(playerName))
+				throw new JailException("Player is not jailed!");
+			
+			Location previousLocation = inmates.remove(playerName);
 			if (previousLocation != null)
 				ply.teleportTo(previousLocation);
 		}
