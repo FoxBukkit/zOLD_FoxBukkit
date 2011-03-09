@@ -29,7 +29,6 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private VanishPacketListener vanishPacketListener;
 	public PlayerHelper playerHelper = null;
-	@Deprecated
 	public final Utils utils;
 	public Permissions permissions;
 	public WorldEditPlugin worldEdit;
