@@ -146,9 +146,6 @@ public class WarpCommand extends ICommand {
 				//warp <warp point name> info 
 				Vector warpLocation = warp.location.toVector();
 
-				long unitsFromYou = Math.round(warpLocation.distance(ply.getLocation().toVector()));
-				long unitsFromSpawn = Math.round(warpLocation.distance(ply.getWorld().getSpawnLocation().toVector()));
-
 				playerHelper.SendDirectedMessage(ply, "Warp §9" + warp.name + "§f is owned by "+warp.getOwner());
 				if (warp.isPublic)
 					playerHelper.SendDirectedMessage(ply, "Warp is public");
@@ -169,6 +166,9 @@ public class WarpCommand extends ICommand {
 					first = false;
 				}
 				playerHelper.SendDirectedMessage(ply, sb.toString());
+
+				long unitsFromYou = Math.round(warpLocation.distance(ply.getLocation().toVector()));
+				long unitsFromSpawn = Math.round(warpLocation.distance(ply.getWorld().getSpawnLocation().toVector()));
 
 				playerHelper.SendDirectedMessage(
 						ply, "This warp is " +
