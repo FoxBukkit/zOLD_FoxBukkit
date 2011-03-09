@@ -84,6 +84,9 @@ public class WarpCommand extends ICommand {
 			if (command.equals("chown") || command.equals("changeowner")) {
 				//warp <warp point name> changeowner <new owner> 
 				String newOwnerName = playerHelper.CompletePlayerName(args[2], false);
+				if (newOwnerName == null)
+					throw new WarpException("No unique player found for '"+args[2]+"'");
+				
 				warp.setOwner(playerName, newOwnerName);
 
 				playerHelper.SendDirectedMessage(ply, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
@@ -107,7 +110,7 @@ public class WarpCommand extends ICommand {
 				//warp <warp point name> deny <name> 
 				String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
-					throw new WarpException("Player not found.");
+					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setAccess(playerName, targetName, 0);
 
@@ -117,7 +120,7 @@ public class WarpCommand extends ICommand {
 				//warp <warp point name> addguest <name> 
 				String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
-					throw new WarpException("Player not found.");
+					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setAccess(playerName, targetName, 1);
 
@@ -127,7 +130,7 @@ public class WarpCommand extends ICommand {
 				//warp <warp point name> addop <name> 
 				String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
-					throw new WarpException("Player not found.");
+					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setAccess(playerName, targetName, 2);
 
