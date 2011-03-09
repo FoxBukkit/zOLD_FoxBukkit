@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
+import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 
@@ -58,5 +59,20 @@ public class Utils {
 			f.setAccessible(true);
 			f.set(instance, value);
 		} catch (Exception e) { }
+	}
+
+	static String[] directions = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
+	public static String yawToDirection(double yaw) {
+		yaw = (yaw%360+630)%360;
+
+		int intdeg = (int) Math.round(yaw / 22.5F);
+		if (intdeg < 0) intdeg += 16;
+		if (intdeg >= 16) intdeg -= 16;
+
+		return directions[intdeg];
+	}
+
+	public static double vectorToYaw(Vector offsetFromYou) {
+		return Math.toDegrees(Math.atan2(-offsetFromYou.getX(), offsetFromYou.getZ()));
 	}
 }

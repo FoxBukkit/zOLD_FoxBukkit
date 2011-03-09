@@ -3,10 +3,9 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Utils;
 
 public class CompassCommand extends ICommand {
-	String[] directions = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
-
 	public int GetMinLevel() {
 		return 0;
 	}
@@ -16,13 +15,8 @@ public class CompassCommand extends ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
-		float yaw = (ply.getLocation().getYaw()%360+630)%360;
-
-		int intdeg = Math.round(yaw / 22.5F);
-		if (intdeg < 0) intdeg += 16;
-		if (intdeg >= 16) intdeg -= 16;
-
-		playerHelper.SendDirectedMessage(ply, "Direction: "+directions[intdeg]+" ("+Math.round(yaw)+")");
+		float yaw = ply.getLocation().getYaw();
+		playerHelper.SendDirectedMessage(ply, "Direction: "+Utils.yawToDirection(yaw)+" ("+Math.round(yaw)+")");
 	}
 
 	public String GetHelp() {
