@@ -72,7 +72,7 @@ public class Utils {
 		return directions[intdeg];
 	}
 
-	public static double vectorToYaw(Vector offsetFromYou) {
-		return Math.toDegrees(Math.atan2(-offsetFromYou.getX(), offsetFromYou.getZ()));
+	public static double vectorToYaw(Vector offset) {
+		return Math.toDegrees(Math.atan2(-offset.getX(), offset.getZ()));
 	}
 }
