@@ -104,7 +104,7 @@ public class PlayerHelper {
 			Enumeration<String> e = playerhomepos.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
-				stream.write(key + "=" + plugin.utils.SerializeLocation(playerhomepos.get(key)));
+				stream.write(key + "=" + Utils.SerializeLocation(playerhomepos.get(key)));
 				stream.newLine();
 			}
 			stream.close();
