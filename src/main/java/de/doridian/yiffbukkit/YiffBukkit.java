@@ -24,10 +24,10 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitPlayerListener playerListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
-	//@SuppressWarnings("unused")
-	//private YiffBukkitPacketListener yiffBukkitPacketListener;
-	//@SuppressWarnings("unused")
-	//private VanishPacketListener vanishPacketListener;
+	@SuppressWarnings("unused")
+	private YiffBukkitPacketListener yiffBukkitPacketListener;
+	@SuppressWarnings("unused")
+	private VanishPacketListener vanishPacketListener;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils;
 	public Permissions permissions;
@@ -59,8 +59,8 @@ public class YiffBukkit extends JavaPlugin {
 		jailEngine = new JailEngine(this);
 		playerListener = new YiffBukkitPlayerListener(this);
 		blockListener = new YiffBukkitBlockListener(this);
-		//yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
-		//vanishPacketListener = new VanishPacketListener(this);
+		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
+		vanishPacketListener = new VanishPacketListener(this);
 		adHandler = new AdvertismentSigns(this);
 
 		System.out.println( "YiffBukkit is enabled!" );

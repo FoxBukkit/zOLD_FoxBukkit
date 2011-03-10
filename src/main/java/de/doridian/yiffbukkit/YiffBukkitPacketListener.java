@@ -1,14 +1,15 @@
 package de.doridian.yiffbukkit;
+
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
-//import net.minecraft.server.IPacketListener;
+import net.minecraft.server.IPacketListener;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet4UpdateTime;
 
-public class YiffBukkitPacketListener /*implements IPacketListener*/ {
+public class YiffBukkitPacketListener implements IPacketListener {
 	private final YiffBukkit plugin;
 	private PlayerHelper playerHelper;
 	
@@ -16,10 +17,11 @@ public class YiffBukkitPacketListener /*implements IPacketListener*/ {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		//NetServerHandler.addPacketListener(true, 4, this);
+		NetServerHandler.addPacketListener(true, 4, this);
 	}
 	
 
+	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		Packet4UpdateTime p4 = (Packet4UpdateTime)packet;
 		Long frozenTime = playerHelper.frozenTimes.get(ply.getName());

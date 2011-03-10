@@ -272,21 +272,21 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public void damage(int arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void damage(int arg0, Entity arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Location getEyeLocation() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void damage(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void damage(int amount, Entity source) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -296,20 +296,20 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
+	public void setMomentum(Vector vector) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setVelocity(Vector velocity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public Vector getVelocity() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setMomentum(Vector arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setVelocity(Vector arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }
