@@ -31,8 +31,8 @@ public class ThreadDoriLoginVerifier extends Thread {
 			loginHandler.a("Failed to verify username!");
 		}
 		else {
-			loginHandler.g = username;
-			NetLoginHandler.a(loginHandler, loginPacket);
+			//loginHandler.g = username;
+			//NetLoginHandler.a(loginHandler, loginPacket);
 		}
 	}
 

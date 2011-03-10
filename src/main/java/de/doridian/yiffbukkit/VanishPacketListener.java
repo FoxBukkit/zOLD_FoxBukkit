@@ -8,7 +8,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
 
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.IPacketListener;
+//import net.minecraft.server.IPacketListener;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
@@ -16,7 +16,7 @@ import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
 
-public class VanishPacketListener implements IPacketListener {
+public class VanishPacketListener /*implements IPacketListener*/ {
 	private final YiffBukkit plugin;
 	private PlayerHelper playerHelper;
 	
@@ -24,13 +24,13 @@ public class VanishPacketListener implements IPacketListener {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		NetServerHandler.addPacketListener(true, 18, this);
+		/*NetServerHandler.addPacketListener(true, 18, this);
 		NetServerHandler.addPacketListener(true, 20, this);
 		NetServerHandler.addPacketListener(true, 30, this);
 		NetServerHandler.addPacketListener(true, 31, this);
 		NetServerHandler.addPacketListener(true, 32, this);
 		NetServerHandler.addPacketListener(true, 33, this);
-		NetServerHandler.addPacketListener(true, 34, this);
+		NetServerHandler.addPacketListener(true, 34, this);*/
 }
 
 	private static final String nameFromEntityId(World world, int entityID) {
@@ -42,7 +42,6 @@ public class VanishPacketListener implements IPacketListener {
 
 	}
 	
-	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		if (playerHelper.GetPlayerLevel(ply) >= 4)
 			return true;

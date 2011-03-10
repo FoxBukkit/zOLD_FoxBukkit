@@ -19,6 +19,7 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
 public class OfflinePlayer implements Player {
 	private Location location;
@@ -268,5 +269,47 @@ public class OfflinePlayer implements Player {
 	public void updateInventory() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void damage(int arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void damage(int arg0, Entity arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Location getEyeLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector getMomentum() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector getVelocity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMomentum(Vector arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setVelocity(Vector arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
