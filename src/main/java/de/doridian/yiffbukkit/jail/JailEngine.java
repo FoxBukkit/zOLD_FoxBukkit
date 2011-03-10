@@ -88,7 +88,12 @@ public class JailEngine {
 			}
 			else if (namesakes.size() == 1 && sectionName.startsWith("inmate ")) {
 				String playerName = sectionName.substring(7);
-				inmates.put(playerName, Ini.loadLocation(namesakes.get(0), "prev%s", plugin.getServer()));
+
+				Location location = Ini.loadLocation(namesakes.get(0), "prev%s", plugin.getServer());
+				if (location == null)
+					location = plugin.getServer().getWorlds().get(0).getSpawnLocation();
+
+				inmates.put(playerName, location);
 			}
 			else {
 				System.err.println("Invalid section in jails.txt.");
@@ -133,7 +138,7 @@ public class JailEngine {
 		else {
 			if (!inmates.containsKey(playerName))
 				throw new JailException("Player is not jailed!");
-			
+
 			Location previousLocation = inmates.remove(playerName);
 			if (previousLocation != null)
 				ply.teleportTo(previousLocation);
