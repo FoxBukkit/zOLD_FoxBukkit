@@ -39,10 +39,10 @@ public class PlayerHelper {
 		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
 		int c = otherplys.size();
 		if(c <= 0)
-			throw new PlayerNotFoundException("Sorry, no player found!");
+			throw new PlayerNotFoundException();
 
 		if(c > 1)
-			throw new MultiplePlayersFoundException("Sorry, multiple players found!");
+			throw new MultiplePlayersFoundException();
 
 		return otherplys.get(0);
 	}
