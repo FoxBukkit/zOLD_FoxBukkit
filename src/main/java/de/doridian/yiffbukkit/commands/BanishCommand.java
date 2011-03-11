@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class BanishCommand extends ICommand {
 	public int GetMinLevel() {
@@ -15,11 +16,10 @@ public class BanishCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
 		boolean resetHome = args.length >= 2 && (args[1].equals("resethome") || args[1].equals("sethome") || args[1].equals("withhome"));
 
-		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
-		if (otherply == null) return;
+		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
 		int level = playerHelper.GetPlayerLevel(ply);
 		int otherlevel = playerHelper.GetPlayerLevel(otherply);

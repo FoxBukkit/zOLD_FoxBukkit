@@ -35,16 +35,15 @@ public class PlayerHelper {
 		LoadPortPermissions();
 	}
 
-	public Player MatchPlayerSingle(Player ply, String subString) {
+	public Player MatchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
 		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
 		int c = otherplys.size();
-		if(c <= 0) {
-			SendDirectedMessage(ply, "Sorry, no player found!");
-			return null;
-		} else if(c > 1) {
-			SendDirectedMessage(ply, "Sorry, multiple players found!");
-			return null;
-		}
+		if(c <= 0)
+			throw new PlayerNotFoundException("Sorry, no player found!");
+
+		if(c > 1)
+			throw new MultiplePlayersFoundException("Sorry, multiple players found!");
+
 		return otherplys.get(0);
 	}
 

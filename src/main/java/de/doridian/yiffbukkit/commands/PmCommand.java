@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class PmCommand extends ICommand {
@@ -15,15 +16,13 @@ public class PmCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
 		if(args.length < 1){
 			playerHelper.SendDirectedMessage(ply, "Usage: /pm " + GetUsage());
 			return;
 		}
 
-		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
-		if (otherply == null)
-			return;
+		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
 		String message = Utils.concatArray(args, 1, "");
 

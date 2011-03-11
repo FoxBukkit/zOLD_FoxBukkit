@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class SummonCommand extends ICommand {
 	public int GetMinLevel() {
@@ -13,9 +14,8 @@ public class SummonCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
-		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
-		if (otherply == null) return;
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
+		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
 		if (!playerHelper.CanSummon(ply, otherply)) {
 			playerHelper.SendPermissionDenied(ply);

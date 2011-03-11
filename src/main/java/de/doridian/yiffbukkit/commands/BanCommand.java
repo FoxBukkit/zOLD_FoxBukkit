@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class BanCommand extends ICommand {
@@ -14,9 +15,8 @@ public class BanCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
-		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
-		if(otherply == null) return;
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
+		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + ply.getName());
 

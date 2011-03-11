@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class GiveCommand extends ICommand {
 	Hashtable<String,Material> aliases = new Hashtable<String,Material>();
@@ -64,7 +65,7 @@ public class GiveCommand extends ICommand {
 		return Material.matchMaterial(materialName);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
 		Integer count = 1;
 		String otherName = null;
 		try {
@@ -85,9 +86,7 @@ public class GiveCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
 		}
 		else {
-			Player otherply = playerHelper.MatchPlayerSingle(ply, otherName);
-			if (otherply == null)
-				return;
+			Player otherply = playerHelper.MatchPlayerSingle(otherName);
 
 			PlayerInventory inv = otherply.getInventory();
 			int empty = inv.firstEmpty();

@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailException;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class JailCommand extends ICommand {
 	public JailCommand(YiffBukkit plug) {
@@ -16,13 +17,13 @@ public class JailCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws JailException {
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, JailException {
 		if (args.length == 0) {
 			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
 			return;
 		}
 
-		Player otherply = playerHelper.MatchPlayerSingle(ply, args[0]);
+		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 		
 		if (args.length == 1) {
 			plugin.jailEngine.jailPlayer(otherply, true);
