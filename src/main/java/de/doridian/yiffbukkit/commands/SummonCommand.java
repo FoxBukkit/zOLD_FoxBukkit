@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
@@ -14,13 +15,11 @@ public class SummonCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
-		if (!playerHelper.CanSummon(ply, otherply)) {
-			playerHelper.SendPermissionDenied(ply);
-			return;
-		}
+		if (!playerHelper.CanSummon(ply, otherply))
+			throw new PermissionDeniedException();
 
 		otherply.teleportTo(ply);
 

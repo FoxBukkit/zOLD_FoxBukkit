@@ -58,17 +58,17 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("give", new GiveCommand(plugin));
 		commands.put("time", new TimeCommand(plugin));
 		commands.put("servertime", new ServerTimeCommand(plugin));
-		
+
 		commands.put("reloadads", new ReloadAdsCommand(plugin));
-		
+
 		commands.put("warp", new WarpCommand(plugin));
 		commands.put("setwarp", new SetWarpCommand(plugin));
-		
+
 		commands.put("jail", new JailCommand(plugin));
 		commands.put("setjail", new SetJailCommand(plugin));
-		
+
 		commands.put("isee", new ISeeCommand(plugin));
-		
+
 		commands.put("§", new CheaterCommand(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
@@ -79,7 +79,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
-}
+	}
 
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
@@ -141,17 +141,19 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			Player ply = event.getPlayer();
 			ICommand icmd = commands.get(cmd);
-			if(!icmd.CanPlayerUseCommand(ply)) {
-				plugin.playerHelper.SendPermissionDenied(ply);
-				return;
-			}
 			try {
+				if(!icmd.CanPlayerUseCommand(ply)) {
+					throw new PermissionDeniedException();
+				}
 				icmd.Run(ply,args,argStr);
 			}
-			catch(YiffBukkitCommandException e) {
+			catch (PermissionDeniedException e) {
+				ply.sendMessage("§4[YB]§f "+e.getMessage());
+			}
+			catch (YiffBukkitCommandException e) {
 				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage());
 			}
-			catch(Exception e) {
+			catch (Exception e) {
 				if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {
 					plugin.playerHelper.SendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 				}

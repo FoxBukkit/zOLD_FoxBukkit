@@ -112,9 +112,6 @@ public class PlayerHelper {
 	}
 
 	//Messaging stuff
-	public void SendPermissionDenied(Player ply) {
-		ply.sendMessage("§4[YB]§f Permission denied!");
-	}
 	public void SendServerMessage(String msg) {
 		plugin.getServer().broadcastMessage("§5[YB]§f " + msg);
 	}

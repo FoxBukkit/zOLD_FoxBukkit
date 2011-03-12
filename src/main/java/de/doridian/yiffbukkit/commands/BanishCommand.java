@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
@@ -16,7 +17,7 @@ public class BanishCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
+	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		boolean resetHome = args.length >= 2 && (args[1].equals("resethome") || args[1].equals("sethome") || args[1].equals("withhome"));
 
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
@@ -25,10 +26,8 @@ public class BanishCommand extends ICommand {
 		int otherlevel = playerHelper.GetPlayerLevel(otherply);
 
 		// Players with the same levels can banish each other, but not reset each other's homes
-		if (level < otherlevel || (level == otherlevel && resetHome)) {
-			playerHelper.SendPermissionDenied(ply);
-			return;
-		}
+		if (level < otherlevel || (level == otherlevel && resetHome))
+			throw new PermissionDeniedException();
 
 		Vector previousPos = otherply.getLocation().toVector();
 		Location teleportTarget = otherply.getWorld().getSpawnLocation();

@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Utils;
 
@@ -14,17 +15,15 @@ public class SetTagCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException {
 		String otherName = playerHelper.CompletePlayerName(args[0], false);
 		if (otherName == null) {
 			return;
 		}
 
 		String newTag = Utils.concatArray(args, 1, "").replace('$', '§');
-		if (playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherName)) {
-			playerHelper.SendPermissionDenied(ply);
-			return;
-		}
+		if (playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherName))
+			throw new PermissionDeniedException();
 
 		if (newTag.equals("none")) {
 			playerHelper.SetPlayerTag(otherName, null);
