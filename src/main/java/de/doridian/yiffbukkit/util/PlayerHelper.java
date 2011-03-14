@@ -113,9 +113,18 @@ public class PlayerHelper {
 
 	//Messaging stuff
 	public void SendServerMessage(String msg) {
-		plugin.getServer().broadcastMessage("§5[YB]§f " + msg);
+		SendServerMessage(msg,'5');
 	}
+	public void SendServerMessage(String msg, char colorCode) {
+		plugin.getServer().broadcastMessage("§"+colorCode+"[YB]§f " + msg);
+	}
+	
 	public void SendServerMessage(String msg, int minLevel) {
+		SendServerMessage(msg, minLevel, '5');
+	}
+	public void SendServerMessage(String msg, int minLevel, char colorCode) {
+		msg = "§"+colorCode+"[YB]§f " + msg;
+		
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
 		for (Player player : players) {
@@ -125,8 +134,12 @@ public class PlayerHelper {
 			player.sendMessage(msg);
 		}
 	}
+	
+	public void SendDirectedMessage(Player ply, String msg, char colorCode) {
+		ply.sendMessage("§"+colorCode+"[YB]§f " + msg);
+	}
 	public void SendDirectedMessage(Player ply, String msg) {
-		ply.sendMessage("§5[YB]§f " + msg);
+		SendDirectedMessage(ply, msg, '5');
 	}
 
 	//Ranks

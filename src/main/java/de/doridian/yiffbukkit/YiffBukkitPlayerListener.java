@@ -1,5 +1,9 @@
 package de.doridian.yiffbukkit;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Hashtable;
 
 import de.doridian.yiffbukkit.commands.*;
@@ -84,7 +88,41 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
-		if(rank.equals("banned")) event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
+		if(rank.equals("banned")) {
+			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
+			return;
+		}
+		(new HackCheckThread(event.getPlayer().getName())).start();
+	}
+	
+	class HackCheckThread extends Thread {
+		private String plyName;
+		public HackCheckThread(String plyNameX) {
+			plyName = plyNameX;
+		}
+		
+		public void run() {
+			try {
+				URL url = new URL("http://cursecraft.com/mc_validation.php?username=" + plyName);
+				URLConnection conn = url.openConnection();
+				conn.connect();
+				BufferedReader buffre = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				String ret = buffre.readLine().trim().toLowerCase();
+				buffre.close();
+				if(ret.equals("yes")) {
+					Player ply = plugin.playerHelper.MatchPlayerSingle(plyName);
+					
+                    plugin.playerHelper.SendDirectedMessage(ply, "Your account might have been hacked!", '4');
+                    plugin.playerHelper.SendDirectedMessage(ply, "Check http://bit.ly/eLIUhb for further info!", '4');
+                    
+                    plugin.playerHelper.SendServerMessage("The account of " + ply.getName() + " might have been hacked!", 3, '4');
+                    plugin.playerHelper.SendServerMessage("Check http://bit.ly/eLIUhb for further info!", 3, '4');
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
