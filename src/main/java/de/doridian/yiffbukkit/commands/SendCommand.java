@@ -28,7 +28,7 @@ public class SendCommand extends ICommand {
 
 		fromPlayer.teleportTo(toPlayer);
 
-		playerHelper.SendServerMessage(ply.getName() + " sent " + fromPlayer.getName() + " sent " + toPlayer.getName());
+		playerHelper.SendServerMessage(ply.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
 	}
 
 	public String GetHelp() {
