@@ -163,7 +163,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
 	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
-		if(runCommand(event.getPlayer(), event.getMessage())) {
+		if(runCommand(event.getPlayer(), event.getMessage().substring(1).trim())) {
 			event.setCancelled(true);
 		}
 	}
