@@ -62,11 +62,13 @@ public class JailEngine {
 
 	private List<JailDescriptor> jails = new ArrayList<JailDescriptor>();
 	private Map<String, Location> inmates = new HashMap<String, Location>();
-	private YiffBukkit plugin;
+	YiffBukkit plugin;
 
 	public JailEngine(YiffBukkit plugin) {
 		this.plugin = plugin;
 		LoadJails();
+		
+		new JailPlayerListener(this);
 	}
 
 	public void LoadJails() {
@@ -144,6 +146,14 @@ public class JailEngine {
 				ply.teleportTo(previousLocation);
 		}
 		SaveJails();
+	}
+
+	public void rejailPlayer(Player ply) {
+		try {
+			jailPlayer(ply, false);
+			jailPlayer(ply, true);
+			plugin.playerHelper.SendDirectedMessage(ply, "You are still jailed!");
+		} catch (JailException e) { }
 	}
 
 	public void setJail(World world, Vector pos1, Vector pos2) {
