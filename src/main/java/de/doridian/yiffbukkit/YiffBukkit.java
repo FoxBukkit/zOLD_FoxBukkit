@@ -12,6 +12,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.jail.JailEngine;
+import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpEngine;
@@ -28,6 +29,7 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitPacketListener yiffBukkitPacketListener;
 	@SuppressWarnings("unused")
 	private VanishPacketListener vanishPacketListener;
+	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils;
 	public Permissions permissions;
@@ -41,6 +43,7 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void onDisable() {
+		remote.stopme();
 		System.out.println( "YiffBukkit is disabled!" );
 	}
 
@@ -62,6 +65,9 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		vanishPacketListener = new VanishPacketListener(this);
 		adHandler = new AdvertismentSigns(this);
+		
+		remote = new YiffBukkitRemote(this, playerListener);
+		remote.start();
 
 		System.out.println( "YiffBukkit is enabled!" );
 	}

@@ -163,7 +163,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
 	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
-		String baseCmd = event.getMessage().trim().substring(1);
+		if(runCommand(event.getPlayer(), event.getMessage())) {
+			event.setCancelled(true);
+		}
+	}
+	
+	public boolean runCommand(Player ply, String baseCmd) {
+		//String baseCmd = event.getMessage().trim().substring(1);
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
 		if(posSpace < 0) {
@@ -176,8 +182,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			args = argStr.split(" ");
 		}
 		if(commands.containsKey(cmd)) {
-			event.setCancelled(true);
-			Player ply = event.getPlayer();
 			ICommand icmd = commands.get(cmd);
 			try {
 				if(!icmd.CanPlayerUseCommand(ply)) {
@@ -186,7 +190,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				icmd.Run(ply,args,argStr);
 			}
 			catch (PermissionDeniedException e) {
-				ply.sendMessage("§4[YB]§f "+e.getMessage());
+				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(),'4');
 			}
 			catch (YiffBukkitCommandException e) {
 				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage());
@@ -199,7 +203,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
 				}
 			}
+			return true;
 		}
+		return false;
 	}
 }
 

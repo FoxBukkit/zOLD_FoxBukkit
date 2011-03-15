@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 
 public class PlayerHelper {
 	private YiffBukkit plugin;
@@ -116,7 +117,10 @@ public class PlayerHelper {
 		SendServerMessage(msg,'5');
 	}
 	public void SendServerMessage(String msg, char colorCode) {
-		plugin.getServer().broadcastMessage("§"+colorCode+"[YB]§f " + msg);
+		msg = "§"+colorCode+"[YB]§f " + msg;
+		plugin.getServer().broadcastMessage(msg);
+		
+		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
 	
 	public void SendServerMessage(String msg, int minLevel) {
@@ -133,6 +137,8 @@ public class PlayerHelper {
 
 			player.sendMessage(msg);
 		}
+		
+		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
 	
 	public void SendDirectedMessage(Player ply, String msg, char colorCode) {
@@ -234,6 +240,7 @@ public class PlayerHelper {
 	}
 
 	public Integer GetPlayerLevel(String name) {
+		if(name.equals("[CONSOLE]")) return 9999;
 		return GetRankLevel(GetPlayerRank(name));
 	}
 	public Integer GetRankLevel(String rankname) {
