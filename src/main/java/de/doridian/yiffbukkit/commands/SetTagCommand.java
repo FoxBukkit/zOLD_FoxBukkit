@@ -36,7 +36,21 @@ public class SetTagCommand extends ICommand {
 	}
 
 	public String GetHelp() {
-		return "Sets tag of specified user";
+		StringBuilder sb = new StringBuilder("Sets tag of specified user.\nColors:");
+		for (char c = '0'; c <= '9'; ++c) {
+			sb.append(" §");
+			sb.append(c);
+			sb.append('$');
+			sb.append(c);
+		}
+		for (char c = 'a'; c <= 'f'; ++c) {
+			sb.append(" §");
+			sb.append(c);
+			sb.append('$');
+			sb.append(c);
+		}
+		return sb.toString();
+
 	}
 
 	public String GetUsage() {
