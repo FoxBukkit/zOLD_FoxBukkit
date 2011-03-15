@@ -17,7 +17,7 @@ public class YiffBukkitRemoteThread extends Thread {
 	private Socket socket;
 	private PrintWriter out;
 	
-	private final String PASSWORD = "x"; //"SECRET";
+	private final String PASSWORD = "SECRET";
 	
 	public YiffBukkitRemoteThread(YiffBukkit plug, YiffBukkitPlayerListener listener, Socket sock) {
 		plugin = plug;
