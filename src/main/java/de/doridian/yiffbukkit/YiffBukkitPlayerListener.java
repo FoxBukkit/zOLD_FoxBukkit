@@ -94,13 +94,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 		(new HackCheckThread(event.getPlayer().getName())).start();
 	}
-	
+
 	class HackCheckThread extends Thread {
 		private String plyName;
 		public HackCheckThread(String plyNameX) {
 			plyName = plyNameX;
 		}
-		
+
 		public void run() {
 			try {
 				URL url = new URL("http://cursecraft.com/mc_validation.php?username=" + plyName);
@@ -111,12 +111,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				buffre.close();
 				if(ret.equals("yes")) {
 					Player ply = plugin.playerHelper.MatchPlayerSingle(plyName);
-					
-                    plugin.playerHelper.SendDirectedMessage(ply, "Your account might have been hacked!", '4');
-                    plugin.playerHelper.SendDirectedMessage(ply, "Check http://bit.ly/eLIUhb for further info!", '4');
-                    
-                    plugin.playerHelper.SendServerMessage("The account of " + ply.getName() + " might have been hacked!", 3, '4');
-                    plugin.playerHelper.SendServerMessage("Check http://bit.ly/eLIUhb for further info!", 3, '4');
+
+					plugin.playerHelper.SendDirectedMessage(ply, "Your account might have been hacked!", '4');
+					plugin.playerHelper.SendDirectedMessage(ply, "Check http://bit.ly/eLIUhb for further info!", '4');
+
+					plugin.playerHelper.SendServerMessage("The account of " + ply.getName() + " might have been hacked!", 3, '4');
+					plugin.playerHelper.SendServerMessage("Check http://bit.ly/eLIUhb for further info!", 3, '4');
 				}
 			}
 			catch(Exception e) {
@@ -167,7 +167,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	public boolean runCommand(Player ply, String baseCmd) {
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
