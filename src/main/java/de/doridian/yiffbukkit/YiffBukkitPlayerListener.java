@@ -169,7 +169,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	}
 	
 	public boolean runCommand(Player ply, String baseCmd) {
-		//String baseCmd = event.getMessage().trim().substring(1);
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
 		if(posSpace < 0) {

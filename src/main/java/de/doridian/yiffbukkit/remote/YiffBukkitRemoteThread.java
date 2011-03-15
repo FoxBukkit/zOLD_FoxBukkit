@@ -17,6 +17,8 @@ public class YiffBukkitRemoteThread extends Thread {
 	private Socket socket;
 	private PrintWriter out;
 	
+	private final String PASSWORD = "x"; //"SECRET";
+	
 	public YiffBukkitRemoteThread(YiffBukkit plug, YiffBukkitPlayerListener listener, Socket sock) {
 		plugin = plug;
 		listen = listener;
@@ -28,29 +30,35 @@ public class YiffBukkitRemoteThread extends Thread {
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 		
-			String cmd = in.readLine();
-			runCommand(cmd);
-			out.flush();
+			String str = in.readLine();
+			if(!str.equals(PASSWORD)) throw new Exception("Invalid password");
+			
+			str = in.readLine();
+			Player ply = new RemotePlayer(plugin.getServer(), plugin.GetOrCreateWorld("world", Environment.NORMAL), this);
+			YiffBukkitRemote.currentPlayer = ply; 
+			boolean ret = listen.runCommand(ply, str);
+			YiffBukkitRemote.currentPlayer = null;
+			
+			if(!ret) throw new Exception("Invalid command");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			send(e.getMessage());
 		}
+		try {
+			out.flush();
+		}
+		catch(Exception e) { }
 		try {
 			socket.close();
 		}
-		catch(Exception e) {
-			
-		}
+		catch(Exception e) { }
 	}
 	
 	public void send(String txt) {
-		out.write(txt + "\n");
-	}
-	
-	public void runCommand(String xcmd) {
-		Player ply = new RemotePlayer(plugin.getServer(), plugin.GetOrCreateWorld("world", Environment.NORMAL), this);
-		YiffBukkitRemote.currentPlayer = ply; 
-		listen.runCommand(ply, xcmd);
-		YiffBukkitRemote.currentPlayer = null; 
+		try {
+			out.write(txt + "\n");
+		}
+		catch(Exception e) { }
 	}
 }
