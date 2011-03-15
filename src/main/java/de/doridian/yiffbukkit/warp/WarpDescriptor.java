@@ -48,14 +48,13 @@ public class WarpDescriptor {
 		if (playerLevel > ownerLevel && playerLevel >= 3)
 			return 3;
 
-		if (isPublic)
+		if (ranks.containsKey(playerName))
+			return ranks.get(playerName);
+
+		if (isPublic && playerLevel >= 1)
 			return 1;
 
-		Integer rank = ranks.get(playerName);
-		if (rank == null)
-			return 0;
-
-		return rank;
+		return 0;
 	}
 
 	public void setAccess(String commandSenderName, String playerName, int rank) throws WarpException {
