@@ -26,16 +26,19 @@ public class JailPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerJoin(PlayerEvent event) {
+		if(!jailEngine.isJailed(event.getPlayer())) return;
 		jailEngine.rejailPlayer(event.getPlayer());
 	}
 
 	@Override
 	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
+		if(!jailEngine.isJailed(event.getPlayer())) return;
 		event.setCancelled(true);
 	}
 
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		if(!jailEngine.isJailed(event.getPlayer())) return;
 		jailEngine.rejailPlayer(event.getPlayer());
 		event.setRespawnLocation(event.getPlayer().getLocation());
 	}
