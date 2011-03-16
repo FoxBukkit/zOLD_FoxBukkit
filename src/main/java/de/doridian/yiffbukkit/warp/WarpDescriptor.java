@@ -1,11 +1,13 @@
 package de.doridian.yiffbukkit.warp;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+
 import org.bukkit.Location;
 
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -61,9 +63,11 @@ public class WarpDescriptor {
 		int commandSenderRank = checkAccess(commandSenderName);
 		int playerRank = checkAccess(playerName);
 
-		if (commandSenderRank <= Math.max(playerRank, rank)) {
-			throw new WarpException("Permission denied");
-		}
+		if (commandSenderRank <= playerRank)
+			throw new WarpException("Permission denied: You do not exceed the target's rank!").setColor('4');
+
+		if (commandSenderRank <= rank)
+			throw new WarpException("Permission denied: You do not exceed the specified rank!").setColor('4');
 
 		if (rank == 0) {
 			ranks.remove(playerName);
@@ -75,7 +79,7 @@ public class WarpDescriptor {
 
 	public void setOwner(String commandSenderName, String newOwnerName) throws WarpException {
 		if (checkAccess(commandSenderName) < 3)
-			throw new WarpException("You need to be the warp's owner to do this.");
+			throw new WarpException("Permission denied: You do not own this warp!").setColor('4');
 
 		ownerName = newOwnerName;
 	}
@@ -88,52 +92,35 @@ public class WarpDescriptor {
 		return new Hashtable<String, Integer>(ranks);
 	}
 
-	public void save(BufferedWriter stream) throws IOException {
-		stream.write("owner=");
-		stream.write(ownerName);
-		stream.newLine();
+	public Map<String, List<String>> save() {
+		Map<String, List<String>> section = new TreeMap<String, List<String>>();
 
-		stream.write("world=");
-		stream.write(location.getWorld().getName());
-		stream.newLine();
+		section.put("owner", Arrays.asList(ownerName));
 
-		stream.write("x=");
-		stream.write(String.valueOf(location.getX()));
-		stream.newLine();
+		Ini.saveLocation(section, "%s", location);
+		section.put("public", Arrays.asList(String.valueOf(isPublic)));
 
-		stream.write("y=");
-		stream.write(String.valueOf(location.getY()));
-		stream.newLine();
-
-		stream.write("z=");
-		stream.write(String.valueOf(location.getZ()));
-		stream.newLine();
-
-		stream.write("pitch=");
-		stream.write(String.valueOf(location.getPitch()));
-		stream.newLine();
-
-		stream.write("yaw=");
-		stream.write(String.valueOf(location.getYaw()));
-		stream.newLine();
-
-		stream.write("public=");
-		stream.write(String.valueOf(isPublic));
-		stream.newLine();
-
+		List<String> ops = new ArrayList<String>();
+		List<String> guests = new ArrayList<String>();
 		for (Map.Entry<String, Integer> entry : ranks.entrySet()) {
 			int rank = entry.getValue();
 			if (rank == 1)
-				stream.write("guest=");
+				guests.add(entry.getKey());
 			else if (rank == 2)
-				stream.write("op=");
+				ops.add(entry.getKey());
 			else {
 				System.err.println("Invalid warp rank.");
 				continue;
 			}
-			stream.write(entry.getKey());
-			stream.newLine();
 		}
+
+		if (!ops.isEmpty())
+			section.put("op", ops);
+
+		if (!guests.isEmpty())
+			section.put("guest", guests);
+
+		return section;
 	}
 
 	private void load(Map<String, List<String>> section) {

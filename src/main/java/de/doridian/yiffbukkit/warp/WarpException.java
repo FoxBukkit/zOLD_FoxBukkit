@@ -16,4 +16,10 @@ public class WarpException extends YiffBukkitCommandException {
 	public WarpException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
+	@Override
+	public WarpException setColor(char color) {
+		super.setColor(color);
+		return this;
+	}
 }

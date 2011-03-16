@@ -192,11 +192,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				}
 				icmd.Run(ply,args,argStr);
 			}
-			catch (PermissionDeniedException e) {
-				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(),'4');
-			}
 			catch (YiffBukkitCommandException e) {
-				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage());
+				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
 				if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {

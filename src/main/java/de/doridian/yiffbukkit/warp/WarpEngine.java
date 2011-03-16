@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.warp;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
@@ -43,21 +43,15 @@ public class WarpEngine {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void SaveWarps() {
-		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("warps.txt"));
-			for (Map.Entry<String, WarpDescriptor> entry : warps.entrySet()) {
-				WarpDescriptor warp = entry.getValue();
-				stream.write("["+warp.name+"]");
-				stream.newLine();
-				warp.save(stream);
-				stream.newLine();
-			}
-			stream.close();
+		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
+		for (Entry<String, WarpDescriptor> entry : warps.entrySet()) {
+			WarpDescriptor warp = entry.getValue();
+			sections.put(warp.name, Arrays.asList(warp.save()));
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		Ini.save("warps.txt", sections);
 	}
 
 	public WarpDescriptor setWarp(String ownerName, String name, Location location) throws WarpException {
@@ -80,7 +74,8 @@ public class WarpEngine {
 		if (warp == null)
 			throw new WarpException("Warp not found.");
 
-		warp.checkAccess(commandSenderName);
+		if (warp.checkAccess(commandSenderName) < 3)
+			throw new WarpException("Permission denied.").setColor('4');
 
 		warps.remove(name.toLowerCase());
 		SaveWarps();
@@ -95,7 +90,7 @@ public class WarpEngine {
 			throw new WarpException("Warp not found.");
 
 		if (warp.checkAccess(playerName) < 1)
-			throw new WarpException("Permission denied.");
+			throw new WarpException("Permission denied.").setColor('4');
 
 		return warp;
 	}
