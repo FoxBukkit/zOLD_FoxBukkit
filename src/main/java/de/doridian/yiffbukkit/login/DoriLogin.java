@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class DoriLogin {
 	private static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://localhost:3306/minecraftsql3", "root", "");
+		return DriverManager.getConnection("jdbc:mysql://localhost:3306/minecraftsql3", "minecraftsql3", "SECRET");
 	}
 
 	public static String verifyLogin(SocketAddress ip) {

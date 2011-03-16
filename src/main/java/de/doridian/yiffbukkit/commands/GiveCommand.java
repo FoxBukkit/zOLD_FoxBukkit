@@ -106,6 +106,6 @@ public class GiveCommand extends ICommand {
 	}
 
 	public String GetUsage() {
-		return "<name or id> [<amount>] [<player>]";
+		return "<name or id> [amount] [player]";
 	}
 }

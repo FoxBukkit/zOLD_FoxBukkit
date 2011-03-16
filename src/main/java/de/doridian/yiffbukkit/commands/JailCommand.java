@@ -45,7 +45,7 @@ public class JailCommand extends ICommand {
 
 	@Override
 	public String GetUsage() {
-		return "<name>[ release]";
+		return "<name> [release]";
 	}
 
 

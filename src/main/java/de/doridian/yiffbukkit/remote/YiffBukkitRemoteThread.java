@@ -33,6 +33,9 @@ public class YiffBukkitRemoteThread extends Thread {
 			String str = in.readLine();
 			if(!str.equals(PASSWORD)) throw new Exception("Invalid password");
 			
+			send("OK");
+			out.flush();
+			
 			str = in.readLine();
 			Player ply = new RemotePlayer(plugin.getServer(), plugin.GetOrCreateWorld("world", Environment.NORMAL), this);
 			YiffBukkitRemote.currentPlayer = ply; 

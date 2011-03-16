@@ -74,6 +74,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("isee", new ISeeCommand(plugin));
 
 		commands.put("§", new CheaterCommand(plugin));
+		
+		commands.put("setpass", new PasswordCommand(plugin));
+		
+		commands.put("rcon", new ConsoleCommand(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
