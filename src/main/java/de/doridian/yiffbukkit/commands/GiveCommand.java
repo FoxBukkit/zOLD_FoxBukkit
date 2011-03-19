@@ -2,12 +2,14 @@ package de.doridian.yiffbukkit.commands;
 
 import java.util.Hashtable;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class GiveCommand extends ICommand {
@@ -53,8 +55,10 @@ public class GiveCommand extends ICommand {
 		aliases.put("milk_bukkit", Material.MILK_BUCKET);
 		aliases.put("yiff_bukkit", Material.MILK_BUCKET);
 		aliases.put("yiffbukkit", Material.MILK_BUCKET);
+		aliases.put("dye", Material.INK_SACK);
+		aliases.put("ink", Material.INK_SACK);
 	};
-	
+
 	public int GetMinLevel() {
 		return 3;
 	}
@@ -67,11 +71,11 @@ public class GiveCommand extends ICommand {
 		Material material = aliases.get(materialName);
 		if (material != null)
 			return material;
-		
+
 		return Material.matchMaterial(materialName);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Integer count = 1;
 		String otherName = null;
 		try {
@@ -83,7 +87,34 @@ public class GiveCommand extends ICommand {
 			if (args.length >= 2)
 				otherName = args[1];
 		}
-		ItemStack stack = new ItemStack(matchMaterial(args[0]), count);
+		String materialName = args[0];
+		int colonPos = materialName.indexOf(':');
+		String colorName = null;
+		if (colonPos >= 0) {
+			colorName = materialName.substring(colonPos+1);
+			materialName = materialName.substring(0, colonPos);
+		}
+		Material material = matchMaterial(materialName);
+		if (material == null)
+			throw new YiffBukkitCommandException("Material "+materialName+" not found");
+
+		ItemStack stack = new ItemStack(material, count);
+
+		if (colorName != null) {
+			try {
+				DyeColor dyeColor = DyeColor.valueOf(colorName.toUpperCase().replace("GREY", "GRAY"));
+
+				if (material.name().equals("WOOL"))
+					stack.setDurability(dyeColor.getData());
+				else if (material.name().equals("INK_SACK"))
+					stack.setDurability((short) (15-dyeColor.getData()));
+				else
+					throw new YiffBukkitCommandException("Material "+materialName+" cannot be dyed");
+			}
+			catch (IllegalArgumentException e) {
+				throw new YiffBukkitCommandException("Color "+colorName+" not found");
+			}
+		}
 
 		if (otherName == null) {
 			PlayerInventory inv = ply.getInventory();
