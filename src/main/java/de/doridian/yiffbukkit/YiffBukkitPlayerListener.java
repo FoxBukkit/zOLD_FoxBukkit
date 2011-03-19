@@ -198,6 +198,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			catch (Exception e) {
 				if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {
 					plugin.playerHelper.SendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+					e.printStackTrace();
 				}
 				else {
 					plugin.playerHelper.SendDirectedMessage(ply,"Command error!");

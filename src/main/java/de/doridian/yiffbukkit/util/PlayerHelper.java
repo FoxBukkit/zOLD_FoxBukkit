@@ -452,4 +452,8 @@ public class PlayerHelper {
 			sendPacketToPlayer(ply, packet);
 		}
 	}
+
+	public boolean isPlayerDisabled(Player ply) {
+		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
+	}
 }

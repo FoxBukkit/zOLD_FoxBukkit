@@ -10,7 +10,6 @@ import org.bukkit.inventory.PlayerInventory;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class GiveCommand extends ICommand {
 	Hashtable<String,Material> aliases = new Hashtable<String,Material>();
@@ -104,9 +103,9 @@ public class GiveCommand extends ICommand {
 			try {
 				DyeColor dyeColor = DyeColor.valueOf(colorName.toUpperCase().replace("GREY", "GRAY"));
 
-				if (material.name().equals("WOOL"))
+				if (material == Material.WOOL)
 					stack.setDurability(dyeColor.getData());
-				else if (material.name().equals("INK_SACK"))
+				else if (material == Material.INK_SACK)
 					stack.setDurability((short) (15-dyeColor.getData()));
 				else
 					throw new YiffBukkitCommandException("Material "+materialName+" cannot be dyed");

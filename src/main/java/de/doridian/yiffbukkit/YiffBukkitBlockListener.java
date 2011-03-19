@@ -20,6 +20,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
+
 /**
  * Handle events for all Block related events
  * @author Doridian
@@ -27,9 +29,11 @@ import org.bukkit.plugin.PluginManager;
 public class YiffBukkitBlockListener extends BlockListener {
 	private final YiffBukkit plugin;
 	private Hashtable<Material,Integer> blocklevels = new Hashtable<Material,Integer>();
+	private PlayerHelper playerHelper;
 
 	public YiffBukkitBlockListener(YiffBukkit instance) {
 		plugin = instance;
+		playerHelper = plugin.playerHelper;
 
 		blocklevels.put(Material.TNT, 4);
 		blocklevels.put(Material.BEDROCK, 4);
@@ -55,53 +59,67 @@ public class YiffBukkitBlockListener extends BlockListener {
 	@Override
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
-		if(ply.getHealth() <= 0) {
+		if(playerHelper.isPlayerDisabled(ply)) {
 			event.setBuild(false);
 			return;
 		}
 
 		Material block = event.getBlock().getType();
-		Integer selflvl = plugin.playerHelper.GetPlayerLevel(ply);
+		Integer selflvl = playerHelper.GetPlayerLevel(ply);
 		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
-			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
+			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
 			event.setBuild(false);
 		}
 	}
 
 	@Override
 	public void onBlockRightClick(BlockRightClickEvent event) {
-		Material block = event.getItemInHand().getType();
-		if(block == Material.AIR) return;
+		ItemStack item = event.getItemInHand();
+		Material itemMaterial = item.getType();
+		if(itemMaterial == Material.AIR) return;
 
 		Player ply = event.getPlayer();
-		if(ply.getHealth() <= 0) {
-			ItemStack item = event.getItemInHand();
+		if(playerHelper.isPlayerDisabled(ply)) {
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
 			return;
 		}
 
-		Integer selflvl = plugin.playerHelper.GetPlayerLevel(ply);
-		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
-			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
-			ItemStack item = event.getItemInHand();
+		Integer selflvl = playerHelper.GetPlayerLevel(ply);
+		if(selflvl < 0 || (blocklevels.containsKey(itemMaterial) && selflvl < blocklevels.get(itemMaterial))) {
+			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
+			return;
+		}
+
+		// This will not be logged by bigbrother so I only allowed it for ops+ for now.
+		// A fix would be to modify the event a bit to make BB log this. 
+		if (selflvl >= 3 && itemMaterial == Material.INK_SACK) {
+			Block block = event.getBlock();
+			if (block.getType() == Material.WOOL) {
+				block.setData((byte)(15 - item.getDurability()));
+				int newAmount = item.getAmount()-1;
+				if (newAmount > 0)
+					item.setAmount(newAmount);
+				else
+					ply.setItemInHand(null);
+			}
 		}
 	}
 
 	@Override
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
-		if(ply.getHealth() <= 0) {
+		if(playerHelper.isPlayerDisabled(ply)) {
 			event.setCancelled(true);
 			return;
 		}
 
-		if(plugin.playerHelper.GetPlayerLevel(ply) < 0 && event.getDamageLevel() == BlockDamageLevel.BROKEN) {
-			plugin.playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
+		if(playerHelper.GetPlayerLevel(ply) < 0 && event.getDamageLevel() == BlockDamageLevel.BROKEN) {
+			playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
 		}
 	}
