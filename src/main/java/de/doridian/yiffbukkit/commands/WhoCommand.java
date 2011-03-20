@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.net.InetAddress;
+
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -17,9 +19,9 @@ public class WhoCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
+	public void Run(final Player ply, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
-			Player target = playerHelper.MatchPlayerSingle(args[0]);
+			final Player target = playerHelper.MatchPlayerSingle(args[0]);
 
 			playerHelper.SendDirectedMessage(ply, "Name: " + target.getName());
 			playerHelper.SendDirectedMessage(ply, "Rank: " + playerHelper.GetPlayerRank(target));
@@ -43,7 +45,13 @@ public class WhoCommand extends ICommand {
 					"That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn "+
 					"and "+unitsFromYou+"m "+directionFromYou+" from you."
 			);
-			playerHelper.SendDirectedMessage(ply, "IP: " + target.getAddress().getAddress().toString().substring(1));
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					InetAddress address = target.getAddress().getAddress();
+					playerHelper.SendDirectedMessage(ply, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
+				}
+			});
+			thread.start();
 		} else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: " + players[0].getName();
