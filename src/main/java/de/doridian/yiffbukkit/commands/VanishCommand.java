@@ -23,7 +23,7 @@ public class VanishCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		String playerName = ply.getName();
 		if (playerHelper.vanishedPlayers.contains(playerName)) {
-			if (argStr == "on")
+			if (argStr.equals("on"))
 				throw new YiffBukkitCommandException("Already visible!");
 
 			playerHelper.vanishedPlayers.remove(playerName);
@@ -32,7 +32,7 @@ public class VanishCommand extends ICommand {
 			playerHelper.SendServerMessage(ply.getName() + " reappeared.", playerHelper.GetPlayerLevel(ply));
 		}
 		else {
-			if (argStr == "off")
+			if (argStr.equals("off"))
 				throw new YiffBukkitCommandException("Already invisible!");
 
 			playerHelper.vanishedPlayers.add(playerName);
