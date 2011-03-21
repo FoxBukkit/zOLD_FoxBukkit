@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public class ServerTimeCommand extends ICommand {
 	Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
@@ -24,7 +25,7 @@ public class ServerTimeCommand extends ICommand {
 		super(plug);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		long displayTime;
 
 		if (argStr.isEmpty() || argStr.equalsIgnoreCase("normal")) {
@@ -40,8 +41,7 @@ public class ServerTimeCommand extends ICommand {
 				displayTime = Long.valueOf(argStr);
 			}
 			catch (Exception e) {
-				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
-				return;
+				throw new YiffBukkitCommandException("Usage: " + GetUsage(), e);
 			}
 		}
 
