@@ -111,7 +111,7 @@ public class GiveCommand extends ICommand {
 					throw new YiffBukkitCommandException("Material "+materialName+" cannot be dyed");
 			}
 			catch (IllegalArgumentException e) {
-				throw new YiffBukkitCommandException("Color "+colorName+" not found");
+				throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
 			}
 		}
 
