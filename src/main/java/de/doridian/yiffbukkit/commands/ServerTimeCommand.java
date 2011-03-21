@@ -37,7 +37,7 @@ public class ServerTimeCommand extends ICommand {
 		else {
 			try
 			{
-				displayTime = Integer.valueOf(args[1]);
+				displayTime = Long.valueOf(argStr);
 			}
 			catch (Exception e) {
 				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
