@@ -24,7 +24,7 @@ public class VanishCommand extends ICommand {
 		String playerName = ply.getName();
 		if (playerHelper.vanishedPlayers.contains(playerName)) {
 			if (argStr.equals("on"))
-				throw new YiffBukkitCommandException("Already visible!");
+				throw new YiffBukkitCommandException("Already invisible!");
 
 			playerHelper.vanishedPlayers.remove(playerName);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
@@ -33,7 +33,7 @@ public class VanishCommand extends ICommand {
 		}
 		else {
 			if (argStr.equals("off"))
-				throw new YiffBukkitCommandException("Already invisible!");
+				throw new YiffBukkitCommandException("Already visible!");
 
 			playerHelper.vanishedPlayers.add(playerName);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
