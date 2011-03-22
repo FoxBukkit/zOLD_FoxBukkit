@@ -10,6 +10,7 @@ import com.sk89q.worldedit.regions.Region;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public class SetJailCommand extends ICommand {
 	public SetJailCommand(YiffBukkit plug) {
@@ -22,15 +23,15 @@ public class SetJailCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (argStr.equals("remove")) {
 			plugin.jailEngine.removeJail(ply.getLocation());
 			playerHelper.SendDirectedMessage(ply, "Removed the jail cell closest to you.");
 			return;
 		}
-		
+
 		LocalSession session = plugin.worldEdit.getSession(ply);
-		
+
 		try {
 			Region selected = session.getSelection(new BukkitWorld(ply.getWorld()));
 			com.sk89q.worldedit.Vector pos1 = selected.getMaximumPoint();
@@ -40,10 +41,7 @@ public class SetJailCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "Made a jail here.");
 		}
 		catch (IncompleteRegionException e) {
-			playerHelper.SendDirectedMessage(ply, "Please select a region.");
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+			throw new YiffBukkitCommandException("Please select a region.", e);
 		}
 	}
 
