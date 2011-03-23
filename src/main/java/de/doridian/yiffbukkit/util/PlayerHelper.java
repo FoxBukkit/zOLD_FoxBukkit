@@ -5,8 +5,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +16,7 @@ import java.util.regex.Pattern;
 import net.minecraft.server.Packet;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -455,5 +458,13 @@ public class PlayerHelper {
 
 	public boolean isPlayerDisabled(Player ply) {
 		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
+	}
+
+	public Map<String, Runnable> toolMappings = new HashMap<String, Runnable>();
+
+	public void addToolMapping(Player ply, Material toolType, Runnable runnable) {
+		String key = ply.getName()+" "+toolType.name();
+
+		toolMappings.put(key, runnable);
 	}
 }

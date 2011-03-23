@@ -8,11 +8,13 @@ import java.util.Hashtable;
 
 import de.doridian.yiffbukkit.commands.*;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerItemEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -72,6 +74,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setjail", new SetJailCommand(plugin));
 
 		commands.put("isee", new ISeeCommand(plugin));
+		commands.put("throw", new ThrowCommand(plugin));
 
 		commands.put("§", new CheaterCommand(plugin));
 		
@@ -87,6 +90,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_ITEM, this, Priority.Normal, plugin);
 	}
 
 	@Override
@@ -207,6 +211,18 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void onPlayerItem(PlayerItemEvent event) {
+		Player ply = event.getPlayer();
+		Material itemMaterial = event.getMaterial();
+
+		String key = ply.getName()+" "+itemMaterial.name();
+		Runnable runnable = plugin.playerHelper.toolMappings.get(key);
+		if (runnable != null) {
+			runnable.run();
+		}
 	}
 }
 
