@@ -12,6 +12,7 @@ import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftFallingSand;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftTNTPrimed;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
@@ -63,10 +64,11 @@ public class ThrowCommand extends ICommand {
 		if (typeName.equals("ME")) {
 			runnable = new Runnable() {
 				public void run() {
-					Location location = ply.getEyeLocation();
+					Location location = ply.getLocation();
 
 					if (ply.isInsideVehicle()) {
-						ply.getVehicle().setVelocity(location.getDirection().multiply(finalSpeed));
+						Entity vehicle = ((CraftPlayer)ply).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
+						vehicle.setVelocity(location.getDirection().multiply(finalSpeed));
 					}
 					else {
 						ply.setVelocity(location.getDirection().multiply(finalSpeed));
@@ -146,6 +148,11 @@ public class ThrowCommand extends ICommand {
 								entity = currentEntity;
 								break;
 							}
+							if (entity == null) {
+								playerHelper.SendDirectedMessage(ply, "You must face a creature/boat/minecart");
+								return;
+							}
+								
 						}
 						else {
 							try {
