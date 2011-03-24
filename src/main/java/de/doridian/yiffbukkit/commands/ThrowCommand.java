@@ -13,9 +13,11 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftFallingSand;
 import org.bukkit.craftbukkit.entity.CraftTNTPrimed;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -112,8 +114,19 @@ public class ThrowCommand extends ICommand {
 							Vector eyeOrigin = location.toVector().clone();
 
 							entity = null;
-							for (LivingEntity currentEntity : ply.getWorld().getLivingEntities()) {
-								Vector pos = currentEntity.getEyeLocation().toVector().clone();
+							for (Entity currentEntity : ply.getWorld().getEntities()) {
+								Location eyeLocation;
+								if (currentEntity instanceof LivingEntity) {
+									eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
+								}
+								else if (currentEntity instanceof Boat || currentEntity instanceof Minecart) {
+									eyeLocation = currentEntity.getLocation();
+								}
+								else {
+									continue;
+								}
+
+								Vector pos = eyeLocation.toVector().clone();
 								pos.add(new Vector(0, 0.6, 0));
 
 								pos.subtract(eyeOrigin);
