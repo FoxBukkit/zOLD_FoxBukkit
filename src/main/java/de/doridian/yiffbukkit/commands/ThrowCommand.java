@@ -10,8 +10,10 @@ import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftFallingSand;
 import org.bukkit.craftbukkit.entity.CraftTNTPrimed;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -86,6 +88,42 @@ public class ThrowCommand extends ICommand {
 				}
 			};
 		}
+		else if (typeName.equals("MINECART") || typeName.equals("CART")) {
+			runnable = new Runnable() {
+				public void run() {
+					Location location = ply.getEyeLocation();
+					Minecart minecart = ply.getWorld().spawnMinecart(location);
+
+					minecart.setPassenger(ply);
+					minecart.setVelocity(location.getDirection().multiply(finalSpeed));
+				}
+			};
+		}
+		else if (typeName.equals("BOAT")) {
+			runnable = new Runnable() {
+				public void run() {
+					Location location = ply.getEyeLocation();
+					Boat minecart = ply.getWorld().spawnBoat(location);
+
+					minecart.setPassenger(ply);
+					minecart.setVelocity(location.getDirection().multiply(finalSpeed));
+				}
+			};
+		}
+		else if (typeName.equals("ME")) {
+			runnable = new Runnable() {
+				public void run() {
+					Location location = ply.getEyeLocation();
+					
+					if (ply.isInsideVehicle()) {
+						ply.getVehicle().setVelocity(location.getDirection().multiply(finalSpeed));
+					}
+					else {
+						ply.setVelocity(location.getDirection().multiply(finalSpeed));
+					}
+				}
+			};
+		}
 		else {
 			try {
 				type = CreatureType.valueOf(typeName);
@@ -116,7 +154,7 @@ public class ThrowCommand extends ICommand {
 
 	@Override
 	public String GetHelp() {
-		return "Binds creature/tnt/sand/gravel spawning to your current tool. Right-click to use. Unbind by typing /throw without arguments.";
+		return "Binds creature/tnt/sand/gravel/minecart throwing to your current tool. Right-click to use. Unbind by typing '/throw' without arguments. Throw yourself with '/throw me'";
 	}
 
 	@Override
