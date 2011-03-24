@@ -465,6 +465,9 @@ public class PlayerHelper {
 	public void addToolMapping(Player ply, Material toolType, Runnable runnable) {
 		String key = ply.getName()+" "+toolType.name();
 
-		toolMappings.put(key, runnable);
+		if (runnable == null)
+			toolMappings.remove(key);
+		else
+			toolMappings.put(key, runnable);
 	}
 }

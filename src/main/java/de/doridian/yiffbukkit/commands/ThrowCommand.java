@@ -29,10 +29,20 @@ public class ThrowCommand extends ICommand {
 
 	@Override
 	public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+		Material toolType = ply.getItemInHand().getType();
+
+		if (argStr.isEmpty()) {
+			playerHelper.addToolMapping(ply, toolType, null);
+
+			playerHelper.SendDirectedMessage(ply, "Unbound your current tool ("+toolType.name()+").");
+
+			return;
+		}
+
+
 		double speed = 2;
 		final double finalSpeed = speed;
 
-		Material toolType = ply.getItemInHand().getType();
 
 		Runnable runnable;
 		if (args.length >= 2) {
@@ -106,11 +116,11 @@ public class ThrowCommand extends ICommand {
 
 	@Override
 	public String GetHelp() {
-		return "Binds creature spawning to your current tool. Right-click to use.";
+		return "Binds creature/tnt/sand/gravel spawning to your current tool. Right-click to use. Unbind by typing /throw without arguments.";
 	}
 
 	@Override
 	public String GetUsage() {
-		return "<type> [speed]";
+		return "[<type> [<speed>]]";
 	}
 }
