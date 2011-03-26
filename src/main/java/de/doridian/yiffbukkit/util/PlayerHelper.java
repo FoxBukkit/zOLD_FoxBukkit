@@ -8,15 +8,19 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -122,16 +126,16 @@ public class PlayerHelper {
 	public void SendServerMessage(String msg, char colorCode) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
 		plugin.getServer().broadcastMessage(msg);
-		
+
 		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
-	
+
 	public void SendServerMessage(String msg, int minLevel) {
 		SendServerMessage(msg, minLevel, '5');
 	}
 	public void SendServerMessage(String msg, int minLevel, char colorCode) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
-		
+
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
 		for (Player player : players) {
@@ -140,10 +144,10 @@ public class PlayerHelper {
 
 			player.sendMessage(msg);
 		}
-		
+
 		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
-	
+
 	public void SendDirectedMessage(Player ply, String msg, char colorCode) {
 		ply.sendMessage("§"+colorCode+"[YB]§f " + msg);
 	}
@@ -469,5 +473,97 @@ public class PlayerHelper {
 			toolMappings.remove(key);
 		else
 			toolMappings.put(key, runnable);
+	}
+
+	Map<String, String> leashMasters = new HashMap<String, String>();
+
+	public boolean toggleLeash(Player master, Player slave) {
+		if (!leashMasters.containsKey(slave.getName())) {
+			addLeash(master, slave);
+			return true;
+		}
+		else if (leashMasters.get(slave.getName()).equals(master.getName())) {
+			removeLeash(slave);
+			return false;
+		}
+		else {
+			addLeash(master, slave);
+			return true;
+		}
+	}
+
+	public void addLeash(Player master, Player slave) {
+		if (leashMasters.isEmpty()) {
+			final Server server = plugin.getServer();
+
+			Runnable task = new Runnable() {
+				public void run() {
+					for (Entry<String, String> entry : leashMasters.entrySet()) {
+						final String slaveName = entry.getKey();
+						final List<Player> slaves = server.matchPlayer(slaveName);
+						if (slaves.size() != 1)
+							continue;
+
+						final Player slave = slaves.get(0);
+
+						if (!slave.getName().equals(slaveName))
+							continue;
+
+						final String masterName = entry.getValue();
+						final List<Player> masters = server.matchPlayer(masterName);
+						if (masters.size() != 1)
+							continue;
+
+						final Player master = masters.get(0);
+
+						if (!master.getName().equals(masterName))
+							continue;
+
+						final Vector slavePos = slave.getLocation().toVector();
+						final Vector masterPos = master.getLocation().toVector();
+						
+						final Vector masterVelocity = master.getVelocity();
+
+						final Vector directionXZ = masterPos.clone().subtract(slavePos);
+						double directionY = directionXZ.getY();
+						directionXZ.setY(0D);
+
+						final double distanceXZ = directionXZ.length();
+
+						final double targetDistanceXZ = 2;
+						final double maxSpeed = Math.max(0, 0.1+masterVelocity.clone().setY(0).length()+0.5*Math.max(0,distanceXZ-targetDistanceXZ));
+						final double maxYSpeed = 0.5;
+
+						final Vector velocity = new Vector();
+						if (distanceXZ > targetDistanceXZ)
+							velocity.add(directionXZ.clone().normalize().multiply(maxSpeed));
+						
+						if (directionY < -2 || directionY > 2)
+							velocity.setY(Math.signum(directionY)*maxSpeed);
+						else if (distanceXZ > targetDistanceXZ && directionY > 0)
+							velocity.setY(maxYSpeed);
+						else
+							velocity.setY(slave.getVelocity().getY()*0.8 + masterVelocity.getY()*0.2);
+
+						final EntityPlayer eply = ((CraftPlayer)slave).getHandle();
+						if (!eply.onGround)
+							velocity.multiply(0.5);
+
+						slave.setVelocity(velocity);
+					}
+				}
+			};
+			server.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0, 10);
+		}
+
+		leashMasters.put(slave.getName(), master.getName());
+	}
+
+	public void removeLeash(Player slave) {
+		leashMasters.remove(slave.getName());
+
+		if (leashMasters.isEmpty()) {
+
+		}
 	}
 }
