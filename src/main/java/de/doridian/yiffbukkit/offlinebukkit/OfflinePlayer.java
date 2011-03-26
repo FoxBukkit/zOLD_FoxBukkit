@@ -30,6 +30,8 @@ public class OfflinePlayer implements Player {
 	
 	public OfflinePlayer(Server server, World world, String name) {
 		displayName = this.name = name;
+		this.world = world; // TEMP!
+		location = world.getSpawnLocation(); // TEMP!
 		//ServerConfigurationManager confmgr = ((CraftServer)server).getHandle();
 		//File worldFile = ((CraftWorld)world).getHandle().u;
 		//PlayerNBTManager pnm = confmgr.
@@ -43,8 +45,7 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public PlayerInventory getInventory() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public ItemStack getItemInHand() {
@@ -56,13 +57,11 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public int getHealth() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void setHealth(int health) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public double getEyeHeight() {
@@ -145,23 +144,19 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public int getRemainingAir() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void setRemainingAir(int ticks) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public int getMaximumAir() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void setMaximumAir(int ticks) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public Location getLocation() {
@@ -173,8 +168,7 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public void teleportTo(Location location) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void teleportTo(Entity destination) {
@@ -186,28 +180,23 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public int getFireTicks() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public int getMaxFireTicks() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void setFireTicks(int ticks) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public Server getServer() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void sendMessage(String message) {
@@ -215,8 +204,7 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public boolean isOp() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public boolean isPlayer() {
@@ -236,8 +224,7 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public void setCompassTarget(Location loc) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public InetSocketAddress getAddress() {
@@ -257,59 +244,49 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public boolean isSneaking() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void setSneaking(boolean sneak) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public void updateInventory() {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public Location getEyeLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public void damage(int amount) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public void damage(int amount, Entity source) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public Vector getMomentum() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public void setMomentum(Vector vector) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public void setVelocity(Vector velocity) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public Vector getVelocity() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }

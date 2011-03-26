@@ -1,11 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
 import java.net.InetAddress;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
 
@@ -21,7 +24,9 @@ public class WhoCommand extends ICommand {
 
 	public void Run(final Player ply, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
-			final Player target = playerHelper.MatchPlayerSingle(args[0]);
+			Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
+
+			final Player target = matcher.matches() ? new OfflinePlayer(plugin.getServer(), ply.getWorld(), matcher.group(1)) : playerHelper.MatchPlayerSingle(args[0]);
 
 			playerHelper.SendDirectedMessage(ply, "Name: " + target.getName());
 			playerHelper.SendDirectedMessage(ply, "Rank: " + playerHelper.GetPlayerRank(target));
@@ -45,13 +50,15 @@ public class WhoCommand extends ICommand {
 					"That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn "+
 					"and "+unitsFromYou+"m "+directionFromYou+" from you."
 			);
-			Thread thread = new Thread(new Runnable() {
-				public void run() {
-					InetAddress address = target.getAddress().getAddress();
-					playerHelper.SendDirectedMessage(ply, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
-				}
-			});
-			thread.start();
+			if (target.isOnline()) {
+				Thread thread = new Thread(new Runnable() {
+					public void run() {
+						InetAddress address = target.getAddress().getAddress();
+						playerHelper.SendDirectedMessage(ply, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
+					}
+				});
+				thread.start();
+			}
 		} else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: " + players[0].getName();
