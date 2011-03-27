@@ -7,7 +7,6 @@ import net.minecraft.server.WorldServer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -62,7 +61,6 @@ public class ThrowCommand extends ICommand {
 
 		String typeName = args[0].toUpperCase();
 
-		final Server server = plugin.getServer();
 		ToolBind runnable;
 		if (typeName.equals("ME")) {
 			runnable = new ToolBind("/throw me", ply) {
