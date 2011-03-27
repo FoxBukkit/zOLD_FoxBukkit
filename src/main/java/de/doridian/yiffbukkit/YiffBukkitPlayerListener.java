@@ -78,9 +78,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("leash", new LeashCommand(plugin));
 
 		commands.put("§", new CheaterCommand(plugin));
-		
+
 		commands.put("setpass", new PasswordCommand(plugin));
-		
+
 		commands.put("rcon", new ConsoleCommand(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
@@ -97,7 +97,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
-		if(rank.equals("banned")) {
+		if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
 		}
@@ -118,7 +118,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				BufferedReader buffre = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				String ret = buffre.readLine().trim().toLowerCase();
 				buffre.close();
-				if(ret.equals("yes")) {
+				if (ret.equals("yes")) {
 					Player ply = plugin.playerHelper.MatchPlayerSingle(plyName);
 
 					plugin.playerHelper.SendDirectedMessage(ply, "Your account might have been hacked!", '4');
@@ -128,7 +128,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					plugin.playerHelper.SendServerMessage("Check http://bit.ly/eLIUhb for further info!", 3, '4');
 				}
 			}
-			catch(Exception e) {
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -137,6 +137,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerEvent event) {
 		plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e joined!");
+
+		plugin.playerHelper.updateToolMappings(event.getPlayer());
 	}
 
 	@Override
@@ -152,7 +154,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player ply = event.getPlayer();
-		if(ply.getHealth() <= 0) {
+		if (ply.getHealth() <= 0) {
 			event.setCancelled(true);
 			return;
 		}
@@ -161,7 +163,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerChat(PlayerChatEvent event) {
 		String msg = event.getMessage();
-		if(msg.charAt(0) == '!') {
+		if (msg.charAt(0) == '!') {
 			plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "!commands are disabled because they show up in the web chat. Please use /commands.");
 			event.setCancelled(true);
 			return;
@@ -172,7 +174,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
 	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
-		if(runCommand(event.getPlayer(), event.getMessage().substring(1).trim())) {
+		if (runCommand(event.getPlayer(), event.getMessage().substring(1).trim())) {
 			event.setCancelled(true);
 		}
 	}
@@ -180,16 +182,17 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public boolean runCommand(Player ply, String baseCmd) {
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
-		if(posSpace < 0) {
+		if (posSpace < 0) {
 			cmd = baseCmd;
 			args = new String[0];
 			argStr = "";
-		} else {
+		}
+		else {
 			cmd = baseCmd.substring(0, posSpace).trim();
 			argStr = baseCmd.substring(posSpace).trim();
 			args = argStr.split(" ");
 		}
-		if(commands.containsKey(cmd)) {
+		if (commands.containsKey(cmd)) {
 			ICommand icmd = commands.get(cmd);
 			try {
 				if(!icmd.CanPlayerUseCommand(ply)) {

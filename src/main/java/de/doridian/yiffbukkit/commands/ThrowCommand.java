@@ -7,6 +7,7 @@ import net.minecraft.server.WorldServer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -22,6 +23,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
@@ -36,7 +38,7 @@ public class ThrowCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Material toolType = ply.getItemInHand().getType();
 
 		if (argStr.isEmpty()) {
@@ -60,18 +62,20 @@ public class ThrowCommand extends ICommand {
 
 		String typeName = args[0].toUpperCase();
 
-		Runnable runnable;
+		final Server server = plugin.getServer();
+		ToolBind runnable;
 		if (typeName.equals("ME")) {
-			runnable = new Runnable() {
+			runnable = new ToolBind("/throw me", ply) {
 				public void run() {
-					Location location = ply.getLocation();
+					final Location location = player.getLocation();
 
-					if (ply.isInsideVehicle()) {
-						Entity vehicle = ((CraftPlayer)ply).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
+					final Vector direction = location.getDirection();
+					if (player.isInsideVehicle()) {
+						Entity vehicle = ((CraftPlayer)player).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
 						vehicle.setVelocity(location.getDirection().multiply(finalSpeed));
 					}
 					else {
-						ply.setVelocity(location.getDirection().multiply(finalSpeed));
+						player.setVelocity(direction.multiply(finalSpeed));
 					}
 				}
 			};
@@ -79,16 +83,16 @@ public class ThrowCommand extends ICommand {
 		else {
 			final String[] types = typeName.split(":");
 
-			runnable = new Runnable() {
+			runnable = new ToolBind("/throw "+typeName, ply) {
 				public void run() {
 					Entity previous = null;
-					final World world = ply.getWorld();
+					final World world = player.getWorld();
 					final WorldServer notchWorld = ((CraftWorld)world).getHandle();
-					final Location location = ply.getEyeLocation();
+					final Location location = player.getEyeLocation();
 					for (String part : types) {
 						Entity entity;
 						if (part.equals("ME")) {
-							entity = ply;
+							entity = player;
 						}
 						else if (part.equals("TNT")) {
 							EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
@@ -116,7 +120,7 @@ public class ThrowCommand extends ICommand {
 							Vector eyeOrigin = location.toVector().clone();
 
 							entity = null;
-							for (Entity currentEntity : ply.getWorld().getEntities()) {
+							for (Entity currentEntity : player.getWorld().getEntities()) {
 								Location eyeLocation;
 								if (currentEntity instanceof LivingEntity) {
 									eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
@@ -142,17 +146,17 @@ public class ThrowCommand extends ICommand {
 									continue;
 
 
-								if (currentEntity.equals(ply))
+								if (currentEntity.equals(player))
 									continue;
 
 								entity = currentEntity;
 								break;
 							}
 							if (entity == null) {
-								playerHelper.SendDirectedMessage(ply, "You must face a creature/boat/minecart");
+								playerHelper.SendDirectedMessage(player, "You must face a creature/boat/minecart");
 								return;
 							}
-								
+
 						}
 						else {
 							try {
@@ -160,13 +164,13 @@ public class ThrowCommand extends ICommand {
 								entity = world.spawnCreature(location, type);
 							}
 							catch (IllegalArgumentException e) {
-								playerHelper.SendDirectedMessage(ply, "Creature type "+part+" not found");
+								playerHelper.SendDirectedMessage(player, "Creature type "+part+" not found");
 								return;
 							}
 						}
 
 						if (entity == null) {
-							playerHelper.SendDirectedMessage(ply, "Failed to spawn "+part);
+							playerHelper.SendDirectedMessage(player, "Failed to spawn "+part);
 							return;
 						}
 

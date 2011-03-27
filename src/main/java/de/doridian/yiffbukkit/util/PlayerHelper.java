@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -25,6 +25,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 
@@ -464,15 +465,29 @@ public class PlayerHelper {
 		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
 	}
 
-	public Map<String, Runnable> toolMappings = new HashMap<String, Runnable>();
+	public Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
 
-	public void addToolMapping(Player ply, Material toolType, Runnable runnable) {
+	public void addToolMapping(Player ply, Material toolType, ToolBind runnable) {
 		String key = ply.getName()+" "+toolType.name();
 
 		if (runnable == null)
 			toolMappings.remove(key);
 		else
 			toolMappings.put(key, runnable);
+	}
+
+	public void updateToolMappings(Player player) {
+		String playerName = player.getName();
+		for (Entry<String, ToolBind> entry : toolMappings.entrySet()) {
+			ToolBind toolBind = entry.getValue();
+			if (playerName.equals(toolBind.playerName)) {
+				toolBind.player = player;
+
+				String toolName = entry.getKey();
+				toolName = toolName.substring(toolName.indexOf(' ')+1);
+				SendDirectedMessage(player, "Restored bind "+toolName+" => "+toolBind.name);
+			}
+		}
 	}
 
 	Map<String, String> leashMasters = new HashMap<String, String>();
@@ -498,30 +513,28 @@ public class PlayerHelper {
 
 			Runnable task = new Runnable() {
 				public void run() {
-					for (Entry<String, String> entry : leashMasters.entrySet()) {
+					//for (Entry<String, String> entry : leashMasters.entrySet()) {
+					for ( Iterator<Entry<String, String>> leashMastersIter = leashMasters.entrySet().iterator(); leashMastersIter.hasNext(); ) {
+						Entry<String, String> entry = leashMastersIter.next();
+
 						final String slaveName = entry.getKey();
-						final List<Player> slaves = server.matchPlayer(slaveName);
-						if (slaves.size() != 1)
-							continue;
+						final Player slave = server.getPlayer(slaveName);
 
-						final Player slave = slaves.get(0);
-
-						if (!slave.getName().equals(slaveName))
+						if (slave == null)
 							continue;
 
 						final String masterName = entry.getValue();
-						final List<Player> masters = server.matchPlayer(masterName);
-						if (masters.size() != 1)
-							continue;
+						final Player master = server.getPlayer(masterName);
 
-						final Player master = masters.get(0);
-
-						if (!master.getName().equals(masterName))
+						if (master == null || !master.isOnline()) {
+							leashMastersIter.remove();
+							SendServerMessage(masterName+" left, unleashing "+slaveName+".");
 							continue;
+						}
 
 						final Vector slavePos = slave.getLocation().toVector();
 						final Vector masterPos = master.getLocation().toVector();
-						
+
 						final Vector masterVelocity = master.getVelocity();
 
 						final Vector directionXZ = masterPos.clone().subtract(slavePos);
@@ -537,7 +550,7 @@ public class PlayerHelper {
 						final Vector velocity = new Vector();
 						if (distanceXZ > targetDistanceXZ)
 							velocity.add(directionXZ.clone().normalize().multiply(maxSpeed));
-						
+
 						if (directionY < -2 || directionY > 2)
 							velocity.setY(Math.signum(directionY)*maxSpeed);
 						else if (distanceXZ > targetDistanceXZ && directionY > 0)
