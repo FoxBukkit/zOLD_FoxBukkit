@@ -46,6 +46,7 @@ public class YiffBukkit extends JavaPlugin {
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
+	private YiffBukkitEntityListener yiffBukkitEntityListener;
 
 	public YiffBukkit() {
 		utils = new Utils(this);
@@ -67,19 +68,20 @@ public class YiffBukkit extends JavaPlugin {
 	public void onEnable() {
 		setupIPC();
 		loadMCServer();
-		
+
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
 		playerListener = new YiffBukkitPlayerListener(this);
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
+		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
 		vanishPacketListener = new VanishPacketListener(this);
 		adHandler = new AdvertismentSigns(this);
-		
+
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
-		
+
 		System.out.println( "YiffBukkit is enabled!" );
 	}
 
@@ -96,40 +98,40 @@ public class YiffBukkit extends JavaPlugin {
 		World world = getServer().createWorld(name, env);
 		return world;
 	}
-	
-    private static MinecraftServer mcServer;
-    private static boolean mcServerHack = false;
-    //this will do a hack to get MinecraftServer
+
+	private static MinecraftServer mcServer;
+	private static boolean mcServerHack = false;
+	//this will do a hack to get MinecraftServer
 
 
-    private void loadMCServer() {
-    	Server server = getServer();
-        if (server instanceof CraftServer) {
-            CraftServer s = (CraftServer) server;
-            Field f;
-            try {
-                f = CraftServer.class.getDeclaredField("console");
-                f.setAccessible(true);
-                mcServer = (MinecraftServer) f.get(s);
-                mcServerHack = true;
-            } catch (Exception e) {
-                Logger.getLogger("Minecraft").log(Level.SEVERE, null, e);
-            }
-        }
-    }
+	private void loadMCServer() {
+		Server server = getServer();
+		if (server instanceof CraftServer) {
+			CraftServer s = (CraftServer) server;
+			Field f;
+			try {
+				f = CraftServer.class.getDeclaredField("console");
+				f.setAccessible(true);
+				mcServer = (MinecraftServer) f.get(s);
+				mcServerHack = true;
+			} catch (Exception e) {
+				Logger.getLogger("Minecraft").log(Level.SEVERE, null, e);
+			}
+		}
+	}
 
-    public void stopServer(){
-          mcServer.a();
-     }
-     public void sendServerCmd(String cmd, CommandSender sender){
-		 if (mcServerHack && !mcServer.g && MinecraftServer.a(mcServer)) {
-		     mcServer.a(cmd, mcServer);
-		 } else {
-		      if (sender != null) {
-		         sender.sendMessage(ChatColor.RED + "Can't send console command!");
-		      } else {
-		    	  Logger.getLogger("Minecraft").log(Level.WARNING, "Can't send console command!");
-		      }
-		 }
-     }
+	public void stopServer(){
+		mcServer.a();
+	}
+	public void sendServerCmd(String cmd, CommandSender sender){
+		if (mcServerHack && !mcServer.g && MinecraftServer.a(mcServer)) {
+			mcServer.a(cmd, mcServer);
+		} else {
+			if (sender != null) {
+				sender.sendMessage(ChatColor.RED + "Can't send console command!");
+			} else {
+				Logger.getLogger("Minecraft").log(Level.WARNING, "Can't send console command!");
+			}
+		}
+	}
 }
