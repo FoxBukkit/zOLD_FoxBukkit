@@ -174,9 +174,7 @@ public class ThrowCommand extends ICommand {
 									dyeColor = DyeColor.valueOf(data);
 								}
 							}
-							catch (Exception e) {
-								e.printStackTrace();
-							}
+							catch (Exception e) { }
 
 							entity = world.spawnCreature(location, CreatureType.SHEEP);
 
