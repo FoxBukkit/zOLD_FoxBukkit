@@ -35,6 +35,8 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
 	@SuppressWarnings("unused")
+	private YiffBukkitEntityListener yiffBukkitEntityListener;
+	@SuppressWarnings("unused")
 	private YiffBukkitPacketListener yiffBukkitPacketListener;
 	@SuppressWarnings("unused")
 	private VanishPacketListener vanishPacketListener;
@@ -46,7 +48,6 @@ public class YiffBukkit extends JavaPlugin {
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
-	private YiffBukkitEntityListener yiffBukkitEntityListener;
 
 	public YiffBukkit() {
 		utils = new Utils(this);
