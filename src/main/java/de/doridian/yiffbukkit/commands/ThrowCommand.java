@@ -79,7 +79,7 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 		else {
-			final String[] types = typeName.split(":");
+			final String[] types = typeName.split("+");
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
 				public void run() {
@@ -197,7 +197,7 @@ public class ThrowCommand extends ICommand {
 
 	@Override
 	public String GetHelp() {
-		return "Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use. Unbind by typing '/throw' without arguments.";
+		return "Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use. Unbind by typing '/throw' without arguments. You can stack mobs by separating them with a plus (+).";
 	}
 
 	@Override
