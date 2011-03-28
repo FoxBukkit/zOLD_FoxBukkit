@@ -76,6 +76,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("isee", new ISeeCommand(plugin));
 		commands.put("throw", new ThrowCommand(plugin));
 		commands.put("leash", new LeashCommand(plugin));
+		commands.put("bind", new BindCommand(plugin));
 
 		commands.put("§", new CheaterCommand(plugin));
 

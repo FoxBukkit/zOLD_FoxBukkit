@@ -43,7 +43,7 @@ public class ThrowCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.SendDirectedMessage(ply, "Unbound your current tool ("+toolType.name()+").");
+			playerHelper.SendDirectedMessage(ply, "Unbound your current tool (§e"+toolType.name()+"§f).");
 
 			return;
 		}
@@ -192,7 +192,7 @@ public class ThrowCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.SendDirectedMessage(ply, "Bound "+typeName+" to your current tool ("+toolType.name()+"). Right-click to use.");
+		playerHelper.SendDirectedMessage(ply, "Bound §9"+typeName+"§f to your current tool (§e"+toolType.name()+"§f). Right-click to use.");
 	}
 
 	@Override

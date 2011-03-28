@@ -485,7 +485,7 @@ public class PlayerHelper {
 
 				String toolName = entry.getKey();
 				toolName = toolName.substring(toolName.indexOf(' ')+1);
-				SendDirectedMessage(player, "Restored bind "+toolName+" => "+toolBind.name);
+				SendDirectedMessage(player, "Restored bind §e"+toolName+"§f => §9"+toolBind.name);
 			}
 		}
 	}
