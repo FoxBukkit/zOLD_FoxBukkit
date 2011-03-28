@@ -5,6 +5,7 @@ import net.minecraft.server.EntityPig;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.WorldServer;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
@@ -79,7 +81,7 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 		else {
-			final String[] types = typeName.split("+");
+			final String[] types = typeName.split("\\+");
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
 				public void run() {
@@ -88,31 +90,36 @@ public class ThrowCommand extends ICommand {
 					final WorldServer notchWorld = ((CraftWorld)world).getHandle();
 					final Location location = player.getEyeLocation();
 					for (String part : types) {
+						String[] partparts = part.split(":");
+
+						String type = partparts[0];
+						String data = partparts.length >= 2 ? partparts[1] : null;
+
 						Entity entity;
-						if (part.equals("ME")) {
+						if (type.equals("ME")) {
 							entity = player;
 						}
-						else if (part.equals("TNT")) {
+						else if (type.equals("TNT")) {
 							EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
 							notchWorld.a(notchEntity);
 
 							entity = new CraftTNTPrimed((CraftServer)plugin.getServer(), notchEntity);
 						}
-						else if(part.equals("SAND") || part.equals("GRAVEL")) {
-							int material = Material.valueOf(part).getId();
+						else if(type.equals("SAND") || type.equals("GRAVEL")) {
+							int material = Material.valueOf(type).getId();
 							EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material);
 							//EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
 							notchWorld.a(notchEntity);
 
 							entity = new CraftFallingSand((CraftServer)plugin.getServer(), notchEntity);
 						}
-						else if (part.equals("MINECART") || part.equals("CART")) {
+						else if (type.equals("MINECART") || type.equals("CART")) {
 							entity = world.spawnMinecart(location);
 						}
-						else if (part.equals("BOAT")) {
+						else if (type.equals("BOAT")) {
 							entity = world.spawnBoat(location);
 						}
-						else if (part.equals("THIS")) {
+						else if (type.equals("THIS")) {
 
 							Vector eyeVector = location.getDirection().clone();
 							Vector eyeOrigin = location.toVector().clone();
@@ -156,19 +163,39 @@ public class ThrowCommand extends ICommand {
 							}
 
 						}
-						else {
+						else if (type.equals("SHEEP")) {
+							DyeColor dyeColor = DyeColor.WHITE;
 							try {
-								CreatureType type = CreatureType.valueOf(part);
-								entity = world.spawnCreature(location, type);
+								if (data.equals("RAINBOW") || data.equals("RAINBOWS") || data.equals("RANDOM")) {
+									DyeColor[] dyes = DyeColor.values();
+									dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
+								}
+								else {
+									dyeColor = DyeColor.valueOf(data);
+								}
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							entity = world.spawnCreature(location, CreatureType.SHEEP);
+
+							((Sheep)entity).setColor(dyeColor);
+						}
+						else {
+
+							try {
+								CreatureType creatureType = CreatureType.valueOf(type);
+								entity = world.spawnCreature(location, creatureType);
 							}
 							catch (IllegalArgumentException e) {
-								playerHelper.SendDirectedMessage(player, "Creature type "+part+" not found");
+								playerHelper.SendDirectedMessage(player, "Creature type "+type+" not found");
 								return;
 							}
 						}
 
 						if (entity == null) {
-							playerHelper.SendDirectedMessage(player, "Failed to spawn "+part);
+							playerHelper.SendDirectedMessage(player, "Failed to spawn "+type);
 							return;
 						}
 
