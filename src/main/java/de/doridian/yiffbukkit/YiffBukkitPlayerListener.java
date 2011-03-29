@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.PluginManager;
 
 /**
@@ -94,6 +95,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_ITEM, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Highest, plugin);
 	}
 
 	@Override
@@ -229,6 +231,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (runnable != null) {
 			runnable.run();
 		}
+	}
+
+	@Override
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		plugin.playerHelper.updateToolMappings(event.getPlayer());
 	}
 }
 
