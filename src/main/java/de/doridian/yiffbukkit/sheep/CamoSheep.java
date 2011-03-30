@@ -99,7 +99,7 @@ public class CamoSheep extends AbstractSheep {
 			DyeColor.RED,
 			DyeColor.BROWN,
 			DyeColor.YELLOW,
-			null, // portal
+			DyeColor.PURPLE, // portal
 			DyeColor.ORANGE,
 			DyeColor.WHITE,
 			DyeColor.SILVER, // repeater
