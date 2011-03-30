@@ -166,12 +166,13 @@ public class ThrowCommand extends ICommand {
 						}
 						else if (type.equals("SHEEP")) {
 							entity = world.spawnCreature(location, CreatureType.SHEEP);
+							final Sheep sheep = (Sheep)entity;
 
 							if (data.equals("CAMO") || data.equals("CAMOUFLAGE")) {
-								new CamoSheep(plugin, (Sheep)entity);
+								new CamoSheep(plugin, sheep);
 							}
 							else if (data.equals("PARTY")) {
-								new PartySheep(plugin, (Sheep)entity);
+								new PartySheep(plugin, sheep);
 							}
 							else {
 								DyeColor dyeColor = DyeColor.WHITE;
@@ -186,7 +187,7 @@ public class ThrowCommand extends ICommand {
 								}
 								catch (Exception e) { }
 
-								((Sheep)entity).setColor(dyeColor);
+								sheep.setColor(dyeColor);
 							}
 						}
 						else {
