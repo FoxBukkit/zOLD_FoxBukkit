@@ -27,6 +27,8 @@ import org.bukkit.util.Vector;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.sheep.CamoSheep;
+import de.doridian.yiffbukkit.sheep.PartySheep;
 
 public class ThrowCommand extends ICommand {
 	public ThrowCommand(YiffBukkit plug) {
@@ -49,7 +51,6 @@ public class ThrowCommand extends ICommand {
 
 			return;
 		}
-
 
 		double speed = 2;
 		if (args.length >= 2) {
@@ -164,21 +165,29 @@ public class ThrowCommand extends ICommand {
 
 						}
 						else if (type.equals("SHEEP")) {
-							DyeColor dyeColor = DyeColor.WHITE;
-							try {
-								if (data.equals("RAINBOW") || data.equals("RAINBOWS") || data.equals("RANDOM")) {
-									DyeColor[] dyes = DyeColor.values();
-									dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
-								}
-								else {
-									dyeColor = DyeColor.valueOf(data);
-								}
-							}
-							catch (Exception e) { }
-
 							entity = world.spawnCreature(location, CreatureType.SHEEP);
 
-							((Sheep)entity).setColor(dyeColor);
+							if (data.equals("CAMO") || data.equals("CAMOUFLAGE")) {
+								new CamoSheep(plugin, (Sheep)entity);
+							}
+							else if (data.equals("PARTY")) {
+								new PartySheep(plugin, (Sheep)entity);
+							}
+							else {
+								DyeColor dyeColor = DyeColor.WHITE;
+								try {
+									if (data.equals("RAINBOW") || data.equals("RAINBOWS") || data.equals("RANDOM")) {
+										DyeColor[] dyes = DyeColor.values();
+										dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
+									}
+									else {
+										dyeColor = DyeColor.valueOf(data);
+									}
+								}
+								catch (Exception e) { }
+
+								((Sheep)entity).setColor(dyeColor);
+							}
 						}
 						else {
 
