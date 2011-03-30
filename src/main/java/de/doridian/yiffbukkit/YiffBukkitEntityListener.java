@@ -51,25 +51,25 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		Player ply = (Player)ent;
 
-		String killer;
+		String deathMessage;
 
 		final DamageCause cause = event.getCause();
 		switch (cause) {
 		case BLOCK_EXPLOSION:
-			killer = "§c%s§f exploded.";
+			deathMessage = "§c%s§f exploded.";
 			break;
 
 		case CONTACT:
-			killer = "§c%s§f is not a fakir.";
+			deathMessage = "§c%s§f is not a fakir.";
 			break;
 
 		case DROWNING:
-			killer = "§c%s§f can't hold breath for 10 minutes.";
+			deathMessage = "§c%s§f can't hold breath for 10 minutes.";
 			break;
 
 		case ENTITY_ATTACK: {
 			if (!(event instanceof EntityDamageByEntityEvent)) {
-				killer = "§c%s§f was killed.";
+				deathMessage = "§c%s§f was killed.";
 				break;
 			}
 
@@ -80,36 +80,36 @@ public class YiffBukkitEntityListener extends EntityListener {
 			if (damagerName == null)
 				damagerName = "§9"+damager.toString()+"§f";
 
-			killer = "§c%s§f was killed by "+damagerName+".";
+			deathMessage = "§c%s§f was killed by "+damagerName+".";
 			break;
 		}
 
 		case ENTITY_EXPLOSION:
-			killer = "§c%s§f exploded.";
+			deathMessage = "§c%s§f exploded.";
 			break;
 
 		case FALL:
-			killer = "§c%s§f cratered.";
+			deathMessage = "§c%s§f cratered.";
 			break;
 
 		case FIRE:
 		case FIRE_TICK:
-			killer = "§c%s§f played with fire.";
+			deathMessage = "§c%s§f played with fire.";
 			break;
 
 		case LAVA:
-			killer = "§c%s§f went looking for diamonds in the wrong place.";
+			deathMessage = "§c%s§f went looking for diamonds in the wrong place.";
 			break;
 
 		case SUFFOCATION:
-			killer = "§c%s§f got a Mafia funeral.";
+			deathMessage = "§c%s§f got a Mafia funeral.";
 			break;
 
 		default:
-			killer = "§c%s§f died.";
+			deathMessage = "§c%s§f died.";
 		}
 
-		lastAttacker.put(ply.getName(), killer);
+		lastAttacker.put(ply.getName(), deathMessage);
 	}
 
 	@Override
@@ -123,7 +123,9 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		String deathMessage = "§c%s§f died.";
 
-		if (lastAttacker.containsKey(ply.getName()))
+		if (ply.getLocation().getY() < -10D)
+			deathMessage = "§c%s§f dug too deep.";
+		else if (lastAttacker.containsKey(ply.getName()))
 			deathMessage = lastAttacker.get(ply.getName());
 
 		plugin.getServer().broadcastMessage(String.format(deathMessage, ply.getName()));
