@@ -25,6 +25,8 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.nijiko.permissions.Control;
+
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
@@ -491,6 +493,7 @@ public class PlayerHelper {
 	}
 
 	Map<String, String> leashMasters = new HashMap<String, String>();
+	private int taskId;
 
 	public boolean toggleLeash(Player master, Player slave) {
 		if (!leashMasters.containsKey(slave.getName())) {
@@ -529,6 +532,7 @@ public class PlayerHelper {
 						if (master == null || !master.isOnline()) {
 							leashMastersIter.remove();
 							SendServerMessage(masterName+" left, unleashing "+slaveName+".");
+							removeHandler(slave);
 							continue;
 						}
 
@@ -566,17 +570,30 @@ public class PlayerHelper {
 					}
 				}
 			};
-			server.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0, 10);
+			taskId = server.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0, 10);
 		}
 
 		leashMasters.put(slave.getName(), master.getName());
+		Control permissionsHandler = (Control)plugin.permissions.getHandler();
+
+		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.speedhack", true);
+		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving", true);
+	}
+
+	protected void removeHandler(Player slave) {
+		if (leashMasters.isEmpty()) {
+			plugin.getServer().getScheduler().cancelTask(taskId);
+		}
+
+		Control permissionsHandler = (Control)plugin.permissions.getHandler();
+
+		permissionsHandler.removeCachedItem(slave.getWorld().getName(), slave.getName(), "nocheat.speedhack");
+		permissionsHandler.removeCachedItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving");
 	}
 
 	public void removeLeash(Player slave) {
 		leashMasters.remove(slave.getName());
 
-		if (leashMasters.isEmpty()) {
-
-		}
+		removeHandler(slave);
 	}
 }
