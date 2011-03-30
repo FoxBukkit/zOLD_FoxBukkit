@@ -14,6 +14,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRightClickEvent;
 import org.bukkit.event.block.SignChangeEvent;
@@ -54,6 +55,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGED, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.SIGN_CHANGE, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.BLOCK_PHYSICS, this, Priority.Highest, plugin);
 	}
 
 	@Override
@@ -136,5 +138,11 @@ public class YiffBukkitBlockListener extends BlockListener {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void onBlockPhysics(BlockPhysicsEvent event) {
+		if (event.getChangedType() == Material.PORTAL)
+			event.setCancelled(true);
 	}
 }
