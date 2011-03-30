@@ -9,6 +9,7 @@ import java.util.Hashtable;
 import de.doridian.yiffbukkit.commands.*;
 
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -235,7 +236,14 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		plugin.playerHelper.updateToolMappings(event.getPlayer());
+		final String playerName = event.getPlayer().getName();
+		final Server server = plugin.getServer();
+		server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			public void run() {
+				final Player ply = server.getPlayer(playerName);
+				plugin.playerHelper.updateToolMappings(ply);
+			}
+		});
 	}
 }
 
