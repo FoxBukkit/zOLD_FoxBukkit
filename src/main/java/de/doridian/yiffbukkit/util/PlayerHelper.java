@@ -483,8 +483,6 @@ public class PlayerHelper {
 		for (Entry<String, ToolBind> entry : toolMappings.entrySet()) {
 			ToolBind toolBind = entry.getValue();
 			if (playerName.equals(toolBind.playerName)) {
-				toolBind.player = player;
-
 				String toolName = entry.getKey();
 				toolName = toolName.substring(toolName.indexOf(' ')+1);
 				SendDirectedMessage(player, "Restored bind §e"+toolName+"§f => §9"+toolBind.name);

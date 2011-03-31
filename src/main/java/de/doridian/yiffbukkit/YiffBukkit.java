@@ -21,6 +21,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.jail.JailEngine;
+import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
@@ -48,6 +49,7 @@ public class YiffBukkit extends JavaPlugin {
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
+	public PortalEngine portalEngine;
 
 	public YiffBukkit() {
 		utils = new Utils(this);
@@ -73,6 +75,7 @@ public class YiffBukkit extends JavaPlugin {
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
+		portalEngine = new PortalEngine(this);
 		playerListener = new YiffBukkitPlayerListener(this);
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);

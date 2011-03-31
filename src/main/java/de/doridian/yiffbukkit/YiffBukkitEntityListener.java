@@ -123,12 +123,14 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		String deathMessage = "§c%s§f died.";
 
+		final String playerName = ply.getName();
 		if (ply.getLocation().getY() < -10D)
 			deathMessage = "§c%s§f dug too deep.";
-		else if (lastAttacker.containsKey(ply.getName()))
-			deathMessage = lastAttacker.get(ply.getName());
+		else if (lastAttacker.containsKey(playerName))
+			deathMessage = lastAttacker.get(playerName);
 
-		plugin.getServer().broadcastMessage(String.format(deathMessage, ply.getName()));
+		lastAttacker.remove(playerName);
+		plugin.getServer().broadcastMessage(String.format(deathMessage, playerName));
 	}
 
 	@Override

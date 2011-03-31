@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerItemEvent;
+
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -73,7 +75,9 @@ public class BindCommand extends ICommand {
 		final String commandString = sb.toString();
 
 		ToolBind runnable = new ToolBind(commandString, ply) {
-			public void run() {
+			public void run(PlayerItemEvent event) {
+				Player player = event.getPlayer();
+
 				for (String command : commands) {
 					player.chat(command);
 				}

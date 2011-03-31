@@ -9,7 +9,6 @@ import java.util.Hashtable;
 import de.doridian.yiffbukkit.commands.*;
 
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -20,7 +19,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.PluginManager;
 
 /**
@@ -75,6 +73,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		commands.put("jail", new JailCommand(plugin));
 		commands.put("setjail", new SetJailCommand(plugin));
+		
+		commands.put("setportal", new SetPortalCommand(plugin));
 
 		commands.put("isee", new ISeeCommand(plugin));
 		commands.put("throw", new ThrowCommand(plugin));
@@ -96,7 +96,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_ITEM, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Highest, plugin);
 	}
 
 	@Override
@@ -228,22 +227,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		Material itemMaterial = event.getMaterial();
 
 		String key = ply.getName()+" "+itemMaterial.name();
-		Runnable runnable = plugin.playerHelper.toolMappings.get(key);
+		ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
 		if (runnable != null) {
-			runnable.run();
+			runnable.run(event);
 		}
 	}
-
-	@Override
-	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		final String playerName = event.getPlayer().getName();
-		final Server server = plugin.getServer();
-		server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			public void run() {
-				final Player ply = server.getPlayer(playerName);
-				plugin.playerHelper.updateToolMappings(ply);
-			}
-		});
-	}
 }
-
