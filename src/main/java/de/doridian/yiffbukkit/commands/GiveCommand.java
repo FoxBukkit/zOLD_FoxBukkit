@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -12,7 +13,8 @@ import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public class GiveCommand extends ICommand {
-	Hashtable<String,Material> aliases = new Hashtable<String,Material>();
+	Map<String,Material> aliases = new HashMap<String,Material>();
+	Map<String,Short> dataValues = new HashMap<String, Short>();
 	{
 		aliases.put("wood_shovel", Material.WOOD_SPADE);
 		aliases.put("wooden_spade", Material.WOOD_SPADE);
@@ -56,6 +58,22 @@ public class GiveCommand extends ICommand {
 		aliases.put("yiffbukkit", Material.MILK_BUCKET);
 		aliases.put("dye", Material.INK_SACK);
 		aliases.put("ink", Material.INK_SACK);
+		aliases.put("repeater", Material.DIODE);
+
+		dataValues.put("43:SANDSTONE", (short) 1);
+		dataValues.put("43:WOOD", (short) 2);
+		dataValues.put("43:COBBLE", (short) 3);
+		dataValues.put("43:COBBLESTONE", (short) 3);
+
+		dataValues.put("44:SANDSTONE", (short) 1);
+		dataValues.put("44:WOOD", (short) 2);
+		dataValues.put("44:COBBLE", (short) 3);
+		dataValues.put("44:COBBLESTONE", (short) 3);
+
+		dataValues.put("17:REDWOOD", (short) 1);
+		dataValues.put("17:DARK", (short) 1);
+		dataValues.put("17:BIRCH", (short) 2);
+		dataValues.put("17:LIGHT", (short) 2);
 	};
 
 	public int GetMinLevel() {
@@ -100,18 +118,26 @@ public class GiveCommand extends ICommand {
 		ItemStack stack = new ItemStack(material, count);
 
 		if (colorName != null) {
-			try {
-				DyeColor dyeColor = DyeColor.valueOf(colorName.toUpperCase().replace("GREY", "GRAY"));
-
-				if (material == Material.WOOL)
-					stack.setDurability(dyeColor.getData());
-				else if (material == Material.INK_SACK)
-					stack.setDurability((short) (15-dyeColor.getData()));
-				else
-					throw new YiffBukkitCommandException("Material "+materialName+" cannot be dyed");
+			colorName = colorName.toUpperCase();
+			Short dataValue = dataValues.get(material.getId()+":"+colorName);
+			if (dataValue != null) {
+				stack.setDurability(dataValue);
 			}
-			catch (IllegalArgumentException e) {
-				throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
+			else if (material == Material.WOOL || material == Material.INK_SACK) {
+				try {
+					DyeColor dyeColor = DyeColor.valueOf(colorName.replace("GREY", "GRAY"));
+
+					if (material == Material.WOOL)
+						stack.setDurability(dyeColor.getData());
+					else
+						stack.setDurability((short) (15-dyeColor.getData()));
+				}
+				catch (IllegalArgumentException e) {
+					throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
+				}
+			}
+			else {
+				throw new YiffBukkitCommandException("Material "+materialName+" cannot have a data value.");
 			}
 		}
 
