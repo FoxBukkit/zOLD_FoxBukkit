@@ -1,8 +1,5 @@
 package de.doridian.yiffbukkit.portals;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

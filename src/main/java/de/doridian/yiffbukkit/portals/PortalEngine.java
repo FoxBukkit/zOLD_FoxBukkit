@@ -14,7 +14,6 @@ import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class PortalEngine {
-	@SuppressWarnings("unused")
 	private YiffBukkit plugin;
 	public Map<String, PortalPair> portals = new HashMap<String, PortalPair>();
 
