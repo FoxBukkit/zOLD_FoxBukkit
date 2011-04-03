@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
