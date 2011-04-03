@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import de.doridian.yiffbukkit.commands.*;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 
@@ -54,6 +56,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("unban", new UnbanCommand(plugin));
 		commands.put("pardon", new UnbanCommand(plugin));
 		commands.put("kickall", new KickAllCommand(plugin));
+		commands.put("mute", new MuteCommand(plugin));
 
 		commands.put("banish", new BanishCommand(plugin));
 		commands.put("vanish", new VanishCommand(plugin));
@@ -69,6 +72,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("home", new HomeCommand(plugin));
 		commands.put("sethome", new SetHomeCommand(plugin));
 		commands.put("spawn", new SpawnCommand(plugin));
+		commands.put("setspawn", new SetSpawnCommand(plugin));
 		commands.put("compass", new CompassCommand(plugin));
 
 		commands.put("give", new GiveCommand(plugin));
@@ -176,6 +180,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			return;
 		}
+	}
+	
+	@Override
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		Player ply = event.getPlayer();
+		Location location = ply.getWorld().getSpawnLocation();
+		location.setX(location.getX()+0.5);
+		location.setZ(location.getZ()+0.5);
+		event.setRespawnLocation(location);
 	}
 
 	@Override
