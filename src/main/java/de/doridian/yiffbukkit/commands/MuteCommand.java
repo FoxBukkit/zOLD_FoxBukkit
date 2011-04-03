@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
@@ -44,7 +45,7 @@ public class MuteCommand extends ICommand {
 
 	@Override
 	public int GetMinLevel() {
-		return 6; //This can block access to all commands, High Level Only Access...
+		return 5;
 	}
 
 	@Override
@@ -95,6 +96,10 @@ public class MuteCommand extends ICommand {
 		if (onoff == null) {
 			onoff = !muted.contains(name);
 		}
+		
+		Player target = playerHelper.MatchPlayerSingle(name);
+		if (playerHelper.GetPlayerLevel(ply) <= playerHelper.GetPlayerLevel(target)) 
+			throw new PermissionDeniedException();
 
 		if (onoff) {
 			muted.add(name);
