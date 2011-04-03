@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -104,6 +105,10 @@ public class GiveCommand extends ICommand {
 			if (args.length >= 2)
 				otherName = args[1];
 		}
+
+		Player target = otherName == null ? ply : playerHelper.MatchPlayerSingle(otherName);
+
+
 		String materialName = args[0];
 		int colonPos = materialName.indexOf(':');
 		String colorName = null;
@@ -112,8 +117,23 @@ public class GiveCommand extends ICommand {
 			materialName = materialName.substring(0, colonPos);
 		}
 		Material material = matchMaterial(materialName);
-		if (material == null)
-			throw new YiffBukkitCommandException("Material "+materialName+" not found");
+		if (material == null) {
+			if (playerHelper.GetPlayerLevel(ply) < 4)
+				throw new YiffBukkitCommandException("Material "+materialName+" not found");
+
+			for (int i = 0; i < count; ++i) {
+				try {
+					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), ply, target, target.getLocation());
+				}
+				catch (YiffBukkitCommandException e) {
+					playerHelper.SendDirectedMessage(ply, "Material "+materialName+" not found");
+					throw e;
+				}
+			}
+
+			return;
+		}
+
 
 		ItemStack stack = new ItemStack(material, count);
 
@@ -141,20 +161,14 @@ public class GiveCommand extends ICommand {
 			}
 		}
 
-		if (otherName == null) {
-			PlayerInventory inv = ply.getInventory();
-			int empty = inv.firstEmpty();
-			inv.setItem(empty, stack);
-			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
-		}
-		else {
-			Player otherply = playerHelper.MatchPlayerSingle(otherName);
+		PlayerInventory inv = target.getInventory();
+		int empty = inv.firstEmpty();
+		inv.setItem(empty, stack);
 
-			PlayerInventory inv = otherply.getInventory();
-			int empty = inv.firstEmpty();
-			inv.setItem(empty, stack);
-			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of "+otherply.getName()+"'s inventory!");
-		}
+		if (target == ply)
+			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
+		else
+			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
 	}
 
 	public String GetHelp() {
