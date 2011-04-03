@@ -202,7 +202,10 @@ public class Utils {
 							CraftWolf craftWolf = (CraftWolf) wolf;
 							EntityWolf eWolf = craftWolf.getHandle();
 							eWolf.d(true);
-							eWolf.a(player.getName());
+							if (them == null)
+								eWolf.a(player.getName());
+							else
+								eWolf.a(them.getName());
 						}
 					}
 				}
