@@ -14,9 +14,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -101,6 +103,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
 	}
 
 	@Override
@@ -144,7 +147,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	}
 
 	@Override
-	public void onPlayerJoin(PlayerEvent event) {
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e joined!");
 
 		plugin.playerHelper.updateToolMappings(event.getPlayer());
@@ -228,28 +231,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		{
+		try {
 			ItemStack item = event.getItem();
 			Material itemMaterial = item.getType();
-			if(itemMaterial == Material.AIR) return;
-
 			Player ply = event.getPlayer();
-			if(playerHelper.isPlayerDisabled(ply)) {
-				item.setType(Material.GOLD_HOE);
-				item.setAmount(1);
-				item.setDurability(Short.MAX_VALUE);
-				return;
-			}
-
 			Integer selflvl = playerHelper.GetPlayerLevel(ply);
-			if(selflvl < 0 || (YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && selflvl < YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
-				playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
-				item.setType(Material.GOLD_HOE);
-				item.setAmount(1);
-				item.setDurability(Short.MAX_VALUE);
-				return;
-			}
-
 			// This will not be logged by bigbrother so I only allowed it for ops+ for now.
 			// A fix would be to modify the event a bit to make BB log this. 
 			if (selflvl >= 3 && itemMaterial == Material.INK_SACK) {
@@ -264,7 +250,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				}
 			}
 		}
-		{
+		finally {
 			Player ply = event.getPlayer();
 			Material itemMaterial = event.getMaterial();
 
@@ -273,6 +259,30 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			if (runnable != null) {
 				runnable.run(event);
 			}
+		}
+	}
+
+	@Override
+	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
+		ItemStack item = event.getItemStack();
+		Material itemMaterial = item.getType();
+		if(itemMaterial == Material.AIR) return;
+
+		Player ply = event.getPlayer();
+		if(playerHelper.isPlayerDisabled(ply)) {
+			item.setType(Material.GOLD_HOE);
+			item.setAmount(1);
+			item.setDurability(Short.MAX_VALUE);
+			return;
+		}
+
+		Integer selflvl = playerHelper.GetPlayerLevel(ply);
+		if(selflvl < 0 || (YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && selflvl < YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
+			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
+			item.setType(Material.GOLD_HOE);
+			item.setAmount(1);
+			item.setDurability(Short.MAX_VALUE);
+			return;
 		}
 	}
 }
