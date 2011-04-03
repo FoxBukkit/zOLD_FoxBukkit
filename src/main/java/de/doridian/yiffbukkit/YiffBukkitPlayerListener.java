@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.doridian.yiffbukkit.commands.*;
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -103,8 +105,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_KICK, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.High, plugin);
+		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.High, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
@@ -214,6 +216,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				if(!icmd.CanPlayerUseCommand(ply)) {
 					throw new PermissionDeniedException();
 				}
+				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+ply.getName()+": "+baseCmd);
 				icmd.Run(ply,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {
