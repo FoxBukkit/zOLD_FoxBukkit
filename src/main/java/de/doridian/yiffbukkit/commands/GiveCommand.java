@@ -120,6 +120,9 @@ public class GiveCommand extends ICommand {
 			if (playerHelper.GetPlayerLevel(ply) < 4)
 				throw new YiffBukkitCommandException("Material "+materialName+" not found");
 
+			if (count > 10)
+				count = 10;
+			
 			for (int i = 0; i < count; ++i) {
 				try {
 					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), ply, target, target.getLocation());
