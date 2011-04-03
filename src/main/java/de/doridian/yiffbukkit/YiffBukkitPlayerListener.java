@@ -86,9 +86,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setportal", new SetPortalCommand(plugin));
 
 		commands.put("isee", new ISeeCommand(plugin));
-		commands.put("god", new GodCommand(plugin));
 		commands.put("leash", new LeashCommand(plugin));
 		commands.put("bind", new BindCommand(plugin));
+		commands.put("god", new GodCommand(plugin));
+		commands.put("heal", new HealCommand(plugin));
 
 		commands.put("§", new CheaterCommand(plugin));
 
