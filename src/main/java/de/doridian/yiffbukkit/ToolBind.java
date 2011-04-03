@@ -12,5 +12,5 @@ public abstract class ToolBind {
 		playerName = ply.getName();
 	}
 	
-	public abstract void run(PlayerInteractEvent event);
+	public abstract void run(PlayerInteractEvent event) throws YiffBukkitCommandException;
 }

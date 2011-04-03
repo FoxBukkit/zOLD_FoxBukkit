@@ -70,6 +70,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("compass", new CompassCommand(plugin));
 
 		commands.put("give", new GiveCommand(plugin));
+		commands.put("throw", new ThrowCommand(plugin));
+
 		commands.put("time", new TimeCommand(plugin));
 		commands.put("servertime", new ServerTimeCommand(plugin));
 
@@ -84,7 +86,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setportal", new SetPortalCommand(plugin));
 
 		commands.put("isee", new ISeeCommand(plugin));
-		commands.put("throw", new ThrowCommand(plugin));
+		commands.put("god", new GodCommand(plugin));
 		commands.put("leash", new LeashCommand(plugin));
 		commands.put("bind", new BindCommand(plugin));
 
@@ -260,7 +262,21 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				String key = ply.getName()+" "+itemMaterial.name();
 				ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
 				if (runnable != null) {
-					runnable.run(event);
+					try {
+						runnable.run(event);
+					}
+					catch (YiffBukkitCommandException e) {
+						plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(), e.getColor());
+					}
+					catch (Exception e) {
+						if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {
+							plugin.playerHelper.SendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+							e.printStackTrace();
+						}
+						else {
+							plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
+						}
+					}
 				}
 			}
 			break;
