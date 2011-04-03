@@ -71,6 +71,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		commands.put("give", new GiveCommand(plugin));
 		commands.put("throw", new ThrowCommand(plugin));
+		commands.put("clear", new ClearCommand(plugin));
 
 		commands.put("time", new TimeCommand(plugin));
 		commands.put("servertime", new ServerTimeCommand(plugin));
