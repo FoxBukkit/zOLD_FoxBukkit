@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import net.minecraft.server.EntityFallingSand;
 import net.minecraft.server.EntityPig;
 import net.minecraft.server.EntityTNTPrimed;
+import net.minecraft.server.EntityWolf;
 import net.minecraft.server.WorldServer;
 
 import org.bukkit.DyeColor;
@@ -15,6 +16,7 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftFallingSand;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftTNTPrimed;
+import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
@@ -22,6 +24,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
@@ -167,20 +170,44 @@ public class ThrowCommand extends ICommand {
 							}
 
 						}
+						else if (type.equals("WOLF")) {
+							entity = world.spawnCreature(location, CreatureType.WOLF);
+							final Wolf wolf = (Wolf)entity;
+
+							if (data != null) { 
+								for (String subData : data.split(",")) {
+									if (subData.isEmpty())
+										continue;
+
+									if (subData.equals("ANGRY")) {
+										wolf.setAngry(true);
+									}
+									else if (subData.equals("SITTING") || subData.equals("SIT")) {
+										wolf.setSitting(true);
+									}
+									else if (subData.equals("TAME") || subData.equals("TAMED")) {
+										CraftWolf craftWolf = (CraftWolf) wolf;
+										EntityWolf eWolf = craftWolf.getHandle();
+										eWolf.d(true);
+										eWolf.a(playerName);
+									}
+								}
+							}
+						}
 						else if (type.equals("SHEEP")) {
 							entity = world.spawnCreature(location, CreatureType.SHEEP);
 							final Sheep sheep = (Sheep)entity;
 
-							if (data.equals("CAMO") || data.equals("CAMOUFLAGE")) {
+							if ("CAMO".equals(data) || "CAMOUFLAGE".equals(data)) {
 								new CamoSheep(plugin, sheep);
 							}
-							else if (data.equals("PARTY")) {
+							else if ("PARTY".equals(data)) {
 								new PartySheep(plugin, sheep);
 							}
 							else {
 								DyeColor dyeColor = DyeColor.WHITE;
 								try {
-									if (data.equals("RAINBOW") || data.equals("RAINBOWS") || data.equals("RANDOM")) {
+									if ("RAINBOW".equals(data) || "RAINBOWS".equals(data) || "RANDOM".equals(data)) {
 										DyeColor[] dyes = DyeColor.values();
 										dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
 									}
@@ -235,7 +262,12 @@ public class ThrowCommand extends ICommand {
 
 	@Override
 	public String GetHelp() {
-		return "Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use. Unbind by typing '/throw' without arguments. You can stack mobs by separating them with a plus (+).";
+		return
+		"Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use.\n"+
+		"Unbind by typing '/throw' without arguments. You can stack mobs by separating them with a plus (+).\n"+
+		"Data values:\n"+
+		"  sheep:<dye color>|party|camo\n"+
+		"  wolf:angry|tame|sit (can be combined)";
 	}
 
 	@Override
