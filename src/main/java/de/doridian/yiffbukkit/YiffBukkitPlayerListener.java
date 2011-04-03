@@ -251,13 +251,18 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			}
 		}
 		finally {
-			Player ply = event.getPlayer();
-			Material itemMaterial = event.getMaterial();
+			switch (event.getAction()) {
+			case RIGHT_CLICK_AIR:
+			case RIGHT_CLICK_BLOCK:
+				Player ply = event.getPlayer();
+				Material itemMaterial = event.getMaterial();
 
-			String key = ply.getName()+" "+itemMaterial.name();
-			ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
-			if (runnable != null) {
-				runnable.run(event);
+				String key = ply.getName()+" "+itemMaterial.name();
+				ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
+				if (runnable != null) {
+					runnable.run(event);
+				}
+				break;
 			}
 		}
 	}
