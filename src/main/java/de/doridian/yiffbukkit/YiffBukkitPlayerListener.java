@@ -80,7 +80,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		commands.put("jail", new JailCommand(plugin));
 		commands.put("setjail", new SetJailCommand(plugin));
-		
+
 		commands.put("setportal", new SetPortalCommand(plugin));
 
 		commands.put("isee", new ISeeCommand(plugin));
@@ -231,29 +231,29 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		try {
-			ItemStack item = event.getItem();
-			Material itemMaterial = item.getType();
-			Player ply = event.getPlayer();
-			Integer selflvl = playerHelper.GetPlayerLevel(ply);
-			// This will not be logged by bigbrother so I only allowed it for ops+ for now.
-			// A fix would be to modify the event a bit to make BB log this. 
-			if (selflvl >= 3 && itemMaterial == Material.INK_SACK) {
-				Block block = event.getClickedBlock();
-				if (block.getType() == Material.WOOL) {
-					block.setData((byte)(15 - item.getDurability()));
-					int newAmount = item.getAmount()-1;
-					if (newAmount > 0)
-						item.setAmount(newAmount);
-					else
-						ply.setItemInHand(null);
+		switch (event.getAction()) {
+		case RIGHT_CLICK_AIR:
+		case RIGHT_CLICK_BLOCK:
+			try {
+				Material itemMaterial = event.getMaterial();
+				Player ply = event.getPlayer();
+				Integer selflvl = playerHelper.GetPlayerLevel(ply);
+				// This will not be logged by bigbrother so I only allowed it for ops+ for now.
+				// A fix would be to modify the event a bit to make BB log this. 
+				if (selflvl >= 3 && itemMaterial == Material.INK_SACK) {
+					Block block = event.getClickedBlock();
+					if (block.getType() == Material.WOOL) {
+						ItemStack item = event.getItem();
+						block.setData((byte)(15 - item.getDurability()));
+						int newAmount = item.getAmount()-1;
+						if (newAmount > 0)
+							item.setAmount(newAmount);
+						else
+							ply.setItemInHand(null);
+					}
 				}
 			}
-		}
-		finally {
-			switch (event.getAction()) {
-			case RIGHT_CLICK_AIR:
-			case RIGHT_CLICK_BLOCK:
+			finally {
 				Player ply = event.getPlayer();
 				Material itemMaterial = event.getMaterial();
 
@@ -262,8 +262,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				if (runnable != null) {
 					runnable.run(event);
 				}
-				break;
 			}
+			break;
 		}
 	}
 
