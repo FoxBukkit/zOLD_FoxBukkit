@@ -50,6 +50,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		commands.put("setrank", new SetRankCommand(plugin));
 		commands.put("settag", new SetTagCommand(plugin));
+		commands.put("setnick", new SetNickCommand(plugin));
 
 		commands.put("kick", new KickCommand(plugin));
 		commands.put("ban", new BanCommand(plugin));
@@ -158,6 +159,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
+		event.getPlayer().setDisplayName(plugin.playerHelper.GetPlayerNick(event.getPlayer().getName()));
+		
 		event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e joined!");
 
 		plugin.playerHelper.updateToolMappings(event.getPlayer());

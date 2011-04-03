@@ -77,7 +77,7 @@ public class PlayerHelper {
 	}
 
 	public String GetFullPlayerName(Player ply) {
-		return GetPlayerTag(ply) + ply.getName();
+		return GetPlayerTag(ply) + ply.getDisplayName();
 	}
 
 	//Home position stuff
@@ -340,6 +340,53 @@ public class PlayerHelper {
 			stream.close();
 		}
 		catch(Exception e) { }
+	}
+	
+	private Hashtable<String,String> playernicks = new Hashtable<String,String>();
+	public void LoadPlayerNicks() {
+		playernicks.clear();
+		try {
+			BufferedReader stream = new BufferedReader(new FileReader("player-nicks.txt"));
+			String line; int lpos;
+			while((line = stream.readLine()) != null) {
+				lpos = line.lastIndexOf('=');
+				playernicks.put(line.substring(0,lpos), line.substring(lpos+1));
+			}
+			stream.close();
+		}
+		catch (Exception e) { }
+	}
+	public void SavePlayerNicks() {
+		try {
+			BufferedWriter stream = new BufferedWriter(new FileWriter("player-nicks.txt"));
+			Enumeration<String> e = playernicks.keys();
+			while(e.hasMoreElements()) {
+				String key = e.nextElement();
+				stream.write(key + "=" + playernicks.get(key));
+				stream.newLine();
+			}
+			stream.close();
+		}
+		catch(Exception e) { }
+	}
+	
+	public String GetPlayerNick(String name) {
+		name = name.toLowerCase();
+		if(playernicks.containsKey(name))
+			return playernicks.get(name);
+		else
+			return null;
+	}
+	
+	public void SetPlayerNick(String name, String tag) {
+		name = name.toLowerCase();
+		if (tag == null)
+		{
+			playernicks.remove(name);
+		}
+		else
+			playernicks.put(name, tag);
+		SavePlayerNicks();
 	}
 
 	public Set<String> playerTpPermissions = new HashSet<String>();
