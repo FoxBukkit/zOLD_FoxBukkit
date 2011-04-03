@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.jail;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.PluginManager;
@@ -25,7 +25,7 @@ public class JailPlayerListener extends PlayerListener {
 	}
 
 	@Override
-	public void onPlayerJoin(PlayerEvent event) {
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (jailEngine.isJailed(event.getPlayer()))
 			jailEngine.rejailPlayer(event.getPlayer());
 	}
