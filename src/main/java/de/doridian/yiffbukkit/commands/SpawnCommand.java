@@ -23,7 +23,7 @@ public class SpawnCommand extends ICommand {
 		Location location = ply.getWorld().getSpawnLocation();
 		location.setX(location.getX()+0.5);
 		location.setZ(location.getZ()+0.5);
-		ply.teleportTo(location);
+		ply.teleport(location);
 		playerHelper.SendServerMessage(ply.getName() + " returned to the spawn!");
 	}
 

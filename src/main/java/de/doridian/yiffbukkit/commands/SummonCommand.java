@@ -21,7 +21,7 @@ public class SummonCommand extends ICommand {
 		if (!playerHelper.CanSummon(ply, otherply))
 			throw new PermissionDeniedException();
 
-		otherply.teleportTo(ply);
+		otherply.teleport(ply);
 
 		playerHelper.SendServerMessage(ply.getName() + " summoned " + otherply.getName());
 	}

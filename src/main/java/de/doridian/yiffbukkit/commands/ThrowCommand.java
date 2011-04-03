@@ -22,7 +22,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
-import org.bukkit.event.player.PlayerItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
@@ -68,7 +68,7 @@ public class ThrowCommand extends ICommand {
 		ToolBind runnable;
 		if (typeName.equals("ME")) {
 			runnable = new ToolBind("/throw me", ply) {
-				public void run(PlayerItemEvent event) {
+				public void run(PlayerInteractEvent event) {
 					Player player = event.getPlayer();
 					final Location location = player.getLocation();
 
@@ -87,7 +87,7 @@ public class ThrowCommand extends ICommand {
 			final String[] types = typeName.split("\\+");
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
-				public void run(PlayerItemEvent event) {
+				public void run(PlayerInteractEvent event) {
 					Player player = event.getPlayer();
 					Entity previous = null;
 					final World world = player.getWorld();

@@ -99,7 +99,7 @@ public class PortalEngine {
 			location = getPosOnOtherSide(location.toVector()).toLocation(location.getWorld(), location.getYaw()+yawOffset, location.getPitch());
 			velocity = getOffsetOnOtherSide(velocity);
 
-			entity.teleportTo(location);
+			entity.teleport(location);
 			entity.setVelocity(velocity);
 		}
 	}

@@ -51,7 +51,7 @@ public class JailEngine {
 		public void jailPlayer(Player ply) {
 			Vector vector = position.clone().add(size.clone().multiply(Math.random()));
 			Location location = vector.toLocation(world);
-			ply.teleportTo(location);
+			ply.teleport(location);
 		}
 
 		public Vector center() {
@@ -143,7 +143,7 @@ public class JailEngine {
 
 			Location previousLocation = inmates.remove(playerName);
 			if (previousLocation != null)
-				ply.teleportTo(previousLocation);
+				ply.teleport(previousLocation);
 		}
 		SaveJails();
 	}

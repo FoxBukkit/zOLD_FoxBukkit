@@ -168,11 +168,11 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public void teleportTo(Location location) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		teleport(location);
 	}
 	@Override
 	public void teleportTo(Entity destination) {
-		teleportTo(destination.getLocation());
+		teleport(destination);
 	}
 	@Override
 	public int getEntityId() {
@@ -205,10 +205,6 @@ public class OfflinePlayer implements Player {
 	@Override
 	public boolean isOp() {
 		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-	@Override
-	public boolean isPlayer() {
-		return true;
 	}
 	@Override
 	public boolean isOnline() {
@@ -271,22 +267,82 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public Vector getMomentum() {
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
-	@Override
-	public void setMomentum(Vector vector) {
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
-	@Override
 	public void setVelocity(Vector velocity) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	@Override
 	public Vector getVelocity() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public int getMaximumNoDamageTicks() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setMaximumNoDamageTicks(int ticks) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public int getLastDamage() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setLastDamage(int damage) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public int getNoDamageTicks() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setNoDamageTicks(int ticks) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean teleport(Location location) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean teleport(Entity destination) {
+		return teleport(destination.getLocation());
+	}
+
+	@Override
+	public Entity getPassenger() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean setPassenger(Entity passenger) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean isEmpty() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean eject() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public Location getCompassTarget() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void sendRawMessage(String message) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }

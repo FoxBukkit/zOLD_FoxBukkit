@@ -7,18 +7,21 @@ import java.net.URLConnection;
 import java.util.Hashtable;
 
 import de.doridian.yiffbukkit.commands.*;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 
 /**
@@ -27,9 +30,11 @@ import org.bukkit.plugin.PluginManager;
  */
 public class YiffBukkitPlayerListener extends PlayerListener {
 	private final YiffBukkit plugin;
+	private final PlayerHelper playerHelper;
 
 	public YiffBukkitPlayerListener(YiffBukkit instance) {
 		plugin = instance;
+		playerHelper = plugin.playerHelper;
 
 		commands.put("me", new MeCommand(plugin));
 		commands.put("pm", new PmCommand(plugin));
@@ -95,7 +100,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.PLAYER_ITEM, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 	}
 
 	@Override
@@ -194,7 +199,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		else {
 			cmd = baseCmd.substring(0, posSpace).trim();
 			argStr = baseCmd.substring(posSpace).trim();
-			args = argStr.split(" ");
+			args = argStr.split(" +");
 		}
 		if (commands.containsKey(cmd)) {
 			ICommand icmd = commands.get(cmd);
@@ -222,14 +227,52 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	}
 
 	@Override
-	public void onPlayerItem(PlayerItemEvent event) {
-		Player ply = event.getPlayer();
-		Material itemMaterial = event.getMaterial();
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		{
+			ItemStack item = event.getItem();
+			Material itemMaterial = item.getType();
+			if(itemMaterial == Material.AIR) return;
 
-		String key = ply.getName()+" "+itemMaterial.name();
-		ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
-		if (runnable != null) {
-			runnable.run(event);
+			Player ply = event.getPlayer();
+			if(playerHelper.isPlayerDisabled(ply)) {
+				item.setType(Material.GOLD_HOE);
+				item.setAmount(1);
+				item.setDurability(Short.MAX_VALUE);
+				return;
+			}
+
+			Integer selflvl = playerHelper.GetPlayerLevel(ply);
+			if(selflvl < 0 || (YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && selflvl < YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
+				playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
+				item.setType(Material.GOLD_HOE);
+				item.setAmount(1);
+				item.setDurability(Short.MAX_VALUE);
+				return;
+			}
+
+			// This will not be logged by bigbrother so I only allowed it for ops+ for now.
+			// A fix would be to modify the event a bit to make BB log this. 
+			if (selflvl >= 3 && itemMaterial == Material.INK_SACK) {
+				Block block = event.getClickedBlock();
+				if (block.getType() == Material.WOOL) {
+					block.setData((byte)(15 - item.getDurability()));
+					int newAmount = item.getAmount()-1;
+					if (newAmount > 0)
+						item.setAmount(newAmount);
+					else
+						ply.setItemInHand(null);
+				}
+			}
+		}
+		{
+			Player ply = event.getPlayer();
+			Material itemMaterial = event.getMaterial();
+
+			String key = ply.getName()+" "+itemMaterial.name();
+			ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
+			if (runnable != null) {
+				runnable.run(event);
+			}
 		}
 	}
 }

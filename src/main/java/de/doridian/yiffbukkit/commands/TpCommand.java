@@ -24,7 +24,7 @@ public class TpCommand extends ICommand {
 		if (!playerHelper.CanTp(ply, otherply))
 			throw new PermissionDeniedException();
 
-		ply.teleportTo(otherply);
+		ply.teleport(otherply);
 
 		if (playerHelper.vanishedPlayers.contains(playerName)) {
 			playerHelper.SendServerMessage(playerName + " teleported to " + otherName, 3);

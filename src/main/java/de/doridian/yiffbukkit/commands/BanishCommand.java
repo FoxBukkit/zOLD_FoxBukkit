@@ -31,7 +31,7 @@ public class BanishCommand extends ICommand {
 
 		Vector previousPos = otherply.getLocation().toVector();
 		Location teleportTarget = otherply.getWorld().getSpawnLocation();
-		otherply.teleportTo(teleportTarget);
+		otherply.teleport(teleportTarget);
 
 		if (resetHome) {
 			playerHelper.SetPlayerHomePosition(otherply, teleportTarget);

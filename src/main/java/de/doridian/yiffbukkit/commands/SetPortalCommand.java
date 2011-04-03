@@ -4,8 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerItemEvent;
-
+import org.bukkit.event.player.PlayerInteractEvent;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -40,7 +39,7 @@ public class SetPortalCommand extends ICommand {
 			private BlockFace blockFaceIn;
 			boolean done; // temp
 
-			public void run(PlayerItemEvent event) {
+			public void run(PlayerInteractEvent event) {
 				Player player = event.getPlayer();
 
 				if (done) { // temp
@@ -52,13 +51,13 @@ public class SetPortalCommand extends ICommand {
 				}
 
 				if (blockIn == null) {
-					blockIn = event.getBlockClicked();
+					blockIn = event.getClickedBlock();
 					blockFaceIn = event.getBlockFace();
 
 					playerHelper.SendDirectedMessage(player, "Stored position for in portal");
 				}
 				else {
-					Block blockOut = event.getBlockClicked();
+					Block blockOut = event.getClickedBlock();
 					BlockFace blockFaceOut = event.getBlockFace();
 
 					plugin.portalEngine.addPortal(portalName, blockIn, blockFaceIn, blockOut, blockFaceOut);

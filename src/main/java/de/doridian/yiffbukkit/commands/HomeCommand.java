@@ -19,7 +19,7 @@ public class HomeCommand extends ICommand {
 			return;
 		}
 
-		ply.teleportTo(playerHelper.GetPlayerHomePosition(ply));
+		ply.teleport(playerHelper.GetPlayerHomePosition(ply));
 		playerHelper.SendServerMessage(ply.getName() + " went home!");
 	}
 

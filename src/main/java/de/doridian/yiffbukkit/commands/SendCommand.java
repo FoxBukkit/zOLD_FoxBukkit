@@ -26,7 +26,7 @@ public class SendCommand extends ICommand {
 		if (!playerHelper.CanTp(ply, toPlayer))
 			throw new PermissionDeniedException();
 
-		fromPlayer.teleportTo(toPlayer);
+		fromPlayer.teleport(toPlayer);
 
 		playerHelper.SendServerMessage(ply.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
 	}

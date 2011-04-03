@@ -25,7 +25,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 		plugin = instance;
 
 		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.ENTITY_DAMAGED, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.ENTITY_DAMAGE, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_DEATH, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_TARGET, this, Priority.Highest, plugin);
 	}

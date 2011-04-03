@@ -28,11 +28,11 @@ public class TestCommand extends ICommand {
 					Location loc = ply.getLocation();
 					World tmp = plugin.GetOrCreateWorld("temp", Environment.NORMAL);
 
-					ply.teleportTo(tmp.getSpawnLocation());
+					ply.teleport(tmp.getSpawnLocation());
 					Thread.sleep(100);
 					playerHelper.sendPacketToPlayer(ply, new Packet1Login("","",ply.getEntityId(),1000,(byte)-1));
 					Thread.sleep(100);
-					ply.teleportTo(loc);
+					ply.teleport(loc);
 					Thread.sleep(100);
 					playerHelper.sendPacketToPlayer(ply, new Packet9Respawn());
 					Thread.sleep(100);

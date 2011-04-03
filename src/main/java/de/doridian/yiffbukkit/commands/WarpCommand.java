@@ -72,7 +72,7 @@ public class WarpCommand extends ICommand {
 		try {
 			if (args.length == 1) {
 				//warp <warp point name>
-				ply.teleportTo(plugin.warpEngine.getWarp(playerName, args[0]).location);
+				ply.teleport(plugin.warpEngine.getWarp(playerName, args[0]).location);
 				return;
 			}
 
