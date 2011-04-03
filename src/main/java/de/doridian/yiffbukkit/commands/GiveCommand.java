@@ -122,7 +122,7 @@ public class GiveCommand extends ICommand {
 
 			if (count > 10)
 				count = 10;
-			
+
 			for (int i = 0; i < count; ++i) {
 				try {
 					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), ply, target, target.getLocation());
@@ -133,6 +133,7 @@ public class GiveCommand extends ICommand {
 				}
 			}
 
+			playerHelper.SendDirectedMessage(ply, "Created "+count+" creatures.");
 			return;
 		}
 
