@@ -159,7 +159,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		event.getPlayer().setDisplayName(plugin.playerHelper.GetPlayerNick(event.getPlayer().getName()));
+		String nick = plugin.playerHelper.GetPlayerNick(event.getPlayer().getName());
+		if(nick == null)
+			nick = event.getPlayer().getName();
+		event.getPlayer().setDisplayName(nick);
 		
 		event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e joined!");
 
@@ -208,6 +211,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
 	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
+		if(event.isCancelled()) return;
 		if (runCommand(event.getPlayer(), event.getMessage().substring(1).trim())) {
 			event.setCancelled(true);
 		}
