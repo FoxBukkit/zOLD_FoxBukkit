@@ -44,6 +44,7 @@ public class PlayerHelper {
 		LoadRanks();
 		LoadPlayerRanks();
 		LoadPlayerTags();
+		LoadPlayerNicks();
 		LoadPlayerHomePositions();
 		LoadPortPermissions();
 	}
