@@ -41,7 +41,7 @@ public class GodCommand extends AbstractPlayerStateCommand {
 	}
 
 	@Override
-	protected void displayMessage(boolean prevState, boolean newState, String targetName, Player commandSender) {
+	protected void onStateChange(boolean prevState, boolean newState, String targetName, Player commandSender) {
 		final String commandSenderName = commandSender.getName();
 		final Player target = plugin.getServer().getPlayer(targetName);
 

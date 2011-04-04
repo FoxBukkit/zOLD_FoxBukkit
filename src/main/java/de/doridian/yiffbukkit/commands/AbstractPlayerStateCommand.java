@@ -81,17 +81,17 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 			newState = !prevState;
 		}
 
+		onStateChange(prevState, newState, targetName, ply);
+
 		if (newState) {
 			states.add(targetName);
 		}
 		else {
 			states.remove(targetName);
 		}
-
-		displayMessage(prevState, newState, targetName, ply);
 	}
 
-	protected abstract void displayMessage(boolean prevState, boolean newState, String targetName, final Player commandSender);
+	protected abstract void onStateChange(boolean prevState, boolean newState, String targetName, final Player commandSender) throws YiffBukkitCommandException;
 
 	@Override
 	public String GetUsage() {
