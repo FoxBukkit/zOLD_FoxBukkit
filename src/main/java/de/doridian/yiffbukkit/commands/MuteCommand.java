@@ -89,14 +89,16 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 				if (prevState)
 					playerHelper.SendDirectedMessage(commandSender, targetName+" is already muted.");
 				else {
-					playerHelper.SendServerMessage(commandSenderName+" muted "+targetName+".", target);
+					playerHelper.SendServerMessage(commandSenderName+" muted "+targetName+".", commandSender, target);
+					playerHelper.SendDirectedMessage(commandSender, "You muted "+targetName+".");
 					if (target != null)
 						playerHelper.SendDirectedMessage(target, commandSenderName+" muted you.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.SendServerMessage(commandSenderName+" unmuted "+targetName+".", target);
+					playerHelper.SendServerMessage(commandSenderName+" unmuted "+targetName+".", commandSender, target);
+					playerHelper.SendDirectedMessage(commandSender, "You unmuted "+targetName+".");
 					if (target != null)
 						playerHelper.SendDirectedMessage(target, commandSenderName+" unmuted you.");
 				}
