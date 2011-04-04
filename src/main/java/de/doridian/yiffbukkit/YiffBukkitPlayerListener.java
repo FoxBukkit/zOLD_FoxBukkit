@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -159,14 +160,24 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		String nick = plugin.playerHelper.GetPlayerNick(event.getPlayer().getName());
-		if(nick == null)
-			nick = event.getPlayer().getName();
-		event.getPlayer().setDisplayName(nick);
-		
-		event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e joined!");
+		final Player player = event.getPlayer();
 
-		plugin.playerHelper.updateToolMappings(event.getPlayer());
+		String nick = plugin.playerHelper.GetPlayerNick(player.getName());
+		if (nick == null)
+			nick = player.getName();
+		player.setDisplayName(nick);
+
+		if (playerFileExists(player))
+			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
+		else
+			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
+
+		plugin.playerHelper.updateToolMappings(player);
+	}
+
+	private boolean playerFileExists(Player player) {
+		File playerFile = new File("world/players/"+player.getName()+".dat");
+		return playerFile.exists();
 	}
 
 	@Override
@@ -187,7 +198,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 	}
-	
+
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player ply = event.getPlayer();
