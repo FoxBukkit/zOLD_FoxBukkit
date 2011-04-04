@@ -26,6 +26,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
@@ -182,6 +183,19 @@ public class Utils {
 					throw new YiffBukkitCommandException("You must face a creature/boat/minecart");
 				}
 
+			}
+			else if (type.equals("SLIME")) {
+				entity = world.spawnCreature(location, CreatureType.WOLF);
+				final Slime slime = (Slime)entity;
+				
+				if (data != null) {
+					
+					try {
+						int size = Integer.parseInt(data);
+						slime.setSize(size);
+					} catch (NumberFormatException e) { }
+					
+				}
 			}
 			else if (type.equals("WOLF")) {
 				entity = world.spawnCreature(location, CreatureType.WOLF);
