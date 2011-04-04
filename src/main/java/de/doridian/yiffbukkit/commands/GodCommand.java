@@ -50,13 +50,13 @@ public class GodCommand extends AbstractPlayerStateCommand {
 				if (prevState)
 					playerHelper.SendDirectedMessage(commandSender, "You are already invincible.");
 				else {
-					playerHelper.SendServerMessage(commandSenderName+" made themselves invincible.", target);
+					playerHelper.SendServerMessage(commandSenderName+" made themselves invincible.", commandSender);
 					playerHelper.SendDirectedMessage(commandSender, "You are now invincible.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.SendServerMessage(commandSenderName+" made themselves no longer invincible.", target);
+					playerHelper.SendServerMessage(commandSenderName+" made themselves no longer invincible.", commandSender);
 					playerHelper.SendDirectedMessage(commandSender, "You are no longer invincible.");
 				}
 				else
@@ -69,13 +69,15 @@ public class GodCommand extends AbstractPlayerStateCommand {
 					playerHelper.SendDirectedMessage(commandSender, targetName+" is already invincible.");
 				else {
 					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" invincible.", target);
-					playerHelper.SendDirectedMessage(target, commandSenderName+" made you invincible.");
+					if (target != null)
+						playerHelper.SendDirectedMessage(target, commandSenderName+" made you invincible.");
 				}
 			}
 			else {
 				if (prevState) {
 					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" no longer invincible.", target);
-					playerHelper.SendDirectedMessage(target, commandSenderName+" made you no longer invincible.");
+					if (target != null)
+						playerHelper.SendDirectedMessage(target, commandSenderName+" made you no longer invincible.");
 				}
 				else
 					playerHelper.SendDirectedMessage(commandSender, targetName+" is not invincible.");
