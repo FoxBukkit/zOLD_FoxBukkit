@@ -151,6 +151,24 @@ public class PlayerHelper {
 		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
 
+	public void SendServerMessage(String msg, Player exceptPlayer) {
+		SendServerMessage(msg, exceptPlayer, '5');
+	}
+	public void SendServerMessage(String msg, Player exceptPlayer, char colorCode) {
+		msg = "§"+colorCode+"[YB]§f " + msg;
+
+		Player[] players = plugin.getServer().getOnlinePlayers();
+
+		for (Player player : players) {
+			if (player.equals(exceptPlayer))
+				continue;
+
+			player.sendMessage(msg);
+		}
+
+		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
+	}
+
 	public void SendDirectedMessage(Player ply, String msg, char colorCode) {
 		ply.sendMessage("§"+colorCode+"[YB]§f " + msg);
 	}
