@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
@@ -14,8 +13,8 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
-public class MuteCommand extends ICommand {
-	Set<String> muted = new HashSet<String>();
+public class MuteCommand extends AbstractPlayerStateCommand {
+	private final Set<String> muted = states;
 
 	public MuteCommand(YiffBukkit plug) {
 		super(plug);
@@ -28,7 +27,7 @@ public class MuteCommand extends ICommand {
 					return;
 				}
 			}
-			
+
 			public void onPlayerCommandPreprocess(PlayerChatEvent event) {
 				if (muted.contains(event.getPlayer().getName())) {
 					plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
@@ -50,64 +49,58 @@ public class MuteCommand extends ICommand {
 
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		Boolean onoff;
-		String name;
-		switch (args.length){
-		case 0:
+		if (args.length == 0)
 			throw new YiffBukkitCommandException("Syntax error");
 
-		case 1:
-			//mute <name> - mute a player
-			onoff = null;
-			name = playerHelper.CompletePlayerName(args[0], false);
+		super.Run(ply, args, argStr);
+	}
 
-			break;
+	@Override
+	protected void onStateChange(boolean prevState, boolean newState, String targetName, Player commandSender) throws YiffBukkitCommandException {
+		final String commandSenderName = commandSender.getName();
+		final Player target = plugin.getServer().getPlayer(targetName);
 
-		default:
-			if ("on".equals(args[0])) {
-				//mute on <name> - mute a player
-				onoff = true;
-				name = playerHelper.CompletePlayerName(args[1], false);
-			}
-			else if ("off".equals(args[0])) {
-				//mute off <name> - unmute a player
-				onoff = false;
-				name = playerHelper.CompletePlayerName(args[1], false);
-			}
-			else {
-				//mute <name> <...> - not sure yet
-				name = playerHelper.CompletePlayerName(args[0], false);
+		if (targetName.equals(commandSenderName))
+			throw new YiffBukkitCommandException("You cannot mute yourself");
 
-				if ("on".equals(args[1])) {
-					//mute <name> on - mute a player
-					onoff = true;
-				}
-				else if ("off".equals(args[1])) {
-					//mute <name> off - unmute a player
-					onoff = false;
-				}
-				else {
-					throw new YiffBukkitCommandException("Syntax error");
-				}
-			}
-			break;
-		}
-
-		if (onoff == null) {
-			onoff = !muted.contains(name);
-		}
-		
-		Player target = playerHelper.MatchPlayerSingle(name);
-		if (playerHelper.GetPlayerLevel(ply) <= playerHelper.GetPlayerLevel(target)) 
+		if (playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(target)) 
 			throw new PermissionDeniedException();
 
-		if (onoff) {
-			muted.add(name);
-			playerHelper.SendServerMessage(ply.getName() + " muted " + name + ".");
+		if (targetName.equals(commandSenderName)) {
+			if (newState) {
+				if (prevState)
+					playerHelper.SendDirectedMessage(commandSender, "You are already muted.");
+				else {
+					playerHelper.SendServerMessage(commandSenderName+" muted themselves.", target);
+					playerHelper.SendDirectedMessage(commandSender, "You are now muted.");
+				}
+			}
+			else {
+				if (prevState) {
+					playerHelper.SendServerMessage(commandSenderName+" unmuted themselves.", target);
+					playerHelper.SendDirectedMessage(commandSender, "You are no longer muted.");
+				}
+				else
+					playerHelper.SendDirectedMessage(commandSender, "You are not muted.");
+			}
 		}
 		else {
-			muted.remove(name);
-			playerHelper.SendServerMessage(ply.getName() + " unmuted " + name + ".");
+			if (newState) {
+				if (prevState)
+					playerHelper.SendDirectedMessage(commandSender, targetName+" is already muted.");
+				else {
+					playerHelper.SendServerMessage(commandSenderName+" muted "+targetName+".", target);
+					playerHelper.SendDirectedMessage(target, commandSenderName+" muted you.");
+				}
+			}
+			else {
+				if (prevState) {
+					playerHelper.SendServerMessage(commandSenderName+" unmuted "+targetName+".", target);
+					playerHelper.SendDirectedMessage(target, commandSenderName+" unmuted you.");
+				}
+				else
+					playerHelper.SendDirectedMessage(commandSender, targetName+" is not muted.");
+			}
 		}
 	}
 
@@ -118,6 +111,6 @@ public class MuteCommand extends ICommand {
 
 	@Override
 	public String GetUsage() {
-		return "[name] [on|off]";
+		return "<name> [on|off]";
 	}
 }
