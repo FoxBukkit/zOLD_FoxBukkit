@@ -2,8 +2,10 @@ package de.doridian.yiffbukkit.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -643,7 +645,7 @@ public class PlayerHelper {
 		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving", true);
 	}
 
-	protected void removeHandler(Player slave) {
+	private void removeHandler(Player slave) {
 		if (leashMasters.isEmpty()) {
 			plugin.getServer().getScheduler().cancelTask(taskId);
 		}
@@ -658,5 +660,21 @@ public class PlayerHelper {
 		leashMasters.remove(slave.getName());
 
 		removeHandler(slave);
+	}
+
+	public Date lastLogout(Player player) {
+		File playerFile = new File("world/players/"+player.getName()+".dat");
+		if (!playerFile.exists())
+			return null;
+
+		return new Date(playerFile.lastModified());
+	}
+
+	public Date lastLogoutBackup(Player player) {
+		File playerFile = new File("world_backup/players/"+player.getName()+".dat");
+		if (!playerFile.exists())
+			return null;
+
+		return new Date(playerFile.lastModified());
 	}
 }

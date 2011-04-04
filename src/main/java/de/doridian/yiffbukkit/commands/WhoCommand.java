@@ -34,7 +34,11 @@ public class WhoCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "World: " + target.getWorld().getName());
 
 			int playerLevel = playerHelper.GetPlayerLevel(ply);
+			if (playerLevel < 2) return;
+			playerHelper.SendDirectedMessage(ply, "Last logout: " + playerHelper.lastLogout(target));
+			
 			if (playerLevel < 3) return;
+			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + playerHelper.lastLogoutBackup(target));
 			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
 			Vector targetPosition = target.getLocation().toVector();
 			playerHelper.SendDirectedMessage(ply, "Position: " + targetPosition);
