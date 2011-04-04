@@ -18,14 +18,15 @@ import de.doridian.yiffbukkit.util.Ini;
 public class JailEngine {
 	public class JailDescriptor {
 		World world;
-		Vector position, size;
+		Vector position;
+		double sizeX, sizeZ;
 
 		public JailDescriptor(World world, Vector pos1, Vector pos2) {
 			this.world = world;
 			position = pos1.clone().add(new Vector(0.5, 0, 0.5));
-			size = pos2.clone().subtract(pos1);
-			System.out.println(position);
-			System.out.println(size);
+			Vector size = pos2.clone().subtract(pos1);
+			sizeX = size.getX();
+			sizeZ = size.getZ();
 		}
 
 		public JailDescriptor(Map<String, List<String>> section) {
@@ -35,7 +36,9 @@ public class JailEngine {
 		public void load(Map<String, List<String>> section) {
 			world = Ini.loadWorld(section, "%s", plugin.getServer());
 			position = Ini.loadVector(section, "position%s");
-			size = Ini.loadVector(section, "size%s");
+			Vector size = Ini.loadVector(section, "size%s");
+			sizeX = size.getX();
+			sizeZ = size.getZ();
 		}
 
 		public Map<String, List<String>> save() {
@@ -43,21 +46,20 @@ public class JailEngine {
 
 			Ini.saveWorld(section, "%s", world);
 			Ini.saveVector(section, "position%s", position);
-			Ini.saveVector(section, "size%s", size);
+			Ini.saveVector(section, "size%s", new Vector(sizeX, 0, sizeZ));
 
 			return section;
 		}
 
 		public void jailPlayer(Player ply) {
-			Vector vector = position.clone().add(size.clone().multiply(Math.random()));
+			Vector vector = position.clone().add(new Vector(sizeX*Math.random(), 0, sizeZ*Math.random()));
 			Location location = vector.toLocation(world);
 			ply.teleport(location);
 		}
 
 		public Vector center() {
-			return position.clone().add(size.clone().multiply(0.5));
+			return position.clone().add(new Vector(sizeX*0.5, 0, sizeZ*0.5));
 		}
-
 	}
 
 	private List<JailDescriptor> jails = new ArrayList<JailDescriptor>();
@@ -67,7 +69,7 @@ public class JailEngine {
 	public JailEngine(YiffBukkit plugin) {
 		this.plugin = plugin;
 		LoadJails();
-		
+
 		new JailPlayerListener(this);
 	}
 
