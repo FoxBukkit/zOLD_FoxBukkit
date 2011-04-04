@@ -154,16 +154,21 @@ public class PlayerHelper {
 		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
 
-	public void SendServerMessage(String msg, Player exceptPlayer) {
-		SendServerMessage(msg, exceptPlayer, '5');
+	public void SendServerMessage(String msg, Player... exceptPlayers) {
+		SendServerMessage(msg, '5', exceptPlayers);
 	}
-	public void SendServerMessage(String msg, Player exceptPlayer, char colorCode) {
+	public void SendServerMessage(String msg, char colorCode, Player... exceptPlayers) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
+
+		Set<Player> exceptPlayersSet = new HashSet<Player>();
+		for (Player exceptPlayer : exceptPlayers) {
+			exceptPlayersSet.add(exceptPlayer);
+		}
 
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
 		for (Player player : players) {
-			if (player.equals(exceptPlayer))
+			if (exceptPlayersSet.contains(player))
 				continue;
 
 			player.sendMessage(msg);
