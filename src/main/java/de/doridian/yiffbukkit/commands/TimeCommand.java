@@ -17,11 +17,11 @@ public class TimeCommand extends ServerTimeCommand {
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
 		if (setTime == null) {
 			playerHelper.frozenTimes.remove(ply.getName());
-			playerHelper.SendDirectedMessage(ply, "Reset Your Time back to normal!");
+			playerHelper.SendDirectedMessage(ply, "Reset your time back to normal!");
 		}
 		else {
 			playerHelper.frozenTimes.put(ply.getName(), setTime);
-			playerHelper.SendDirectedMessage(ply, "You Forced Your Time to be: " + displayTime + ":00");
+			playerHelper.SendDirectedMessage(ply, "You forced your time to be: " + displayTime + ":00");
 		}
 	}
 

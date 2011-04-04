@@ -51,10 +51,10 @@ public class ServerTimeCommand extends ICommand {
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
 		playerHelper.frozenServerTime = setTime;
 		if (setTime == null) {
-			playerHelper.SendServerMessage(ply.getName() + " reset the Server Time back to normal!");
+			playerHelper.SendServerMessage(ply.getName() + " reset the server time back to normal!");
 		}
 		else {
-			playerHelper.SendServerMessage(ply.getName() + " forced the Server Time to be: " + displayTime + ":00");
+			playerHelper.SendServerMessage(ply.getName() + " forced the server time to be: " + displayTime + ":00");
 		}
 	}
 
