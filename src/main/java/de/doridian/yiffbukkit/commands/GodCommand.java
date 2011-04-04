@@ -68,14 +68,16 @@ public class GodCommand extends AbstractPlayerStateCommand {
 				if (prevState)
 					playerHelper.SendDirectedMessage(commandSender, targetName+" is already invincible.");
 				else {
-					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" invincible.", target);
+					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" invincible.", commandSender, target);
+					playerHelper.SendDirectedMessage(commandSender, "You made "+targetName+" invincible.");
 					if (target != null)
 						playerHelper.SendDirectedMessage(target, commandSenderName+" made you invincible.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" no longer invincible.", target);
+					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" no longer invincible.", commandSender, target);
+					playerHelper.SendDirectedMessage(commandSender, "You made "+targetName+" no longer invincible.");
 					if (target != null)
 						playerHelper.SendDirectedMessage(target, commandSenderName+" made you no longer invincible.");
 				}
