@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
@@ -11,10 +10,9 @@ import org.bukkit.event.entity.EntityListener;
 import org.bukkit.plugin.PluginManager;
 
 import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
-public class GodCommand extends ICommand {
-	Set<String> godded = new HashSet<String>();
+public class GodCommand extends AbstractPlayerStateCommand {
+	private final Set<String> godded = states;
 
 	public GodCommand(YiffBukkit plug) {
 		super(plug);
@@ -43,86 +41,41 @@ public class GodCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		Boolean onoff;
-		String name;
-		switch (args.length){
-		case 0:
-			//god - toggle own god mode
-			onoff = null;
-			name = ply.getName();
+	protected void displayMessage(boolean prevState, boolean newState, String targetName, Player commandSender) {
+		final String commandSenderName = commandSender.getName();
 
-			break;
-
-		case 1:
-			if ("on".equals(args[0])) {
-				//god on - turn own god mode on
-				onoff = true;
-				name = ply.getName();
-			}
-			else if ("off".equals(args[0])) {
-				//god off - turn own god mode off
-				onoff = false;
-				name = ply.getName();
+		if (targetName.equals(commandSenderName)) {
+			if (newState) {
+				if (prevState)
+					playerHelper.SendDirectedMessage(commandSender, "You are already invincible.");
+				else
+					playerHelper.SendDirectedMessage(commandSender, "You are now invincible.");
 			}
 			else {
-				//god <name> - toggle someone's god mode
-				onoff = null;
-				name = playerHelper.CompletePlayerName(args[0], false);
+				if (prevState)
+					playerHelper.SendDirectedMessage(commandSender, "You are no longer invincible.");
+				else
+					playerHelper.SendDirectedMessage(commandSender, "You are not invincible.");
 			}
-			break;
-
-		default:
-			if ("on".equals(args[0])) {
-				//god on <name> - turn someone's god mode on
-				onoff = true;
-				name = playerHelper.CompletePlayerName(args[1], false);
-			}
-			else if ("off".equals(args[0])) {
-				//god off <name> - turn someone's god mode off
-				onoff = false;
-				name = playerHelper.CompletePlayerName(args[1], false);
-			}
-			else {
-				//god <name> <...> - not sure yet
-				name = playerHelper.CompletePlayerName(args[0], false);
-
-				if ("on".equals(args[1])) {
-					//god <name> on - turn someone's god mode on
-					onoff = true;
-				}
-				else if ("off".equals(args[1])) {
-					//god <name> off - turn someone's god mode off
-					onoff = false;
-				}
-				else {
-					throw new YiffBukkitCommandException("Syntax error");
-				}
-			}
-			break;
-		}
-
-		if (onoff == null) {
-			onoff = !godded.contains(name);
-		}
-
-		if (onoff) {
-			godded.add(name);
-			playerHelper.SendServerMessage(ply.getName() + " made " + name + " invincible.");
 		}
 		else {
-			godded.remove(name);
-			playerHelper.SendServerMessage(ply.getName() + " made " + name + " no longer invincible.");
+			if (newState) {
+				if (prevState)
+					playerHelper.SendDirectedMessage(commandSender, targetName+" is already invincible.");
+				else
+					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" invincible.");
+			}
+			else {
+				if (prevState)
+					playerHelper.SendServerMessage(commandSenderName+" made "+targetName+" no longer invincible.");
+				else
+					playerHelper.SendDirectedMessage(commandSender, targetName+" is not invincible.");
+			}
 		}
 	}
 
 	@Override
 	public String GetHelp() {
 		return "Activates or deactivates god mode.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<name>] [on|off]";
 	}
 }
