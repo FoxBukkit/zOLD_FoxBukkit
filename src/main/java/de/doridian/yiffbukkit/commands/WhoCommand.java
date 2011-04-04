@@ -38,8 +38,8 @@ public class WhoCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "Last logout: " + playerHelper.lastLogout(target));
 			
 			if (playerLevel < 3) return;
-			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + playerHelper.lastLogoutBackup(target));
 			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
+			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + playerHelper.lastLogoutBackup(target));
 			Vector targetPosition = target.getLocation().toVector();
 			playerHelper.SendDirectedMessage(ply, "Position: " + targetPosition);
 			Vector offsetFromYou = targetPosition.clone().subtract(ply.getLocation().toVector());
