@@ -12,6 +12,7 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
@@ -50,7 +51,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.BLOCK_PLACE, this, Priority.Normal, plugin);
-		//pm.registerEvent(Event.Type.BLOCK_CANBUILD, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.BLOCK_CANBUILD, this, Priority.Normal, plugin);
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.SIGN_CHANGE, this, Priority.Highest, plugin);
@@ -105,5 +106,15 @@ public class YiffBukkitBlockListener extends BlockListener {
 	public void onBlockPhysics(BlockPhysicsEvent event) {
 		if (event.getChangedType() == Material.PORTAL)
 			event.setCancelled(true);
+	}
+	
+	@Override
+	public void onBlockCanBuild(BlockCanBuildEvent event)
+	{
+		if (event.isBuildable() == false) {
+			if (event.getMaterial() == Material.FENCE) {
+				event.setBuildable(true);
+			}
+		}
 	}
 }
