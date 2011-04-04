@@ -359,7 +359,7 @@ public class PlayerHelper {
 		}
 		catch(Exception e) { }
 	}
-	
+
 	private Hashtable<String,String> playernicks = new Hashtable<String,String>();
 	public void LoadPlayerNicks() {
 		playernicks.clear();
@@ -387,7 +387,7 @@ public class PlayerHelper {
 		}
 		catch(Exception e) { }
 	}
-	
+
 	public String GetPlayerNick(String name) {
 		name = name.toLowerCase();
 		if(playernicks.containsKey(name))
@@ -395,7 +395,7 @@ public class PlayerHelper {
 		else
 			return null;
 	}
-	
+
 	public void SetPlayerNick(String name, String tag) {
 		name = name.toLowerCase();
 		if (tag == null)
