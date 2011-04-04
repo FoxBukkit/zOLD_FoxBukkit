@@ -41,6 +41,8 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftZombie.class, "a §9zombie§f");
 		monsterMap.put(CraftPigZombie.class, "a §9pig zombie§f");
 		monsterMap.put(CraftWolf.class, "a §9wolf§f");
+		monsterMap.put(CraftSlime.class, "a §9slime§f");
+		monsterMap.put(CraftGhast.class, "a §9ghast§f");
 	}
 
 	@Override
