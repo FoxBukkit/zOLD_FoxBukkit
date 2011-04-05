@@ -234,6 +234,9 @@ public class Utils {
 				else if ("PARTY".equals(data)) {
 					new PartySheep(plugin, sheep);
 				}
+				else if ("SHEARED".equals(data) || "SHORN".equals(data) || "NUDE".equals(data) || "NAKED".equals(data)) {
+					sheep.setSheared(true);
+				}
 				else {
 					DyeColor dyeColor = DyeColor.WHITE;
 					try {
