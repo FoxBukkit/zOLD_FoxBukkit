@@ -23,7 +23,7 @@ public abstract class AbstractSheep implements Runnable {
 
 	@Override
 	public void run() {
-		if (isDead()) {
+		if (isDead() || sheep.isSheared()) {
 			plugin.getServer().getScheduler().cancelTask(taskId);
 			return;
 		}
