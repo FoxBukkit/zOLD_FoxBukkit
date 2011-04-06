@@ -19,13 +19,13 @@ public class KickCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
-		String reason = Utils.concatArray(args, 1, "Kicked by " + ply.getName());
+		String reason = ply.getName() + ": " + Utils.concatArray(args, 1, "Kicked");
 
 		if(playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
 		otherply.kickPlayer(reason);
-		playerHelper.SendServerMessage(ply.getName() + " kicked " + otherply.getName() + " (reason: "+reason+")");
+		//playerHelper.SendServerMessage(ply.getName() + " kicked " + otherply.getName() + " (reason: "+reason+")");
 	}
 
 	public String GetHelp() {
