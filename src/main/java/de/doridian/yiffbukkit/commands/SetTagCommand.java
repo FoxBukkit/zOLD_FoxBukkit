@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class SetTagCommand extends ICommand {
@@ -11,8 +11,8 @@ public class SetTagCommand extends ICommand {
 		return 3;
 	}
 
-	public SetTagCommand(YiffBukkit plug) {
-		super(plug);
+	public SetTagCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException {

@@ -9,12 +9,12 @@ import com.sk89q.worldedit.regions.Region;
 
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class SetJailCommand extends ICommand {
-	public SetJailCommand(YiffBukkit plug) {
-		super(plug);
+	public SetJailCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

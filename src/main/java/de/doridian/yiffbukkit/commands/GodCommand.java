@@ -9,13 +9,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.plugin.PluginManager;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class GodCommand extends AbstractPlayerStateCommand {
 	private final Set<String> godded = states;
 
-	public GodCommand(YiffBukkit plug) {
-		super(plug);
+	public GodCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 		EntityListener entityListener = new EntityListener() {
 			@Override
 			public void onEntityDamage(EntityDamageEvent event) {

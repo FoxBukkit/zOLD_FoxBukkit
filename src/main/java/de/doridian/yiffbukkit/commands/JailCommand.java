@@ -2,13 +2,13 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class JailCommand extends ICommand {
-	public JailCommand(YiffBukkit plug) {
-		super(plug);
+	public JailCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

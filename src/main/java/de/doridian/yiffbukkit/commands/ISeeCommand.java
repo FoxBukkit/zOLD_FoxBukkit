@@ -7,7 +7,7 @@ import net.minecraft.server.InventoryPlayer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class ISeeCommand extends ICommand {
@@ -15,8 +15,8 @@ public class ISeeCommand extends ICommand {
 		return 4;
 	}
 
-	public ISeeCommand(YiffBukkit plug) {
-		super(plug);
+	public ISeeCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {

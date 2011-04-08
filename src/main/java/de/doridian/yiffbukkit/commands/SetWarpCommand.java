@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 
@@ -13,8 +13,8 @@ public class SetWarpCommand extends ICommand {
 		return 3;
 	}
 
-	public SetWarpCommand(YiffBukkit plug) {
-		super(plug);
+	public SetWarpCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

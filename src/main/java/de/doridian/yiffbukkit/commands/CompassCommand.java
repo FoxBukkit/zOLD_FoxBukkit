@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class CompassCommand extends ICommand {
@@ -10,8 +10,8 @@ public class CompassCommand extends ICommand {
 		return 0;
 	}
 
-	public CompassCommand(YiffBukkit plug) {
-		super(plug);
+	public CompassCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

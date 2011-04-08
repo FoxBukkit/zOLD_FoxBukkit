@@ -2,15 +2,15 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class SetHomeCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
 
-	public SetHomeCommand(YiffBukkit plug) {
-		super(plug);
+	public SetHomeCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

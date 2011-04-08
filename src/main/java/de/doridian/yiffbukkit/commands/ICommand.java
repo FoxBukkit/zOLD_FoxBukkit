@@ -1,34 +1,38 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
 public abstract class ICommand {
-	public @interface Level { int value(); }
-	protected @interface Names { String[] value(); }
-	protected @interface Help { String value(); }
-	protected @interface Usage { String value(); }
-	protected @interface Disabled { }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface Names { String[] value(); }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface Help { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface Usage { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface Level { int value(); }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface Disabled { }
 
 	protected YiffBukkit plugin;
 	protected PlayerHelper playerHelper;
 
-	protected ICommand(YiffBukkit plug) {
-		plugin = plug;
+	protected ICommand(YiffBukkitPlayerListener playerListener) {
+		plugin = playerListener.plugin;
 		playerHelper = plugin.playerHelper;
 
 		if (this.getClass().getAnnotation(Disabled.class) != null)
 			return;
-		
+
 		Names namesAnnotation = this.getClass().getAnnotation(Names.class);
 		if (namesAnnotation == null)
 			return;
 
 		for (String name : namesAnnotation.value()) {
-			plugin.playerListener.commands.put(name, this);
+			playerListener.registerCommand(name, this);
 		}
 	}
 
@@ -36,7 +40,7 @@ public abstract class ICommand {
 		Level levelAnnotation = this.getClass().getAnnotation(Level.class);
 		if (levelAnnotation == null)
 			throw new UnsupportedOperationException("You need either a GetMinLevel method or an @Level annotation.");
-		
+
 		return levelAnnotation.value();
 	}
 	public abstract void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException;

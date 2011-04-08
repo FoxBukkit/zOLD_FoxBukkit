@@ -10,14 +10,14 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class MuteCommand extends AbstractPlayerStateCommand {
 	private final Set<String> muted = states;
 
-	public MuteCommand(YiffBukkit plug) {
-		super(plug);
+	public MuteCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 		PlayerListener chatListener = new PlayerListener() {
 			@Override
 			public void onPlayerChat(PlayerChatEvent event) {

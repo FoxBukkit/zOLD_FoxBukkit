@@ -2,12 +2,12 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class KickAllCommand extends ICommand {
 
-	public KickAllCommand(YiffBukkit plug) {
-		super(plug);
+	public KickAllCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

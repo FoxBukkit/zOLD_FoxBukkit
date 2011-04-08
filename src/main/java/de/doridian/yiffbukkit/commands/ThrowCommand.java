@@ -9,12 +9,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class ThrowCommand extends ICommand {
-	public ThrowCommand(YiffBukkit plug) {
-		super(plug);
+	public ThrowCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

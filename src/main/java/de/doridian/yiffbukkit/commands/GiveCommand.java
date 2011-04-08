@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class GiveCommand extends ICommand {
 	Map<String,Material> aliases = new HashMap<String,Material>();
@@ -80,8 +80,8 @@ public class GiveCommand extends ICommand {
 		return 3;
 	}
 
-	public GiveCommand(YiffBukkit plug) {
-		super(plug);
+	public GiveCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	private Material matchMaterial(String materialName) {

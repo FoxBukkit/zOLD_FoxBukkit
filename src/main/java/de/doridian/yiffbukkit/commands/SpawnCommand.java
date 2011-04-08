@@ -3,15 +3,15 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class SpawnCommand extends ICommand {
 	public int GetMinLevel() {
 		return 0;
 	}
 
-	public SpawnCommand(YiffBukkit plug) {
-		super(plug);
+	public SpawnCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

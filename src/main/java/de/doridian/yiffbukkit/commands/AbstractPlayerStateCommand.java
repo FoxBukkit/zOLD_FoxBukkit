@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public abstract class AbstractPlayerStateCommand extends ICommand {
 	protected final Set<String> states = new HashSet<String>();
 
-	public AbstractPlayerStateCommand(YiffBukkit plug) {
-		super(plug);
+	public AbstractPlayerStateCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

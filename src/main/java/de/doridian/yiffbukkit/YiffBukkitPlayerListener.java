@@ -36,77 +36,77 @@ import org.bukkit.plugin.PluginManager;
  * @author Doridian
  */
 public class YiffBukkitPlayerListener extends PlayerListener {
-	private final YiffBukkit plugin;
+	public final YiffBukkit plugin;
 	private final PlayerHelper playerHelper;
 
 	public YiffBukkitPlayerListener(YiffBukkit instance) {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		new MeCommand(plugin);
-		commands.put("pm", new PmCommand(plugin));
+		new MeCommand(this);
+		commands.put("pm", new PmCommand(this));
 
-		commands.put("who", new WhoCommand(plugin));
-		commands.put("help", new HelpCommand(plugin));
+		commands.put("who", new WhoCommand(this));
+		commands.put("help", new HelpCommand(this));
 
-		commands.put("setrank", new SetRankCommand(plugin));
-		commands.put("settag", new SetTagCommand(plugin));
-		commands.put("setnick", new SetNickCommand(plugin));
+		commands.put("setrank", new SetRankCommand(this));
+		commands.put("settag", new SetTagCommand(this));
+		commands.put("setnick", new SetNickCommand(this));
 
-		commands.put("kick", new KickCommand(plugin));
-		commands.put("ban", new BanCommand(plugin));
-		commands.put("unban", new UnbanCommand(plugin));
-		commands.put("pardon", new UnbanCommand(plugin));
-		commands.put("kickall", new KickAllCommand(plugin));
-		commands.put("mute", new MuteCommand(plugin));
+		commands.put("kick", new KickCommand(this));
+		commands.put("ban", new BanCommand(this));
+		commands.put("unban", new UnbanCommand(this));
+		commands.put("pardon", new UnbanCommand(this));
+		commands.put("kickall", new KickAllCommand(this));
+		commands.put("mute", new MuteCommand(this));
 
-		commands.put("banish", new BanishCommand(plugin));
-		commands.put("vanish", new VanishCommand(plugin));
+		commands.put("banish", new BanishCommand(this));
+		commands.put("vanish", new VanishCommand(this));
 
-		commands.put("tp", new TpCommand(plugin));
-		commands.put("summon", new SummonCommand(plugin));
-		commands.put("send", new SendCommand(plugin));
+		commands.put("tp", new TpCommand(this));
+		commands.put("summon", new SummonCommand(this));
+		commands.put("send", new SendCommand(this));
 
-		commands.put("notp", new NoTpCommand(plugin));
-		commands.put("nosummon", new NoSummonCommand(plugin));
-		commands.put("noport", new NoPortCommand(plugin));
+		commands.put("notp", new NoTpCommand(this));
+		commands.put("nosummon", new NoSummonCommand(this));
+		commands.put("noport", new NoPortCommand(this));
 
-		commands.put("home", new HomeCommand(plugin));
-		commands.put("sethome", new SetHomeCommand(plugin));
-		commands.put("spawn", new SpawnCommand(plugin));
-		commands.put("setspawn", new SetSpawnCommand(plugin));
-		commands.put("compass", new CompassCommand(plugin));
+		commands.put("home", new HomeCommand(this));
+		commands.put("sethome", new SetHomeCommand(this));
+		commands.put("spawn", new SpawnCommand(this));
+		commands.put("setspawn", new SetSpawnCommand(this));
+		commands.put("compass", new CompassCommand(this));
 
-		commands.put("give", new GiveCommand(plugin));
-		commands.put("throw", new ThrowCommand(plugin));
-		commands.put("clear", new ClearCommand(plugin));
+		commands.put("give", new GiveCommand(this));
+		commands.put("throw", new ThrowCommand(this));
+		commands.put("clear", new ClearCommand(this));
 
-		commands.put("time", new TimeCommand(plugin));
-		commands.put("servertime", new ServerTimeCommand(plugin));
+		commands.put("time", new TimeCommand(this));
+		commands.put("servertime", new ServerTimeCommand(this));
 
-		commands.put("reloadads", new ReloadAdsCommand(plugin));
+		commands.put("reloadads", new ReloadAdsCommand(this));
 
-		commands.put("warp", new WarpCommand(plugin));
-		commands.put("setwarp", new SetWarpCommand(plugin));
+		commands.put("warp", new WarpCommand(this));
+		commands.put("setwarp", new SetWarpCommand(this));
 
-		commands.put("jail", new JailCommand(plugin));
-		commands.put("setjail", new SetJailCommand(plugin));
+		commands.put("jail", new JailCommand(this));
+		commands.put("setjail", new SetJailCommand(this));
 
-		commands.put("setportal", new SetPortalCommand(plugin));
+		commands.put("setportal", new SetPortalCommand(this));
 
-		commands.put("isee", new ISeeCommand(plugin));
-		commands.put("leash", new LeashCommand(plugin));
-		commands.put("bind", new BindCommand(plugin));
-		commands.put("god", new GodCommand(plugin));
-		commands.put("heal", new HealCommand(plugin));
+		commands.put("isee", new ISeeCommand(this));
+		commands.put("leash", new LeashCommand(this));
+		commands.put("bind", new BindCommand(this));
+		commands.put("god", new GodCommand(this));
+		commands.put("heal", new HealCommand(this));
 
-		commands.put("§", new CheaterCommand(plugin));
+		commands.put("§", new CheaterCommand(this));
 
-		commands.put("setpass", new PasswordCommand(plugin));
+		commands.put("setpass", new PasswordCommand(this));
 
-		commands.put("rcon", new ConsoleCommand(plugin));
+		commands.put("rcon", new ConsoleCommand(this));
 
-		new ConversationCommand(plugin);
+		new ConversationCommand(this);
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
@@ -118,6 +118,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
+	}
+
+	public void registerCommand(String name, ICommand command) {
+		commands.put(name, command);
 	}
 
 	@Override
@@ -227,10 +231,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 
 		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), event.getMessage());
-		formattedMessage = "§e[CONV]§f"+formattedMessage;
+		formattedMessage = "§e[CONV]§f "+formattedMessage;
 
 		ply.sendMessage(formattedMessage);
 		plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
+
+		event.setCancelled(true);
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();

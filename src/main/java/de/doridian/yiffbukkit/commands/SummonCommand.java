@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class SummonCommand extends ICommand {
@@ -11,8 +11,8 @@ public class SummonCommand extends ICommand {
 		return 2;
 	}
 
-	public SummonCommand(YiffBukkit plug) {
-		super(plug);
+	public SummonCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

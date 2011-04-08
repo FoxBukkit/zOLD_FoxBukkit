@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
@@ -18,8 +18,8 @@ public class WhoCommand extends ICommand {
 		return 0;
 	}
 
-	public WhoCommand(YiffBukkit plug) {
-		super(plug);
+	public WhoCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(final Player ply, String[] args, String argStr) throws PlayerFindException {

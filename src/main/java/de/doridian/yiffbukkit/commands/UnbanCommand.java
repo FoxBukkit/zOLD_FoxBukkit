@@ -2,15 +2,15 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class UnbanCommand extends ICommand {
 	public int GetMinLevel() {
 		return 3;
 	}
 
-	public UnbanCommand(YiffBukkit plug) {
-		super(plug);
+	public UnbanCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

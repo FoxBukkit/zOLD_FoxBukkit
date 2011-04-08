@@ -4,8 +4,8 @@ import java.util.Hashtable;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class ServerTimeCommand extends ICommand {
 	Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
@@ -21,8 +21,8 @@ public class ServerTimeCommand extends ICommand {
 		return 3;
 	}
 
-	public ServerTimeCommand(YiffBukkit plug) {
-		super(plug);
+	public ServerTimeCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

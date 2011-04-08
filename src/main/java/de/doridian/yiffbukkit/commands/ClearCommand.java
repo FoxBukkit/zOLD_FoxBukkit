@@ -2,12 +2,12 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class ClearCommand extends ICommand {
-	public ClearCommand(YiffBukkit plug) {
-		super(plug);
+	public ClearCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

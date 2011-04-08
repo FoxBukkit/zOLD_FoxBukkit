@@ -2,15 +2,15 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class TimeCommand extends ServerTimeCommand {
 	public int GetMinLevel() {
 		return 1;
 	}
 
-	public TimeCommand(YiffBukkit plug) {
-		super(plug);
+	public TimeCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

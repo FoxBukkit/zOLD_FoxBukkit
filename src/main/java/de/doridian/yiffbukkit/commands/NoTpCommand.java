@@ -1,11 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class NoTpCommand extends NoPortCommand {
 
-	public NoTpCommand(YiffBukkit plug) {
-		super(plug);
+	public NoTpCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 		summonPermissions = null;
 	}
 

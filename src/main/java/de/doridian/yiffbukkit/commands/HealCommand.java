@@ -1,12 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class HealCommand extends ICommand {
-	public HealCommand(YiffBukkit plug) {
-		super(plug);
+	public HealCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

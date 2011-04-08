@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 
@@ -15,8 +15,8 @@ public class WarpCommand extends ICommand {
 		return 0;
 	}
 
-	public WarpCommand(YiffBukkit plug) {
-		super(plug);
+	public WarpCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

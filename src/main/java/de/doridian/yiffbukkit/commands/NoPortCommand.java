@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class NoPortCommand extends ICommand {
 	protected Set<String> tpPermissions;
@@ -14,8 +14,8 @@ public class NoPortCommand extends ICommand {
 		return 1;
 	}
 
-	public NoPortCommand(YiffBukkit plug) {
-		super(plug);
+	public NoPortCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 		tpPermissions = playerHelper.playerTpPermissions;
 		summonPermissions = playerHelper.playerSummonPermissions;
 	}

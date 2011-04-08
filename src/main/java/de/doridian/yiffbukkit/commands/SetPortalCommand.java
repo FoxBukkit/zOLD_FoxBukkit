@@ -6,13 +6,13 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 
 public class SetPortalCommand extends ICommand {
-	public SetPortalCommand(YiffBukkit plug) {
-		super(plug);
+	public SetPortalCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

@@ -2,19 +2,16 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.commands.ICommand.Help;
-import de.doridian.yiffbukkit.commands.ICommand.Level;
-import de.doridian.yiffbukkit.commands.ICommand.Names;
-import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names({"me", "emote"})
 @Help("Well, its /me, durp")
 @Usage("<stuff here>")
 @Level(0)
 public class MeCommand extends ICommand {
-	public MeCommand(YiffBukkit plug) {
-		super(plug);
+	public MeCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {
@@ -24,7 +21,7 @@ public class MeCommand extends ICommand {
 			plugin.getServer().broadcastMessage(message);
 		}
 		else {
-			message = "§e[CONV]§f"+message;
+			message = "§e[CONV]§f "+message;
 			ply.sendMessage(message);
 			plugin.getServer().getPlayer(conversationTarget).sendMessage(message);
 		}

@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
 
@@ -12,8 +12,8 @@ public class PmCommand extends ICommand {
 		return 0;
 	}
 
-	public PmCommand(YiffBukkit plug) {
-		super(plug);
+	public PmCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {

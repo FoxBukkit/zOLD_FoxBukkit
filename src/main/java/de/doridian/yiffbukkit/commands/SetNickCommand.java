@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.util.Utils;
@@ -13,8 +13,8 @@ public class SetNickCommand extends ICommand {
 		return 6; //Dori doesnt want people changing nicks :O
 	}
 
-	public SetNickCommand(YiffBukkit plug) {
-		super(plug);
+	public SetNickCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException, PlayerNotFoundException, MultiplePlayersFoundException {

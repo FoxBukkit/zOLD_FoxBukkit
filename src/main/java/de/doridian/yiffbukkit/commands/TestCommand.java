@@ -9,7 +9,7 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class TestCommand extends ICommand {
 
@@ -17,8 +17,8 @@ public class TestCommand extends ICommand {
 		return 5;
 	}
 
-	public TestCommand(YiffBukkit plug) {
-		super(plug);
+	public TestCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(final Player ply, String[] args, String argStr) {

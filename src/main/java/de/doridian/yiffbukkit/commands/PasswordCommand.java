@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.login.DoriLogin;
 
 public class PasswordCommand extends ICommand {
@@ -10,8 +10,8 @@ public class PasswordCommand extends ICommand {
 		return 2;
 	}
 
-	public PasswordCommand(YiffBukkit plug) {
-		super(plug);
+	public PasswordCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

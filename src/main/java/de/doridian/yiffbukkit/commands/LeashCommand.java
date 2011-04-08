@@ -3,13 +3,13 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class LeashCommand extends ICommand {
 
-	public LeashCommand(YiffBukkit plug) {
-		super(plug);
+	public LeashCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

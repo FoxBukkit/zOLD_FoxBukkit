@@ -6,12 +6,12 @@ import net.minecraft.server.Packet29DestroyEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class VanishCommand extends ICommand {
-	public VanishCommand(YiffBukkit plug) {
-		super(plug);
+	public VanishCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

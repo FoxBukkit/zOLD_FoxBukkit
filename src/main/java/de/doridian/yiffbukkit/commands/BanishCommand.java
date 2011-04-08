@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 
 public class BanishCommand extends ICommand {
@@ -13,8 +13,8 @@ public class BanishCommand extends ICommand {
 		return 3;
 	}
 
-	public BanishCommand(YiffBukkit plug) {
-		super(plug);
+	public BanishCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

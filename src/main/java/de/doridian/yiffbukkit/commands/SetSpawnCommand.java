@@ -2,12 +2,12 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class SetSpawnCommand extends ICommand {
-	public SetSpawnCommand(YiffBukkit plug) {
-		super(plug);
+	public SetSpawnCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

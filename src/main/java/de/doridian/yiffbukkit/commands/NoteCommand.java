@@ -8,7 +8,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class NoteCommand extends ICommand {
 
@@ -16,8 +16,8 @@ public class NoteCommand extends ICommand {
 		return 4;
 	}
 
-	public NoteCommand(YiffBukkit plug) {
-		super(plug);
+	public NoteCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	public void Run(Player ply, String[] args, String argStr) {

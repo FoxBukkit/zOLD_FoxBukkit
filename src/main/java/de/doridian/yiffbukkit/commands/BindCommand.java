@@ -11,8 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class BindCommand extends ICommand {
 	private Set<String> filter = new HashSet<String>();
@@ -25,8 +25,8 @@ public class BindCommand extends ICommand {
 		filter.add("/bind");
 	}
 
-	public BindCommand(YiffBukkit plug) {
-		super(plug);
+	public BindCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override

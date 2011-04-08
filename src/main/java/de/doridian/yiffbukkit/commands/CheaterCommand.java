@@ -7,13 +7,13 @@ import net.minecraft.server.Packet3Chat;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class CheaterCommand extends ICommand {
 
-	public CheaterCommand(YiffBukkit plug) {
-		super(plug);
+	public CheaterCommand(YiffBukkitPlayerListener playerListener) {
+		super(playerListener);
 	}
 
 	@Override
