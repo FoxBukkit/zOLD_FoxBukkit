@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.util;
 import java.lang.reflect.Field;
 
 import net.minecraft.server.EntityFallingSand;
+import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPig;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityWolf;
@@ -13,11 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
-import org.bukkit.craftbukkit.entity.CraftFallingSand;
-import org.bukkit.craftbukkit.entity.CraftTNTPrimed;
 import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
@@ -125,7 +123,7 @@ public class Utils {
 				EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
 				notchWorld.a(notchEntity);
 
-				entity = new CraftTNTPrimed((CraftServer)plugin.getServer(), notchEntity);
+				entity = notchEntity.getBukkitEntity();
 			}
 			else if(type.equals("SAND") || type.equals("GRAVEL")) {
 				int material = Material.valueOf(type).getId();
@@ -133,7 +131,7 @@ public class Utils {
 				//EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
 				notchWorld.a(notchEntity);
 
-				entity = new CraftFallingSand((CraftServer)plugin.getServer(), notchEntity);
+				entity = notchEntity.getBukkitEntity();
 			}
 			else if (type.equals("MINECART") || type.equals("CART")) {
 				entity = world.spawnMinecart(location);
@@ -253,6 +251,14 @@ public class Utils {
 					sheep.setColor(dyeColor);
 				}
 			}
+			else if (type.equals("NPC:")) { // the colon (:) disables it, since it currently crashes the server :) 
+				EntityHuman notchEntity = new EntityHuman(notchWorld) {};
+				notchEntity.name = data == null ? "" : data;
+				notchWorld.a(notchEntity);
+
+				entity = notchEntity.getBukkitEntity();
+				entity.teleport(location);
+			}
 			else {
 				try {
 					CreatureType creatureType = CreatureType.valueOf(type);
@@ -270,12 +276,12 @@ public class Utils {
 				first = entity;
 			}
 			else {
-				net.minecraft.server.Entity eCreature = ((CraftEntity)entity).getHandle();
-				net.minecraft.server.Entity ePrevious = ((CraftEntity)previous).getHandle();
-				if (ePrevious instanceof EntityPig)
-					((EntityPig)ePrevious).a(true);
+				net.minecraft.server.Entity notchPrevious = ((CraftEntity)previous).getHandle();
+				if (notchPrevious instanceof EntityPig)
+					((EntityPig)notchPrevious).a(true);
 
-				eCreature.setPassengerOf(ePrevious);
+				entity.teleport(previous);
+				previous.setPassenger(entity);
 			}
 
 			previous = entity;
@@ -284,4 +290,5 @@ public class Utils {
 			throw new YiffBukkitCommandException("Unknown error occured while spawning entity.");
 		}
 		return first;
-	}}
+	}
+}
