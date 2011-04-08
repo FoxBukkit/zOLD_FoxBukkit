@@ -33,7 +33,7 @@ import de.doridian.yiffbukkit.warp.WarpEngine;
  * @author Doridian
  */
 public class YiffBukkit extends JavaPlugin {
-	private YiffBukkitPlayerListener playerListener;
+	public YiffBukkitPlayerListener playerListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
 	@SuppressWarnings("unused")

@@ -35,6 +35,9 @@ import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 
 public class PlayerHelper {
 	private YiffBukkit plugin;
+	public Map<String, String> conversations = new HashMap<String, String>();
+
+
 	public PlayerHelper(YiffBukkit plug) {
 		plugin = plug;
 		ReloadAll();
@@ -564,7 +567,7 @@ public class PlayerHelper {
 	}
 
 	Map<String, String> leashMasters = new HashMap<String, String>();
-	private int taskId;
+	private int leashTaskId;
 
 	public boolean toggleLeash(Player master, Player slave) {
 		if (!leashMasters.containsKey(slave.getName())) {
@@ -641,7 +644,7 @@ public class PlayerHelper {
 					}
 				}
 			};
-			taskId = server.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0, 10);
+			leashTaskId = server.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0, 10);
 		}
 
 		leashMasters.put(slave.getName(), master.getName());
@@ -653,7 +656,7 @@ public class PlayerHelper {
 
 	private void removeHandler(Player slave) {
 		if (leashMasters.isEmpty()) {
-			plugin.getServer().getScheduler().cancelTask(taskId);
+			plugin.getServer().getScheduler().cancelTask(leashTaskId);
 		}
 
 		Control permissionsHandler = (Control)plugin.permissions.getHandler();

@@ -20,13 +20,13 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -43,7 +43,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		commands.put("me", new MeCommand(plugin));
+		new MeCommand(plugin);
 		commands.put("pm", new PmCommand(plugin));
 
 		commands.put("who", new WhoCommand(plugin));
@@ -105,6 +105,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setpass", new PasswordCommand(plugin));
 
 		commands.put("rcon", new ConsoleCommand(plugin));
+
+		new ConversationCommand(plugin);
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
@@ -181,7 +183,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	}
 
 	@Override
-	public void onPlayerQuit(PlayerEvent event) {
+	public void onPlayerQuit(PlayerQuitEvent event) {
 		event.setQuitMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
 	}
 
@@ -216,7 +218,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			return;
 		}
+
 		event.setFormat(plugin.playerHelper.GetPlayerTag(event.getPlayer()) + "%s:§f %s");
+
+		String conversationTarget = playerHelper.conversations.get(event.getPlayer().getName());
+		if (conversationTarget == null)
+			return;
+
+		String formattedMessage = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+		plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
