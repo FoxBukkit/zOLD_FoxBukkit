@@ -19,9 +19,14 @@ public class MeCommand extends ICommand {
 
 	public void Run(Player ply, String[] args, String argStr) {
 		String conversationTarget = playerHelper.conversations.get(ply.getName());
-		if (conversationTarget == null)
-			plugin.getServer().broadcastMessage("* "+playerHelper.GetPlayerTag(ply) + ply.getName() + " " + argStr);
-		else
-			plugin.getServer().getPlayer(conversationTarget).sendMessage("* "+playerHelper.GetPlayerTag(ply) + ply.getName() + " " + argStr);
+		String message = "* "+playerHelper.GetPlayerTag(ply) + ply.getName() + " " + argStr;
+		if (conversationTarget == null) {
+			plugin.getServer().broadcastMessage(message);
+		}
+		else {
+			message = "§e[CONV]§f"+message;
+			ply.sendMessage(message);
+			plugin.getServer().getPlayer(conversationTarget).sendMessage(message);
+		}
 	}
 }

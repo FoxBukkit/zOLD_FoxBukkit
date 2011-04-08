@@ -213,19 +213,23 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerChat(PlayerChatEvent event) {
 		String msg = event.getMessage();
+		final Player ply = event.getPlayer();
 		if (msg.charAt(0) == '!') {
-			plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "!commands are disabled because they show up in the web chat. Please use /commands.");
+			plugin.playerHelper.SendDirectedMessage(ply, "!commands are disabled because they show up in the web chat. Please use /commands.");
 			event.setCancelled(true);
 			return;
 		}
 
-		event.setFormat(plugin.playerHelper.GetPlayerTag(event.getPlayer()) + "%s:§f %s");
+		event.setFormat(plugin.playerHelper.GetPlayerTag(ply) + "%s:§f %s");
 
-		String conversationTarget = playerHelper.conversations.get(event.getPlayer().getName());
+		String conversationTarget = playerHelper.conversations.get(ply.getName());
 		if (conversationTarget == null)
 			return;
 
-		String formattedMessage = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), event.getMessage());
+		formattedMessage = "§e[CONV]§f"+formattedMessage;
+
+		ply.sendMessage(formattedMessage);
 		plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
 	}
 
