@@ -345,4 +345,44 @@ public class OfflinePlayer implements Player {
 	public void sendRawMessage(String message) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
+
+	@Override
+	public boolean isSleeping() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public int getSleepTicks() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public List<Entity> getNearbyEntities(double x, double y, double z) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean isDead() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public float getFallDistance() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setFallDistance(float distance) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void saveData() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void loadData() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
 }
