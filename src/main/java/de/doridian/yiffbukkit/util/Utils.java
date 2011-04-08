@@ -280,7 +280,7 @@ public class Utils {
 				if (notchPrevious instanceof EntityPig)
 					((EntityPig)notchPrevious).a(true);
 
-				entity.teleport(previous);
+				entity.teleport(location);
 				previous.setPassenger(entity);
 			}
 
