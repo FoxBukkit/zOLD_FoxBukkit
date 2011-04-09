@@ -78,7 +78,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("compass", new CompassCommand(this));
 
 		commands.put("give", new GiveCommand(this));
-		commands.put("throw", new ThrowCommand(this));
+		new ThrowCommand(this);
 		commands.put("clear", new ClearCommand(this));
 
 		commands.put("time", new TimeCommand(this));
