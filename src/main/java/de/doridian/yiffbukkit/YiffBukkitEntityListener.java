@@ -5,10 +5,12 @@ import java.util.Map;
 
 
 import org.bukkit.craftbukkit.entity.*;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -28,6 +30,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_DEATH, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_TARGET, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.CREATURE_SPAWN, this, Priority.Highest, plugin);
 	}
 
 	Map<String, String> lastAttacker = new HashMap<String, String>();
@@ -43,6 +46,12 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftWolf.class, "a §9wolf§f");
 		monsterMap.put(CraftSlime.class, "a §9slime§f");
 		monsterMap.put(CraftGhast.class, "a §9ghast§f");
+	}
+	
+	@Override
+	public void onCreatureSpawn(CreatureSpawnEvent event) {
+		if (event.getCreatureType() == CreatureType.SLIME)
+			event.setCancelled(true);
 	}
 
 	@Override
