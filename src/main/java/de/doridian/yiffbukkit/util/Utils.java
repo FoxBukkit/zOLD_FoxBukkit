@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.util;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 
 import net.minecraft.server.EntityFallingSand;
 import net.minecraft.server.EntityHuman;
@@ -100,7 +101,7 @@ public class Utils {
 	public static double vectorToYaw(Vector offset) {
 		return Math.toDegrees(Math.atan2(-offset.getX(), offset.getZ()));
 	}
-	
+
 	public Entity buildMob(final String[] types, Player player, Player them, Location location) throws YiffBukkitCommandException {
 		Entity previous = null;
 		final World world = player.getWorld();
@@ -185,14 +186,14 @@ public class Utils {
 			else if (type.equals("SLIME")) {
 				entity = world.spawnCreature(location, CreatureType.WOLF);
 				final Slime slime = (Slime)entity;
-				
+
 				if (data != null) {
-					
+
 					try {
 						int size = Integer.parseInt(data);
 						slime.setSize(size);
 					} catch (NumberFormatException e) { }
-					
+
 				}
 			}
 			else if (type.equals("WOLF")) {
@@ -300,22 +301,22 @@ public class Utils {
 		final double sin_y = Math.sin(yaw);
 		final double cos_p = Math.cos(pitch);
 		final double sin_p = Math.sin(pitch);
-		
+
 		final Vector forward = new Vector(
 				-sin_y*cos_p,
 				-sin_p,
 				cos_y*cos_p
-			);
+		);
 		final Vector up = new Vector(
 				-sin_y*sin_p,
 				cos_p,
 				cos_y*sin_p
-			);
+		);
 		final Vector left = new Vector(
 				cos_y,
 				0,
 				sin_y
-			);
+		);
 
 		return forward.multiply(axis.getX()).add(up.multiply(axis.getY())).add(left.multiply(axis.getZ()));
 	}
@@ -328,33 +329,74 @@ public class Utils {
 		final double sin_y = Math.sin(yaw);
 		final double cos_p = Math.cos(pitch);
 		final double sin_p = Math.sin(pitch);
-		
+
 		final Vector xAxis = new Vector(
 				-sin_y*cos_p,
 				-sin_y*sin_p,
 				cos_y
-			);
-		
+		);
+
 		final Vector yAxis = new Vector(
 				-sin_p,
 				cos_p,
 				0
-			);
-		
+		);
+
 		final Vector zAxis = new Vector(
 				cos_y*cos_p,
 				cos_y*sin_p,
 				sin_y
-			);
+		);
 
 		return xAxis.multiply(axis.getX()).add(yAxis.multiply(axis.getY())).add(zAxis.multiply(axis.getZ()));
 	}
-	
+
 	public static Vector toWorld(Location location, Vector position) {
 		return toWorldAxis(location, position).add(location.toVector());
 	}
-	
+
 	public static Vector toLocal(Location location, Vector position) {
 		return toWorldAxis(location, position.clone().subtract(location.toVector()));
+	}
+
+	public static String readableDate(Date date) {
+		if (date == null)
+			return "never";
+
+		long difference = (System.currentTimeMillis() - date.getTime()) / 1000;
+
+		if (difference < 0)
+			return date+" (in the future)";
+		
+		if (difference == 0)
+			return date+" (right now)";
+
+		final long seconds = difference % 60L;
+		difference -= seconds;
+		difference /= 60;
+		final long minutes = difference % 60L;
+		difference -= minutes;
+		difference /= 60;
+		final long hours = difference % 24L;
+		difference -= hours;
+		difference /= 24;
+		final long days = difference %7L;
+		difference -= days;
+		difference /= 7;
+		final long weeks = difference;
+
+		String ago = "ago)";
+		if (seconds > 0)
+			ago = seconds+"s "+ago;
+		if (minutes > 0)
+			ago = minutes+"m "+ago;
+		if (hours > 0)
+			ago = hours+"h "+ago;
+		if (days > 0)
+			ago = days+"d "+ago;
+		if (weeks > 0)
+			ago = weeks+"w "+ago;
+
+		return date+" ("+ago;
 	}
 }
