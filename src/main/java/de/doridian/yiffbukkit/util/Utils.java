@@ -103,9 +103,60 @@ public class Utils {
 	}
 
 	public Entity buildMob(final String[] types, Player player, Player them, Location location) throws YiffBukkitCommandException {
-		Entity previous = null;
+		boolean hasThis = false;
+		for (String part : types) {
+			if ("THIS".equals(part)) {
+				hasThis = true;
+				break;
+			}
+		}
+
 		final World world = player.getWorld();
 		final WorldServer notchWorld = ((CraftWorld)world).getHandle();
+
+		Entity thisEnt = null;
+		if (hasThis) {
+			Vector eyeVector = location.getDirection().clone();
+			Vector eyeOrigin = location.toVector().clone();
+
+			for (Entity currentEntity : player.getWorld().getEntities()) {
+				Location eyeLocation;
+				if (currentEntity instanceof LivingEntity) {
+					eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
+				}
+				else if (currentEntity instanceof Boat || currentEntity instanceof Minecart) {
+					eyeLocation = currentEntity.getLocation();
+				}
+				else {
+					continue;
+				}
+
+				Vector pos = eyeLocation.toVector().clone();
+				pos.add(new Vector(0, 0.6, 0));
+
+				pos.subtract(eyeOrigin);
+
+				if (pos.lengthSquared() > 9)
+					continue;
+
+				double dot = pos.clone().normalize().dot(eyeVector);
+
+				if (dot < 0.8)
+					continue;
+
+
+				if (currentEntity.equals(player))
+					continue;
+
+				thisEnt = currentEntity;
+				break;
+			}
+			if (thisEnt == null) {
+				throw new YiffBukkitCommandException("You must face a creature/boat/minecart");
+			}
+		}
+
+		Entity previous = null;
 		Entity first = null;
 		for (String part : types) {
 			String[] partparts = part.split(":");
@@ -141,50 +192,10 @@ public class Utils {
 				entity = world.spawnBoat(location);
 			}
 			else if (type.equals("THIS")) {
-
-				Vector eyeVector = location.getDirection().clone();
-				Vector eyeOrigin = location.toVector().clone();
-
-				entity = null;
-				for (Entity currentEntity : player.getWorld().getEntities()) {
-					Location eyeLocation;
-					if (currentEntity instanceof LivingEntity) {
-						eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
-					}
-					else if (currentEntity instanceof Boat || currentEntity instanceof Minecart) {
-						eyeLocation = currentEntity.getLocation();
-					}
-					else {
-						continue;
-					}
-
-					Vector pos = eyeLocation.toVector().clone();
-					pos.add(new Vector(0, 0.6, 0));
-
-					pos.subtract(eyeOrigin);
-
-					if (pos.lengthSquared() > 9)
-						continue;
-
-					double dot = pos.clone().normalize().dot(eyeVector);
-
-					if (dot < 0.8)
-						continue;
-
-
-					if (currentEntity.equals(player))
-						continue;
-
-					entity = currentEntity;
-					break;
-				}
-				if (entity == null) {
-					throw new YiffBukkitCommandException("You must face a creature/boat/minecart");
-				}
-
+				entity = thisEnt;
 			}
 			else if (type.equals("SLIME")) {
-				entity = world.spawnCreature(location, CreatureType.WOLF);
+				entity = world.spawnCreature(location, CreatureType.SLIME);
 				final Slime slime = (Slime)entity;
 
 				if (data != null) {
@@ -367,7 +378,7 @@ public class Utils {
 
 		if (difference < 0)
 			return date+" (in the future)";
-		
+
 		if (difference == 0)
 			return date+" (right now)";
 
