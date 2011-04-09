@@ -291,4 +291,70 @@ public class Utils {
 		}
 		return first;
 	}
+
+	public static Vector toWorldAxis(Location location, Vector axis) {
+		final double yaw = Math.toRadians(location.getYaw());
+		final double pitch = Math.toRadians(location.getPitch());
+
+		final double cos_y = Math.cos(yaw);
+		final double sin_y = Math.sin(yaw);
+		final double cos_p = Math.cos(pitch);
+		final double sin_p = Math.sin(pitch);
+		
+		final Vector forward = new Vector(
+				-sin_y*cos_p,
+				-sin_p,
+				cos_y*cos_p
+			);
+		final Vector up = new Vector(
+				-sin_y*sin_p,
+				cos_p,
+				cos_y*sin_p
+			);
+		final Vector left = new Vector(
+				cos_y,
+				0,
+				sin_y
+			);
+
+		return forward.multiply(axis.getX()).add(up.multiply(axis.getY())).add(left.multiply(axis.getZ()));
+	}
+
+	public static Vector toLocalAxis(Location location, Vector axis) {
+		final double yaw = Math.toRadians(location.getYaw());
+		final double pitch = Math.toRadians(location.getPitch());
+
+		final double cos_y = Math.cos(yaw);
+		final double sin_y = Math.sin(yaw);
+		final double cos_p = Math.cos(pitch);
+		final double sin_p = Math.sin(pitch);
+		
+		final Vector xAxis = new Vector(
+				-sin_y*cos_p,
+				-sin_y*sin_p,
+				cos_y
+			);
+		
+		final Vector yAxis = new Vector(
+				-sin_p,
+				cos_p,
+				0
+			);
+		
+		final Vector zAxis = new Vector(
+				cos_y*cos_p,
+				cos_y*sin_p,
+				sin_y
+			);
+
+		return xAxis.multiply(axis.getX()).add(yAxis.multiply(axis.getY())).add(zAxis.multiply(axis.getZ()));
+	}
+	
+	public static Vector toWorld(Location location, Vector position) {
+		return toWorldAxis(location, position).add(location.toVector());
+	}
+	
+	public static Vector toLocal(Location location, Vector position) {
+		return toWorldAxis(location, position.clone().subtract(location.toVector()));
+	}
 }
