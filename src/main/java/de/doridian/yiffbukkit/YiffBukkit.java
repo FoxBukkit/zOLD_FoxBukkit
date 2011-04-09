@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,6 +15,8 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Slime;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -87,6 +90,24 @@ public class YiffBukkit extends JavaPlugin {
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
+		
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			@Override
+			public void run() {
+				List<LivingEntity> removeList = new ArrayList<LivingEntity >(); 
+				for (World world : getServer().getWorlds()) {
+					for (LivingEntity livingEntity : world.getLivingEntities()) {
+						if (livingEntity instanceof Slime) {
+							removeList.add(livingEntity);
+						}
+					}
+				}
+				
+				for (LivingEntity livingEntity : removeList) {
+					livingEntity.remove();
+				}
+			}
+		}, 1000, 200);
 
 		System.out.println( "YiffBukkit is enabled!" );
 	}
