@@ -11,15 +11,23 @@ import org.bukkit.util.Vector;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.util.Utils;
 
+
+@Names("throw")
+@Help(
+		"Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use.\n"+
+		"Unbind by typing '/throw' without arguments. You can stack mobs by separating them with a plus (+).\n"+
+		"Data values:\n"+
+		"  sheep:<dye color>|party|camo|sheared\n"+
+		"  wolf:angry|tame|sit (can be combined)"
+)
+@Usage("[<type>[ <forward>[ <up>[ <left>]]]]")
+@Level(4)
 public class ThrowCommand extends ICommand {
 	public ThrowCommand(YiffBukkitPlayerListener playerListener) {
 		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 4;
 	}
 
 	@Override
@@ -34,15 +42,20 @@ public class ThrowCommand extends ICommand {
 			return;
 		}
 
-		double speed = 2;
-		if (args.length >= 2) {
-			try {
-				speed = Double.valueOf(args[1]);
-			} catch (NumberFormatException e) {
-				throw new YiffBukkitCommandException("Number expected", e);
+		final Vector speed = new Vector(2,0,0);
+		try {
+			if (args.length >= 2) {
+				speed.setX(Double.valueOf(args[1]));
+				if (args.length >= 3) {
+					speed.setY(Double.valueOf(args[2]));
+					if (args.length >= 4) {
+						speed.setZ(Double.valueOf(args[3]));
+					}
+				}
 			}
+		} catch (NumberFormatException e) {
+			throw new YiffBukkitCommandException("Number expected", e);
 		}
-		final double finalSpeed = speed;
 
 		String typeName = args[0].toUpperCase();
 
@@ -53,13 +66,13 @@ public class ThrowCommand extends ICommand {
 					Player player = event.getPlayer();
 					final Location location = player.getLocation();
 
-					final Vector direction = location.getDirection();
+					final Vector direction = Utils.toWorldAxis(location, speed);
 					if (player.isInsideVehicle()) {
 						Entity vehicle = ((CraftPlayer)player).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
-						vehicle.setVelocity(location.getDirection().multiply(finalSpeed));
+						vehicle.setVelocity(direction);
 					}
 					else {
-						player.setVelocity(direction.multiply(finalSpeed));
+						player.setVelocity(direction);
 					}
 				}
 			};
@@ -72,7 +85,7 @@ public class ThrowCommand extends ICommand {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 					Entity entity = plugin.utils.buildMob(types, player, null, location);
-					entity.setVelocity(location.getDirection().multiply(finalSpeed));
+					entity.setVelocity(Utils.toWorldAxis(location, speed));
 
 				}
 			};
@@ -81,20 +94,5 @@ public class ThrowCommand extends ICommand {
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
 		playerHelper.SendDirectedMessage(ply, "Bound §9"+typeName+"§f to your current tool (§e"+toolType.name()+"§f). Right-click to use.");
-	}
-
-	@Override
-	public String GetHelp() {
-		return
-		"Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use.\n"+
-		"Unbind by typing '/throw' without arguments. You can stack mobs by separating them with a plus (+).\n"+
-		"Data values:\n"+
-		"  sheep:<dye color>|party|camo\n"+
-		"  wolf:angry|tame|sit (can be combined)";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<type> [<speed>]]";
 	}
 }
