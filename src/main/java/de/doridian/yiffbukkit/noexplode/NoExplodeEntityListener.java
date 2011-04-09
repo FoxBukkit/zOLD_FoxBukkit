@@ -16,15 +16,18 @@ public class NoExplodeEntityListener extends EntityListener
 	{
 		if (!plugin.explodetnt && event.getEntity().getClass().getName().contains("CraftTNTPrimed"))
 		{
-			event.setCancelled(true);
+			event.setFire(false);
+			event.setRadius(0);
 		}
 		else if (!plugin.damagecreeper && event.getEntity().getClass().getName().contains("CraftCreeper"))
 		{
-			event.setCancelled(true);
+			event.setFire(false);
+			event.setRadius(0);
 		}
 		else if (!plugin.explodeghast && event.getEntity().getClass().getName().contains("CraftFireball"))
 		{
-			event.setCancelled(true);
+			event.setFire(false);
+			event.setRadius(0);
 		}
 	}
 

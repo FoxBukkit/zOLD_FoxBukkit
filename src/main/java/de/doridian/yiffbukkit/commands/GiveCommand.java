@@ -77,7 +77,15 @@ public class GiveCommand extends ICommand {
 	};
 
 	public int GetMinLevel() {
-		return 3;
+		return 100;
+	}
+	
+	public boolean CanPlayerUseCommand(Player ply)
+	{
+		int plylvl = plugin.playerHelper.GetPlayerLevel(ply);
+		int reqlvl = (ply.getWorld().getName().substring(0, 2).toLowerCase() == "rp_") ? 100 : 3;
+
+		return (plylvl >= reqlvl);
 	}
 
 	public GiveCommand(YiffBukkitPlayerListener playerListener) {
