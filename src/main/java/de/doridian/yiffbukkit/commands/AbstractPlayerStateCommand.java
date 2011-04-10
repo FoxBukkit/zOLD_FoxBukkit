@@ -42,6 +42,8 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 				//state <name> - toggle someone's state
 				newState = null;
 				targetName = playerHelper.CompletePlayerName(args[0], false);
+				if (targetName == null)
+					throw new YiffBukkitCommandException("No unique player found for '"+args[0]+"'");
 			}
 			break;
 
@@ -50,15 +52,21 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 				//state on <name> - turn someone's state on
 				newState = true;
 				targetName = playerHelper.CompletePlayerName(args[1], false);
+				if (targetName == null)
+					throw new YiffBukkitCommandException("No unique player found for '"+args[1]+"'");
 			}
 			else if ("off".equals(args[0])) {
 				//state off <name> - turn someone's state off
 				newState = false;
 				targetName = playerHelper.CompletePlayerName(args[1], false);
+				if (targetName == null)
+					throw new YiffBukkitCommandException("No unique player found for '"+args[1]+"'");
 			}
 			else {
 				//state <name> <...> - not sure yet
 				targetName = playerHelper.CompletePlayerName(args[0], false);
+				if (targetName == null)
+					throw new YiffBukkitCommandException("No unique player found for '"+args[0]+"'");
 
 				if ("on".equals(args[1])) {
 					//state <name> on - turn someone's state on
