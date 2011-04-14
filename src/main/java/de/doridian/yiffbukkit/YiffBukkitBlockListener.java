@@ -1,13 +1,16 @@
 package de.doridian.yiffbukkit;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.TileEntitySign;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -29,6 +32,9 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
 public class YiffBukkitBlockListener extends BlockListener {
 	private final YiffBukkit plugin;
 	public static final Map<Material,Integer> blocklevels = new HashMap<Material,Integer>();
+	public static final Set<Material> flammableBlocks = new HashSet<Material>();
+	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
+
 	static {
 		blocklevels.put(Material.TNT, 4);
 		blocklevels.put(Material.BEDROCK, 4);
@@ -42,6 +48,12 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		blocklevels.put(Material.FLINT_AND_STEEL, 3);
 		blocklevels.put(Material.FIRE, 3);
+
+		flammableBlocks.add(Material.LOG);
+		flammableBlocks.add(Material.WOOD);
+		flammableBlocks.add(Material.WOOL);
+		flammableBlocks.add(Material.BOOKSHELF);
+		flammableBlocks.add(Material.LEAVES);
 	}
 	private PlayerHelper playerHelper;
 
@@ -61,16 +73,28 @@ public class YiffBukkitBlockListener extends BlockListener {
 	@Override
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
-		if(playerHelper.isPlayerDisabled(ply)) {
+		if (playerHelper.isPlayerDisabled(ply)) {
 			event.setBuild(false);
 			return;
 		}
 
-		Material block = event.getBlock().getType();
+		final Block block = event.getBlock();
+		Material material = block.getType();
 		Integer selflvl = playerHelper.GetPlayerLevel(ply);
-		if(selflvl < 0 || (blocklevels.containsKey(block) && selflvl < blocklevels.get(block))) {
-			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + block.toString());
+		if (selflvl < 0 || (blocklevels.containsKey(material) && selflvl < blocklevels.get(material))) {
+			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
 			event.setBuild(false);
+		}
+		
+		
+		if (selflvl < 3 && flammableBlocks.contains(material)) {
+			for (BlockFace face : flameSpreadDirections) {
+				Material neighborMaterial = block.getRelative(face).getType();
+				if (neighborMaterial == Material.FIRE) {
+					playerHelper.SendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
+					event.setBuild(false);
+				}
+			}
 		}
 	}
 
