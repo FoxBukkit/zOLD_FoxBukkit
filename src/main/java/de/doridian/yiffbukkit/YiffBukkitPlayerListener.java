@@ -126,12 +126,18 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
+		final String playerName = event.getPlayer().getName();
+		if (!playerName.matches("^.*[A-Za-z].*$")) {
+			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, get some letters into your name.");
+			return;
+		}
+		
 		String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
 		if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
 		}
-		(new HackCheckThread(event.getPlayer().getName())).start();
+		(new HackCheckThread(playerName)).start();
 	}
 
 	class HackCheckThread extends Thread {
