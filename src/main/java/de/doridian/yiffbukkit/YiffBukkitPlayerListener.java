@@ -37,11 +37,13 @@ import org.bukkit.plugin.PluginManager;
  * @author Doridian
  */
 public class YiffBukkitPlayerListener extends PlayerListener {
+	public static YiffBukkitPlayerListener instance;
 	public final YiffBukkit plugin;
 	private final PlayerHelper playerHelper;
 
-	public YiffBukkitPlayerListener(YiffBukkit instance) {
-		plugin = instance;
+	public YiffBukkitPlayerListener(YiffBukkit plug) {
+		instance = this;
+		plugin = plug;
 		playerHelper = plugin.playerHelper;
 
 		new MeCommand(this);
@@ -76,7 +78,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("sethome", new SetHomeCommand(this));
 		commands.put("spawn", new SpawnCommand(this));
 		commands.put("setspawn", new SetSpawnCommand(this));
-		commands.put("compass", new CompassCommand(this));
+		new CompassCommand();
 
 		commands.put("give", new GiveCommand(this));
 		new ThrowCommand(this);

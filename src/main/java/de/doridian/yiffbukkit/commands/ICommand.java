@@ -20,6 +20,9 @@ public abstract class ICommand {
 	protected YiffBukkit plugin;
 	protected PlayerHelper playerHelper;
 
+	protected ICommand() {
+		this(YiffBukkitPlayerListener.instance);
+	}
 	protected ICommand(YiffBukkitPlayerListener playerListener) {
 		plugin = playerListener.plugin;
 		playerHelper = plugin.playerHelper;
