@@ -41,7 +41,7 @@ public class HealCommand extends ICommand {
 
 		default:
 			try {
-				//god on <name> - heal someone by the given amount
+				//heal <amount> <name> - heal someone by the given amount
 				amount = Integer.parseInt(args[0]);
 				target = playerHelper.MatchPlayerSingle(args[1]);
 			}
@@ -50,7 +50,7 @@ public class HealCommand extends ICommand {
 				target = playerHelper.MatchPlayerSingle(args[0]);
 
 				try {
-					//heal <name> amount - heal someone by the given amount
+					//heal <name> <amount> - heal someone by the given amount
 					amount = Integer.parseInt(args[1]);
 				}
 				catch (NumberFormatException e2) {
