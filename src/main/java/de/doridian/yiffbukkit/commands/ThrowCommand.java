@@ -10,26 +10,24 @@ import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.util.Utils;
 
 
 @Names("throw")
 @Help(
-		"Binds creature/tnt/sand/gravel/minecart/self('me')/target('this') throwing to your current tool. Right-click to use.\n"+
-		"Unbind by typing '/throw' without arguments. You can stack mobs by separating them with a plus (+).\n"+
+		"Binds throwing a creature/tnt/sand/gravel/minecart\n"+
+		"or yourself('me') or your target('this') to your\n"+
+		"selected tool. Right-click to use.\n"+
+		"Unbind by typing '/throw' without arguments.\n" +
+		"You can stack mobs by separating them with a plus (+).\n"+
 		"Data values:\n"+
 		"  sheep:<dye color>|party|camo|sheared\n"+
-		"  wolf:angry|tame|sit (can be combined)"
+		"  wolf:angry|tame|sit - can be combined with a comma (,)"
 )
 @Usage("[<type>[ <forward>[ <up>[ <left>]]]]")
 @Level(4)
 public class ThrowCommand extends ICommand {
-	public ThrowCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Material toolType = ply.getItemInHand().getType();

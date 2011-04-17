@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.commands.ICommand.Help;
 import de.doridian.yiffbukkit.commands.ICommand.Level;
 import de.doridian.yiffbukkit.commands.ICommand.Names;
@@ -16,15 +15,14 @@ import de.doridian.yiffbukkit.commands.ICommand.Usage;
 
 
 @Names("butcher")
-@Help("Kills all living entities except for players and tamed wolves around yourself or a specified target.")
+@Help(
+		"Kills living entities around yourself or a specified target.\n"+
+		"The default radius is 20. To kill everything, use a radius\n"+
+		"of -1. Players and tamed wolves are never butchered."
+)
 @Usage("[<target>] [<radius>]")
 @Level(3)
 public class ButcherCommand extends ICommand {
-
-	public ButcherCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		int radius;
@@ -75,7 +73,7 @@ public class ButcherCommand extends ICommand {
 
 		if (radius < 0) {
 			for (LivingEntity livingEntity : ply.getWorld().getLivingEntities()) {
-				if (spare(livingEntity))
+				if (isSpared(livingEntity))
 					continue;
 
 				livingEntity.remove();
@@ -90,7 +88,7 @@ public class ButcherCommand extends ICommand {
 		final Vector targetPos = target.getLocation().toVector();
 		final double radiusSquared = radius*radius;
 		for (LivingEntity livingEntity : ply.getWorld().getLivingEntities()) {
-			if (spare(livingEntity))
+			if (isSpared(livingEntity))
 				continue;
 
 			final Vector currentPos = livingEntity.getLocation().toVector();
@@ -113,17 +111,20 @@ public class ButcherCommand extends ICommand {
 		}
 	}
 
-	private boolean spare(LivingEntity livingEntity) {
+	private boolean isSpared(LivingEntity livingEntity) {
 		if (livingEntity instanceof Player)
 			return true;
-		
+
 		if (livingEntity instanceof CraftWolf) {
 			CraftWolf wolf = (CraftWolf) livingEntity;
+			if (wolf.isAngry())
+				return false;
+
 			EntityWolf eWolf = wolf.getHandle();
 			if (eWolf.y())
 				return true;
 		}
-		
+
 		return false;
 	}
 }
