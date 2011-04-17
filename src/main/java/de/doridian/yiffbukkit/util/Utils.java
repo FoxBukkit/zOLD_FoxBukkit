@@ -225,11 +225,11 @@ public class Utils {
 						else if (subData.equals("TAME") || subData.equals("TAMED")) {
 							CraftWolf craftWolf = (CraftWolf) wolf;
 							EntityWolf eWolf = craftWolf.getHandle();
-							eWolf.d(true);
 							if (them == null)
 								eWolf.a(player.getName());
 							else
 								eWolf.a(them.getName());
+							eWolf.d(true);
 						}
 					}
 				}
