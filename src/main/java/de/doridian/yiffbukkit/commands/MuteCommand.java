@@ -39,7 +39,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Type.PLAYER_CHAT, chatListener, Priority.Highest, plugin);
-		pm.registerEvent(Type.PLAYER_COMMAND_PREPROCESS, chatListener, Priority.Highest, plugin);
+		pm.registerEvent(Type.PLAYER_COMMAND_PREPROCESS, chatListener, Priority.Lowest, plugin);
 	}
 
 	@Override

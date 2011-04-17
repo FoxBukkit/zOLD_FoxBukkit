@@ -20,6 +20,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -80,6 +81,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("give", new GiveCommand(this));
 		new ThrowCommand(this);
 		commands.put("clear", new ClearCommand(this));
+		new ButcherCommand(this);
 
 		commands.put("time", new TimeCommand(this));
 		commands.put("servertime", new ServerTimeCommand(this));
@@ -113,7 +115,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_KICK, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.High, plugin);
+		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Lowest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.High, plugin);
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
@@ -131,7 +133,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, get some letters into your name.");
 			return;
 		}
-		
+
 		String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
 		if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
@@ -222,6 +224,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerChat(PlayerChatEvent event) {
+		if (event.isCancelled())
+			return;
+
 		String msg = event.getMessage();
 		final Player ply = event.getPlayer();
 		if (msg.charAt(0) == '!') {
@@ -247,10 +252,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
 	@Override
-	public void onPlayerCommandPreprocess(PlayerChatEvent event) {
-		if(event.isCancelled()) return;
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+		if (event.isCancelled())
+			return;
+
 		if (runCommand(event.getPlayer(), event.getMessage().substring(1).trim())) {
 			event.setCancelled(true);
+			event.setMessage("/youdontwantthiscommand "+event.getMessage());
 		}
 	}
 
