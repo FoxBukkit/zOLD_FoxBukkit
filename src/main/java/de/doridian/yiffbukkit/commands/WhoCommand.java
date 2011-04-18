@@ -7,21 +7,16 @@ import java.util.regex.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names({ "who", "list" })
+@Help("Prints user list if used without parameters or information about the specified user")
+@Usage("[name]")
+@Level(0)
 public class WhoCommand extends ICommand {
-
-	public int GetMinLevel() {
-		return 0;
-	}
-
-	public WhoCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	public void Run(final Player ply, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
 			Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
@@ -71,13 +66,5 @@ public class WhoCommand extends ICommand {
 			}
 			playerHelper.SendDirectedMessage(ply, str);
 		}
-	}
-
-	public String GetHelp() {
-		return "Prints user list if used without parameters or information about the specified user";
-	}
-
-	public String GetUsage() {
-		return "[name]";
 	}
 }

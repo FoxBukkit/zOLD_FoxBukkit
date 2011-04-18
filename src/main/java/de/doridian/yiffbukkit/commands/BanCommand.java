@@ -3,21 +3,40 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkit.util.PlayerFindException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.jail.JailException;
 
+@Names("ban")
+@Help(
+		"Bans specified user.\n"+
+		"Flags:\n"+
+		"  -j to unjail the player first\n"+
+		"  -r to rollback (add -c to instantly confirm)"
+)
+@Usage("[<flags>] <name> [reason here]")
+@Level(3)
+@BooleanFlags("jrc")
 public class BanCommand extends ICommand {
-	public int GetMinLevel() {
-		return 3;
-	}
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+		args = parseFlags(args);
 
-	public BanCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+
+		if (booleanFlags.contains('j')) {
+			try {
+				plugin.jailEngine.jailPlayer(otherply, false);
+			} catch (JailException e) { }
+		}
+
+		if (booleanFlags.contains('r')) {
+			ply.chat("/bb rollback "+otherply.getName());
+
+			if (booleanFlags.contains('c')) {
+				ply.chat("/bb confirm");
+			}
+		}
 
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + ply.getName());
 
@@ -27,13 +46,5 @@ public class BanCommand extends ICommand {
 		playerHelper.SetPlayerRank(otherply.getName(), "banned");
 		otherply.kickPlayer(reason);
 		playerHelper.SendServerMessage(ply.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
-	}
-
-	public String GetHelp() {
-		return "Bans specified user";
-	}
-
-	public String GetUsage() {
-		return "<name> [reason here]";
 	}
 }

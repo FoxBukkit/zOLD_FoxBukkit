@@ -49,7 +49,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		new MeCommand();
 		commands.put("pm", new PmCommand(this));
 
-		commands.put("who", new WhoCommand(this));
+		commands.put("who", new WhoCommand());
 		commands.put("help", new HelpCommand(this));
 
 		commands.put("setrank", new SetRankCommand(this));
@@ -57,7 +57,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setnick", new SetNickCommand(this));
 
 		commands.put("kick", new KickCommand(this));
-		commands.put("ban", new BanCommand(this));
+		new BanCommand();
 		commands.put("unban", new UnbanCommand(this));
 		commands.put("pardon", new UnbanCommand(this));
 		commands.put("kickall", new KickAllCommand(this));

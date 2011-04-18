@@ -2,6 +2,11 @@ package de.doridian.yiffbukkit.commands;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 
@@ -16,6 +21,19 @@ public abstract class ICommand {
 	@Retention(RetentionPolicy.RUNTIME) protected @interface Usage { String value(); }
 	@Retention(RetentionPolicy.RUNTIME) protected @interface Level { int value(); }
 	@Retention(RetentionPolicy.RUNTIME) protected @interface Disabled { }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface BooleanFlags { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface StringFlags { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) protected @interface NumericFlags { String value(); }
+
+	public enum FlagType {
+		BOOLEAN, STRING, NUMERIC
+	}
+
+	private final Map<Character, FlagType> flagTypes = new HashMap<Character, FlagType>();
+
+	protected final Set<Character> booleanFlags = new HashSet<Character>();
+	protected final Map<Character, String> stringFlags = new HashMap<Character, String>();
+	protected final Map<Character, Double> numericFlags = new HashMap<Character, Double>();
 
 	protected YiffBukkit plugin;
 	protected PlayerHelper playerHelper;
@@ -31,12 +49,81 @@ public abstract class ICommand {
 			return;
 
 		Names namesAnnotation = this.getClass().getAnnotation(Names.class);
-		if (namesAnnotation == null)
-			return;
-
-		for (String name : namesAnnotation.value()) {
-			playerListener.registerCommand(name, this);
+		if (namesAnnotation != null) {
+			for (String name : namesAnnotation.value()) {
+				playerListener.registerCommand(name, this);
+			}
 		}
+
+		BooleanFlags booleanFlagsAnnotation = this.getClass().getAnnotation(BooleanFlags.class);
+		if (booleanFlagsAnnotation != null) {
+			for (char flagName : booleanFlagsAnnotation.value().toCharArray()) {
+				flagTypes.put(flagName, FlagType.BOOLEAN);
+			}
+		}
+
+		StringFlags stringFlagsAnnotation = this.getClass().getAnnotation(StringFlags.class);
+		if (stringFlagsAnnotation != null) {
+			for (char flagName : stringFlagsAnnotation.value().toCharArray()) {
+				flagTypes.put(flagName, FlagType.STRING);
+			}
+		}
+
+		NumericFlags numericFlagsAnnotation = this.getClass().getAnnotation(NumericFlags.class);
+		if (numericFlagsAnnotation != null) {
+			for (char flagName : numericFlagsAnnotation.value().toCharArray()) {
+				flagTypes.put(flagName, FlagType.NUMERIC);
+			}
+		}
+	}
+
+	protected String[] parseFlags(String[] args) throws YiffBukkitCommandException {
+		int nextArg = 0;
+
+		booleanFlags.clear();
+		stringFlags.clear();
+		numericFlags.clear();
+
+		while (true) {
+			if (nextArg >= args.length)
+				break;
+
+			String arg = args[nextArg];
+
+			if (arg.charAt(0) != '-')
+				break;
+
+			++nextArg;
+
+			if (arg.length() == 1 || arg.equals("--"))
+				break;
+
+			for (int i = 1; i < arg.length(); ++i) {
+				char flagName = arg.charAt(i);
+
+				final FlagType flagType = flagTypes.get(flagName);
+				if (flagType == null)
+					throw new YiffBukkitCommandException("Invalid flag '"+flagName+"' specified.");
+
+				switch (flagType) {
+				case BOOLEAN:
+					booleanFlags.add(flagName);
+					break;
+
+				case STRING:
+					stringFlags.put(flagName, args[nextArg]);
+					++nextArg;
+					break;
+
+				case NUMERIC:
+					numericFlags.put(flagName, Double.parseDouble(args[nextArg]));
+					++nextArg;
+					break;
+				}
+			}
+		}
+
+		return Arrays.copyOfRange(args, nextArg, args.length);
 	}
 
 	public int GetMinLevel() {
