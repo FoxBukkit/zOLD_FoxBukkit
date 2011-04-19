@@ -1,5 +1,8 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
@@ -7,10 +10,11 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.jail.JailException;
+import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 @Names("ban")
 @Help(
-		"Bans specified user.\n"+
+		"Bans specified user. Specify offline players in quotation marks.\n"+
 		"Flags:\n"+
 		"  -j to unjail the player first\n"+
 		"  -r to rollback (add -c to instantly confirm)"
@@ -22,7 +26,9 @@ public class BanCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
+
+		final Player otherply = matcher.matches() ? new OfflinePlayer(plugin.getServer(), ply.getWorld(), matcher.group(1)) : playerHelper.MatchPlayerSingle(args[0]);
 
 		if (booleanFlags.contains('j')) {
 			try {

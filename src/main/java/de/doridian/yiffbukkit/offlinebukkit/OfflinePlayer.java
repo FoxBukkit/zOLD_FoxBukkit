@@ -308,7 +308,8 @@ public class OfflinePlayer implements Player {
 
 	@Override
 	public boolean teleport(Location location) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		//throw new UnsupportedOperationException("Not yet implemented!");
+		return false;
 	}
 
 	@Override
