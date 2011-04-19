@@ -50,7 +50,12 @@ public class BanCommand extends ICommand {
 			throw new PermissionDeniedException();
 
 		playerHelper.SetPlayerRank(otherply.getName(), "banned");
-		otherply.kickPlayer(reason);
-		playerHelper.SendServerMessage(ply.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
+		if (matcher.matches()) {
+			playerHelper.SendServerMessage(ply.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
+		}
+		else {
+			otherply.kickPlayer(reason);
+			playerHelper.SendServerMessage(ply.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
+		}
 	}
 }
