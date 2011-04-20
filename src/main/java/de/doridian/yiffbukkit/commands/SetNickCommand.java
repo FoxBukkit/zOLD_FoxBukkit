@@ -3,9 +3,8 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkit.util.MultiplePlayersFoundException;
-import de.doridian.yiffbukkit.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class SetNickCommand extends ICommand {
@@ -17,7 +16,7 @@ public class SetNickCommand extends ICommand {
 		super(playerListener);
 	}
 
-	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException, PlayerNotFoundException, MultiplePlayersFoundException {
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		String otherName = playerHelper.CompletePlayerName(args[0], false);
 		
 		if (otherName == null) {
