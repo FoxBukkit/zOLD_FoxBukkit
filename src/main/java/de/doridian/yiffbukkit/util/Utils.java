@@ -180,10 +180,12 @@ public class Utils {
 			else if(type.equals("SAND") || type.equals("GRAVEL")) {
 				int material = Material.valueOf(type).getId();
 				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material);
-				//EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
 				notchWorld.a(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
+			}
+			else if(type.equals("ARROW")) {
+				entity = world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
 			}
 			else if (type.equals("MINECART") || type.equals("CART")) {
 				entity = world.spawnMinecart(location);
