@@ -88,6 +88,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)event;
 			Entity damager = edbee.getDamager();
 
+			if (damager == null) {
+				deathMessage = "§c%s§f was killed.";
+				break;
+			}
+
 			String damagerName = monsterMap.get(damager.getClass());
 			if (damagerName == null)
 				damagerName = "§9"+damager.toString()+"§f";
