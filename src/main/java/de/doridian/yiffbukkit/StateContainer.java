@@ -79,7 +79,7 @@ public class StateContainer {
 	}
 
 	public static void loadSingle(String loaderName) {
-		final Closure closure = loadersByName.get("Load"+loaderName);
+		final Closure closure = loadersByName.get(loaderName);
 		closure.invoke();
 	}
 
@@ -92,7 +92,7 @@ public class StateContainer {
 	}
 
 	public static void saveSingle(String saverName) {
-		final Closure closure = saversByName.get("Save"+saverName);
+		final Closure closure = saversByName.get(saverName);
 		closure.invoke();
 	}
 }
