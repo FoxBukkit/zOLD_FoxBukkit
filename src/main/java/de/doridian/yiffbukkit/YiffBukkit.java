@@ -81,6 +81,8 @@ public class YiffBukkit extends JavaPlugin {
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
 		//portalEngine = new PortalEngine(this);
+		StateContainer.loadAll();
+		
 		playerListener = new YiffBukkitPlayerListener(this);
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);

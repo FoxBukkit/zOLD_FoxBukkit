@@ -30,27 +30,17 @@ import org.bukkit.util.Vector;
 
 import com.nijiko.permissions.Control;
 
+import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 
-public class PlayerHelper {
+public class PlayerHelper extends StateContainer {
 	private YiffBukkit plugin;
 	public Map<String, String> conversations = new HashMap<String, String>();
 
-
 	public PlayerHelper(YiffBukkit plug) {
 		plugin = plug;
-		ReloadAll();
-	}
-
-	public void ReloadAll() {
-		LoadRanks();
-		LoadPlayerRanks();
-		LoadPlayerTags();
-		LoadPlayerNicks();
-		LoadPlayerHomePositions();
-		LoadPortPermissions();
 	}
 
 	public Player MatchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
@@ -103,6 +93,7 @@ public class PlayerHelper {
 		SavePlayerHomePositions();
 	}
 
+	@Loader({ "homepositions", "home_positions", "homes", "home" })
 	public void LoadPlayerHomePositions() {
 		playerhomepos.clear();
 		try {
@@ -116,6 +107,7 @@ public class PlayerHelper {
 		}
 		catch (Exception e) { }
 	}
+	@Saver({ "homepositions", "home_positions", "homes", "home" })
 	public void SavePlayerHomePositions() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-homepositions.txt"));
@@ -244,6 +236,7 @@ public class PlayerHelper {
 		}
 	}
 
+	@Loader({ "playerranks", "player_ranks" })
 	public void LoadPlayerRanks() {
 		//playerranks.clear();
 		try {
@@ -258,20 +251,23 @@ public class PlayerHelper {
 		}
 		catch (Exception e) { }
 	}
+	@Saver({ "playerranks", "player_ranks" })
 	public void SavePlayerRanks() {
-		/*try {
-    		BufferedWriter stream = new BufferedWriter(new FileWriter("ranks.txt"));
-    		Enumeration<String> e = playerranks.keys();
-    		while(e.hasMoreElements()) {
-    			String key = e.nextElement();
-    			String value = playerranks.get(key);
-    			if(value.equals("guest")) continue;
-    			stream.write(key + "=" + value);
-        		stream.newLine();
-    		}
-    		stream.close();
-    	}
-    	catch(Exception e) { }*/
+		/*
+		try {
+			BufferedWriter stream = new BufferedWriter(new FileWriter("ranks.txt"));
+			Enumeration<String> e = playerranks.keys();
+			while(e.hasMoreElements()) {
+				String key = e.nextElement();
+				String value = playerranks.get(key);
+				if(value.equals("guest")) continue;
+				stream.write(key + "=" + value);
+				stream.newLine();
+			}
+			stream.close();
+		}
+		catch(Exception e) { }
+		*/
 	}
 
 	//Permission levels
@@ -292,6 +288,7 @@ public class PlayerHelper {
 			return 0;
 	}
 
+	@Loader({ "ranks", "ranknames" })
 	public void LoadRanks() {
 		ranklevels.clear();
 		ranktags.clear();
@@ -307,6 +304,7 @@ public class PlayerHelper {
 		}
 		catch (Exception e) { }
 	}
+	@Saver({ "ranks", "ranknames", "rank_names" })
 	public void SaveRanks() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("ranks-config.txt"));
@@ -346,6 +344,7 @@ public class PlayerHelper {
 		SavePlayerTags();
 	}
 
+	@Loader({ "playertags", "player_tags", "tags" })
 	public void LoadPlayerTags() {
 		playertags.clear();
 		try {
@@ -359,6 +358,7 @@ public class PlayerHelper {
 		}
 		catch (Exception e) { }
 	}
+	@Saver({ "playertags", "player_tags", "tags" })
 	public void SavePlayerTags() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-tags.txt"));
@@ -374,6 +374,7 @@ public class PlayerHelper {
 	}
 
 	private Hashtable<String,String> playernicks = new Hashtable<String,String>();
+	@Loader({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
 	public void LoadPlayerNicks() {
 		playernicks.clear();
 		try {
@@ -387,6 +388,7 @@ public class PlayerHelper {
 		}
 		catch (Exception e) { }
 	}
+	@Saver({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
 	public void SavePlayerNicks() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-nicks.txt"));
@@ -462,6 +464,7 @@ public class PlayerHelper {
 		return true;
 	}
 
+	@Loader({ "portpermissions", "port_permissions", "noport" })
 	public void LoadPortPermissions() {
 		playerTpPermissions.clear();
 		try {
@@ -485,6 +488,7 @@ public class PlayerHelper {
 		}
 		catch (Exception e) { }
 	}
+	@Saver({ "portpermissions", "port_permissions", "noport" })
 	public void SavePortPermissions() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-notp.txt"));

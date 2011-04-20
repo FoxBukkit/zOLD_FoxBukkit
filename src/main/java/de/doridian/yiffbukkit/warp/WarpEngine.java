@@ -10,10 +10,11 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Location;
 
+import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Ini;
 
-public class WarpEngine {
+public class WarpEngine extends StateContainer {
 	public Map<String, String> warpMRU = new Hashtable<String, String>(); // TODO!
 
 	private YiffBukkit plugin;
@@ -21,9 +22,9 @@ public class WarpEngine {
 
 	public WarpEngine(YiffBukkit plugin) {
 		this.plugin = plugin;
-		LoadWarps();
 	}
 
+	@Loader({"warps", "warp"})
 	public void LoadWarps() {
 		warps.clear();
 
@@ -43,12 +44,14 @@ public class WarpEngine {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@Saver({"warps", "warp"})
 	public void SaveWarps() {
 		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
 		for (Entry<String, WarpDescriptor> entry : warps.entrySet()) {
 			WarpDescriptor warp = entry.getValue();
-			sections.put(warp.name, Arrays.asList(warp.save()));
+			@SuppressWarnings("unchecked")
+			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(warp.save());
+			sections.put(warp.name, wrappedSection);
 		}
 
 		Ini.save("warps.txt", sections);

@@ -12,10 +12,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Ini;
 
-public class JailEngine {
+public class JailEngine extends StateContainer {
 	public class JailDescriptor {
 		World world;
 		Vector position;
@@ -68,11 +69,11 @@ public class JailEngine {
 
 	public JailEngine(YiffBukkit plugin) {
 		this.plugin = plugin;
-		LoadJails();
 
 		new JailPlayerListener(this);
 	}
 
+	@Loader({"jails", "jail"})
 	public void LoadJails() {
 		jails.clear();
 		inmates.clear();
@@ -105,7 +106,7 @@ public class JailEngine {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@Saver({"jails", "jail"})
 	public void SaveJails() {
 		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
 		List<Map<String, List<String>>> jailSections = new ArrayList<Map<String, List<String>>>();  
@@ -118,7 +119,9 @@ public class JailEngine {
 			Map<String, List<String>> section = new TreeMap<String, List<String>>();
 			Ini.saveLocation(section, "prev%s", entry.getValue());
 
-			sections.put("inmate "+entry.getKey(), Arrays.asList(section));
+			@SuppressWarnings("unchecked")
+			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(section);
+			sections.put("inmate "+entry.getKey(), wrappedSection);
 		}
 
 		Ini.save("jails.txt", sections);
