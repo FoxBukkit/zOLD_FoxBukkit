@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -53,15 +54,16 @@ public class PlayerHelper {
 	}
 
 	public Player MatchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
-		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
-		int c = otherplys.size();
-		if(c <= 0)
+		List<Player> players = plugin.getServer().matchPlayer(subString);
+
+		int c = players.size();
+		if (c < 1)
 			throw new PlayerNotFoundException();
 
-		if(c > 1)
-			throw new MultiplePlayersFoundException();
+		if (c > 1)
+			throw new MultiplePlayersFoundException(players);
 
-		return otherplys.get(0);
+		return players.get(0);
 	}
 
 	public String CompletePlayerName(String subString, boolean implicitlyLiteralNames) {
