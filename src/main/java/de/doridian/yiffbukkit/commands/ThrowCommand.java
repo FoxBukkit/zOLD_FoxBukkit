@@ -82,8 +82,12 @@ public class ThrowCommand extends ICommand {
 				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
+					final Vector direction = Utils.toWorldAxis(location, speed);
+					location.setX(location.getX()+direction.getX());
+					location.setY(location.getY()+direction.getY());
+					location.setZ(location.getZ()+direction.getZ());
 					Entity entity = plugin.utils.buildMob(types, player, null, location);
-					entity.setVelocity(Utils.toWorldAxis(location, speed));
+					entity.setVelocity(direction);
 
 				}
 			};
