@@ -23,15 +23,15 @@ public class ISeeCommand extends ICommand {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
 		// Get the EntityPlayer handle from the sender
-		EntityPlayer eh = ((CraftPlayer)ply).getHandle();
+		EntityPlayer eply = ((CraftPlayer)ply).getHandle();
 
 		// Get the Human Entity from the Target
-		EntityHuman ehtarget = ((CraftPlayer)otherply).getHandle();
+		EntityHuman eotherply = ((CraftPlayer)otherply).getHandle();
 
 		// Get's the targets inventory
-		InventoryPlayer ehtargetinv = ehtarget.inventory;
+		InventoryPlayer eotherinventory = eotherply.inventory;
 
-		eh.a(ehtargetinv); // Show to the user.
+		eply.a(eotherinventory); // Show to the user.
 	}
 
 	public String GetHelp() {
