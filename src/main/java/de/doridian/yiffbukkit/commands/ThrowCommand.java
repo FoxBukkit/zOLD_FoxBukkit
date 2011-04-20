@@ -63,8 +63,8 @@ public class ThrowCommand extends ICommand {
 				public void run(PlayerInteractEvent event) {
 					Player player = event.getPlayer();
 					final Location location = player.getLocation();
-
 					final Vector direction = Utils.toWorldAxis(location, speed);
+
 					if (player.isInsideVehicle()) {
 						Entity vehicle = ((CraftPlayer)player).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
 						vehicle.setVelocity(direction);
@@ -77,15 +77,17 @@ public class ThrowCommand extends ICommand {
 		}
 		else {
 			final String[] types = typeName.split("\\+");
+			final double scale = 1/speed.length();
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
 				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 					final Vector direction = Utils.toWorldAxis(location, speed);
-					location.setX(location.getX()+direction.getX());
-					location.setY(location.getY()+direction.getY());
-					location.setZ(location.getZ()+direction.getZ());
+
+					location.setX(location.getX()+direction.getX()*scale);
+					location.setY(location.getY()+direction.getY()*scale);
+					location.setZ(location.getZ()+direction.getZ()*scale);
 					Entity entity = plugin.utils.buildMob(types, player, null, location);
 					entity.setVelocity(direction);
 
