@@ -11,10 +11,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[<name>]")
 @Level(0)
 public class ConversationCommand extends ICommand {
-	public ConversationCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		final String playerName = ply.getName();
