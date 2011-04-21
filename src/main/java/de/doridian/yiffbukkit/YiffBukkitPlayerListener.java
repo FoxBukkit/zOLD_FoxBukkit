@@ -46,7 +46,41 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin = plug;
 		playerHelper = plugin.playerHelper;
 
-		new MeCommand();
+		String packageName = "de.doridian.yiffbukkit.commands";
+		String packageFolderName = "/"+packageName.replace('.','/');
+
+		URL url = ICommand.class.getResource(packageFolderName);
+		File directory = new File(url.getFile());
+		if (directory.exists()) {
+			// Get the list of the files contained in the package
+			for (String fileName : directory.list()) {
+				// we are only interested in .class files
+				if (fileName.endsWith(".class")) {
+					// removes the .class extension
+					String classname = fileName.substring(0,fileName.length()-6);
+					try {
+						final Class<?> classObject = Class.forName(packageName+"."+classname);
+						final Class<? extends ICommand> classICommand = classObject.asSubclass(ICommand.class);
+						// Try to create an instance of the object
+						classICommand.newInstance();
+					} catch (ClassNotFoundException cnfex) {
+						System.err.println(cnfex);
+					} catch (ClassCastException cnfex) {
+						continue;
+					} catch (InstantiationException iex) {
+						// We try to instantiate an interface
+						// or an object that does not have a 
+						// default constructor
+						continue;
+					} catch (IllegalAccessException iaex) {
+						// The class is not public
+						continue;
+					}
+				}
+			}
+		}
+		
+		//new MeCommand();
 		commands.put("pm", new PmCommand(this));
 
 		commands.put("who", new WhoCommand());
@@ -57,7 +91,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("setnick", new SetNickCommand(this));
 
 		commands.put("kick", new KickCommand(this));
-		new BanCommand();
+		//new BanCommand();
 		commands.put("unban", new UnbanCommand(this));
 		commands.put("pardon", new UnbanCommand(this));
 		commands.put("kickall", new KickAllCommand(this));
@@ -78,12 +112,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("sethome", new SetHomeCommand(this));
 		commands.put("spawn", new SpawnCommand(this));
 		commands.put("setspawn", new SetSpawnCommand(this));
-		new CompassCommand();
+		//new CompassCommand();
 
 		commands.put("give", new GiveCommand(this));
-		new ThrowCommand();
+		//new ThrowCommand();
 		commands.put("clear", new ClearCommand(this));
-		new ButcherCommand();
+		//new ButcherCommand();
 
 		commands.put("time", new TimeCommand(this));
 		commands.put("servertime", new ServerTimeCommand(this));
@@ -110,7 +144,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		commands.put("rcon", new ConsoleCommand(this));
 
-		new ConversationCommand(this);
+		//new ConversationCommand();
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
