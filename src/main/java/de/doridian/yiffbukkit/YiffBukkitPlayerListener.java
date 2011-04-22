@@ -2,12 +2,24 @@ package de.doridian.yiffbukkit;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.doridian.yiffbukkit.commands.*;
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -46,40 +58,25 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin = plug;
 		playerHelper = plugin.playerHelper;
 
-		String packageName = "de.doridian.yiffbukkit.commands";
-		String packageFolderName = "/"+packageName.replace('.','/');
+		List<Class<? extends ICommand>> commandClasses = getSubClasses(ICommand.class);
 
-		URL url = ICommand.class.getResource(packageFolderName);
-		File directory = new File(url.getFile());
-		if (directory.exists()) {
-			// Get the list of the files contained in the package
-			for (String fileName : directory.list()) {
-				// we are only interested in .class files
-				if (fileName.endsWith(".class")) {
-					// removes the .class extension
-					String classname = fileName.substring(0,fileName.length()-6);
-					try {
-						final Class<?> classObject = Class.forName(packageName+"."+classname);
-						final Class<? extends ICommand> classICommand = classObject.asSubclass(ICommand.class);
-						// Try to create an instance of the object
-						classICommand.newInstance();
-					} catch (ClassNotFoundException cnfex) {
-						System.err.println(cnfex);
-					} catch (ClassCastException cnfex) {
-						continue;
-					} catch (InstantiationException iex) {
-						// We try to instantiate an interface
-						// or an object that does not have a 
-						// default constructor
-						continue;
-					} catch (IllegalAccessException iaex) {
-						// The class is not public
-						continue;
-					}
-				}
+		for (Class<? extends ICommand> commandClass : commandClasses) {
+			try {
+				commandClass.newInstance();
+			} catch (InstantiationException e) {
+				// We try to instantiate an interface
+				// or an object that does not have a 
+				// default constructor
+				continue;
+			} catch (IllegalAccessException e) {
+				// The class is not public
+				continue;
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
 			}
 		}
-		
+
 		//new MeCommand();
 		commands.put("pm", new PmCommand(this));
 
@@ -156,6 +153,87 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
+	}
+
+	private static <T> List<Class<? extends T>> getSubClasses(Class<T> baseClass) {
+		final List<Class<? extends T>> ret = new ArrayList<Class<? extends T>>();
+		final File file;
+		try {
+			final ProtectionDomain protectionDomain = baseClass.getProtectionDomain();
+			final CodeSource codeSource = protectionDomain.getCodeSource();
+			final URL location = codeSource.getLocation();
+			final URI uri = location.toURI();
+			file = new File(uri);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return ret;
+		}
+		final String[] fileList;
+
+		String packageName = baseClass.getPackage().getName();
+		if (file.isDirectory()) {
+			String packageFolderName = "/"+packageName.replace('.','/');
+
+			URL url = baseClass.getResource(packageFolderName);
+			if (url == null)
+				return ret;
+
+			File directory = new File(url.getFile());
+			if (!directory.exists())
+				return ret;
+
+			// Get the list of the files contained in the package
+			fileList = directory.list();
+		}
+		else if (file.isFile()) {
+			final List<String> tmp = new ArrayList<String>();
+			final JarFile jarFile;
+			try {
+				jarFile = new JarFile(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ret;
+			}
+
+			Pattern pathPattern = Pattern.compile(packageName.replace('.','/')+"/(.+\\.class)");
+			final Enumeration<JarEntry> entries = jarFile.entries();
+			while (entries.hasMoreElements()) {
+				Matcher matcher = pathPattern.matcher(entries.nextElement().getName());
+				if (!matcher.matches())
+					continue;
+
+				tmp.add(matcher.group(1));
+			}
+
+			fileList = tmp.toArray(new String[tmp.size()]);
+		}
+		else {
+			return ret;
+		}
+
+		Pattern classFilePattern = Pattern.compile("(.+)\\.class");
+		for (String fileName : fileList) {
+			// we are only interested in .class files
+			Matcher matcher = classFilePattern.matcher(fileName);
+			if (!matcher.matches())
+				continue;
+
+			// removes the .class extension
+			String classname = matcher.group(1);
+			try {
+				final Class<?> classObject = Class.forName(packageName+"."+classname);
+				final Class<? extends T> classT = classObject.asSubclass(baseClass);
+
+				// Try to create an instance of the object
+				ret.add(classT);
+			} catch (ClassNotFoundException e) {
+				System.err.println(e);
+			} catch (ClassCastException e) {
+				continue;
+			}
+		}
+
+		return ret;
 	}
 
 	public void registerCommand(String name, ICommand command) {
