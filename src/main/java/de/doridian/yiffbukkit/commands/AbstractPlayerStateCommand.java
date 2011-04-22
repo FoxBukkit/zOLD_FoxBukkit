@@ -5,14 +5,9 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public abstract class AbstractPlayerStateCommand extends ICommand {
 	protected final Set<String> states = new HashSet<String>();
-
-	public AbstractPlayerStateCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
 
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -100,9 +95,4 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 	}
 
 	protected abstract void onStateChange(boolean prevState, boolean newState, String targetName, final Player commandSender) throws YiffBukkitCommandException;
-
-	@Override
-	public String GetUsage() {
-		return "[<name>] [on|off]";
-	}
 }

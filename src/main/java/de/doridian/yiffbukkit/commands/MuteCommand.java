@@ -11,13 +11,16 @@ import org.bukkit.plugin.PluginManager;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("mute")
+@Help("Mutes or unmutes a player.")
+@Usage("<name> [on|off]")
+@Level(5)
 public class MuteCommand extends AbstractPlayerStateCommand {
 	private final Set<String> muted = states;
 
-	public MuteCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
+	public MuteCommand() {
 		PlayerListener chatListener = new PlayerListener() {
 			@Override
 			public void onPlayerChat(PlayerChatEvent event) {
@@ -40,11 +43,6 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Type.PLAYER_CHAT, chatListener, Priority.Highest, plugin);
 		pm.registerEvent(Type.PLAYER_COMMAND_PREPROCESS, chatListener, Priority.Lowest, plugin);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 5;
 	}
 
 	@Override
@@ -106,15 +104,5 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 					playerHelper.SendDirectedMessage(commandSender, targetName+" is not muted.");
 			}
 		}
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Mutes or unmutes a player.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "<name> [on|off]";
 	}
 }

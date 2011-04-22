@@ -9,13 +9,16 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.plugin.PluginManager;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("god")
+@Help("Activates or deactivates god mode.")
+@Usage("[<name>] [on|off]")
+@Level(4)
 public class GodCommand extends AbstractPlayerStateCommand {
 	private final Set<String> godded = states;
 
-	public GodCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
+	public GodCommand() {
 		EntityListener entityListener = new EntityListener() {
 			@Override
 			public void onEntityDamage(EntityDamageEvent event) {
@@ -33,11 +36,6 @@ public class GodCommand extends AbstractPlayerStateCommand {
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Type.ENTITY_DAMAGE, entityListener, Priority.Highest, plugin);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 4;
 	}
 
 	@Override
@@ -85,10 +83,5 @@ public class GodCommand extends AbstractPlayerStateCommand {
 					playerHelper.SendDirectedMessage(commandSender, targetName+" is not invincible.");
 			}
 		}
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Activates or deactivates god mode.";
 	}
 }

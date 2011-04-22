@@ -92,7 +92,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("unban", new UnbanCommand(this));
 		commands.put("pardon", new UnbanCommand(this));
 		commands.put("kickall", new KickAllCommand(this));
-		commands.put("mute", new MuteCommand(this));
+		//commands.put("mute", new MuteCommand(this));
 
 		commands.put("banish", new BanishCommand(this));
 		commands.put("vanish", new VanishCommand(this));
@@ -132,7 +132,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put("isee", new ISeeCommand(this));
 		commands.put("leash", new LeashCommand(this));
 		commands.put("bind", new BindCommand(this));
-		commands.put("god", new GodCommand(this));
+		//commands.put("god", new GodCommand(this));
 		commands.put("heal", new HealCommand(this));
 
 		commands.put("§", new CheaterCommand(this));
