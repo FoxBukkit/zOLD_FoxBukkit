@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("<stuff here>")
 @Level(0)
 public class MeCommand extends ICommand {
+	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		String message = "* "+playerHelper.GetPlayerTag(ply) + ply.getDisplayName() + " " + argStr;
 

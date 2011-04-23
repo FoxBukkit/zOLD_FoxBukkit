@@ -12,26 +12,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("bind")
+@Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
+@Usage("[<command>[;<command>[;<command> ...]]]")
+@Level(3)
 public class BindCommand extends ICommand {
-	private Set<String> filter = new HashSet<String>();
+	private static final Set<String> filter = new HashSet<String>();
 
-	{
+	static {
 		filter.add("/pm");
 		filter.add("/say");
 		filter.add("/me");
 		filter.add("/throw");
 		filter.add("/bind");
-	}
-
-	public BindCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 3;
 	}
 
 	@Override
@@ -74,6 +69,7 @@ public class BindCommand extends ICommand {
 		final String commandString = sb.toString();
 
 		ToolBind runnable = new ToolBind(commandString, ply) {
+			@Override
 			public void run(PlayerInteractEvent event) {
 				Player player = event.getPlayer();
 
@@ -87,15 +83,4 @@ public class BindCommand extends ICommand {
 
 		playerHelper.SendDirectedMessage(ply, "Bound §9"+commandString+"§f to your current tool (§e"+toolType.name()+"§f). Right-click to use.");
 	}
-
-	@Override
-	public String GetHelp() {
-		return "Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<command>[;<command>[;<command> ...]]]";
-	}
-
 }

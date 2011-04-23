@@ -7,18 +7,13 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("vanish")
+@Help("Makes you invisible")
+@Usage("[on|off]")
+@Level(3)
 public class VanishCommand extends ICommand {
-	public VanishCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 3;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		String playerName = ply.getName();
@@ -40,15 +35,5 @@ public class VanishCommand extends ICommand {
 			playerHelper.SendServerMessage(ply.getName() + " vanished.", playerHelper.GetPlayerLevel(ply));
 		}
 
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Makes you invisible";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[on|off]";
 	}
 }

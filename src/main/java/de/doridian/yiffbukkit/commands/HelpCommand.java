@@ -5,17 +5,14 @@ import java.util.Hashtable;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("help")
+@Help("Prints command list if used without parameters or information about the specified command")
+@Usage("[<command>]")
+@Level(0)
 public class HelpCommand extends ICommand {
-	public int GetMinLevel() {
-		return 0;
-	}
-
-	public HelpCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		int selflevel = playerHelper.GetPlayerLevel(ply);
 		Hashtable<String,ICommand> commands = plugin.GetCommands();
@@ -47,13 +44,5 @@ public class HelpCommand extends ICommand {
 			ret = ret.substring(0,ret.length() - 3);
 			playerHelper.SendDirectedMessage(ply, ret);
 		}
-	}
-
-	public String GetHelp() {
-		return "Prints command list if used without parameters or information about the specified command";
-	}
-
-	public String GetUsage() {
-		return "[<command>]";
 	}
 }

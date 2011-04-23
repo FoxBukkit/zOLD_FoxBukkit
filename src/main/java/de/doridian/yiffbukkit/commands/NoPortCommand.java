@@ -4,22 +4,22 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("noport")
+@Help("Prevents teleportation and summoning or grants/revokes exceptions.")
+@Usage("[on|off|allow <name>|deny <name>]")
+@Level(1)
 public class NoPortCommand extends ICommand {
 	protected Set<String> tpPermissions;
 	protected Set<String> summonPermissions;
 
-	public int GetMinLevel() {
-		return 1;
-	}
-
-	public NoPortCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
+	public NoPortCommand() {
 		tpPermissions = playerHelper.playerTpPermissions;
 		summonPermissions = playerHelper.playerSummonPermissions;
 	}
 
+	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		boolean newState;
 		String playerName = ply.getName();
@@ -120,13 +120,5 @@ public class NoPortCommand extends ICommand {
 
 	protected String what() {
 		return "teleportation and summoning";
-	}
-
-	public String GetHelp() {
-		return "Prevents "+what()+" or grants/revokes exceptions.";
-	}
-
-	public String GetUsage() {
-		return "[on|off|allow <name>|deny <name>]";
 	}
 }

@@ -31,6 +31,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 				}
 			}
 
+			@Override
 			public void onPlayerCommandPreprocess(PlayerChatEvent event) {
 				if (muted.contains(event.getPlayer().getName())) {
 					plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
@@ -61,7 +62,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 		if (targetName.equals(commandSenderName))
 			throw new YiffBukkitCommandException("You cannot mute yourself");
 
-		if (playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(target)) 
+		if (playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(target))
 			throw new PermissionDeniedException();
 
 		if (targetName.equals(commandSenderName)) {

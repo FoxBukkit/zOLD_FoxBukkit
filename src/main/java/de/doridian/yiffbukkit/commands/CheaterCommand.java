@@ -7,20 +7,12 @@ import net.minecraft.server.Packet3Chat;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("§")
+@Level(Integer.MIN_VALUE)
 public class CheaterCommand extends ICommand {
-
-	public CheaterCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return Integer.MIN_VALUE;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		playerHelper.SendServerMessage("Player "+ply.getName()+" tried to crash the server!", 3);

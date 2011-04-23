@@ -4,25 +4,22 @@ import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("setnick")
+//@Help("Sets nick of specified user.")
+@Usage("<name> <nick>|none")
+@Level(6) //Dori doesnt want people changing nicks :O
 public class SetNickCommand extends ICommand {
-	public int GetMinLevel() {
-		return 6; //Dori doesnt want people changing nicks :O
-	}
-
-	public SetNickCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		String otherName = playerHelper.CompletePlayerName(args[0], false);
-		
+
 		if (otherName == null) {
 			return;
 		}
-		
+
 		Player otherPly = playerHelper.MatchPlayerSingle(args[0]);
 
 		String newNick = Utils.concatArray(args, 1, "").replace('$', '§');
@@ -41,6 +38,7 @@ public class SetNickCommand extends ICommand {
 		}
 	}
 
+	@Override
 	public String GetHelp() {
 		StringBuilder sb = new StringBuilder("Sets nick of specified user.\nColors:");
 		for (char c = '0'; c <= '9'; ++c) {
@@ -57,9 +55,5 @@ public class SetNickCommand extends ICommand {
 		}
 		return sb.toString();
 
-	}
-
-	public String GetUsage() {
-		return "<name> <nick>|none";
 	}
 }

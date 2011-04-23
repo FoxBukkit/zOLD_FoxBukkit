@@ -2,17 +2,13 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("home")
+@Help("Teleports you to your home position (see /sethome)")
+@Level(0)
 public class HomeCommand extends ICommand {
-	public int GetMinLevel() {
-		return 0;
-	}
-
-	public HomeCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		if (plugin.jailEngine.isJailed(ply)) {
 			playerHelper.SendDirectedMessage(ply, "You are jailed!");
@@ -21,9 +17,5 @@ public class HomeCommand extends ICommand {
 
 		ply.teleport(playerHelper.GetPlayerHomePosition(ply));
 		playerHelper.SendServerMessage(ply.getName() + " went home!");
-	}
-
-	public String GetHelp() {
-		return "Teleports you to your home position (see /sethome)";
 	}
 }

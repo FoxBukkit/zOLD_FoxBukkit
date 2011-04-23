@@ -23,6 +23,7 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 @Level(3)
 @BooleanFlags("jrc")
 public class BanCommand extends ICommand {
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 

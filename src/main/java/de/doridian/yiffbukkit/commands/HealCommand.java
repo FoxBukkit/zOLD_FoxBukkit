@@ -2,18 +2,13 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("heal")
+@Help("Heals a player fully or by the given amount.")
+@Usage("[<name>] [<amount>]")
+@Level(4)
 public class HealCommand extends ICommand {
-	public HealCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 4;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		int amount;
@@ -66,15 +61,5 @@ public class HealCommand extends ICommand {
 			playerHelper.SendServerMessage(ply.getName() + " fully healed " + target.getName() + ".");
 		else
 			playerHelper.SendServerMessage(ply.getName() + " healed " + target.getName() + " by "+amount+" points.");
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Heals a player fully or by the given amount..";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<name>] [<amount>]";
 	}
 }

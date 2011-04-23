@@ -60,6 +60,7 @@ public class ThrowCommand extends ICommand {
 		ToolBind runnable;
 		if (typeName.equals("ME")) {
 			runnable = new ToolBind("/throw me", ply) {
+				@Override
 				public void run(PlayerInteractEvent event) {
 					Player player = event.getPlayer();
 					final Location location = player.getLocation();
@@ -80,6 +81,7 @@ public class ThrowCommand extends ICommand {
 			final double scale = 1/speed.length();
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
+				@Override
 				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();

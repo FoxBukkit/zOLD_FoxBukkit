@@ -5,8 +5,12 @@ import java.util.Hashtable;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("servertime")
+@Help("Forces/fixes current time *serverside*.")
+@Usage("[normal|night|day|morning|afternoon|<0-23>]")
+@Level(3)
 public class ServerTimeCommand extends ICommand {
 	Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
 	{
@@ -16,15 +20,7 @@ public class ServerTimeCommand extends ICommand {
 		timeSwatches.put("afternoon", 18L);
 	};
 
-
-	public int GetMinLevel() {
-		return 3;
-	}
-
-	public ServerTimeCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		long displayTime;
 
@@ -56,13 +52,5 @@ public class ServerTimeCommand extends ICommand {
 		else {
 			playerHelper.SendServerMessage(ply.getName() + " forced the server time to be: " + displayTime + ":00");
 		}
-	}
-
-	public String GetHelp() {
-		return "Forces/fixes current time *serverside*.";
-	}
-
-	public String GetUsage() {
-		return "[normal|night|day|morning|afternoon|<0-23>]";
 	}
 }

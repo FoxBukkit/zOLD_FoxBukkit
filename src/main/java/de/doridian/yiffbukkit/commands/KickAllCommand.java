@@ -2,19 +2,13 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("kickall")
+@Help("Kicks everyone from the server except for yourself.")
+@Usage("[<reason>]")
+@Level(5)
 public class KickAllCommand extends ICommand {
-
-	public KickAllCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 5;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		if (argStr.isEmpty())
@@ -29,16 +23,4 @@ public class KickAllCommand extends ICommand {
 
 		playerHelper.SendServerMessage(ply.getName() + " kicked everyone (reason: "+argStr+")");
 	}
-
-	@Override
-	public String GetHelp() {
-		return "Kicks everyone from the server except for yourself.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<reason>]";
-	}
-
-
 }

@@ -10,8 +10,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("give")
+@Help("Gives resource (use _ for spaces in name!)")
+@Usage("<name or id> [amount] [player]")
+@Level(100) // See CanPlayerUseCommand
 public class GiveCommand extends ICommand {
 	Map<String,Material> aliases = new HashMap<String,Material>();
 	Map<String,Short> dataValues = new HashMap<String, Short>();
@@ -75,21 +79,13 @@ public class GiveCommand extends ICommand {
 		dataValues.put("17:BIRCH", (short) 2);
 		dataValues.put("17:LIGHT", (short) 2);
 	};
-
-	public int GetMinLevel() {
-		return 100;
-	}
-	
+	@Override
 	public boolean CanPlayerUseCommand(Player ply)
 	{
 		int plylvl = plugin.playerHelper.GetPlayerLevel(ply);
 		int reqlvl = (ply.getWorld().getName().substring(0, 2).toLowerCase() == "rp_") ? 100 : 3;
 
 		return (plylvl >= reqlvl);
-	}
-
-	public GiveCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
 	}
 
 	private Material matchMaterial(String materialName) {
@@ -100,6 +96,7 @@ public class GiveCommand extends ICommand {
 		return Material.matchMaterial(materialName);
 	}
 
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Integer count = 1;
 		String otherName = null;
@@ -180,13 +177,5 @@ public class GiveCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
 		else
 			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
-	}
-
-	public String GetHelp() {
-		return "Gives resource (use _ for spaces in name!)";
-	}
-
-	public String GetUsage() {
-		return "<name or id> [amount] [player]";
 	}
 }

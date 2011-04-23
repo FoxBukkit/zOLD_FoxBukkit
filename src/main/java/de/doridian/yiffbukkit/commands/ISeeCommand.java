@@ -7,18 +7,15 @@ import net.minecraft.server.InventoryPlayer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("isee")
+@Help("Opens the inventory of target player as a chest")
+@Usage("<player>")
+@Level(4)
 public class ISeeCommand extends ICommand {
-	public int GetMinLevel() {
-		return 4;
-	}
-
-	public ISeeCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
@@ -32,13 +29,5 @@ public class ISeeCommand extends ICommand {
 		InventoryPlayer eotherinventory = eotherply.inventory;
 
 		eply.a(eotherinventory); // Show to the user.
-	}
-
-	public String GetHelp() {
-		return "Opens the inventory of target player as a chest";
-	}
-
-	public String GetUsage() {
-		return "<player>";
 	}
 }

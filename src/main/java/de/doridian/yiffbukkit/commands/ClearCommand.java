@@ -3,18 +3,13 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("clear")
+@Help("Clears your inventory or another player's.")
+@Usage("[<name>]")
+@Level(4)
 public class ClearCommand extends ICommand {
-	public ClearCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 4;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Player target;
@@ -36,19 +31,9 @@ public class ClearCommand extends ICommand {
 		Inventory inventory = target.getInventory();
 
 		for (int i = 0; i < 39; i++) {
-            inventory.setItem(i, null);
-        }
+			inventory.setItem(i, null);
+		}
 
 		playerHelper.SendServerMessage(ply.getName() + " cleared " + target.getName() + "'s inventory.");
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Clears your inventory or another players.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<name>]";
 	}
 }

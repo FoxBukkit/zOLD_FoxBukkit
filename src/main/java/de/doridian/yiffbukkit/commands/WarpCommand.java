@@ -5,20 +5,15 @@ import java.util.Map.Entry;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("warp")
+@Help("Teleports you to the specified warp point.")
+@Usage("<warp point name>|+ <command>[ <args>] - see /cwarp")
+@Level(0)
 public class WarpCommand extends ICommand {
-	@Override
-	public int GetMinLevel() {
-		return 0;
-	}
-
-	public WarpCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws WarpException {
 		if (plugin.jailEngine.isJailed(ply)) {
@@ -82,17 +77,17 @@ public class WarpCommand extends ICommand {
 			int rank = warp.checkAccess(playerName);
 
 			if (command.equals("chown") || command.equals("changeowner")) {
-				//warp <warp point name> changeowner <new owner> 
+				//warp <warp point name> changeowner <new owner>
 				String newOwnerName = playerHelper.CompletePlayerName(args[2], false);
 				if (newOwnerName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
-				
+
 				warp.setOwner(playerName, newOwnerName);
 
 				playerHelper.SendDirectedMessage(ply, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
 			}
 			else if (command.equals("public") || command.equals("unlock")) {
-				//warp <warp point name> public 
+				//warp <warp point name> public
 				if (rank < 2)
 					throw new WarpException("Permission denied");
 
@@ -101,13 +96,13 @@ public class WarpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, "Set warp §9" + warp.name + "§f to public.");
 			}
 			else if (command.equals("private") || command.equals("lock")) {
-				//warp <warp point name> private 
+				//warp <warp point name> private
 				warp.isPublic = false;
 
 				playerHelper.SendDirectedMessage(ply, "Set warp §9" + warp.name + "§f to private.");
 			}
 			else if (command.equals("deny")) {
-				//warp <warp point name> deny <name> 
+				//warp <warp point name> deny <name>
 				String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
@@ -117,7 +112,7 @@ public class WarpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, "Revoked " + targetName + "'s access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("addguest")) {
-				//warp <warp point name> addguest <name> 
+				//warp <warp point name> addguest <name>
 				String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
@@ -127,7 +122,7 @@ public class WarpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, "Granted " + targetName + " guest access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("addop")) {
-				//warp <warp point name> addop <name> 
+				//warp <warp point name> addop <name>
 				String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
@@ -137,7 +132,7 @@ public class WarpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, "Granted " + targetName + " op access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("move")) {
-				//warp <warp point name> move 
+				//warp <warp point name> move
 				if (rank < 3)
 					throw new WarpException("You need to be the warp's owner to do this.");
 
@@ -146,7 +141,7 @@ public class WarpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, "Moved warp §9" + warp.name + "§f to your current location.");
 			}
 			else if (command.equals("info")) {
-				//warp <warp point name> info 
+				//warp <warp point name> info
 				Vector warpLocation = warp.location.toVector();
 
 				playerHelper.SendDirectedMessage(ply, "Warp §9" + warp.name + "§f is owned by "+warp.getOwner());
@@ -190,15 +185,5 @@ public class WarpCommand extends ICommand {
 		catch (ArrayIndexOutOfBoundsException e) {
 			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
 		}
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Teleports you to the specified warp point.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "<warp point name>|+ <command>[ <args>] - see /cwarp";
 	}
 }

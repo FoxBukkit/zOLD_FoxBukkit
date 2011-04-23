@@ -2,21 +2,15 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("setwarp")
+@Help("Creates a warp point with the specified name.")
+@Usage("<warp point name>")
+@Level(3)
 public class SetWarpCommand extends ICommand {
-	
-	@Override
-	public int GetMinLevel() {
-		return 3;
-	}
-
-	public SetWarpCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws WarpException {
 		try {
@@ -27,15 +21,5 @@ public class SetWarpCommand extends ICommand {
 		catch (ArrayIndexOutOfBoundsException e) {
 			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
 		}
-	}
-
-	@Override
-	public String GetHelp() {
-		return "Creates a warp point with the specified name.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "<warp point name>";
 	}
 }

@@ -3,18 +3,15 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("settag")
+//@Help("Sets tag of specified user.")
+@Usage("<name> <tag>|none")
+@Level(3)
 public class SetTagCommand extends ICommand {
-	public int GetMinLevel() {
-		return 3;
-	}
-
-	public SetTagCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException {
 		String otherName = playerHelper.CompletePlayerName(args[0], false);
 		if (otherName == null) {
@@ -35,6 +32,7 @@ public class SetTagCommand extends ICommand {
 		}
 	}
 
+	@Override
 	public String GetHelp() {
 		StringBuilder sb = new StringBuilder("Sets tag of specified user.\nColors:");
 		for (char c = '0'; c <= '9'; ++c) {
@@ -50,10 +48,5 @@ public class SetTagCommand extends ICommand {
 			sb.append(c);
 		}
 		return sb.toString();
-
-	}
-
-	public String GetUsage() {
-		return "<name> <tag>|none";
 	}
 }

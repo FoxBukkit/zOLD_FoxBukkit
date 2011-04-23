@@ -17,6 +17,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[name]")
 @Level(0)
 public class WhoCommand extends ICommand {
+	@Override
 	public void Run(final Player ply, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
 			Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
@@ -31,7 +32,7 @@ public class WhoCommand extends ICommand {
 			int playerLevel = playerHelper.GetPlayerLevel(ply);
 			if (playerLevel < 2) return;
 			playerHelper.SendDirectedMessage(ply, "Last logout: " + Utils.readableDate(playerHelper.lastLogout(target)));
-			
+
 			if (playerLevel < 3) return;
 			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
 			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + Utils.readableDate(playerHelper.lastLogoutBackup(target)));

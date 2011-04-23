@@ -27,7 +27,7 @@ public class ConversationCommand extends ICommand {
 		final Player otherply = playerHelper.MatchPlayerSingle(argStr);
 		final String otherName = otherply.getName();
 		playerHelper.conversations.put(playerName, otherName);
-		
+
 		playerHelper.SendDirectedMessage(ply, "Opened conversation with "+otherName+".");
 	}
 }

@@ -1,14 +1,17 @@
 package de.doridian.yiffbukkit.commands;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("nosummon")
+@Help("Prevents summoning or grants/revokes exceptions.")
+@Usage("[on|off|allow <name>|deny <name>]")
+@Level(1)
 public class NoSummonCommand extends NoPortCommand {
-
-	public NoSummonCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
+	public NoSummonCommand() {
 		tpPermissions = null;
 	}
 
+	@Override
 	protected String what() {
 		return "summoning";
 	}

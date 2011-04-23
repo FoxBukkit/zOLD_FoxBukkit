@@ -2,22 +2,14 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("reloadads")
+@Help("Reload ads")
+@Level(3)
 public class ReloadAdsCommand extends ICommand {
-	public int GetMinLevel() {
-		return 3;
-	}
-
-	public ReloadAdsCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		plugin.adHandler.ReloadAds();
-	}
-
-	public String GetHelp() {
-		return "Reload ads";
 	}
 }

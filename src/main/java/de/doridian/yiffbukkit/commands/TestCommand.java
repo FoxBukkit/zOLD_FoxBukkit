@@ -13,6 +13,7 @@ import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 
 public class TestCommand extends ICommand {
 
+	@Override
 	public int GetMinLevel() {
 		return 5;
 	}
@@ -21,8 +22,10 @@ public class TestCommand extends ICommand {
 		super(playerListener);
 	}
 
+	@Override
 	public void Run(final Player ply, String[] args, String argStr) {
 		Thread t = new Thread() {
+			@Override
 			public void run() {
 				try {
 					Location loc = ply.getLocation();

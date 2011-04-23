@@ -5,18 +5,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("banish")
+@Help("Banishes the specified user to the spawn and optionally resets their home location.")
+@Usage("<name> [resethome]")
+@Level(3)
 public class BanishCommand extends ICommand {
-	public int GetMinLevel() {
-		return 3;
-	}
-
-	public BanishCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		boolean resetHome = args.length >= 2 && (args[1].equals("resethome") || args[1].equals("sethome") || args[1].equals("withhome"));
 
@@ -51,13 +48,5 @@ public class BanishCommand extends ICommand {
 		}
 
 		playerHelper.SendServerMessage(ply.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
-	}
-
-	public String GetHelp() {
-		return "Banishes the specified user to the spawn and optionally resets their home location.";
-	}
-
-	public String GetUsage() {
-		return "<name> [resethome]";
 	}
 }

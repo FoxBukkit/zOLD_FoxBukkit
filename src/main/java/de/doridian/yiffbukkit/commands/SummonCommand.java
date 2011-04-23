@@ -3,18 +3,15 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerFindException;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names({"summon", "tphere"})
+@Help("Teleports the specified user to you")
+@Usage("<name>")
+@Level(2)
 public class SummonCommand extends ICommand {
-	public int GetMinLevel() {
-		return 2;
-	}
-
-	public SummonCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
@@ -24,13 +21,5 @@ public class SummonCommand extends ICommand {
 		otherply.teleport(ply);
 
 		playerHelper.SendServerMessage(ply.getName() + " summoned " + otherply.getName());
-	}
-
-	public String GetHelp() {
-		return "Teleports the specified user to you";
-	}
-
-	public String GetUsage() {
-		return "<name>";
 	}
 }

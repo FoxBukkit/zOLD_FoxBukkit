@@ -7,19 +7,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.portals.PortalEngine;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("setportal")
+@Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
+@Level(5)
 public class SetPortalCommand extends ICommand {
-	public SetPortalCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 5;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		final Material toolType = ply.getItemInHand().getType();
@@ -39,6 +33,7 @@ public class SetPortalCommand extends ICommand {
 			private BlockFace blockFaceIn;
 			boolean done; // temp
 
+			@Override
 			public void run(PlayerInteractEvent event) {
 				Player player = event.getPlayer();
 
@@ -72,15 +67,4 @@ public class SetPortalCommand extends ICommand {
 
 		playerHelper.SendDirectedMessage(ply, "right-click the in and out portals for §9"+portalName+"§f with your current tool (§e"+toolType.name()+"§f).");
 	}
-
-	@Override
-	public String GetHelp() {
-		return "Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[<command>[;<command>[;<command> ...]]]";
-	}
-
 }

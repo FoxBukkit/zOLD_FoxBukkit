@@ -2,17 +2,13 @@ package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("time")
+@Help("Forces/fixes current time *clientside*.")
+@Usage("[normal|night|day|morning|afternoon|<0-23>]")
+@Level(1)
 public class TimeCommand extends ServerTimeCommand {
-	public int GetMinLevel() {
-		return 1;
-	}
-
-	public TimeCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
 	@Override
 	protected void setTime(Player ply, Long setTime, Long displayTime) {
 		if (setTime == null) {
@@ -25,6 +21,7 @@ public class TimeCommand extends ServerTimeCommand {
 		}
 	}
 
+	@Override
 	public String GetHelp() {
 		return "Forces/fixes current time *clientside*.";
 	}

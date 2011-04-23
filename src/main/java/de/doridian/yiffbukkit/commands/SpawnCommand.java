@@ -3,17 +3,13 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("spawn")
+@Help("Teleports you to the spawn position")
+@Level(0)
 public class SpawnCommand extends ICommand {
-	public int GetMinLevel() {
-		return 0;
-	}
-
-	public SpawnCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		if (plugin.jailEngine.isJailed(ply)) {
 			playerHelper.SendDirectedMessage(ply, "You are jailed!");
@@ -25,9 +21,5 @@ public class SpawnCommand extends ICommand {
 		location.setZ(location.getZ()+0.5);
 		ply.teleport(location);
 		playerHelper.SendServerMessage(ply.getName() + " returned to the spawn!");
-	}
-
-	public String GetHelp() {
-		return "Teleports you to the spawn position";
 	}
 }

@@ -10,18 +10,13 @@ import com.sk89q.worldedit.regions.Region;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("setjail")
+@Help("Defines a jail cell from the current WorldEdit selection or removes the cell whose center you're standing closest to.")
+@Usage("[remove]")
+@Level(4)
 public class SetJailCommand extends ICommand {
-	public SetJailCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
-	@Override
-	public int GetMinLevel() {
-		return 4;
-	}
-
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (argStr.equals("remove")) {
@@ -44,16 +39,4 @@ public class SetJailCommand extends ICommand {
 			throw new YiffBukkitCommandException("Please select a region.", e);
 		}
 	}
-
-	@Override
-	public String GetHelp() {
-		return "Defines a jail cell from the current WorldEdit selection or removes the cell whose center you're standing closest to.";
-	}
-
-	@Override
-	public String GetUsage() {
-		return "[remove]";
-	}
-
-
 }

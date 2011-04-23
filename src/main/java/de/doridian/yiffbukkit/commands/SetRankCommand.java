@@ -3,17 +3,14 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Names("setrank")
+@Help("Sets rank of specified user")
+@Usage("<full name> <rank>")
+@Level(3)
 public class SetRankCommand extends ICommand {
-	public int GetMinLevel() {
-		return 3;
-	}
-
-	public SetRankCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
-	}
-
+	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException {
 		String otherply = args[0];
 		String newrank = args[1];
@@ -29,13 +26,5 @@ public class SetRankCommand extends ICommand {
 
 		playerHelper.SetPlayerRank(otherply, newrank);
 		playerHelper.SendServerMessage(ply.getName() + " set rank of " + otherply + " to " + newrank);
-	}
-
-	public String GetHelp() {
-		return "Sets rank of specified user";
-	}
-
-	public String GetUsage() {
-		return "<full name> <rank>";
 	}
 }
