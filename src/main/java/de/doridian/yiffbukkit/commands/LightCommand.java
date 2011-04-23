@@ -1,11 +1,18 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.util.HashSet;
+import java.util.Set;
 import net.minecraft.server.Chunk;
+import net.minecraft.server.ChunkCoordIntPair;
 import net.minecraft.server.NibbleArray;
+import net.minecraft.server.Packet51MapChunk;
+import net.minecraft.server.WorldServer;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftChunk;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.BlockVector;
@@ -30,6 +37,8 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(4)
 @BooleanFlags("fs")
 public class LightCommand extends ICommand {
+	private Set<ChunkCoordIntPair> dirtyChunks = new HashSet<ChunkCoordIntPair>();
+
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
@@ -63,6 +72,7 @@ public class LightCommand extends ICommand {
 		final boolean fanOut = booleanFlags.contains('f');
 		final boolean doSkyLight = booleanFlags.contains('s');
 
+		dirtyChunks.clear();
 		for (BlockVector bv : selected) {
 			Block block = world.getBlockAt(bv.getBlockX(), bv.getBlockY(), bv.getBlockZ());
 			lightBlock(block, maxAmount, doSkyLight);
@@ -112,6 +122,29 @@ public class LightCommand extends ICommand {
 				lightBlock(block, maxAmount - falloff, doSkyLight);
 			}
 		}
+
+		WorldServer worldServer = ((CraftWorld)world).getHandle();
+		
+		for (ChunkCoordIntPair chunk : dirtyChunks) {
+			int x = chunk.a*16;
+			int z = chunk.b*16;
+			Packet51MapChunk p51 = new Packet51MapChunk(x, 0, z, 16, 128, 16, worldServer);
+			for (Player player : plugin.getServer().getOnlinePlayers()) {
+				if (!player.getWorld().equals(world))
+					continue;
+
+				Location location = player.getLocation();
+
+				if (Math.abs(x-location.getX()) > 192)
+					continue;
+
+				if (Math.abs(z-location.getZ()) > 192)
+					continue;
+
+				playerHelper.sendPacketToPlayer(player, p51);
+			}
+		}
+
 		playerHelper.SendDirectedMessage(ply, "Lit the region.");
 	}
 
@@ -120,9 +153,11 @@ public class LightCommand extends ICommand {
 		CraftChunk craftChunk = (CraftChunk) block.getChunk();
 		Chunk chunk = craftChunk.getHandle();
 
-		final int x = block.getX() - craftChunk.getX()*16;
+		dirtyChunks.add(new ChunkCoordIntPair(chunk.j, chunk.k));
+
+		final int x = block.getX() - chunk.j*16;
 		final int y = block.getY();
-		final int z = block.getZ() - craftChunk.getZ()*16;
+		final int z = block.getZ() - chunk.k*16;
 
 		final NibbleArray nibbleArray;
 		if (doSkyLight) {
