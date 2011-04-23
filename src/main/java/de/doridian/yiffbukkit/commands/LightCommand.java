@@ -60,41 +60,76 @@ public class LightCommand extends ICommand {
 			}
 		}
 
-		final int minAmount = booleanFlags.contains('f') ? 0 : maxAmount;
+		final boolean fanOut = booleanFlags.contains('f');
 		final boolean doSkyLight = booleanFlags.contains('s');
 
-		CuboidRegion current = (CuboidRegion)selected;
-		CuboidRegion previous = null;
-		for (int amount = maxAmount; amount >= minAmount; --amount) {
-			for (BlockVector bv : current) {
-				if (previous != null && previous.contains(bv))
+		for (BlockVector bv : selected) {
+			Block block = world.getBlockAt(bv.getBlockX(), bv.getBlockY(), bv.getBlockZ());
+			lightBlock(block, maxAmount, doSkyLight);
+		}
+		if (fanOut) {
+			final Vector min = selected.getMinimumPoint();
+			final Vector max = selected.getMaximumPoint();
+			final int minX = min.getBlockX();
+			final int minY = min.getBlockY();
+			final int minZ = min.getBlockZ();
+			final int maxX = max.getBlockX();
+			final int maxY = max.getBlockY();
+			final int maxZ = max.getBlockZ();
+
+			final Vector newMin = new Vector(minX-maxAmount, Math.max(0,minY-maxAmount), minZ-maxAmount);
+			final Vector newMax = new Vector(maxX+maxAmount, Math.min(127,maxY+maxAmount), maxZ+maxAmount);
+			CuboidRegion expanded = new CuboidRegion(newMin, newMax);
+			for (BlockVector bv : expanded) {
+				if (selected.contains(bv))
+					continue;
+
+				int x = bv.getBlockX();
+				int y = bv.getBlockY();
+				int z = bv.getBlockZ();
+
+				int falloff = 0;
+
+				if (x < minX)
+					falloff += minX-x;
+				else if (x > maxX)
+					falloff += x-maxX;
+
+				if (y < minY)
+					falloff += minY-y;
+				else if (y > maxY)
+					falloff += y-maxY;
+
+				if (z < minZ)
+					falloff += minZ-z;
+				else if (z > maxZ)
+					falloff += z-maxZ;
+
+				if (falloff > maxAmount)
 					continue;
 
 				Block block = world.getBlockAt(bv.getBlockX(), bv.getBlockY(), bv.getBlockZ());
-				CraftChunk craftChunk = (CraftChunk) block.getChunk();
-				Chunk chunk = craftChunk.getHandle();
-
-				final int x = bv.getBlockX() - craftChunk.getX()*16;
-				final int y = bv.getBlockY();
-				final int z = bv.getBlockZ() - craftChunk.getZ()*16;
-
-				final NibbleArray nibbleArray;
-				if (doSkyLight) {
-					nibbleArray = chunk.f;
-				} else
-					nibbleArray = chunk.g;
-
-				nibbleArray.a(x, y, z, Math.max(amount, nibbleArray.a(x, y, z)));
+				lightBlock(block, maxAmount - falloff, doSkyLight);
 			}
-			previous = current;
-			final Vector min = previous.getMinimumPoint().subtract(1,0,1);
-			final Vector max = previous.getMaximumPoint().add(1,0,1);
-			if (min.getY() > 0)
-				min.setY(min.getY()-1);
-			if (max.getY() < 127)
-				max.setY(max.getY()+1);
-			current = new CuboidRegion(min, max);
 		}
 		playerHelper.SendDirectedMessage(ply, "Lit the region.");
+	}
+
+	private void lightBlock(Block block, int lightLevel,
+			final boolean doSkyLight) {
+		CraftChunk craftChunk = (CraftChunk) block.getChunk();
+		Chunk chunk = craftChunk.getHandle();
+
+		final int x = block.getX() - craftChunk.getX()*16;
+		final int y = block.getY();
+		final int z = block.getZ() - craftChunk.getZ()*16;
+
+		final NibbleArray nibbleArray;
+		if (doSkyLight) {
+			nibbleArray = chunk.f;
+		} else
+			nibbleArray = chunk.g;
+
+		nibbleArray.a(x, y, z, Math.max(lightLevel, nibbleArray.a(x, y, z)));
 	}
 }
