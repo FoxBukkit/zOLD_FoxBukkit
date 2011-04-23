@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
@@ -86,7 +87,13 @@ public class LightCommand extends ICommand {
 				nibbleArray.a(x, y, z, Math.max(amount, nibbleArray.a(x, y, z)));
 			}
 			previous = current;
-			current = new CuboidRegion(previous.getMinimumPoint().subtract(1,0,1), previous.getMaximumPoint().add(1,0,1));
+			final Vector min = previous.getMinimumPoint().subtract(1,0,1);
+			final Vector max = previous.getMaximumPoint().add(1,0,1);
+			if (min.getY() > 0)
+				min.setY(min.getY()-1);
+			if (max.getY() < 127)
+				max.setY(max.getY()+1);
+			current = new CuboidRegion(min, max);
 		}
 		playerHelper.SendDirectedMessage(ply, "Lit the region.");
 	}
