@@ -58,9 +58,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin = plug;
 		playerHelper = plugin.playerHelper;
 
-		List<Class<? extends ICommand>> commandClasses = getSubClasses(ICommand.class);
-
-		for (Class<? extends ICommand> commandClass : commandClasses) {
+		for (Class<? extends ICommand> commandClass : getSubClasses(ICommand.class)) {
 			try {
 				commandClass.newInstance();
 			} catch (InstantiationException e) {
@@ -69,7 +67,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				// default constructor
 				continue;
 			} catch (IllegalAccessException e) {
-				// The class is not public
+				// The class/ctor is not public
 				continue;
 			} catch (Exception e) {
 				e.printStackTrace();
