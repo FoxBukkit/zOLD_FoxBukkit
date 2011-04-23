@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
 import net.minecraft.server.Chunk;
+import net.minecraft.server.NibbleArray;
 
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -19,13 +20,14 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("light")
 @Help(
-		"Sets a region to full skylight or the selected level (experimental).\n" +
-		"Flags:" +
-		"  -f Fan out light into adjacent blocks"
+		"Sets a region to full light or the selected level (experimental).\n" +
+		"Flags:\n" +
+		"  -f Fan out light into adjacent blocks\n" +
+		"  -s Set skylight instead of blocklight"
 )
-@Usage("[-f] [<level>]")
+@Usage("[<flags>] [<level>]")
 @Level(4)
-@BooleanFlags("f")
+@BooleanFlags("fs")
 public class LightCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -56,8 +58,9 @@ public class LightCommand extends ICommand {
 				throw new YiffBukkitCommandException("Number or nothing expected.", e);
 			}
 		}
-		
+
 		final int minAmount = booleanFlags.contains('f') ? 0 : maxAmount;
+		final boolean doSkyLight = booleanFlags.contains('s');
 
 		CuboidRegion current = (CuboidRegion)selected;
 		CuboidRegion previous = null;
@@ -70,16 +73,17 @@ public class LightCommand extends ICommand {
 				CraftChunk craftChunk = (CraftChunk) block.getChunk();
 				Chunk chunk = craftChunk.getHandle();
 
-				final int chunkX = craftChunk.getX();
-				final int chunkZ = craftChunk.getZ();
+				final int x = bv.getBlockX() - craftChunk.getX()*16;
+				final int y = bv.getBlockY();
+				final int z = bv.getBlockZ() - craftChunk.getZ()*16;
 
-				int x = bv.getBlockX();
-				int y = bv.getBlockY();
-				int z = bv.getBlockZ();
-				x -= chunkX*16;
-				z -= chunkZ*16;
+				final NibbleArray nibbleArray;
+				if (doSkyLight) {
+					nibbleArray = chunk.f;
+				} else
+					nibbleArray = chunk.g;
 
-				chunk.f.a(x, y, z, amount);
+				nibbleArray.a(x, y, z, Math.max(amount, nibbleArray.a(x, y, z)));
 			}
 			previous = current;
 			current = new CuboidRegion(previous.getMinimumPoint().subtract(1,0,1), previous.getMaximumPoint().add(1,0,1));
