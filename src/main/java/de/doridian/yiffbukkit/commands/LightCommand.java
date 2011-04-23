@@ -129,6 +129,8 @@ public class LightCommand extends ICommand {
 			int x = chunk.a*16;
 			int z = chunk.b*16;
 			Packet51MapChunk p51 = new Packet51MapChunk(x, 0, z, 16, 128, 16, worldServer);
+			x += 8;
+			z += 8;
 			for (Player player : plugin.getServer().getOnlinePlayers()) {
 				if (!player.getWorld().equals(world))
 					continue;
