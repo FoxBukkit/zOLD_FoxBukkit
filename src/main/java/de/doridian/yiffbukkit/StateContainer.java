@@ -42,8 +42,8 @@ public class StateContainer {
 		}
 	}
 
-	public static Map<String, Closure> loadersByName = new HashMap<String, Closure>();
-	public static Map<String, Closure> saversByName = new HashMap<String, Closure>();
+	private static Map<String, Closure> loadersByName = new HashMap<String, Closure>();
+	private static Map<String, Closure> saversByName = new HashMap<String, Closure>();
 	private static Set<Closure> loaders = new HashSet<Closure>();
 	private static Set<Closure> savers = new HashSet<Closure>();
 

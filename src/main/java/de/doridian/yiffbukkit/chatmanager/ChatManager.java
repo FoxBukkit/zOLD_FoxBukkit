@@ -1,11 +1,11 @@
 package de.doridian.yiffbukkit.chatmanager;
 
-import java.util.ArrayDeque;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import net.minecraft.server.IPacketListener;
 import net.minecraft.server.NetServerHandler;
@@ -25,11 +25,12 @@ public class ChatManager {
 		Queue<ChatEntry> chatQueue = chatQueues.get(ply.getName());
 		if (chatQueue == null)
 			return addPlayerEntry(ply);
+
 		return chatQueue;
 	}
 
 	private Queue<ChatEntry> addPlayerEntry(Player ply) {
-		Queue<ChatEntry> chatQueue = new ArrayDeque<ChatEntry>(40);
+		Queue<ChatEntry> chatQueue = new ArrayBlockingQueue<ChatEntry>(40);
 
 		chatQueues.put(ply.getName(), chatQueue);
 		return chatQueue;
