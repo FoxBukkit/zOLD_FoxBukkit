@@ -5,13 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.server.TileEntity;
-import net.minecraft.server.TileEntitySign;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -20,7 +16,6 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.plugin.PluginManager;
 
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -66,7 +61,6 @@ public class YiffBukkitBlockListener extends BlockListener {
 		pm.registerEvent(Event.Type.BLOCK_CANBUILD, this, Priority.Normal, plugin);
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGE, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.SIGN_CHANGE, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.BLOCK_PHYSICS, this, Priority.Highest, plugin);
 	}
 
@@ -109,20 +103,6 @@ public class YiffBukkitBlockListener extends BlockListener {
 		if(playerHelper.GetPlayerLevel(ply) < 0 && event.getInstaBreak()) {
 			playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
-		}
-	}
-
-	@Override
-	public void onSignChange(SignChangeEvent event) {
-		Block block = event.getBlock();
-		TileEntity tileEntity = ((CraftWorld)block.getWorld()).getHandle().getTileEntity(block.getX(),block.getY(),block.getZ());
-		TileEntitySign tileEntitySign = (TileEntitySign) tileEntity;
-		for (String line : tileEntitySign.a) {
-			if (!line.isEmpty()) {
-				for (int index = 0; index < 4; ++index) {
-					event.setLine(index, tileEntitySign.a[index]);
-				}
-			}
 		}
 	}
 

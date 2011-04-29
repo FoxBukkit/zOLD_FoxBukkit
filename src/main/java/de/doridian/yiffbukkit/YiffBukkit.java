@@ -153,8 +153,8 @@ public class YiffBukkit extends JavaPlugin {
 		mcServer.a();
 	}
 	public void sendServerCmd(String cmd, CommandSender sender){
-		if (mcServerHack && !mcServer.g && MinecraftServer.a(mcServer)) {
-			mcServer.a(cmd, mcServer);
+		if (mcServerHack && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
+			mcServer.issueCommand(cmd, mcServer);
 		} else {
 			if (sender != null) {
 				sender.sendMessage(ChatColor.RED + "Can't send console command!");

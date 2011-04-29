@@ -17,7 +17,7 @@ public class ThreadDoriLoginVerifier extends Thread {
 
 	@Override
 	public void run() {
-		SocketAddress ip = loginHandler.b.b();
+		SocketAddress ip = loginHandler.networkManager.getSocketAddress();
 
 		/*
 		URL url = new URL("http://mc.doridian.de/validate.php?ip="+ip);
@@ -28,7 +28,7 @@ public class ThreadDoriLoginVerifier extends Thread {
 
 		String username = DoriLogin.verifyLogin(ip);
 		if (username == null) {
-			loginHandler.a("Failed to verify username!");
+			loginHandler.disconnect("Failed to verify username!");
 		}
 		else {
 			//loginHandler.g = username;

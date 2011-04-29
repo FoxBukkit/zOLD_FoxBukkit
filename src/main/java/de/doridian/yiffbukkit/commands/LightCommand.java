@@ -126,8 +126,8 @@ public class LightCommand extends ICommand {
 		WorldServer worldServer = ((CraftWorld)world).getHandle();
 		
 		for (ChunkCoordIntPair chunk : dirtyChunks) {
-			int x = chunk.a*16;
-			int z = chunk.b*16;
+			int x = chunk.x*16;
+			int z = chunk.z*16;
 			Packet51MapChunk p51 = new Packet51MapChunk(x, 0, z, 16, 128, 16, worldServer);
 			x += 8;
 			z += 8;
@@ -155,11 +155,11 @@ public class LightCommand extends ICommand {
 		CraftChunk craftChunk = (CraftChunk) block.getChunk();
 		Chunk chunk = craftChunk.getHandle();
 
-		dirtyChunks.add(new ChunkCoordIntPair(chunk.j, chunk.k));
+		dirtyChunks.add(new ChunkCoordIntPair(chunk.x, chunk.z));
 
-		final int x = block.getX() - chunk.j*16;
+		final int x = block.getX() - chunk.x*16;
 		final int y = block.getY();
-		final int z = block.getZ() - chunk.k*16;
+		final int z = block.getZ() - chunk.z*16;
 
 		final NibbleArray nibbleArray;
 		if (doSkyLight) {

@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
 import net.minecraft.server.Packet101CloseWindow;
-import net.minecraft.server.Packet1Login;
 import net.minecraft.server.Packet9Respawn;
 
 import org.bukkit.Location;
@@ -33,7 +32,7 @@ public class TestCommand extends ICommand {
 
 					ply.teleport(tmp.getSpawnLocation());
 					Thread.sleep(100);
-					playerHelper.sendPacketToPlayer(ply, new Packet1Login("","",ply.getEntityId(),1000,(byte)-1));
+					//playerHelper.sendPacketToPlayer(ply, new Packet1Login("","",ply.getEntityId(),1000,(byte)-1));
 					Thread.sleep(100);
 					ply.teleport(loc);
 					Thread.sleep(100);

@@ -516,7 +516,7 @@ public class PlayerHelper extends StateContainer {
 	public HashSet<String> vanishedPlayers = new HashSet<String>();
 
 	public void sendPacketToPlayer(Player ply, Packet packet) {
-		((CraftPlayer)ply).getHandle().a.b(packet);
+		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket(packet);
 	}
 
 	public void sendPacketToPlayersAround(Location location, double radius, Packet packet) {

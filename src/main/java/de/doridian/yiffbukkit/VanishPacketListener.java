@@ -36,7 +36,7 @@ public class VanishPacketListener implements IPacketListener {
 	}
 
 	private static final String nameFromEntityId(World world, int entityID) {
-		Entity entity = ((CraftWorld)world).getHandle().a(entityID);
+		Entity entity = ((CraftWorld)world).getHandle().getEntity(entityID);
 		if (!(entity instanceof EntityPlayer))
 			return null;
 

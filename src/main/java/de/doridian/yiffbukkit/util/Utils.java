@@ -173,14 +173,14 @@ public class Utils {
 			}
 			else if (type.equals("TNT")) {
 				EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
-				notchWorld.a(notchEntity);
+				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 			}
 			else if(type.equals("SAND") || type.equals("GRAVEL")) {
 				int material = Material.valueOf(type).getId();
 				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material);
-				notchWorld.a(notchEntity);
+				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 			}
@@ -268,7 +268,7 @@ public class Utils {
 			else if (type.equals("NPC:")) { // the colon (:) disables it, since it currently crashes the server :) 
 				EntityHuman notchEntity = new EntityHuman(notchWorld) {};
 				notchEntity.name = data == null ? "" : data;
-				notchWorld.a(notchEntity);
+				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 				entity.teleport(location);
