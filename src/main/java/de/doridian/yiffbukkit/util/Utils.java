@@ -20,6 +20,7 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
@@ -226,6 +227,14 @@ public class Utils {
 			}
 			else if (type.equals("THIS")) {
 				entity = thisEnt;
+			}
+			else if (type.equals("CREEPER")) {
+				entity = world.spawnCreature(location, CreatureType.CREEPER);
+				final Creeper creeper = (Creeper)entity;
+
+				if (data.equals("ELECTRIFIED") || data.equals("CHARGED") || data.equals("POWERED")) {
+					creeper.setPowered(true);
+				}
 			}
 			else if (type.equals("SLIME")) {
 				entity = world.spawnCreature(location, CreatureType.SLIME);

@@ -23,7 +23,8 @@ import de.doridian.yiffbukkit.util.Utils;
 		"You can stack mobs by separating them with a plus (+).\n"+
 		"Data values:\n"+
 		"  sheep:<dye color>|party|camo|sheared\n"+
-		"  wolf:angry|tame|sit - can be combined with a comma (,)"
+		"  wolf:angry|tame|sit - can be combined with a comma (,)\n"+
+		"  creeper:charged"
 )
 @Usage("[<type>[ <forward>[ <up>[ <left>]]]]")
 @Level(4)
