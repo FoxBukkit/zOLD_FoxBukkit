@@ -184,6 +184,37 @@ public class Utils {
 
 				entity = notchEntity.getBukkitEntity();
 			}
+			else if(type.equals("LIGHTNING")) {
+				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId()) {
+					@Override
+					public void p_() {
+						if (this.a == 0)
+							this.die();
+
+						this.lastX = this.locX;
+						this.lastY = this.locY;
+						this.lastZ = this.locZ;
+						++this.b;
+						this.motY -= 0.03999999910593033D;
+						this.move(this.motX, this.motY, this.motZ);
+						this.motX *= 0.9800000190734863D;
+						this.motY *= 0.9800000190734863D;
+						this.motZ *= 0.9800000190734863D;
+
+						if (this.onGround) {
+							org.bukkit.World world = getBukkitEntity().getWorld();
+							world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
+							this.die();
+						}
+						else if (this.b > 100 && !this.world.isStatic) {
+							this.die();
+						}
+					}
+				};
+				notchWorld.addEntity(notchEntity);
+
+				entity = notchEntity.getBukkitEntity();
+			}
 			else if(type.equals("ARROW")) {
 				entity = world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
 			}
