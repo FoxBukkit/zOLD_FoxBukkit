@@ -20,10 +20,12 @@ import java.util.regex.Pattern;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet;
+import net.minecraft.server.Packet70Bed;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -267,7 +269,7 @@ public class PlayerHelper extends StateContainer {
 			stream.close();
 		}
 		catch(Exception e) { }
-		*/
+		 */
 	}
 
 	//Permission levels
@@ -691,5 +693,45 @@ public class PlayerHelper extends StateContainer {
 			return null;
 
 		return new Date(playerFile.lastModified());
+	}
+
+	public enum WeatherType {
+		NONE("clear"), RAIN("rain"), THUNDERSTORM("thunderstorm");
+
+		public final String name;
+
+		private WeatherType(String name) {
+			this.name = name;
+		}
+
+	}
+	public Hashtable<String, WeatherType> frozenWeathers = new Hashtable<String, WeatherType>();
+	public WeatherType frozenServerWeather;
+
+	public void pushWeather(Player ply) {
+		WeatherType weatherType = WeatherType.NONE;
+		final World world = ply.getWorld();
+		if (world.isThundering())
+			weatherType = WeatherType.THUNDERSTORM;
+		else if (world.hasStorm())
+			weatherType = WeatherType.RAIN;
+
+		WeatherType frozenWeather = frozenWeathers.get(ply.getName());
+
+		if (frozenWeather != null) {
+			weatherType = frozenWeather;
+		}
+		else if (frozenServerWeather != null) {
+			weatherType = frozenServerWeather;
+		}
+
+		int reason = weatherType == WeatherType.NONE ? 2 : 1;
+		sendPacketToPlayer(ply, new Packet70Bed(reason));
+	}
+
+	public void pushWeather() {
+		for (Player ply : plugin.getServer().getOnlinePlayers()) {
+			pushWeather(ply);
+		}
 	}
 }

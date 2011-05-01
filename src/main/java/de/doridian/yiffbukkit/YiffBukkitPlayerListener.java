@@ -233,6 +233,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 
 		plugin.playerHelper.updateToolMappings(player);
+		plugin.playerHelper.pushWeather(player);
 	}
 
 	private boolean playerFileExists(Player player) {
