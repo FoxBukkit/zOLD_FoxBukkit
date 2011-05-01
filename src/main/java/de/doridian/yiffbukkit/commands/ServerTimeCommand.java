@@ -49,13 +49,13 @@ public class ServerTimeCommand extends ICommand {
 			setTime(ply, null, null, weatherType);
 			return;
 		}
-		else if (timeSwatches.containsKey(argStr.toLowerCase())) {
-			displayTime = timeSwatches.get(argStr.toLowerCase());
+		else if (timeSwatches.containsKey(args[0].toLowerCase())) {
+			displayTime = timeSwatches.get(args[0].toLowerCase());
 		}
 		else {
 			try
 			{
-				displayTime = Long.valueOf(argStr);
+				displayTime = Long.valueOf(args[0]);
 			}
 			catch (Exception e) {
 				throw new YiffBukkitCommandException("Usage: " + GetUsage(), e);
