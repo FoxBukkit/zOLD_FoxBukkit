@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.offlinebukkit;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,14 +25,22 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
+
 public class OfflinePlayer implements Player {
 	private Location location;
 	private World world;
 	private int entId = -1;
 	String name;
 	private String displayName;
-	
+
 	public OfflinePlayer(Server server, World world, String name) {
+		final File playerFile = PlayerHelper.getPlayerFile(name, "world");
+		if (playerFile != null) {
+			final String playerFileName = playerFile.getName();
+			name = playerFileName.substring(0, playerFileName.length() - 4);
+		}
+
 		displayName = this.name = name;
 		this.world = world; // TEMP!
 		location = world.getSpawnLocation(); // TEMP!

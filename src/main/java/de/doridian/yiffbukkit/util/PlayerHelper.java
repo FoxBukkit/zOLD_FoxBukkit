@@ -679,20 +679,38 @@ public class PlayerHelper extends StateContainer {
 		removeHandler(slave);
 	}
 
-	public Date lastLogout(Player player) {
-		File playerFile = new File("world/players/"+player.getName()+".dat");
+	public static Date lastLogout(Player player) {
+		File playerFile = getPlayerFile(player.getName(), "world");
+		if (playerFile == null)
+			return null;
+
 		if (!playerFile.exists())
 			return null;
 
 		return new Date(playerFile.lastModified());
 	}
 
-	public Date lastLogoutBackup(Player player) {
-		File playerFile = new File("world_backup/players/"+player.getName()+".dat");
+	public static Date lastLogoutBackup(Player player) {
+		File playerFile = getPlayerFile(player.getName(), "world_backup");
+		if (playerFile == null)
+			return null;
+
 		if (!playerFile.exists())
 			return null;
 
 		return new Date(playerFile.lastModified());
+	}
+
+	public static File getPlayerFile(String playerName, String world) {
+		File directory = new File(world+"/players/");
+
+		for (String file : directory.list()){
+			if (!file.equalsIgnoreCase(playerName+".dat"))
+				continue;
+
+			return new File(world+"/players/"+file);
+		}
+		return null;
 	}
 
 	public enum WeatherType {

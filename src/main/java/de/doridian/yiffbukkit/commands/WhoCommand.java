@@ -9,6 +9,7 @@ import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.util.PlayerFindException;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
@@ -31,11 +32,11 @@ public class WhoCommand extends ICommand {
 
 			int playerLevel = playerHelper.GetPlayerLevel(ply);
 			if (playerLevel < 2) return;
-			playerHelper.SendDirectedMessage(ply, "Last logout: " + Utils.readableDate(playerHelper.lastLogout(target)));
+			playerHelper.SendDirectedMessage(ply, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 
 			if (playerLevel < 3) return;
 			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
-			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + Utils.readableDate(playerHelper.lastLogoutBackup(target)));
+			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
 			Vector targetPosition = target.getLocation().toVector();
 			playerHelper.SendDirectedMessage(ply, "Position: " + targetPosition);
 			Vector offsetFromYou = targetPosition.clone().subtract(ply.getLocation().toVector());
