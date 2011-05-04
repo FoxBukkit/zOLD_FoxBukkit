@@ -704,6 +704,12 @@ public class PlayerHelper extends StateContainer {
 	public static File getPlayerFile(String playerName, String world) {
 		File directory = new File(world+"/players/");
 
+		if (!directory.exists())
+			return null;
+
+		if (!directory.isDirectory())
+			return null;
+
 		for (String file : directory.list()){
 			if (!file.equalsIgnoreCase(playerName+".dat"))
 				continue;
