@@ -720,20 +720,19 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public enum WeatherType {
-		NONE("clear"), RAIN("rain"), THUNDERSTORM("thunderstorm");
+		CLEAR("clear"), RAIN("rain"), THUNDERSTORM("thunderstorm");
 
 		public final String name;
 
 		private WeatherType(String name) {
 			this.name = name;
 		}
-
 	}
 	public Hashtable<String, WeatherType> frozenWeathers = new Hashtable<String, WeatherType>();
 	public WeatherType frozenServerWeather;
 
 	public void pushWeather(Player ply) {
-		WeatherType weatherType = WeatherType.NONE;
+		WeatherType weatherType = WeatherType.CLEAR;
 		final World world = ply.getWorld();
 		if (world.isThundering())
 			weatherType = WeatherType.THUNDERSTORM;
@@ -749,7 +748,7 @@ public class PlayerHelper extends StateContainer {
 			weatherType = frozenServerWeather;
 		}
 
-		int reason = weatherType == WeatherType.NONE ? 2 : 1;
+		int reason = weatherType == WeatherType.CLEAR ? 2 : 1;
 		sendPacketToPlayer(ply, new Packet70Bed(reason));
 	}
 

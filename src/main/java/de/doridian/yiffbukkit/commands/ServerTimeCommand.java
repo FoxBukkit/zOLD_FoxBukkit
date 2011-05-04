@@ -37,9 +37,9 @@ public class ServerTimeCommand extends ICommand {
 		else if (weather.equalsIgnoreCase("thunder"))
 			weatherType = WeatherType.THUNDERSTORM;
 		else if (weather.equalsIgnoreCase("none"))
-			weatherType = WeatherType.NONE;
+			weatherType = WeatherType.CLEAR;
 		else if (weather.equalsIgnoreCase("clear"))
-			weatherType = WeatherType.NONE;
+			weatherType = WeatherType.CLEAR;
 		else
 			throw new YiffBukkitCommandException("Invalid weather specified.");
 

@@ -52,14 +52,14 @@ public class YiffBukkitPacketListener implements IPacketListener {
 			WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
 
 			if (frozenWeather != null) {
-				final boolean frozenRainState = frozenWeather != WeatherType.NONE;
+				final boolean frozenRainState = frozenWeather != WeatherType.CLEAR;
 				if (rainState != frozenRainState) {
 					System.out.println("rejected packet70 with reason="+reason);
 					return false;
 				}
 			}
 			else if (playerHelper.frozenServerWeather != null) {
-				final boolean frozenRainState = playerHelper.frozenServerWeather != WeatherType.NONE;
+				final boolean frozenRainState = playerHelper.frozenServerWeather != WeatherType.CLEAR;
 				if (rainState != frozenRainState) {
 					System.out.println("rejected packet70 with reason="+reason);
 					return false;
