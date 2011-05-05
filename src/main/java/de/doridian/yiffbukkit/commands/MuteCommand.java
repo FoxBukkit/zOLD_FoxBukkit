@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
 
@@ -32,7 +33,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 			}
 
 			@Override
-			public void onPlayerCommandPreprocess(PlayerChatEvent event) {
+			public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 				if (muted.contains(event.getPlayer().getName())) {
 					plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
 					event.setCancelled(true);
