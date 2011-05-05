@@ -22,7 +22,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 	private final Set<String> muted = states;
 
 	public MuteCommand() {
-		PlayerListener chatListener = new PlayerListener() {
+		final PlayerListener chatListener = new PlayerListener() {
 			@Override
 			public void onPlayerChat(PlayerChatEvent event) {
 				if (muted.contains(event.getPlayer().getName())) {

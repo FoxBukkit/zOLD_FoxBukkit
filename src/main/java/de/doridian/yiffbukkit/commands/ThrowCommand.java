@@ -1,5 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.server.Packet;
+import net.minecraft.server.Packet10Flying;
+import net.minecraft.server.PacketListener;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -29,6 +36,25 @@ import de.doridian.yiffbukkit.util.Utils;
 @Usage("[<type>[ <forward>[ <up>[ <left>]]]]")
 @Level(4)
 public class ThrowCommand extends ICommand {
+	private final Map<String, Float> lastYaws = new HashMap<String, Float>();
+	private final Map<String, Float> lastPitches = new HashMap<String, Float>();
+
+	public ThrowCommand() {
+		final PacketListener listener = new PacketListener() {
+			@Override
+			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
+				Packet10Flying p10 = (Packet10Flying) packet;
+				lastYaws.put(ply.getName(), p10.yaw);
+				lastPitches.put(ply.getName(), p10.pitch);
+				return true;
+			}
+
+		};
+
+		PacketListener.addPacketListener(false, 12, listener);
+		PacketListener.addPacketListener(false, 13, listener);
+	}
+
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Material toolType = ply.getItemInHand().getType();
@@ -64,8 +90,13 @@ public class ThrowCommand extends ICommand {
 				@Override
 				public void run(PlayerInteractEvent event) {
 					Player player = event.getPlayer();
-					final Location location = player.getLocation();
-					final Vector direction = Utils.toWorldAxis(location, speed);
+					final String playerName = player.getName();
+					final Location location = player.getEyeLocation();
+					if (player.isInsideVehicle() && lastYaws.containsKey(playerName)) {
+						location.setYaw(lastYaws.get(playerName));
+						location.setPitch(lastPitches.get(playerName));
+					}
+					Vector direction = Utils.toWorldAxis(location, speed);
 
 					if (player.isInsideVehicle()) {
 						Entity vehicle = ((CraftPlayer)player).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
@@ -86,6 +117,10 @@ public class ThrowCommand extends ICommand {
 				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
+					if (player.isInsideVehicle() && lastYaws.containsKey(playerName)) {
+						location.setYaw(lastYaws.get(playerName));
+						location.setPitch(lastPitches.get(playerName));
+					}
 					final Vector direction = Utils.toWorldAxis(location, speed);
 
 					location.setX(location.getX()+direction.getX()*scale);
