@@ -7,8 +7,7 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import net.minecraft.server.IPacketListener;
-import net.minecraft.server.NetServerHandler;
+import net.minecraft.server.PacketListener;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet3Chat;
 
@@ -39,7 +38,7 @@ public class ChatManager {
 	public ChatManager(YiffBukkit plugin) {
 		this.plugin = plugin;
 
-		final IPacketListener packetListener = new IPacketListener() {
+		final PacketListener packetListener = new PacketListener() {
 			@Override
 			public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 				String text = ((Packet3Chat)packet).a;
@@ -54,7 +53,7 @@ public class ChatManager {
 				return true;
 			}
 		};
-		NetServerHandler.addPacketListener(true, 3, packetListener);
+		PacketListener.addPacketListener(true, 3, packetListener);
 	}
 
 	public Object getCurrentOrigin() {
