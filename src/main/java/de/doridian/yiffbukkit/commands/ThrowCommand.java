@@ -12,7 +12,11 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
@@ -40,7 +44,7 @@ public class ThrowCommand extends ICommand {
 	private final Map<String, Float> lastPitches = new HashMap<String, Float>();
 
 	public ThrowCommand() {
-		final PacketListener listener = new PacketListener() {
+		final PacketListener packetListener = new PacketListener() {
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
 				Packet10Flying p10 = (Packet10Flying) packet;
@@ -51,8 +55,19 @@ public class ThrowCommand extends ICommand {
 
 		};
 
-		PacketListener.addPacketListener(false, 12, listener);
-		PacketListener.addPacketListener(false, 13, listener);
+		PacketListener.addPacketListener(false, 12, packetListener);
+		PacketListener.addPacketListener(false, 13, packetListener);
+
+		final PlayerListener playerListener = new PlayerListener() {
+			@Override
+			public void onPlayerQuit(PlayerQuitEvent event) {
+				final String playerName = event.getPlayer().getName();
+				lastYaws.remove(playerName);
+				lastPitches.remove(playerName);
+			}
+		};
+
+		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Monitor, plugin);
 	}
 
 	@Override
