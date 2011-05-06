@@ -64,7 +64,8 @@ public class LightCommand extends ICommand {
 		else {
 			try {
 				maxAmount = Integer.parseInt(args[0]);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				throw new YiffBukkitCommandException("Number or nothing expected.", e);
 			}
 		}
@@ -162,9 +163,9 @@ public class LightCommand extends ICommand {
 		final int z = block.getZ() - chunk.z*16;
 
 		final NibbleArray nibbleArray;
-		if (doSkyLight) {
+		if (doSkyLight)
 			nibbleArray = chunk.f;
-		} else
+		else
 			nibbleArray = chunk.g;
 
 		nibbleArray.a(x, y, z, Math.max(lightLevel, nibbleArray.a(x, y, z)));

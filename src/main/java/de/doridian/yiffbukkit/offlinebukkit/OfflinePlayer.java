@@ -81,15 +81,10 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public double getEyeHeight(boolean ignoreSneaking) {
-		if(ignoreSneaking) {
+		if (ignoreSneaking || !isSneaking())
 			return 1.62D;
-		} else {
-			if (isSneaking()) {
-				return 1.42D;
-			} else {
-				return 1.62D;
-			}
-		}
+
+		return 1.42D;
 	}
 	@Override
 	public List<Block> getLineOfSight(HashSet<Byte> transparent, int maxDistance) {

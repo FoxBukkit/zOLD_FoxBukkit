@@ -32,11 +32,14 @@ public class StateContainer {
 		public void invoke() {
 			try {
 				method.invoke(instance);
-			} catch (IllegalArgumentException e) {
+			}
+			catch (IllegalArgumentException e) {
 				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			}
+			catch (IllegalAccessException e) {
 				e.printStackTrace();
-			} catch (InvocationTargetException e) {
+			}
+			catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}

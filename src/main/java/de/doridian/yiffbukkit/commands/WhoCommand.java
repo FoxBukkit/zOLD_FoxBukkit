@@ -60,7 +60,8 @@ public class WhoCommand extends ICommand {
 				});
 				thread.start();
 			}
-		} else {
+		}
+		else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: " + players[0].getName();
 			for(int i=1;i<players.length;i++) {

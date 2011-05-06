@@ -231,7 +231,8 @@ public class PlayerHelper extends StateContainer {
 			filewrite.close();
 			try {
 				plugin.permissions.getHandler().reload();
-			} catch(Exception e) { }
+			}
+			catch(Exception e) { }
 		}
 		catch(Exception e) {
 

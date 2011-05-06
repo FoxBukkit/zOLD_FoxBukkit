@@ -67,7 +67,8 @@ public class Utils {
 			Field f = class1.getDeclaredField(field);
 			f.setAccessible(true);
 			return (T) f.get(instance);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return null;
 		}
 	}
@@ -85,7 +86,8 @@ public class Utils {
 				field_modifiers.setInt(f, modifiers & 0xFFFFFFEF);
 			f.setAccessible(true);
 			f.set(instance, value);
-		} catch (Exception e) { }
+		}
+		catch (Exception e) { }
 	}
 
 	static String[] directions = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
@@ -245,7 +247,8 @@ public class Utils {
 					try {
 						int size = Integer.parseInt(data);
 						slime.setSize(size);
-					} catch (NumberFormatException e) { }
+					}
+					catch (NumberFormatException e) { }
 
 				}
 			}

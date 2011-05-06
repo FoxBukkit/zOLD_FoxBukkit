@@ -27,7 +27,8 @@ public class HelpCommand extends ICommand {
 				playerHelper.SendDirectedMessage(ply, line);
 			}
 			playerHelper.SendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.GetUsage());
-		} else {
+		}
+		else {
 			String ret = "Available commands: /";
 			Enumeration<String> e = commands.keys();
 			while(e.hasMoreElements()) {

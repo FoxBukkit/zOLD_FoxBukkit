@@ -34,7 +34,8 @@ public class BanCommand extends ICommand {
 		if (booleanFlags.contains('j')) {
 			try {
 				plugin.jailEngine.jailPlayer(otherply, false);
-			} catch (JailException e) { }
+			}
+			catch (JailException e) { }
 		}
 
 		if (booleanFlags.contains('r')) {

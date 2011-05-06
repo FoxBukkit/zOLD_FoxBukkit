@@ -68,7 +68,8 @@ public class AdvertismentSigns {
 					
 					parseFileIntoArray(0, fileData, innerStream, 'p');
 					 
-				} else if(line.equals("text")) {
+				}
+				else if(line.equals("text")) {
 					char color = 'p';
 					
 					line = innerStream.readLine().toLowerCase() + "  ";

@@ -143,7 +143,8 @@ public class YiffBukkit extends JavaPlugin {
 				f.setAccessible(true);
 				mcServer = (MinecraftServer) f.get(s);
 				mcServerHack = true;
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Logger.getLogger("Minecraft").log(Level.SEVERE, null, e);
 			}
 		}
@@ -155,10 +156,12 @@ public class YiffBukkit extends JavaPlugin {
 	public void sendServerCmd(String cmd, CommandSender sender){
 		if (mcServerHack && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
 			mcServer.issueCommand(cmd, mcServer);
-		} else {
+		}
+		else {
 			if (sender != null) {
 				sender.sendMessage(ChatColor.RED + "Can't send console command!");
-			} else {
+			}
+			else {
 				Logger.getLogger("Minecraft").log(Level.WARNING, "Can't send console command!");
 			}
 		}

@@ -83,8 +83,8 @@ public class ThrowCommand extends ICommand {
 		}
 
 		final Vector speed = new Vector(2,0,0);
-		try {
-			if (args.length >= 2) {
+		if (args.length >= 2) {
+			try {
 				speed.setX(Double.valueOf(args[1]));
 				if (args.length >= 3) {
 					speed.setY(Double.valueOf(args[2]));
@@ -93,8 +93,9 @@ public class ThrowCommand extends ICommand {
 					}
 				}
 			}
-		} catch (NumberFormatException e) {
-			throw new YiffBukkitCommandException("Number expected", e);
+			catch (NumberFormatException e) {
+				throw new YiffBukkitCommandException("Number expected", e);
+			}
 		}
 
 		String typeName = args[0].toUpperCase();

@@ -61,15 +61,18 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		for (Class<? extends ICommand> commandClass : getSubClasses(ICommand.class)) {
 			try {
 				commandClass.newInstance();
-			} catch (InstantiationException e) {
+			}
+			catch (InstantiationException e) {
 				// We try to instantiate an interface
 				// or an object that does not have a 
 				// default constructor
 				continue;
-			} catch (IllegalAccessException e) {
+			}
+			catch (IllegalAccessException e) {
 				// The class/ctor is not public
 				continue;
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 				continue;
 			}
@@ -96,7 +99,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			final URL location = codeSource.getLocation();
 			final URI uri = location.toURI();
 			file = new File(uri);
-		} catch (URISyntaxException e) {
+		}
+		catch (URISyntaxException e) {
 			e.printStackTrace();
 			return ret;
 		}
@@ -122,7 +126,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			final JarFile jarFile;
 			try {
 				jarFile = new JarFile(file);
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				e.printStackTrace();
 				return ret;
 			}
@@ -158,9 +163,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 				// Try to create an instance of the object
 				ret.add(classT);
-			} catch (ClassNotFoundException e) {
+			}
+			catch (ClassNotFoundException e) {
 				System.err.println(e);
-			} catch (ClassCastException e) {
+			}
+			catch (ClassCastException e) {
 				continue;
 			}
 		}

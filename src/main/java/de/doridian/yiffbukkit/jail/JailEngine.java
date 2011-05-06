@@ -158,7 +158,8 @@ public class JailEngine extends StateContainer {
 			jailPlayer(ply, false);
 			jailPlayer(ply, true);
 			plugin.playerHelper.SendDirectedMessage(ply, "You are still jailed!");
-		} catch (JailException e) { }
+		}
+		catch (JailException e) { }
 	}
 
 	public void setJail(World world, Vector pos1, Vector pos2) {
