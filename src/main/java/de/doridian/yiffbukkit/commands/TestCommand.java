@@ -8,17 +8,11 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
-
 public class TestCommand extends ICommand {
 
 	@Override
 	public int GetMinLevel() {
 		return 5;
-	}
-
-	public TestCommand(YiffBukkitPlayerListener playerListener) {
-		super(playerListener);
 	}
 
 	@Override
