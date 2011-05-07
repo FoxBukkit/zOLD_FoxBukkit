@@ -17,7 +17,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("mute")
 @Help("Mutes or unmutes a player.")
 @Usage("<name> [on|off]")
-@Level(5)
+@Level(4)
 public class MuteCommand extends AbstractPlayerStateCommand {
 	private final Set<String> muted = states;
 
@@ -63,7 +63,12 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 		if (targetName.equals(commandSenderName))
 			throw new YiffBukkitCommandException("You cannot mute yourself");
 
-		if (playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(target))
+		final Integer commandSenderLevel = playerHelper.GetPlayerLevel(commandSender);
+		final Integer targetLevel = playerHelper.GetPlayerLevel(target);
+		if (commandSenderLevel <= targetLevel)
+			throw new PermissionDeniedException();
+
+		if (commandSenderLevel < 5 && targetLevel > 0)
 			throw new PermissionDeniedException();
 
 		if (targetName.equals(commandSenderName)) {
