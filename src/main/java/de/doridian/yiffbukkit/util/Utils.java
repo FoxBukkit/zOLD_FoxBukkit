@@ -8,6 +8,7 @@ import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPig;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityWolf;
+import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.WorldServer;
 
 import org.bukkit.DyeColor;
@@ -207,6 +208,7 @@ public class Utils {
 						if (this.onGround) {
 							org.bukkit.World world = getBukkitEntity().getWorld();
 							world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
+							plugin.playerHelper.sendPacketToPlayersAround(new Location(world, this.locX, this.locY, this.locZ), 200, new Packet53BlockChange((int)Math.floor(this.locX), (int)Math.floor(this.locY), (int)Math.floor(this.locZ), notchWorld));
 							this.die();
 						}
 						else if (this.b > 100 && !this.world.isStatic) {
