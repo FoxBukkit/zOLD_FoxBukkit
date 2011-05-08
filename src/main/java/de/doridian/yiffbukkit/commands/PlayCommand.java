@@ -252,22 +252,22 @@ public class PlayCommand extends ICommand {
 
 			@Override
 			public void run() {
-				if (System.currentTimeMillis() < nextTime)
-					return;
+				while (System.currentTimeMillis() >= nextTime) {
 
-				Note note = notes.poll();
+					Note note = notes.poll();
 
-				if (note == null) {
-					playerHelper.sendPacketToPlayersAround(loc, 64, new Packet53BlockChangeExpress(x, y, z, notchWorld));
-					plugin.getServer().getScheduler().cancelTask(taskID);
-					return;
+					if (note == null) {
+						playerHelper.sendPacketToPlayersAround(loc, 64, new Packet53BlockChangeExpress(x, y, z, notchWorld));
+						plugin.getServer().getScheduler().cancelTask(taskID);
+						return;
+					}
+
+					nextTime += note.length*1000;
+
+					final int noteValue = note.number-4*12+5;
+					//System.out.println(String.format("%d/%d/%d i=%d n=%d", x, y, z, 0, noteValue));
+					playerHelper.sendPacketToPlayersAround(loc, 64, new Packet54PlayNoteBlock(x, y, z, 0, noteValue));
 				}
-
-				nextTime += note.length*1000;
-
-				final int noteValue = note.number-3*12+5;
-				//System.out.println(String.format("%d/%d/%d i=%d n=%d", x, y, z, 0, noteValue));
-				playerHelper.sendPacketToPlayersAround(loc, 64, new Packet54PlayNoteBlock(x, y, z, 0, noteValue));
 			}
 		};
 	}
