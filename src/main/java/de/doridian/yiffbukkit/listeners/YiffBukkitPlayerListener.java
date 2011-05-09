@@ -356,9 +356,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		Player ply = event.getPlayer();
+		Integer selflvl = playerHelper.GetPlayerLevel(ply);
+		Block clickedBlock = event.getClickedBlock();
 		switch (event.getAction()) {
 		case LEFT_CLICK_BLOCK:
-			final Block block = event.getClickedBlock().getFace(event.getBlockFace());
+			if (selflvl < 1)
+				break;
+
+			final Block block = clickedBlock.getFace(event.getBlockFace());
 			if (block.getTypeId() == 51) // fire
 				block.setTypeId(0);
 
@@ -368,12 +374,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		case RIGHT_CLICK_BLOCK:
 			try {
 				Material itemMaterial = event.getMaterial();
-				Player ply = event.getPlayer();
-				Integer selflvl = playerHelper.GetPlayerLevel(ply);
 				// This will not be logged by bigbrother so I only allowed it for ops+ for now.
 				// A fix would be to modify the event a bit to make BB log this. 
 				if (selflvl >= 3 && itemMaterial == Material.INK_SACK) {
-					Block clickedBlock = event.getClickedBlock();
 					if (clickedBlock.getType() == Material.WOOL) {
 						ItemStack item = event.getItem();
 						clickedBlock.setData((byte)(15 - item.getDurability()));
@@ -386,7 +389,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				}
 			}
 			finally {
-				Player ply = event.getPlayer();
 				Material itemMaterial = event.getMaterial();
 
 				String key = ply.getName()+" "+itemMaterial.name();
