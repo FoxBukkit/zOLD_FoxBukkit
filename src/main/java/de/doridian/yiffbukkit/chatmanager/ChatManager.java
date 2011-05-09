@@ -46,6 +46,9 @@ public class ChatManager {
 				ChatEntry chatEntry = new ChatEntry(text, getCurrentOrigin());
 
 				Queue<ChatEntry> chatQueue = getChatQueue(ply);
+				if (chatQueue == null)
+					return false;
+
 				chatQueue.add(chatEntry);
 				if (chatQueue.size() > CHAT_QUEUE_LENGTH)
 					chatQueue.poll();
@@ -56,7 +59,9 @@ public class ChatManager {
 
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-				Queue<String> foo = lastPlayerMessages.get(ply);
+				Queue<String> spamWindow = lastPlayerMessages.get(ply);
+				if (spamWindow == null)
+					return false;
 
 				String text = ((Packet3Chat)packet).a;
 
@@ -64,7 +69,7 @@ public class ChatManager {
 					return true;
 
 				int count = 0;
-				for (String prev : foo) {
+				for (String prev : spamWindow) {
 					if (prev.equals(text))
 						++count;
 
@@ -89,11 +94,11 @@ public class ChatManager {
 				}
 
 				// add to queue
-				foo.add(text);
+				spamWindow.add(text);
 
 				// limit queue size
-				if (foo.size() > SPAM_WINDOW)
-					foo.remove();
+				if (spamWindow.size() > SPAM_WINDOW)
+					spamWindow.remove();
 
 				return true;
 			}

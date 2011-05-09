@@ -239,23 +239,32 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		player.setDisplayName(nick);
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
+		event.setJoinMessage(null);
+		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists())
-			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
+			plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
 		else
-			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
+			plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 
 		plugin.playerHelper.updateToolMappings(player);
+		plugin.chatManager.popCurrentOrigin();
 		plugin.playerHelper.pushWeather(player);
 	}
 
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		event.setQuitMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
+		event.setQuitMessage(null);
+		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
+		plugin.getServer().broadcastMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
+		plugin.chatManager.popCurrentOrigin();
 	}
 
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
-		event.setLeaveMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
+		event.setLeaveMessage(null);
+		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
+		plugin.getServer().broadcastMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
+		plugin.chatManager.popCurrentOrigin();
 	}
 
 	@Override
