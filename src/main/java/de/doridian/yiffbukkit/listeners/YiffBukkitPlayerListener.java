@@ -356,6 +356,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (event.isCancelled())
+			return;
+
 		Player ply = event.getPlayer();
 		Integer selflvl = playerHelper.GetPlayerLevel(ply);
 		Block clickedBlock = event.getClickedBlock();
@@ -388,14 +391,19 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					}
 				}
 			}
-			finally {
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			try {
 				Material itemMaterial = event.getMaterial();
 
 				String key = ply.getName()+" "+itemMaterial.name();
-				ToolBind runnable = plugin.playerHelper.toolMappings.get(key);
-				if (runnable != null) {
+				ToolBind toolBind = plugin.playerHelper.toolMappings.get(key);
+				if (toolBind != null) {
+					event.setCancelled(true);
 					try {
-						runnable.run(event);
+						toolBind.run(event);
 					}
 					catch (YiffBukkitCommandException e) {
 						plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(), e.getColor());
@@ -411,6 +419,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					}
 				}
 			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			break;
 		}
 	}
