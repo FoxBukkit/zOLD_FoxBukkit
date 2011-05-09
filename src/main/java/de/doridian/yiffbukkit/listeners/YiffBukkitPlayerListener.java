@@ -377,8 +377,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if (event.isCancelled())
-			return;
+		/*if (event.isCancelled())
+			return;*/
 
 		Player ply = event.getPlayer();
 		Integer selflvl = playerHelper.GetPlayerLevel(ply);
