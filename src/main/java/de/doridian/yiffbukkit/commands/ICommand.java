@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
 public abstract class ICommand {

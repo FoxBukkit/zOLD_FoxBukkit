@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.listeners;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +19,8 @@ import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
+
+import de.doridian.yiffbukkit.YiffBukkit;
 
 public class YiffBukkitEntityListener extends EntityListener {
 	private final YiffBukkit plugin;

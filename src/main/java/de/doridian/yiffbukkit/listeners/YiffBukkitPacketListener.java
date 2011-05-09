@@ -1,7 +1,8 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.listeners;
 
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 

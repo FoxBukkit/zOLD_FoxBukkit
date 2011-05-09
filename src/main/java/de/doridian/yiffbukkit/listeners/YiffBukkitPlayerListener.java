@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit;
+package de.doridian.yiffbukkit.listeners;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +21,10 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.ToolBind;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.*;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 

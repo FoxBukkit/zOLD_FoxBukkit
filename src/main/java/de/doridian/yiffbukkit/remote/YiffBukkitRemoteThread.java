@@ -9,7 +9,7 @@ import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
 public class YiffBukkitRemoteThread extends Thread {
 	private YiffBukkitPlayerListener listen;

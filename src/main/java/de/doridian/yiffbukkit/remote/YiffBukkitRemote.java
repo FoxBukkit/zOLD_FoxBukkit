@@ -7,7 +7,7 @@ import java.net.Socket;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
 
 
