@@ -238,18 +238,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			nick = player.getName();
 		player.setDisplayName(nick);
 
-		if (playerFileExists(player))
+		if (PlayerHelper.getPlayerFile(player.getName(), "world").exists())
 			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
 		else
 			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 
 		plugin.playerHelper.updateToolMappings(player);
 		plugin.playerHelper.pushWeather(player);
-	}
-
-	private boolean playerFileExists(Player player) {
-		File playerFile = new File("world/players/"+player.getName()+".dat");
-		return playerFile.exists();
 	}
 
 	@Override
