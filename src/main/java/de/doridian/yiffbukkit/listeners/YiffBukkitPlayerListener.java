@@ -238,7 +238,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			nick = player.getName();
 		player.setDisplayName(nick);
 
-		if (PlayerHelper.getPlayerFile(player.getName(), "world").exists())
+		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
+		if (playerFile != null && playerFile.exists())
 			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
 		else
 			event.setJoinMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
