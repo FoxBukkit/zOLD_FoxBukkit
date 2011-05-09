@@ -291,14 +291,22 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		event.setFormat(plugin.playerHelper.GetPlayerTag(ply) + "%s:§f %s");
 
 		String conversationTarget = playerHelper.conversations.get(ply.getName());
-		if (conversationTarget == null)
-			return;
-
 		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), event.getMessage());
+		if (conversationTarget == null) {
+			plugin.chatManager.pushCurrentOrigin(ply);
+			plugin.getServer().broadcastMessage(formattedMessage);
+			plugin.chatManager.popCurrentOrigin();
+
+			event.setCancelled(true);
+			return;
+		}
+
 		formattedMessage = "§e[CONV]§f "+formattedMessage;
 
+		plugin.chatManager.pushCurrentOrigin(ply);
 		ply.sendMessage(formattedMessage);
 		plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
+		plugin.chatManager.popCurrentOrigin();
 
 		event.setCancelled(true);
 	}
@@ -309,10 +317,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (event.isCancelled())
 			return;
 
-		if (runCommand(event.getPlayer(), event.getMessage().substring(1).trim())) {
+		final Player ply = event.getPlayer();
+		plugin.chatManager.pushCurrentOrigin(ply);
+		if (runCommand(ply, event.getMessage().substring(1).trim())) {
 			event.setCancelled(true);
 			event.setMessage("/youdontwantthiscommand "+event.getMessage());
 		}
+		plugin.chatManager.popCurrentOrigin();
 	}
 
 	public boolean runCommand(Player ply, String baseCmd) {
