@@ -3,7 +3,9 @@ package de.doridian.yiffbukkit.listeners;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -30,6 +32,9 @@ public class YiffBukkitBlockListener extends BlockListener {
 	public static final Map<Material,Integer> blocklevels = new HashMap<Material,Integer>();
 	public static final Set<Material> flammableBlocks = new HashSet<Material>();
 	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
+
+	private static final int TORCH_BREAK_WINDOW = 8;
+	private static final int TORCH_BREAK_TIMEOUT_MILLIS = 1000;
 
 	static {
 		blocklevels.put(Material.TNT, 4);
@@ -63,6 +68,8 @@ public class YiffBukkitBlockListener extends BlockListener {
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_PHYSICS, this, Priority.Highest, plugin);
+
+		playerHelper.registerMap(torchQueues);
 	}
 
 	@Override
@@ -80,8 +87,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
 			event.setBuild(false);
 		}
-		
-		
+
 		if (selflvl < 3 && flammableBlocks.contains(material)) {
 			for (BlockFace face : flameSpreadDirections) {
 				Material neighborMaterial = block.getRelative(face).getType();
@@ -93,6 +99,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 	}
 
+	Map<Player, Queue<Long>> torchQueues = new HashMap<Player, Queue<Long>>();
 	@Override
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
@@ -105,6 +112,25 @@ public class YiffBukkitBlockListener extends BlockListener {
 			playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
 		}
+
+		final int typeId = event.getBlock().getTypeId();
+		if (typeId == 50 || typeId == 76) {
+			Queue<Long> torchQueue = torchQueues.get(ply);
+			if (torchQueue == null)
+				torchQueues.put(ply, torchQueue = new ArrayBlockingQueue<Long>(TORCH_BREAK_WINDOW+1));
+
+			final long currentTimeMillis = System.currentTimeMillis();
+			torchQueue.offer(currentTimeMillis);
+
+			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
+				if (currentTimeMillis - torchQueue.poll() < TORCH_BREAK_TIMEOUT_MILLIS) {
+					playerHelper.SetPlayerRank(ply.getName(), "banned");
+					ply.kickPlayer("Torch hack");
+					playerHelper.SendServerMessage(ply.getName() + " was autobanned for breaking torches too fast.");
+					event.setCancelled(true);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -112,7 +138,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		if (event.getChangedType() == Material.PORTAL)
 			event.setCancelled(true);
 	}
-	
+
 	@Override
 	public void onBlockCanBuild(BlockCanBuildEvent event)
 	{
