@@ -38,6 +38,8 @@ public class BanCommand extends ICommand {
 			catch (JailException e) { }
 		}
 
+		playerHelper.SetPlayerRank(otherply.getName(), "banned");
+
 		if (booleanFlags.contains('r')) {
 			ply.chat("/bb rollback "+otherply.getName());
 
@@ -51,7 +53,6 @@ public class BanCommand extends ICommand {
 		if(playerHelper.GetPlayerLevel(ply) <= playerHelper.GetPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
-		playerHelper.SetPlayerRank(otherply.getName(), "banned");
 		if (matcher.matches()) {
 			playerHelper.SendServerMessage(ply.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
 		}
