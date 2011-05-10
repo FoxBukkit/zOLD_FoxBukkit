@@ -758,4 +758,9 @@ public class PlayerHelper extends StateContainer {
 			pushWeather(ply);
 		}
 	}
+
+	public Set<Map<Player,?>> registeredMaps = new HashSet<Map<Player,?>>();
+	public void registerMap(Map<Player,?> map) {
+		registeredMaps.add(map);
+	}
 }

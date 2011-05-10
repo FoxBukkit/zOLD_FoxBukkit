@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -257,6 +258,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
 		plugin.getServer().broadcastMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
 		plugin.chatManager.popCurrentOrigin();
+
+		for (Map<Player, ?> map : playerHelper.registeredMaps) {
+			map.remove(event.getPlayer());
+		}
 	}
 
 	@Override
