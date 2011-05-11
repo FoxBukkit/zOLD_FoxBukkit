@@ -105,6 +105,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				if (conversationTarget == null) {
 					plugin.chatManager.pushCurrentOrigin(ply);
 					plugin.getServer().broadcastMessage(formattedMessage);
+					System.out.println(formattedMessage);
 					plugin.chatManager.popCurrentOrigin();
 
 					event.setCancelled(true);
