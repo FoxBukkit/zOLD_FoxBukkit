@@ -1,7 +1,9 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map.Entry;
-
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -22,13 +24,23 @@ public class WarpCommand extends ICommand {
 		}
 
 		String playerName = ply.getName();
-		if (argStr.isEmpty()) {
+		if (args.length == 0) {
 			//warp
-			StringBuilder sb = new StringBuilder("Available warps: ");
+			final StringBuilder sb = new StringBuilder("Available warps: ");
 			boolean first = true;
-			for (Entry<String, WarpDescriptor> entry : plugin.warpEngine.getWarps().entrySet()) {
-				WarpDescriptor warp = entry.getValue();
-				int rank = warp.checkAccess(playerName);
+
+			final Collection<WarpDescriptor> values = plugin.warpEngine.getWarps().values();
+			final WarpDescriptor[] valueArray = values.toArray(new WarpDescriptor[values.size()]);
+
+			final Vector playerPos = ply.getLocation().toVector();
+			Arrays.sort(valueArray, 0, valueArray.length, new Comparator<WarpDescriptor>() {
+				public int compare(WarpDescriptor lhs, WarpDescriptor rhs) {
+					return Double.compare(lhs.location.toVector().distanceSquared(playerPos), rhs.location.toVector().distanceSquared(playerPos));
+				}
+			});
+
+			for (WarpDescriptor warp : valueArray) {
+				final int rank = warp.checkAccess(playerName);
 				if (rank < 1)
 					continue;
 
@@ -48,7 +60,7 @@ public class WarpCommand extends ICommand {
 			playerHelper.SendDirectedMessage(ply, sb.toString());
 			return;
 		}
-		if (argStr.equals("help")) {
+		if (args[0].equals("help")) {
 			//warp help
 			playerHelper.SendDirectedMessage(ply, "/warp <warp point name> [<command>[ <args>]]");
 			playerHelper.SendDirectedMessage(ply, "commands:");
@@ -65,20 +77,20 @@ public class WarpCommand extends ICommand {
 		}
 
 		try {
+			final WarpDescriptor warp = plugin.warpEngine.getWarp(playerName, args[0]);
 			if (args.length == 1) {
 				//warp <warp point name>
-				ply.teleport(plugin.warpEngine.getWarp(playerName, args[0]).location);
+				ply.teleport(warp.location);
 				return;
 			}
 
-			String command = args[1].toLowerCase();
+			final String command = args[1].toLowerCase();
 
-			WarpDescriptor warp = plugin.warpEngine.getWarp(playerName, args[0]);
 			int rank = warp.checkAccess(playerName);
 
 			if (command.equals("chown") || command.equals("changeowner")) {
 				//warp <warp point name> changeowner <new owner>
-				String newOwnerName = playerHelper.CompletePlayerName(args[2], false);
+				final String newOwnerName = playerHelper.CompletePlayerName(args[2], false);
 				if (newOwnerName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
@@ -103,7 +115,7 @@ public class WarpCommand extends ICommand {
 			}
 			else if (command.equals("deny")) {
 				//warp <warp point name> deny <name>
-				String targetName = playerHelper.CompletePlayerName(args[2], false);
+				final String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
@@ -113,7 +125,7 @@ public class WarpCommand extends ICommand {
 			}
 			else if (command.equals("addguest")) {
 				//warp <warp point name> addguest <name>
-				String targetName = playerHelper.CompletePlayerName(args[2], false);
+				final String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
@@ -123,7 +135,7 @@ public class WarpCommand extends ICommand {
 			}
 			else if (command.equals("addop")) {
 				//warp <warp point name> addop <name>
-				String targetName = playerHelper.CompletePlayerName(args[2], false);
+				final String targetName = playerHelper.CompletePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
@@ -142,7 +154,7 @@ public class WarpCommand extends ICommand {
 			}
 			else if (command.equals("info")) {
 				//warp <warp point name> info
-				Vector warpLocation = warp.location.toVector();
+				final Vector warpLocation = warp.location.toVector();
 
 				playerHelper.SendDirectedMessage(ply, "Warp §9" + warp.name + "§f is owned by "+warp.getOwner());
 				if (warp.isPublic)
@@ -150,7 +162,7 @@ public class WarpCommand extends ICommand {
 				else
 					playerHelper.SendDirectedMessage(ply, "Warp is private");
 
-				StringBuilder sb = new StringBuilder("Access list: ");
+				final StringBuilder sb = new StringBuilder("Access list: ");
 				boolean first = true;
 				for (Entry<String, Integer> entry : warp.getRanks().entrySet()) {
 					if (!first)
@@ -165,8 +177,8 @@ public class WarpCommand extends ICommand {
 				}
 				playerHelper.SendDirectedMessage(ply, sb.toString());
 
-				long unitsFromYou = Math.round(warpLocation.distance(ply.getLocation().toVector()));
-				long unitsFromSpawn = Math.round(warpLocation.distance(ply.getWorld().getSpawnLocation().toVector()));
+				final long unitsFromYou = Math.round(warpLocation.distance(ply.getLocation().toVector()));
+				final long unitsFromSpawn = Math.round(warpLocation.distance(ply.getWorld().getSpawnLocation().toVector()));
 
 				playerHelper.SendDirectedMessage(
 						ply, "This warp is " +
