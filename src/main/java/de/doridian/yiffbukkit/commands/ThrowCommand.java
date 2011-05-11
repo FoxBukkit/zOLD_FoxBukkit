@@ -12,11 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
@@ -40,16 +36,16 @@ import de.doridian.yiffbukkit.util.Utils;
 @Usage("[<type>[ <forward>[ <up>[ <left>]]]]")
 @Level(4)
 public class ThrowCommand extends ICommand {
-	private final Map<String, Float> lastYaws = new HashMap<String, Float>();
-	private final Map<String, Float> lastPitches = new HashMap<String, Float>();
+	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
+	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
 
 	public ThrowCommand() {
 		final PacketListener packetListener = new PacketListener() {
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
 				Packet10Flying p10 = (Packet10Flying) packet;
-				lastYaws.put(ply.getName(), p10.yaw);
-				lastPitches.put(ply.getName(), p10.pitch);
+				lastYaws.put(ply, p10.yaw);
+				lastPitches.put(ply, p10.pitch);
 				return true;
 			}
 
@@ -58,16 +54,8 @@ public class ThrowCommand extends ICommand {
 		PacketListener.addPacketListener(false, 12, packetListener);
 		PacketListener.addPacketListener(false, 13, packetListener);
 
-		final PlayerListener playerListener = new PlayerListener() {
-			@Override
-			public void onPlayerQuit(PlayerQuitEvent event) {
-				final String playerName = event.getPlayer().getName();
-				lastYaws.remove(playerName);
-				lastPitches.remove(playerName);
-			}
-		};
-
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Monitor, plugin);
+		playerHelper.registerMap(lastYaws);
+		playerHelper.registerMap(lastPitches);
 	}
 
 	@Override
@@ -106,11 +94,10 @@ public class ThrowCommand extends ICommand {
 				@Override
 				public void run(PlayerInteractEvent event) {
 					Player player = event.getPlayer();
-					final String playerName = player.getName();
 					final Location location = player.getEyeLocation();
-					if (player.isInsideVehicle() && lastYaws.containsKey(playerName)) {
-						location.setYaw(lastYaws.get(playerName));
-						location.setPitch(lastPitches.get(playerName));
+					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
+						location.setYaw(lastYaws.get(player));
+						location.setPitch(lastPitches.get(player));
 					}
 					Vector direction = Utils.toWorldAxis(location, speed);
 
@@ -133,9 +120,9 @@ public class ThrowCommand extends ICommand {
 				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
-					if (player.isInsideVehicle() && lastYaws.containsKey(playerName)) {
-						location.setYaw(lastYaws.get(playerName));
-						location.setPitch(lastPitches.get(playerName));
+					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
+						location.setYaw(lastYaws.get(player));
+						location.setPitch(lastPitches.get(player));
 					}
 					final Vector direction = Utils.toWorldAxis(location, speed);
 
