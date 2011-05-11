@@ -123,10 +123,11 @@ public class YiffBukkitBlockListener extends BlockListener {
 			torchQueue.offer(currentTimeMillis);
 
 			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
-				if (currentTimeMillis - torchQueue.poll() < TORCH_BREAK_TIMEOUT_MILLIS) {
+				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
+				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
 					playerHelper.SetPlayerRank(ply.getName(), "banned");
 					ply.kickPlayer("Torch hack");
-					playerHelper.SendServerMessage(ply.getName() + " was autobanned for breaking torches too fast.");
+					playerHelper.SendServerMessage(ply.getName() + " was autobanned for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", 3);
 					event.setCancelled(true);
 				}
 			}
