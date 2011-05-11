@@ -30,6 +30,7 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.listeners.YiffBukkitVehicleListener;
 import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
@@ -46,9 +47,11 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
 	@SuppressWarnings("unused")
+	private YiffBukkitPacketListener yiffBukkitPacketListener;
+	@SuppressWarnings("unused")
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
 	@SuppressWarnings("unused")
-	private YiffBukkitPacketListener yiffBukkitPacketListener;
+	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
 	@SuppressWarnings("unused")
 	private VanishPacketListener vanishPacketListener;
 	private YiffBukkitRemote remote;
@@ -95,6 +98,7 @@ public class YiffBukkit extends JavaPlugin {
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
+		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
 		vanishPacketListener = new VanishPacketListener(this);
 		adHandler = new AdvertismentSigns(this);
 
