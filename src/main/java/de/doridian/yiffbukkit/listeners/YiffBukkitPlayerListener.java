@@ -93,6 +93,34 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
+
+		pm.registerEvent(Event.Type.PLAYER_CHAT, new PlayerListener() {
+			public void onPlayerChat(PlayerChatEvent event) {
+				if (event.isCancelled())
+					return;
+
+				final Player ply = event.getPlayer();
+				String conversationTarget = playerHelper.conversations.get(ply.getName());
+				String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), event.getMessage());
+				if (conversationTarget == null) {
+					plugin.chatManager.pushCurrentOrigin(ply);
+					plugin.getServer().broadcastMessage(formattedMessage);
+					plugin.chatManager.popCurrentOrigin();
+
+					event.setCancelled(true);
+					return;
+				}
+
+				formattedMessage = "§e[CONV]§f "+formattedMessage;
+
+				plugin.chatManager.pushCurrentOrigin(ply);
+				ply.sendMessage(formattedMessage);
+				plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
+				plugin.chatManager.popCurrentOrigin();
+
+				event.setCancelled(true);
+			}
+		}, Priority.Monitor, plugin);
 	}
 
 	private static <T> List<Class<? extends T>> getSubClasses(Class<T> baseClass) {
@@ -304,26 +332,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 
 		event.setFormat(plugin.playerHelper.GetPlayerTag(ply) + "%s:§f %s");
-
-		String conversationTarget = playerHelper.conversations.get(ply.getName());
-		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), event.getMessage());
-		if (conversationTarget == null) {
-			plugin.chatManager.pushCurrentOrigin(ply);
-			plugin.getServer().broadcastMessage(formattedMessage);
-			plugin.chatManager.popCurrentOrigin();
-
-			event.setCancelled(true);
-			return;
-		}
-
-		formattedMessage = "§e[CONV]§f "+formattedMessage;
-
-		plugin.chatManager.pushCurrentOrigin(ply);
-		ply.sendMessage(formattedMessage);
-		plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
-		plugin.chatManager.popCurrentOrigin();
-
-		event.setCancelled(true);
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
