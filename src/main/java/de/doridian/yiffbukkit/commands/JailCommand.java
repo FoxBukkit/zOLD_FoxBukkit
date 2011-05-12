@@ -9,7 +9,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("jail")
 @Help("Sends someone to a previously defined jail cell.")
 @Usage("<name> [release]")
-@Level(4)
+@Level(3)
 public class JailCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, JailException {
