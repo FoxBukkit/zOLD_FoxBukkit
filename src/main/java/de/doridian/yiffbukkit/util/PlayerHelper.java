@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -762,5 +764,70 @@ public class PlayerHelper extends StateContainer {
 	public Set<Map<Player,?>> registeredMaps = new HashSet<Map<Player,?>>();
 	public void registerMap(Map<Player,?> map) {
 		registeredMaps.add(map);
+	}
+
+	public Map<String, List<String>> autoexecs = new HashMap<String, List<String>>();
+
+	private static final Pattern sectionPattern = Pattern.compile("^\\[(.*)\\]$");
+	@Loader({ "autoexecs", "autoexec" })
+	public void LoadAutoexecs() {
+		autoexecs.clear();
+		try {
+			BufferedReader stream = new BufferedReader(new FileReader("autoexecs.txt"));
+			
+			String line;
+			String currentPlayerName = null;
+			List<String> commands = null;
+			while((line = stream.readLine()) != null) {
+				if (line.isEmpty())
+					continue;
+
+				final Matcher matcher = sectionPattern.matcher(line);
+				if (matcher.matches()) {
+					if (commands != null && !commands.isEmpty()) {
+						autoexecs.put(currentPlayerName, commands);
+					}
+
+					currentPlayerName = matcher.group(1);
+					commands = new ArrayList<String>();
+					continue;
+				}
+
+				if (commands == null) {
+					System.err.println("Line before any section in autoexecs.txt");
+					continue;
+				}
+				
+				commands.add(line);
+			}
+			
+			if (commands != null && !commands.isEmpty()) {
+				autoexecs.put(currentPlayerName, commands);
+			}
+			
+			stream.close();
+		}
+		catch (IOException e) { }
+	}
+	@Saver({ "autoexecs", "autoexec" })
+	public void SaveAutoexecs() {
+		try {
+			BufferedWriter stream = new BufferedWriter(new FileWriter("autoexecs.txt"));
+			for (Entry<String, List<String>> entry : autoexecs.entrySet()) {
+				stream.write('['+entry.getKey()+']');
+				stream.newLine();
+
+				for (String command : entry.getValue()) {
+					if (command.charAt(0) == '[')
+						continue;
+
+					stream.write(command);
+					stream.newLine();
+				}
+				stream.newLine();
+			}
+			stream.close();
+		}
+		catch(IOException e) { }
 	}
 }
