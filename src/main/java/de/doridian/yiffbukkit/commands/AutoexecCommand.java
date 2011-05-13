@@ -19,17 +19,11 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[[-a] command|-r index]")
 @Level(3)
 public class AutoexecCommand extends ICommand {
-	//private final Set<String> alreadyJoined = new HashSet<String>();
 	public AutoexecCommand() {
 		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new PlayerListener() {
 			@Override
 			public void onPlayerJoin(PlayerJoinEvent event) {
 				final Player player = event.getPlayer();
-				/*final String name = player.getName();
-				if (alreadyJoined.contains(name))
-					return;
-
-				alreadyJoined.add(name);*/
 
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 					public void run() {
