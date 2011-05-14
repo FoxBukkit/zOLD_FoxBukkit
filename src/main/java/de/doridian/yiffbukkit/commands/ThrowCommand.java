@@ -33,8 +33,9 @@ import de.doridian.yiffbukkit.util.Utils;
 		"  wolf:angry|tame|sit - can be combined with a comma (,)\n"+
 		"  creeper:charged"
 )
-@Usage("[<type>[ <forward>[ <up>[ <left>]]]]")
+@Usage("[-i <item name or id>][<type>[ <forward>[ <up>[ <left>]]]]")
 @Level(4)
+@StringFlags("i")
 public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
@@ -60,12 +61,21 @@ public class ThrowCommand extends ICommand {
 
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		Material toolType = ply.getItemInHand().getType();
+		args = parseFlags(args);
 
-		if (argStr.isEmpty()) {
+		final Material toolType;
+		if (stringFlags.containsKey('i')) {
+			final String materialName = stringFlags.get('i');
+			toolType = GiveCommand.matchMaterial(materialName);
+		}
+		else {
+			toolType = ply.getItemInHand().getType();
+		}
+
+		if (args.length == 0) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.SendDirectedMessage(ply, "Unbound your current tool (§e"+toolType.name()+"§f).");
+			playerHelper.SendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
 
 			return;
 		}
@@ -138,6 +148,6 @@ public class ThrowCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.SendDirectedMessage(ply, "Bound §9"+typeName+"§f to your current tool (§e"+toolType.name()+"§f). Right-click to use.");
+		playerHelper.SendDirectedMessage(ply, "Bound §9"+typeName+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
 	}
 }

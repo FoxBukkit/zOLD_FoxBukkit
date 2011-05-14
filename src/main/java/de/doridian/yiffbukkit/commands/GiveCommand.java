@@ -17,9 +17,9 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("<name or id> [amount] [player]")
 @Level(100) // See CanPlayerUseCommand
 public class GiveCommand extends ICommand {
-	Map<String,Material> aliases = new HashMap<String,Material>();
-	Map<String,Short> dataValues = new HashMap<String, Short>();
-	{
+	private static final Map<String,Material> aliases = new HashMap<String,Material>();
+	private static final Map<String,Short> dataValues = new HashMap<String, Short>();
+	static {
 		aliases.put("wood_shovel", Material.WOOD_SPADE);
 		aliases.put("wooden_spade", Material.WOOD_SPADE);
 		aliases.put("wooden_shovel", Material.WOOD_SPADE);
@@ -88,7 +88,7 @@ public class GiveCommand extends ICommand {
 		return (plylvl >= reqlvl);
 	}
 
-	private Material matchMaterial(String materialName) {
+	static Material matchMaterial(String materialName) {
 		Material material = aliases.get(materialName);
 		if (material != null)
 			return material;

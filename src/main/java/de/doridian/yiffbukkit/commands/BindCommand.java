@@ -16,7 +16,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("bind")
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
-@Usage("[<command>[;<command>[;<command> ...]]]")
+@Usage("[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
 @Level(3)
 public class BindCommand extends ICommand {
 	private static final Set<String> filter = new HashSet<String>();
@@ -29,19 +29,38 @@ public class BindCommand extends ICommand {
 		filter.add("/bind");
 	}
 
+	private static final Pattern argumentPattern = Pattern.compile("^-i +([^ ]+) +(.*)$");
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		Material toolType = ply.getItemInHand().getType();
+		argStr = argStr.trim();
+		Matcher argumentMatcher = argumentPattern.matcher(argStr);
+
+		Material toolType;
+		if (argumentMatcher.matches()) {
+			final String materialName = argumentMatcher.group(1);
+
+			toolType = GiveCommand.matchMaterial(materialName);
+			if (toolType == null)
+				throw new YiffBukkitCommandException("Material "+materialName+" not found");
+
+			argStr = argumentMatcher.group(2);
+		}
+		else if (argStr.charAt(0) == '-') {
+			throw new YiffBukkitCommandException("Invalid flag specified");
+		}
+		else {
+			toolType = ply.getItemInHand().getType();
+		}
 
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.SendDirectedMessage(ply, "Unbound your current tool (§e"+toolType.name()+"§f).");
+			playerHelper.SendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
 
 			return;
 		}
 
-		final Pattern pattern = Pattern.compile("^([^ ]+).*$");
+		final Pattern commandPattern = Pattern.compile("^([^ ]+).*$");
 		final List<String> commands = new ArrayList<String>();
 		boolean first = true;
 		StringBuilder sb = new StringBuilder();
@@ -50,13 +69,13 @@ public class BindCommand extends ICommand {
 			if (command.charAt(0) != '/')
 				command = '/' + command;
 
-			Matcher matcher = pattern.matcher(command);
+			Matcher commandMatcher = commandPattern.matcher(command);
 
-			if (!matcher.matches())
+			if (!commandMatcher.matches())
 				continue;
 
-			if (filter.contains(matcher.group(1)))
-				throw new YiffBukkitCommandException("Command §9"+matcher.group(1)+"§f cannot be bound.");
+			if (filter.contains(commandMatcher.group(1)))
+				throw new YiffBukkitCommandException("Command §9"+commandMatcher.group(1)+"§f cannot be bound.");
 
 			commands.add(command);
 
@@ -81,6 +100,6 @@ public class BindCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.SendDirectedMessage(ply, "Bound §9"+commandString+"§f to your current tool (§e"+toolType.name()+"§f). Right-click to use.");
+		playerHelper.SendDirectedMessage(ply, "Bound §9"+commandString+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
 	}
 }
