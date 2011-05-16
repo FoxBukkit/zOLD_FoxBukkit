@@ -155,4 +155,16 @@ public class ChatManager {
 		}
 
 	}
+
+	public void filterChat(String regex) {
+		for (Entry<String, Queue<ChatEntry>> bar : chatQueues.entrySet()) {
+			for (Iterator<ChatEntry> it = bar.getValue().iterator(); it.hasNext();) {
+				ChatEntry chatEntry = it.next();
+				if (chatEntry.getText().matches(regex))
+					it.remove();
+			}
+		}
+
+		resendAll();
+	}
 }
