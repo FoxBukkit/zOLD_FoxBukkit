@@ -1,13 +1,13 @@
 package de.doridian.yiffbukkit.listeners;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 
-import net.minecraft.server.PacketListener;
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet4UpdateTime;
 import net.minecraft.server.Packet70Bed;
 
@@ -19,8 +19,8 @@ public class YiffBukkitPacketListener extends PacketListener {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		PacketListener.addPacketListener(true, 4, this);
-		PacketListener.addPacketListener(true, 70, this);
+		PacketListener.addPacketListener(true, 4, this, plugin);
+		PacketListener.addPacketListener(true, 70, this, plugin);
 	}
 
 	@Override

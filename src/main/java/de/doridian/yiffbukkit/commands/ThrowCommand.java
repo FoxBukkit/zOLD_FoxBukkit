@@ -3,16 +3,15 @@ package de.doridian.yiffbukkit.commands;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet10Flying;
-import net.minecraft.server.PacketListener;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.ToolBind;
@@ -52,8 +51,8 @@ public class ThrowCommand extends ICommand {
 
 		};
 
-		PacketListener.addPacketListener(false, 12, packetListener);
-		PacketListener.addPacketListener(false, 13, packetListener);
+		PacketListener.addPacketListener(false, 12, packetListener, plugin);
+		PacketListener.addPacketListener(false, 13, packetListener, plugin);
 
 		playerHelper.registerMap(lastYaws);
 		playerHelper.registerMap(lastPitches);

@@ -9,16 +9,15 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import net.minecraft.server.PacketListener;
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet3Chat;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 
@@ -103,8 +102,8 @@ public class ChatManager {
 				return true;
 			}
 		};
-		PacketListener.addPacketListener(true, 3, packetListener);
-		PacketListener.addPacketListener(false, 3, packetListener);
+		PacketListener.addPacketListener(true, 3, packetListener, plugin);
+		PacketListener.addPacketListener(false, 3, packetListener, plugin);
 
 		PlayerListener playerListener = new PlayerListener() {
 			@Override

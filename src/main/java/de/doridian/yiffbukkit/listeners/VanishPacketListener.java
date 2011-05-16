@@ -3,14 +3,14 @@ package de.doridian.yiffbukkit.listeners;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.PacketListener;
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet28EntityVelocity;
@@ -25,14 +25,14 @@ public class VanishPacketListener extends PacketListener {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		PacketListener.addPacketListener(true, 18, this);
-		PacketListener.addPacketListener(true, 20, this);
-		PacketListener.addPacketListener(true, 28, this);
-		PacketListener.addPacketListener(true, 30, this);
-		PacketListener.addPacketListener(true, 31, this);
-		PacketListener.addPacketListener(true, 32, this);
-		PacketListener.addPacketListener(true, 33, this);
-		PacketListener.addPacketListener(true, 34, this);
+		PacketListener.addPacketListener(true, 18, this, plugin);
+		PacketListener.addPacketListener(true, 20, this, plugin);
+		PacketListener.addPacketListener(true, 28, this, plugin);
+		PacketListener.addPacketListener(true, 30, this, plugin);
+		PacketListener.addPacketListener(true, 31, this, plugin);
+		PacketListener.addPacketListener(true, 32, this, plugin);
+		PacketListener.addPacketListener(true, 33, this, plugin);
+		PacketListener.addPacketListener(true, 34, this, plugin);
 	}
 
 	private static final String nameFromEntityId(World world, int entityID) {
