@@ -45,7 +45,7 @@ public class BindCommand extends ICommand {
 
 			argStr = argumentMatcher.group(2);
 		}
-		else if (argStr.charAt(0) == '-') {
+		else if (!argStr.isEmpty() && argStr.charAt(0) == '-') {
 			throw new YiffBukkitCommandException("Invalid flag specified");
 		}
 		else {
