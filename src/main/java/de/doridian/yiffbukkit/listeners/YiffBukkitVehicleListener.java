@@ -106,8 +106,6 @@ public class YiffBukkitVehicleListener extends VehicleListener {
 			return;
 		
 		final Vehicle vehicle = event.getVehicle();
-		System.out.println("a: "+vehicle+"+"+vehicle.getPassenger());
-		System.out.println("b: "+event.getEntity()+"+"+event.getEntity().getPassenger());
 
 		if (!(vehicle instanceof Minecart))
 			return;
