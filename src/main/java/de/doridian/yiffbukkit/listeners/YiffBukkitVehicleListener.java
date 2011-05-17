@@ -3,10 +3,14 @@ package de.doridian.yiffbukkit.listeners;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
 import org.bukkit.plugin.PluginManager;
@@ -22,6 +26,7 @@ public class YiffBukkitVehicleListener extends VehicleListener {
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.VEHICLE_UPDATE, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.VEHICLE_COLLISION_ENTITY, this, Priority.Highest, plugin);
 	}
 
 	@Override
@@ -92,5 +97,50 @@ public class YiffBukkitVehicleListener extends VehicleListener {
 		}
 
 		vehicle.setVelocity(new Vector(motionX, motionY, motionZ));
+	}
+
+
+	@Override
+	public void onVehicleEntityCollision(VehicleEntityCollisionEvent event) {
+		if (event.isCancelled())
+			return;
+		
+		final Vehicle vehicle = event.getVehicle();
+		System.out.println("a: "+vehicle+"+"+vehicle.getPassenger());
+		System.out.println("b: "+event.getEntity()+"+"+event.getEntity().getPassenger());
+
+		if (!(vehicle instanceof Minecart))
+			return;
+
+		Entity entity = event.getEntity();
+
+		if (!(entity instanceof Minecart)) {
+			if (entity instanceof LivingEntity)
+				event.setCancelled(checkLiving(vehicle, (LivingEntity)entity));
+			return;
+		}
+
+		final boolean vehicleFull = vehicle.getPassenger() instanceof Player;
+		final boolean entityFull = entity.getPassenger() instanceof Player;
+
+		if (entityFull == vehicleFull)
+			return;
+
+		final Entity emptyMinecart = entityFull ? vehicle : entity;
+
+		emptyMinecart.remove();
+		event.setCancelled(true);
+	}
+
+	private boolean checkLiving(Vehicle vehicle, LivingEntity entity) {
+		if (entity instanceof Player)
+			return false;
+
+		if (vehicle.getPassenger() == null)
+			return false;
+
+		System.out.println("holy cow!");
+		entity.damage(entity.getHealth());
+		return true;
 	}
 }
