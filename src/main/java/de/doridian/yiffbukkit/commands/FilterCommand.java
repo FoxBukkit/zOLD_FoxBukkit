@@ -6,7 +6,7 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("filter")
-@Help("$cPermanently $ffilters out text from the chat log.")
+@Help("§cPermanently §ffilters out text from the chat log.")
 @Usage("<regex>")
 @Level(4) 
 public class FilterCommand extends ICommand {
