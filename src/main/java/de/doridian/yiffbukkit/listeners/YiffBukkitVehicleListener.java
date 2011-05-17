@@ -137,7 +137,6 @@ public class YiffBukkitVehicleListener extends VehicleListener {
 		if (vehicle.getPassenger() == null)
 			return false;
 
-		System.out.println("holy cow!");
 		entity.damage(entity.getHealth());
 		return true;
 	}

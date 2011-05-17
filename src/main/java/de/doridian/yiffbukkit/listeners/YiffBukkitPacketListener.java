@@ -53,14 +53,12 @@ public class YiffBukkitPacketListener extends PacketListener {
 			if (frozenWeather != null) {
 				final boolean frozenRainState = frozenWeather != WeatherType.CLEAR;
 				if (rainState != frozenRainState) {
-					System.out.println("rejected packet70 with reason="+reason);
 					return false;
 				}
 			}
 			else if (playerHelper.frozenServerWeather != null) {
 				final boolean frozenRainState = playerHelper.frozenServerWeather != WeatherType.CLEAR;
 				if (rainState != frozenRainState) {
-					System.out.println("rejected packet70 with reason="+reason);
 					return false;
 				}
 			}
