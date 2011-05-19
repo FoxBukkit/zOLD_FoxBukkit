@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.bukkit.Server;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 
@@ -16,48 +17,69 @@ public class YiffBukkitRemoteThread extends Thread {
 	private YiffBukkit plugin;
 	private Socket socket;
 	private PrintWriter out;
-	
+
 	private final String PASSWORD = "SECRET";
-	
+
 	public YiffBukkitRemoteThread(YiffBukkit plug, YiffBukkitPlayerListener listener, Socket sock) {
 		plugin = plug;
 		listen = listener;
 		socket =  sock;
 	}
-	
+
 	public void run() {
+		final String command;
+		final Server server;
+		final Player ply;
+
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			final BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
-		
-			String str = in.readLine();
+
+			final String str = in.readLine();
 			if(!str.equals(PASSWORD)) throw new Exception("Invalid password");
-			
+
 			send("OK");
 			out.flush();
-			
-			str = in.readLine();
-			Player ply = new RemotePlayer(plugin.getServer(), plugin.GetOrCreateWorld("world", Environment.NORMAL), this);
-			YiffBukkitRemote.currentPlayer = ply; 
-			boolean ret = listen.runCommand(ply, str);
-			YiffBukkitRemote.currentPlayer = null;
-			
-			if(!ret) throw new Exception("Invalid command");
+
+			command = in.readLine();
+			server = plugin.getServer();
+			ply = new RemotePlayer(server, plugin.GetOrCreateWorld("world", Environment.NORMAL), this);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			send(e.getMessage());
+			return;
 		}
-		try {
-			out.flush();
-		}
-		catch(Exception e) { }
-		try {
-			socket.close();
-		}
-		catch(Exception e) { }
+
+		server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				try {
+					YiffBukkitRemote.currentPlayer = ply;
+					boolean ret = listen.runCommand(ply, command);
+
+					if(!ret) throw new Exception("Invalid command");
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+					send(e.getMessage());
+				}
+				finally {
+					YiffBukkitRemote.currentPlayer = null;
+
+					try {
+						out.flush();
+					}
+					catch(Exception e) { }
+					try {
+						socket.close();
+					}
+					catch(Exception e) { }
+				}
+			}
+		});
 	}
-	
+
 	public void send(String txt) {
 		try {
 			out.write(txt + "\n");
