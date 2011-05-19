@@ -93,6 +93,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
 
 		pm.registerEvent(Event.Type.PLAYER_CHAT, new PlayerListener() {
 			public void onPlayerChat(PlayerChatEvent event) {
@@ -313,7 +314,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player ply = event.getPlayer();
-		Location location = ply.getWorld().getSpawnLocation();
+		Location location = playerHelper.getPlayerSpawnPosition(ply);
 		location.setX(location.getX()+0.5);
 		location.setZ(location.getZ()+0.5);
 		event.setRespawnLocation(location);

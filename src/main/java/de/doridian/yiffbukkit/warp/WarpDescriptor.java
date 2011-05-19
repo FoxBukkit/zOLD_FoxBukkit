@@ -41,6 +41,9 @@ public class WarpDescriptor {
 	}
 
 	public int checkAccess(String playerName) {
+		if (playerName == null)
+			return 1;
+		
 		if (playerName.equals(ownerName))
 			return 3;
 

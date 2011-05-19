@@ -38,6 +38,8 @@ import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkit.warp.WarpException;
 
 public class PlayerHelper extends StateContainer {
 	private YiffBukkit plugin;
@@ -829,5 +831,18 @@ public class PlayerHelper extends StateContainer {
 			stream.close();
 		}
 		catch(IOException e) { }
+	}
+
+	public Location getPlayerSpawnPosition(Player ply) {
+		try {
+			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(null, GetPlayerRank(ply)+"_spawn");
+			if (warpDescriptor == null)
+				throw new WarpException("");
+			
+			return warpDescriptor.location;
+		} catch (WarpException e) {
+			return ply.getWorld().getSpawnLocation();
+		}
+		
 	}
 }

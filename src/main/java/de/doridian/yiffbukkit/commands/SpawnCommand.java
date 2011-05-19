@@ -16,7 +16,7 @@ public class SpawnCommand extends ICommand {
 			return;
 		}
 
-		Location location = ply.getWorld().getSpawnLocation();
+		Location location = playerHelper.getPlayerSpawnPosition(ply);
 		location.setX(location.getX()+0.5);
 		location.setZ(location.getZ()+0.5);
 		ply.teleport(location);
