@@ -315,8 +315,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player ply = event.getPlayer();
 		Location location = playerHelper.getPlayerSpawnPosition(ply);
-		location.setX(location.getX()+0.5);
-		location.setZ(location.getZ()+0.5);
 		event.setRespawnLocation(location);
 	}
 

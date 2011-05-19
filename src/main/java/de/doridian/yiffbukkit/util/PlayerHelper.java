@@ -776,7 +776,7 @@ public class PlayerHelper extends StateContainer {
 		autoexecs.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("autoexecs.txt"));
-			
+
 			String line;
 			String currentPlayerName = null;
 			List<String> commands = null;
@@ -799,14 +799,14 @@ public class PlayerHelper extends StateContainer {
 					System.err.println("Line before any section in autoexecs.txt");
 					continue;
 				}
-				
+
 				commands.add(line);
 			}
-			
+
 			if (commands != null && !commands.isEmpty()) {
 				autoexecs.put(currentPlayerName, commands);
 			}
-			
+
 			stream.close();
 		}
 		catch (IOException e) { }
@@ -838,11 +838,14 @@ public class PlayerHelper extends StateContainer {
 			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(null, GetPlayerRank(ply)+"_spawn");
 			if (warpDescriptor == null)
 				throw new WarpException("");
-			
+
 			return warpDescriptor.location;
 		} catch (WarpException e) {
-			return ply.getWorld().getSpawnLocation();
+			final Location location = ply.getWorld().getSpawnLocation();
+			location.setX(location.getX()+0.5);
+			location.setZ(location.getZ()+0.5);
+			return location;
 		}
-		
+
 	}
 }
