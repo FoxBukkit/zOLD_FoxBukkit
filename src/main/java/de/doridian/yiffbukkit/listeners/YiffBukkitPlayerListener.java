@@ -32,6 +32,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -349,7 +350,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin.chatManager.popCurrentOrigin();
 	}
 
-	public boolean runCommand(Player ply, String baseCmd) {
+	public boolean runCommand(CommandSender commandSender, String baseCmd) {
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
 		if (posSpace < 0) {
@@ -365,22 +366,22 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (commands.containsKey(cmd)) {
 			ICommand icmd = commands.get(cmd);
 			try {
-				if(!icmd.CanPlayerUseCommand(ply)) {
+				if(!icmd.CanPlayerUseCommand(commandSender)) {
 					throw new PermissionDeniedException();
 				}
-				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+ply.getName()+": "+baseCmd);
-				icmd.Run(ply,args,argStr);
+				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+commandSender.getName()+": "+baseCmd);
+				icmd.run(commandSender,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {
-				plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(), e.getColor());
+				plugin.playerHelper.SendDirectedMessage(commandSender,e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
-				if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {
-					plugin.playerHelper.SendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+				if (plugin.playerHelper.GetPlayerLevel(commandSender) >= 4) {
+					plugin.playerHelper.SendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
 					e.printStackTrace();
 				}
 				else {
-					plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
+					plugin.playerHelper.SendDirectedMessage(commandSender,"Command error!");
 				}
 			}
 			return true;
