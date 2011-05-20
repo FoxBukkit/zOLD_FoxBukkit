@@ -92,7 +92,7 @@ public class PlayerHelper extends StateContainer {
 		if(playerhomepos.containsKey(name))
 			return playerhomepos.get(name);
 		else
-			return ply.getWorld().getSpawnLocation();
+			return getPlayerSpawnPosition(ply);
 	}
 	public void SetPlayerHomePosition(Player ply, Location pos) {
 		String name = ply.getName().toLowerCase();
