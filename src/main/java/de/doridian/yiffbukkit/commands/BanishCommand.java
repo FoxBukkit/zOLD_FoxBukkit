@@ -29,7 +29,7 @@ public class BanishCommand extends ICommand {
 			throw new PermissionDeniedException();
 
 		Vector previousPos = otherply.getLocation().toVector();
-		Location teleportTarget = otherply.getWorld().getSpawnLocation();
+		final Location teleportTarget = playerHelper.getPlayerSpawnPosition(otherply);
 		otherply.teleport(teleportTarget);
 
 		if (resetHome) {
@@ -43,7 +43,7 @@ public class BanishCommand extends ICommand {
 			try {
 				unitsFromYou = Math.round(homePos.distance(asPlayer(commandSender).getLocation().toVector())) + "m from you and ";
 			} catch (YiffBukkitCommandException e) { }
-			final long unitsFromSpawn = Math.round(homePos.distance(otherply.getWorld().getSpawnLocation().toVector()));
+			final long unitsFromSpawn = Math.round(homePos.distance(teleportTarget.toVector()));
 
 			playerHelper.SendDirectedMessage(
 					commandSender, otherply.getName() + "'s home is " +
