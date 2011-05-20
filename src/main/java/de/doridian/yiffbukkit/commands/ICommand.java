@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -133,7 +134,22 @@ public abstract class ICommand {
 
 		return levelAnnotation.value();
 	}
-	public abstract void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException;
+
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+		
+	}
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+
+		Run(asPlayer(commandSender), args, argStr);
+	}
+	
+	public static Player asPlayer(CommandSender commandSender) throws YiffBukkitCommandException {
+		if (!(commandSender instanceof Player))
+			throw new YiffBukkitCommandException("This command can only be run as a player.");
+		
+		return (Player)commandSender;
+	}
+
 	public String GetHelp() {
 		Help helpAnnotation = this.getClass().getAnnotation(Help.class);
 		if (helpAnnotation == null)
@@ -149,9 +165,9 @@ public abstract class ICommand {
 		return usageAnnotation.value();
 	}
 
-	public boolean CanPlayerUseCommand(Player ply)
+	public boolean CanPlayerUseCommand(CommandSender commandSender)
 	{
-		int plylvl = plugin.playerHelper.GetPlayerLevel(ply);
+		int plylvl = plugin.playerHelper.GetPlayerLevel(commandSender);
 		int reqlvl = GetMinLevel();
 
 		return (plylvl >= reqlvl);
