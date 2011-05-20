@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftWolf;
@@ -33,6 +34,7 @@ import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.sheep.CamoSheep;
 import de.doridian.yiffbukkit.sheep.PartySheep;
 
@@ -106,7 +108,7 @@ public class Utils {
 		return Math.toDegrees(Math.atan2(-offset.getX(), offset.getZ()));
 	}
 
-	public Entity buildMob(final String[] types, Player player, Player them, Location location) throws YiffBukkitCommandException {
+	public Entity buildMob(final String[] types, CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
 		boolean hasThis = false;
 		for (String part : types) {
 			if ("THIS".equals(part)) {
@@ -115,7 +117,7 @@ public class Utils {
 			}
 		}
 
-		final World world = player.getWorld();
+		final World world = location.getWorld();
 		final WorldServer notchWorld = ((CraftWorld)world).getHandle();
 
 		Entity thisEnt = null;
@@ -123,7 +125,7 @@ public class Utils {
 			Vector eyeVector = location.getDirection().clone();
 			Vector eyeOrigin = location.toVector().clone();
 
-			for (Entity currentEntity : player.getWorld().getEntities()) {
+			for (Entity currentEntity : world.getEntities()) {
 				Location eyeLocation;
 				if (currentEntity instanceof LivingEntity) {
 					eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
@@ -149,7 +151,7 @@ public class Utils {
 					continue;
 
 
-				if (currentEntity.equals(player))
+				if (currentEntity.equals(commandSender))
 					continue;
 
 				thisEnt = currentEntity;
@@ -170,7 +172,7 @@ public class Utils {
 
 			Entity entity;
 			if (type.equals("ME")) {
-				entity = player;
+				entity = ICommand.asPlayer(commandSender);
 			}
 			else if (type.equals("THEM")) {
 				entity = them;
@@ -273,7 +275,7 @@ public class Utils {
 							CraftWolf craftWolf = (CraftWolf) wolf;
 							EntityWolf eWolf = craftWolf.getHandle();
 							if (them == null)
-								eWolf.a(player.getName());
+								eWolf.a(commandSender.getName());
 							else
 								eWolf.a(them.getName());
 							eWolf.d(true);

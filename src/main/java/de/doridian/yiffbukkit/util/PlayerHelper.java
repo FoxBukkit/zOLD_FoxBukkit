@@ -28,6 +28,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -157,15 +158,18 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
 
-	public void SendServerMessage(String msg, Player... exceptPlayers) {
+	public void SendServerMessage(String msg, CommandSender... exceptPlayers) {
 		SendServerMessage(msg, '5', exceptPlayers);
 	}
-	public void SendServerMessage(String msg, char colorCode, Player... exceptPlayers) {
+	public void SendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
 
 		Set<Player> exceptPlayersSet = new HashSet<Player>();
-		for (Player exceptPlayer : exceptPlayers) {
-			exceptPlayersSet.add(exceptPlayer);
+		for (CommandSender exceptPlayer : exceptPlayers) {
+			if (!(exceptPlayer instanceof Player))
+				continue;
+
+			exceptPlayersSet.add((Player)exceptPlayer);
 		}
 
 		Player[] players = plugin.getServer().getOnlinePlayers();
@@ -180,11 +184,11 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
 	}
 
-	public void SendDirectedMessage(Player ply, String msg, char colorCode) {
-		ply.sendMessage("§"+colorCode+"[YB]§f " + msg);
+	public void SendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
+		commandSender.sendMessage("§"+colorCode+"[YB]§f " + msg);
 	}
-	public void SendDirectedMessage(Player ply, String msg) {
-		SendDirectedMessage(ply, msg, '5');
+	public void SendDirectedMessage(CommandSender commandSender, String msg) {
+		SendDirectedMessage(commandSender, msg, '5');
 	}
 
 	//Ranks
@@ -279,12 +283,14 @@ public class PlayerHelper extends StateContainer {
 
 	//Permission levels
 	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
-	public Integer GetPlayerLevel(Player ply) {
+	public Integer GetPlayerLevel(CommandSender ply) {
 		return GetPlayerLevel(ply.getName());
 	}
 
 	public Integer GetPlayerLevel(String name) {
-		if(name.equals("[CONSOLE]")) return 9999;
+		if(name.equals("[CONSOLE]"))
+			return 9999;
+
 		return GetRankLevel(GetPlayerRank(name));
 	}
 	public Integer GetRankLevel(String rankname) {
@@ -329,8 +335,8 @@ public class PlayerHelper extends StateContainer {
 	//Tags
 	private Hashtable<String,String> ranktags = new Hashtable<String,String>();
 	private Hashtable<String,String> playertags = new Hashtable<String,String>();
-	public String GetPlayerTag(Player ply) {
-		return GetPlayerTag(ply.getName());
+	public String GetPlayerTag(CommandSender commandSender) {
+		return GetPlayerTag(commandSender.getName());
 	}
 	public String GetPlayerTag(String name) {
 		name = name.toLowerCase();
@@ -432,24 +438,26 @@ public class PlayerHelper extends StateContainer {
 	public Set<String> playerTpPermissions = new HashSet<String>();
 	public Set<String> playerSummonPermissions = new HashSet<String>();
 
-	public boolean CanTp(Player commandSender, Player target) {
+	public boolean CanTp(CommandSender commandSender, Player target) {
+		// Prevent teleporting out of jail.
+		if ((commandSender instanceof Player) && plugin.jailEngine.isJailed((Player)commandSender))
+			return false;
+
 		return CanPort(playerTpPermissions, commandSender, target);
 	}
-	public boolean CanSummon(Player commandSender, Player target) {
+	public boolean CanSummon(CommandSender commandSender, Player target) {
+		// Prevent summoning someone out of jail.
+		if (plugin.jailEngine.isJailed(target))
+			return false;
+
 		return CanPort(playerSummonPermissions, commandSender, target);
 	}
-	private boolean CanPort(Set<String> playerPortPermissions, Player commandSender, Player target) {
+	private boolean CanPort(Set<String> playerPortPermissions, CommandSender commandSender, Player target) {
 		int commandSenderLevel = GetPlayerLevel(commandSender);
 		int targetLevel = GetPlayerLevel(target);
 
 		String commandSenderName = commandSender.getName();
 		String targetName = target.getName();
-
-		if (plugin.jailEngine.isJailed(commandSender))
-			return false;
-
-		if (plugin.jailEngine.isJailed(target))
-			return false;
 
 		// Was an exception given?
 		if (playerPortPermissions.contains(targetName+" "+commandSenderName))
@@ -846,6 +854,5 @@ public class PlayerHelper extends StateContainer {
 			location.setZ(location.getZ()+0.5);
 			return location;
 		}
-
 	}
 }
