@@ -140,11 +140,9 @@ public class YiffBukkit extends JavaPlugin {
 		return world;
 	}
 
-	private static MinecraftServer mcServer;
-	private static boolean mcServerHack = false;
-	//this will do a hack to get MinecraftServer
+	private static MinecraftServer mcServer = null;
 
-
+	// this will do a hack to get MinecraftServer
 	private void loadMCServer() {
 		Server server = getServer();
 		if (server instanceof CraftServer) {
@@ -154,7 +152,6 @@ public class YiffBukkit extends JavaPlugin {
 				f = CraftServer.class.getDeclaredField("console");
 				f.setAccessible(true);
 				mcServer = (MinecraftServer) f.get(s);
-				mcServerHack = true;
 			}
 			catch (Exception e) {
 				Logger.getLogger("Minecraft").log(Level.SEVERE, null, e);
@@ -162,11 +159,11 @@ public class YiffBukkit extends JavaPlugin {
 		}
 	}
 
-	public void stopServer(){
+	public void stopServer() {
 		mcServer.a();
 	}
-	public void sendServerCmd(String cmd, CommandSender sender){
-		if (mcServerHack && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
+	public static void sendServerCmd(String cmd, CommandSender sender) {
+		if (mcServer != null && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
 			mcServer.issueCommand(cmd, mcServer);
 		}
 		else {
