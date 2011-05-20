@@ -22,6 +22,7 @@ import org.bukkit.event.server.PacketListener;
 import de.doridian.yiffbukkit.YiffBukkit;
 
 public class ChatManager {
+	private static final ChatEntry EMPTY_CHAT_ENTRY = new ChatEntry("", null);
 	private static final int CHAT_QUEUE_LENGTH = 100;
 	private static final int SPAM_WINDOW = 20;
 	YiffBukkit plugin;
@@ -108,7 +109,11 @@ public class ChatManager {
 		PlayerListener playerListener = new PlayerListener() {
 			@Override
 			public void onPlayerJoin(PlayerJoinEvent event) {
-				chatQueues.put(event.getPlayer().getName(), new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1));
+				final ArrayBlockingQueue<ChatEntry> chatQueue = new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1);
+				for (int i = 0; i < CHAT_QUEUE_LENGTH; ++i) {
+					chatQueue.offer(EMPTY_CHAT_ENTRY);
+				}
+				chatQueues.put(event.getPlayer().getName(), chatQueue);
 				lastPlayerMessages.put(event.getPlayer(), new ArrayBlockingQueue<String>(SPAM_WINDOW+1));
 			}
 			@Override
@@ -157,14 +162,28 @@ public class ChatManager {
 	}
 
 	public void filterChat(String regex) {
-		for (Entry<String, Queue<ChatEntry>> bar : chatQueues.entrySet()) {
-			for (Iterator<ChatEntry> it = bar.getValue().iterator(); it.hasNext();) {
+		for (Player ply : plugin.getServer().getOnlinePlayers()) {
+			Queue<ChatEntry> chatQueue = chatQueues.get(ply.getName());
+
+			if (chatQueue == null)
+				continue;
+
+			int removed = 0;
+
+			for (Iterator<ChatEntry> it = chatQueue.iterator(); it.hasNext(); ) {
 				ChatEntry chatEntry = it.next();
-				if (chatEntry.getText().matches(regex))
+				if (chatEntry.getText().matches(regex)) {
 					it.remove();
+					++removed;
+				}
+			}
+
+			if (removed > 0) {
+				for (int i = 0; i < removed; ++i)
+					chatQueue.offer(EMPTY_CHAT_ENTRY);
+
+				resend(ply);
 			}
 		}
-
-		resendAll();
 	}
 }
