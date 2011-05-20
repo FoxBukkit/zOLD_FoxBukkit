@@ -2,8 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import java.util.Hashtable;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
@@ -23,7 +22,7 @@ public class ServerTimeCommand extends ICommand {
 	};
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		String weather = stringFlags.get('w');
@@ -46,7 +45,7 @@ public class ServerTimeCommand extends ICommand {
 		long displayTime;
 
 		if (args.length == 0 || args[0].equalsIgnoreCase("normal")) {
-			setTime(ply, null, null, weatherType);
+			setTime(commandSender, null, null, weatherType);
 			return;
 		}
 		else if (timeSwatches.containsKey(args[0].toLowerCase())) {
@@ -63,25 +62,26 @@ public class ServerTimeCommand extends ICommand {
 		}
 
 		final long setTime = ((displayTime+18)%24)*1000;
-		setTime(ply, setTime, displayTime, weatherType);
+		setTime(commandSender, setTime, displayTime, weatherType);
 	}
 
-	protected void setTime(Player ply, Long setTime, Long displayTime, WeatherType setWeather) {
+	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {
 		playerHelper.frozenServerTime = setTime;
 		if (setTime == null) {
-			playerHelper.SendServerMessage(ply.getName() + " reset the server time back to normal!");
+			playerHelper.SendServerMessage(commandSender.getName() + " reset the server time back to normal!");
 		}
 		else {
-			playerHelper.SendServerMessage(ply.getName() + " forced the server time to be: " + displayTime + ":00");
+			playerHelper.SendServerMessage(commandSender.getName() + " forced the server time to be: " + displayTime + ":00");
 		}
 
 		playerHelper.frozenServerWeather = setWeather;
 		if (setWeather == null) {
-			playerHelper.SendServerMessage(ply.getName() + " reset the server weather back to normal!");
+			playerHelper.SendServerMessage(commandSender.getName() + " reset the server weather back to normal!");
 		}
 		else {
-			playerHelper.SendServerMessage(ply.getName() + " forced the server weather to be: " + setWeather.name + ".");
+			playerHelper.SendServerMessage(commandSender.getName() + " forced the server weather to be: " + setWeather.name + ".");
 		}
+
 		playerHelper.pushWeather();
 	}
 }

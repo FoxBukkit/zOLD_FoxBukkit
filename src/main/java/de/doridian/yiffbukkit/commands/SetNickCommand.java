@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
@@ -13,7 +14,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(6) //Dori doesnt want people changing nicks :O
 public class SetNickCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		String otherName = playerHelper.CompletePlayerName(args[0], false);
 
 		if (otherName == null) {
@@ -23,18 +24,18 @@ public class SetNickCommand extends ICommand {
 		Player otherPly = playerHelper.MatchPlayerSingle(args[0]);
 
 		String newNick = Utils.concatArray(args, 1, "").replace('$', '§');
-		if (playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherName))
+		if (playerHelper.GetPlayerLevel(commandSender) < playerHelper.GetPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
 		if (newNick.equals("none")) {
 			otherPly.setDisplayName(otherName);
 			playerHelper.SetPlayerNick(otherName, null);
-			playerHelper.SendServerMessage(ply.getName() + " reset nickname of " + otherName + "§f!");
+			playerHelper.SendServerMessage(commandSender.getName() + " reset nickname of " + otherName + "§f!");
 		}
 		else {
 			otherPly.setDisplayName(newNick);
 			playerHelper.SetPlayerNick(otherName, newNick);
-			playerHelper.SendServerMessage(ply.getName() + " set nickname of " + otherName + " to " + newNick + "§f!");
+			playerHelper.SendServerMessage(commandSender.getName() + " set nickname of " + otherName + " to " + newNick + "§f!");
 		}
 	}
 
@@ -54,6 +55,5 @@ public class SetNickCommand extends ICommand {
 			sb.append(c);
 		}
 		return sb.toString();
-
 	}
 }

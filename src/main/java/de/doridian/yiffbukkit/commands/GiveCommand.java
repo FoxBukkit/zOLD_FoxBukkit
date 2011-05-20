@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -80,12 +81,15 @@ public class GiveCommand extends ICommand {
 		dataValues.put("17:LIGHT", (short) 2);
 	};
 	@Override
-	public boolean CanPlayerUseCommand(Player ply)
+	public boolean CanPlayerUseCommand(CommandSender commandSender)
 	{
-		int plylvl = plugin.playerHelper.GetPlayerLevel(ply);
-		int reqlvl = (ply.getWorld().getName().substring(0, 2).toLowerCase() == "rp_") ? 100 : 3;
+		if (!(commandSender instanceof Player))
+			return true;
 
-		return (plylvl >= reqlvl);
+		int plylvl = plugin.playerHelper.GetPlayerLevel(commandSender);
+		int reqlvl = ((Player)commandSender).getWorld().getName().startsWith("rp_") ? 100 : 3;
+
+		return plylvl >= reqlvl;
 	}
 
 	static Material matchMaterial(String materialName) {
@@ -97,7 +101,7 @@ public class GiveCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Integer count = 1;
 		String otherName = null;
 		try {
@@ -110,7 +114,7 @@ public class GiveCommand extends ICommand {
 				otherName = args[1];
 		}
 
-		Player target = otherName == null ? ply : playerHelper.MatchPlayerSingle(otherName);
+		Player target = otherName == null ? asPlayer(commandSender) : playerHelper.MatchPlayerSingle(otherName);
 
 
 		String materialName = args[0];
@@ -122,7 +126,7 @@ public class GiveCommand extends ICommand {
 		}
 		Material material = matchMaterial(materialName);
 		if (material == null) {
-			if (playerHelper.GetPlayerLevel(ply) < 4)
+			if (playerHelper.GetPlayerLevel(commandSender) < 4)
 				throw new YiffBukkitCommandException("Material "+materialName+" not found");
 
 			if (count > 10)
@@ -130,15 +134,15 @@ public class GiveCommand extends ICommand {
 
 			for (int i = 0; i < count; ++i) {
 				try {
-					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), ply, target, target.getLocation());
+					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), commandSender, target, target.getLocation());
 				}
 				catch (YiffBukkitCommandException e) {
-					playerHelper.SendDirectedMessage(ply, "Material "+materialName+" not found");
+					playerHelper.SendDirectedMessage(commandSender, "Material "+materialName+" not found");
 					throw e;
 				}
 			}
 
-			playerHelper.SendDirectedMessage(ply, "Created "+count+" creatures.");
+			playerHelper.SendDirectedMessage(commandSender, "Created "+count+" creatures.");
 			return;
 		}
 
@@ -173,9 +177,9 @@ public class GiveCommand extends ICommand {
 		int empty = inv.firstEmpty();
 		inv.setItem(empty, stack);
 
-		if (target == ply)
-			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of your inventory!");
+		if (target == commandSender)
+			playerHelper.SendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
 		else
-			playerHelper.SendDirectedMessage(ply, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
+			playerHelper.SendDirectedMessage(commandSender, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
 	}
 }

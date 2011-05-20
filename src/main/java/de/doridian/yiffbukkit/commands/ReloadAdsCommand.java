@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("reloadads")
@@ -9,7 +8,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(3)
 public class ReloadAdsCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr) {
 		plugin.adHandler.ReloadAds();
 	}
 }

@@ -3,17 +3,17 @@ package de.doridian.yiffbukkit.commands;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public abstract class AbstractPlayerStateCommand extends ICommand {
 	protected final Set<String> states = new HashSet<String>();
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Boolean newState;
 		String targetName;
-		final String commandSenderName = ply.getName();
+		final String commandSenderName = asPlayer(commandSender).getName();
 		switch (args.length) {
 		case 0:
 			//state - toggle own state
@@ -84,7 +84,7 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 			newState = !prevState;
 		}
 
-		onStateChange(prevState, newState, targetName, ply);
+		onStateChange(prevState, newState, targetName, commandSender);
 
 		if (newState) {
 			states.add(targetName);
@@ -94,5 +94,5 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 		}
 	}
 
-	protected abstract void onStateChange(boolean prevState, boolean newState, String targetName, final Player commandSender) throws YiffBukkitCommandException;
+	protected abstract void onStateChange(boolean prevState, boolean newState, String targetName, final CommandSender commandSender) throws YiffBukkitCommandException;
 }

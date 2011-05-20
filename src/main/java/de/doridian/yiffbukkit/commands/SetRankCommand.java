@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
@@ -11,13 +10,13 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(3)
 public class SetRankCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {
 		String otherply = args[0];
 		String newrank = args[1];
-		int selflvl = playerHelper.GetPlayerLevel(ply);
+		int selflvl = playerHelper.GetPlayerLevel(commandSender);
 
 		if(!playerHelper.ranklevels.containsKey(newrank)) {
-			playerHelper.SendDirectedMessage(ply, "Rank does not exist!");
+			playerHelper.SendDirectedMessage(commandSender, "Rank does not exist!");
 			return;
 		}
 
@@ -25,6 +24,6 @@ public class SetRankCommand extends ICommand {
 			throw new PermissionDeniedException();
 
 		playerHelper.SetPlayerRank(otherply, newrank);
-		playerHelper.SendServerMessage(ply.getName() + " set rank of " + otherply + " to " + newrank);
+		playerHelper.SendServerMessage(commandSender.getName() + " set rank of " + otherply + " to " + newrank);
 	}
 }

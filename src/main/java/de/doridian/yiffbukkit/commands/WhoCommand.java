@@ -4,6 +4,9 @@ import java.net.InetAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -19,43 +22,54 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(0)
 public class WhoCommand extends ICommand {
 	@Override
-	public void Run(final Player ply, String[] args, String argStr) throws PlayerFindException {
+	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
 			Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
 
-			final Player target = matcher.matches() ? new OfflinePlayer(plugin.getServer(), ply.getWorld(), matcher.group(1)) : playerHelper.MatchPlayerSingle(args[0]);
+			final World world;
+			if (commandSender instanceof Player)
+				world = ((Player)commandSender).getWorld();
+			else
+				world = plugin.GetOrCreateWorld("world", Environment.NORMAL);
 
-			playerHelper.SendDirectedMessage(ply, "Name: " + target.getName());
-			playerHelper.SendDirectedMessage(ply, "Rank: " + playerHelper.GetPlayerRank(target));
-			playerHelper.SendDirectedMessage(ply, "NameTag: " + playerHelper.GetFullPlayerName(target));
-			playerHelper.SendDirectedMessage(ply, "World: " + target.getWorld().getName());
+			final Player target = matcher.matches() ? new OfflinePlayer(plugin.getServer(), world, matcher.group(1)) : playerHelper.MatchPlayerSingle(args[0]);
 
-			int playerLevel = playerHelper.GetPlayerLevel(ply);
+			playerHelper.SendDirectedMessage(commandSender, "Name: " + target.getName());
+			playerHelper.SendDirectedMessage(commandSender, "Rank: " + playerHelper.GetPlayerRank(target));
+			playerHelper.SendDirectedMessage(commandSender, "NameTag: " + playerHelper.GetFullPlayerName(target));
+			playerHelper.SendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
+
+			int playerLevel = playerHelper.GetPlayerLevel(commandSender);
 			if (playerLevel < 2) return;
-			playerHelper.SendDirectedMessage(ply, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
+			playerHelper.SendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 
 			if (playerLevel < 3) return;
 			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
-			playerHelper.SendDirectedMessage(ply, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
+			playerHelper.SendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
 			Vector targetPosition = target.getLocation().toVector();
-			playerHelper.SendDirectedMessage(ply, "Position: " + targetPosition);
-			Vector offsetFromYou = targetPosition.clone().subtract(ply.getLocation().toVector());
-			Vector offsetFromSpawn = targetPosition.clone().subtract(ply.getWorld().getSpawnLocation().toVector());
+			playerHelper.SendDirectedMessage(commandSender, "Position: " + targetPosition);
 
-			long unitsFromYou = Math.round(offsetFromYou.length());
+			Vector offsetFromSpawn = targetPosition.clone().subtract(world.getSpawnLocation().toVector());
 			long unitsFromSpawn = Math.round(offsetFromSpawn.length());
-			String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
 			String directionFromSpawn = Utils.yawToDirection(Utils.vectorToYaw(offsetFromSpawn));
 
-			playerHelper.SendDirectedMessage(ply,
-					"That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn "+
-					"and "+unitsFromYou+"m "+directionFromYou+" from you."
-			);
+			final String fromYou;
+			if (commandSender instanceof Player) {
+				Vector offsetFromYou = targetPosition.clone().subtract(((Player)commandSender).getLocation().toVector());
+				long unitsFromYou = Math.round(offsetFromYou.length());
+				String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
+				fromYou = " and "+unitsFromYou+"m "+directionFromYou+" from you";
+			}
+			else {
+				fromYou = "";
+			}
+
+			playerHelper.SendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
 			if (target.isOnline()) {
 				Thread thread = new Thread(new Runnable() {
 					public void run() {
 						InetAddress address = target.getAddress().getAddress();
-						playerHelper.SendDirectedMessage(ply, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
+						playerHelper.SendDirectedMessage(commandSender, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
 					}
 				});
 				thread.start();
@@ -67,7 +81,7 @@ public class WhoCommand extends ICommand {
 			for(int i=1;i<players.length;i++) {
 				str += ", " + players[i].getName();
 			}
-			playerHelper.SendDirectedMessage(ply, str);
+			playerHelper.SendDirectedMessage(commandSender, str);
 		}
 	}
 }

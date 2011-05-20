@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
@@ -11,7 +10,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(4) 
 public class FilterCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		plugin.chatManager.filterChat(argStr);
 	}
 }

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -11,8 +12,8 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(0)
 public class ConversationCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		final String playerName = ply.getName();
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		final String playerName = commandSender.getName();
 		if (argStr.isEmpty()) {
 			String otherName = playerHelper.conversations.get(playerName);
 			if (otherName == null)
@@ -20,7 +21,7 @@ public class ConversationCommand extends ICommand {
 
 			playerHelper.conversations.remove(playerName);
 
-			playerHelper.SendDirectedMessage(ply, "Closed conversation with "+otherName+".");
+			playerHelper.SendDirectedMessage(commandSender, "Closed conversation with "+otherName+".");
 			return;
 		}
 
@@ -28,6 +29,6 @@ public class ConversationCommand extends ICommand {
 		final String otherName = otherply.getName();
 		playerHelper.conversations.put(playerName, otherName);
 
-		playerHelper.SendDirectedMessage(ply, "Opened conversation with "+otherName+".");
+		playerHelper.SendDirectedMessage(commandSender, "Opened conversation with "+otherName+".");
 	}
 }

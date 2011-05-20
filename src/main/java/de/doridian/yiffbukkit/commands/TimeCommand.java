@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 
@@ -12,25 +12,26 @@ import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 @StringFlags("w")
 public class TimeCommand extends ServerTimeCommand {
 	@Override
-	protected void setTime(Player ply, Long setTime, Long displayTime, WeatherType setWeather) {
+	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {
 		if (setTime == null) {
-			playerHelper.frozenTimes.remove(ply.getName());
-			playerHelper.SendDirectedMessage(ply, "Reset your time back to normal!");
+			playerHelper.frozenTimes.remove(commandSender.getName());
+			playerHelper.SendDirectedMessage(commandSender, "Reset your time back to normal!");
 		}
 		else {
-			playerHelper.frozenTimes.put(ply.getName(), setTime);
-			playerHelper.SendDirectedMessage(ply, "You forced your time to be: " + displayTime + ":00");
+			playerHelper.frozenTimes.put(commandSender.getName(), setTime);
+			playerHelper.SendDirectedMessage(commandSender, "You forced your time to be: " + displayTime + ":00");
 		}
 
 		if (setWeather == null) {
-			playerHelper.frozenWeathers.remove(ply.getName());
-			playerHelper.SendDirectedMessage(ply, "Reset your weather back to normal!");
+			playerHelper.frozenWeathers.remove(commandSender.getName());
+			playerHelper.SendDirectedMessage(commandSender, "Reset your weather back to normal!");
 		}
 		else {
-			playerHelper.frozenWeathers.put(ply.getName(), setWeather);
-			playerHelper.SendDirectedMessage(ply, "You forced your weather to be: " + setWeather.name + ".");
+			playerHelper.frozenWeathers.put(commandSender.getName(), setWeather);
+			playerHelper.SendDirectedMessage(commandSender, "You forced your weather to be: " + setWeather.name + ".");
 		}
-		playerHelper.pushWeather(ply);
+
+		playerHelper.pushWeather(asPlayer(commandSender));
 	}
 
 	@Override

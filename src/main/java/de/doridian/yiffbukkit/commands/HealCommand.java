@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
@@ -10,14 +11,14 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(4)
 public class HealCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		int amount;
 		Player target;
 		switch (args.length){
 		case 0:
 			//heal <name> - heal yourself fully
 			amount = 20;
-			target = ply;
+			target = asPlayer(commandSender);
 
 			break;
 
@@ -25,7 +26,7 @@ public class HealCommand extends ICommand {
 			try {
 				//heal <amount> - heal yourself by the given amount
 				amount = Integer.parseInt(args[0]);
-				target = ply;
+				target = asPlayer(commandSender);
 			}
 			catch (NumberFormatException e) {
 				//heal <name> - heal someone fully
@@ -58,8 +59,8 @@ public class HealCommand extends ICommand {
 		target.setHealth(Math.min(20, target.getHealth() + amount));
 
 		if (amount >= 20)
-			playerHelper.SendServerMessage(ply.getName() + " fully healed " + target.getName() + ".");
+			playerHelper.SendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
 		else
-			playerHelper.SendServerMessage(ply.getName() + " healed " + target.getName() + " by "+amount+" points.");
+			playerHelper.SendServerMessage(commandSender.getName() + " healed " + target.getName() + " by "+amount+" points.");
 	}
 }

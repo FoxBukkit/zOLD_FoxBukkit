@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.commands;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.World.Environment;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
@@ -24,12 +26,16 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 @BooleanFlags("jrc")
 public class BanCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
 
-		final Player otherply = matcher.matches() ? new OfflinePlayer(plugin.getServer(), ply.getWorld(), matcher.group(1)) : playerHelper.MatchPlayerSingle(args[0]);
+		final Player otherply;
+		if (matcher.matches())
+			otherply = new OfflinePlayer(plugin.getServer(), plugin.GetOrCreateWorld("world", Environment.NORMAL), matcher.group(1));
+		else
+			otherply = playerHelper.MatchPlayerSingle(args[0]);
 
 		if (booleanFlags.contains('j')) {
 			try {
@@ -41,24 +47,24 @@ public class BanCommand extends ICommand {
 		playerHelper.SetPlayerRank(otherply.getName(), "banned");
 
 		if (booleanFlags.contains('r')) {
-			ply.chat("/bb rollback "+otherply.getName());
+			asPlayer(commandSender).chat("/bb rollback "+otherply.getName());
 
 			if (booleanFlags.contains('c')) {
-				ply.chat("/bb confirm");
+				asPlayer(commandSender).chat("/bb confirm");
 			}
 		}
 
-		String reason = Utils.concatArray(args, 1, "Kickbanned by " + ply.getName());
+		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
 
-		if(playerHelper.GetPlayerLevel(ply) <= playerHelper.GetPlayerLevel(otherply))
+		if(playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
 		if (matcher.matches()) {
-			playerHelper.SendServerMessage(ply.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
+			playerHelper.SendServerMessage(commandSender.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
 		}
 		else {
 			otherply.kickPlayer(reason);
-			playerHelper.SendServerMessage(ply.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
+			playerHelper.SendServerMessage(commandSender.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
 		}
 	}
 }

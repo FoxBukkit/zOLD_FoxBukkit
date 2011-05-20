@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names({"unban", "pardon"})
@@ -10,14 +9,14 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(3)
 public class UnbanCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr) {
 		String otherply = args[0];
 		if(!playerHelper.GetPlayerRank(otherply).equals("banned")) {
-			playerHelper.SendDirectedMessage(ply, "Player is not banned!");
+			playerHelper.SendDirectedMessage(commandSender, "Player is not banned!");
 			return;
 		}
 
 		playerHelper.SetPlayerRank(otherply, "guest");
-		playerHelper.SendServerMessage(ply.getName() + " unbanned " + otherply + "!");
+		playerHelper.SendServerMessage(commandSender.getName() + " unbanned " + otherply + "!");
 	}
 }

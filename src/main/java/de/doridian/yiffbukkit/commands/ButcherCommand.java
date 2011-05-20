@@ -2,6 +2,9 @@ package de.doridian.yiffbukkit.commands;
 
 import net.minecraft.server.EntityWolf;
 
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -24,14 +27,14 @@ import de.doridian.yiffbukkit.commands.ICommand.Usage;
 @Level(3)
 public class ButcherCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		int radius;
 		Player target;
 		switch (args.length) {
 		case 0:
 			//butcher <name> - butcher everything
 			radius = 20;
-			target = ply;
+			target = asPlayer(commandSender);
 
 			break;
 
@@ -39,7 +42,7 @@ public class ButcherCommand extends ICommand {
 			try {
 				//butcher <radius> - butcher around yourself in the given radius
 				radius = Integer.parseInt(args[0]);
-				target = ply;
+				target = asPlayer(commandSender);
 			}
 			catch (NumberFormatException e) {
 				//butcher <name> - butcher someone fully
@@ -71,8 +74,14 @@ public class ButcherCommand extends ICommand {
 
 		int removed = 0;
 
+		final World world;
+		if (commandSender instanceof Player)
+			world = ((Player)commandSender).getWorld();
+		else
+			world = plugin.GetOrCreateWorld("world", Environment.NORMAL);
+
 		if (radius < 0) {
-			for (LivingEntity livingEntity : ply.getWorld().getLivingEntities()) {
+			for (LivingEntity livingEntity : world.getLivingEntities()) {
 				if (isSpared(livingEntity))
 					continue;
 
@@ -80,14 +89,14 @@ public class ButcherCommand extends ICommand {
 				++removed;
 			}
 
-			playerHelper.SendServerMessage(ply.getName() + " killed all mobs.", ply);
-			playerHelper.SendDirectedMessage(ply, "Killed "+removed+" mobs.");
+			playerHelper.SendServerMessage(commandSender.getName() + " killed all mobs.", commandSender);
+			playerHelper.SendDirectedMessage(commandSender, "Killed "+removed+" mobs.");
 			return;
 		}
 
 		final Vector targetPos = target.getLocation().toVector();
 		final double radiusSquared = radius*radius;
-		for (LivingEntity livingEntity : ply.getWorld().getLivingEntities()) {
+		for (LivingEntity livingEntity : world.getLivingEntities()) {
 			if (isSpared(livingEntity))
 				continue;
 
@@ -101,13 +110,13 @@ public class ButcherCommand extends ICommand {
 			++removed;
 		}
 
-		if (target == ply) {
-			playerHelper.SendServerMessage(ply.getName() + " killed all mobs in a radius of "+radius+" around themselves.", ply);
-			playerHelper.SendDirectedMessage(ply, "Killed "+removed+" mobs in a radius of "+radius+" around yourself.");
+		if (target == commandSender) {
+			playerHelper.SendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around themselves.", commandSender);
+			playerHelper.SendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around yourself.");
 		}
 		else {
-			playerHelper.SendServerMessage(ply.getName() + " killed all mobs in a radius of "+radius+" around "+target.getName()+".");
-			playerHelper.SendDirectedMessage(ply, "Killed "+removed+" mobs in a radius of "+radius+" around "+target.getName()+".");
+			playerHelper.SendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around "+target.getName()+".");
+			playerHelper.SendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around "+target.getName()+".");
 		}
 	}
 

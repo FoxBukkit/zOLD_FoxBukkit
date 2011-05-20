@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
@@ -13,12 +14,12 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(2)
 public class KickCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
 
-		String reason = ply.getName() + ": " + Utils.concatArray(args, 1, "Kicked");
+		String reason = commandSender.getName() + ": " + Utils.concatArray(args, 1, "Kicked");
 
-		if(playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherply))
+		if(playerHelper.GetPlayerLevel(commandSender) < playerHelper.GetPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
 		otherply.kickPlayer(reason);

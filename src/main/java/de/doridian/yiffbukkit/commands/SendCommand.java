@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
@@ -12,19 +13,19 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(3)
 public class SendCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		Player fromPlayer = playerHelper.MatchPlayerSingle(args[0]);
 
 		Player toPlayer = playerHelper.MatchPlayerSingle(args[1]);
 
-		if (!playerHelper.CanSummon(ply, fromPlayer))
+		if (!playerHelper.CanSummon(commandSender, fromPlayer))
 			throw new PermissionDeniedException();
 
-		if (!playerHelper.CanTp(ply, toPlayer))
+		if (!playerHelper.CanTp(commandSender, toPlayer))
 			throw new PermissionDeniedException();
 
 		fromPlayer.teleport(toPlayer);
 
-		playerHelper.SendServerMessage(ply.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
+		playerHelper.SendServerMessage(commandSender.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
 	}
 }

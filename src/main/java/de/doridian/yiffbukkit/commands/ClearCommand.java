@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -11,12 +12,12 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(4)
 public class ClearCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Player target;
 		switch (args.length){
 		case 0:
 			//clear - clear inventory for self
-			target = ply;
+			target = asPlayer(commandSender);
 			break;
 
 		case 1:
@@ -34,6 +35,6 @@ public class ClearCommand extends ICommand {
 			inventory.setItem(i, null);
 		}
 
-		playerHelper.SendServerMessage(ply.getName() + " cleared " + target.getName() + "'s inventory.");
+		playerHelper.SendServerMessage(commandSender.getName() + " cleared " + target.getName() + "'s inventory.");
 	}
 }

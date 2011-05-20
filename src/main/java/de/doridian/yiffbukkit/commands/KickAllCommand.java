@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.commands.ICommand.*;
@@ -10,17 +11,17 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(5)
 public class KickAllCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr) {
 		if (argStr.isEmpty())
 			argStr = "Clearing server.";
 
 		for (Player player : plugin.getServer().getOnlinePlayers()) {
-			if (player.equals(ply))
+			if (player.equals(commandSender))
 				continue;
 
 			player.kickPlayer(argStr);
 		}
 
-		playerHelper.SendServerMessage(ply.getName() + " kicked everyone (reason: "+argStr+")");
+		playerHelper.SendServerMessage(commandSender.getName() + " kicked everyone (reason: "+argStr+")");
 	}
 }

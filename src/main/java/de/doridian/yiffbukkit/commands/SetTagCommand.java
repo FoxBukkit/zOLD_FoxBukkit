@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
@@ -12,23 +11,23 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(3)
 public class SetTagCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {
 		String otherName = playerHelper.CompletePlayerName(args[0], false);
 		if (otherName == null) {
 			return;
 		}
 
 		String newTag = Utils.concatArray(args, 1, "").replace('$', '§');
-		if (playerHelper.GetPlayerLevel(ply) < playerHelper.GetPlayerLevel(otherName))
+		if (playerHelper.GetPlayerLevel(commandSender) < playerHelper.GetPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
 		if (newTag.equals("none")) {
 			playerHelper.SetPlayerTag(otherName, null);
-			playerHelper.SendServerMessage(ply.getName() + " reset tag of " + playerHelper.GetPlayerTag(otherName) + otherName + "§f!");
+			playerHelper.SendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.GetPlayerTag(otherName) + otherName + "§f!");
 		}
 		else {
 			playerHelper.SetPlayerTag(otherName, newTag);
-			playerHelper.SendServerMessage(ply.getName() + " set tag of " + newTag + otherName + "§f!");
+			playerHelper.SendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "§f!");
 		}
 	}
 

@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import java.util.Set;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -56,7 +57,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 	}
 
 	@Override
-	protected void onStateChange(boolean prevState, boolean newState, String targetName, Player commandSender) throws YiffBukkitCommandException {
+	protected void onStateChange(boolean prevState, boolean newState, String targetName, CommandSender commandSender) throws YiffBukkitCommandException {
 		final String commandSenderName = commandSender.getName();
 		final Player target = plugin.getServer().getPlayer(targetName);
 
