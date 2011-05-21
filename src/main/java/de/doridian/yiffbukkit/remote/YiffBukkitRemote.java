@@ -4,15 +4,14 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
 
 
 public class YiffBukkitRemote extends Thread {
-	public static Player currentPlayer;
+	public static CommandSender currentCommandSender;
 	
 	private YiffBukkitPlayerListener listen;
 	private YiffBukkit plugin;

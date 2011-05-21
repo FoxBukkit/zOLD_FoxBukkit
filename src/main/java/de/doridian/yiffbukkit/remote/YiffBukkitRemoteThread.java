@@ -6,9 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import org.bukkit.Server;
-import org.bukkit.World.Environment;
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
@@ -29,7 +27,7 @@ public class YiffBukkitRemoteThread extends Thread {
 	public void run() {
 		final String command;
 		final Server server;
-		final Player ply;
+		final CommandSender commandSender;
 
 		try {
 			final BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -43,7 +41,7 @@ public class YiffBukkitRemoteThread extends Thread {
 
 			command = in.readLine();
 			server = plugin.getServer();
-			ply = new RemotePlayer(server, plugin.GetOrCreateWorld("world", Environment.NORMAL), this);
+			commandSender = new RemotePlayer(server, this);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -55,8 +53,8 @@ public class YiffBukkitRemoteThread extends Thread {
 			@Override
 			public void run() {
 				try {
-					YiffBukkitRemote.currentPlayer = ply;
-					boolean ret = listen.runCommand(ply, command);
+					YiffBukkitRemote.currentCommandSender = commandSender;
+					boolean ret = listen.runCommand(commandSender, command);
 
 					if(!ret) throw new Exception("Invalid command");
 				}
@@ -65,7 +63,7 @@ public class YiffBukkitRemoteThread extends Thread {
 					send(e.getMessage());
 				}
 				finally {
-					YiffBukkitRemote.currentPlayer = null;
+					YiffBukkitRemote.currentCommandSender = null;
 
 					try {
 						out.flush();

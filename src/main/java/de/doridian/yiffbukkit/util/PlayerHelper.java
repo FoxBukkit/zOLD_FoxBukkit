@@ -137,7 +137,7 @@ public class PlayerHelper extends StateContainer {
 		msg = "§"+colorCode+"[YB]§f " + msg;
 		plugin.getServer().broadcastMessage(msg);
 
-		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
+		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
 	public void SendServerMessage(String msg, int minLevel) {
@@ -155,7 +155,7 @@ public class PlayerHelper extends StateContainer {
 			player.sendMessage(msg);
 		}
 
-		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
+		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
 	public void SendServerMessage(String msg, CommandSender... exceptPlayers) {
@@ -181,7 +181,7 @@ public class PlayerHelper extends StateContainer {
 			player.sendMessage(msg);
 		}
 
-		if(YiffBukkitRemote.currentPlayer != null) YiffBukkitRemote.currentPlayer.sendMessage(msg);
+		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
 	public void SendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {

@@ -1,19 +1,17 @@
 package de.doridian.yiffbukkit.remote;
 
 import org.bukkit.Server;
-import org.bukkit.World;
+import org.bukkit.command.ConsoleCommandSender;
 
-import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
+public class RemotePlayer extends ConsoleCommandSender {
+	private YiffBukkitRemoteThread yiffBukkitRemoteThread;
 
-public class RemotePlayer extends OfflinePlayer {
-
-	private YiffBukkitRemoteThread socket;
-	public RemotePlayer(Server server, World world, YiffBukkitRemoteThread thread) {
-		super(server, world, "[CONSOLE]");
-		socket = thread;
+	public RemotePlayer(Server server, YiffBukkitRemoteThread yiffBukkitRemoteThread) {
+		super(server);
+		this.yiffBukkitRemoteThread = yiffBukkitRemoteThread;
 	}
 
 	public void sendMessage(String message) {
-		socket.send(message);
+		yiffBukkitRemoteThread.send(message);
 	}
 }
