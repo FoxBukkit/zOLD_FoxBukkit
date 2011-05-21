@@ -275,8 +275,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists())
 			plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
-		else
+		else {
+			Player ply = event.getPlayer();
+			Location location = playerHelper.getPlayerSpawnPosition(ply);
+			ply.teleport(location);
+
 			plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
+		}
 
 		plugin.playerHelper.updateToolMappings(player);
 		plugin.chatManager.popCurrentOrigin();
