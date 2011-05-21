@@ -179,8 +179,13 @@ public class ChatManager {
 			}
 
 			if (removed > 0) {
+				Queue<ChatEntry> newChatQueue = new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1);
+
 				for (int i = 0; i < removed; ++i)
-					chatQueue.offer(EMPTY_CHAT_ENTRY);
+					newChatQueue.offer(EMPTY_CHAT_ENTRY);
+
+				newChatQueue.addAll(chatQueue);
+				chatQueues.put(ply.getName(), chatQueue = newChatQueue);
 
 				resend(ply);
 			}
