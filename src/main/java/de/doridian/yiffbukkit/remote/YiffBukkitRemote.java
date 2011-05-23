@@ -12,23 +12,22 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
 public class YiffBukkitRemote extends Thread {
 	public static CommandSender currentCommandSender;
-	
+
 	private YiffBukkitPlayerListener listen;
 	private YiffBukkit plugin;
 	private ServerSocket socket;
-	
+
 	public YiffBukkitRemote(YiffBukkit plug, YiffBukkitPlayerListener listener) {
 		plugin = plug;
 		listen = listener;
 		try {
 			socket = new ServerSocket(13388,0,InetAddress.getByName("localhost"));
-			//socket.
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	//@SuppressWarnings("deprecation")
 	public void stopme() {
 		try {
@@ -38,7 +37,7 @@ public class YiffBukkitRemote extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void run() {
 		while(socket.isBound() && !socket.isClosed()) {
 			try {

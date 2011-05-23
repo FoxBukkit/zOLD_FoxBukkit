@@ -530,24 +530,25 @@ public class PlayerHelper extends StateContainer {
 	public Long frozenServerTime;
 	public HashSet<String> vanishedPlayers = new HashSet<String>();
 
-	public void sendPacketToPlayer(Player ply, Packet packet) {
+	public final void sendPacketToPlayer(final Player ply, final Packet packet) {
 		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket(packet);
 	}
 
-	public void sendPacketToPlayersAround(Location location, double radius, Packet packet) {
+	public final void sendPacketToPlayersAround(final Location location, final double radius, final Packet packet) {
 		sendPacketToPlayersAround(location, radius, packet, null);
 	}
-	public void sendPacketToPlayersAround(Location location, double radius, Packet packet, Player except) {
+	public final void sendPacketToPlayersAround(final Location location, final double radius, final Packet packet, final Player except) {
 		sendPacketToPlayersAround(location, radius, packet, except, Integer.MAX_VALUE);
 	}
-	public void sendPacketToPlayersAround(Location location, double radius, Packet packet, Player except, int maxLevel) {
+	public final void sendPacketToPlayersAround(final Location location, double radius, final Packet packet, final Player except, final int maxLevel) {
 		radius *= radius;
-		Vector locationVector = location.toVector();
+		final Vector locationVector = location.toVector();
+		final World world = location.getWorld();
 		for (Player ply : plugin.getServer().getOnlinePlayers()) {
 			if (ply.equals(except))
 				continue;
 
-			if (!ply.getWorld().equals(location.getWorld()))
+			if (world != ply.getWorld())
 				continue;
 
 			if (GetPlayerLevel(ply) >= maxLevel)
