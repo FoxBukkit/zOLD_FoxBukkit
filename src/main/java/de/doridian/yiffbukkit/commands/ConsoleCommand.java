@@ -1,8 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
+import java.util.logging.Logger;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import net.minecraft.server.MinecraftServer;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftServer;
+
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("rcon")
@@ -10,12 +15,28 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("<command>")
 @Level(5)
 public class ConsoleCommand extends ICommand {
+	private final MinecraftServer mcServer;
+
+	public ConsoleCommand() {
+		mcServer = ((CraftServer) plugin.getServer()).getHandle().server;
+	}
+
+	private final void sendServerCmd(String cmd, CommandSender sender) {
+		if (mcServer != null && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
+			mcServer.issueCommand(cmd, mcServer);
+		}
+		else {
+			if (sender != null) {
+				sender.sendMessage(ChatColor.RED + "Can't send console command!");
+			}
+			else {
+				Logger.getLogger("Minecraft").log(java.util.logging.Level.WARNING, "Can't send console command!");
+			}
+		}
+	}
+
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {
-		//String[] argsX = new String[args.length - 1];
-		//System.arraycopy(args, 1, argsX, 0, argsX.length);
-		//plugin.getServer().
-		//plugin.getServer().getPluginCommand(args[0]).execute(ply, args[0], argsX);
-		YiffBukkit.sendServerCmd(argStr, commandSender);
+		sendServerCmd(argStr, commandSender);
 	}
 }

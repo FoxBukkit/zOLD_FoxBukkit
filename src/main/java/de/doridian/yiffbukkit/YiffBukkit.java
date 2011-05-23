@@ -1,20 +1,10 @@
 package de.doridian.yiffbukkit;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import net.minecraft.server.MinecraftServer;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Slime;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -84,7 +74,6 @@ public class YiffBukkit extends JavaPlugin {
 
 	public void onEnable() {
 		setupIPC();
-		loadMCServer();
 
 		new NoExplode(this);
 		playerHelper = new PlayerHelper(this);
@@ -138,41 +127,5 @@ public class YiffBukkit extends JavaPlugin {
 		}
 		World world = getServer().createWorld(name, env);
 		return world;
-	}
-
-	private static MinecraftServer mcServer = null;
-
-	// this will do a hack to get MinecraftServer
-	private void loadMCServer() {
-		Server server = getServer();
-		if (server instanceof CraftServer) {
-			CraftServer s = (CraftServer) server;
-			Field f;
-			try {
-				f = CraftServer.class.getDeclaredField("console");
-				f.setAccessible(true);
-				mcServer = (MinecraftServer) f.get(s);
-			}
-			catch (Exception e) {
-				Logger.getLogger("Minecraft").log(Level.SEVERE, null, e);
-			}
-		}
-	}
-
-	public void stopServer() {
-		mcServer.a();
-	}
-	public static void sendServerCmd(String cmd, CommandSender sender) {
-		if (mcServer != null && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
-			mcServer.issueCommand(cmd, mcServer);
-		}
-		else {
-			if (sender != null) {
-				sender.sendMessage(ChatColor.RED + "Can't send console command!");
-			}
-			else {
-				Logger.getLogger("Minecraft").log(Level.WARNING, "Can't send console command!");
-			}
-		}
 	}
 }
