@@ -228,37 +228,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
 		}
-		(new HackCheckThread(playerName)).start();
-	}
-
-	class HackCheckThread extends Thread {
-		private String plyName;
-		public HackCheckThread(String plyNameX) {
-			plyName = plyNameX;
-		}
-
-		public void run() {
-			try {
-				URL url = new URL("http://cursecraft.com/mc_validation.php?username=" + plyName);
-				URLConnection conn = url.openConnection();
-				conn.connect();
-				BufferedReader buffre = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-				String ret = buffre.readLine().trim().toLowerCase();
-				buffre.close();
-				if (ret.equals("yes")) {
-					Player ply = plugin.playerHelper.MatchPlayerSingle(plyName);
-
-					plugin.playerHelper.SendDirectedMessage(ply, "Your account might have been hacked!", '4');
-					plugin.playerHelper.SendDirectedMessage(ply, "Check http://bit.ly/eLIUhb for further info!", '4');
-
-					plugin.playerHelper.SendServerMessage("The account of " + ply.getName() + " might have been hacked!", 3, '4');
-					plugin.playerHelper.SendServerMessage("Check http://bit.ly/eLIUhb for further info!", 3, '4');
-				}
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	@Override
