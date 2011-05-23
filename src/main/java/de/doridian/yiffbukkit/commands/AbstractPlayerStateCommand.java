@@ -13,12 +13,11 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Boolean newState;
 		String targetName;
-		final String commandSenderName = asPlayer(commandSender).getName();
 		switch (args.length) {
 		case 0:
 			//state - toggle own state
 			newState = null;
-			targetName = commandSenderName;
+			targetName = asPlayer(commandSender).getName();
 
 			break;
 
@@ -26,12 +25,12 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 			if ("on".equals(args[0])) {
 				//state on - turn own state on
 				newState = true;
-				targetName = commandSenderName;
+				targetName = asPlayer(commandSender).getName();
 			}
 			else if ("off".equals(args[0])) {
 				//state off - turn own state off
 				newState = false;
-				targetName = commandSenderName;
+				targetName = asPlayer(commandSender).getName();
 			}
 			else {
 				//state <name> - toggle someone's state
