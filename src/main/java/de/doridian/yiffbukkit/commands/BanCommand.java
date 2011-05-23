@@ -37,6 +37,9 @@ public class BanCommand extends ICommand {
 		else
 			otherply = playerHelper.MatchPlayerSingle(args[0]);
 
+		if(playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(otherply))
+			throw new PermissionDeniedException();
+
 		if (booleanFlags.contains('j')) {
 			try {
 				plugin.jailEngine.jailPlayer(otherply, false);
@@ -55,9 +58,6 @@ public class BanCommand extends ICommand {
 		}
 
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
-
-		if(playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(otherply))
-			throw new PermissionDeniedException();
 
 		if (matcher.matches()) {
 			playerHelper.SendServerMessage(commandSender.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
