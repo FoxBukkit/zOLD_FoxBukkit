@@ -41,7 +41,7 @@ public class ButcherCommand extends ICommand {
 		case 1:
 			try {
 				//butcher <radius> - butcher around yourself in the given radius
-				radius = Integer.parseInt(args[0]);
+				radius = args[0].equalsIgnoreCase("all") ? -1 : Integer.parseInt(args[0]);
 				target = asPlayer(commandSender);
 			}
 			catch (NumberFormatException e) {
