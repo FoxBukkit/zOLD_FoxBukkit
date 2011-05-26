@@ -93,7 +93,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
-		
+
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 			public void run() {
@@ -105,7 +105,7 @@ public class YiffBukkit extends JavaPlugin {
 						}
 					}
 				}
-				
+
 				for (LivingEntity livingEntity : removeList) {
 					livingEntity.remove();
 				}
@@ -121,11 +121,9 @@ public class YiffBukkit extends JavaPlugin {
 
 	public World GetOrCreateWorld(String name, Environment env) {
 		name = name.toLowerCase();
-		List<World> worlds = getServer().getWorlds();
-		for(World world : worlds) {
-			if(world.getName().equals(name)) return world;
-		}
-		World world = getServer().createWorld(name, env);
-		return world;
+		/*for (World world : getServer().getWorlds()) {
+			if (world.getName().equals(name)) return world;
+		}*/
+		return getServer().createWorld(name, env);
 	}
 }
