@@ -14,6 +14,7 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
@@ -33,7 +34,7 @@ import de.doridian.yiffbukkit.util.Utils;
 		"  creeper:charged"
 )
 @Usage("[-i <item name or id>][<type>[ <forward>[ <up>[ <left>]]]]")
-@Level(4)
+@Level(3)
 @StringFlags("i")
 public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
@@ -121,6 +122,9 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 		else {
+			if (playerHelper.GetPlayerLevel(ply) < 4)
+				throw new PermissionDeniedException();
+			
 			final String[] types = typeName.split("\\+");
 			final double scale = 1/speed.length();
 
