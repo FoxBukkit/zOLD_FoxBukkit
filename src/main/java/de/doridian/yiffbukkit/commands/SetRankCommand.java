@@ -1,7 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.command.CommandSender;
+
+import com.firestar.mcbans.mcbans;
+
 import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("setrank")
@@ -10,20 +14,37 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Level(3)
 public class SetRankCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {
-		String otherply = args[0];
-		String newrank = args[1];
-		int selflvl = playerHelper.GetPlayerLevel(commandSender);
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		String otherName = args[0];
+		String newRank = args[1];
+		String oldRank = playerHelper.GetPlayerRank(otherName);
 
-		if(!playerHelper.ranklevels.containsKey(newrank)) {
-			playerHelper.SendDirectedMessage(commandSender, "Rank does not exist!");
-			return;
+		if (newRank.equals(oldRank))
+			throw new YiffBukkitCommandException("Player already has that rank!");
+
+		if(!playerHelper.ranklevels.containsKey(newRank)) {
+			throw new YiffBukkitCommandException("Rank does not exist!");
 		}
 
-		if(selflvl <= playerHelper.GetPlayerLevel(otherply) || selflvl <= playerHelper.GetRankLevel(newrank))
+		int selflvl = playerHelper.GetPlayerLevel(commandSender);
+
+		if(selflvl <= playerHelper.GetPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
-		playerHelper.SetPlayerRank(otherply, newrank);
-		playerHelper.SendServerMessage(commandSender.getName() + " set rank of " + otherply + " to " + newrank);
+		if(selflvl <= playerHelper.GetRankLevel(newRank))
+			throw new PermissionDeniedException();
+
+		playerHelper.SetPlayerRank(otherName, newRank);
+
+		if (newRank.equals("banned")) {
+			mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");		
+			mcbansPlugin.mcb_handler.ban(otherName, commandSender.getName(), "Kickbanned by " + commandSender.getName(), "l");
+		}
+		else if (oldRank.equals("banned")) {
+			mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");		
+			mcbansPlugin.mcb_handler.unban(otherName, commandSender.getName());
+		}
+
+		playerHelper.SendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
 	}
 }
