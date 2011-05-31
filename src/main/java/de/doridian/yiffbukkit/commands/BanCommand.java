@@ -53,7 +53,7 @@ public class BanCommand extends ICommand {
 		playerHelper.SetPlayerRank(otherply.getName(), "banned");
 
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
-			asPlayer(commandSender).chat("/lb writelogfile "+otherply.getName());
+			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
 		
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
