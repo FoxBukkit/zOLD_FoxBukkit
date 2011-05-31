@@ -21,12 +21,12 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 		"Bans specified user. Specify offline players in quotation marks.\n"+
 		"Flags:\n"+
 		"  -j to unjail the player first\n"+
-		"  -r to rollback (add -c to instantly confirm)\n"+
+		"  -r to rollback\n"+
 		"  -g to issue an mcbans.com global ban"
 )
 @Usage("[<flags>] <name> [reason here]")
 @Level(3)
-@BooleanFlags("jrcg")
+@BooleanFlags("jrg")
 public class BanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -52,6 +52,10 @@ public class BanCommand extends ICommand {
 
 		playerHelper.SetPlayerRank(otherply.getName(), "banned");
 
+		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
+			asPlayer(commandSender).chat("/lb writelogfile "+otherply.getName());
+		}
+		
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
 
 		mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");
@@ -63,11 +67,7 @@ public class BanCommand extends ICommand {
 		}
 
 		if (booleanFlags.contains('r')) {
-			asPlayer(commandSender).chat("/bb rollback "+otherply.getName());
-
-			if (booleanFlags.contains('c')) {
-				asPlayer(commandSender).chat("/bb confirm");
-			}
+			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
 		}
 
 		if (matcher.matches()) {
