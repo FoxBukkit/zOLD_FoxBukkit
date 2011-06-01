@@ -26,7 +26,7 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 )
 @Usage("[<flags>] <name> [reason here]")
 @Level(3)
-@BooleanFlags("jrg")
+@BooleanFlags("jrgc")
 public class BanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -55,7 +55,7 @@ public class BanCommand extends ICommand {
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
-		
+
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
 
 		mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");
@@ -68,6 +68,10 @@ public class BanCommand extends ICommand {
 
 		if (booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
+
+			if (booleanFlags.contains('c')) {
+				playerHelper.SendDirectedMessage(commandSender, "The -c flag has no effect now. It is no longer needed with LogBlock.");
+			}
 		}
 
 		if (matcher.matches()) {
