@@ -130,7 +130,7 @@ public class ButcherCommand extends ICommand {
 				return false;
 
 			EntityWolf eWolf = wolf.getHandle();
-			if (eWolf.m_())
+			if (eWolf.n_())
 				return true;
 		}
 

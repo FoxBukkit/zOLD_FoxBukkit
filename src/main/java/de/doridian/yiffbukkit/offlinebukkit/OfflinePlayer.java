@@ -20,6 +20,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Vehicle;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.BlockIterator;
@@ -427,5 +428,31 @@ public class OfflinePlayer implements Player {
 	@Override
 	public void incrementStatistic(Statistic statistic, Material material, int amount) {
 		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setLastDamageCause(EntityDamageEvent event) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public EntityDamageEvent getLastDamageCause() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void playNote(Location loc, byte instrument, byte note) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void sendBlockChange(Location loc, Material material, byte data) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void sendBlockChange(Location loc, int material, byte data) {
+		// TODO Auto-generated method stub
+		
 	}
 }
