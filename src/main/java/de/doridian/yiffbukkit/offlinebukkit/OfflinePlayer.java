@@ -452,7 +452,6 @@ public class OfflinePlayer implements Player {
 
 	@Override
 	public void sendBlockChange(Location loc, int material, byte data) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }
