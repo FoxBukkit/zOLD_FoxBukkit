@@ -236,9 +236,12 @@ public class Utils {
 			}
 			else if (type.equals("CREEPER")) {
 				entity = world.spawnCreature(location, CreatureType.CREEPER);
+				if (entity == null) {
+					throw new YiffBukkitCommandException("Could not spawn a creeper here. Too bright?");
+				}
 				final Creeper creeper = (Creeper)entity;
 
-				if (data.equals("ELECTRIFIED") || data.equals("CHARGED") || data.equals("POWERED")) {
+				if ("ELECTRIFIED".equals(data) || "CHARGED".equals(data) || "POWERED".equals(data)) {
 					creeper.setPowered(true);
 				}
 			}
