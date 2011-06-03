@@ -40,7 +40,6 @@ public class BigBrotherCommand extends ICommand {
 
 			default:
 				try {
-					commandSender.sendMessage("args:"+args.length);
 					//bb here <name> <radius> - bb here for a specific player with the given radius
 					radius = Integer.parseInt(args[2]);
 					target = playerHelper.CompletePlayerName(args[1], true);
