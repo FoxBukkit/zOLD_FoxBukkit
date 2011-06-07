@@ -2,12 +2,24 @@ package de.doridian.yiffbukkit;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Slime;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.Event.Type;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.event.server.ServerListener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.ChatEvent;
+import org.dynmap.DynmapPlugin;
+import org.dynmap.Event;
+import org.dynmap.SimpleWebChatComponent;
+import org.dynmap.Event.Listener;
+
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
@@ -46,7 +58,7 @@ public class YiffBukkit extends JavaPlugin {
 	private VanishPacketListener vanishPacketListener;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
-	public final Utils utils;
+	public final Utils utils = new Utils(this);
 	public Permissions permissions;
 	public WorldEditPlugin worldEdit;
 	public AdvertismentSigns adHandler;
@@ -54,9 +66,21 @@ public class YiffBukkit extends JavaPlugin {
 	public JailEngine jailEngine;
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
+	public DynmapPlugin dynmap;
 
 	public YiffBukkit() {
-		utils = new Utils(this);
+		try {
+			getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new ServerListener() {
+				@Override
+				public void onPluginEnable(PluginEnableEvent event) {
+					System.out.println("---- "+event.getPlugin().getDescription().getName()+" ----");
+				}
+			}, Priority.Normal, this);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
 	}
 
 	public void onDisable() {
@@ -65,11 +89,41 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void setupIPC() {
-		permissions = (Permissions)getServer().getPluginManager().getPlugin("Permissions");
+		final PluginManager pm = getServer().getPluginManager();
+		permissions = (Permissions)pm.getPlugin("Permissions");
 		System.out.println( "YiffBukkit found Permissions!" );
 
-		worldEdit = (WorldEditPlugin)getServer().getPluginManager().getPlugin("WorldEdit");
+		worldEdit = (WorldEditPlugin)pm.getPlugin("WorldEdit");
 		System.out.println( "YiffBukkit found WorldEdit!" );
+
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				dynmap = (DynmapPlugin)getServer().getPluginManager().getPlugin("dynmap");
+				Event<?> event = dynmap.events.events.get("webchat");
+
+				// listeners = event.listeners;
+				List<Event.Listener<ChatEvent>> listeners = Utils.getPrivateValue(Event.class, event, "listeners");
+
+				// Remove the old listener
+				for (Iterator<Listener<ChatEvent>> it = listeners.iterator(); it.hasNext(); ) {
+					Listener<ChatEvent> foo = it.next();
+					if (!foo.getClass().getEnclosingClass().equals(SimpleWebChatComponent.class))
+						continue;
+
+					it.remove();
+				}
+
+				listeners.add(new Listener<ChatEvent>() {
+					@Override
+					public void triggered(ChatEvent t) {
+						String name = t.name;
+						name = playerHelper.getPlayerNameByIP(name);
+						getServer().broadcastMessage("[WEB]" + name.replace('\u00a7','$') + ": " + t.message.replace('\u00a7','$'));
+					}
+				});
+			}
+		});
 	}
 
 	public void onEnable() {
