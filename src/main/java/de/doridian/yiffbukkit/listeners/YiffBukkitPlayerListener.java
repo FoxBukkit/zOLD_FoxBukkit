@@ -46,6 +46,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+import org.dynmap.Client;
 
 /**
  * Handle events for all Player related events
@@ -105,6 +106,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					plugin.chatManager.pushCurrentOrigin(ply);
 					plugin.getServer().broadcastMessage(formattedMessage);
 					System.out.println(formattedMessage);
+					
+					if (plugin.dynmap != null)
+						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
 					plugin.chatManager.popCurrentOrigin();
 
 					event.setCancelled(true);
