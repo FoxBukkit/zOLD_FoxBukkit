@@ -13,8 +13,8 @@ import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 @Level(3)
 @StringFlags("w")
 public class ServerTimeCommand extends ICommand {
-	Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
-	{
+	private static final Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
+	static {
 		timeSwatches.put("night", 0L);
 		timeSwatches.put("morning", 6L);
 		timeSwatches.put("day", 12L);
