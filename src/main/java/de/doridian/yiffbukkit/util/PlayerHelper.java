@@ -856,4 +856,16 @@ public class PlayerHelper extends StateContainer {
 			return location;
 		}
 	}
+
+	public String getPlayerNameByIP(String name) {
+		for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+			final String address = onlinePlayer.getAddress().getAddress().getHostAddress();
+			if (!address.equals(name))
+				continue;
+
+			name = onlinePlayer.getName();
+			break;
+		}
+		return name;
+	}
 }
