@@ -7,13 +7,12 @@ import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.firestar.mcbans.mcbans;
-
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.jail.JailException;
+import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 @Names("ban")
@@ -51,20 +50,21 @@ public class BanCommand extends ICommand {
 		}
 
 		playerHelper.setPlayerRank(otherply.getName(), "banned");
-
+		
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
 
 		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
 
-		mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");
+		
+		BanType type;
 		if (booleanFlags.contains('g')) {
-			mcbansPlugin.mcb_handler.ban(otherply.getName(), commandSender.getName(), reason, "g");
+			type = BanType.GLOBAL;
+		} else {
+			type = BanType.LOCAL;
 		}
-		else {
-			mcbansPlugin.mcb_handler.ban(otherply.getName(), commandSender.getName(), reason, "l");
-		}
+		plugin.mcbans.ban(commandSender, otherply, reason, type);
 
 		if (booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
@@ -74,12 +74,6 @@ public class BanCommand extends ICommand {
 			}
 		}
 
-		if (matcher.matches()) {
-			playerHelper.sendServerMessage(commandSender.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
-		}
-		else {
-			otherply.kickPlayer(reason);
-			playerHelper.sendServerMessage(commandSender.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
-		}
+		if(!matcher.matches()) otherply.kickPlayer(reason);
 	}
 }

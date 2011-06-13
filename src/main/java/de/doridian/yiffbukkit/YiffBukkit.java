@@ -33,6 +33,7 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitVehicleListener;
+import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
@@ -56,6 +57,7 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
 	@SuppressWarnings("unused")
 	private VanishPacketListener vanishPacketListener;
+	public MCBans mcbans;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils = new Utils(this);
@@ -144,6 +146,8 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
 		vanishPacketListener = new VanishPacketListener(this);
 		adHandler = new AdvertismentSigns(this);
+		
+		mcbans = new MCBans(this);
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();

@@ -202,6 +202,7 @@ public class PlayerHelper extends StateContainer {
 		return name;
 	}
 	public void setPlayerRank(String name, String rankname) {
+		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
 		try {
 			BufferedReader fileread = new BufferedReader(new FileReader("plugins/Permissions/world.yml"));
 			String filebuff = ""; byte state = 0;
@@ -562,7 +563,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public boolean isPlayerDisabled(Player ply) {
-		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
+		return ply.getHealth() <= 0 || plugin.mcbans.isAuthing(ply) || plugin.jailEngine.isJailed(ply);
 	}
 
 	public Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
