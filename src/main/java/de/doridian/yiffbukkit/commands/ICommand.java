@@ -56,25 +56,29 @@ public abstract class ICommand {
 			}
 		}
 
+		parseFlagsAnnotations();
+	}
+
+	private void parseFlagsAnnotations() {
 		BooleanFlags booleanFlagsAnnotation = this.getClass().getAnnotation(BooleanFlags.class);
 		if (booleanFlagsAnnotation != null) {
-			for (char flagName : booleanFlagsAnnotation.value().toCharArray()) {
-				flagTypes.put(flagName, FlagType.BOOLEAN);
-			}
+			parseFlagsAnnotation(booleanFlagsAnnotation.value(), FlagType.BOOLEAN);
 		}
 
 		StringFlags stringFlagsAnnotation = this.getClass().getAnnotation(StringFlags.class);
 		if (stringFlagsAnnotation != null) {
-			for (char flagName : stringFlagsAnnotation.value().toCharArray()) {
-				flagTypes.put(flagName, FlagType.STRING);
-			}
+			parseFlagsAnnotation(stringFlagsAnnotation.value(), FlagType.STRING);
 		}
 
 		NumericFlags numericFlagsAnnotation = this.getClass().getAnnotation(NumericFlags.class);
 		if (numericFlagsAnnotation != null) {
-			for (char flagName : numericFlagsAnnotation.value().toCharArray()) {
-				flagTypes.put(flagName, FlagType.NUMERIC);
-			}
+			parseFlagsAnnotation(numericFlagsAnnotation.value(), FlagType.NUMERIC);
+		}
+	}
+
+	private void parseFlagsAnnotation(final String flags, final FlagType flagType) {
+		for (int i = 0; i < flags.length(); ++i) {
+			flagTypes.put(flags.charAt(i), flagType);
 		}
 	}
 
@@ -136,17 +140,17 @@ public abstract class ICommand {
 	}
 
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		
+
 	}
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 
 		Run(asPlayer(commandSender), args, argStr);
 	}
-	
+
 	public static Player asPlayer(CommandSender commandSender) throws YiffBukkitCommandException {
 		if (!(commandSender instanceof Player))
 			throw new YiffBukkitCommandException("This command can only be run as a player.");
-		
+
 		return (Player)commandSender;
 	}
 
