@@ -18,8 +18,8 @@ public class MCBansUtil {
 		try {
 			URL url = new URL("http://api.mcbans.com/" + APIKEY);
 			URLConnection conn = url.openConnection();
-			conn.setConnectTimeout(5000);
-			conn.setReadTimeout(5000);
+			conn.setConnectTimeout(10000);
+			conn.setReadTimeout(20000);
 			conn.setDoOutput(true);
 			
 			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());

@@ -21,6 +21,11 @@ public class MCBansPlayerCheckThread extends Thread {
 			listener.authingPlayers.remove(name.toLowerCase());
 			return;
 		}
+		if(connret == null) {
+			listener.authingPlayers.remove(name.toLowerCase());
+			ply.kickPlayer("[YB] Sorry, mcbans.com API failure, please rejoin!");
+			return;
+		}
 		//{"ban_status":"b","ban_num":1,"owner":"n","disputes":0,"reputation":"10.00","new_version":"y","ban_local_reason":null,"is_mcbans_mod":"n"}
 		//b = bans on record, g = global, l = local, t = temporary, n = no bans on record
 		char utype = ((String)connret.get("ban_status")).charAt(0);

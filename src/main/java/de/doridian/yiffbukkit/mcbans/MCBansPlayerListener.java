@@ -27,7 +27,8 @@ public class MCBansPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		Player ply = event.getPlayer();
-		authingPlayers.add(ply.getName().toLowerCase());
+		String n = ply.getName().toLowerCase();
+		if(!authingPlayers.contains(n)) authingPlayers.add(n);
 		(new MCBansPlayerCheckThread(this, ply)).start();
 	}
 }
