@@ -10,7 +10,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class MeCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {
-		String message = "* "+playerHelper.GetPlayerTag(commandSender) + commandSender.getDisplayName() + " " + argStr;
+		String message = "* "+playerHelper.getPlayerTag(commandSender) + commandSender.getDisplayName() + " " + argStr;
 
 		final String conversationTarget = playerHelper.conversations.get(commandSender.getName());
 		if (conversationTarget == null) {

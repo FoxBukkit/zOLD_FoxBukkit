@@ -21,14 +21,14 @@ public class ConversationCommand extends ICommand {
 
 			playerHelper.conversations.remove(playerName);
 
-			playerHelper.SendDirectedMessage(commandSender, "Closed conversation with "+otherName+".");
+			playerHelper.sendDirectedMessage(commandSender, "Closed conversation with "+otherName+".");
 			return;
 		}
 
-		final Player otherply = playerHelper.MatchPlayerSingle(argStr);
+		final Player otherply = playerHelper.matchPlayerSingle(argStr);
 		final String otherName = otherply.getName();
 		playerHelper.conversations.put(playerName, otherName);
 
-		playerHelper.SendDirectedMessage(commandSender, "Opened conversation with "+otherName+".");
+		playerHelper.sendDirectedMessage(commandSender, "Opened conversation with "+otherName+".");
 	}
 }

@@ -31,7 +31,7 @@ public class HealCommand extends ICommand {
 			catch (NumberFormatException e) {
 				//heal <name> - heal someone fully
 				amount = 20;
-				target = playerHelper.MatchPlayerSingle(args[0]);
+				target = playerHelper.matchPlayerSingle(args[0]);
 			}
 			break;
 
@@ -39,11 +39,11 @@ public class HealCommand extends ICommand {
 			try {
 				//heal <amount> <name> - heal someone by the given amount
 				amount = Integer.parseInt(args[0]);
-				target = playerHelper.MatchPlayerSingle(args[1]);
+				target = playerHelper.matchPlayerSingle(args[1]);
 			}
 			catch (NumberFormatException e) {
 				//heal <name> <...> - not sure yet
-				target = playerHelper.MatchPlayerSingle(args[0]);
+				target = playerHelper.matchPlayerSingle(args[0]);
 
 				try {
 					//heal <name> <amount> - heal someone by the given amount
@@ -59,8 +59,8 @@ public class HealCommand extends ICommand {
 		target.setHealth(Math.min(20, target.getHealth() + amount));
 
 		if (amount >= 20)
-			playerHelper.SendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
+			playerHelper.sendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
 		else
-			playerHelper.SendServerMessage(commandSender.getName() + " healed " + target.getName() + " by "+amount+" points.");
+			playerHelper.sendServerMessage(commandSender.getName() + " healed " + target.getName() + " by "+amount+" points.");
 	}
 }

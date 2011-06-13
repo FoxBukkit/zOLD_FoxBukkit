@@ -12,22 +12,22 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class SetTagCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {
-		String otherName = playerHelper.CompletePlayerName(args[0], false);
+		String otherName = playerHelper.completePlayerName(args[0], false);
 		if (otherName == null) {
 			return;
 		}
 
 		String newTag = Utils.concatArray(args, 1, "").replace('$', '§');
-		if (playerHelper.GetPlayerLevel(commandSender) < playerHelper.GetPlayerLevel(otherName))
+		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
 		if (newTag.equals("none")) {
-			playerHelper.SetPlayerTag(otherName, null);
-			playerHelper.SendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.GetPlayerTag(otherName) + otherName + "§f!");
+			playerHelper.setPlayerTag(otherName, null);
+			playerHelper.sendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.getPlayerTag(otherName) + otherName + "§f!");
 		}
 		else {
-			playerHelper.SetPlayerTag(otherName, newTag);
-			playerHelper.SendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "§f!");
+			playerHelper.setPlayerTag(otherName, newTag);
+			playerHelper.sendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "§f!");
 		}
 	}
 

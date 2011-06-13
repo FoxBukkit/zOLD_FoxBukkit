@@ -13,13 +13,13 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class SummonCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		if (!playerHelper.CanSummon(ply, otherply))
+		if (!playerHelper.canSummon(ply, otherply))
 			throw new PermissionDeniedException();
 
 		otherply.teleport(ply);
 
-		playerHelper.SendServerMessage(ply.getName() + " summoned " + otherply.getName());
+		playerHelper.sendServerMessage(ply.getName() + " summoned " + otherply.getName());
 	}
 }

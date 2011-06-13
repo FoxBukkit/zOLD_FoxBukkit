@@ -15,15 +15,15 @@ public class PmCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length < 1){
-			playerHelper.SendDirectedMessage(commandSender, "Usage: /pm " + GetUsage());
+			playerHelper.sendDirectedMessage(commandSender, "Usage: /pm " + GetUsage());
 			return;
 		}
 
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
 		String message = Utils.concatArray(args, 1, "");
 
-		playerHelper.SendDirectedMessage(commandSender, "§e[PM >] §f" + otherply.getName() + "§f: " + message);
-		playerHelper.SendDirectedMessage(otherply, "§e[PM <] §f" + commandSender.getName() + "§f: " + message);
+		playerHelper.sendDirectedMessage(commandSender, "§e[PM >] §f" + otherply.getName() + "§f: " + message);
+		playerHelper.sendDirectedMessage(otherply, "§e[PM <] §f" + commandSender.getName() + "§f: " + message);
 	}
 }

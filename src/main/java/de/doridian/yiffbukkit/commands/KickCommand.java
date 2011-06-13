@@ -15,9 +15,9 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class KickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		if(playerHelper.GetPlayerLevel(commandSender) < playerHelper.GetPlayerLevel(otherply))
+		if(playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
 		String reason = commandSender.getName() + ": " + Utils.concatArray(args, 1, "Kicked");

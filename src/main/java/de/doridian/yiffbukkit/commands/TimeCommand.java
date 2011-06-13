@@ -15,20 +15,20 @@ public class TimeCommand extends ServerTimeCommand {
 	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {
 		if (setTime == null) {
 			playerHelper.frozenTimes.remove(commandSender.getName());
-			playerHelper.SendDirectedMessage(commandSender, "Reset your time back to normal!");
+			playerHelper.sendDirectedMessage(commandSender, "Reset your time back to normal!");
 		}
 		else {
 			playerHelper.frozenTimes.put(commandSender.getName(), setTime);
-			playerHelper.SendDirectedMessage(commandSender, "You forced your time to be: " + displayTime + ":00");
+			playerHelper.sendDirectedMessage(commandSender, "You forced your time to be: " + displayTime + ":00");
 		}
 
 		if (setWeather == null) {
 			playerHelper.frozenWeathers.remove(commandSender.getName());
-			playerHelper.SendDirectedMessage(commandSender, "Reset your weather back to normal!");
+			playerHelper.sendDirectedMessage(commandSender, "Reset your weather back to normal!");
 		}
 		else {
 			playerHelper.frozenWeathers.put(commandSender.getName(), setWeather);
-			playerHelper.SendDirectedMessage(commandSender, "You forced your weather to be: " + setWeather.name + ".");
+			playerHelper.sendDirectedMessage(commandSender, "You forced your weather to be: " + setWeather.name + ".");
 		}
 
 		playerHelper.pushWeather(asPlayer(commandSender));

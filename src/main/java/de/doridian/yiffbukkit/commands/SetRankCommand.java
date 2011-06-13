@@ -17,7 +17,7 @@ public class SetRankCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		String otherName = args[0];
 		String newRank = args[1];
-		String oldRank = playerHelper.GetPlayerRank(otherName);
+		String oldRank = playerHelper.getPlayerRank(otherName);
 
 		if (newRank.equals(oldRank))
 			throw new YiffBukkitCommandException("Player already has that rank!");
@@ -26,15 +26,15 @@ public class SetRankCommand extends ICommand {
 			throw new YiffBukkitCommandException("Rank does not exist!");
 		}
 
-		int selflvl = playerHelper.GetPlayerLevel(commandSender);
+		int selflvl = playerHelper.getPlayerLevel(commandSender);
 
-		if(selflvl <= playerHelper.GetPlayerLevel(otherName))
+		if(selflvl <= playerHelper.getPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
-		if(selflvl <= playerHelper.GetRankLevel(newRank))
+		if(selflvl <= playerHelper.getRankLevel(newRank))
 			throw new PermissionDeniedException();
 
-		playerHelper.SetPlayerRank(otherName, newRank);
+		playerHelper.setPlayerRank(otherName, newRank);
 
 		if (newRank.equals("banned")) {
 			mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");		
@@ -45,6 +45,6 @@ public class SetRankCommand extends ICommand {
 			mcbansPlugin.mcb_handler.unban(otherName, commandSender.getName());
 		}
 
-		playerHelper.SendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
+		playerHelper.sendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
 	}
 }

@@ -18,7 +18,7 @@ public class CompassCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (args.length == 0) {
 			float yaw = ply.getLocation().getYaw();
-			playerHelper.SendDirectedMessage(ply, "Direction: "+Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
+			playerHelper.sendDirectedMessage(ply, "Direction: "+Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
 			return;
 		}
 
@@ -27,7 +27,7 @@ public class CompassCommand extends ICommand {
 			location = ply.getWorld().getSpawnLocation();
 		}
 		else if (args[0].equals("home")) {
-			location = playerHelper.GetPlayerHomePosition(ply);
+			location = playerHelper.getPlayerHomePosition(ply);
 		}
 		else if (args[0].equals("here")) {
 			location = ply.getLocation();
@@ -36,9 +36,9 @@ public class CompassCommand extends ICommand {
 			if (args.length < 2)
 				throw new YiffBukkitCommandException("Expected player name");
 
-			Player target = playerHelper.MatchPlayerSingle(args[1]);
+			Player target = playerHelper.matchPlayerSingle(args[1]);
 
-			if (!playerHelper.CanTp(ply, target))
+			if (!playerHelper.canTp(ply, target))
 				throw new PermissionDeniedException();
 
 			location = target.getLocation();
@@ -57,6 +57,6 @@ public class CompassCommand extends ICommand {
 
 		ply.setCompassTarget(new Location(location.getWorld(), location.getX()*16, location.getY()*16, location.getZ()*16));
 
-		playerHelper.SendDirectedMessage(ply, String.format("Set your compass target to %d/%d/%d", location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+		playerHelper.sendDirectedMessage(ply, String.format("Set your compass target to %d/%d/%d", location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 	}
 }

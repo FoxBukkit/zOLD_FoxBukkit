@@ -34,7 +34,7 @@ public class BigBrotherCommand extends ICommand {
 				catch (NumberFormatException e) {
 					//bb here <name> - bb here for a specific player with the default radius
 					radius = 20;
-					target = playerHelper.CompletePlayerName(args[1], true);
+					target = playerHelper.completePlayerName(args[1], true);
 				}
 				break;
 
@@ -42,11 +42,11 @@ public class BigBrotherCommand extends ICommand {
 				try {
 					//bb here <name> <radius> - bb here for a specific player with the given radius
 					radius = Integer.parseInt(args[2]);
-					target = playerHelper.CompletePlayerName(args[1], true);
+					target = playerHelper.completePlayerName(args[1], true);
 				}
 				catch (NumberFormatException e) {
 					//bb here <name> <...> - not sure yet
-					target = playerHelper.CompletePlayerName(args[2], true);
+					target = playerHelper.completePlayerName(args[2], true);
 
 					try {
 						//bb here <name> <radius> - bb here for a specific player with the given radius

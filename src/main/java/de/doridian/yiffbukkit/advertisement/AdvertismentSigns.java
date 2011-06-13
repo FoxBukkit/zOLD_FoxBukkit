@@ -87,7 +87,7 @@ public class AdvertismentSigns {
 				}
 				innerStream.close();
 				
-				origin = plugin.utils.UnserializeLocation(lsplit[4]);
+				origin = plugin.utils.unserializeLocation(lsplit[4]);
 				newtask = new AdvertismentSignTask(origin, Byte.valueOf(lsplit[1]), Integer.valueOf(lsplit[2]), fully, fileData);
 				timer = new Timer();
 				timer.schedule(newtask, 200, 200);

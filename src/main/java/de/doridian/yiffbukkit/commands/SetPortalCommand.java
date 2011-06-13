@@ -21,7 +21,7 @@ public class SetPortalCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.SendDirectedMessage(ply, "Unbound your current tool (§e"+toolType.name()+"§f).");
+			playerHelper.sendDirectedMessage(ply, "Unbound your current tool (§e"+toolType.name()+"§f).");
 
 			return;
 		}
@@ -41,7 +41,7 @@ public class SetPortalCommand extends ICommand {
 					PortalEngine.PortalPair portalPair = plugin.portalEngine.portals.get(portalName);
 					portalPair.moveThroughPortal(event.getPlayer());
 
-					playerHelper.SendDirectedMessage(player, "Moved through portal");
+					playerHelper.sendDirectedMessage(player, "Moved through portal");
 					return;
 				}
 
@@ -49,7 +49,7 @@ public class SetPortalCommand extends ICommand {
 					blockIn = event.getClickedBlock();
 					blockFaceIn = event.getBlockFace();
 
-					playerHelper.SendDirectedMessage(player, "Stored position for in portal");
+					playerHelper.sendDirectedMessage(player, "Stored position for in portal");
 				}
 				else {
 					Block blockOut = event.getClickedBlock();
@@ -57,7 +57,7 @@ public class SetPortalCommand extends ICommand {
 
 					plugin.portalEngine.addPortal(portalName, blockIn, blockFaceIn, blockOut, blockFaceOut);
 
-					playerHelper.SendDirectedMessage(player, "Created portal "+portalName);
+					playerHelper.sendDirectedMessage(player, "Created portal "+portalName);
 					done = true;
 				}
 			}
@@ -65,6 +65,6 @@ public class SetPortalCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.SendDirectedMessage(ply, "right-click the in and out portals for §9"+portalName+"§f with your current tool (§e"+toolType.name()+"§f).");
+		playerHelper.sendDirectedMessage(ply, "right-click the in and out portals for §9"+portalName+"§f with your current tool (§e"+toolType.name()+"§f).");
 	}
 }

@@ -62,7 +62,7 @@ public class VanishPacketListener extends PacketListener {
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-		if (playerHelper.GetPlayerLevel(ply) >= 3)
+		if (playerHelper.getPlayerLevel(ply) >= 3)
 			return true;
 
 		String otherName;

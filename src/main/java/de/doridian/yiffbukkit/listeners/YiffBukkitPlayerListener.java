@@ -106,7 +106,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					plugin.chatManager.pushCurrentOrigin(ply);
 					plugin.getServer().broadcastMessage(formattedMessage);
 					System.out.println(formattedMessage);
-					
+
 					if (plugin.dynmap != null)
 						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
 					plugin.chatManager.popCurrentOrigin();
@@ -224,7 +224,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		String rank = plugin.playerHelper.GetPlayerRank(event.getPlayer());
+		String rank = plugin.playerHelper.getPlayerRank(event.getPlayer());
 		if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
@@ -235,7 +235,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 
-		String nick = plugin.playerHelper.GetPlayerNick(player.getName());
+		String nick = plugin.playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
 			nick = player.getName();
 		player.setDisplayName(nick);
@@ -302,12 +302,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		String msg = event.getMessage();
 		final Player ply = event.getPlayer();
 		if (msg.charAt(0) == '!') {
-			plugin.playerHelper.SendDirectedMessage(ply, "!commands are disabled because they show up in the web chat. Please use /commands.");
+			plugin.playerHelper.sendDirectedMessage(ply, "!commands are disabled because they show up in the web chat. Please use /commands.");
 			event.setCancelled(true);
 			return;
 		}
 
-		event.setFormat(plugin.playerHelper.GetPlayerTag(ply) + "%s:§f %s");
+		event.setFormat(plugin.playerHelper.getPlayerTag(ply) + "%s:§f %s");
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
@@ -348,15 +348,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				icmd.run(commandSender,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {
-				plugin.playerHelper.SendDirectedMessage(commandSender,e.getMessage(), e.getColor());
+				plugin.playerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
-				if (plugin.playerHelper.GetPlayerLevel(commandSender) >= 4) {
-					plugin.playerHelper.SendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
+				if (plugin.playerHelper.getPlayerLevel(commandSender) >= 4) {
+					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
 					e.printStackTrace();
 				}
 				else {
-					plugin.playerHelper.SendDirectedMessage(commandSender,"Command error!");
+					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error!");
 				}
 			}
 			return true;
@@ -370,7 +370,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;*/
 
 		Player ply = event.getPlayer();
-		Integer selflvl = playerHelper.GetPlayerLevel(ply);
+		Integer selflvl = playerHelper.getPlayerLevel(ply);
 		Block clickedBlock = event.getClickedBlock();
 		switch (event.getAction()) {
 		case LEFT_CLICK_BLOCK:
@@ -416,15 +416,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 						toolBind.run(event);
 					}
 					catch (YiffBukkitCommandException e) {
-						plugin.playerHelper.SendDirectedMessage(ply,e.getMessage(), e.getColor());
+						plugin.playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
 					}
 					catch (Exception e) {
-						if (plugin.playerHelper.GetPlayerLevel(ply) >= 4) {
-							plugin.playerHelper.SendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+						if (plugin.playerHelper.getPlayerLevel(ply) >= 4) {
+							plugin.playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 							e.printStackTrace();
 						}
 						else {
-							plugin.playerHelper.SendDirectedMessage(ply,"Command error!");
+							plugin.playerHelper.sendDirectedMessage(ply,"Command error!");
 						}
 					}
 				}
@@ -451,9 +451,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		Integer selflvl = playerHelper.GetPlayerLevel(ply);
+		Integer selflvl = playerHelper.getPlayerLevel(ply);
 		if(selflvl < 0 || (YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && selflvl < YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
-			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
+			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);

@@ -22,7 +22,7 @@ public class ClearCommand extends ICommand {
 
 		case 1:
 			//clear <name> - clear inventory of target
-			target = playerHelper.MatchPlayerSingle(args[0]);
+			target = playerHelper.matchPlayerSingle(args[0]);
 			break;
 
 		default:
@@ -35,6 +35,6 @@ public class ClearCommand extends ICommand {
 			inventory.setItem(i, null);
 		}
 
-		playerHelper.SendServerMessage(commandSender.getName() + " cleared " + target.getName() + "'s inventory.");
+		playerHelper.sendServerMessage(commandSender.getName() + " cleared " + target.getName() + "'s inventory.");
 	}
 }

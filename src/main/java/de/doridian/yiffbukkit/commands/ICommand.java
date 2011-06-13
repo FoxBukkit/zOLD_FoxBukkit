@@ -167,7 +167,7 @@ public abstract class ICommand {
 
 	public boolean CanPlayerUseCommand(CommandSender commandSender)
 	{
-		int plylvl = plugin.playerHelper.GetPlayerLevel(commandSender);
+		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
 		int reqlvl = GetMinLevel();
 
 		return (plylvl >= reqlvl);

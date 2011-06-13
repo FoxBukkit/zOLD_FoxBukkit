@@ -10,7 +10,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class SetHomeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
-		playerHelper.SetPlayerHomePosition(ply, ply.getLocation());
-		playerHelper.SendDirectedMessage(ply, "Home location saved!");
+		playerHelper.setPlayerHomePosition(ply, ply.getLocation());
+		playerHelper.sendDirectedMessage(ply, "Home location saved!");
 	}
 }

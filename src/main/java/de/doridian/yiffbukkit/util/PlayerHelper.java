@@ -50,7 +50,7 @@ public class PlayerHelper extends StateContainer {
 		plugin = plug;
 	}
 
-	public Player MatchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
+	public Player matchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
 		List<Player> players = plugin.getServer().matchPlayer(subString);
 
 		int c = players.size();
@@ -63,7 +63,7 @@ public class PlayerHelper extends StateContainer {
 		return players.get(0);
 	}
 
-	public String CompletePlayerName(String subString, boolean implicitlyLiteralNames) {
+	public String completePlayerName(String subString, boolean implicitlyLiteralNames) {
 		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(subString);
 
 		if (matcher.matches())
@@ -82,46 +82,46 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public String GetFullPlayerName(Player ply) {
-		return GetPlayerTag(ply) + ply.getDisplayName();
+		return getPlayerTag(ply) + ply.getDisplayName();
 	}
 
 	//Home position stuff
 	private Hashtable<String,Location> playerhomepos = new Hashtable<String,Location>();
-	public Location GetPlayerHomePosition(Player ply) {
+	public Location getPlayerHomePosition(Player ply) {
 		String name = ply.getName().toLowerCase();
 		if(playerhomepos.containsKey(name))
 			return playerhomepos.get(name);
 		else
 			return getPlayerSpawnPosition(ply);
 	}
-	public void SetPlayerHomePosition(Player ply, Location pos) {
+	public void setPlayerHomePosition(Player ply, Location pos) {
 		String name = ply.getName().toLowerCase();
 		playerhomepos.put(name, pos);
-		SavePlayerHomePositions();
+		savePlayerHomePositions();
 	}
 
 	@Loader({ "homepositions", "home_positions", "homes", "home" })
-	public void LoadPlayerHomePositions() {
+	public void loadPlayerHomePositions() {
 		playerhomepos.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("player-homepositions.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
-				playerhomepos.put(line.substring(0,lpos), plugin.utils.UnserializeLocation(line.substring(lpos+1)));
+				playerhomepos.put(line.substring(0,lpos), plugin.utils.unserializeLocation(line.substring(lpos+1)));
 			}
 			stream.close();
 		}
 		catch (Exception e) { }
 	}
 	@Saver({ "homepositions", "home_positions", "homes", "home" })
-	public void SavePlayerHomePositions() {
+	public void savePlayerHomePositions() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-homepositions.txt"));
 			Enumeration<String> e = playerhomepos.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
-				stream.write(key + "=" + Utils.SerializeLocation(playerhomepos.get(key)));
+				stream.write(key + "=" + Utils.serializeLocation(playerhomepos.get(key)));
 				stream.newLine();
 			}
 			stream.close();
@@ -130,26 +130,26 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Messaging stuff
-	public void SendServerMessage(String msg) {
-		SendServerMessage(msg,'5');
+	public void sendServerMessage(String msg) {
+		sendServerMessage(msg,'5');
 	}
-	public void SendServerMessage(String msg, char colorCode) {
+	public void sendServerMessage(String msg, char colorCode) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
 		plugin.getServer().broadcastMessage(msg);
 
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
-	public void SendServerMessage(String msg, int minLevel) {
-		SendServerMessage(msg, minLevel, '5');
+	public void sendServerMessage(String msg, int minLevel) {
+		sendServerMessage(msg, minLevel, '5');
 	}
-	public void SendServerMessage(String msg, int minLevel, char colorCode) {
+	public void sendServerMessage(String msg, int minLevel, char colorCode) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
 
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
 		for (Player player : players) {
-			if (GetPlayerLevel(player) < minLevel)
+			if (getPlayerLevel(player) < minLevel)
 				continue;
 
 			player.sendMessage(msg);
@@ -158,10 +158,10 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
-	public void SendServerMessage(String msg, CommandSender... exceptPlayers) {
-		SendServerMessage(msg, '5', exceptPlayers);
+	public void sendServerMessage(String msg, CommandSender... exceptPlayers) {
+		sendServerMessage(msg, '5', exceptPlayers);
 	}
-	public void SendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
+	public void sendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
 		msg = "§"+colorCode+"[YB]§f " + msg;
 
 		Set<Player> exceptPlayersSet = new HashSet<Player>();
@@ -184,24 +184,24 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
-	public void SendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
+	public void sendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
 		commandSender.sendMessage("§"+colorCode+"[YB]§f " + msg);
 	}
-	public void SendDirectedMessage(CommandSender commandSender, String msg) {
-		SendDirectedMessage(commandSender, msg, '5');
+	public void sendDirectedMessage(CommandSender commandSender, String msg) {
+		sendDirectedMessage(commandSender, msg, '5');
 	}
 
 	//Ranks
 	private Hashtable<String,String> playerranks = new Hashtable<String,String>();
-	public String GetPlayerRank(Player ply) {
-		return GetPlayerRank(ply.getName());
+	public String getPlayerRank(Player ply) {
+		return getPlayerRank(ply.getName());
 	}
-	public String GetPlayerRank(String name) {
+	public String getPlayerRank(String name) {
 		name = plugin.permissions.getHandler().getGroup("world", name);
 		if(name == null) name = "guest";
 		return name;
 	}
-	public void SetPlayerRank(String name, String rankname) {
+	public void setPlayerRank(String name, String rankname) {
 		try {
 			BufferedReader fileread = new BufferedReader(new FileReader("plugins/Permissions/world.yml"));
 			String filebuff = ""; byte state = 0;
@@ -248,7 +248,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	@Loader({ "playerranks", "player_ranks" })
-	public void LoadPlayerRanks() {
+	public void loadPlayerRanks() {
 		//playerranks.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("ranks.txt"));
@@ -256,14 +256,14 @@ public class PlayerHelper extends StateContainer {
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
 				if(lpos < 0) continue;
-				SetPlayerRank(line.substring(0,lpos), line.substring(lpos+1));
+				setPlayerRank(line.substring(0,lpos), line.substring(lpos+1));
 			}
 			stream.close();
 		}
 		catch (Exception e) { }
 	}
 	@Saver({ "playerranks", "player_ranks" })
-	public void SavePlayerRanks() {
+	public void savePlayerRanks() {
 		/*
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("ranks.txt"));
@@ -283,17 +283,17 @@ public class PlayerHelper extends StateContainer {
 
 	//Permission levels
 	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
-	public Integer GetPlayerLevel(CommandSender ply) {
-		return GetPlayerLevel(ply.getName());
+	public Integer getPlayerLevel(CommandSender ply) {
+		return getPlayerLevel(ply.getName());
 	}
 
-	public Integer GetPlayerLevel(String name) {
+	public Integer getPlayerLevel(String name) {
 		if(name.equals("[CONSOLE]"))
 			return 9999;
 
-		return GetRankLevel(GetPlayerRank(name));
+		return getRankLevel(getPlayerRank(name));
 	}
-	public Integer GetRankLevel(String rankname) {
+	public Integer getRankLevel(String rankname) {
 		rankname = rankname.toLowerCase();
 		if(ranklevels.containsKey(rankname))
 			return ranklevels.get(rankname);
@@ -302,7 +302,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	@Loader({ "ranks", "ranknames" })
-	public void LoadRanks() {
+	public void loadRanks() {
 		ranklevels.clear();
 		ranktags.clear();
 		try {
@@ -318,7 +318,7 @@ public class PlayerHelper extends StateContainer {
 		catch (Exception e) { }
 	}
 	@Saver({ "ranks", "ranknames", "rank_names" })
-	public void SaveRanks() {
+	public void saveRanks() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("ranks-config.txt"));
 			Enumeration<String> e = playerranks.keys();
@@ -335,12 +335,12 @@ public class PlayerHelper extends StateContainer {
 	//Tags
 	private Hashtable<String,String> ranktags = new Hashtable<String,String>();
 	private Hashtable<String,String> playertags = new Hashtable<String,String>();
-	public String GetPlayerTag(CommandSender commandSender) {
-		return GetPlayerTag(commandSender.getName());
+	public String getPlayerTag(CommandSender commandSender) {
+		return getPlayerTag(commandSender.getName());
 	}
-	public String GetPlayerTag(String name) {
+	public String getPlayerTag(String name) {
 		name = name.toLowerCase();
-		String rank = GetPlayerRank(name).toLowerCase();
+		String rank = getPlayerRank(name).toLowerCase();
 		if(playertags.containsKey(name))
 			return playertags.get(name);
 		else if(ranktags.containsKey(rank))
@@ -348,17 +348,17 @@ public class PlayerHelper extends StateContainer {
 		else
 			return "§7";
 	}
-	public void SetPlayerTag(String name, String tag) {
+	public void setPlayerTag(String name, String tag) {
 		name = name.toLowerCase();
 		if (tag == null)
 			playertags.remove(name);
 		else
 			playertags.put(name, tag);
-		SavePlayerTags();
+		savePlayerTags();
 	}
 
 	@Loader({ "playertags", "player_tags", "tags" })
-	public void LoadPlayerTags() {
+	public void loadPlayerTags() {
 		playertags.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("player-tags.txt"));
@@ -372,7 +372,7 @@ public class PlayerHelper extends StateContainer {
 		catch (Exception e) { }
 	}
 	@Saver({ "playertags", "player_tags", "tags" })
-	public void SavePlayerTags() {
+	public void savePlayerTags() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-tags.txt"));
 			Enumeration<String> e = playertags.keys();
@@ -388,7 +388,7 @@ public class PlayerHelper extends StateContainer {
 
 	private Hashtable<String,String> playernicks = new Hashtable<String,String>();
 	@Loader({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
-	public void LoadPlayerNicks() {
+	public void loadPlayerNicks() {
 		playernicks.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("player-nicks.txt"));
@@ -402,7 +402,7 @@ public class PlayerHelper extends StateContainer {
 		catch (Exception e) { }
 	}
 	@Saver({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
-	public void SavePlayerNicks() {
+	public void savePlayerNicks() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-nicks.txt"));
 			Enumeration<String> e = playernicks.keys();
@@ -416,7 +416,7 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception e) { }
 	}
 
-	public String GetPlayerNick(String name) {
+	public String getPlayerNick(String name) {
 		name = name.toLowerCase();
 		if(playernicks.containsKey(name))
 			return playernicks.get(name);
@@ -424,7 +424,7 @@ public class PlayerHelper extends StateContainer {
 			return null;
 	}
 
-	public void SetPlayerNick(String name, String tag) {
+	public void setPlayerNick(String name, String tag) {
 		name = name.toLowerCase();
 		if (tag == null)
 		{
@@ -432,29 +432,29 @@ public class PlayerHelper extends StateContainer {
 		}
 		else
 			playernicks.put(name, tag);
-		SavePlayerNicks();
+		savePlayerNicks();
 	}
 
 	public Set<String> playerTpPermissions = new HashSet<String>();
 	public Set<String> playerSummonPermissions = new HashSet<String>();
 
-	public boolean CanTp(CommandSender commandSender, Player target) {
+	public boolean canTp(CommandSender commandSender, Player target) {
 		// Prevent teleporting out of jail.
 		if ((commandSender instanceof Player) && plugin.jailEngine.isJailed((Player)commandSender))
 			return false;
 
-		return CanPort(playerTpPermissions, commandSender, target);
+		return canPort(playerTpPermissions, commandSender, target);
 	}
-	public boolean CanSummon(CommandSender commandSender, Player target) {
+	public boolean canSummon(CommandSender commandSender, Player target) {
 		// Prevent summoning someone out of jail.
 		if (plugin.jailEngine.isJailed(target))
 			return false;
 
-		return CanPort(playerSummonPermissions, commandSender, target);
+		return canPort(playerSummonPermissions, commandSender, target);
 	}
-	private boolean CanPort(Set<String> playerPortPermissions, CommandSender commandSender, Player target) {
-		int commandSenderLevel = GetPlayerLevel(commandSender);
-		int targetLevel = GetPlayerLevel(target);
+	private boolean canPort(Set<String> playerPortPermissions, CommandSender commandSender, Player target) {
+		int commandSenderLevel = getPlayerLevel(commandSender);
+		int targetLevel = getPlayerLevel(target);
 
 		String commandSenderName = commandSender.getName();
 		String targetName = target.getName();
@@ -480,7 +480,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	@Loader({ "portpermissions", "port_permissions", "noport" })
-	public void LoadPortPermissions() {
+	public void loadPortPermissions() {
 		playerTpPermissions.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("player-notp.txt"));
@@ -504,7 +504,7 @@ public class PlayerHelper extends StateContainer {
 		catch (Exception e) { }
 	}
 	@Saver({ "portpermissions", "port_permissions", "noport" })
-	public void SavePortPermissions() {
+	public void savePortPermissions() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("player-notp.txt"));
 			for (String element : playerTpPermissions) {
@@ -551,7 +551,7 @@ public class PlayerHelper extends StateContainer {
 			if (world != ply.getWorld())
 				continue;
 
-			if (GetPlayerLevel(ply) >= maxLevel)
+			if (getPlayerLevel(ply) >= maxLevel)
 				continue;
 
 			if (locationVector.distanceSquared(ply.getLocation().toVector()) > radius)
@@ -583,7 +583,7 @@ public class PlayerHelper extends StateContainer {
 			if (playerName.equals(toolBind.playerName)) {
 				String toolName = entry.getKey();
 				toolName = toolName.substring(toolName.indexOf(' ')+1);
-				SendDirectedMessage(player, "Restored bind §e"+toolName+"§f => §9"+toolBind.name);
+				sendDirectedMessage(player, "Restored bind §e"+toolName+"§f => §9"+toolBind.name);
 			}
 		}
 	}
@@ -627,7 +627,7 @@ public class PlayerHelper extends StateContainer {
 
 						if (master == null || !master.isOnline()) {
 							leashMastersIter.remove();
-							SendServerMessage(masterName+" left, unleashing "+slaveName+".");
+							sendServerMessage(masterName+" left, unleashing "+slaveName+".");
 							removeHandler(slave);
 							continue;
 						}
@@ -781,7 +781,7 @@ public class PlayerHelper extends StateContainer {
 
 	private static final Pattern sectionPattern = Pattern.compile("^\\[(.*)\\]$");
 	@Loader({ "autoexecs", "autoexec" })
-	public void LoadAutoexecs() {
+	public void loadAutoexecs() {
 		autoexecs.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new FileReader("autoexecs.txt"));
@@ -821,7 +821,7 @@ public class PlayerHelper extends StateContainer {
 		catch (IOException e) { }
 	}
 	@Saver({ "autoexecs", "autoexec" })
-	public void SaveAutoexecs() {
+	public void saveAutoexecs() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("autoexecs.txt"));
 			for (Entry<String, List<String>> entry : autoexecs.entrySet()) {
@@ -844,7 +844,7 @@ public class PlayerHelper extends StateContainer {
 
 	public Location getPlayerSpawnPosition(Player ply) {
 		try {
-			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(null, GetPlayerRank(ply)+"_spawn");
+			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(null, getPlayerRank(ply)+"_spawn");
 			if (warpDescriptor == null)
 				throw new WarpException("");
 

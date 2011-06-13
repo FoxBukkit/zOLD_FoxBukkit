@@ -22,7 +22,7 @@ public class TestCommand extends ICommand {
 			public void run() {
 				try {
 					Location loc = ply.getLocation();
-					World tmp = plugin.GetOrCreateWorld("temp", Environment.NORMAL);
+					World tmp = plugin.getOrCreateWorld("temp", Environment.NORMAL);
 
 					ply.teleport(tmp.getSpawnLocation());
 					Thread.sleep(100);

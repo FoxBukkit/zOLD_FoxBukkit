@@ -21,7 +21,7 @@ public class SetJailCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (argStr.equals("remove")) {
 			plugin.jailEngine.removeJail(ply.getLocation());
-			playerHelper.SendDirectedMessage(ply, "Removed the jail cell closest to you.");
+			playerHelper.sendDirectedMessage(ply, "Removed the jail cell closest to you.");
 			return;
 		}
 
@@ -33,7 +33,7 @@ public class SetJailCommand extends ICommand {
 			com.sk89q.worldedit.Vector pos2 = selected.getMinimumPoint();
 			double y = Math.min(pos1.getY(), pos2.getY())+1;
 			plugin.jailEngine.setJail(ply.getWorld(), new Vector(pos1.getX(), y, pos1.getZ()), new Vector(pos2.getX(), y, pos2.getZ()));
-			playerHelper.SendDirectedMessage(ply, "Made a jail here.");
+			playerHelper.sendDirectedMessage(ply, "Made a jail here.");
 		}
 		catch (IncompleteRegionException e) {
 			throw new YiffBukkitCommandException("Please select a region.", e);

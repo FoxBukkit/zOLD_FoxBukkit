@@ -30,24 +30,24 @@ public class WhoCommand extends ICommand {
 			if (commandSender instanceof Player)
 				world = ((Player)commandSender).getWorld();
 			else
-				world = plugin.GetOrCreateWorld("world", Environment.NORMAL);
+				world = plugin.getOrCreateWorld("world", Environment.NORMAL);
 
-			final Player target = matcher.matches() ? new OfflinePlayer(plugin.getServer(), world, matcher.group(1)) : playerHelper.MatchPlayerSingle(args[0]);
+			final Player target = matcher.matches() ? new OfflinePlayer(plugin.getServer(), world, matcher.group(1)) : playerHelper.matchPlayerSingle(args[0]);
 
-			playerHelper.SendDirectedMessage(commandSender, "Name: " + target.getName());
-			playerHelper.SendDirectedMessage(commandSender, "Rank: " + playerHelper.GetPlayerRank(target));
-			playerHelper.SendDirectedMessage(commandSender, "NameTag: " + playerHelper.GetFullPlayerName(target));
-			playerHelper.SendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
+			playerHelper.sendDirectedMessage(commandSender, "Name: " + target.getName());
+			playerHelper.sendDirectedMessage(commandSender, "Rank: " + playerHelper.getPlayerRank(target));
+			playerHelper.sendDirectedMessage(commandSender, "NameTag: " + playerHelper.GetFullPlayerName(target));
+			playerHelper.sendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
 
-			int playerLevel = playerHelper.GetPlayerLevel(commandSender);
+			int playerLevel = playerHelper.getPlayerLevel(commandSender);
 			if (playerLevel < 2) return;
-			playerHelper.SendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
+			playerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 
 			if (playerLevel < 3) return;
-			if (playerLevel < playerHelper.GetPlayerLevel(target)) return;
-			playerHelper.SendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
+			if (playerLevel < playerHelper.getPlayerLevel(target)) return;
+			playerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
 			Vector targetPosition = target.getLocation().toVector();
-			playerHelper.SendDirectedMessage(commandSender, "Position: " + targetPosition);
+			playerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
 
 			Vector offsetFromSpawn = targetPosition.clone().subtract(world.getSpawnLocation().toVector());
 			long unitsFromSpawn = Math.round(offsetFromSpawn.length());
@@ -64,12 +64,12 @@ public class WhoCommand extends ICommand {
 				fromYou = "";
 			}
 
-			playerHelper.SendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
+			playerHelper.sendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
 			if (target.isOnline()) {
 				Thread thread = new Thread(new Runnable() {
 					public void run() {
 						InetAddress address = target.getAddress().getAddress();
-						playerHelper.SendDirectedMessage(commandSender, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
+						playerHelper.sendDirectedMessage(commandSender, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
 					}
 				});
 				thread.start();
@@ -81,7 +81,7 @@ public class WhoCommand extends ICommand {
 			for(int i=1;i<players.length;i++) {
 				str += ", " + players[i].getName();
 			}
-			playerHelper.SendDirectedMessage(commandSender, str);
+			playerHelper.sendDirectedMessage(commandSender, str);
 		}
 	}
 }

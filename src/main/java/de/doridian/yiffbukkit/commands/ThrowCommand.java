@@ -75,7 +75,7 @@ public class ThrowCommand extends ICommand {
 		if (args.length == 0) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.SendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
+			playerHelper.sendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
 
 			return;
 		}
@@ -122,7 +122,7 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 		else {
-			if (playerHelper.GetPlayerLevel(ply) < 4)
+			if (playerHelper.getPlayerLevel(ply) < 4)
 				throw new PermissionDeniedException();
 			
 			final String[] types = typeName.split("\\+");
@@ -151,6 +151,6 @@ public class ThrowCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.SendDirectedMessage(ply, "Bound §9"+typeName+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
+		playerHelper.sendDirectedMessage(ply, "Bound §9"+typeName+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
 	}
 }

@@ -16,14 +16,14 @@ public class LeashCommand extends ICommand {
 		if (args.length < 1)
 			throw new YiffBukkitCommandException("Not enough arguments");
 
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		if (!playerHelper.CanSummon(ply, otherply))
+		if (!playerHelper.canSummon(ply, otherply))
 			throw new PermissionDeniedException();
 
 		if (playerHelper.toggleLeash(ply, otherply))
-			playerHelper.SendServerMessage(ply.getName() + " leashed " + otherply.getName());
+			playerHelper.sendServerMessage(ply.getName() + " leashed " + otherply.getName());
 		else
-			playerHelper.SendServerMessage(ply.getName() + " unleashed " + otherply.getName());
+			playerHelper.sendServerMessage(ply.getName() + " unleashed " + otherply.getName());
 	}
 }

@@ -13,21 +13,21 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class TpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
 		String playerName = ply.getName();
 		String otherName = otherply.getName();
 
-		if (!playerHelper.CanTp(ply, otherply))
+		if (!playerHelper.canTp(ply, otherply))
 			throw new PermissionDeniedException();
 
 		ply.teleport(otherply);
 
 		if (playerHelper.vanishedPlayers.contains(playerName)) {
-			playerHelper.SendServerMessage(playerName + " teleported to " + otherName, 3);
+			playerHelper.sendServerMessage(playerName + " teleported to " + otherName, 3);
 		}
 		else {
-			playerHelper.SendServerMessage(playerName + " teleported to " + otherName);
+			playerHelper.sendServerMessage(playerName + " teleported to " + otherName);
 		}
 	}
 }

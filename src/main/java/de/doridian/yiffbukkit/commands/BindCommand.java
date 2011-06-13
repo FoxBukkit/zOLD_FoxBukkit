@@ -55,7 +55,7 @@ public class BindCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.SendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
+			playerHelper.sendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
 
 			return;
 		}
@@ -100,6 +100,6 @@ public class BindCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.SendDirectedMessage(ply, "Bound §9"+commandString+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
+		playerHelper.sendDirectedMessage(ply, "Bound §9"+commandString+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
 	}
 }

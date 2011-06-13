@@ -19,10 +19,10 @@ public class BanishCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
 		boolean resetHome = args.length >= 2 && (args[1].equals("resethome") || args[1].equals("sethome") || args[1].equals("withhome"));
 
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		int level = playerHelper.GetPlayerLevel(commandSender);
-		int otherlevel = playerHelper.GetPlayerLevel(otherply);
+		int level = playerHelper.getPlayerLevel(commandSender);
+		int otherlevel = playerHelper.getPlayerLevel(otherply);
 
 		// Players with the same levels can banish each other, but not reset each other's homes
 		if (level < otherlevel || (level == otherlevel && resetHome))
@@ -33,10 +33,10 @@ public class BanishCommand extends ICommand {
 		otherply.teleport(teleportTarget);
 
 		if (resetHome) {
-			playerHelper.SetPlayerHomePosition(otherply, teleportTarget);
+			playerHelper.setPlayerHomePosition(otherply, teleportTarget);
 		}
 		else {
-			Vector homePos = playerHelper.GetPlayerHomePosition(otherply).toVector();
+			Vector homePos = playerHelper.getPlayerHomePosition(otherply).toVector();
 
 			final long unitsFromPrevious = Math.round(homePos.distance(previousPos));
 			String unitsFromYou = "";
@@ -45,13 +45,13 @@ public class BanishCommand extends ICommand {
 			} catch (YiffBukkitCommandException e) { }
 			final long unitsFromSpawn = Math.round(homePos.distance(teleportTarget.toVector()));
 
-			playerHelper.SendDirectedMessage(
+			playerHelper.sendDirectedMessage(
 					commandSender, otherply.getName() + "'s home is " +
 					unitsFromPrevious + "m from the previous location, " +
 					unitsFromYou +
 					unitsFromSpawn + "m from the spawn. Use '!banish " + otherply.getName() + " resethome' to move it to the spawn.");
 		}
 
-		playerHelper.SendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
+		playerHelper.sendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
 	}
 }

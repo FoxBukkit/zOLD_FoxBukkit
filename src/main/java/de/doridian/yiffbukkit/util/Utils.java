@@ -54,13 +54,13 @@ public class Utils {
 		return ret;
 	}
 
-	public static String SerializeLocation(Location loc) {
+	public static String serializeLocation(Location loc) {
 		return loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getYaw() + ";" + loc.getPitch() + ";" + loc.getWorld().getName() + ";" + loc.getWorld().getEnvironment().name();
 	}
 
-	public Location UnserializeLocation(String str) {
+	public Location unserializeLocation(String str) {
 		String[] split = str.split(";");
-		return new Location(plugin.GetOrCreateWorld(split[5], Environment.valueOf(split[6])), Double.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]), Float.valueOf(split[3]), Float.valueOf(split[4]));
+		return new Location(plugin.getOrCreateWorld(split[5], Environment.valueOf(split[6])), Double.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]), Float.valueOf(split[3]), Float.valueOf(split[4]));
 	}
 
 	@SuppressWarnings("unchecked")

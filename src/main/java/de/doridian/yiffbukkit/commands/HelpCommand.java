@@ -14,19 +14,19 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class HelpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
-		int selflevel = playerHelper.GetPlayerLevel(ply);
-		Hashtable<String,ICommand> commands = plugin.GetCommands();
+		int selflevel = playerHelper.getPlayerLevel(ply);
+		Hashtable<String,ICommand> commands = plugin.getCommands();
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
 			if(val == null || val.GetMinLevel() > selflevel) {
-				playerHelper.SendDirectedMessage(ply, "Command not found!");
+				playerHelper.sendDirectedMessage(ply, "Command not found!");
 				return;
 			}
 			for (String line : val.GetHelp().split("\n")) {
-				playerHelper.SendDirectedMessage(ply, line);
+				playerHelper.sendDirectedMessage(ply, line);
 			}
-			playerHelper.SendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.GetUsage());
+			playerHelper.sendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.GetUsage());
 		}
 		else {
 			String ret = "Available commands: /";
@@ -43,7 +43,7 @@ public class HelpCommand extends ICommand {
 				ret += key + ", /";
 			}
 			ret = ret.substring(0,ret.length() - 3);
-			playerHelper.SendDirectedMessage(ply, ret);
+			playerHelper.sendDirectedMessage(ply, ret);
 		}
 	}
 }

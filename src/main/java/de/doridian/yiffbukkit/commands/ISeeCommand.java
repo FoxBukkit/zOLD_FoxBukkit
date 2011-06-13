@@ -17,7 +17,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class ISeeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {
-		Player otherply = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
 		// Get the EntityPlayer handle from the sender
 		EntityPlayer eply = ((CraftPlayer)ply).getHandle();

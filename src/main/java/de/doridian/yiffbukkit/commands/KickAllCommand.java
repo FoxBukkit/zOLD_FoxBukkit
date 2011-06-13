@@ -22,6 +22,6 @@ public class KickAllCommand extends ICommand {
 			player.kickPlayer(argStr);
 		}
 
-		playerHelper.SendServerMessage(commandSender.getName() + " kicked everyone (reason: "+argStr+")");
+		playerHelper.sendServerMessage(commandSender.getName() + " kicked everyone (reason: "+argStr+")");
 	}
 }

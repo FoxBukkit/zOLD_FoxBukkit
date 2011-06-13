@@ -36,11 +36,11 @@ public class BanCommand extends ICommand {
 
 		final Player otherply;
 		if (matcher.matches())
-			otherply = new OfflinePlayer(plugin.getServer(), plugin.GetOrCreateWorld("world", Environment.NORMAL), matcher.group(1));
+			otherply = new OfflinePlayer(plugin.getServer(), plugin.getOrCreateWorld("world", Environment.NORMAL), matcher.group(1));
 		else
-			otherply = playerHelper.MatchPlayerSingle(args[0]);
+			otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		if(playerHelper.GetPlayerLevel(commandSender) <= playerHelper.GetPlayerLevel(otherply))
+		if(playerHelper.getPlayerLevel(commandSender) <= playerHelper.getPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
 		if (booleanFlags.contains('j')) {
@@ -50,7 +50,7 @@ public class BanCommand extends ICommand {
 			catch (JailException e) { }
 		}
 
-		playerHelper.SetPlayerRank(otherply.getName(), "banned");
+		playerHelper.setPlayerRank(otherply.getName(), "banned");
 
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
@@ -70,16 +70,16 @@ public class BanCommand extends ICommand {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
 
 			if (booleanFlags.contains('c')) {
-				playerHelper.SendDirectedMessage(commandSender, "The -c flag has no effect now. It is no longer needed with LogBlock.");
+				playerHelper.sendDirectedMessage(commandSender, "The -c flag has no effect now. It is no longer needed with LogBlock.");
 			}
 		}
 
 		if (matcher.matches()) {
-			playerHelper.SendServerMessage(commandSender.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
+			playerHelper.sendServerMessage(commandSender.getName() + " banned " + otherply.getName() + " (reason: "+reason+")");
 		}
 		else {
 			otherply.kickPlayer(reason);
-			playerHelper.SendServerMessage(commandSender.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
+			playerHelper.sendServerMessage(commandSender.getName() + " kickbanned " + otherply.getName() + " (reason: "+reason+")");
 		}
 	}
 }

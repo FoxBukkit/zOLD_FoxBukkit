@@ -27,7 +27,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 			@Override
 			public void onPlayerChat(PlayerChatEvent event) {
 				if (muted.contains(event.getPlayer().getName())) {
-					plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
+					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
 					event.setCancelled(true);
 					return;
 				}
@@ -36,7 +36,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 			@Override
 			public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 				if (muted.contains(event.getPlayer().getName())) {
-					plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
+					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
 					event.setCancelled(true);
 					return;
 				}
@@ -64,8 +64,8 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 		if (targetName.equals(commandSenderName))
 			throw new YiffBukkitCommandException("You cannot mute yourself");
 
-		final Integer commandSenderLevel = playerHelper.GetPlayerLevel(commandSender);
-		final Integer targetLevel = playerHelper.GetPlayerLevel(target);
+		final Integer commandSenderLevel = playerHelper.getPlayerLevel(commandSender);
+		final Integer targetLevel = playerHelper.getPlayerLevel(target);
 		if (commandSenderLevel <= targetLevel)
 			throw new PermissionDeniedException();
 
@@ -75,41 +75,41 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 		if (targetName.equals(commandSenderName)) {
 			if (newState) {
 				if (prevState)
-					playerHelper.SendDirectedMessage(commandSender, "You are already muted.");
+					playerHelper.sendDirectedMessage(commandSender, "You are already muted.");
 				else {
-					playerHelper.SendServerMessage(commandSenderName+" muted themselves.", commandSender);
-					playerHelper.SendDirectedMessage(commandSender, "You are now muted.");
+					playerHelper.sendServerMessage(commandSenderName+" muted themselves.", commandSender);
+					playerHelper.sendDirectedMessage(commandSender, "You are now muted.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.SendServerMessage(commandSenderName+" unmuted themselves.", commandSender);
-					playerHelper.SendDirectedMessage(commandSender, "You are no longer muted.");
+					playerHelper.sendServerMessage(commandSenderName+" unmuted themselves.", commandSender);
+					playerHelper.sendDirectedMessage(commandSender, "You are no longer muted.");
 				}
 				else
-					playerHelper.SendDirectedMessage(commandSender, "You are not muted.");
+					playerHelper.sendDirectedMessage(commandSender, "You are not muted.");
 			}
 		}
 		else {
 			if (newState) {
 				if (prevState)
-					playerHelper.SendDirectedMessage(commandSender, targetName+" is already muted.");
+					playerHelper.sendDirectedMessage(commandSender, targetName+" is already muted.");
 				else {
-					playerHelper.SendServerMessage(commandSenderName+" muted "+targetName+".", commandSender, target);
-					playerHelper.SendDirectedMessage(commandSender, "You muted "+targetName+".");
+					playerHelper.sendServerMessage(commandSenderName+" muted "+targetName+".", commandSender, target);
+					playerHelper.sendDirectedMessage(commandSender, "You muted "+targetName+".");
 					if (target != null)
-						playerHelper.SendDirectedMessage(target, commandSenderName+" muted you.");
+						playerHelper.sendDirectedMessage(target, commandSenderName+" muted you.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.SendServerMessage(commandSenderName+" unmuted "+targetName+".", commandSender, target);
-					playerHelper.SendDirectedMessage(commandSender, "You unmuted "+targetName+".");
+					playerHelper.sendServerMessage(commandSenderName+" unmuted "+targetName+".", commandSender, target);
+					playerHelper.sendDirectedMessage(commandSender, "You unmuted "+targetName+".");
 					if (target != null)
-						playerHelper.SendDirectedMessage(target, commandSenderName+" unmuted you.");
+						playerHelper.sendDirectedMessage(target, commandSenderName+" unmuted you.");
 				}
 				else
-					playerHelper.SendDirectedMessage(commandSender, targetName+" is not muted.");
+					playerHelper.sendDirectedMessage(commandSender, targetName+" is not muted.");
 			}
 		}
 	}

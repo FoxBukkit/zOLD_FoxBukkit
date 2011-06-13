@@ -12,12 +12,12 @@ public class SpawnCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
 		if (plugin.jailEngine.isJailed(ply)) {
-			playerHelper.SendDirectedMessage(ply, "You are jailed!");
+			playerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;
 		}
 
 		Location location = playerHelper.getPlayerSpawnPosition(ply);
 		ply.teleport(location);
-		playerHelper.SendServerMessage(ply.getName() + " returned to the spawn!");
+		playerHelper.sendServerMessage(ply.getName() + " returned to the spawn!");
 	}
 }

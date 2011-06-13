@@ -47,7 +47,7 @@ public class ButcherCommand extends ICommand {
 			catch (NumberFormatException e) {
 				//butcher <name> - butcher someone fully
 				radius = 20;
-				target = playerHelper.MatchPlayerSingle(args[0]);
+				target = playerHelper.matchPlayerSingle(args[0]);
 			}
 			break;
 
@@ -55,11 +55,11 @@ public class ButcherCommand extends ICommand {
 			try {
 				//butcher <radius> <name> - butcher around someone in the given radius
 				radius = Integer.parseInt(args[0]);
-				target = playerHelper.MatchPlayerSingle(args[1]);
+				target = playerHelper.matchPlayerSingle(args[1]);
 			}
 			catch (NumberFormatException e) {
 				//butcher <name> <...> - not sure yet
-				target = playerHelper.MatchPlayerSingle(args[0]);
+				target = playerHelper.matchPlayerSingle(args[0]);
 
 				try {
 					//butcher <name> <radius> - butcher around someone in the given radius
@@ -78,7 +78,7 @@ public class ButcherCommand extends ICommand {
 		if (commandSender instanceof Player)
 			world = ((Player)commandSender).getWorld();
 		else
-			world = plugin.GetOrCreateWorld("world", Environment.NORMAL);
+			world = plugin.getOrCreateWorld("world", Environment.NORMAL);
 
 		if (radius < 0) {
 			for (LivingEntity livingEntity : world.getLivingEntities()) {
@@ -89,8 +89,8 @@ public class ButcherCommand extends ICommand {
 				++removed;
 			}
 
-			playerHelper.SendServerMessage(commandSender.getName() + " killed all mobs.", commandSender);
-			playerHelper.SendDirectedMessage(commandSender, "Killed "+removed+" mobs.");
+			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs.", commandSender);
+			playerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs.");
 			return;
 		}
 
@@ -111,12 +111,12 @@ public class ButcherCommand extends ICommand {
 		}
 
 		if (target == commandSender) {
-			playerHelper.SendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around themselves.", commandSender);
-			playerHelper.SendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around yourself.");
+			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around themselves.", commandSender);
+			playerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around yourself.");
 		}
 		else {
-			playerHelper.SendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around "+target.getName()+".");
-			playerHelper.SendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around "+target.getName()+".");
+			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around "+target.getName()+".");
+			playerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around "+target.getName()+".");
 		}
 	}
 

@@ -19,7 +19,7 @@ public class WarpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws WarpException {
 		if (plugin.jailEngine.isJailed(ply)) {
-			playerHelper.SendDirectedMessage(ply, "You are jailed!");
+			playerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;
 		}
 
@@ -57,22 +57,22 @@ public class WarpCommand extends ICommand {
 				first = false;
 			}
 
-			playerHelper.SendDirectedMessage(ply, sb.toString());
+			playerHelper.sendDirectedMessage(ply, sb.toString());
 			return;
 		}
 		if (args[0].equals("help")) {
 			//warp help
-			playerHelper.SendDirectedMessage(ply, "/warp <warp point name> [<command>[ <args>]]");
-			playerHelper.SendDirectedMessage(ply, "commands:");
-			playerHelper.SendDirectedMessage(ply, "without arguments - teleport to warp");
-			playerHelper.SendDirectedMessage(ply, "info - Shows information");
-			playerHelper.SendDirectedMessage(ply, "changeowner <new owner> - Transfers ownership");
-			playerHelper.SendDirectedMessage(ply, "public|private - Change public access");
-			playerHelper.SendDirectedMessage(ply, "addguest <name> - Grant guest access (can teleport)");
-			playerHelper.SendDirectedMessage(ply, "addop <name> - Grant op access (can add guests)");
-			playerHelper.SendDirectedMessage(ply, "deny <name> - Deny access");
-			playerHelper.SendDirectedMessage(ply, "move - Move the warp to your current position");
-			playerHelper.SendDirectedMessage(ply, "remove - Deletes the warp. This cannot be undone!");
+			playerHelper.sendDirectedMessage(ply, "/warp <warp point name> [<command>[ <args>]]");
+			playerHelper.sendDirectedMessage(ply, "commands:");
+			playerHelper.sendDirectedMessage(ply, "without arguments - teleport to warp");
+			playerHelper.sendDirectedMessage(ply, "info - Shows information");
+			playerHelper.sendDirectedMessage(ply, "changeowner <new owner> - Transfers ownership");
+			playerHelper.sendDirectedMessage(ply, "public|private - Change public access");
+			playerHelper.sendDirectedMessage(ply, "addguest <name> - Grant guest access (can teleport)");
+			playerHelper.sendDirectedMessage(ply, "addop <name> - Grant op access (can add guests)");
+			playerHelper.sendDirectedMessage(ply, "deny <name> - Deny access");
+			playerHelper.sendDirectedMessage(ply, "move - Move the warp to your current position");
+			playerHelper.sendDirectedMessage(ply, "remove - Deletes the warp. This cannot be undone!");
 			return;
 		}
 
@@ -90,13 +90,13 @@ public class WarpCommand extends ICommand {
 
 			if (command.equals("chown") || command.equals("changeowner")) {
 				//warp <warp point name> changeowner <new owner>
-				final String newOwnerName = playerHelper.CompletePlayerName(args[2], false);
+				final String newOwnerName = playerHelper.completePlayerName(args[2], false);
 				if (newOwnerName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setOwner(playerName, newOwnerName);
 
-				playerHelper.SendDirectedMessage(ply, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
+				playerHelper.sendDirectedMessage(ply, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
 			}
 			else if (command.equals("public") || command.equals("unlock")) {
 				//warp <warp point name> public
@@ -105,43 +105,43 @@ public class WarpCommand extends ICommand {
 
 				warp.isPublic = true;
 
-				playerHelper.SendDirectedMessage(ply, "Set warp §9" + warp.name + "§f to public.");
+				playerHelper.sendDirectedMessage(ply, "Set warp §9" + warp.name + "§f to public.");
 			}
 			else if (command.equals("private") || command.equals("lock")) {
 				//warp <warp point name> private
 				warp.isPublic = false;
 
-				playerHelper.SendDirectedMessage(ply, "Set warp §9" + warp.name + "§f to private.");
+				playerHelper.sendDirectedMessage(ply, "Set warp §9" + warp.name + "§f to private.");
 			}
 			else if (command.equals("deny")) {
 				//warp <warp point name> deny <name>
-				final String targetName = playerHelper.CompletePlayerName(args[2], false);
+				final String targetName = playerHelper.completePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setAccess(playerName, targetName, 0);
 
-				playerHelper.SendDirectedMessage(ply, "Revoked " + targetName + "'s access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(ply, "Revoked " + targetName + "'s access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("addguest")) {
 				//warp <warp point name> addguest <name>
-				final String targetName = playerHelper.CompletePlayerName(args[2], false);
+				final String targetName = playerHelper.completePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setAccess(playerName, targetName, 1);
 
-				playerHelper.SendDirectedMessage(ply, "Granted " + targetName + " guest access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(ply, "Granted " + targetName + " guest access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("addop")) {
 				//warp <warp point name> addop <name>
-				final String targetName = playerHelper.CompletePlayerName(args[2], false);
+				final String targetName = playerHelper.completePlayerName(args[2], false);
 				if (targetName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
 				warp.setAccess(playerName, targetName, 2);
 
-				playerHelper.SendDirectedMessage(ply, "Granted " + targetName + " op access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(ply, "Granted " + targetName + " op access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("move")) {
 				//warp <warp point name> move
@@ -150,17 +150,17 @@ public class WarpCommand extends ICommand {
 
 				warp.location = ply.getLocation().clone();
 
-				playerHelper.SendDirectedMessage(ply, "Moved warp §9" + warp.name + "§f to your current location.");
+				playerHelper.sendDirectedMessage(ply, "Moved warp §9" + warp.name + "§f to your current location.");
 			}
 			else if (command.equals("info")) {
 				//warp <warp point name> info
 				final Vector warpLocation = warp.location.toVector();
 
-				playerHelper.SendDirectedMessage(ply, "Warp §9" + warp.name + "§f is owned by "+warp.getOwner());
+				playerHelper.sendDirectedMessage(ply, "Warp §9" + warp.name + "§f is owned by "+warp.getOwner());
 				if (warp.isPublic)
-					playerHelper.SendDirectedMessage(ply, "Warp is public");
+					playerHelper.sendDirectedMessage(ply, "Warp is public");
 				else
-					playerHelper.SendDirectedMessage(ply, "Warp is private");
+					playerHelper.sendDirectedMessage(ply, "Warp is private");
 
 				final StringBuilder sb = new StringBuilder("Access list: ");
 				boolean first = true;
@@ -175,19 +175,19 @@ public class WarpCommand extends ICommand {
 
 					first = false;
 				}
-				playerHelper.SendDirectedMessage(ply, sb.toString());
+				playerHelper.sendDirectedMessage(ply, sb.toString());
 
 				final long unitsFromYou = Math.round(warpLocation.distance(ply.getLocation().toVector()));
 				final long unitsFromSpawn = Math.round(warpLocation.distance(ply.getWorld().getSpawnLocation().toVector()));
 
-				playerHelper.SendDirectedMessage(
+				playerHelper.sendDirectedMessage(
 						ply, "This warp is " +
 						unitsFromYou + "m from you and " +
 						unitsFromSpawn + "m from the spawn.");
 			}
 			else if (command.equals("remove")) {
 				plugin.warpEngine.removeWarp(playerName, warp.name);
-				playerHelper.SendDirectedMessage(ply, "Removed warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(ply, "Removed warp §9" + warp.name + "§f.");
 			}
 			else {
 				throw new WarpException("Unknown /warp command.");
@@ -195,7 +195,7 @@ public class WarpCommand extends ICommand {
 			plugin.warpEngine.SaveWarps();
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
-			playerHelper.SendDirectedMessage(ply, "Not enough arguments.");
+			playerHelper.sendDirectedMessage(ply, "Not enough arguments.");
 		}
 	}
 }

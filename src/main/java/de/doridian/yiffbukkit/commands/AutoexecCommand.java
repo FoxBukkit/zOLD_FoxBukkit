@@ -62,9 +62,9 @@ public class AutoexecCommand extends ICommand {
 
 			final List<String> commands = getAutoexec(ply);
 			commands.add(argStr);
-			playerHelper.SaveAutoexecs();
+			playerHelper.saveAutoexecs();
 
-			playerHelper.SendDirectedMessage(ply, "Added command "+(commands.size()-1)+": §9"+argStr+"§f.");
+			playerHelper.sendDirectedMessage(ply, "Added command "+(commands.size()-1)+": §9"+argStr+"§f.");
 			listAutoexec(ply);
 
 			break;
@@ -89,15 +89,15 @@ public class AutoexecCommand extends ICommand {
 			if (commands.isEmpty())
 				playerHelper.autoexecs.remove(ply.getName());
 
-			playerHelper.SaveAutoexecs();
+			playerHelper.saveAutoexecs();
 
-			playerHelper.SendDirectedMessage(ply, "Removed command "+id+": §9"+removedCommand+"§f.");
+			playerHelper.sendDirectedMessage(ply, "Removed command "+id+": §9"+removedCommand+"§f.");
 			listAutoexec(ply);
 
 			break;
 
 		default:
-			playerHelper.SendDirectedMessage(ply, "Invalid syntax.");
+			playerHelper.sendDirectedMessage(ply, "Invalid syntax.");
 			listAutoexec(ply);
 			break;
 		}
@@ -111,17 +111,17 @@ public class AutoexecCommand extends ICommand {
 	}
 
 	private void listAutoexec(Player player) {
-		playerHelper.SendDirectedMessage(player, "Current autoexec:");
+		playerHelper.sendDirectedMessage(player, "Current autoexec:");
 		
 		List<String> commands = playerHelper.autoexecs.get(player.getName());
 		if (commands == null || commands.isEmpty()) {
-			playerHelper.SendDirectedMessage(player, "<empty>");
+			playerHelper.sendDirectedMessage(player, "<empty>");
 			return;
 		}
 
 		for (int i = 0; i < commands.size(); ++i) {
 			String command = commands.get(i);
-			playerHelper.SendDirectedMessage(player, i+": §9"+command);
+			playerHelper.sendDirectedMessage(player, i+": §9"+command);
 		}
 	}
 

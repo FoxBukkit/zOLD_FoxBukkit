@@ -14,15 +14,15 @@ public class UnbanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {
 		String otherply = args[0];
-		if(!playerHelper.GetPlayerRank(otherply).equals("banned")) {
-			playerHelper.SendDirectedMessage(commandSender, "Player is not banned!");
+		if(!playerHelper.getPlayerRank(otherply).equals("banned")) {
+			playerHelper.sendDirectedMessage(commandSender, "Player is not banned!");
 			return;
 		}
 
-		playerHelper.SetPlayerRank(otherply, "guest");
+		playerHelper.setPlayerRank(otherply, "guest");
 		
 		mcbans mcbansPlugin = (mcbans) plugin.getServer().getPluginManager().getPlugin("mcbans");		
 		mcbansPlugin.mcb_handler.unban(otherply, commandSender.getName());
-		playerHelper.SendServerMessage(commandSender.getName() + " unbanned " + otherply + "!");
+		playerHelper.sendServerMessage(commandSender.getName() + " unbanned " + otherply + "!");
 	}
 }

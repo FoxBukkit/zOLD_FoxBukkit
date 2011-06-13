@@ -169,11 +169,11 @@ public class YiffBukkit extends JavaPlugin {
 		System.out.println( "YiffBukkit is enabled!" );
 	}
 
-	public Hashtable<String,ICommand> GetCommands() {
+	public Hashtable<String,ICommand> getCommands() {
 		return playerListener.commands;
 	}
 
-	public World GetOrCreateWorld(String name, Environment env) {
+	public World getOrCreateWorld(String name, Environment env) {
 		name = name.toLowerCase();
 		/*for (World world : getServer().getWorlds()) {
 			if (world.getName().equals(name)) return world;

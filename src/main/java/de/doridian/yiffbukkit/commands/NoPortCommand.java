@@ -34,33 +34,33 @@ public class NoPortCommand extends ICommand {
 		}
 		else if (arg0.equals("allow") || arg0.equals("accept")) {
 			if (args.length < 2) {
-				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.sendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
 
-			String otherName = playerHelper.CompletePlayerName(args[1], true);
+			String otherName = playerHelper.completePlayerName(args[1], true);
 			if (otherName == null) {
-				playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
+				playerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
 			else {
 				setException(playerName, otherName, true);
-				playerHelper.SendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
+				playerHelper.sendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
 			}
 			return;
 		}
 		else if (arg0.equals("deny") || arg0.equals("reject") || arg0.equals("revoke") || arg0.equals("forbid")) {
 			if (args.length < 2) {
-				playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.sendDirectedMessage(ply, "Usage: " + GetUsage());
 				return;
 			}
 
-			String otherName = playerHelper.CompletePlayerName(args[1], true);
+			String otherName = playerHelper.completePlayerName(args[1], true);
 			if (otherName == null) {
-				playerHelper.SendDirectedMessage(ply, "Sorry, multiple players found!");
+				playerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
 			else {
 				setException(playerName, otherName, false);
-				playerHelper.SendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
+				playerHelper.sendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
 			}
 			return;
 		}
@@ -73,12 +73,12 @@ public class NoPortCommand extends ICommand {
 				newState = !tpPermissions.contains(playerName);
 			}
 			else {
-				playerHelper.SendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
+				playerHelper.sendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
 				return;
 			}
 		}
 		else {
-			playerHelper.SendDirectedMessage(ply, "Usage: " + GetUsage());
+			playerHelper.sendDirectedMessage(ply, "Usage: " + GetUsage());
 			return;
 		}
 
@@ -95,9 +95,9 @@ public class NoPortCommand extends ICommand {
 			else
 				summonPermissions.remove(playerName);
 		}
-		playerHelper.SavePortPermissions();
+		playerHelper.savePortPermissions();
 
-		playerHelper.SendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
+		playerHelper.sendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
 	}
 
 	private void setException(String playerName, String otherName, boolean newState) {
@@ -115,7 +115,7 @@ public class NoPortCommand extends ICommand {
 			else
 				summonPermissions.remove(pair);
 		}
-		playerHelper.SavePortPermissions();
+		playerHelper.savePortPermissions();
 	}
 
 	protected String what() {

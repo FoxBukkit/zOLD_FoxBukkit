@@ -86,7 +86,7 @@ public class GiveCommand extends ICommand {
 		if (!(commandSender instanceof Player))
 			return true;
 
-		int plylvl = plugin.playerHelper.GetPlayerLevel(commandSender);
+		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
 		int reqlvl = ((Player)commandSender).getWorld().getName().startsWith("rp_") ? 100 : 3;
 
 		return plylvl >= reqlvl;
@@ -114,7 +114,7 @@ public class GiveCommand extends ICommand {
 				otherName = args[1];
 		}
 
-		Player target = otherName == null ? asPlayer(commandSender) : playerHelper.MatchPlayerSingle(otherName);
+		Player target = otherName == null ? asPlayer(commandSender) : playerHelper.matchPlayerSingle(otherName);
 
 
 		String materialName = args[0];
@@ -126,7 +126,7 @@ public class GiveCommand extends ICommand {
 		}
 		Material material = matchMaterial(materialName);
 		if (material == null) {
-			if (playerHelper.GetPlayerLevel(commandSender) < 4)
+			if (playerHelper.getPlayerLevel(commandSender) < 4)
 				throw new YiffBukkitCommandException("Material "+materialName+" not found");
 
 			if (count > 10)
@@ -137,12 +137,12 @@ public class GiveCommand extends ICommand {
 					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), commandSender, target, target.getLocation());
 				}
 				catch (YiffBukkitCommandException e) {
-					playerHelper.SendDirectedMessage(commandSender, "Material "+materialName+" not found");
+					playerHelper.sendDirectedMessage(commandSender, "Material "+materialName+" not found");
 					throw e;
 				}
 			}
 
-			playerHelper.SendDirectedMessage(commandSender, "Created "+count+" creatures.");
+			playerHelper.sendDirectedMessage(commandSender, "Created "+count+" creatures.");
 			return;
 		}
 
@@ -178,8 +178,8 @@ public class GiveCommand extends ICommand {
 		inv.setItem(empty, stack);
 
 		if (target == commandSender)
-			playerHelper.SendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
+			playerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
 		else
-			playerHelper.SendDirectedMessage(commandSender, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
+			playerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
 	}
 }

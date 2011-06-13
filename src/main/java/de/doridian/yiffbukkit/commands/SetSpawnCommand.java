@@ -14,6 +14,6 @@ public class SetSpawnCommand extends ICommand {
 
 		Location loc = ply.getLocation();
 		ply.getWorld().setSpawnLocation(loc.getBlockX(),loc.getBlockY(),loc.getBlockZ());
-		playerHelper.SendServerMessage(ply.getName() + " changed the world respawn point.");
+		playerHelper.sendServerMessage(ply.getName() + " changed the world respawn point.");
 	}
 }

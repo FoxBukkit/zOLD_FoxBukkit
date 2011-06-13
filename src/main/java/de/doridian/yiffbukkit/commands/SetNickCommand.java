@@ -15,27 +15,27 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class SetNickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		String otherName = playerHelper.CompletePlayerName(args[0], false);
+		String otherName = playerHelper.completePlayerName(args[0], false);
 
 		if (otherName == null) {
 			return;
 		}
 
-		Player otherPly = playerHelper.MatchPlayerSingle(args[0]);
+		Player otherPly = playerHelper.matchPlayerSingle(args[0]);
 
 		String newNick = Utils.concatArray(args, 1, "").replace('$', '§');
-		if (playerHelper.GetPlayerLevel(commandSender) < playerHelper.GetPlayerLevel(otherName))
+		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
 		if (newNick.equals("none")) {
 			otherPly.setDisplayName(otherName);
-			playerHelper.SetPlayerNick(otherName, null);
-			playerHelper.SendServerMessage(commandSender.getName() + " reset nickname of " + otherName + "§f!");
+			playerHelper.setPlayerNick(otherName, null);
+			playerHelper.sendServerMessage(commandSender.getName() + " reset nickname of " + otherName + "§f!");
 		}
 		else {
 			otherPly.setDisplayName(newNick);
-			playerHelper.SetPlayerNick(otherName, newNick);
-			playerHelper.SendServerMessage(commandSender.getName() + " set nickname of " + otherName + " to " + newNick + "§f!");
+			playerHelper.setPlayerNick(otherName, newNick);
+			playerHelper.sendServerMessage(commandSender.getName() + " set nickname of " + otherName + " to " + newNick + "§f!");
 		}
 	}
 

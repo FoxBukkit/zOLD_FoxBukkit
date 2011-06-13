@@ -47,8 +47,8 @@ public class WarpDescriptor {
 		if (playerName.equals(ownerName))
 			return 3;
 
-		int playerLevel = plugin.playerHelper.GetPlayerLevel(playerName);
-		int ownerLevel = plugin.playerHelper.GetPlayerLevel(ownerName);
+		int playerLevel = plugin.playerHelper.getPlayerLevel(playerName);
+		int ownerLevel = plugin.playerHelper.getPlayerLevel(ownerName);
 
 		if (playerLevel > ownerLevel && playerLevel >= 3)
 			return 3;

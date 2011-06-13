@@ -82,9 +82,9 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		final Block block = event.getBlock();
 		Material material = block.getType();
-		Integer selflvl = playerHelper.GetPlayerLevel(ply);
+		Integer selflvl = playerHelper.getPlayerLevel(ply);
 		if (selflvl < 0 || (blocklevels.containsKey(material) && selflvl < blocklevels.get(material))) {
-			playerHelper.SendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
+			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
 			event.setBuild(false);
 		}
 
@@ -92,7 +92,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 			for (BlockFace face : flameSpreadDirections) {
 				Material neighborMaterial = block.getRelative(face).getType();
 				if (neighborMaterial == Material.FIRE) {
-					playerHelper.SendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
+					playerHelper.sendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
 					event.setBuild(false);
 				}
 			}
@@ -108,8 +108,8 @@ public class YiffBukkitBlockListener extends BlockListener {
 			return;
 		}
 
-		if(playerHelper.GetPlayerLevel(ply) < 0 && event.getInstaBreak()) {
-			playerHelper.SendServerMessage(ply.getName() + " tried to illegaly break a block!");
+		if(playerHelper.getPlayerLevel(ply) < 0 && event.getInstaBreak()) {
+			playerHelper.sendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
 		}
 
@@ -125,9 +125,9 @@ public class YiffBukkitBlockListener extends BlockListener {
 			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
-					playerHelper.SetPlayerRank(ply.getName(), "banned");
+					playerHelper.setPlayerRank(ply.getName(), "banned");
 					ply.kickPlayer("Torch hack");
-					playerHelper.SendServerMessage(ply.getName() + " was autobanned for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", 3);
+					playerHelper.sendServerMessage(ply.getName() + " was autobanned for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", 3);
 					event.setCancelled(true);
 				}
 			}

@@ -24,7 +24,7 @@ public class VanishCommand extends ICommand {
 			playerHelper.vanishedPlayers.remove(playerName);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet20NamedEntitySpawn(((CraftPlayer)ply).getHandle()), ply, 3);
-			playerHelper.SendServerMessage(ply.getName() + " reappeared.", playerHelper.GetPlayerLevel(ply));
+			playerHelper.sendServerMessage(ply.getName() + " reappeared.", playerHelper.getPlayerLevel(ply));
 		}
 		else {
 			if (argStr.equals("off"))
@@ -32,7 +32,7 @@ public class VanishCommand extends ICommand {
 
 			playerHelper.vanishedPlayers.add(playerName);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
-			playerHelper.SendServerMessage(ply.getName() + " vanished.", playerHelper.GetPlayerLevel(ply));
+			playerHelper.sendServerMessage(ply.getName() + " vanished.", playerHelper.getPlayerLevel(ply));
 		}
 
 	}

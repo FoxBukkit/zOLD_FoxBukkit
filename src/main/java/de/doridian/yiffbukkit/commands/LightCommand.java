@@ -148,7 +148,7 @@ public class LightCommand extends ICommand {
 			}
 		}
 
-		playerHelper.SendDirectedMessage(ply, "Lit the region.");
+		playerHelper.sendDirectedMessage(ply, "Lit the region.");
 	}
 
 	private void lightBlock(Block block, int lightLevel,

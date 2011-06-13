@@ -129,7 +129,7 @@ public class PortalEngine {
 			return;
 
 		portalPair.moveThroughPortal(event.getPlayer());
-		plugin.playerHelper.SendDirectedMessage(event.getPlayer(), "woosh");
+		plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "woosh");
 		System.out.println("woosh");
 	}
 }

@@ -15,7 +15,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class CheaterCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
-		playerHelper.SendServerMessage("Player "+ply.getName()+" tried to crash the server!", 3);
+		playerHelper.sendServerMessage("Player "+ply.getName()+" tried to crash the server!", 3);
 
 		EntityPlayer eply = ((CraftPlayer)ply).getHandle();
 		playerHelper.sendPacketToPlayer(ply, new Packet100OpenWindow((Integer)Utils.getPrivateValue(EntityPlayer.class, eply, "bH"), 0, "DIE", Integer.MAX_VALUE));
