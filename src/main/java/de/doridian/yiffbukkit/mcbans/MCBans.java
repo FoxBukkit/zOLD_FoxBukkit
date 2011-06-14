@@ -48,7 +48,7 @@ public class MCBans {
 			public void run() {
 				JSONObject unbanret = MCBansUtil.apiQuery("exec=unban_user&player=" + MCBansUtil.URLEncode(ply));
 				if(((String)unbanret.get("result")).equalsIgnoreCase("n")) plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was not banned!");
-				else plugin.playerHelper.sendServerMessage(from.getDisplayName() + " unbanned " + ply + "!");
+				else plugin.playerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
 			}
 		}.start();
 	}
@@ -98,7 +98,7 @@ public class MCBans {
 						plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " could not be banned!");
 						break;
 					default:
-						plugin.playerHelper.sendServerMessage(from.getDisplayName() + " banned " + ply + "!");
+						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + "!");
 						break;
 				}
 			}
