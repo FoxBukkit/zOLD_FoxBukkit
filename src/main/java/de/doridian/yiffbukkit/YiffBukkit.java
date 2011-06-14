@@ -8,10 +8,6 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Slime;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.ChatEvent;
@@ -70,21 +66,6 @@ public class YiffBukkit extends JavaPlugin {
 	public ChatManager chatManager;
 	public DynmapPlugin dynmap;
 
-	public YiffBukkit() {
-		try {
-			getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new ServerListener() {
-				@Override
-				public void onPluginEnable(PluginEnableEvent event) {
-					System.out.println("---- "+event.getPlugin().getDescription().getName()+" ----");
-				}
-			}, Priority.Normal, this);
-		}
-		catch (Exception e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
-	}
-
 	public void onDisable() {
 		remote.stopme();
 		System.out.println( "YiffBukkit is disabled!" );
@@ -106,6 +87,8 @@ public class YiffBukkit extends JavaPlugin {
 
 				// listeners = event.listeners;
 				List<Event.Listener<ChatEvent>> listeners = Utils.getPrivateValue(Event.class, event, "listeners");
+				if (listeners == null)
+					return;
 
 				// Remove the old listener
 				for (Iterator<Listener<ChatEvent>> it = listeners.iterator(); it.hasNext(); ) {
