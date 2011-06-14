@@ -62,25 +62,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin = plug;
 		playerHelper = plugin.playerHelper;
 
-		for (Class<? extends ICommand> commandClass : getSubClasses(ICommand.class)) {
-			try {
-				commandClass.newInstance();
-			}
-			catch (InstantiationException e) {
-				// We try to instantiate an interface
-				// or an object that does not have a 
-				// default constructor
-				continue;
-			}
-			catch (IllegalAccessException e) {
-				// The class/ctor is not public
-				continue;
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				continue;
-			}
-		}
+		scanCommands();
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
@@ -125,6 +107,30 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				event.setCancelled(true);
 			}
 		}, Priority.Monitor, plugin);
+	}
+
+	public void scanCommands() {
+		commands.clear();
+
+		for (Class<? extends ICommand> commandClass : getSubClasses(ICommand.class)) {
+			try {
+				commandClass.newInstance();
+			}
+			catch (InstantiationException e) {
+				// We try to instantiate an interface
+				// or an object that does not have a 
+				// default constructor
+				continue;
+			}
+			catch (IllegalAccessException e) {
+				// The class/ctor is not public
+				continue;
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
 	}
 
 	private static <T> List<Class<? extends T>> getSubClasses(Class<T> baseClass) {
