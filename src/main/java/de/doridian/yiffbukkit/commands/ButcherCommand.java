@@ -1,38 +1,39 @@
 package de.doridian.yiffbukkit.commands;
 
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityWolf;
-
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.Help;
-import de.doridian.yiffbukkit.commands.ICommand.Level;
-import de.doridian.yiffbukkit.commands.ICommand.Names;
-import de.doridian.yiffbukkit.commands.ICommand.Usage;
-
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("butcher")
 @Help(
 		"Kills living entities around yourself or a specified target.\n"+
 		"The default radius is 20. To kill everything, use a radius\n"+
-		"of -1. Players and tamed wolves are never butchered."
+		"of -1. Players and tamed wolves are never butchered.\n" +
+		"Flags:\n"+
+		"  -n butcher NPCs too"
 )
 @Usage("[<target>] [<radius>]")
 @Level(3)
+@BooleanFlags("n")
 public class ButcherCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		args = parseFlags(args);
 		int radius;
 		Player target;
 		switch (args.length) {
 		case 0:
-			//butcher <name> - butcher everything
+			//butcher - butcher around yourself in a radius of 20
 			radius = 20;
 			target = asPlayer(commandSender);
 
@@ -45,7 +46,7 @@ public class ButcherCommand extends ICommand {
 				target = asPlayer(commandSender);
 			}
 			catch (NumberFormatException e) {
-				//butcher <name> - butcher someone fully
+				//butcher <name> -  butcher around someone else in a radius of 20
 				radius = 20;
 				target = playerHelper.matchPlayerSingle(args[0]);
 			}
@@ -80,9 +81,10 @@ public class ButcherCommand extends ICommand {
 		else
 			world = plugin.getOrCreateWorld("world", Environment.NORMAL);
 
+		final boolean spareNPCs = !booleanFlags.contains('n');
 		if (radius < 0) {
 			for (LivingEntity livingEntity : world.getLivingEntities()) {
-				if (isSpared(livingEntity))
+				if (isSpared(livingEntity, spareNPCs))
 					continue;
 
 				livingEntity.remove();
@@ -97,7 +99,7 @@ public class ButcherCommand extends ICommand {
 		final Vector targetPos = target.getLocation().toVector();
 		final double radiusSquared = radius*radius;
 		for (LivingEntity livingEntity : world.getLivingEntities()) {
-			if (isSpared(livingEntity))
+			if (isSpared(livingEntity, spareNPCs))
 				continue;
 
 			final Vector currentPos = livingEntity.getLocation().toVector();
@@ -120,9 +122,17 @@ public class ButcherCommand extends ICommand {
 		}
 	}
 
-	private boolean isSpared(LivingEntity livingEntity) {
-		if (livingEntity instanceof Player)
-			return true;
+	private boolean isSpared(LivingEntity livingEntity, boolean spareNPCs) {
+		if (livingEntity instanceof Player) {
+			if (spareNPCs)
+				return true;
+
+			final EntityPlayer eply = ((CraftPlayer)livingEntity).getHandle();
+			if (eply.world.players.contains(eply))
+				return true;
+
+			return false;
+		}
 
 		if (livingEntity instanceof CraftWolf) {
 			CraftWolf wolf = (CraftWolf) livingEntity;
