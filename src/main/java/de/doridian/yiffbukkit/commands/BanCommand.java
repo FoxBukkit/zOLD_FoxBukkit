@@ -16,11 +16,14 @@ import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 		"Flags:\n"+
 		"  -j to unjail the player first\n"+
 		"  -r to rollback\n"+
-		"  -g to issue an mcbans.com global ban"
+		"  -g to issue an mcbans.com global ban\n"+
+		"  -t <time> to issue a temporary ban. Possible suffixes:\n"+
+		"       m=minutes, h=hours, d=days"
 )
 @Usage("[<flags>] <name> [reason here]")
 @Level(3)
 @BooleanFlags("jrgc")
+@StringFlags("t")
 public class BanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -39,7 +42,7 @@ public class BanCommand extends ICommand {
 		}
 
 		playerHelper.setPlayerRank(otherply.getName(), "banned");
-		
+
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
@@ -47,18 +50,42 @@ public class BanCommand extends ICommand {
 		final String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
 
 		final BanType type;
-		if (booleanFlags.contains('g')) {
-			type = BanType.GLOBAL;
-		} else {
-			type = BanType.LOCAL;
+		if (stringFlags.containsKey('t')) {
+			if (booleanFlags.contains('g'))
+				throw new YiffBukkitCommandException("Bans can only be either global or temporary");
+			type = BanType.TEMPORARY;
+
+			final String duration = stringFlags.get('t');
+			if (duration.length() < 2)
+				throw new YiffBukkitCommandException("Malformed ban duration");
+
+			final String measure = duration.substring(duration.length() - 1);
+
+			final long durationValue;
+			try {
+				durationValue = Long.parseLong(duration.substring(0, duration.length() - 2).trim());
+			}
+			catch (NumberFormatException e) {
+				throw new YiffBukkitCommandException("Malformed ban duration");
+			}
+
+			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure);
 		}
-		plugin.mcbans.ban(commandSender, otherply, reason, type);
+		else {
+			if (booleanFlags.contains('g')) {
+				type = BanType.GLOBAL;
+			} else {
+				type = BanType.LOCAL;
+			}
+
+			plugin.mcbans.ban(commandSender, otherply, reason, type);
+		}
 
 		if (booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
 
 			if (booleanFlags.contains('c')) {
-				playerHelper.sendDirectedMessage(commandSender, "The -c flag has no effect now. It is no longer needed with LogBlock.");
+				playerHelper.sendDirectedMessage(commandSender, "The -c flag has no effect. It is no longer needed.");
 			}
 		}
 
