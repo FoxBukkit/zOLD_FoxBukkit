@@ -28,6 +28,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -38,6 +39,7 @@ import com.nijiko.permissions.Control;
 import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
@@ -50,12 +52,29 @@ public class PlayerHelper extends StateContainer {
 		plugin = plug;
 	}
 
-	public Player matchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
+	private Player literalMatch(String name) {
+		Player onlinePlayer = plugin.getServer().getPlayer(name);
+		if (onlinePlayer != null)
+			return onlinePlayer;
+
+		return new OfflinePlayer(plugin.getServer(), plugin.getOrCreateWorld("world", Environment.NORMAL), name);
+	}
+
+	private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
+	public Player matchPlayerSingle(String subString, boolean implicitlyLiteral) throws PlayerNotFoundException, MultiplePlayersFoundException {
+		Matcher matcher = quotePattern.matcher(subString);
+
+		if (matcher.matches())
+			return literalMatch(matcher.group(1));
+
 		List<Player> players = plugin.getServer().matchPlayer(subString);
 
 		int c = players.size();
 		if (c < 1)
-			throw new PlayerNotFoundException();
+			if (implicitlyLiteral)
+				return literalMatch(subString);
+			else
+				throw new PlayerNotFoundException();
 
 		if (c > 1)
 			throw new MultiplePlayersFoundException(players);
@@ -63,8 +82,12 @@ public class PlayerHelper extends StateContainer {
 		return players.get(0);
 	}
 
+	public Player matchPlayerSingle(String subString) throws PlayerNotFoundException, MultiplePlayersFoundException {
+		return matchPlayerSingle(subString, false);
+	}
+
 	public String completePlayerName(String subString, boolean implicitlyLiteralNames) {
-		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(subString);
+		Matcher matcher = quotePattern.matcher(subString);
 
 		if (matcher.matches())
 			return matcher.group(1);
