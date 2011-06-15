@@ -14,14 +14,21 @@ public class MCBansPlayerCheckThread extends Thread {
 
 	@Override
 	public void run() {
-		if(ply == null) return;
+		if(ply == null)
+			return;
+
 		final String name = ply.getName();
 		JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
+
 		ply = listener.plugin.getServer().getPlayer(name);
-		if(ply == null || !ply.isOnline()) {
+		if(ply == null)
+			return;
+
+		if (!ply.isOnline()) {
 			listener.doneAuthing(ply);
 			return;
 		}
+
 		if(connret == null) {
 			listener.doneAuthing(ply);
 			kickPlayer("[YB] Sorry, mcbans.com API failure, please rejoin!");
