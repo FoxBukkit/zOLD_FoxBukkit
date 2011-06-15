@@ -230,7 +230,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		String rank = plugin.playerHelper.getPlayerRank(event.getPlayer());
+		String rank = playerHelper.getPlayerRank(event.getPlayer());
 		if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
@@ -241,7 +241,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 
-		String nick = plugin.playerHelper.getPlayerNick(player.getName());
+		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
 			nick = player.getName();
 		player.setDisplayName(nick);
@@ -250,25 +250,25 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		event.setJoinMessage(null);
 		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists())
-			plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined!");
+			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
 		else {
 			Player ply = event.getPlayer();
 			Location location = playerHelper.getPlayerSpawnPosition(ply);
 			ply.teleport(location);
 
-			plugin.getServer().broadcastMessage("§2[+] §e" + plugin.playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
+			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 		}
 
-		plugin.playerHelper.updateToolMappings(player);
+		playerHelper.updateToolMappings(player);
 		plugin.chatManager.popCurrentOrigin();
-		plugin.playerHelper.pushWeather(player);
+		playerHelper.pushWeather(player);
 	}
 
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		event.setQuitMessage(null);
 		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
-		plugin.getServer().broadcastMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
+		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
 		plugin.chatManager.popCurrentOrigin();
 
 		for (Map<Player, ?> map : playerHelper.registeredMaps) {
@@ -280,7 +280,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		event.setLeaveMessage(null);
 		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
-		plugin.getServer().broadcastMessage("§4[-] §e" + plugin.playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
+		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
 		plugin.chatManager.popCurrentOrigin();
 	}
 
@@ -308,12 +308,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		String msg = event.getMessage();
 		final Player ply = event.getPlayer();
 		if (msg.charAt(0) == '!') {
-			plugin.playerHelper.sendDirectedMessage(ply, "!commands are disabled because they show up in the web chat. Please use /commands.");
+			playerHelper.sendDirectedMessage(ply, "!commands are disabled because they show up in the web chat. Please use /commands.");
 			event.setCancelled(true);
 			return;
 		}
 
-		event.setFormat(plugin.playerHelper.getPlayerTag(ply) + "%s:§f %s");
+		event.setFormat(playerHelper.getPlayerTag(ply) + "%s:§f %s");
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
@@ -354,15 +354,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				icmd.run(commandSender,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {
-				plugin.playerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
+				playerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
-				if (plugin.playerHelper.getPlayerLevel(commandSender) >= 4) {
-					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
+				if (playerHelper.getPlayerLevel(commandSender) >= 4) {
+					playerHelper.sendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
 					e.printStackTrace();
 				}
 				else {
-					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error!");
+					playerHelper.sendDirectedMessage(commandSender,"Command error!");
 				}
 			}
 			return true;
@@ -415,22 +415,22 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				Material itemMaterial = event.getMaterial();
 
 				String key = ply.getName()+" "+itemMaterial.name();
-				ToolBind toolBind = plugin.playerHelper.toolMappings.get(key);
+				ToolBind toolBind = playerHelper.toolMappings.get(key);
 				if (toolBind != null) {
 					event.setCancelled(true);
 					try {
 						toolBind.run(event);
 					}
 					catch (YiffBukkitCommandException e) {
-						plugin.playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
+						playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
 					}
 					catch (Exception e) {
-						if (plugin.playerHelper.getPlayerLevel(ply) >= 4) {
-							plugin.playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+						if (playerHelper.getPlayerLevel(ply) >= 4) {
+							playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 							e.printStackTrace();
 						}
 						else {
-							plugin.playerHelper.sendDirectedMessage(ply,"Command error!");
+							playerHelper.sendDirectedMessage(ply,"Command error!");
 						}
 					}
 				}

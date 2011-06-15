@@ -16,14 +16,12 @@ import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.ItemInWorldManager;
-import net.minecraft.server.MathHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.WorldServer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
