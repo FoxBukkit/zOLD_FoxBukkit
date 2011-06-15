@@ -10,17 +10,19 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 public class MCBans {
 	private YiffBukkit plugin;
 	private MCBansPlayerListener listener;
-	
+
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
 		listener = new MCBansPlayerListener(plug);
 	}
-	
+
 	public boolean isAuthing(Player ply) {
-		return listener.authingPlayers.contains(ply.getName().toLowerCase());
+		synchronized(listener.authingPlayers) {
+			return listener.authingPlayers.contains(ply.getName().toLowerCase());
+		}
 	}
-	
-	
+
+
 	public enum BanType {
 		GLOBAL, LOCAL, TEMPORARY;
 	}
@@ -30,19 +32,19 @@ public class MCBans {
 		public static String valueOf(BanTimeMeasure measure) {
 			if(measure == null) return "";
 			switch(measure) {
-				case MINUTES:
-					return "m";
-				case HOURS:
-					return "h";
-				case DAYS:
-					return "d";
-				default:
-					return "";
+			case MINUTES:
+				return "m";
+			case HOURS:
+				return "h";
+			case DAYS:
+				return "d";
+			default:
+				return "";
 			}
 		}
 	}
 
-	
+
 	public void unban(final CommandSender from, final String ply) {
 		new Thread() {
 			public void run() {
@@ -57,49 +59,49 @@ public class MCBans {
 		if(type == BanType.TEMPORARY) return;
 		ban(from, ply, reason, type, 0, null);
 	}
-	
+
 	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final BanTimeMeasure measure) {
 		String addr;
 		if(ply instanceof OfflinePlayer) addr = "";
 		else addr = ply.getAddress().toString();
 		ban(from, ply.getName(), addr, reason, type, duration, measure);
 	}
-	
+
 	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type) {
 		if(type == BanType.TEMPORARY) return;
 		ban(from, ply, ip, reason, type, 0, null);
 	}
-	
+
 	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type, final long duration, final BanTimeMeasure measure) {
 		new Thread() {
 			public void run() {
 				String exec;
 				if(type == null) return;
 				switch(type) {
-					case GLOBAL:
-						exec = "ban_user";
-						break;
-					case LOCAL:
-						exec = "ban_local_user";
-						break;
-					case TEMPORARY:
-						exec = "tempban_user";
-						break;
-					default:
-						return;
+				case GLOBAL:
+					exec = "ban_user";
+					break;
+				case LOCAL:
+					exec = "ban_local_user";
+					break;
+				case TEMPORARY:
+					exec = "tempban_user";
+					break;
+				default:
+					return;
 				}
 				JSONObject banret = MCBansUtil.apiQuery("exec="+exec+"&admin="+from.getName()+"&playerip="+MCBansUtil.URLEncode(ip)+"&reason="+MCBansUtil.URLEncode(reason)+"&player="+MCBansUtil.URLEncode(ply)+"&duration="+duration+"&measure="+BanTimeMeasure.valueOf(measure));
 				char result = ((String)banret.get("result")).charAt(0);
 				switch(result) {
-					case 'a':
-						plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
-						break;
-					case 'n':
-						plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " could not be banned!");
-						break;
-					default:
-						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + "!");
-						break;
+				case 'a':
+					plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
+					break;
+				case 'n':
+					plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " could not be banned!");
+					break;
+				default:
+					plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + "!");
+					break;
 				}
 			}
 		}.start();
