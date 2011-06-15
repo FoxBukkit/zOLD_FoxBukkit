@@ -96,10 +96,10 @@ public class ThrowCommand extends ICommand {
 			}
 		}
 
-		String typeName = args[0].toUpperCase();
+		String typeName = args[0];
 
 		ToolBind runnable;
-		if (typeName.equals("ME")) {
+		if (typeName.equalsIgnoreCase("ME")) {
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
 				public void run(PlayerInteractEvent event) {

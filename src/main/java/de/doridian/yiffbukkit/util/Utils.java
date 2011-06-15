@@ -1,16 +1,29 @@
 package de.doridian.yiffbukkit.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.Socket;
 import java.util.Date;
 
 import net.minecraft.server.EntityFallingSand;
-import net.minecraft.server.EntityHuman;
+import net.minecraft.server.EntityFireball;
 import net.minecraft.server.EntityPig;
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityWolf;
+import net.minecraft.server.ItemInWorldManager;
+import net.minecraft.server.MathHelper;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.NetServerHandler;
+import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.WorldServer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,11 +32,13 @@ import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
@@ -171,26 +186,56 @@ public class Utils {
 			String data = partparts.length >= 2 ? partparts[1] : null;
 
 			Entity entity;
-			if (type.equals("ME")) {
+			if (type.equalsIgnoreCase("ME")) {
 				entity = ICommand.asPlayer(commandSender);
 			}
-			else if (type.equals("THEM")) {
+			else if (type.equalsIgnoreCase("THEM")) {
 				entity = them;
 			}
-			else if (type.equals("TNT")) {
-				EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, location.getX(), location.getY(), location.getZ());
+			else if (type.equalsIgnoreCase("FIREBALL")) {
+				final EntityPlayer playerEntity;
+				if (them instanceof CraftPlayer)
+					playerEntity = ((CraftPlayer)them).getHandle();
+				else if (commandSender instanceof CraftPlayer)
+					playerEntity = ((CraftPlayer)commandSender).getHandle();
+				else
+					playerEntity = null;
+
+				final Vector dir = playerEntity.getBukkitEntity().getLocation().getDirection();
+				double dx = dir.getX();
+				double dy = dir.getY();
+				double dz = dir.getZ();
+
+				final EntityFireball notchEntity = new EntityFireball(notchWorld, playerEntity, dx, dy, dz);
+				notchEntity.locX = location.getX();
+				notchEntity.locY = location.getY();
+				notchEntity.locZ = location.getZ();
+
+				double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+				notchEntity.c = dx * d3;
+				notchEntity.d = dy * d3;
+				notchEntity.e = dz * d3;
+
+				notchWorld.addEntity(notchEntity);
+
+				entity = null;//notchEntity.getBukkitEntity();
+			}
+			else if (type.equalsIgnoreCase("TNT")) {
+				EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, 0, 1, 0);
 				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
+				entity.teleport(location);
 			}
-			else if(type.equals("SAND") || type.equals("GRAVEL")) {
-				int material = Material.valueOf(type).getId();
+			else if(type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
+				int material = Material.valueOf(type.toUpperCase()).getId();
 				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material);
 				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 			}
-			else if(type.equals("LIGHTNING")) {
+			else if(type.equalsIgnoreCase("LIGHTNING")) {
 				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId()) {
 					@Override
 					public void o_() {
@@ -222,30 +267,30 @@ public class Utils {
 
 				entity = notchEntity.getBukkitEntity();
 			}
-			else if(type.equals("ARROW")) {
+			else if(type.equalsIgnoreCase("ARROW")) {
 				entity = world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
 			}
-			else if (type.equals("MINECART") || type.equals("CART")) {
+			else if (type.equalsIgnoreCase("MINECART") || type.equalsIgnoreCase("CART")) {
 				entity = world.spawnMinecart(location);
 			}
-			else if (type.equals("BOAT")) {
+			else if (type.equalsIgnoreCase("BOAT")) {
 				entity = world.spawnBoat(location);
 			}
-			else if (type.equals("THIS")) {
+			else if (type.equalsIgnoreCase("THIS")) {
 				entity = thisEnt;
 			}
-			else if (type.equals("CREEPER")) {
+			else if (type.equalsIgnoreCase("CREEPER")) {
 				entity = world.spawnCreature(location, CreatureType.CREEPER);
 				if (entity == null) {
 					throw new YiffBukkitCommandException("Could not spawn a creeper here. Too bright?");
 				}
 				final Creeper creeper = (Creeper)entity;
 
-				if ("ELECTRIFIED".equals(data) || "CHARGED".equals(data) || "POWERED".equals(data)) {
+				if ("ELECTRIFIED".equalsIgnoreCase(data) || "CHARGED".equalsIgnoreCase(data) || "POWERED".equalsIgnoreCase(data)) {
 					creeper.setPowered(true);
 				}
 			}
-			else if (type.equals("SLIME")) {
+			else if (type.equalsIgnoreCase("SLIME")) {
 				entity = world.spawnCreature(location, CreatureType.SLIME);
 				final Slime slime = (Slime)entity;
 
@@ -259,12 +304,12 @@ public class Utils {
 
 				}
 			}
-			else if (type.equals("WOLF")) {
+			else if (type.equalsIgnoreCase("WOLF")) {
 				entity = world.spawnCreature(location, CreatureType.WOLF);
 				final Wolf wolf = (Wolf)entity;
 
 				if (data != null) { 
-					for (String subData : data.split(",")) {
+					for (String subData : data.toUpperCase().split(",")) {
 						if (subData.isEmpty())
 							continue;
 
@@ -286,28 +331,28 @@ public class Utils {
 					}
 				}
 			}
-			else if (type.equals("SHEEP")) {
+			else if (type.equalsIgnoreCase("SHEEP")) {
 				entity = world.spawnCreature(location, CreatureType.SHEEP);
 				final Sheep sheep = (Sheep)entity;
 
-				if ("CAMO".equals(data) || "CAMOUFLAGE".equals(data)) {
+				if ("CAMO".equalsIgnoreCase(data) || "CAMOUFLAGE".equalsIgnoreCase(data)) {
 					new CamoSheep(plugin, sheep);
 				}
-				else if ("PARTY".equals(data)) {
+				else if ("PARTY".equalsIgnoreCase(data)) {
 					new PartySheep(plugin, sheep);
 				}
-				else if ("SHEARED".equals(data) || "SHORN".equals(data) || "NUDE".equals(data) || "NAKED".equals(data)) {
+				else if ("SHEARED".equalsIgnoreCase(data) || "SHORN".equalsIgnoreCase(data) || "NUDE".equalsIgnoreCase(data) || "NAKED".equalsIgnoreCase(data)) {
 					sheep.setSheared(true);
 				}
 				else {
 					DyeColor dyeColor = DyeColor.WHITE;
 					try {
-						if ("RAINBOW".equals(data) || "RAINBOWS".equals(data) || "RANDOM".equals(data)) {
+						if ("RAINBOW".equalsIgnoreCase(data) || "RAINBOWS".equalsIgnoreCase(data) || "RANDOM".equalsIgnoreCase(data)) {
 							DyeColor[] dyes = DyeColor.values();
 							dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
 						}
 						else {
-							dyeColor = DyeColor.valueOf(data);
+							dyeColor = DyeColor.valueOf(data.toUpperCase());
 						}
 					}
 					catch (Exception e) { }
@@ -315,17 +360,13 @@ public class Utils {
 					sheep.setColor(dyeColor);
 				}
 			}
-			else if (type.equals("NPC:")) { // the colon (:) disables it, since it currently crashes the server :) 
-				EntityHuman notchEntity = new EntityHuman(notchWorld) {};
-				notchEntity.name = data == null ? "" : data;
-				notchWorld.addEntity(notchEntity);
-
-				entity = notchEntity.getBukkitEntity();
-				entity.teleport(location);
+			else if (type.equalsIgnoreCase("NPC")) {
+				final String name = data == null ? "" : data;
+				entity = makeNPC(name, location);
 			}
 			else {
 				try {
-					CreatureType creatureType = CreatureType.valueOf(type);
+					CreatureType creatureType = CreatureType.valueOf(type.toUpperCase());
 					entity = world.spawnCreature(location, creatureType);
 				}
 				catch (IllegalArgumentException e) {
@@ -355,6 +396,54 @@ public class Utils {
 		}
 		return first;
 	}
+
+	public static HumanEntity makeNPC(String name, Location location) {
+		// Get some notch-type references
+		final WorldServer worldServer = ((CraftWorld)location.getWorld()).getHandle();
+		final MinecraftServer minecraftServer = worldServer.server;
+
+		// Create the new player
+		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, name, new ItemInWorldManager(worldServer));
+
+		// Create network manager for the player
+		final NetworkManager networkManager = new NetworkManager(new NPCSocket(), eply.name, null);
+		// Create NetServerHandler. This will automatically write itself to the player and networkmanager
+		new NetServerHandler(minecraftServer, networkManager, eply);
+
+		// Finally, put the entity into the world.
+		worldServer.addEntity(eply);
+
+		// The entity should neither show up in the world player list...
+		worldServer.players.remove(eply);
+
+		// ...nor in the server player list (i.e. /list /who and the likes)
+		minecraftServer.serverConfigurationManager.players.remove(eply);
+
+		// finally obtain a bukkit entity,
+		final HumanEntity bukkitEntity = (HumanEntity) eply.getBukkitEntity();
+
+		// teleport it to the target location
+		bukkitEntity.teleport(location);
+
+		// and return it
+		return bukkitEntity;
+	}
+
+	static class NPCSocket extends Socket {
+		final OutputStream os = new ByteArrayOutputStream();
+		final InputStream is = new ByteArrayInputStream(new byte[0]);
+
+		@Override
+		public OutputStream getOutputStream() throws IOException {
+			return os;
+		}
+
+		@Override
+		public InputStream getInputStream() throws IOException {
+			return is;
+		}
+	}
+
 
 	public static Vector toWorldAxis(Location location, Vector axis) {
 		final double yaw = Math.toRadians(location.getYaw());

@@ -134,7 +134,7 @@ public class GiveCommand extends ICommand {
 
 			for (int i = 0; i < count; ++i) {
 				try {
-					plugin.utils.buildMob(args[0].toUpperCase().split("\\+"), commandSender, target, target.getLocation());
+					plugin.utils.buildMob(args[0].split("\\+"), commandSender, target, target.getEyeLocation());
 				}
 				catch (YiffBukkitCommandException e) {
 					playerHelper.sendDirectedMessage(commandSender, "Material "+materialName+" not found");
