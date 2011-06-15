@@ -1,9 +1,5 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,7 +9,6 @@ import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
-import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 @Names("ban")
 @Help(
@@ -31,13 +26,7 @@ public class BanCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
-
-		final Player otherply;
-		if (matcher.matches())
-			otherply = new OfflinePlayer(plugin.getServer(), plugin.getOrCreateWorld("world", Environment.NORMAL), matcher.group(1));
-		else
-			otherply = playerHelper.matchPlayerSingle(args[0]);
+		final Player otherply = playerHelper.matchPlayerSingle(args[0], false);
 
 		if(playerHelper.getPlayerLevel(commandSender) <= playerHelper.getPlayerLevel(otherply))
 			throw new PermissionDeniedException();
@@ -55,10 +44,9 @@ public class BanCommand extends ICommand {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
 
-		String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
+		final String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
 
-		
-		BanType type;
+		final BanType type;
 		if (booleanFlags.contains('g')) {
 			type = BanType.GLOBAL;
 		} else {
@@ -74,6 +62,6 @@ public class BanCommand extends ICommand {
 			}
 		}
 
-		if(!matcher.matches()) otherply.kickPlayer(reason);
+		otherply.kickPlayer(reason);
 	}
 }

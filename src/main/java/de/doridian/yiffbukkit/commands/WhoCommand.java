@@ -1,16 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
 import java.net.InetAddress;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
@@ -24,15 +20,13 @@ public class WhoCommand extends ICommand {
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
-			Matcher matcher = Pattern.compile("^\"(.*)\"$").matcher(args[0]);
-
 			final World world;
 			if (commandSender instanceof Player)
 				world = ((Player)commandSender).getWorld();
 			else
 				world = plugin.getOrCreateWorld("world", Environment.NORMAL);
 
-			final Player target = matcher.matches() ? new OfflinePlayer(plugin.getServer(), world, matcher.group(1)) : playerHelper.matchPlayerSingle(args[0]);
+			final Player target = playerHelper.matchPlayerSingle(args[0], false);
 
 			playerHelper.sendDirectedMessage(commandSender, "Name: " + target.getName());
 			playerHelper.sendDirectedMessage(commandSender, "Rank: " + playerHelper.getPlayerRank(target));
