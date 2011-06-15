@@ -18,7 +18,7 @@ public class MCBansPlayerCheckThread extends Thread {
 			return;
 
 		final String name = ply.getName();
-		JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
+		final JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
 
 		final Player lookupPlayer = listener.plugin.getServer().getPlayer(name);
 		if(lookupPlayer == null) {
