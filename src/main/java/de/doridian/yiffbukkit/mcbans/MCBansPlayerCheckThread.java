@@ -20,17 +20,19 @@ public class MCBansPlayerCheckThread extends Thread {
 		final String name = ply.getName();
 		JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
 
-		ply = listener.plugin.getServer().getPlayer(name);
-		if(ply == null)
-			return;
-
-		if (!ply.isOnline()) {
+		final Player lookupPlayer = listener.plugin.getServer().getPlayer(name);
+		if(lookupPlayer == null) {
 			listener.doneAuthing(ply);
 			return;
 		}
 
+		if (!lookupPlayer.isOnline()) {
+			listener.doneAuthing(lookupPlayer);
+			return;
+		}
+
 		if(connret == null) {
-			listener.doneAuthing(ply);
+			listener.doneAuthing(lookupPlayer);
 			kickPlayer("[YB] Sorry, mcbans.com API failure, please rejoin!");
 			return;
 		}
@@ -62,10 +64,10 @@ public class MCBansPlayerCheckThread extends Thread {
 				sendDirectedMessage("You have "+disputes+" open dispute(s)!");
 			}
 
-			if (((String)connret.get("is_mcbans_mod")).equalsIgnoreCase("y")) listener.plugin.playerHelper.sendServerMessage(name + " is an MCBans moderator!");
+			if (connret.get("is_mcbans_mod").equals("y")) listener.plugin.playerHelper.sendServerMessage(name + " is an MCBans moderator!");
 			break;
 		}
-		listener.doneAuthing(ply);
+		listener.doneAuthing(lookupPlayer);
 	}
 
 	private void setPlayerRank(final String name, final String rank) {
