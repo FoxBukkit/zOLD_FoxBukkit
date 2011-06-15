@@ -27,24 +27,6 @@ public class MCBans {
 		GLOBAL, LOCAL, TEMPORARY;
 	}
 
-	public enum BanTimeMeasure {
-		MINUTES, HOURS, DAYS;
-		public static String valueOf(BanTimeMeasure measure) {
-			if(measure == null) return "";
-			switch(measure) {
-			case MINUTES:
-				return "m";
-			case HOURS:
-				return "h";
-			case DAYS:
-				return "d";
-			default:
-				return "";
-			}
-		}
-	}
-
-
 	public void unban(final CommandSender from, final String ply) {
 		new Thread() {
 			public void run() {
@@ -57,10 +39,10 @@ public class MCBans {
 
 	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type) {
 		if(type == BanType.TEMPORARY) return;
-		ban(from, ply, reason, type, 0, null);
+		ban(from, ply, reason, type, 0, "");
 	}
 
-	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final BanTimeMeasure measure) {
+	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final String measure) {
 		String addr;
 		if(ply instanceof OfflinePlayer) addr = "";
 		else addr = ply.getAddress().toString();
@@ -69,10 +51,10 @@ public class MCBans {
 
 	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type) {
 		if(type == BanType.TEMPORARY) return;
-		ban(from, ply, ip, reason, type, 0, null);
+		ban(from, ply, ip, reason, type, 0, "");
 	}
 
-	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type, final long duration, final BanTimeMeasure measure) {
+	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type, final long duration, final String measure) {
 		new Thread() {
 			public void run() {
 				String exec;
@@ -90,7 +72,7 @@ public class MCBans {
 				default:
 					return;
 				}
-				JSONObject banret = MCBansUtil.apiQuery("exec="+exec+"&admin="+from.getName()+"&playerip="+MCBansUtil.URLEncode(ip)+"&reason="+MCBansUtil.URLEncode(reason)+"&player="+MCBansUtil.URLEncode(ply)+"&duration="+duration+"&measure="+BanTimeMeasure.valueOf(measure));
+				JSONObject banret = MCBansUtil.apiQuery("exec="+exec+"&admin="+from.getName()+"&playerip="+MCBansUtil.URLEncode(ip)+"&reason="+MCBansUtil.URLEncode(reason)+"&player="+MCBansUtil.URLEncode(ply)+"&duration="+duration+"&measure="+measure);
 				char result = ((String)banret.get("result")).charAt(0);
 				switch(result) {
 				case 'a':
