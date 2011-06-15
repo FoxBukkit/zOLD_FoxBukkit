@@ -32,28 +32,41 @@ public class MCBansPlayerCheckThread extends Thread {
 		char utype = ((String)connret.get("ban_status")).charAt(0);
 		switch(utype) {
 		case 'g':
-			listener.plugin.playerHelper.setPlayerRank(name, "banned"); //just making sure :3
+			setPlayerRank(name, "banned"); //just making sure :3
 			kickPlayer("[YB] You are globally banned! See mcbans.com");
 			break;
+
 		case 'l':
-			listener.plugin.playerHelper.setPlayerRank(name, "banned"); //just making sure :3
+			setPlayerRank(name, "banned");
 			kickPlayer("[YB] You are banned from this server!");
 			break;
+
 		case 't':
 			kickPlayer("[YB] Temporary ban. Rejoin in "+ ((String)connret.get("ban_remain")));
 			break;
+
+		case 'b':
+			listener.plugin.playerHelper.sendServerMessage(name + " has " + connret.get("ban_num").toString() +  " ban(s) on record! ("+((String)connret.get("reputation"))+" REP)", 3);
+			/* FALL-THROUGH */
+
 		default:
 			long disputes = (Long)connret.get("disputes");
 			if(disputes > 0) {
 				sendDirectedMessage("You have "+disputes+" open dispute(s)!");
 			}
 
-			if(((String)connret.get("is_mcbans_mod")).equalsIgnoreCase("y")) listener.plugin.playerHelper.sendServerMessage(name + " is an MCBans moderator!");
-
-			if(utype == 'b') listener.plugin.playerHelper.sendServerMessage(name + " has " + connret.get("ban_num").toString() +  " ban(s) on record! ("+((String)connret.get("reputation"))+" REP)", 3);
+			if (((String)connret.get("is_mcbans_mod")).equalsIgnoreCase("y")) listener.plugin.playerHelper.sendServerMessage(name + " is an MCBans moderator!");
 			break;
 		}
 		listener.doneAuthing(ply);
+	}
+
+	private void setPlayerRank(final String name, final String rank) {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(listener.plugin, new Runnable() {
+			public void run() {
+				listener.plugin.playerHelper.setPlayerRank(name, rank);
+			}
+		});
 	}
 
 	private void sendDirectedMessage(final String msg) {
