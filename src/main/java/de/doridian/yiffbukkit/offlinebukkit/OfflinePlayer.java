@@ -236,7 +236,7 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public void kickPlayer(String message) {
-		throw new UnsupportedOperationException("Player is offline");
+		//throw new UnsupportedOperationException("Player is offline");
 	}
 	@Override
 	public void chat(String msg) {
