@@ -7,12 +7,14 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("clear")
-@Help("Clears your inventory or another player's.")
-@Usage("[<name>]")
+@Help("Clears your inventory or another player's. Use -a to include the toolbar.")
+@Usage("[-a] [<name>]")
 @Level(4)
+@BooleanFlags("a")
 public class ClearCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		args = parseFlags(args);
 		Player target;
 		switch (args.length){
 		case 0:
@@ -31,7 +33,9 @@ public class ClearCommand extends ICommand {
 
 		Inventory inventory = target.getInventory();
 
-		for (int i = 0; i < 39; i++) {
+		final int startIndex = booleanFlags.contains('a') ? 0 : 9;
+		
+		for (int i = startIndex; i < 36; i++) {
 			inventory.setItem(i, null);
 		}
 
