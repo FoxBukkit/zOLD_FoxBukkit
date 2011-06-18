@@ -124,7 +124,7 @@ public class Utils {
 	public Entity buildMob(final String[] types, CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
 		boolean hasThis = false;
 		for (String part : types) {
-			if ("THIS".equals(part)) {
+			if ("THIS".equalsIgnoreCase(part)) {
 				hasThis = true;
 				break;
 			}
