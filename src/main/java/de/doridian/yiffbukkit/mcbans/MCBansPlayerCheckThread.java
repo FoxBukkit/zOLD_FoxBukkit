@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public class MCBansPlayerCheckThread extends Thread {
 	private Player ply;
-	private MCBansPlayerListener listener;
+	private final MCBansPlayerListener listener;
 	public MCBansPlayerCheckThread(MCBansPlayerListener listenerx, Player plyx) {
 		ply = plyx;
 		listener = listenerx;
@@ -55,7 +55,7 @@ public class MCBansPlayerCheckThread extends Thread {
 			break;
 
 		case 'b':
-			listener.plugin.playerHelper.sendServerMessage(name + " has " + connret.get("ban_num").toString() +  " ban(s) on record! ("+((String)connret.get("reputation"))+" REP)", 3);
+			listener.plugin.playerHelper.sendServerMessage(name + " has " + connret.get("ban_num") +  " ban(s) on record! ("+connret.get("reputation")+" REP)", 3);
 			/* FALL-THROUGH */
 
 		default:
