@@ -65,7 +65,7 @@ public class ReplayCommand extends ICommand {
 
 	class Replayer implements Runnable {
 		private final Player player;
-		private EntityPlayer eply;
+		private final EntityPlayer eply;
 		private final NetServerHandler netServerHandler;
 
 		private final File file;
@@ -82,7 +82,7 @@ public class ReplayCommand extends ICommand {
 			eply = ((CraftPlayer)player).getHandle();
 			netServerHandler = eply.netServerHandler;
 
-			file = new File(filename);
+			file = new File(filename+".replay");
 			is = new FileInputStream(file);
 			dis = new DataInputStream(is);
 
