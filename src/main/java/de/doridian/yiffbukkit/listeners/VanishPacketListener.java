@@ -142,6 +142,9 @@ public class VanishPacketListener extends PacketListener {
 			return true;
 		}
 
+		if (otherName.charAt(0) == '§')
+			return false;
+
 		if (playerHelper.vanishedPlayers.contains(otherName))
 			return false;
 
