@@ -23,12 +23,10 @@ import de.doridian.yiffbukkit.util.Utils;
 @Help("Plays notes (currently qbasic format)")
 @Level(4)
 public class PlayCommand extends ICommand {
-	@SuppressWarnings("unchecked")
 	public class Packet53BlockChangeExpress extends Packet53BlockChange {
 		{
-			@SuppressWarnings("rawtypes")
-			Map b = Utils.getPrivateValue(Packet.class, null, "b");
-			b.put(Packet53BlockChangeExpress.class, new Integer(53));
+			Map<Class<? extends Packet>, Integer> b = Utils.getPrivateValue(Packet.class, null, "b");
+			b.put(Packet53BlockChangeExpress.class, 53);
 		}
 		public Packet53BlockChangeExpress() {
 			k = false;
