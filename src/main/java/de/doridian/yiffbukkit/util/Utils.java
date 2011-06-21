@@ -408,6 +408,10 @@ public class Utils {
 		// Create NetServerHandler. This will automatically write itself to the player and networkmanager
 		new NetServerHandler(minecraftServer, networkManager, eply);
 
+		// teleport it to the target location
+		eply.netServerHandler.teleport(location);
+		//bukkitEntity.teleport(location);
+
 		// Finally, put the entity into the world.
 		worldServer.addEntity(eply);
 
@@ -419,9 +423,6 @@ public class Utils {
 
 		// finally obtain a bukkit entity,
 		final HumanEntity bukkitEntity = (HumanEntity) eply.getBukkitEntity();
-
-		// teleport it to the target location
-		bukkitEntity.teleport(location);
 
 		// and return it
 		return bukkitEntity;
