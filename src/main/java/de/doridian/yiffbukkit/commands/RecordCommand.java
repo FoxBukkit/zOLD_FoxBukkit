@@ -31,22 +31,47 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.util.Utils;
 
 @Names("record")
+@Help("Records a player's actions. Use the -s flag to stop recording.")
+@Usage("[-s] <name>")
 @Level(4)
+@BooleanFlags("s")
 public class RecordCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		Player target = playerHelper.matchPlayerSingle(args[0]);
+		args = parseFlags(args);
 
-		HumanEntity recorder = makeRecorder(target.getName(), target.getLocation());
-		target.setPassenger(recorder);
+		if (args.length < 1)
+			throw new YiffBukkitCommandException("Not enough arguments.");
+
+		final Player target = playerHelper.matchPlayerSingle(args[0]);
+		final String targetName = target.getName();
+
+		if (booleanFlags.contains('s')) {
+			final Recorder recorder = recorders.get(targetName);
+			if (recorder == null)
+				throw new YiffBukkitCommandException("Not recording "+targetName);
+
+			recorder.stop();
+			playerHelper.sendDirectedMessage(commandSender, "Stopped recording "+targetName);
+			return;
+		}
+
+		if (recorders.containsKey(targetName))
+			throw new YiffBukkitCommandException("Already recording "+targetName+". Stop with /replay -s.");
+
+		final HumanEntity recorderNPC = makeRecorder(target);
+		target.setPassenger(recorderNPC);
 	}
 
-	//@SuppressWarnings("unchecked")
-	private HumanEntity makeRecorder(String playerName, Location location) throws YiffBukkitCommandException {
+	private HumanEntity makeRecorder(Player target) throws YiffBukkitCommandException {
+		String playerName = target.getName();
+		Location location = target.getLocation();
+
 		final String recorderName = String.format("§c%s", playerName);
 
+		final Recorder recorder;
 		try {
-			final Recorder recorder = new Recorder(playerName);
+			recorder = new Recorder(playerName, recorderName);
 			recorders.put(playerName, recorder);
 			recorders.put(recorderName, recorder);
 		} catch (FileNotFoundException e) {
@@ -56,6 +81,7 @@ public class RecordCommand extends ICommand {
 		final HumanEntity bukkitEntity = Utils.makeNPC(recorderName, location);
 
 		EntityHuman eply = ((CraftHumanEntity)bukkitEntity).getHandle();
+		recorder.eply = eply;
 		final WorldServer worldServer = (WorldServer)eply.world;
 		worldServer.manager.addPlayer((EntityPlayer)eply);
 
@@ -64,23 +90,32 @@ public class RecordCommand extends ICommand {
 			eply.world.players.add(eply);
 
 		//((WorldServer) eply.world).server.serverConfigurationManager.players.remove(eply);
-		@SuppressWarnings({ "unchecked", "unused" }) boolean dummy2 = 
-			worldServer.server.serverConfigurationManager.players.add(eply);
+		/*@SuppressWarnings({ "unchecked", "unused" }) boolean dummy2 = 
+			worldServer.server.serverConfigurationManager.players.add(eply);*/
 
 		return bukkitEntity;
 	}
 
-	static class Recorder {
-		final String name;
+	class Recorder {
+		final String playerName;
+		final String recorderName;
 		final File file;
 		final OutputStream os;
 		DataOutputStream dos;
+		EntityHuman eply;
 
-		public Recorder(String name) throws FileNotFoundException {
-			this.name = name;
-			file = new File(name+".replay");
+		public Recorder(String playerName, String recorderName) throws FileNotFoundException {
+			this.playerName = playerName;
+			this.recorderName = recorderName;
+			file = new File(playerName+".replay");
 			os = new FileOutputStream(file);
 			dos = new DataOutputStream(new BufferedOutputStream(os, 5120));
+		}
+
+		public void stop() {
+			eply.die();
+			recorders.remove(playerName);
+			recorders.remove(recorderName);
 		}
 	}
 
@@ -117,6 +152,9 @@ public class RecordCommand extends ICommand {
 			}*/
 
 			final Recorder recorder = recorders.get(playerName);
+			if (recorder == null)
+				return true;
+
 			final DataOutputStream dos = recorder.dos;
 			switch (packetID) {
 			case 255:
@@ -136,7 +174,7 @@ public class RecordCommand extends ICommand {
 				packet = new Packet51MapChunk(p50.a << 4, 0, p50.b << 4, 16, 128, 16, ((CraftWorld)ply.getWorld()).getHandle());
 				break;
 
-			/*case 34:
+				/*case 34:
 				Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
 				if (ply.getEntityId() == p34.a) {
 					final Packet11PlayerPosition p11 = new Packet11PlayerPosition();

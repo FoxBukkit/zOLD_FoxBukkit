@@ -16,6 +16,11 @@ import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet0KeepAlive;
+import net.minecraft.server.Packet20NamedEntitySpawn;
+import net.minecraft.server.Packet28EntityVelocity;
+import net.minecraft.server.Packet30Entity;
+import net.minecraft.server.Packet34EntityTeleport;
+import net.minecraft.server.Packet39AttachEntity;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
 
@@ -29,11 +34,20 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.util.Utils;
 
 @Names("replay")
+@Help(
+		"Replays a recorded player's actions.\n" +
+		"Flags:\n" +
+		"  -s to stop replaying\n" +
+		"  -v <name> to view the replay from the perspective of a player"
+)
+@Usage("-s|[-v <name> ]<replay name>")
 @Level(4)
 @BooleanFlags("s")
+@StringFlags("v")
 public class ReplayCommand extends ICommand {
-	ReplayPacketListener replayPacketListener = new ReplayPacketListener();
-	public Map<Player, Replayer> replayers = new HashMap<Player, Replayer>();
+	@SuppressWarnings("unused")
+	private final ReplayPacketListener replayPacketListener = new ReplayPacketListener();
+	private final Map<Player, Replayer> replayers = new HashMap<Player, Replayer>();
 	static boolean bypass = false;
 
 	@Override
@@ -41,7 +55,7 @@ public class ReplayCommand extends ICommand {
 		args = parseFlags(args);
 
 		if (booleanFlags.contains('s')) {
-			Replayer replayer = replayers.get(ply);
+			final Replayer replayer = replayers.get(ply);
 			if (replayer == null)
 				throw new YiffBukkitCommandException("No replay playing");
 
@@ -54,10 +68,11 @@ public class ReplayCommand extends ICommand {
 			throw new YiffBukkitCommandException("Already playing a replay. Stop with /replay -s.");
 
 
-		String replayName = args[0];
+		final String replayName = args[0];
+		final String viewerName = stringFlags.get('v');
 
 		try {
-			replayers.put(ply, new Replayer(ply, replayName));
+			replayers.put(ply, new Replayer(ply, replayName, viewerName));
 		} catch (IOException e) {
 			throw new YiffBukkitCommandException("Error loading replay", e);
 		}
@@ -76,8 +91,12 @@ public class ReplayCommand extends ICommand {
 
 		private final long offset;
 
-		public Replayer(Player player, String filename) throws IOException {
+		private final String viewerName;
+		private int viewerId = 0;
+
+		public Replayer(Player player, String filename, String viewerName) throws IOException {
 			this.player = player;
+			this.viewerName = viewerName;
 			oldLocation = player.getLocation();
 			eply = ((CraftPlayer)player).getHandle();
 			netServerHandler = eply.netServerHandler;
@@ -102,6 +121,10 @@ public class ReplayCommand extends ICommand {
 		@Override
 		public void run() {
 			try {
+				DataOutputStream dos = Utils.getPrivateValue(NetworkManager.class, netServerHandler.networkManager, "output");
+				if (dos == null)
+					return;
+
 				while (true) {
 					long currentTime = System.currentTimeMillis();
 					if (currentTime < nextTime)
@@ -111,9 +134,7 @@ public class ReplayCommand extends ICommand {
 					final int length = dis.readInt();
 					final int packetID = dis.read();
 
-					DataOutputStream dos = Utils.getPrivateValue(NetworkManager.class, netServerHandler.networkManager, "output");
-
-					++packetCounters [packetID];
+					++packetCounters[packetID];
 
 					byte[] buffer = new byte[length+1];
 					buffer[0] = (byte) packetID;
@@ -150,6 +171,80 @@ public class ReplayCommand extends ICommand {
 
 						dos.write(packetID);
 						p4.a(dos);
+						break;
+
+					case 20:
+						Packet20NamedEntitySpawn p20 = new Packet20NamedEntitySpawn();
+						p20.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
+
+						if (p20.b.equalsIgnoreCase(viewerName)) {
+							viewerId = p20.a;
+							p20.a = player.getEntityId();
+							dos.write(packetID);
+							p20.a(dos);
+							break;
+						}
+
+						dos.write(buffer);
+						break;
+
+					case 28:
+						Packet28EntityVelocity p28 = new Packet28EntityVelocity();
+						p28.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
+						
+						if (p28.a == viewerId) {
+							p28.a = player.getEntityId();
+							dos.write(packetID);
+							p28.a(dos);
+							break;
+						}
+
+						dos.write(buffer);
+						break;
+
+					case 30:
+					case 31:
+					case 32:
+					case 33:
+						Packet30Entity p30 = (Packet30Entity)net.minecraft.server.Packet.a(packetID);
+						p30.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
+
+						if (p30.a == viewerId) {
+							p30.a = player.getEntityId();
+							dos.write(packetID);
+							p30.a(dos);
+							break;
+						}
+
+						dos.write(buffer);
+						break;
+
+					case 34:
+						Packet34EntityTeleport p34 = new Packet34EntityTeleport();
+						p34.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
+
+						if (p34.a == viewerId) {
+							p34.a = player.getEntityId();
+							dos.write(packetID);
+							p34.a(dos);
+							break;
+						}
+
+						dos.write(buffer);
+						break;
+
+					case 390: // DISABLED
+						Packet39AttachEntity p39 = new Packet39AttachEntity();
+						p39.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
+						
+						if (p39.a == viewerId) {
+							p39.a = player.getEntityId();
+							dos.write(packetID);
+							p39.a(dos);
+							break;
+						}
+
+						dos.write(buffer);
 						break;
 
 					default:
