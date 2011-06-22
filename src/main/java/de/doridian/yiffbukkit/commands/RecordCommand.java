@@ -61,6 +61,8 @@ public class RecordCommand extends ICommand {
 
 		final HumanEntity recorderNPC = makeRecorder(target);
 		target.setPassenger(recorderNPC);
+
+		playerHelper.sendDirectedMessage(commandSender, "Now recording "+targetName);
 	}
 
 	private HumanEntity makeRecorder(Player target) throws YiffBukkitCommandException {

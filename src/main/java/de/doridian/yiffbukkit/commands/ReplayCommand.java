@@ -76,6 +76,8 @@ public class ReplayCommand extends ICommand {
 		} catch (IOException e) {
 			throw new YiffBukkitCommandException("Error loading replay", e);
 		}
+
+		playerHelper.sendDirectedMessage(ply, "Starting replay in 1 second.");
 	}
 
 	class Replayer implements Runnable {
@@ -191,7 +193,7 @@ public class ReplayCommand extends ICommand {
 					case 28:
 						Packet28EntityVelocity p28 = new Packet28EntityVelocity();
 						p28.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
-						
+
 						if (p28.a == viewerId) {
 							p28.a = player.getEntityId();
 							dos.write(packetID);
@@ -236,7 +238,7 @@ public class ReplayCommand extends ICommand {
 					case 390: // DISABLED
 						Packet39AttachEntity p39 = new Packet39AttachEntity();
 						p39.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
-						
+
 						if (p39.a == viewerId) {
 							p39.a = player.getEntityId();
 							dos.write(packetID);
