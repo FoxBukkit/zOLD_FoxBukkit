@@ -49,8 +49,8 @@ public class PlayCommand extends ICommand {
 	}
 
 	public class Note {
-		int number;
-		double length;
+		public int number;
+		public double length;
 
 		public Note(int value, double length) {
 			this.number = value;
@@ -60,7 +60,7 @@ public class PlayCommand extends ICommand {
 
 	@Override
 	public void Run(final Player ply, String[] args, final String argStr) throws YiffBukkitCommandException {
-		CraftWorld cworld = (CraftWorld) ply.getWorld();
+		final CraftWorld cworld = (CraftWorld) ply.getWorld();
 		final World notchWorld = cworld.getHandle();
 
 		final Location loc = ply.getLocation();
@@ -68,7 +68,7 @@ public class PlayCommand extends ICommand {
 
 		final long startTime = System.currentTimeMillis()+1000;
 
-		Packet53BlockChange p53 = new Packet53BlockChangeExpress(x, y, z, notchWorld);
+		final Packet53BlockChange p53 = new Packet53BlockChangeExpress(x, y, z, notchWorld);
 		p53.d = Material.NOTE_BLOCK.getId();
 		playerHelper.sendPacketToPlayersAround(loc, 64, p53);
 
@@ -81,7 +81,7 @@ public class PlayCommand extends ICommand {
 			final int taskID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 1);
 			long nextTime = startTime;
 
-			Queue<Note> notes = parse(argStr);
+			final Queue<Note> notes = parse(argStr);
 
 			Queue<Note> parse(String input) throws YiffBukkitCommandException {
 				int note_octave = 4;
