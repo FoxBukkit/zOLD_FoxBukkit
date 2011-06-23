@@ -1,13 +1,11 @@
-package de.doridian.yiffbukkit.listeners;
+package de.doridian.yiffbukkit.vanish;
 
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
-
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.PlayerHelper;
+import org.bukkit.plugin.Plugin;
 
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
@@ -25,12 +23,11 @@ import net.minecraft.server.Packet40EntityMetadata;
 import net.minecraft.server.Packet5EntityEquipment;
 
 public class VanishPacketListener extends PacketListener {
-	private final YiffBukkit plugin;
-	private PlayerHelper playerHelper;
+	private final Vanish vanish;
 
-	public VanishPacketListener(YiffBukkit instance) {
-		plugin = instance;
-		playerHelper = plugin.playerHelper;
+	public VanishPacketListener(Vanish vanish) {
+		this.vanish = vanish;
+		Plugin plugin = vanish.plugin;
 
 		/*for (int i = 0; i < 256; ++i) {
 			PacketListener.addPacketListener(true, i, this, plugin);
@@ -62,7 +59,7 @@ public class VanishPacketListener extends PacketListener {
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-		if (playerHelper.getPlayerLevel(ply) >= 3)
+		if (vanish.canSeeEveryone(ply))
 			return true;
 
 		String otherName;
@@ -122,7 +119,7 @@ public class VanishPacketListener extends PacketListener {
 
 		case 39:
 			Packet39AttachEntity p39 = (Packet39AttachEntity) packet;
-			if (playerHelper.vanishedPlayers.contains(nameFromEntityId(ply.getWorld(), p39.b)))
+			if (vanish.vanishedPlayers.contains(nameFromEntityId(ply.getWorld(), p39.b)))
 				return false;
 
 			otherName = nameFromEntityId(ply.getWorld(), p39.a);
@@ -145,10 +142,9 @@ public class VanishPacketListener extends PacketListener {
 		if (otherName.charAt(0) == '§')
 			return false;
 
-		if (playerHelper.vanishedPlayers.contains(otherName))
+		if (vanish.vanishedPlayers.contains(otherName))
 			return false;
 
 		return true;
 	}
-
 }

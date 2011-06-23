@@ -23,7 +23,6 @@ import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.chatmanager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.jail.JailEngine;
-import de.doridian.yiffbukkit.listeners.VanishPacketListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
@@ -35,6 +34,7 @@ import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.vanish.Vanish;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 
 /**
@@ -52,7 +52,7 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
 	@SuppressWarnings("unused")
-	private VanishPacketListener vanishPacketListener;
+	private Vanish vanish;
 	public MCBans mcbans;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
@@ -127,7 +127,7 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
 		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
-		vanishPacketListener = new VanishPacketListener(this);
+		vanish = new Vanish(this);
 		adHandler = new AdvertismentSigns(this);
 		
 		mcbans = new MCBans(this);
