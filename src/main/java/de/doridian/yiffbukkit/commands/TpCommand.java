@@ -23,7 +23,7 @@ public class TpCommand extends ICommand {
 
 		ply.teleport(otherply);
 
-		if (playerHelper.vanishedPlayers.contains(playerName)) {
+		if (plugin.vanish.vanishedPlayers.contains(playerName)) {
 			playerHelper.sendServerMessage(playerName + " teleported to " + otherName, 3);
 		}
 		else {

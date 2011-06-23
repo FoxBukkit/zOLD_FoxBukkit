@@ -51,8 +51,7 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
-	@SuppressWarnings("unused")
-	private Vanish vanish;
+	public Vanish vanish;
 	public MCBans mcbans;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;

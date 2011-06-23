@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.vanish;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
-
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
@@ -15,7 +15,7 @@ public class Vanish {
 	@SuppressWarnings("unused")
 	private final VanishPlayerListener vanishPlayerListener;
 
-	Set<String> vanishedPlayers;
+	public Set<String> vanishedPlayers = new HashSet<String>();
 
 	public Vanish(YiffBukkit plugin) {
 		this.plugin = plugin;

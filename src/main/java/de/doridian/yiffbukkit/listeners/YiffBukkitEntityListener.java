@@ -161,7 +161,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		Player target = (Player)entTarget;
 
-		if (!plugin.playerHelper.vanishedPlayers.contains(target.getName()))
+		if (!plugin.vanish.vanishedPlayers.contains(target.getName()))
 			return;
 		final Entity mob = event.getEntity();
 		Vector mobPos = mob.getLocation().toVector();
@@ -169,7 +169,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 		double minDistanceSquared = 256.0D; // 16^2
 
 		for (Player player : plugin.getServer().getOnlinePlayers()) {
-			if (plugin.playerHelper.vanishedPlayers.contains(player.getName()))
+			if (plugin.vanish.vanishedPlayers.contains(player.getName()))
 				continue;
 
 			// TODO: check pig zombie aggression etc
