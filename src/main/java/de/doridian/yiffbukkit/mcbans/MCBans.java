@@ -9,17 +9,12 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 public class MCBans {
 	private YiffBukkit plugin;
+	@SuppressWarnings("unused")
 	private MCBansPlayerListener listener;
 
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
 		listener = new MCBansPlayerListener(plug);
-	}
-
-	public boolean isAuthing(Player ply) {
-		synchronized(listener.authingPlayers) {
-			return listener.authingPlayers.contains(ply.getName().toLowerCase());
-		}
 	}
 
 

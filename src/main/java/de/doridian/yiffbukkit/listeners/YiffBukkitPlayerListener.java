@@ -230,11 +230,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		String rank = playerHelper.getPlayerRank(event.getPlayer());
+		/*String rank = playerHelper.getPlayerRank(event.getPlayer());
 		if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
-		}
+		}*/
 	}
 
 	@Override
@@ -305,15 +305,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (event.isCancelled())
 			return;
 
-		String msg = event.getMessage();
-		final Player ply = event.getPlayer();
-		if (msg.charAt(0) == '!') {
-			playerHelper.sendDirectedMessage(ply, "!commands are disabled because they show up in the web chat. Please use /commands.");
-			event.setCancelled(true);
-			return;
-		}
-
-		event.setFormat(playerHelper.getPlayerTag(ply) + "%s:§f %s");
+		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();

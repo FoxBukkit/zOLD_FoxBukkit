@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Achievement;
+import org.bukkit.Effect;
+import org.bukkit.Instrument;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Note;
 import org.bukkit.Server;
 import org.bukkit.Statistic;
 import org.bukkit.World;
@@ -452,6 +456,52 @@ public class OfflinePlayer implements Player {
 
 	@Override
 	public void sendBlockChange(Location loc, int material, byte data) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public UUID getUniqueId() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public long getPlayerTime() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public long getPlayerTimeOffset() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean isPlayerTimeRelative() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void playEffect(Location arg0, Effect arg1, int arg2) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void playNote(Location arg0, Instrument arg1, Note arg2) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void resetPlayerTime() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean sendChunkChange(Location arg0, int arg1, int arg2, int arg3,
+			byte[] arg4) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setPlayerTime(long arg0, boolean arg1) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }

@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.noexplode;
 
 import org.bukkit.event.entity.EntityListener;
-import org.bukkit.event.entity.ExplosionPrimedEvent;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class NoExplodeEntityListener extends EntityListener
@@ -12,7 +12,7 @@ public class NoExplodeEntityListener extends EntityListener
 		plugin = instance;
 	}
 
-	public void onExplosionPrimed(ExplosionPrimedEvent event)
+	public void onExplosionPrimed(ExplosionPrimeEvent event)
 	{
 		if (!plugin.explodetnt && event.getEntity().getClass().getName().contains("CraftTNTPrimed"))
 		{

@@ -585,7 +585,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public boolean isPlayerDisabled(Player ply) {
-		return ply.getHealth() <= 0 || plugin.mcbans.isAuthing(ply) || plugin.jailEngine.isJailed(ply);
+		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
 	}
 
 	public Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
