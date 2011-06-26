@@ -11,8 +11,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class UnbanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {
-		String otherply = args[0];
-		plugin.mcbans.unban(commandSender, otherply);
-		if(plugin.playerHelper.getPlayerRank(otherply).equalsIgnoreCase("banned")) plugin.playerHelper.setPlayerRank(otherply, "guest");
+		plugin.mcbans.unban(commandSender, args[0]);
 	}
 }

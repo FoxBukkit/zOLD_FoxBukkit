@@ -41,8 +41,6 @@ public class BanCommand extends ICommand {
 			catch (JailException e) { }
 		}
 
-		playerHelper.setPlayerRank(otherply.getName(), "banned");
-
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
