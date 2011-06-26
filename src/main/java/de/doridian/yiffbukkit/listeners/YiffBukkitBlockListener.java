@@ -10,6 +10,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -21,6 +22,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.PluginManager;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
 /**
@@ -125,9 +127,8 @@ public class YiffBukkitBlockListener extends BlockListener {
 			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
-					playerHelper.setPlayerRank(ply.getName(), "banned");
-					ply.kickPlayer("Torch hack");
-					playerHelper.sendServerMessage(ply.getName() + " was autobanned for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", 3);
+					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", 3);
+					plugin.mcbans.ban(new ConsoleCommandSender(plugin.getServer()), ply, "[AUTOMATED] Torchbreak", BanType.GLOBAL);
 					event.setCancelled(true);
 				}
 			}
