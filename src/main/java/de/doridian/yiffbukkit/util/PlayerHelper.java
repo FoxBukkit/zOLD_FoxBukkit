@@ -218,47 +218,13 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerRank(ply.getName());
 	}
 	public String getPlayerRank(String name) {
-		name = plugin.permissionHandler.getGroup("world", name);
+		name = plugin.permissionHandler.getGroup(name);
 		if(name == null) name = "guest";
 		return name;
 	}
 	public void setPlayerRank(String name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
 		plugin.permissionHandler.setGroup(name, rankname);
-	}
-
-	@Loader({ "playerranks", "player_ranks" })
-	public void loadPlayerRanks() {
-		//playerranks.clear();
-		try {
-			BufferedReader stream = new BufferedReader(new FileReader("ranks.txt"));
-			String line; int lpos;
-			while((line = stream.readLine()) != null) {
-				lpos = line.lastIndexOf('=');
-				if(lpos < 0) continue;
-				setPlayerRank(line.substring(0,lpos), line.substring(lpos+1));
-			}
-			stream.close();
-		}
-		catch (Exception e) { }
-	}
-	@Saver({ "playerranks", "player_ranks" })
-	public void savePlayerRanks() {
-		/*
-		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("ranks.txt"));
-			Enumeration<String> e = playerranks.keys();
-			while(e.hasMoreElements()) {
-				String key = e.nextElement();
-				String value = playerranks.get(key);
-				if(value.equals("guest")) continue;
-				stream.write(key + "=" + value);
-				stream.newLine();
-			}
-			stream.close();
-		}
-		catch(Exception e) { }
-		 */
 	}
 
 	//Permission levels
