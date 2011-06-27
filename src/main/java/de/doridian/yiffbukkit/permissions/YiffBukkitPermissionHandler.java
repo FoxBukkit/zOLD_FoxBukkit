@@ -205,19 +205,14 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		
 		//System.out.println("Cache fail: " + permission);
 		
-		boolean notFirstLoop = false;
 		int xpos = 0;
 		String tperm = permission;
-		do {
-			if(notFirstLoop) {
-				tperm = tperm.substring(0, xpos);
-				//String tperm2 = tperm + ".*";
-				//if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
-				if(currentPermissions.contains(tperm+".*")) { currentPermissions.add(permission); return true; }
-			} else {
-				notFirstLoop = true;
-			}
-		} while((xpos = tperm.lastIndexOf('.')) > 0);
+		while((xpos = tperm.lastIndexOf('.')) > 0) {
+			tperm = tperm.substring(0, xpos);
+			//String tperm2 = tperm + ".*";
+			//if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
+			if(currentPermissions.contains(tperm+".*")) { currentPermissions.add(permission); return true; }
+		};
 		
 		//if(currentProhibitions != null && currentProhibitions.contains("*")) { currentProhibitions.add(permission); return false; }
 		if(currentPermissions.contains("*")) { currentPermissions.add(permission); return true; }
