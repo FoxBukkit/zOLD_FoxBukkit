@@ -130,6 +130,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", 3);
 					plugin.mcbans.ban(new ConsoleCommandSender(plugin.getServer()), ply, "[AUTOMATED] Torchbreak", BanType.GLOBAL);
 					event.setCancelled(true);
+					ply.kickPlayer("[YB AUTOMATED] Torchbreak");
 				}
 			}
 		}
