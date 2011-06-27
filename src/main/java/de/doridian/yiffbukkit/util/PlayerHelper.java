@@ -34,8 +34,6 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.nijiko.permissions.Control;
-
 import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -220,55 +218,13 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerRank(ply.getName());
 	}
 	public String getPlayerRank(String name) {
-		name = plugin.permissions.getHandler().getGroup("world", name);
+		name = plugin.permissionHandler.getGroup("world", name);
 		if(name == null) name = "guest";
 		return name;
 	}
 	public void setPlayerRank(String name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
-		try {
-			BufferedReader fileread = new BufferedReader(new FileReader("plugins/Permissions/world.yml"));
-			String filebuff = ""; byte state = 0;
-			String line; String newline = System.getProperty("line.separator"); String newtab = "    ";
-			while((line = fileread.readLine()) != null) {
-				switch(state) {
-				case 0:
-					if(line.equals("users:")) {
-						state++;
-					}
-					break;
-				case 1:
-					if(line.equalsIgnoreCase(newtab + name + ":")) {
-						state++;
-					}
-					break;
-				case 2:
-					if(line.startsWith(newtab + newtab + "group:")) {
-						line = newtab + newtab + "group: " + rankname;
-						state++;
-					}
-					break;
-				}
-				filebuff += line + newline;
-			}
-			if(state == 0) {
-				filebuff += "users:" + newline;
-			}
-			if(state < 2) {
-				filebuff += newtab + name + ":" + newline + newtab + newtab + "group: " + rankname + newline;
-			}
-			fileread.close();
-			BufferedWriter filewrite = new BufferedWriter(new FileWriter("plugins/Permissions/world.yml"));
-			filewrite.write(filebuff);
-			filewrite.close();
-			try {
-				plugin.permissions.getHandler().reload();
-			}
-			catch(Exception e) { }
-		}
-		catch(Exception e) {
-
-		}
+		plugin.permissionHandler.setGroup(name, rankname);
 	}
 
 	@Loader({ "playerranks", "player_ranks" })
@@ -693,10 +649,10 @@ public class PlayerHelper extends StateContainer {
 		}
 
 		leashMasters.put(slave.getName(), master.getName());
-		Control permissionsHandler = (Control)plugin.permissions.getHandler();
+		/*Control permissionsHandler = (Control)plugin.permissions.getHandler();
 
 		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.speedhack", true);
-		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving", true);
+		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving", true);*/
 	}
 
 	private void removeHandler(Player slave) {
@@ -704,10 +660,10 @@ public class PlayerHelper extends StateContainer {
 			plugin.getServer().getScheduler().cancelTask(leashTaskId);
 		}
 
-		Control permissionsHandler = (Control)plugin.permissions.getHandler();
+		/*Control permissionsHandler = (Control)plugin.permissions.getHandler();
 
 		permissionsHandler.removeCachedItem(slave.getWorld().getName(), slave.getName(), "nocheat.speedhack");
-		permissionsHandler.removeCachedItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving");
+		permissionsHandler.removeCachedItem(slave.getWorld().getName(), slave.getName(), "nocheat.moving");*/
 	}
 
 	public void removeLeash(Player slave) {

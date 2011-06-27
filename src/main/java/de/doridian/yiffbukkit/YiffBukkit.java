@@ -1,9 +1,14 @@
 package de.doridian.yiffbukkit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.LivingEntity;
@@ -30,6 +35,7 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitVehicleListener;
 import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.noexplode.NoExplode;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -57,6 +63,7 @@ public class YiffBukkit extends JavaPlugin {
 	public PlayerHelper playerHelper = null;
 	public final Utils utils = new Utils(this);
 	public Permissions permissions;
+	public YiffBukkitPermissionHandler permissionHandler;
 	public WorldEditPlugin worldEdit;
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
@@ -64,6 +71,21 @@ public class YiffBukkit extends JavaPlugin {
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 	public DynmapPlugin dynmap;
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public void onLoad() {
+		final PluginManager pm = getServer().getPluginManager();
+		permissions = new Permissions(this,this.getClassLoader(),this.getFile());
+		HashMap<String,Plugin> plugmap = (HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, (SimplePluginManager)pm, "lookupNames");
+		List<Plugin> pluglist = (List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, (SimplePluginManager)pm, "plugins");
+		
+		pluglist.add(permissions);
+		plugmap.put("Permissions", permissions);
+		
+		System.out.println( "YiffBukkit started YiffBukkitPermissions!" );
+		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
+	}
 
 	public void onDisable() {
 		remote.stopme();
@@ -72,9 +94,6 @@ public class YiffBukkit extends JavaPlugin {
 
 	public void setupIPC() {
 		final PluginManager pm = getServer().getPluginManager();
-		permissions = (Permissions)pm.getPlugin("Permissions");
-		System.out.println( "YiffBukkit found Permissions!" );
-
 		worldEdit = (WorldEditPlugin)pm.getPlugin("WorldEdit");
 		System.out.println( "YiffBukkit found WorldEdit!" );
 
