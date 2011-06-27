@@ -69,6 +69,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 			String line;
 			while((line = reader.readLine()) != null) {
 				line = line.trim().toLowerCase();
+				if(line.length() < 1) continue;
 				char c = line.charAt(0);
 				if(c == '-') {
 					line = line.substring(1).trim();
