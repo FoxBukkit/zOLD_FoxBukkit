@@ -71,7 +71,7 @@ public class NoExplode
 
 					out.println("explode-tnt=false");
 					out.println("explode-creeper=false");
-					out.println("explode-ghast=false");
+					out.println("explode-ghast=true");
 					out.println("damage-creeper=true");
 					out.close();
 				}
@@ -88,6 +88,6 @@ public class NoExplode
 
 	public boolean explodetnt = false;
 	public boolean explodecreeper = false;
-	public boolean explodeghast = false;
+	public boolean explodeghast = true;
 	public boolean damagecreeper = true;
 }
