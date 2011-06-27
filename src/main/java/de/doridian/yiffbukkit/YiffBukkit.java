@@ -74,13 +74,11 @@ public class YiffBukkit extends JavaPlugin {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onLoad() {
-		final PluginManager pm = getServer().getPluginManager();
+		final SimplePluginManager pm = (SimplePluginManager)getServer().getPluginManager();
 		permissions = new Permissions(this,this.getClassLoader(),this.getFile());
-		HashMap<String,Plugin> plugmap = (HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, (SimplePluginManager)pm, "lookupNames");
-		List<Plugin> pluglist = (List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, (SimplePluginManager)pm, "plugins");
 		
-		pluglist.add(permissions);
-		plugmap.put("Permissions", permissions);
+		((List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "plugins")).add(permissions);
+		((HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "lookupNames")).put("Permissions", permissions);
 		
 		System.out.println( "YiffBukkit started YiffBukkitPermissions!" );
 		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
