@@ -62,7 +62,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		try {
 			String currentGroup = null;
 			HashSet<String> currentPermissions = null;
-			HashSet<String> currentProhibitions = null;
+			HashSet<String> currentProhibitions = null; //Prohibitons do NOT support wildcards! Its only to remove INDIVIDUAL permissions!
 			reader = new BufferedReader(new FileReader("group-permissions.txt"));
 			String line;
 			while((line = reader.readLine()) != null) {
@@ -72,11 +72,11 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 				if(c == '-') {
 					line = line.substring(1).trim();
 					currentPermissions.remove(line);
-					currentProhibitions.add(line);
+					if(!line.endsWith("*")) currentProhibitions.add(line);
 				} else if(c == '+') {
 					line = line.substring(1).trim();
 					currentPermissions.add(line);
-					currentProhibitions.remove(line);
+					if(!line.endsWith("*")) currentProhibitions.remove(line);
 				} else {
 					if(currentGroup != null) {
 						groupPermissions.put(currentGroup, currentPermissions);
@@ -198,9 +198,12 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		String group = getGroup(playerName);
 		HashSet<String> currentPermissions = groupPermissions.get(group);
 		if(currentPermissions == null) return false;
+		if(currentPermissions.contains(permission)) return true;
+		
 		HashSet<String> currentProhibitions = groupProhibitions.get(group);
 		if(currentProhibitions != null && currentProhibitions.contains(permission)) return false;
-		if(currentPermissions.contains(permission)) return true;
+		
+		//System.out.println("Cache fail: " + permission);
 		
 		boolean notFirstLoop = false;
 		int xpos = 0;
@@ -208,9 +211,9 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		do {
 			if(notFirstLoop) {
 				tperm = tperm.substring(0, xpos);
-				String tperm2 = tperm + ".*";
-				if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
-				if(currentPermissions.contains(tperm2)) { currentPermissions.add(permission); return true; }
+				//String tperm2 = tperm + ".*";
+				//if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
+				if(currentPermissions.contains(tperm+".*")) { currentPermissions.add(permission); return true; }
 			} else {
 				notFirstLoop = true;
 			}
