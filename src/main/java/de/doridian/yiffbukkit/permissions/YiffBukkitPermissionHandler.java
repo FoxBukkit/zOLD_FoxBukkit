@@ -195,9 +195,10 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	public boolean permission(String playerName, String permission) {
 		playerName = playerName.toLowerCase();
 		permission = permission.toLowerCase();
-		HashSet<String> currentPermissions = groupPermissions.get(getGroup(playerName));
+		String group = getGroup(playerName);
+		HashSet<String> currentPermissions = groupPermissions.get(group);
 		if(currentPermissions == null) return false;
-		HashSet<String> currentProhibitions = groupProhibitions.get(getGroup(playerName));
+		HashSet<String> currentProhibitions = groupProhibitions.get(group);
 		if(currentProhibitions != null && currentProhibitions.contains(permission)) return false;
 		if(currentPermissions.contains(permission)) return true;
 		
