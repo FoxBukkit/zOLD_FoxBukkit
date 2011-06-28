@@ -88,12 +88,12 @@ public class RecordCommand extends ICommand {
 		worldServer.manager.addPlayer((EntityPlayer)eply);
 
 		//eply.world.players.remove(eply);
-		@SuppressWarnings({ "unchecked", "unused" }) boolean dummy1 = 
-			eply.world.players.add(eply);
+		@SuppressWarnings({ "unchecked", "unused" })
+		boolean dummy1 = eply.world.players.add(eply);
 
 		//((WorldServer) eply.world).server.serverConfigurationManager.players.remove(eply);
-		/*@SuppressWarnings({ "unchecked", "unused" }) boolean dummy2 = 
-			worldServer.server.serverConfigurationManager.players.add(eply);*/
+		/*@SuppressWarnings({ "unchecked", "unused" })
+		boolean dummy2 = worldServer.server.serverConfigurationManager.players.add(eply);*/
 
 		return bukkitEntity;
 	}
@@ -115,7 +115,8 @@ public class RecordCommand extends ICommand {
 		}
 
 		public void stop() {
-			eply.die();
+			if (eply != null)
+				eply.die();
 			recorders.remove(playerName);
 			recorders.remove(recorderName);
 		}

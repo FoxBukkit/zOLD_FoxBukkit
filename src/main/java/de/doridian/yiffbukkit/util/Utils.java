@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -269,10 +268,10 @@ public class Utils {
 				entity = world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
 			}
 			else if (type.equalsIgnoreCase("MINECART") || type.equalsIgnoreCase("CART")) {
-				entity = world.spawnMinecart(location);
+				entity = world.spawn(location, Minecart.class);
 			}
 			else if (type.equalsIgnoreCase("BOAT")) {
-				entity = world.spawnBoat(location);
+				entity = world.spawn(location, Boat.class);
 			}
 			else if (type.equalsIgnoreCase("THIS")) {
 				entity = thisEnt;
@@ -429,7 +428,11 @@ public class Utils {
 	}
 
 	static class NPCSocket extends Socket {
-		final OutputStream os = new ByteArrayOutputStream();
+		final OutputStream os = new OutputStream() {
+			public void write(int b) {}
+			public void write(byte[] b) { }
+			public void write(byte[] b, int off, int len) { }
+		};
 		final InputStream is = new ByteArrayInputStream(new byte[0]);
 
 		@Override
@@ -442,7 +445,6 @@ public class Utils {
 			return is;
 		}
 	}
-
 
 	public static Vector toWorldAxis(Location location, Vector axis) {
 		final double yaw = Math.toRadians(location.getYaw());
