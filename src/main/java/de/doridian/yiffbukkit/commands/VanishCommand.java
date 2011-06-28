@@ -16,7 +16,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class VanishCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		String playerName = ply.getName();
+		final String playerName = ply.getName();
 		if (plugin.vanish.vanishedPlayers.contains(playerName)) {
 			if (argStr.equals("on"))
 				throw new YiffBukkitCommandException("Already invisible!");
@@ -24,7 +24,7 @@ public class VanishCommand extends ICommand {
 			plugin.vanish.vanishedPlayers.remove(playerName);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet20NamedEntitySpawn(((CraftPlayer)ply).getHandle()), ply, 3);
-			playerHelper.sendServerMessage(ply.getName() + " reappeared.", playerHelper.getPlayerLevel(ply));
+			playerHelper.sendServerMessage(playerName + " reappeared.", playerHelper.getPlayerLevel(ply));
 		}
 		else {
 			if (argStr.equals("off"))
@@ -32,7 +32,7 @@ public class VanishCommand extends ICommand {
 
 			plugin.vanish.vanishedPlayers.add(playerName);
 			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
-			playerHelper.sendServerMessage(ply.getName() + " vanished.", playerHelper.getPlayerLevel(ply));
+			playerHelper.sendServerMessage(playerName + " vanished.", playerHelper.getPlayerLevel(ply));
 		}
 
 	}
