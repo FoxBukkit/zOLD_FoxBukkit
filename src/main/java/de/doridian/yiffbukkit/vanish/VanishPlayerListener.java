@@ -12,14 +12,14 @@ public class VanishPlayerListener extends PlayerListener {
 	public VanishPlayerListener(Vanish vanish) {
 		this.vanish = vanish;
 
-		//vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, this, Priority.Highest, vanish.plugin);
+		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, this, Priority.Highest, vanish.plugin);
 	}
 
 	@Override
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-		/*final Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 		final String playerName = player.getName();
 		if (vanish.vanishedPlayers.contains(playerName))
-			event.setCancelled(true);*/
+			event.setCancelled(true);
 	}
 }
