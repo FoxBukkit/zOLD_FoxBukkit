@@ -230,11 +230,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		/*String rank = playerHelper.getPlayerRank(event.getPlayer());
-		if (rank.equals("banned")) {
+		String rank = playerHelper.getPlayerRank(event.getPlayer());
+		/*if (rank.equals("banned")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
 			return;
 		}*/
+		if (plugin.serverClosed && rank.equals("guest")) {
+			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
+			return;
+		}
 	}
 
 	@Override

@@ -70,7 +70,8 @@ public class YiffBukkit extends JavaPlugin {
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 	public DynmapPlugin dynmap;
-	
+	public boolean serverClosed = false;
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onLoad() {
