@@ -58,14 +58,14 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 	@Override
 	public void onEntityDamage(EntityDamageEvent event) {
-		Entity ent = event.getEntity();
+		final Entity ent = event.getEntity();
 
 		if (!(ent instanceof Player))
 			return;
 
-		Player ply = (Player)ent;
+		final Player ply = (Player)ent;
 
-		String deathMessage;
+		final String deathMessage;
 
 		final DamageCause cause = event.getCause();
 		switch (cause) {
@@ -137,12 +137,12 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 	@Override
 	public void onEntityDeath(EntityDeathEvent event) {
-		Entity ent = event.getEntity();
+		final Entity ent = event.getEntity();
 
 		if (!(ent instanceof Player))
 			return;
 
-		Player ply = (Player)ent;
+		final Player ply = (Player)ent;
 
 		String deathMessage = "§c%s§f died.";
 
@@ -158,17 +158,17 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 	@Override
 	public void onEntityTarget(EntityTargetEvent event) {
-		Entity entTarget = event.getTarget();
+		final Entity entTarget = event.getTarget();
 
 		if (!(entTarget instanceof Player))
 			return;
 
-		Player target = (Player)entTarget;
+		final Player target = (Player)entTarget;
 
 		if (!plugin.vanish.vanishedPlayers.contains(target.getName()))
 			return;
 		final Entity mob = event.getEntity();
-		Vector mobPos = mob.getLocation().toVector();
+		final Vector mobPos = mob.getLocation().toVector();
 		Player newTarget = null;
 		double minDistanceSquared = 256.0D; // 16^2
 
@@ -177,10 +177,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 				continue;
 
 			// TODO: check pig zombie aggression etc
+			// TODO: walls
 
-			Vector playerPos = player.getLocation().toVector();
+			final Vector playerPos = player.getLocation().toVector();
 
-			double distanceSquared = mobPos.distanceSquared(playerPos);
+			final double distanceSquared = mobPos.distanceSquared(playerPos);
 
 			if (distanceSquared >= minDistanceSquared)
 				continue;
