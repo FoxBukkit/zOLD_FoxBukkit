@@ -96,8 +96,12 @@ public class YiffBukkitEntityListener extends EntityListener {
 			}
 
 			String damagerName = monsterMap.get(damager.getClass());
-			if (damagerName == null)
-				damagerName = "§9"+damager.toString()+"§f";
+			if (damagerName == null) {
+				if (damager instanceof Player)
+					damagerName = ((Player) damager).getName();
+				else
+					damagerName = "§9"+damager.toString()+"§f";
+			}
 
 			deathMessage = "§c%s§f was killed by "+damagerName+".";
 			break;
