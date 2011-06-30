@@ -15,7 +15,7 @@ public class PmCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length < 1){
-			playerHelper.sendDirectedMessage(commandSender, "Usage: /pm " + GetUsage());
+			playerHelper.sendDirectedMessage(commandSender, "Usage: /pm " + getUsage());
 			return;
 		}
 

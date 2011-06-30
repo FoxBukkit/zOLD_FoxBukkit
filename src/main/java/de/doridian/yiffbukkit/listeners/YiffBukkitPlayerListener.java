@@ -343,7 +343,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (commands.containsKey(cmd)) {
 			ICommand icmd = commands.get(cmd);
 			try {
-				if(!icmd.CanPlayerUseCommand(commandSender)) {
+				if(!icmd.canPlayerUseCommand(commandSender)) {
 					throw new PermissionDeniedException();
 				}
 				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+commandSender.getName()+": "+baseCmd);

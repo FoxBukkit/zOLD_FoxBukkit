@@ -6,7 +6,10 @@ import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("settag")
-//@Help("Sets tag of specified user.")
+@Help(
+		"Sets the tag of the specified user.\n" +
+		"Colors: §0$0 §1$1 §2$2 §3$3 §4$4 §5$5 §6$6 §7$7 §8$8 §9$9 §a$a §b$b §c$c §d$d §e$e §f$f"
+)
 @Usage("<name> <tag>|none")
 @Level(3)
 public class SetTagCommand extends ICommand {
@@ -29,23 +32,5 @@ public class SetTagCommand extends ICommand {
 			playerHelper.setPlayerTag(otherName, newTag);
 			playerHelper.sendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "§f!");
 		}
-	}
-
-	@Override
-	public String GetHelp() {
-		StringBuilder sb = new StringBuilder("Sets tag of specified user.\nColors:");
-		for (char c = '0'; c <= '9'; ++c) {
-			sb.append(" §");
-			sb.append(c);
-			sb.append('$');
-			sb.append(c);
-		}
-		for (char c = 'a'; c <= 'f'; ++c) {
-			sb.append(" §");
-			sb.append(c);
-			sb.append('$');
-			sb.append(c);
-		}
-		return sb.toString();
 	}
 }

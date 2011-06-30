@@ -81,7 +81,7 @@ public class GiveCommand extends ICommand {
 		dataValues.put("17:LIGHT", (short) 2);
 	};
 	@Override
-	public boolean CanPlayerUseCommand(CommandSender commandSender)
+	public boolean canPlayerUseCommand(CommandSender commandSender)
 	{
 		if (!(commandSender instanceof Player))
 			return true;

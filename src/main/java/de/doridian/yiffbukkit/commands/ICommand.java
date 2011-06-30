@@ -132,7 +132,7 @@ public abstract class ICommand {
 		return Arrays.copyOfRange(args, nextArg, args.length);
 	}
 
-	public int GetMinLevel() {
+	public final int getMinLevel() {
 		Level levelAnnotation = this.getClass().getAnnotation(Level.class);
 		if (levelAnnotation == null)
 			throw new UnsupportedOperationException("You need either a GetMinLevel method or an @Level annotation.");
@@ -155,14 +155,14 @@ public abstract class ICommand {
 		return (Player)commandSender;
 	}
 
-	public String GetHelp() {
+	public final String getHelp() {
 		Help helpAnnotation = this.getClass().getAnnotation(Help.class);
 		if (helpAnnotation == null)
 			return "";
 
 		return helpAnnotation.value();
 	}
-	public String GetUsage() {
+	public final String getUsage() {
 		Usage usageAnnotation = this.getClass().getAnnotation(Usage.class);
 		if (usageAnnotation == null)
 			return "";
@@ -170,10 +170,10 @@ public abstract class ICommand {
 		return usageAnnotation.value();
 	}
 
-	public boolean CanPlayerUseCommand(CommandSender commandSender)
+	public boolean canPlayerUseCommand(CommandSender commandSender)
 	{
 		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
-		int reqlvl = GetMinLevel();
+		int reqlvl = getMinLevel();
 
 		return (plylvl >= reqlvl);
 	}

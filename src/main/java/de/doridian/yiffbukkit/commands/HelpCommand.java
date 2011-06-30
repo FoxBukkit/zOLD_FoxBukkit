@@ -19,14 +19,14 @@ public class HelpCommand extends ICommand {
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
-			if(val == null || val.GetMinLevel() > selflevel) {
+			if(val == null || val.getMinLevel() > selflevel) {
 				playerHelper.sendDirectedMessage(ply, "Command not found!");
 				return;
 			}
-			for (String line : val.GetHelp().split("\n")) {
+			for (String line : val.getHelp().split("\n")) {
 				playerHelper.sendDirectedMessage(ply, line);
 			}
-			playerHelper.sendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.GetUsage());
+			playerHelper.sendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.getUsage());
 		}
 		else {
 			String ret = "Available commands: /";
@@ -37,7 +37,7 @@ public class HelpCommand extends ICommand {
 					continue;
 
 				ICommand val = commands.get(key);
-				if(val.GetMinLevel() > selflevel)
+				if(val.getMinLevel() > selflevel)
 					continue;
 
 				ret += key + ", /";

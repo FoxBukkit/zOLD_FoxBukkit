@@ -57,7 +57,7 @@ public class ServerTimeCommand extends ICommand {
 				displayTime = Long.valueOf(args[0]);
 			}
 			catch (Exception e) {
-				throw new YiffBukkitCommandException("Usage: " + GetUsage(), e);
+				throw new YiffBukkitCommandException("Usage: " + getUsage(), e);
 			}
 		}
 

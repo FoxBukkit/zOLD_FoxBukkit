@@ -33,9 +33,4 @@ public class TimeCommand extends ServerTimeCommand {
 
 		playerHelper.pushWeather(asPlayer(commandSender));
 	}
-
-	@Override
-	public String GetHelp() {
-		return "Forces/fixes current time *clientside*.";
-	}
 }

@@ -7,14 +7,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 
+@Level(5)
 public class TestCommand extends ICommand {
-
-	@Override
-	public int GetMinLevel() {
-		return 5;
-	}
-
 	@Override
 	public void Run(final Player ply, String[] args, String argStr) {
 		Thread t = new Thread() {

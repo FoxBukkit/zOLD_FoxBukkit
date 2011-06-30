@@ -34,7 +34,7 @@ public class NoPortCommand extends ICommand {
 		}
 		else if (arg0.equals("allow") || arg0.equals("accept")) {
 			if (args.length < 2) {
-				playerHelper.sendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
 				return;
 			}
 
@@ -50,7 +50,7 @@ public class NoPortCommand extends ICommand {
 		}
 		else if (arg0.equals("deny") || arg0.equals("reject") || arg0.equals("revoke") || arg0.equals("forbid")) {
 			if (args.length < 2) {
-				playerHelper.sendDirectedMessage(ply, "Usage: " + GetUsage());
+				playerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
 				return;
 			}
 
@@ -78,7 +78,7 @@ public class NoPortCommand extends ICommand {
 			}
 		}
 		else {
-			playerHelper.sendDirectedMessage(ply, "Usage: " + GetUsage());
+			playerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
 			return;
 		}
 
