@@ -172,9 +172,19 @@ public abstract class ICommand {
 
 	public boolean canPlayerUseCommand(CommandSender commandSender)
 	{
-		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
+		// Console can do everything
+		if (!(commandSender instanceof Player))
+			return true;
+
+		Player player = (Player)commandSender;
+
+		Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
+		if (permissionAnnotation != null)
+			return plugin.permissionHandler.has(player, permissionAnnotation.value());
+
+		int plylvl = plugin.playerHelper.getPlayerLevel(player);
 		int reqlvl = getMinLevel();
 
-		return (plylvl >= reqlvl);
+		return plylvl >= reqlvl;
 	}
 }
