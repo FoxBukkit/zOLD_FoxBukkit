@@ -85,12 +85,12 @@ public class YiffBukkitBlockListener extends BlockListener {
 		final Block block = event.getBlock();
 		Material material = block.getType();
 		Integer selflvl = playerHelper.getPlayerLevel(ply);
-		if (plugin.permissionHandler.has(ply, "yiffbukkit.place") || (blocklevels.containsKey(material) && selflvl < blocklevels.get(material))) {
+		if (!plugin.permissionHandler.has(ply, "yiffbukkit.place") || (blocklevels.containsKey(material) && selflvl < blocklevels.get(material))) {
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
 			event.setBuild(false);
 		}
 
-		if (plugin.permissionHandler.has(ply, "yiffbukkit.place.flammablenearfire") && flammableBlocks.contains(material)) {
+		if (!plugin.permissionHandler.has(ply, "yiffbukkit.place.flammablenearfire") && flammableBlocks.contains(material)) {
 			for (BlockFace face : flameSpreadDirections) {
 				Material neighborMaterial = block.getRelative(face).getType();
 				if (neighborMaterial == Material.FIRE) {
