@@ -98,7 +98,8 @@ public class ThrowCommand extends ICommand {
 		String typeName = args[0];
 
 		ToolBind runnable;
-		if (plugin.utils.checkMobSpawn(ply, typeName, "me")) {
+		if (typeName.equalsIgnoreCase("me")) {
+			plugin.utils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
 				public void run(PlayerInteractEvent event) {

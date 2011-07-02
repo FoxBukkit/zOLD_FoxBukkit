@@ -90,7 +90,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 			event.setBuild(false);
 		}
 
-		if (plugin.permissionHandler.has(ply, "yiffbukkit.place.flammable") && flammableBlocks.contains(material)) {
+		if (plugin.permissionHandler.has(ply, "yiffbukkit.place.flammablenearfire") && flammableBlocks.contains(material)) {
 			for (BlockFace face : flameSpreadDirections) {
 				Material neighborMaterial = block.getRelative(face).getType();
 				if (neighborMaterial == Material.FIRE) {

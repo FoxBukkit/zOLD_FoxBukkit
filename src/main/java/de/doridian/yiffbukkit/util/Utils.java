@@ -183,6 +183,8 @@ public class Utils {
 			String type = partparts[0];
 			String data = partparts.length >= 2 ? partparts[1] : null;
 
+			checkMobSpawn(commandSender, type);
+
 			Entity entity;
 			if (type.equalsIgnoreCase("ME")) {
 				entity = ICommand.asPlayer(commandSender);
@@ -395,11 +397,9 @@ public class Utils {
 		return first;
 	}
 
-	public boolean checkMobSpawn(CommandSender commandSender, String typeName, String mobName) throws PermissionDeniedException {
+	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {
 		if (!plugin.permissionHandler.has(commandSender, "yiffbukkit.mobspawn."+mobName.toLowerCase()))
 			throw new PermissionDeniedException();
-
-		return typeName.equalsIgnoreCase(mobName);
 	}
 
 	public static HumanEntity makeNPC(String name, Location location) {
