@@ -13,6 +13,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Makes you invisible")
 @Usage("[on|off]")
 @Level(3)
+@Permission("yiffbukkit.vanish")
 public class VanishCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

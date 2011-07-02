@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Sets your web login password.")
 @Usage("<password>")
 @Level(2)
+@Permission("yiffbukkit.useless.password")
 public class PasswordCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {

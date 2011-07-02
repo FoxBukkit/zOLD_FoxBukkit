@@ -44,6 +44,7 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand;
@@ -392,6 +393,13 @@ public class Utils {
 			throw new YiffBukkitCommandException("Unknown error occured while spawning entity.");
 		}
 		return first;
+	}
+
+	public boolean checkMobSpawn(CommandSender commandSender, String typeName, String mobName) throws PermissionDeniedException {
+		if (!plugin.permissionHandler.has(commandSender, "yiffbukkit.mobspawn."+mobName.toLowerCase()))
+			throw new PermissionDeniedException();
+
+		return typeName.equalsIgnoreCase(mobName);
 	}
 
 	public static HumanEntity makeNPC(String name, Location location) {

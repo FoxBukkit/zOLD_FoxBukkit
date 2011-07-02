@@ -13,6 +13,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Gives you your current bearing")
 @Usage("[spawn|home|here|player <name>|warp <name>]")
 @Level(0)
+@Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

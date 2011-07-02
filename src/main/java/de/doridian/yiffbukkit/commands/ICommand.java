@@ -172,17 +172,11 @@ public abstract class ICommand {
 
 	public boolean canPlayerUseCommand(CommandSender commandSender)
 	{
-		// Console can do everything
-		if (!(commandSender instanceof Player))
-			return true;
-
-		Player player = (Player)commandSender;
-
 		Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
 		if (permissionAnnotation != null)
-			return plugin.permissionHandler.has(player, permissionAnnotation.value());
+			return plugin.permissionHandler.has(commandSender, permissionAnnotation.value());
 
-		int plylvl = plugin.playerHelper.getPlayerLevel(player);
+		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
 		int reqlvl = getMinLevel();
 
 		return plylvl >= reqlvl;

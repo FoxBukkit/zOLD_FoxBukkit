@@ -15,6 +15,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Teleports you to the specified warp point.")
 @Usage("<warp point name>|+ <command>[ <args>] - see /cwarp")
 @Level(0)
+@Permission("yiffbukkit.warp.warp")
 public class WarpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws WarpException {

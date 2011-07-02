@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
@@ -19,10 +20,10 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	private final HashMap<String,String> playerGroups = new HashMap<String,String>();
 	private final HashMap<String,HashSet<String>> groupPermissions = new HashMap<String,HashSet<String>>();
 	private final HashMap<String,HashSet<String>> groupProhibitions = new HashMap<String,HashSet<String>>();
-	
+
 	@Override
 	public void setDefaultWorld(String world) {
-		
+
 	}
 
 	@Override
@@ -115,7 +116,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		}
 		catch(Exception e) { }
 	}
-	
+
 	public void save() {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("player-groups.txt"));
@@ -172,6 +173,14 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 	}
 
+	public boolean has(CommandSender commandSender, String permission) {
+		// Console can do everything
+		if (!(commandSender instanceof Player))
+			return true;
+
+		return permission((Player)commandSender, permission);
+	}
+
 	@Override
 	public boolean has(Player player, String permission) {
 		return permission(player, permission);
@@ -191,7 +200,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	public boolean permission(String worldName, String playerName, String permission) {
 		return permission(playerName, permission);
 	}
-	
+
 	public boolean permission(String playerName, String permission) {
 		playerName = playerName.toLowerCase();
 		permission = permission.toLowerCase();
@@ -199,12 +208,12 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		HashSet<String> currentPermissions = groupPermissions.get(group);
 		if(currentPermissions == null) return false;
 		if(currentPermissions.contains(permission)) return true;
-		
+
 		HashSet<String> currentProhibitions = groupProhibitions.get(group);
 		if(currentProhibitions != null && currentProhibitions.contains(permission)) return false;
-		
+
 		//System.out.println("Cache fail: " + permission);
-		
+
 		int xpos = 0;
 		String tperm = permission;
 		while((xpos = tperm.lastIndexOf('.')) > 0) {
@@ -213,10 +222,10 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 			//if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
 			if(currentPermissions.contains(tperm+".*")) { currentPermissions.add(permission); return true; }
 		};
-		
+
 		//if(currentProhibitions != null && currentProhibitions.contains("*")) { currentProhibitions.add(permission); return false; }
 		if(currentPermissions.contains("*")) { currentPermissions.add(permission); return true; }
-		
+
 		currentProhibitions.add(permission);
 		return false;
 	}
@@ -225,12 +234,12 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	public String getGroup(String world, String name) {
 		return getGroup(name);
 	}
-	
+
 	public String getGroup(String name) {
 		name = name.toLowerCase();
 		return playerGroups.containsKey(name) ? playerGroups.get(name) : "guest";
 	}
-	
+
 	public void setGroup(String name, String group) {
 		group = group.toLowerCase();
 		if(!groupPermissions.containsKey(group)) return;
@@ -252,7 +261,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	public boolean inSingleGroup(String world, String name, String group) {
 		return inGroup(world, name, group);
 	}
-	
+
 	@Override
 	public boolean inGroup(String name, String group) {
 		return inSingleGroup(name, group);

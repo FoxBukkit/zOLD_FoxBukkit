@@ -18,6 +18,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Activates or deactivates god mode.")
 @Usage("[<name>] [on|off]")
 @Level(3)
+@Permission("yiffbukkit.players.god")
 public class GodCommand extends AbstractPlayerStateCommand {
 	private final Set<String> godded = states;
 
@@ -43,8 +44,14 @@ public class GodCommand extends AbstractPlayerStateCommand {
 
 	@Override
 	protected void onStateChange(boolean prevState, boolean newState, String targetName, CommandSender commandSender) throws YiffBukkitCommandException {
-		if (playerHelper.getPlayerLevel(commandSender) < 4 && !commandSender.getName().equals(targetName))
-			throw new PermissionDeniedException();
+		if (commandSender.getName().equals(targetName)) {
+			/*if (!plugin.permissionHandler.has(commandSender, "yiffbukkit.players.god.self"))
+				throw new PermissionDeniedException();*/
+		}
+		else {
+			if (!plugin.permissionHandler.has(commandSender, "yiffbukkit.players.god.others"))
+				throw new PermissionDeniedException();
+		}
 
 		final String commandSenderName = commandSender.getName();
 		final Player target = plugin.getServer().getPlayer(targetName);

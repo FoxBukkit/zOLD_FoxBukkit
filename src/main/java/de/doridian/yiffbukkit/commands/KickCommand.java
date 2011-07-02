@@ -12,6 +12,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Kicks specified user")
 @Usage("<name> [reason here]")
 @Level(2)
+@Permission("yiffbukkit.users.kick")
 public class KickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

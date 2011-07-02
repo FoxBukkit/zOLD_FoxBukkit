@@ -12,6 +12,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 )
 @Usage("<name> <tag>|none")
 @Level(3)
+@Permission("yiffbukkit.users.settag")
 public class SetTagCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {

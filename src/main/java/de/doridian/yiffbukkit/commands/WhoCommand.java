@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
@@ -16,6 +17,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Prints user list if used without parameters or information about the specified user")
 @Usage("[name]")
 @Level(0)
+@Permission("yiffbukkit.who")
 public class WhoCommand extends ICommand {
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
@@ -33,33 +35,39 @@ public class WhoCommand extends ICommand {
 			playerHelper.sendDirectedMessage(commandSender, "NameTag: " + playerHelper.GetFullPlayerName(target));
 			playerHelper.sendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
 
-			int playerLevel = playerHelper.getPlayerLevel(commandSender);
-			if (playerLevel < 2) return;
-			playerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
-
-			if (playerLevel < 3) return;
-			if (playerLevel < playerHelper.getPlayerLevel(target)) return;
-			playerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
-			Vector targetPosition = target.getLocation().toVector();
-			playerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
-
-			Vector offsetFromSpawn = targetPosition.clone().subtract(world.getSpawnLocation().toVector());
-			long unitsFromSpawn = Math.round(offsetFromSpawn.length());
-			String directionFromSpawn = Utils.yawToDirection(Utils.vectorToYaw(offsetFromSpawn));
-
-			final String fromYou;
-			if (commandSender instanceof Player) {
-				Vector offsetFromYou = targetPosition.clone().subtract(((Player)commandSender).getLocation().toVector());
-				long unitsFromYou = Math.round(offsetFromYou.length());
-				String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
-				fromYou = " and "+unitsFromYou+"m "+directionFromYou+" from you";
-			}
-			else {
-				fromYou = "";
+			final int playerLevel = playerHelper.getPlayerLevel(commandSender);
+			final YiffBukkitPermissionHandler permissionHandler = plugin.permissionHandler;
+			if (permissionHandler.has(commandSender, "yiffbukkit.who.lastlogout")) {
+				playerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 			}
 
-			playerHelper.sendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
-			if (target.isOnline()) {
+			if (permissionHandler.has(commandSender, "yiffbukkit.who.lastlogoutbackup")) {
+				playerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
+			}
+
+			if (permissionHandler.has(commandSender, "yiffbukkit.who.position") && playerLevel >= playerHelper.getPlayerLevel(target)) {
+				Vector targetPosition = target.getLocation().toVector();
+				playerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
+
+				Vector offsetFromSpawn = targetPosition.clone().subtract(world.getSpawnLocation().toVector());
+				long unitsFromSpawn = Math.round(offsetFromSpawn.length());
+				String directionFromSpawn = Utils.yawToDirection(Utils.vectorToYaw(offsetFromSpawn));
+
+				final String fromYou;
+				if (commandSender instanceof Player) {
+					Vector offsetFromYou = targetPosition.clone().subtract(((Player)commandSender).getLocation().toVector());
+					long unitsFromYou = Math.round(offsetFromYou.length());
+					String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
+					fromYou = " and "+unitsFromYou+"m "+directionFromYou+" from you";
+				}
+				else {
+					fromYou = "";
+				}
+
+				playerHelper.sendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
+			}
+
+			if (permissionHandler.has(commandSender, "yiffbukkit.who.address") && playerLevel >= playerHelper.getPlayerLevel(target) && target.isOnline()) {
 				Thread thread = new Thread(new Runnable() {
 					public void run() {
 						InetAddress address = target.getAddress().getAddress();

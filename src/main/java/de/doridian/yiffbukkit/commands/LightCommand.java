@@ -36,6 +36,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[<flags>] [<level>]")
 @Level(4)
 @BooleanFlags("fs")
+@Permission("yiffbukkit.experimental.light")
 public class LightCommand extends ICommand {
 	private Set<ChunkCoordIntPair> dirtyChunks = new HashSet<ChunkCoordIntPair>();
 

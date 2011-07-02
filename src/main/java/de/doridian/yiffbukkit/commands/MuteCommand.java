@@ -19,6 +19,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Mutes or unmutes a player.")
 @Usage("<name> [on|off]")
 @Level(4)
+@Permission("yiffbukkit.users.mute")
 public class MuteCommand extends AbstractPlayerStateCommand {
 	private final Set<String> muted = states;
 
@@ -69,7 +70,7 @@ public class MuteCommand extends AbstractPlayerStateCommand {
 		if (commandSenderLevel <= targetLevel)
 			throw new PermissionDeniedException();
 
-		if (commandSenderLevel < 5 && targetLevel > 0)
+		if (plugin.permissionHandler.has(commandSender, "yiffbukkit.users.mute.nonguests") && targetLevel > 0)
 			throw new PermissionDeniedException();
 
 		if (targetName.equals(commandSenderName)) {

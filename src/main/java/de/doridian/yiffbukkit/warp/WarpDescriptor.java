@@ -50,7 +50,7 @@ public class WarpDescriptor {
 		int playerLevel = plugin.playerHelper.getPlayerLevel(playerName);
 		int ownerLevel = plugin.playerHelper.getPlayerLevel(ownerName);
 
-		if (playerLevel > ownerLevel && playerLevel >= 3)
+		if (playerLevel > ownerLevel && plugin.permissionHandler.has(location.getWorld().getName(), playerName, "yiffbukkit.warp.override"))
 			return 3;
 
 		if (ranks.containsKey(playerName))

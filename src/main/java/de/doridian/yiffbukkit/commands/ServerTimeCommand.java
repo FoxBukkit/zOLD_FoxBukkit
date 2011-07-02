@@ -12,6 +12,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 @Usage("[normal|night|day|morning|afternoon|<0-23>]")
 @Level(3)
 @StringFlags("w")
+@Permission("yiffbukkit.servertime")
 public class ServerTimeCommand extends ICommand {
 	private static final Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
 	static {

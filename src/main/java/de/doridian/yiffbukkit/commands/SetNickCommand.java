@@ -15,6 +15,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 )
 @Usage("<name> <nick>|none")
 @Level(6) //Dori doesnt want people changing nicks :O
+@Permission("yiffbukkit.users.setnick")
 public class SetNickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

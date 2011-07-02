@@ -7,7 +7,8 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("filter")
 @Help("§cPermanently §ffilters out text from the chat log.")
 @Usage("<regex>")
-@Level(4) 
+@Level(4)
+@Permission("yiffbukkit.chatmanager.filter")
 public class FilterCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

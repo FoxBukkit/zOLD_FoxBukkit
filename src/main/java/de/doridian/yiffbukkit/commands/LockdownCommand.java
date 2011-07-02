@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Locks or unlocks the server for guests")
 @Usage("[on|off]")
 @Level(5)
+@Permission("yiffbukkit.users.lockdown")
 public class LockdownCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

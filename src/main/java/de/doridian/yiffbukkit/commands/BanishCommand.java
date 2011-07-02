@@ -14,6 +14,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Banishes the specified user to the spawn and optionally resets their home location.")
 @Usage("<name> [resethome]")
 @Level(3)
+@Permission("yiffbukkit.teleport.banish")
 public class BanishCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

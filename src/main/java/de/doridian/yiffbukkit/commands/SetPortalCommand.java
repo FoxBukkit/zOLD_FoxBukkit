@@ -13,6 +13,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("setportal")
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
 @Level(5)
+@Permission("yiffbukkit.useless.setportal")
 public class SetPortalCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

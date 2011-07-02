@@ -35,6 +35,7 @@ import de.doridian.yiffbukkit.util.Utils;
 @Usage("[-s] <name>")
 @Level(4)
 @BooleanFlags("s")
+@Permission("yiffbukkit.replay.record")
 public class RecordCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

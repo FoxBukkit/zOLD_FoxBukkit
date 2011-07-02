@@ -10,6 +10,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Teleports you to the specified user")
 @Usage("<name>")
 @Level(1)
+@Permission("yiffbukkit.teleport.tp")
 public class TpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

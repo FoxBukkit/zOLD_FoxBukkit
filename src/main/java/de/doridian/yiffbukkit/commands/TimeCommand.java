@@ -10,6 +10,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 @Usage("[normal|night|day|morning|afternoon|<0-23>]")
 @Level(1)
 @StringFlags("w")
+@Permission("yiffbukkit.time")
 public class TimeCommand extends ServerTimeCommand {
 	@Override
 	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {

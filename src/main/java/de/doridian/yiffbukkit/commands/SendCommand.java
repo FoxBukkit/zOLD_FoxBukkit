@@ -11,6 +11,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Teleports the specified source user to the specified target user.")
 @Usage("<source> <target>")
 @Level(3)
+@Permission("yiffbukkit.teleport.send")
 public class SendCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

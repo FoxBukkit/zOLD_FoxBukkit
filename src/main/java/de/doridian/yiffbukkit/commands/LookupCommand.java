@@ -5,16 +5,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.Help;
-import de.doridian.yiffbukkit.commands.ICommand.Level;
-import de.doridian.yiffbukkit.commands.ICommand.Names;
-import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 
 @Names("lookup")
 @Help("Does an MCBans lookup on target player")
 @Usage("<name>")
 @Level(3)
+@Permission("yiffbukkit.users.lookup")
 public class LookupCommand extends ICommand {
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

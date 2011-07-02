@@ -3,30 +3,29 @@ package de.doridian.yiffbukkit.commands;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("help")
 @Help("Prints command list if used without parameters or information about the specified command")
 @Usage("[<command>]")
 @Level(0)
+@Permission("yiffbukkit.help")
 public class HelpCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
-		int selflevel = playerHelper.getPlayerLevel(ply);
+	public void run(CommandSender commandSender, String[] args, String argStr) {
 		Hashtable<String,ICommand> commands = plugin.getCommands();
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
-			if(val == null || val.getMinLevel() > selflevel) {
-				playerHelper.sendDirectedMessage(ply, "Command not found!");
+			if(val == null || !val.canPlayerUseCommand(commandSender)) {
+				playerHelper.sendDirectedMessage(commandSender, "Command not found!");
 				return;
 			}
 			for (String line : val.getHelp().split("\n")) {
-				playerHelper.sendDirectedMessage(ply, line);
+				playerHelper.sendDirectedMessage(commandSender, line);
 			}
-			playerHelper.sendDirectedMessage(ply, "Usage: /" + args[0] + " " + val.getUsage());
+			playerHelper.sendDirectedMessage(commandSender, "Usage: /" + args[0] + " " + val.getUsage());
 		}
 		else {
 			String ret = "Available commands: /";
@@ -37,13 +36,13 @@ public class HelpCommand extends ICommand {
 					continue;
 
 				ICommand val = commands.get(key);
-				if(val.getMinLevel() > selflevel)
+				if (!val.canPlayerUseCommand(commandSender))
 					continue;
 
 				ret += key + ", /";
 			}
 			ret = ret.substring(0,ret.length() - 3);
-			playerHelper.sendDirectedMessage(ply, ret);
+			playerHelper.sendDirectedMessage(commandSender, ret);
 		}
 	}
 }

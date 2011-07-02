@@ -14,7 +14,6 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
@@ -99,7 +98,7 @@ public class ThrowCommand extends ICommand {
 		String typeName = args[0];
 
 		ToolBind runnable;
-		if (typeName.equalsIgnoreCase("ME")) {
+		if (plugin.utils.checkMobSpawn(ply, typeName, "me")) {
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
 				public void run(PlayerInteractEvent event) {
@@ -122,9 +121,6 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 		else {
-			if (playerHelper.getPlayerLevel(ply) < 4)
-				throw new PermissionDeniedException();
-			
 			final String[] types = typeName.split("\\+");
 			final double scale = 1/speed.length();
 

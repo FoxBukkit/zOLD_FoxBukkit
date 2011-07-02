@@ -10,13 +10,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("give")
 @Help("Gives resource (use _ for spaces in name!)")
 @Usage("<name or id> [amount] [player]")
-@Level(100) // See CanPlayerUseCommand
+@Level(3) // See CanPlayerUseCommand
+@Permission("yiffbukkit.players.give")
 public class GiveCommand extends ICommand {
 	private static final Map<String,Material> aliases = new HashMap<String,Material>();
 	private static final Map<String,Short> dataValues = new HashMap<String, Short>();
@@ -80,17 +82,6 @@ public class GiveCommand extends ICommand {
 		dataValues.put("17:BIRCH", (short) 2);
 		dataValues.put("17:LIGHT", (short) 2);
 	};
-	@Override
-	public boolean canPlayerUseCommand(CommandSender commandSender)
-	{
-		if (!(commandSender instanceof Player))
-			return true;
-
-		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
-		int reqlvl = ((Player)commandSender).getWorld().getName().startsWith("rp_") ? 100 : 3;
-
-		return plylvl >= reqlvl;
-	}
 
 	static Material matchMaterial(String materialName) {
 		Material material = aliases.get(materialName);
@@ -126,15 +117,15 @@ public class GiveCommand extends ICommand {
 		}
 		Material material = matchMaterial(materialName);
 		if (material == null) {
-			if (playerHelper.getPlayerLevel(commandSender) < 4)
-				throw new YiffBukkitCommandException("Material "+materialName+" not found");
-
 			if (count > 10)
 				count = 10;
 
 			for (int i = 0; i < count; ++i) {
 				try {
 					plugin.utils.buildMob(args[0].split("\\+"), commandSender, target, target.getLocation());
+				}
+				catch (PermissionDeniedException e) {
+					throw new YiffBukkitCommandException("Material "+materialName+" not found");
 				}
 				catch (YiffBukkitCommandException e) {
 					playerHelper.sendDirectedMessage(commandSender, "Material "+materialName+" not found");

@@ -25,6 +25,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[<target>] [<radius>]")
 @Level(3)
 @BooleanFlags("n")
+@Permission("yiffbukkit.butcher")
 public class ButcherCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("bb")
 @Help("Tries to emulate the /bb command from BigBrother using LogBlock.")
 @Level(3)
+@Permission("yiffbukkit.players.bb")
 public class BigBrotherCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

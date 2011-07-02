@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Unbans specified user")
 @Usage("<full name>")
 @Level(3)
+@Permission("yiffbukkit.users.unban")
 public class UnbanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

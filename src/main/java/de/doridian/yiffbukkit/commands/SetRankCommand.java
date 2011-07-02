@@ -10,6 +10,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Sets rank of specified user")
 @Usage("<full name> <rank>")
 @Level(3)
+@Permission("yiffbukkit.users.setrank")
 public class SetRankCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

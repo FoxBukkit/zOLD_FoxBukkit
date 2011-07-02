@@ -6,6 +6,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Prevents teleportation or grants/revokes exceptions.")
 @Usage("[on|off|allow <name>|deny <name>]")
 @Level(1)
+@Permission("yiffbukkit.teleport.noport.notp")
 public class NoTpCommand extends NoPortCommand {
 	public NoTpCommand() {
 		summonPermissions = null;

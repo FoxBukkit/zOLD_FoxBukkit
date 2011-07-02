@@ -11,6 +11,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[-a] [<name>]")
 @Level(4)
 @BooleanFlags("a")
+@Permission("yiffbukkit.players.clear")
 public class ClearCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

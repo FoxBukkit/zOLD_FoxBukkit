@@ -14,6 +14,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Opens the inventory of target player as a chest")
 @Usage("<player>")
 @Level(4)
+@Permission("yiffbukkit.players.isee")
 public class ISeeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException {

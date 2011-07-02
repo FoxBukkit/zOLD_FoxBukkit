@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Level(5)
+@Permission("yiffbukkit.useless.test")
 public class TestCommand extends ICommand {
 	@Override
 	public void Run(final Player ply, String[] args, String argStr) {

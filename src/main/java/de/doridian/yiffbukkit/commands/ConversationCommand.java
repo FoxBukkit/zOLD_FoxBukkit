@@ -10,6 +10,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Opens or closes a conversation with the given player. This means that all your chat is going to them until you close the conversation by running the command without parameters.")
 @Usage("[<name>]")
 @Level(0)
+@Permission("yiffbukkit.communication.conversation")
 public class ConversationCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

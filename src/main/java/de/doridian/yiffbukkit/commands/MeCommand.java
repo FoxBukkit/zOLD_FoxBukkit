@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Well, it's /me, durp")
 @Usage("<stuff here>")
 @Level(0)
+@Permission("yiffbukkit.communication.emote")
 public class MeCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

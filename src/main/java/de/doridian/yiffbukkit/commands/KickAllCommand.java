@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Kicks everyone from the server except for yourself.")
 @Usage("[<reason>]")
 @Level(5)
+@Permission("yiffbukkit.users.kickall")
 public class KickAllCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

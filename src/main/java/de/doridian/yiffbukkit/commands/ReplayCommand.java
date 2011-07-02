@@ -44,6 +44,7 @@ import de.doridian.yiffbukkit.util.Utils;
 @Level(4)
 @BooleanFlags("s")
 @StringFlags("v")
+@Permission("yiffbukkit.replay.replay")
 public class ReplayCommand extends ICommand {
 	@SuppressWarnings("unused")
 	private final ReplayPacketListener replayPacketListener = new ReplayPacketListener();

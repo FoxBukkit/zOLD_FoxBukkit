@@ -24,6 +24,7 @@ import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 @Level(3)
 @BooleanFlags("jrgc")
 @StringFlags("t")
+@Permission("yiffbukkit.users.ban")
 public class BanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

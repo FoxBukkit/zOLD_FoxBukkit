@@ -18,6 +18,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("rage")
 @Level(3)
+@Permission("yiffbukkit.experimental.rage")
 public class RageCommand extends ICommand {
 	private final Set<Player> raging = Collections.synchronizedSet(new HashSet<Player>());
 
