@@ -145,8 +145,8 @@ public abstract class Ini {
 	}
 
 
-	public static void saveWorld(Map<String, List<String>> section, String string, World world) {
-		section.put("world", Arrays.asList(world.getName()));
+	public static void saveWorld(Map<String, List<String>> section, String format, World world) {
+		section.put(String.format(format, "world"), Arrays.asList(world.getName()));
 	}
 
 	public static void saveVector(Map<String, List<String>> section, String format, Vector vector) {
