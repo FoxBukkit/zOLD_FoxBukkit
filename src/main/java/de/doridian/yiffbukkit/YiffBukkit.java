@@ -37,6 +37,7 @@ import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.vanish.Vanish;
@@ -57,6 +58,7 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
 	public Vanish vanish;
+	public Transmute transmute;
 	public MCBans mcbans;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
@@ -77,10 +79,10 @@ public class YiffBukkit extends JavaPlugin {
 	public void onLoad() {
 		final SimplePluginManager pm = (SimplePluginManager)getServer().getPluginManager();
 		permissions = new Permissions(this,this.getClassLoader(),this.getFile());
-		
+
 		((List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "plugins")).add(permissions);
 		((HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "lookupNames")).put("Permissions", permissions);
-		
+
 		System.out.println( "YiffBukkit started YiffBukkitPermissions!" );
 		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
 	}
@@ -144,8 +146,9 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
 		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
 		vanish = new Vanish(this);
+		transmute = new Transmute(this);
 		adHandler = new AdvertismentSigns(this);
-		
+
 		mcbans = new MCBans(this);
 
 		remote = new YiffBukkitRemote(this, playerListener);
