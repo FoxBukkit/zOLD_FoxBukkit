@@ -12,11 +12,14 @@ public class Transmute {
 	final YiffBukkit plugin;
 	@SuppressWarnings("unused")
 	private final TransmutePacketListener transmutePacketListener;
+	@SuppressWarnings("unused")
+	private TransmutePlayerListener transmutePlayerListener;
 	private final Map<Integer, Shape> transmuted = new HashMap<Integer, Shape>();
 
 	public Transmute(YiffBukkit plugin) {
 		this.plugin = plugin;
 		transmutePacketListener = new TransmutePacketListener(this);
+		transmutePlayerListener = new TransmutePlayerListener(this);
 	}
 
 	public boolean isTransmuted(int entityID) {
@@ -67,5 +70,9 @@ public class Transmute {
 
 		shape.deleteEntity();
 		shape.createOriginalEntity();
+	}
+
+	public void removeShape(Player player) {
+		transmuted.remove(player.getEntityId());
 	}
 }
