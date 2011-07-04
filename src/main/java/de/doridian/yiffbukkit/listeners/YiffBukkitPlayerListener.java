@@ -308,6 +308,14 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled())
 			return;
+		
+		String msg = event.getMessage();
+		if(msg.charAt(0) == '#') {
+			event.setCancelled(true);
+			Player ply = event.getPlayer();
+			playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + msg.substring(1), 3);
+			return;
+		}
 
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
 	}
