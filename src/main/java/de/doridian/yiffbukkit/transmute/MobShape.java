@@ -8,7 +8,6 @@ import net.minecraft.server.Entity;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityTypes;
 import net.minecraft.server.MathHelper;
-import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet24MobSpawn;
 
 import org.bukkit.Location;
@@ -45,11 +44,6 @@ public class MobShape extends Shape {
 		transmute.plugin.playerHelper.sendPacketToPlayer(forPlayer, createMobSpawnPacket());
 	}
 
-	@Override
-	public void createOriginalEntity() {
-		transmute.plugin.playerHelper.sendPacketToPlayersAround(player.getLocation(), 1024, createPlayerSpawnPacket(), player);
-	}
-
 	private Packet24MobSpawn createMobSpawnPacket() {
 		Location location = player.getLocation();
 
@@ -67,11 +61,6 @@ public class MobShape extends Shape {
 		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "h", dataWatcher);
 		return p24;
 	}
-
-	private Packet20NamedEntitySpawn createPlayerSpawnPacket() {
-		return new Packet20NamedEntitySpawn(((CraftPlayer)player).getHandle());
-	}
-
 
 	private static final Class<? extends net.minecraft.server.Entity> typeNameToClass(String mobType) {
 		Map<String, Class<? extends net.minecraft.server.Entity>> typeNameToClass = Utils.getPrivateValue(EntityTypes.class, null, "a");
