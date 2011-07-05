@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit.transmute;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.Entity;
@@ -14,10 +16,12 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class MobShape extends Shape {
 	int mobType;
+	private Map<String, MobAction> actions;
 
 	protected MobShape(Transmute transmute, Player player, String mobType) {
 		this(transmute, player, typeNameToClass(mobType));
@@ -31,6 +35,7 @@ public class MobShape extends Shape {
 		super(transmute, player);
 
 		this.mobType = mobType;
+		actions = MobActions.get(mobType);
 	}
 
 	@Override
@@ -69,6 +74,7 @@ public class MobShape extends Shape {
 			if (entry.getKey().equalsIgnoreCase(mobType))
 				return entry.getValue();
 		}
+
 		return null;
 		//return typeNameToClass.get(mobType);
 	}
@@ -76,5 +82,35 @@ public class MobShape extends Shape {
 		Map<Class<? extends net.minecraft.server.Entity>, Integer> classToId = Utils.getPrivateValue(EntityTypes.class, null, "d");
 
 		return classToId.get(mobType);
+	}
+
+	private static final Pattern commandPattern = Pattern.compile("^([^ ]+) (.+)?$");
+
+	@Override
+	public void runAction(String action) throws YiffBukkitCommandException {
+		if (actions == null)
+			throw new YiffBukkitCommandException("No actions defined for your current shape.");
+
+		final Matcher matcher = commandPattern.matcher(action);
+
+		final String actionName;
+		final String argStr;
+		final String[] args;
+		if (matcher.matches()) {
+			actionName = matcher.group(1);
+			argStr = matcher.group(2);
+			args = argStr.split(" +");
+		}
+		else {
+			actionName = action.trim();
+			argStr = "";
+			args = new String[0]; 
+		}
+
+		final MobAction mobAction = actions.get(actionName);
+		if (mobAction == null)
+			throw new YiffBukkitCommandException("No action named "+actionName+" defined for your current shape.");
+
+		mobAction.run(this, args, argStr);
 	}
 }

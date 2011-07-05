@@ -6,6 +6,8 @@ import net.minecraft.server.Packet29DestroyEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+
 public abstract class Shape {
 	final protected Transmute transmute;
 	final protected int entityID;
@@ -31,4 +33,6 @@ public abstract class Shape {
 
 	abstract public void createTransmutedEntity();
 	abstract public void createTransmutedEntity(Player forPlayer);
+	
+	abstract public void runAction(String action) throws YiffBukkitCommandException;
 }
