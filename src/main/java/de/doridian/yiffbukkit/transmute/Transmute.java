@@ -73,6 +73,10 @@ public class Transmute {
 	}
 
 	public void removeShape(Player player) {
-		transmuted.remove(player.getEntityId());
+		Shape shape = transmuted.remove(player.getEntityId());
+		if (shape == null)
+			return;
+
+		shape.deleteEntity();
 	}
 }
