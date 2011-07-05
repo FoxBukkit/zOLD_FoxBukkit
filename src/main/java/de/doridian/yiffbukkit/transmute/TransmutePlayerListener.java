@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.transmute;
 
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -11,9 +12,15 @@ public class TransmutePlayerListener extends PlayerListener {
 	public TransmutePlayerListener(Transmute transmute) {
 		this.transmute = transmute;
 
+		transmute.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, this, Priority.Monitor, transmute.plugin);
 		transmute.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, this, Priority.Monitor, transmute.plugin);
 	}
-
+	
+	@Override
+	public void onPlayerKick(PlayerKickEvent event) {
+		transmute.removeShape(event.getPlayer());
+	}
+	
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		transmute.removeShape(event.getPlayer());
