@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.Packet;
@@ -116,6 +117,13 @@ public class ChatManager {
 				chatQueues.put(event.getPlayer().getName(), chatQueue);
 				lastPlayerMessages.put(event.getPlayer(), new ArrayBlockingQueue<String>(SPAM_WINDOW+1));
 			}
+
+			@Override
+			public void onPlayerKick(PlayerKickEvent event) {
+				lastPlayerMessages.remove(event.getPlayer());
+				chatQueues.remove(event.getPlayer().getName());
+			}
+
 			@Override
 			public void onPlayerQuit(PlayerQuitEvent event) {
 				lastPlayerMessages.remove(event.getPlayer());
@@ -124,6 +132,7 @@ public class ChatManager {
 		};
 
 		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Lowest, plugin);
+		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, playerListener, Priority.Lowest, plugin);
 		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Lowest, plugin);
 	}
 

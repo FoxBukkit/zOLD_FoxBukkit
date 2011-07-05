@@ -286,6 +286,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
 		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
 		plugin.chatManager.popCurrentOrigin();
+
+		for (Map<Player, ?> map : playerHelper.registeredMaps) {
+			map.remove(event.getPlayer());
+		}
 	}
 
 	@Override
@@ -308,7 +312,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled())
 			return;
-		
+
 		String msg = event.getMessage();
 		if(msg.charAt(0) == '#') {
 			event.setCancelled(true);
