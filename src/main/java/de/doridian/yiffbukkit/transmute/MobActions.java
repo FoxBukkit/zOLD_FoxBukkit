@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
+
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.Packet40EntityMetadata;
@@ -44,6 +47,46 @@ final class MobActions {
 				new MetadataMobAction(17, (byte) 1, "Charged..."),
 				"uncharge",
 				new MetadataMobAction(17, (byte) 0, "Uncharged...")
+		);
+
+		registerMobActions(55, // Slime
+				"size",
+				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+					byte size = Byte.valueOf(argStr);
+					sendMetadataPacket(shape, 16, size);
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Set your size to "+size);
+				}}
+		);
+
+		registerMobActions(90, // Pig
+				"saddle",
+				new MetadataMobAction(16, (byte) 1, "You now have a saddle."),
+				"unsaddle",
+				new MetadataMobAction(16, (byte) 0, "You no longer have a saddle.")
+		);
+
+		registerMobActions(91, // Sheep
+				"color",
+				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+					DyeColor dyeColor = DyeColor.WHITE;
+					try {
+						if ("RAINBOW".equalsIgnoreCase(argStr) || "RAINBOWS".equalsIgnoreCase(argStr) || "RANDOM".equalsIgnoreCase(argStr)) {
+							DyeColor[] dyes = DyeColor.values();
+							dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
+						}
+						else {
+							dyeColor = DyeColor.valueOf(argStr.toUpperCase());
+						}
+					}
+					catch (Exception e) { }
+
+					sendMetadataPacket(shape, 16, dyeColor.getData());
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
+				}},
+				"shorn",
+				new MetadataMobAction(16, (byte) 16, "You are now shorn.")
 		);
 
 		/*registerMobActions(95, // Wolf
