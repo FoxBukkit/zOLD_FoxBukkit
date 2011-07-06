@@ -29,18 +29,22 @@ public class MCBansPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
-		String name = ply.getName().toLowerCase();
-		Integer disputes = disputeCount.get(name);
-		if(disputes == null) return;
-		disputeCount.remove(name);
-		int disps = (int)disputes;
-		if(disps <= 0) return;
-		plugin.playerHelper.sendDirectedMessage(ply, "You have "+disps+" open dispute(s)!");
+		Integer disputes = disputeCount.remove(ply.getName());
+
+		if (disputes == null)
+			return;
+
+		if (disputes <= 0)
+			return;
+
+		plugin.playerHelper.sendDirectedMessage(ply, "You have "+disputes+" open dispute(s)!");
 	}
 
 	@Override
 	public void onPlayerPreLogin(PlayerPreLoginEvent event) {
-		if (plugin.serverClosed) return;
+		if (plugin.serverClosed)
+			return;
+
 		String name = event.getName();
 		final JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
 
@@ -71,9 +75,9 @@ public class MCBansPlayerListener extends PlayerListener {
 		default:
 			long disputes = (Long)connret.get("disputes");
 			if(disputes > 0) {
-				disputeCount.put(name.toLowerCase(), (Integer)(int)disputes);
+				disputeCount.put(name, (int) disputes);
 			} else {
-				disputeCount.remove(name.toLowerCase());
+				disputeCount.remove(name);
 			}
 
 			if (connret.get("is_mcbans_mod").equals("y")) sendServerMessage(name + " is an MCBans moderator!");
