@@ -51,6 +51,10 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		blocklevels.put(Material.FLINT_AND_STEEL, 3);
 		blocklevels.put(Material.FIRE, 3);
+		blocklevels.put(Material.PISTON_BASE, 3);
+		blocklevels.put(Material.PISTON_EXTENSION, 3);
+		blocklevels.put(Material.PISTON_MOVING_PIECE, 3);
+		blocklevels.put(Material.PISTON_STICKY_BASE, 3);
 
 		flammableBlocks.add(Material.LOG);
 		flammableBlocks.add(Material.WOOD);
