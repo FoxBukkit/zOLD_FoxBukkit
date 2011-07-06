@@ -18,7 +18,7 @@ public class MCBansPlayerListener extends PlayerListener {
 	protected YiffBukkit plugin;
 
 	private HashMap<String,Integer> disputeCount = new HashMap<String,Integer>();
-	
+
 	public MCBansPlayerListener(YiffBukkit plug) {
 		plugin = plug;
 		PluginManager pm = plugin.getServer().getPluginManager();
@@ -37,9 +37,10 @@ public class MCBansPlayerListener extends PlayerListener {
 		if(disps <= 0) return;
 		plugin.playerHelper.sendDirectedMessage(ply, "You have "+disps+" open dispute(s)!");
 	}
-	
+
 	@Override
 	public void onPlayerPreLogin(PlayerPreLoginEvent event) {
+		if (plugin.serverClosed) return;
 		String name = event.getName();
 		final JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
 
@@ -79,7 +80,7 @@ public class MCBansPlayerListener extends PlayerListener {
 			break;
 		}
 	}
-	
+
 	private void sendServerMessage(final String msg, final int color) {
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
@@ -87,7 +88,7 @@ public class MCBansPlayerListener extends PlayerListener {
 			}
 		});
 	}
-	
+
 	private void sendServerMessage(final String msg) {
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
