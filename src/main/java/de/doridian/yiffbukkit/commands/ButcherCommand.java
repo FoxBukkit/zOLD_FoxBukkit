@@ -1,14 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.EntityWolf;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -135,13 +134,12 @@ public class ButcherCommand extends ICommand {
 			return false;
 		}
 
-		if (livingEntity instanceof CraftWolf) {
-			CraftWolf wolf = (CraftWolf) livingEntity;
+		if (livingEntity instanceof Wolf) {
+			Wolf wolf = (Wolf) livingEntity;
 			if (wolf.isAngry())
 				return false;
 
-			EntityWolf eWolf = wolf.getHandle();
-			if (eWolf.n_())
+			if (wolf.isTamed())
 				return true;
 		}
 

@@ -10,10 +10,8 @@ import java.util.Date;
 
 import net.minecraft.server.EntityFallingSand;
 import net.minecraft.server.EntityFireball;
-import net.minecraft.server.EntityPig;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTNTPrimed;
-import net.minecraft.server.EntityWolf;
 import net.minecraft.server.ItemInWorldManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.NetServerHandler;
@@ -28,9 +26,7 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.entity.CraftWolf;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
@@ -38,6 +34,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Slime;
@@ -238,7 +235,7 @@ public class Utils {
 			else if(type.equalsIgnoreCase("LIGHTNING")) {
 				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId()) {
 					@Override
-					public void o_() {
+					public void m_() {
 						if (this.a == 0)
 							this.die();
 
@@ -320,13 +317,10 @@ public class Utils {
 							wolf.setSitting(true);
 						}
 						else if (subData.equals("TAME") || subData.equals("TAMED")) {
-							CraftWolf craftWolf = (CraftWolf) wolf;
-							EntityWolf eWolf = craftWolf.getHandle();
 							if (them == null)
-								eWolf.a(commandSender.getName());
+								wolf.setOwner(ICommand.asPlayer(commandSender));
 							else
-								eWolf.a(them.getName());
-							eWolf.d(true);
+								wolf.setOwner(them);
 						}
 					}
 				}
@@ -381,9 +375,8 @@ public class Utils {
 				first = entity;
 			}
 			else {
-				net.minecraft.server.Entity notchPrevious = ((CraftEntity)previous).getHandle();
-				if (notchPrevious instanceof EntityPig)
-					((EntityPig)notchPrevious).a(true);
+				if (previous instanceof Pig)
+					((Pig)previous).setSaddle(true);
 
 				entity.teleport(location);
 				previous.setPassenger(entity);

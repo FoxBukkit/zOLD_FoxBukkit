@@ -42,7 +42,7 @@ public class ChatManager {
 		final PacketListener packetListener = new PacketListener() {
 			@Override
 			public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-				String text = ((Packet3Chat)packet).a;
+				String text = ((Packet3Chat)packet).message;
 
 				ChatEntry chatEntry = new ChatEntry(text, getCurrentOrigin());
 
@@ -64,7 +64,7 @@ public class ChatManager {
 				if (spamWindow == null)
 					return false;
 
-				String text = ((Packet3Chat)packet).a;
+				String text = ((Packet3Chat)packet).message;
 
 				if (text.charAt(0) == '/')
 					return true;

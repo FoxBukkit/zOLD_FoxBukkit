@@ -127,10 +127,10 @@ final class MobActions {
 			datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
 
 			// mark dirty
-			datawatcher.b(index, value.getClass().getConstructor(String.class).newInstance("1"));
+			datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
 
 			// put the actual data in
-			datawatcher.b(index, value);
+			datawatcher.watch(index, value);
 
 			return new Packet40EntityMetadata(shape.entityID, datawatcher);
 		} catch (Exception e) {

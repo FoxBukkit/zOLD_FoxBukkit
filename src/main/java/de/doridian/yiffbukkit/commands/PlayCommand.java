@@ -70,7 +70,7 @@ public class PlayCommand extends ICommand {
 		final long startTime = System.currentTimeMillis()+1000;
 
 		final Packet53BlockChange p53 = new Packet53BlockChangeExpress(x, y, z, notchWorld);
-		p53.d = Material.NOTE_BLOCK.getId();
+		p53.material = Material.NOTE_BLOCK.getId();
 		playerHelper.sendPacketToPlayersAround(loc, 64, p53);
 
 		new Runnable() {
