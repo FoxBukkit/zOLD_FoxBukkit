@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.server.Packet38EntityStatus;
+
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-
-import net.minecraft.server.DataWatcher;
-import net.minecraft.server.Packet40EntityMetadata;
 
 final class MobActions {
 	private static HashMap<Integer, Map<String, MobAction>> mobActions = new HashMap<Integer, Map<String, MobAction>>();
@@ -20,53 +21,45 @@ final class MobActions {
 		return mobActions.get(mobType);
 	}
 
-	static class MetadataMobAction implements MobAction {
-		int index;
-		Object value;
-		String message;
-
-		public MetadataMobAction(int index, Object value, String message) {
-			this.index = index;
-			this.value = value;
-			this.message = message;
-		}
-
-		@Override
-		public void run(MobShape shape, String[] args, String argStr) {
-			sendMetadataPacket(shape, index, value);
-
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
-		}
-	}
-
 	static {
 		registerMobActions(50, // Creeper
+				"help",
+				new HelpMobAction("/sac hiss|charge [on|off]"),
 				"sss", "ssss", "sssss", "ssssss", "hiss", "fuse", "ignite",
 				new MetadataMobAction(16, (byte) 1, "Hissing..."),
 				"charge",
-				new MetadataMobAction(17, (byte) 1, "Charged..."),
-				"uncharge",
-				new MetadataMobAction(17, (byte) 0, "Uncharged...")
+				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
 		);
 
 		registerMobActions(55, // Slime
+				"help",
+				new HelpMobAction("/sac size <1..127>"),
 				"size",
 				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 					byte size = Byte.valueOf(argStr);
-					sendMetadataPacket(shape, 16, size);
+					shape.setData(16, size);
 
 					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Set your size to "+size);
 				}}
 		);
 
+		registerMobActions(56, // Ghast
+				"help",
+				new HelpMobAction("/sac fire [on|off]"),
+				"fire",
+				new MetadataBitMobAction(16, (byte) 0x1, "Ceasing fire...", "Firing...")
+		);
+
 		registerMobActions(90, // Pig
+				"help",
+				new HelpMobAction("/sac saddle [on|off]"),
 				"saddle",
-				new MetadataMobAction(16, (byte) 1, "You now have a saddle."),
-				"unsaddle",
-				new MetadataMobAction(16, (byte) 0, "You no longer have a saddle.")
+				new MetadataBitMobAction(16, (byte) 0x1, "You no longer have a saddle.", "You now have a saddle.")
 		);
 
 		registerMobActions(91, // Sheep
+				"help",
+				new HelpMobAction("/sac color <color>|shorn"),
 				"color",
 				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
@@ -81,7 +74,7 @@ final class MobActions {
 					}
 					catch (Exception e) { }
 
-					sendMetadataPacket(shape, 16, dyeColor.getData());
+					shape.setData(16, dyeColor.getData());
 
 					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
 				}},
@@ -89,55 +82,22 @@ final class MobActions {
 				new MetadataMobAction(16, (byte) 16, "You are now shorn.")
 		);
 
-		/*registerMobActions(95, // Wolf
+		registerMobActions(95, // Wolf
+				"help",
+				new HelpMobAction("/sac sit [on|off]|angry [on|off]|tame [on|off]|shake|hearts|smoke"),
 				"sit",
-				new MetadataMobAction(16, 1, "Sitting down"),
-				"unsit",
-				new MetadataMobAction(16, 0, "Getting up"),
+				new MetadataBitMobAction(16, 0x1, "Getting up", "Sitting down"),
+				"angry",
+				new MetadataBitMobAction(16, 0x2, "Now peaceful", "Now angry"),
+				"tame",
+				new MetadataBitMobAction(16, 0x4, "Now untamed", "Now tamed"),
 				"shake",
-				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) {
-					//sendMetadataPacket(shape, 16, (byte) 0);
-
-					final Location location = shape.player.getLocation();
-					final World world = location.getWorld();
-					for (Player player : world.getPlayers()) {
-						player.sendBlockChange(location, 9, (byte) 0);
-						//shape.transmute.plugin.playerHelper.sendPacketToPlayer(player, new Packet53BlockChange(location.getBlockX(), location.getBlockY(), location.getBlockZ(), ((CraftWorld) world).getHandle()));
-					}
-
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Shaking...");
-				}}
-		);*/
-	}
-
-	private static final Player sendMetadataPacket(MobShape shape, int index, Object value) {
-		Packet40EntityMetadata p40 = createMetadataPacket(shape, index, value);
-
-		final Player player = shape.player;
-		shape.transmute.plugin.playerHelper.sendPacketToPlayersAround(player.getLocation(), 1024, p40, player);
-		return player;
-	}
-
-	private static final Packet40EntityMetadata createMetadataPacket(MobShape shape, int index, Object value) {
-
-		try {
-			DataWatcher datawatcher = new DataWatcher();
-
-			// create entry
-			datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
-
-			// mark dirty
-			datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
-
-			// put the actual data in
-			datawatcher.watch(index, value);
-
-			return new Packet40EntityMetadata(shape.entityID, datawatcher);
-		} catch (Exception e) {
-
-			throw new RuntimeException("Could not create DataWatcher", e);
-		}
-
+				new EntityStatusMobAction(8),
+				"hearts","heart", "love",
+				new EntityStatusMobAction(7),
+				"smoke",
+				new EntityStatusMobAction(6)
+		);
 	}
 
 	private static void registerMobActions(int mobType, Object... objects) {
@@ -157,5 +117,91 @@ final class MobActions {
 		}
 
 		mobActions.put(mobType, actions);
+	}
+
+	private static class HelpMobAction implements MobAction {
+		final String message;
+
+		public HelpMobAction(String message) {
+			this.message = message;
+		}
+
+		@Override
+		public void run(MobShape shape, String[] args, String argStr) {
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
+		}
+
+	}
+
+	private static class MetadataBitMobAction implements MobAction {
+		private final int index;
+		private final byte bit;
+		private final String unsetMessage;
+		private final String setMessage;
+
+
+		public MetadataBitMobAction(int index, int bit, String unsetMessage, String setMessage) {
+			this.index = index;
+			this.bit = (byte) bit;
+			this.unsetMessage = unsetMessage;
+			this.setMessage = setMessage;
+		}
+
+		@Override
+		public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+			final byte oldData = shape.getDataByte(index);
+			if ((oldData & bit) != 0) {
+				if ("on".equalsIgnoreCase(argStr))
+					throw new YiffBukkitCommandException("Already on");
+
+				shape.setData(index, (byte)(oldData & ~bit));
+				shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, unsetMessage);
+			}
+			else {
+				if ("off".equalsIgnoreCase(argStr))
+					throw new YiffBukkitCommandException("Already off");
+				shape.setData(index, (byte)(oldData | bit));
+				shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, setMessage);
+			}
+		}
+	}
+
+	static class EntityStatusMobAction implements MobAction {
+		private final byte status;
+
+		public EntityStatusMobAction(int i) {
+			super();
+			this.status = (byte) i;
+		}
+
+		@Override
+		public void run(MobShape shape, String[] args, String argStr) {
+			final Location location = shape.player.getLocation();
+			final World world = location.getWorld();
+			for (Player player : world.getPlayers()) {
+				shape.transmute.plugin.playerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityID, status));
+			}
+
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Smoking...");
+		}
+	}
+
+	static class MetadataMobAction implements MobAction {
+		private final int index;
+		private final Object value;
+		private final String message;
+
+		public MetadataMobAction(int index, Object value, String message) {
+			this.index = index;
+			this.value = value;
+			this.message = message;
+		}
+
+		@Override
+		public void run(MobShape shape, String[] args, String argStr) {
+			shape.setData(index, value);
+
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
+		}
 	}
 }

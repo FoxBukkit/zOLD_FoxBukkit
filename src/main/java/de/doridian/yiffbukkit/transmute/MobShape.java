@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.server.DataWatcher;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityTypes;
 import net.minecraft.server.MathHelper;
@@ -59,7 +58,7 @@ public class MobShape extends Shape {
 		p24.e = MathHelper.floor(location.getZ() * 32.0D);
 		p24.f = (byte) ((int) (location.getYaw() * 256.0F / 360.0F));
 		p24.g = (byte) ((int) (location.getPitch() * 256.0F / 360.0F));
-		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "h", new DataWatcher());
+		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "h", datawatcher);
 		return p24;
 	}
 
