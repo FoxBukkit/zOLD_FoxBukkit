@@ -59,7 +59,7 @@ final class MobActions {
 
 		registerMobActions(91, // Sheep
 				"help",
-				new HelpMobAction("/sac color <color>|shorn"),
+				new HelpMobAction("/sac shorn|color <color>"),
 				"color",
 				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
@@ -86,17 +86,17 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac sit [on|off]|angry [on|off]|tame [on|off]|shake|hearts|smoke"),
 				"sit",
-				new MetadataBitMobAction(16, 0x1, "Getting up", "Sitting down"),
+				new MetadataBitMobAction(16, 0x1, "Getting up...", "Sitting down..."),
 				"angry",
-				new MetadataBitMobAction(16, 0x2, "Now peaceful", "Now angry"),
-				"tame",
-				new MetadataBitMobAction(16, 0x4, "Now untamed", "Now tamed"),
+				new MetadataBitMobAction(16, 0x2, "Now peaceful...", "Now angry..."),
+				"tame", "tamed",
+				new MetadataBitMobAction(16, 0x4, "Now untamed...", "Now tamed..."),
 				"shake",
-				new EntityStatusMobAction(8),
+				new EntityStatusMobAction(8, "Shaking..."),
 				"hearts","heart", "love",
-				new EntityStatusMobAction(7),
+				new EntityStatusMobAction(7, "Loving..."),
 				"smoke",
-				new EntityStatusMobAction(6)
+				new EntityStatusMobAction(6, "Smoking...")
 		);
 	}
 
@@ -168,10 +168,11 @@ final class MobActions {
 
 	static class EntityStatusMobAction implements MobAction {
 		private final byte status;
+		private final String message;
 
-		public EntityStatusMobAction(int i) {
-			super();
+		public EntityStatusMobAction(int i, String message) {
 			this.status = (byte) i;
+			this.message = message;
 		}
 
 		@Override
@@ -182,7 +183,7 @@ final class MobActions {
 				shape.transmute.plugin.playerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityID, status));
 			}
 
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Smoking...");
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
 		}
 	}
 
