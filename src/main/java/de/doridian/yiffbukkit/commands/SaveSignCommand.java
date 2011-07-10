@@ -32,9 +32,9 @@ public class SaveSignCommand extends ICommand {
 		catch (IncompleteRegionException e) {
 			throw new YiffBukkitCommandException("Please select a region.", e);
 		}
-		
+
 		Location location = new Location(world, vec.getX(), vec.getY(), vec.getZ());
-		
+
 		plugin.signSaver.addSign(location);
 	}
 }
