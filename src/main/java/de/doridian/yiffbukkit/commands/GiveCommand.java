@@ -66,6 +66,10 @@ public class GiveCommand extends ICommand {
 		aliases.put("dye", Material.INK_SACK);
 		aliases.put("ink", Material.INK_SACK);
 		aliases.put("repeater", Material.DIODE);
+		aliases.put("piston", Material.PISTON_BASE);
+		aliases.put("sticky_piston", Material.PISTON_STICKY_BASE);
+		aliases.put("piston_sticky", Material.PISTON_STICKY_BASE);
+		aliases.put("reed", Material.SUGAR_CANE);
 
 		dataValues.put("43:SANDSTONE", (short) 1);
 		dataValues.put("43:WOOD", (short) 2);
