@@ -69,6 +69,7 @@ public class YiffBukkit extends JavaPlugin {
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
+	public SignSaver signSaver;
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 	public DynmapPlugin dynmap;
@@ -139,6 +140,7 @@ public class YiffBukkit extends JavaPlugin {
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
+		signSaver = new SignSaver(this);
 		//portalEngine = new PortalEngine(this);
 		StateContainer.loadAll();
 		chatManager = new ChatManager(this);
