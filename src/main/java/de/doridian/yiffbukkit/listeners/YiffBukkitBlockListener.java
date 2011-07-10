@@ -23,6 +23,7 @@ import org.bukkit.plugin.PluginManager;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
 /**
@@ -31,7 +32,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
  */
 public class YiffBukkitBlockListener extends BlockListener {
 	private final YiffBukkit plugin;
-	public static final Map<Material,Integer> blocklevels = new HashMap<Material,Integer>();
+	public static final Map<Material,String> blocklevels = new HashMap<Material,String>();
 	public static final Set<Material> flammableBlocks = new HashSet<Material>();
 	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
@@ -39,22 +40,22 @@ public class YiffBukkitBlockListener extends BlockListener {
 	private static final int TORCH_BREAK_TIMEOUT_MILLIS = 1000;
 
 	static {
-		blocklevels.put(Material.TNT, 4);
-		blocklevels.put(Material.BEDROCK, 4);
+		blocklevels.put(Material.TNT, "yiffbukkit.place.block.tnt");
+		blocklevels.put(Material.BEDROCK, "yiffbukkit.place.block.bedrock");
 
-		blocklevels.put(Material.OBSIDIAN, 1);
+		blocklevels.put(Material.OBSIDIAN, "yiffbukkit.place.block.obsidian");
 
-		blocklevels.put(Material.WATER, 1);
-		blocklevels.put(Material.WATER_BUCKET, 1);
-		blocklevels.put(Material.LAVA, 3);
-		blocklevels.put(Material.LAVA_BUCKET, 3);
+		blocklevels.put(Material.WATER, "yiffbukkit.place.block.water");
+		blocklevels.put(Material.WATER_BUCKET, "yiffbukkit.place.block.water_bucket");
+		blocklevels.put(Material.LAVA, "yiffbukkit.place.block.lava");
+		blocklevels.put(Material.LAVA_BUCKET, "yiffbukkit.place.block.lava_bucket");
 
-		blocklevels.put(Material.FLINT_AND_STEEL, 3);
-		blocklevels.put(Material.FIRE, 3);
-		blocklevels.put(Material.PISTON_BASE, 3);
-		blocklevels.put(Material.PISTON_EXTENSION, 3);
-		blocklevels.put(Material.PISTON_MOVING_PIECE, 3);
-		blocklevels.put(Material.PISTON_STICKY_BASE, 3);
+		blocklevels.put(Material.FLINT_AND_STEEL, "yiffbukkit.place.block.flint_and_steel");
+		blocklevels.put(Material.FIRE, "yiffbukkit.place.block.fire");
+		blocklevels.put(Material.PISTON_BASE, "yiffbukkit.place.block.piston.base");
+		blocklevels.put(Material.PISTON_EXTENSION, "yiffbukkit.place.block.piston.extension");
+		blocklevels.put(Material.PISTON_MOVING_PIECE, "yiffbukkit.place.block.piston.moving_piece");
+		blocklevels.put(Material.PISTON_STICKY_BASE, "yiffbukkit.place.block.piston.sticky_base");
 
 		flammableBlocks.add(Material.LOG);
 		flammableBlocks.add(Material.WOOD);
@@ -63,10 +64,12 @@ public class YiffBukkitBlockListener extends BlockListener {
 		flammableBlocks.add(Material.LEAVES);
 	}
 	private PlayerHelper playerHelper;
+	private YiffBukkitPermissionHandler permissionHandler;
 
 	public YiffBukkitBlockListener(YiffBukkit instance) {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
+		permissionHandler = plugin.permissionHandler;
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.BLOCK_PLACE, this, Priority.Normal, plugin);
@@ -82,24 +85,34 @@ public class YiffBukkitBlockListener extends BlockListener {
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
 		if (playerHelper.isPlayerDisabled(ply)) {
+			playerHelper.sendDirectedMessage(ply, "You are not allowed to build right now.");
 			event.setBuild(false);
 			return;
 		}
 
 		final Block block = event.getBlock();
 		Material material = block.getType();
-		Integer selflvl = playerHelper.getPlayerLevel(ply);
-		if (!plugin.permissionHandler.has(ply, "yiffbukkit.place") || (blocklevels.containsKey(material) && selflvl < blocklevels.get(material))) {
-			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
+		if (!permissionHandler.has(ply, "yiffbukkit.place")) {
+			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material.toString()+".");
 			event.setBuild(false);
+			return;
 		}
 
-		if (!plugin.permissionHandler.has(ply, "yiffbukkit.place.flammablenearfire") && flammableBlocks.contains(material)) {
-			for (BlockFace face : flameSpreadDirections) {
-				Material neighborMaterial = block.getRelative(face).getType();
-				if (neighborMaterial == Material.FIRE) {
-					playerHelper.sendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
-					event.setBuild(false);
+		final String permission = blocklevels.get(material);
+		if (permission != null && permissionHandler.has(ply, permission)) {
+			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
+			event.setBuild(false);
+			return;
+		}
+
+		if (flammableBlocks.contains(material)) {
+			if (!permissionHandler.has(ply, "yiffbukkit.place.flammablenearfire")) {
+				for (BlockFace face : flameSpreadDirections) {
+					Material neighborMaterial = block.getRelative(face).getType();
+					if (neighborMaterial == Material.FIRE) {
+						playerHelper.sendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
+						event.setBuild(false);
+					}
 				}
 			}
 		}
