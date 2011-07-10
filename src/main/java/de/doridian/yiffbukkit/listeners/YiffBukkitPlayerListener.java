@@ -465,7 +465,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		if(YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && permissionHandler.has(ply, YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
+		final String permission = YiffBukkitBlockListener.blocklevels.get(itemMaterial);
+		if (permission != null && !permissionHandler.has(ply, permission)) {
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);

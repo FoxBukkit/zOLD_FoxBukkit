@@ -99,7 +99,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 
 		final String permission = blocklevels.get(material);
-		if (permission != null && permissionHandler.has(ply, permission)) {
+		if (permission != null && !permissionHandler.has(ply, permission)) {
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material+".");
 			event.setBuild(false);
 			return;
