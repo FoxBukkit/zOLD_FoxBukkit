@@ -24,6 +24,7 @@ import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.*;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
 import org.bukkit.Location;
@@ -56,11 +57,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public static YiffBukkitPlayerListener instance;
 	public final YiffBukkit plugin;
 	private final PlayerHelper playerHelper;
+	private YiffBukkitPermissionHandler permissionHandler;
 
 	public YiffBukkitPlayerListener(YiffBukkit plug) {
 		instance = this;
 		plugin = plug;
 		playerHelper = plugin.playerHelper;
+		permissionHandler = plugin.permissionHandler;
 
 		scanCommands();
 
@@ -454,9 +457,16 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		Integer selflvl = playerHelper.getPlayerLevel(ply);
-		if(selflvl < 0 || (YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && selflvl < YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
-			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial.toString());
+		if (!permissionHandler.has(ply, "yiffbukkit.place")) {
+			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
+			item.setType(Material.GOLD_HOE);
+			item.setAmount(1);
+			item.setDurability(Short.MAX_VALUE);
+			return;
+		}
+
+		if(YiffBukkitBlockListener.blocklevels.containsKey(itemMaterial) && permissionHandler.has(ply, YiffBukkitBlockListener.blocklevels.get(itemMaterial))) {
+			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);

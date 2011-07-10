@@ -93,14 +93,14 @@ public class YiffBukkitBlockListener extends BlockListener {
 		final Block block = event.getBlock();
 		Material material = block.getType();
 		if (!permissionHandler.has(ply, "yiffbukkit.place")) {
-			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material.toString()+".");
+			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			event.setBuild(false);
 			return;
 		}
 
 		final String permission = blocklevels.get(material);
 		if (permission != null && permissionHandler.has(ply, permission)) {
-			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material.toString()+".");
+			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material+".");
 			event.setBuild(false);
 			return;
 		}
