@@ -1,7 +1,10 @@
 package de.doridian.yiffbukkit;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,12 +84,45 @@ public class SignSaver extends StateContainer {
 
 				case 'a':
 					saved_signs.add(current);
+					current = new SignDescriptor();
 					break;
 				}
 			}
 			stream.close();
 		}
 		catch (Exception e) { }
+	}
+
+	@Saver({"signsaver", "sign_saver"})
+	public void saveSignSaver() {
+		try {
+			BufferedWriter stream = new BufferedWriter(new FileWriter("signsaver.txt"));
+			for (SignDescriptor current : saved_signs) {
+				stream.write("x"+current.location.getX());
+				stream.newLine();
+
+				stream.write("y"+current.location.getX());
+				stream.newLine();
+
+				stream.write("z"+current.location.getX());
+				stream.newLine();
+
+				stream.write("w"+current.location.getWorld().getName());
+				stream.newLine();
+
+				final String[] lines = current.lines;
+				for (int i = 0; i < 4; ++i) {
+					stream.write((i+1)+lines[i]);
+					stream.newLine();
+				}
+				stream.write('a');
+				stream.newLine();
+
+				stream.newLine();
+			}
+			stream.close();
+		}
+		catch(IOException e) { }
 	}
 
 	public void fixSigns() {
@@ -102,11 +138,29 @@ public class SignSaver extends StateContainer {
 			for (int i = 0; i < 4; ++i) {
 				sign.setLine(i, lines[i]);
 			}
+			sign.update(true);
 		}
 	}
 
 	private static class SignDescriptor {
 		public Location location = new Location(Bukkit.getServer().getWorld("world"), 0,0,0);
 		public String[] lines = { "", "", "", "" };
+	}
+
+	public void addSign(Location location) throws YiffBukkitCommandException {
+		BlockState state = location.getBlock().getState();
+		if (!(state instanceof Sign)) {
+			throw new YiffBukkitCommandException("SignSaver: Block at "+location+" is not a sign."); 
+		}
+
+		Sign sign = (Sign) state;
+
+		SignDescriptor signDescriptor = new SignDescriptor();
+		signDescriptor.location = location;
+		signDescriptor.lines = sign.getLines();
+
+		saved_signs.add(signDescriptor);
+
+		saveSignSaver();
 	}
 }
