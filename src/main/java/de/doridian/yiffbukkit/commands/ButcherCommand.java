@@ -1,12 +1,16 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.util.List;
+
 import net.minecraft.server.EntityPlayer;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
@@ -17,13 +21,14 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help(
 		"Kills living entities around yourself or a specified target.\n"+
 		"The default radius is 20. To kill everything, use a radius\n"+
-		"of -1. Players and tamed wolves are never butchered.\n" +
+		"of -1. Players and tamed wolves are never butchered.\n"+
 		"Flags:\n"+
-		"  -n butcher NPCs too"
+		"  -n butcher NPCs too\n"+
+		"  -v remove vehicles too"
 )
 @Usage("[<target>] [<radius>]")
 @Level(3)
-@BooleanFlags("n")
+@BooleanFlags("nv")
 @Permission("yiffbukkit.butcher")
 public class ButcherCommand extends ICommand {
 	@Override
@@ -98,17 +103,24 @@ public class ButcherCommand extends ICommand {
 
 		final Vector targetPos = target.getLocation().toVector();
 		final double radiusSquared = radius*radius;
-		for (LivingEntity livingEntity : world.getLivingEntities()) {
-			if (isSpared(livingEntity, spareNPCs))
+
+		final List<? extends Entity> entities;
+		if (booleanFlags.contains('v'))
+			entities = target.getNearbyEntities(radius*2, radius*2, radius*2);
+		else
+			entities = world.getLivingEntities();
+
+		for (Entity entity : entities) {
+			if (isSpared(entity, spareNPCs))
 				continue;
 
-			final Vector currentPos = livingEntity.getLocation().toVector();
+			final Vector currentPos = entity.getLocation().toVector();
 			final double distanceSquared = currentPos.distanceSquared(targetPos);
 
 			if (distanceSquared > radiusSquared)
 				continue;
 
-			livingEntity.remove();
+			entity.remove();
 			++removed;
 		}
 
@@ -122,27 +134,33 @@ public class ButcherCommand extends ICommand {
 		}
 	}
 
-	private boolean isSpared(LivingEntity livingEntity, boolean spareNPCs) {
-		if (livingEntity instanceof Player) {
-			if (spareNPCs)
-				return true;
+	private boolean isSpared(Entity entity, boolean spareNPCs) {
+		if (entity instanceof LivingEntity) {
+			if (entity instanceof Player) {
+				if (spareNPCs)
+					return true;
 
-			final EntityPlayer eply = ((CraftPlayer)livingEntity).getHandle();
-			if (eply.world.players.contains(eply))
-				return true;
+				final EntityPlayer eply = ((CraftPlayer)entity).getHandle();
+				if (eply.world.players.contains(eply))
+					return true;
 
+				return false;
+			}
+
+			if (entity instanceof Wolf) {
+				Wolf wolf = (Wolf) entity;
+				if (wolf.isAngry())
+					return false;
+
+				if (wolf.isTamed())
+					return true;
+			}
+			return false;
+		}
+		else if (entity instanceof Vehicle) {
 			return false;
 		}
 
-		if (livingEntity instanceof Wolf) {
-			Wolf wolf = (Wolf) livingEntity;
-			if (wolf.isAngry())
-				return false;
-
-			if (wolf.isTamed())
-				return true;
-		}
-
-		return false;
+		return true;
 	}
 }
