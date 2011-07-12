@@ -20,7 +20,6 @@ public class MCBansUtil {
 	}
 	
 	public static JSONObject apiQuery(String data) {
-		System.out.println(data);
 		try {
 			URL url = new URL("http://api.mcbans.com/v2/" + APIKEY);
 			URLConnection conn = url.openConnection();
