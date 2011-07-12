@@ -31,7 +31,7 @@ public class Ircbot extends PircBot implements Runnable {
     public void start() {
         try {
             this.setAutoNickChange(true);
-            this.connect("irc.bitsjointirc.net", 6667, "");
+            this.connect("irc.bitsjointirc.net", 6667);
         	this.changeNick("YiffBot");
         	this.identify("yiffyiff11");
             try {
@@ -41,6 +41,7 @@ public class Ircbot extends PircBot implements Runnable {
         	}
             this.joinChannel("#minecraft");
             this.joinChannel("#doridian-staff");
+            this.joinChannel("#zidonuke");
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
