@@ -40,7 +40,7 @@ public class MCBans {
 	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final String measure) {
 		String addr;
 		if(ply instanceof OfflinePlayer) addr = "";
-		else addr = ply.getAddress().toString();
+		else addr = ply.getAddress().getAddress().getHostAddress();
 		ban(from, ply.getName(), addr, reason, type, duration, measure);
 	}
 
