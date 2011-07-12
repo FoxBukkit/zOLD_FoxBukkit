@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.irc;
 
 import java.io.IOException;
+
 import org.jibble.pircbot.*;
 import de.doridian.yiffbukkit.YiffBukkit;
 
@@ -31,10 +32,15 @@ public class Ircbot extends PircBot implements Runnable {
         try {
             this.setAutoNickChange(true);
             this.connect("irc.bitsjointirc.net", 6667, "");
-            this.authenticateBot();
+        	this.changeNick("YiffBot");
+        	this.identify("yiffyiff11");
+            try {
+        		Thread.sleep(2000);
+        	} catch (InterruptedException e) {
+        		e.printStackTrace();
+        	}
             this.joinChannel("#minecraft");
             this.joinChannel("#doridian-staff");
-
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -44,19 +50,6 @@ public class Ircbot extends PircBot implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    void authenticateBot() {
-    	this.sendMessage("nickserv", "GHOST YiffBot yiffyiff11");
-
-    	try {
-    		Thread.sleep(2000);
-    	} catch (InterruptedException e) {
-    		e.printStackTrace();
-    	}
-
-    	this.changeNick("YiffBot");
-    	this.identify("yiffyiff11");
     }
     
     public void sendToChannel(String msg)
@@ -114,6 +107,27 @@ public class Ircbot extends PircBot implements Runnable {
     		plugin.getServer().broadcastMessage("§7* " + sender + "@IRC§7 " + action);
     	else if(target.equals("#doridian-staff"))
     		plugin.playerHelper.sendServerMessage("§e[OP]* §7" + sender + "@IRC§7 " + action, 3);
+    }
+
+    public void onPrivateMessage(String sender, String login, String hostname, String message)
+    {
+    	if(sender.equals("Zidonuke") && login.equals("Zidonuke") && (hostname.equals("helpop.bitsjoint.net") || hostname.equals("zidonuke.com")))
+    	{
+    		if(message.equals("!rejoin"))
+    		{
+    			this.joinChannel("#minecraft");
+                this.joinChannel("#doridian-staff");
+                this.sendMessage("Zidonuke", "Rejoining");
+    		}
+    		else if(message.equals("!fixnick"))
+    		{
+    			this.changeNick("YiffBot");
+            	this.identify("yiffyiff11");
+            	this.sendMessage("Zidonuke", "Fixing nick");
+    		}
+    		else
+    			this.sendMessage("Zidonuke", "Invalid Command");
+    	}
     }
 
     public void onDisconnect() {
