@@ -23,15 +23,17 @@ public class LookupCommand extends ICommand {
 
 		new Thread() {
 			public void run() {
-				JSONObject lookupret = MCBansUtil.apiQuery("exec=lookup_user&player="+MCBansUtil.URLEncode(otherName));
-				//{"ban_num":2,"ban_rep":10,"ban_reasons_local":
-				//	["mc.agrogamerz.com .:. No reason specified",
-				//	"PGenesis.com .:. Speedhacking, flyhacking, despite repeated warnings with HeroicRebuke"],"ban_reasons_global":[]
-				//}
+				JSONObject lookupret = MCBansUtil.apiQuery("exec=playerLookup&player="+MCBansUtil.URLEncode(otherName));
+				/*
+				 * {"total":2,"reputation":0,
+				 * "local":[],
+				 * "global":["mcbans.com .:. permabanned", "minecraft.digiex.net .:. Griefer (ThePanasonicGriefers)"]
+				 * }
+				 */
 
-				playerHelper.sendDirectedMessage(commandSender, "Player §3" + otherName + "§f has §4" + lookupret.get("ban_num").toString() + " ban(s)§f and §9"+lookupret.get("ban_rep").toString()+" REP§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Player §3" + otherName + "§f has §4" + lookupret.get("total").toString() + " ban(s)§f and §9"+lookupret.get("reputation").toString()+" REP§f.");
 
-				final JSONArray banReasonsGlobal = (JSONArray)lookupret.get("ban_reasons_global");
+				final JSONArray banReasonsGlobal = (JSONArray)lookupret.get("global");
 				if (!banReasonsGlobal.isEmpty()) {
 					playerHelper.sendDirectedMessage(commandSender, "§4Global bans");
 					for(Object obj : banReasonsGlobal) {
@@ -39,7 +41,7 @@ public class LookupCommand extends ICommand {
 					}
 				}
 
-				final JSONArray banReasonsLocal = (JSONArray)lookupret.get("ban_reasons_local");
+				final JSONArray banReasonsLocal = (JSONArray)lookupret.get("local");
 				if (!banReasonsLocal.isEmpty()) {
 					playerHelper.sendDirectedMessage(commandSender, "§6Local bans");
 					for(Object obj : banReasonsLocal) {

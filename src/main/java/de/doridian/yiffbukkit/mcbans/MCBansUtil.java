@@ -14,9 +14,15 @@ public class MCBansUtil {
 	private final static String APIKEY = "SECRET";
 	private static JSONParser parser = new JSONParser();
 	
+	public static boolean isKeyYesOrNo(JSONObject connret, String key) {
+		if(connret.containsKey(key) && connret.get(key).toString().toLowerCase().charAt(0) == 'y') return true;
+		return false;
+	}
+	
 	public static JSONObject apiQuery(String data) {
+		System.out.println(data);
 		try {
-			URL url = new URL("http://api.mcbans.com/" + APIKEY);
+			URL url = new URL("http://api.mcbans.com/v2/" + APIKEY);
 			URLConnection conn = url.openConnection();
 			conn.setConnectTimeout(10000);
 			conn.setReadTimeout(20000);

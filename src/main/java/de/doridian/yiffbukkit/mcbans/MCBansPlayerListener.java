@@ -1,14 +1,11 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import java.util.HashMap;
-
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent.Result;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.json.simple.JSONObject;
 
@@ -17,27 +14,19 @@ import de.doridian.yiffbukkit.YiffBukkit;
 public class MCBansPlayerListener extends PlayerListener {
 	protected YiffBukkit plugin;
 
-	private HashMap<String,Integer> disputeCount = new HashMap<String,Integer>();
-
 	public MCBansPlayerListener(YiffBukkit plug) {
 		plugin = plug;
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_PRELOGIN, this, Event.Priority.High, plugin);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, this, Event.Priority.High, plugin);
+		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Event.Priority.High, plugin);
 	}
-
+	
 	@Override
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player ply = event.getPlayer();
-		Integer disputes = disputeCount.remove(ply.getName());
-
-		if (disputes == null)
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		if (plugin.serverClosed)
 			return;
-
-		if (disputes <= 0)
-			return;
-
-		plugin.playerHelper.sendDirectedMessage(ply, "You have "+disputes+" open dispute(s)!");
+		
+		MCBansUtil.apiQuery("exec=playerDisconnect&player="+MCBansUtil.URLEncode(event.getPlayer().getName()));
 	}
 
 	@Override
@@ -46,41 +35,45 @@ public class MCBansPlayerListener extends PlayerListener {
 			return;
 
 		String name = event.getName();
-		final JSONObject connret = MCBansUtil.apiQuery("player="+MCBansUtil.URLEncode(name)+"&exec=user_connect&version=YiffBukkit");
+		final JSONObject connret = MCBansUtil.apiQuery("exec=playerConnect&player="+MCBansUtil.URLEncode(name)+"&playerip="+MCBansUtil.URLEncode(event.getAddress().getHostAddress()));
 
 		if(connret == null) {
 			event.disallow(Result.KICK_OTHER, "[YB] Sorry, mcbans.com API failure, please rejoin!");
 			return;
 		}
-		//{"ban_status":"b","ban_num":1,"owner":"n","disputes":0,"reputation":"10.00","new_version":"y","ban_local_reason":null,"is_mcbans_mod":"n"}
-		//b = bans on record, g = global, l = local, t = temporary, n = no bans on record
-		char utype = ((String)connret.get("ban_status")).charAt(0);
+		//{"banStatus":"g","banReason":"You have been permanently banned from mcbans servers!","playerRep":0,"altList":"steamwar: REP 0"}
+		//b = bans on record, g = global, l = local, t = temporary, n = no bans on record, s = servergroup, i = wtf?!
+		char utype = ((String)connret.get("banStatus")).toLowerCase().charAt(0);
 		switch(utype) {
 		case 'g':
 			event.disallow(Result.KICK_BANNED, "[YB] You are globally banned! See mcbans.com");
 			break;
 
 		case 'l':
-			event.disallow(Result.KICK_BANNED, "[YB] You are banned from this server!");
+			event.disallow(Result.KICK_BANNED, "[YB] Locally Banned: " + ((String)connret.get("banReason")));
 			break;
 
 		case 't':
-			event.disallow(Result.KICK_BANNED, "[YB] Temporary ban. Rejoin in "+ ((String)connret.get("ban_remain")));
+			event.disallow(Result.KICK_BANNED, "[YB] Temporary ban: " + ((String)connret.get("banReason")));
+			break;
+			
+		case 's':
+			event.disallow(Result.KICK_BANNED, "[YB] You are banned from another server in one of this server's servergroups!");
 			break;
 
 		case 'b':
-			sendServerMessage(name + " has " + connret.get("ban_num") +  " ban(s) on record! ("+connret.get("reputation")+" REP)", 3);
+			sendServerMessage(name + "has previous bans and "+connret.get("playerRep")+" REP", 3);
 			/* FALL-THROUGH */
 
+		case 'n':
+			break;
+			
+		case 'i':
+			event.disallow(Result.KICK_BANNED, "[YB] Invalid IP for that account!");
+			break;
+			
 		default:
-			long disputes = (Long)connret.get("disputes");
-			if(disputes > 0) {
-				disputeCount.put(name, (int) disputes);
-			} else {
-				disputeCount.remove(name);
-			}
-
-			if (connret.get("is_mcbans_mod").equals("y")) sendServerMessage(name + " is an MCBans moderator!");
+			event.disallow(Result.KICK_BANNED, "[YB] You have some kind of ban I don't know what it is, ask mcbans.com");
 			break;
 		}
 	}
@@ -89,14 +82,6 @@ public class MCBansPlayerListener extends PlayerListener {
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
 				plugin.playerHelper.sendServerMessage(msg, color);
-			}
-		});
-	}
-
-	private void sendServerMessage(final String msg) {
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			public void run() {
-				plugin.playerHelper.sendServerMessage(msg);
 			}
 		});
 	}
