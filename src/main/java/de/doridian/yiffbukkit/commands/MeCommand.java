@@ -15,7 +15,7 @@ public class MeCommand extends ICommand {
 
 		final String conversationTarget = playerHelper.conversations.get(commandSender.getName());
 		if (conversationTarget == null) {
-			plugin.ircbot.sendToChannel("* " + commandSender.getName() + " " + argStr);
+			plugin.ircbot.sendToPublicChannel("* " + commandSender.getName() + " " + argStr);
 			plugin.getServer().broadcastMessage(message);
 		}
 		else {

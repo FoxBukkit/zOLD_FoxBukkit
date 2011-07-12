@@ -328,7 +328,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 		
-		plugin.ircbot.sendToChannel("[" + event.getPlayer().getName() + "]: " + msg);
+		plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + msg);
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
 	}
 

@@ -53,6 +53,11 @@ public class Ircbot extends PircBot implements Runnable {
         }
     }
     
+    public void sendToPublicChannel(String msg)
+    {
+    	this.sendMessage("#minecraft", msg);
+    }
+    
     public void sendToChannel(String msg)
     {
     	this.sendMessage("#minecraft", msg);
@@ -66,23 +71,20 @@ public class Ircbot extends PircBot implements Runnable {
 
     public void onJoin(String channel, String sender, String login, String hostname) {
     	if(channel.equals("#minecraft"))
-    		plugin.getServer().broadcastMessage("§a[-] §e" + sender + "@IRC§e joined!");
+    		plugin.getServer().broadcastMessage("§a[+] §e" + sender + "@IRC§e joined!");
     	else if(channel.equals("#doridian-staff"))
-    		plugin.playerHelper.sendServerMessage("§e[OP]§a[-] §e" + sender + "@IRC§e joined!", 3); 
+    		plugin.playerHelper.sendServerMessage("§e[OP]§a[+] §e" + sender + "@IRC§e joined!", 3); 
     }
     
-    public void onPart(String channel, String sender, String login, String hostname, String reason) {
+    public void onPart(String channel, String sender, String login, String hostname) {
     	if(channel.equals("#minecraft"))
-    		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e left (" + reason + ")!");
+    		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e left!");
     	else if(channel.equals("#doridian-staff"))
-    		plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + sender + "@IRC§e left (" + reason + ")!", 3);
+    		plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + sender + "@IRC§e left!", 3);
     }
     
-    public void onChannelQuit(String channel, String sender, String login, String hostname, String reason) {
-    	if(channel.equals("#minecraft"))
-    		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e disconnected (" + reason + ")!");
-    	else if(channel.equals("#doridian-staff"))
-    		plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + sender + "@IRC§e disconnected (" + reason + ")!", 3);
+    public void onQuit(String sender, String login, String hostname, String reason) {
+    	plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e disconnected (" + reason + ")!");;
     }
     
     public void onKick(String channel, String kickerNick, String kickerLogin, String kickerHostname,
