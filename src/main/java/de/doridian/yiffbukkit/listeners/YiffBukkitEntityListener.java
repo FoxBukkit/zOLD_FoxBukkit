@@ -153,6 +153,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 			deathMessage = lastAttacker.get(playerName);
 
 		lastAttacker.remove(playerName);
+		plugin.ircbot.sendToChannel(playerName + " died.");
 		plugin.getServer().broadcastMessage(String.format(deathMessage, playerName));
 	}
 

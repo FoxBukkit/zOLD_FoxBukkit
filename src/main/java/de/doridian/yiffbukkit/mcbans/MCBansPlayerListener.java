@@ -62,6 +62,7 @@ public class MCBansPlayerListener extends PlayerListener {
 			break;
 
 		case 'b':
+			sendIRCMessage(name + "has previous bans and "+connret.get("playerRep")+" REP");
 			sendServerMessage(name + "has previous bans and "+connret.get("playerRep")+" REP", 3);
 			/* FALL-THROUGH */
 
@@ -76,6 +77,14 @@ public class MCBansPlayerListener extends PlayerListener {
 			event.disallow(Result.KICK_BANNED, "[YB] You have some kind of ban I don't know what it is, ask mcbans.com");
 			break;
 		}
+	}
+	
+	private void sendIRCMessage(final String msg) {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			public void run() {
+				plugin.ircbot.sendToStaffChannel(msg);
+			}
+		});
 	}
 
 	private void sendServerMessage(final String msg, final int color) {

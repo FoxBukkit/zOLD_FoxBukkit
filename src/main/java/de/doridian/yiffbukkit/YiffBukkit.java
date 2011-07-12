@@ -26,6 +26,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.chatmanager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.jail.JailEngine;
 import de.doridian.yiffbukkit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
@@ -60,6 +61,7 @@ public class YiffBukkit extends JavaPlugin {
 	public Vanish vanish;
 	public Transmute transmute;
 	public MCBans mcbans;
+	public Ircbot ircbot;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils = new Utils(this);
@@ -126,6 +128,7 @@ public class YiffBukkit extends JavaPlugin {
 					public void triggered(ChatEvent t) {
 						String name = t.name;
 						name = playerHelper.getPlayerNameByIP(name);
+						ircbot.sendToChannel("[WEB] " + name.replace('\u00a7','$') + ": " + t.message.replace('\u00a7','$'));
 						getServer().broadcastMessage("[WEB]" + name.replace('\u00a7','$') + ": " + t.message.replace('\u00a7','$'));
 					}
 				});
@@ -155,6 +158,7 @@ public class YiffBukkit extends JavaPlugin {
 		adHandler = new AdvertismentSigns(this);
 
 		mcbans = new MCBans(this);
+		ircbot = new Ircbot(this).init();
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();

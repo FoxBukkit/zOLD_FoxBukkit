@@ -256,13 +256,14 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
 		event.setJoinMessage(null);
 		plugin.chatManager.pushCurrentOrigin(player);
-		if (playerFile != null && playerFile.exists())
+		if (playerFile != null && playerFile.exists()) {
+			plugin.ircbot.sendToChannel(player.getName() + " joined!");
 			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
-		else {
+		} else {
 			Player ply = event.getPlayer();
 			Location location = playerHelper.getPlayerSpawnPosition(ply);
 			ply.teleport(location);
-
+			plugin.ircbot.sendToChannel(player.getName() + " joined for the first time!");
 			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 		}
 
@@ -275,6 +276,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		event.setQuitMessage(null);
 		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
+		plugin.ircbot.sendToChannel(event.getPlayer().getName() + " disconnected!");
 		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
 		plugin.chatManager.popCurrentOrigin();
 
@@ -287,6 +289,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		event.setLeaveMessage(null);
 		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
+		plugin.ircbot.sendToChannel(event.getPlayer().getName() + " was kicked (" + event.getReason() + ")!");
 		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
 		plugin.chatManager.popCurrentOrigin();
 
@@ -320,10 +323,12 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if(msg.charAt(0) == '#') {
 			event.setCancelled(true);
 			Player ply = event.getPlayer();
+			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + msg.substring(1));
 			playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + msg.substring(1), 3);
 			return;
 		}
-
+		
+		plugin.ircbot.sendToChannel("[" + event.getPlayer().getName() + "]: " + msg);
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
 	}
 
@@ -362,6 +367,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					throw new PermissionDeniedException();
 				}
 				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+commandSender.getName()+": "+baseCmd);
+				plugin.ircbot.sendToStaffChannel("Command: " + commandSender.getName() + ": " +baseCmd);
 				icmd.run(commandSender,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {
@@ -458,6 +464,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 
 		if (!permissionHandler.has(ply, "yiffbukkit.place")) {
+			plugin.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
 			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
@@ -467,6 +474,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		final String permission = YiffBukkitBlockListener.blocklevels.get(itemMaterial);
 		if (permission != null && !permissionHandler.has(ply, permission)) {
+			plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
