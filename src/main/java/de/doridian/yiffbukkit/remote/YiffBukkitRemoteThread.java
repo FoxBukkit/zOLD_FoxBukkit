@@ -62,20 +62,24 @@ public class YiffBukkitRemoteThread extends Thread {
 					e.printStackTrace();
 					send(e.getMessage());
 				}
-				finally {
-					YiffBukkitRemote.currentCommandSender = null;
-
-					try {
-						out.flush();
-					}
-					catch(Exception e) { }
-					try {
-						socket.close();
-					}
-					catch(Exception e) { }
-				}
 			}
 		});
+		
+		try {
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e1) { }
+		
+		YiffBukkitRemote.currentCommandSender = null;
+
+		try {
+			out.flush();
+		}
+		catch(Exception e) { }
+		try {
+			socket.close();
+		}
+		catch(Exception e) { }
 	}
 
 	public void send(String txt) {
