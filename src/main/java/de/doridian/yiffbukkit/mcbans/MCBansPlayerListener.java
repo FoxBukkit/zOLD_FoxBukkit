@@ -41,8 +41,8 @@ public class MCBansPlayerListener extends PlayerListener {
 			event.disallow(Result.KICK_OTHER, "[YB] Sorry, mcbans.com API failure, please rejoin!");
 			return;
 		}
-		//{"banStatus":"g","banReason":"You have been permanently banned from mcbans servers!","playerRep":0,"altList":"steamwar: REP 0"}
-		//b = bans on record, g = global, l = local, t = temporary, n = no bans on record, s = servergroup, i = wtf?!
+		//{"banStatus":"l","banReason":"so shut up :3","playerRep":10,"altList":"kraventoxic: REP 0, kravent0xic: REP 10"}
+		//b = bans on record, g = global, l = local, t = temporary, n = no bans on record, s = servergroup, i = invalid ip
 		char utype = ((String)connret.get("banStatus")).toLowerCase().charAt(0);
 		switch(utype) {
 		case 'g':
@@ -67,6 +67,10 @@ public class MCBansPlayerListener extends PlayerListener {
 			/* FALL-THROUGH */
 
 		case 'n':
+			if(connret.containsKey("altList")) {
+				sendIRCMessage(name + " has potential alts: "+connret.get("altList"));
+				sendServerMessage(name + " has potential alts: "+connret.get("altList"), 3);
+			}
 			break;
 			
 		case 'i':
