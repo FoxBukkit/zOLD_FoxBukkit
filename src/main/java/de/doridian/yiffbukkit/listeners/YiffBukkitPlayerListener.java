@@ -86,9 +86,30 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 				final Player ply = event.getPlayer();
 				String conversationTarget = playerHelper.conversations.get(ply.getName());
-				String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), event.getMessage());
-				if (conversationTarget == null) {
+				String message = event.getMessage();
+				String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);
+				if (conversationTarget != null) {
+					formattedMessage = "§e[CONV]§f "+formattedMessage;
+
 					plugin.chatManager.pushCurrentOrigin(ply);
+					ply.sendMessage(formattedMessage);
+					plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
+					plugin.chatManager.popCurrentOrigin();
+
+					event.setCancelled(true);
+					return;
+				}
+				else if(message.charAt(0) == '!') {
+					event.setCancelled(true);
+					plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
+					playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), 3);
+
+					event.setCancelled(true);
+					return;
+				}
+				else {
+					plugin.chatManager.pushCurrentOrigin(ply);
+					plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + message);
 					plugin.getServer().broadcastMessage(formattedMessage);
 					System.out.println(formattedMessage);
 
@@ -99,15 +120,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					event.setCancelled(true);
 					return;
 				}
-
-				formattedMessage = "§e[CONV]§f "+formattedMessage;
-
-				plugin.chatManager.pushCurrentOrigin(ply);
-				ply.sendMessage(formattedMessage);
-				plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
-				plugin.chatManager.popCurrentOrigin();
-
-				event.setCancelled(true);
 			}
 		}, Priority.Monitor, plugin);
 	}
@@ -319,16 +331,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (event.isCancelled())
 			return;
 
-		String msg = event.getMessage();
-		if(msg.charAt(0) == '#') {
-			event.setCancelled(true);
-			Player ply = event.getPlayer();
-			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + msg.substring(1));
-			playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + msg.substring(1), 3);
-			return;
-		}
-		
-		plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + msg);
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
 	}
 
