@@ -42,44 +42,50 @@ public class YiffBukkitRemoteThread extends Thread {
 			command = in.readLine();
 			server = plugin.getServer();
 			commandSender = new RemotePlayer(server, this);
+			
+			server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+				@Override
+				public void run() {
+					try {
+						YiffBukkitRemote.currentCommandSender = commandSender;
+						boolean ret = listen.runCommand(commandSender, command);
+
+						if(!ret) throw new Exception("Invalid command");
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+						send(e.getMessage());
+					}
+				}
+			});
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			send(e.getMessage());
 			return;
 		}
-
-		server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			@Override
-			public void run() {
-				try {
-					YiffBukkitRemote.currentCommandSender = commandSender;
-					boolean ret = listen.runCommand(commandSender, command);
-
-					if(!ret) throw new Exception("Invalid command");
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-					send(e.getMessage());
-				}
+		finally {
+			try {
+				out.flush();
 			}
-		});
-		
-		try {
-			Thread.sleep(1000);
+			catch(Exception e) { }
+			
+			try {
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e1) { }
+			
+			YiffBukkitRemote.currentCommandSender = null;
+	
+			try {
+				out.flush();
+			}
+			catch(Exception e) { }
+			try {
+				socket.close();
+			}
+			catch(Exception e) { }
 		}
-		catch (InterruptedException e1) { }
-		
-		YiffBukkitRemote.currentCommandSender = null;
-
-		try {
-			out.flush();
-		}
-		catch(Exception e) { }
-		try {
-			socket.close();
-		}
-		catch(Exception e) { }
 	}
 
 	public void send(String txt) {
