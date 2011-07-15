@@ -75,8 +75,6 @@ public class RecordCommand extends ICommand {
 		final Recorder recorder;
 		try {
 			recorder = new Recorder(playerName, recorderName);
-			recorders.put(playerName, recorder);
-			recorders.put(recorderName, recorder);
 		} catch (FileNotFoundException e) {
 			throw new YiffBukkitCommandException("Could not create replay file.", e);
 		}
@@ -113,13 +111,19 @@ public class RecordCommand extends ICommand {
 			file = new File(playerName+".replay");
 			os = new FileOutputStream(file);
 			dos = new DataOutputStream(new BufferedOutputStream(os, 5120));
+
+			recorders.put(playerName, this);
+			recorders.put(recorderName, this);
+			plugin.vanish.vanishedEntityIds.add(eply.id);
 		}
 
 		public void stop() {
 			if (eply != null)
 				eply.die();
+
 			recorders.remove(playerName);
 			recorders.remove(recorderName);
+			plugin.vanish.vanishedEntityIds.remove(eply.id);
 		}
 	}
 

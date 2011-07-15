@@ -29,9 +29,12 @@ public class TransmuteCommand extends ICommand {
 
 			playerHelper.sendDirectedMessage(ply, "Transmuted you into "+args[0]+".");
 		}
-		ply.getWorld().playEffect(ply.getEyeLocation(), Effect.EXTINGUISH, 4);
-		ply.getWorld().playEffect(ply.getEyeLocation(), Effect.SMOKE, 4);
-		ply.getWorld().playEffect(ply.getEyeLocation(), Effect.SMOKE, 4);
-		ply.getWorld().playEffect(ply.getEyeLocation(), Effect.SMOKE, 4);
+
+		if (!plugin.vanish.isVanished(ply)) {
+			ply.getWorld().playEffect(ply.getEyeLocation(), Effect.EXTINGUISH, 4);
+			ply.getWorld().playEffect(ply.getEyeLocation(), Effect.SMOKE, 4);
+			ply.getWorld().playEffect(ply.getEyeLocation(), Effect.SMOKE, 4);
+			ply.getWorld().playEffect(ply.getEyeLocation(), Effect.SMOKE, 4);
+		}
 	}
 }

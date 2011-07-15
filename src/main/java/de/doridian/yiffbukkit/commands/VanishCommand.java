@@ -1,9 +1,5 @@
 package de.doridian.yiffbukkit.commands;
 
-import net.minecraft.server.Packet20NamedEntitySpawn;
-import net.minecraft.server.Packet29DestroyEntity;
-
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -22,17 +18,14 @@ public class VanishCommand extends ICommand {
 			if (argStr.equals("on"))
 				throw new YiffBukkitCommandException("Already invisible!");
 
-			plugin.vanish.vanishedPlayers.remove(playerName);
-			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
-			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet20NamedEntitySpawn(((CraftPlayer)ply).getHandle()), ply, 3);
+			plugin.vanish.unVanish(ply);
 			playerHelper.sendServerMessage(playerName + " reappeared.", playerHelper.getPlayerLevel(ply));
 		}
 		else {
 			if (argStr.equals("off"))
 				throw new YiffBukkitCommandException("Already visible!");
 
-			plugin.vanish.vanishedPlayers.add(playerName);
-			playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
+			plugin.vanish.vanish(ply);
 			playerHelper.sendServerMessage(playerName + " vanished.", playerHelper.getPlayerLevel(ply));
 		}
 

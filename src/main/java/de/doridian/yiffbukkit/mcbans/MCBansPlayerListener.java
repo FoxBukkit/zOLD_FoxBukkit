@@ -63,8 +63,8 @@ public class MCBansPlayerListener extends PlayerListener {
 
 		case 'b':
 			String rep = connret.get("playerRep").toString();
-			sendIRCMessage(name + "has previous bans and "+rep+" REP");
-			sendServerMessage(name + "has previous bans and "+rep+" REP", 3);
+			sendIRCMessage(name + " has previous bans and "+rep+" REP");
+			sendServerMessage(name + " has previous bans and "+rep+" REP", 3);
 			/* FALL-THROUGH */
 
 		case 'n':

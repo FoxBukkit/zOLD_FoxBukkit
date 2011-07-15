@@ -63,20 +63,19 @@ public class Transmute {
 		setShape(player, new MobShape(this, player, mobType));
 	}
 
-	public void resetShape(Player player) {
-		Shape shape = transmuted.remove(player.getEntityId());
-		if (shape == null)
-			return;
+	public Shape resetShape(Player player) {
+		Shape shape = removeShape(player);
+		if (shape != null)
+			shape.createOriginalEntity();
 
-		shape.deleteEntity();
-		shape.createOriginalEntity();
+		return shape;
 	}
 
-	public void removeShape(Player player) {
+	public Shape removeShape(Player player) {
 		Shape shape = transmuted.remove(player.getEntityId());
-		if (shape == null)
-			return;
+		if (shape != null)
+			shape.deleteEntity();
 
-		shape.deleteEntity();
+		return shape;
 	}
 }

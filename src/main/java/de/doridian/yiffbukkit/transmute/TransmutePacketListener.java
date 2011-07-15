@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
+import net.minecraft.server.Packet17;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public class TransmutePacketListener extends PacketListener {
 		this.transmute = transmute;
 		Plugin plugin = transmute.plugin;
 
+		PacketListener.addPacketListener(true, 17, this, plugin);
 		PacketListener.addPacketListener(true, 18, this, plugin);
 		PacketListener.addPacketListener(true, 20, this, plugin);
 		//PacketListener.addPacketListener(true, 24, this, plugin);
@@ -22,8 +24,16 @@ public class TransmutePacketListener extends PacketListener {
 	@Override
 	public boolean onOutgoingPacket(final Player ply, int packetID, final Packet packet) {
 		switch (packetID) {
+		case 17:
+			final Packet17 p17 = (Packet17) packet;
+
+			return !transmute.isTransmuted(p17.a);
+
 		case 18:
 			final Packet18ArmAnimation p18 = (Packet18ArmAnimation) packet;
+
+			if (p18.b == 2)
+				return true;
 
 			return !transmute.isTransmuted(p18.a);
 
