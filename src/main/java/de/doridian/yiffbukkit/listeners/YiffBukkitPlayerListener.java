@@ -99,7 +99,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					event.setCancelled(true);
 					return;
 				}
-				else if(message.charAt(0) == '!') {
+				else if(message.charAt(0) == '#') {
 					event.setCancelled(true);
 					plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
 					playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), 3);
