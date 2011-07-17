@@ -15,12 +15,12 @@ public class TransmutePlayerListener extends PlayerListener {
 		transmute.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, this, Priority.Monitor, transmute.plugin);
 		transmute.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, this, Priority.Monitor, transmute.plugin);
 	}
-	
+
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
 		transmute.removeShape(event.getPlayer());
 	}
-	
+
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		transmute.removeShape(event.getPlayer());

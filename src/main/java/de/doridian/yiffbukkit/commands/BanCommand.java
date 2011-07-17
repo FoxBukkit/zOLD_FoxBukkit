@@ -22,7 +22,7 @@ import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 )
 @Usage("[<flags>] <name> [reason here]")
 @Level(3)
-@BooleanFlags("jrgc")
+@BooleanFlags("jrg")
 @StringFlags("t")
 @Permission("yiffbukkit.users.ban")
 public class BanCommand extends ICommand {
@@ -82,10 +82,6 @@ public class BanCommand extends ICommand {
 
 		if (booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
-
-			if (booleanFlags.contains('c')) {
-				playerHelper.sendDirectedMessage(commandSender, "The -c flag has no effect. It is no longer needed.");
-			}
 		}
 
 		otherply.kickPlayer(reason);
