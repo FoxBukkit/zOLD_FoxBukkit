@@ -31,16 +31,16 @@ public class Ircbot extends PircBot implements Runnable {
     public void start() {
         try {
             this.setAutoNickChange(true);
-            this.connect("irc.bitsjointirc.net", 6667);
+            this.connect("irc.esper.net", 6667);
         	this.changeNick("YiffBot");
-        	this.identify("yiffyiff11");
+        	this.identify("SECRET");
             try {
         		Thread.sleep(2000);
         	} catch (InterruptedException e) {
         		e.printStackTrace();
         	}
-            this.joinChannel("#minecraft");
-            this.joinChannel("#doridian-staff");
+            this.joinChannel("#doriminecraft");
+            this.joinChannel("#doristaff");
             this.joinChannel("#zidonuke");
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -55,31 +55,31 @@ public class Ircbot extends PircBot implements Runnable {
     
     public void sendToPublicChannel(String msg)
     {
-    	this.sendMessage("#minecraft", msg);
+    	this.sendMessage("#doriminecraft", msg);
     }
     
     public void sendToChannel(String msg)
     {
-    	this.sendMessage("#minecraft", msg);
-    	this.sendMessage("#doridian-staff", msg);
+    	this.sendMessage("#doriminecraft", msg);
+    	this.sendMessage("#doristaff", msg);
     }
     
     public void sendToStaffChannel(String msg)
     {
-    	this.sendMessage("#doridian-staff", msg);
+    	this.sendMessage("#doristaff", msg);
     }
 
     public void onJoin(String channel, String sender, String login, String hostname) {
-    	if(channel.equals("#minecraft"))
+    	if(channel.equals("#doriminecraft"))
     		plugin.getServer().broadcastMessage("§a[+] §e" + sender + "@IRC§e joined!");
-    	else if(channel.equals("#doridian-staff"))
+    	else if(channel.equals("#doristaff"))
     		plugin.playerHelper.sendServerMessage("§e[OP]§a[+] §e" + sender + "@IRC§e joined!", 3); 
     }
     
     public void onPart(String channel, String sender, String login, String hostname) {
-    	if(channel.equals("#minecraft"))
+    	if(channel.equals("#doriminecraft"))
     		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e left!");
-    	else if(channel.equals("#doridian-staff"))
+    	else if(channel.equals("#doristaff"))
     		plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + sender + "@IRC§e left!", 3);
     }
     
@@ -92,40 +92,40 @@ public class Ircbot extends PircBot implements Runnable {
         if (recipientNick.equalsIgnoreCase(this.getNick())) {
             this.joinChannel(channel);
         }
-        if(channel.equals("#minecraft"))
+        if(channel.equals("#doriminecraft"))
         	plugin.getServer().broadcastMessage("§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!");
-        else if(channel.equals("#doridian-staff"))
+        else if(channel.equals("#doristaff"))
         	plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!", 3);
     }
 
     public void onMessage(String channel, String sender, String login, String hostname, String message) {
-    	if(channel.equals("#minecraft"))
+    	if(channel.equals("#doriminecraft"))
     		plugin.getServer().broadcastMessage("§7" + sender + "@IRC§f: " + message);
-    	else if(channel.equals("#doridian-staff"))
+    	else if(channel.equals("#doristaff"))
     		plugin.playerHelper.sendServerMessage("§e[OP] §7" + sender + "@IRC§f: " + message, 3);
     }
 
     public void onAction(String sender, String login, String hostname, String target, String action) {
-    	if(target.equals("#minecraft"))
+    	if(target.equals("#doriminecraft"))
     		plugin.getServer().broadcastMessage("§7* " + sender + "@IRC§7 " + action);
-    	else if(target.equals("#doridian-staff"))
+    	else if(target.equals("#doristaff"))
     		plugin.playerHelper.sendServerMessage("§e[OP]* §7" + sender + "@IRC§7 " + action, 3);
     }
 
     public void onPrivateMessage(String sender, String login, String hostname, String message)
     {
-    	if(sender.equals("Zidonuke") && login.equals("Zidonuke") && (hostname.equals("helpop.bitsjoint.net") || hostname.equals("zidonuke.com")))
+    	if(sender.equals("Zidonuke") && login.equals("Zidonuke") && (hostname.equals("2a01:4f8:121:5001:dead:c0de:1337:beef") || hostname.equals("zidonuke.com")))
     	{
     		if(message.equals("!rejoin"))
     		{
-    			this.joinChannel("#minecraft");
-                this.joinChannel("#doridian-staff");
+    			this.joinChannel("#doriminecraft");
+                this.joinChannel("#doristaff");
                 this.sendMessage("Zidonuke", "Rejoining");
     		}
     		else if(message.equals("!fixnick"))
     		{
     			this.changeNick("YiffBot");
-            	this.identify("yiffyiff11");
+            	this.identify("SECRET");
             	this.sendMessage("Zidonuke", "Fixing nick");
     		}
     		else
