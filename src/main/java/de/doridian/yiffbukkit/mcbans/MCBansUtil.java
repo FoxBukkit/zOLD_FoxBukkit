@@ -10,8 +10,10 @@ import java.net.URLEncoder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import de.doridian.yiffbukkit.util.Configuration;
+
 public class MCBansUtil {
-	private final static String APIKEY = "SECRET";
+	private final static String APIKEY = Configuration.getValue("mcbans-api-key", "");
 	private static JSONParser parser = new JSONParser();
 	
 	public static boolean isKeyYesOrNo(JSONObject connret, String key) {

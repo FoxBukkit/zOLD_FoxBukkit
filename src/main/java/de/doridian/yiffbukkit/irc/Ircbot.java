@@ -4,18 +4,22 @@ import java.io.IOException;
 
 import org.jibble.pircbot.*;
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Configuration;
 
 public class Ircbot extends PircBot implements Runnable {
 
 	private YiffBukkit plugin;
 
+	private static String STAFFCHANNEL = Configuration.getValue("irc-staff-channel", "#doristaff");
+	private static String PUBLICCHANNEL = Configuration.getValue("irc-public-channel", "#doriminecraft");
+	
     public Ircbot(YiffBukkit plug) {
         this.plugin = plug;
     }
 
     public synchronized Ircbot init() {
         this.setMessageDelay(1000);
-        this.setName("YiffBot");
+        this.setName(Configuration.getValue("irc-nick", "YiffBot"));
         this.setFinger("YiffBukkit");
         this.setLogin("YiffBukkit");
         this.setVersion("YiffBukkit");
@@ -31,17 +35,16 @@ public class Ircbot extends PircBot implements Runnable {
     public void start() {
         try {
             this.setAutoNickChange(true);
-            this.connect("irc.esper.net", 6667);
-        	this.changeNick("YiffBot");
-        	this.identify("SECRET");
+            this.connect(Configuration.getValue("irc-server","irc.esper.net"), Integer.valueOf(Configuration.getValue("irc-port", "6667")));
+        	this.changeNick(Configuration.getValue("irc-nick", "YiffBot"));
+        	this.identify(Configuration.getValue("irc-nickserv-pw", "none"));
             try {
         		Thread.sleep(2000);
         	} catch (InterruptedException e) {
         		e.printStackTrace();
         	}
-            this.joinChannel("#doriminecraft");
-            this.joinChannel("#doristaff");
-            this.joinChannel("#zidonuke");
+            this.joinChannel(PUBLICCHANNEL);
+            this.joinChannel(STAFFCHANNEL);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -55,31 +58,31 @@ public class Ircbot extends PircBot implements Runnable {
     
     public void sendToPublicChannel(String msg)
     {
-    	this.sendMessage("#doriminecraft", msg);
+    	this.sendMessage(PUBLICCHANNEL, msg);
     }
     
     public void sendToChannel(String msg)
     {
-    	this.sendMessage("#doriminecraft", msg);
-    	this.sendMessage("#doristaff", msg);
+    	this.sendMessage(PUBLICCHANNEL, msg);
+    	this.sendMessage(STAFFCHANNEL, msg);
     }
     
     public void sendToStaffChannel(String msg)
     {
-    	this.sendMessage("#doristaff", msg);
+    	this.sendMessage(STAFFCHANNEL, msg);
     }
 
     public void onJoin(String channel, String sender, String login, String hostname) {
-    	if(channel.equals("#doriminecraft"))
-    		plugin.getServer().broadcastMessage("§a[+] §e" + sender + "@IRC§e joined!");
-    	else if(channel.equals("#doristaff"))
+    	if(channel.equals(PUBLICCHANNEL))
+    		plugin.playerHelper.sendServerMessage("§a[+] §e" + sender + "@IRC§e joined!");
+    	else if(channel.equals(STAFFCHANNEL))
     		plugin.playerHelper.sendServerMessage("§e[OP]§a[+] §e" + sender + "@IRC§e joined!", 3); 
     }
     
     public void onPart(String channel, String sender, String login, String hostname) {
-    	if(channel.equals("#doriminecraft"))
-    		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e left!");
-    	else if(channel.equals("#doristaff"))
+    	if(channel.equals(PUBLICCHANNEL))
+    		plugin.playerHelper.sendServerMessage("§c[-] §e" + sender + "@IRC§e left!");
+    	else if(channel.equals(STAFFCHANNEL))
     		plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + sender + "@IRC§e left!", 3);
     }
     
@@ -92,45 +95,24 @@ public class Ircbot extends PircBot implements Runnable {
         if (recipientNick.equalsIgnoreCase(this.getNick())) {
             this.joinChannel(channel);
         }
-        if(channel.equals("#doriminecraft"))
-        	plugin.getServer().broadcastMessage("§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!");
-        else if(channel.equals("#doristaff"))
+        if(channel.equals(PUBLICCHANNEL))
+        	plugin.playerHelper.sendServerMessage("§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!");
+        else if(channel.equals(STAFFCHANNEL))
         	plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!", 3);
     }
 
     public void onMessage(String channel, String sender, String login, String hostname, String message) {
-    	if(channel.equals("#doriminecraft"))
-    		plugin.getServer().broadcastMessage("§7" + sender + "@IRC§f: " + message);
-    	else if(channel.equals("#doristaff"))
+    	if(channel.equals(PUBLICCHANNEL))
+    		plugin.playerHelper.sendServerMessage("§7" + sender + "@IRC§f: " + message);
+    	else if(channel.equals(STAFFCHANNEL))
     		plugin.playerHelper.sendServerMessage("§e[OP] §7" + sender + "@IRC§f: " + message, 3);
     }
 
     public void onAction(String sender, String login, String hostname, String target, String action) {
-    	if(target.equals("#doriminecraft"))
-    		plugin.getServer().broadcastMessage("§7* " + sender + "@IRC§7 " + action);
-    	else if(target.equals("#doristaff"))
+    	if(target.equals(PUBLICCHANNEL))
+    		plugin.playerHelper.sendServerMessage("§7* " + sender + "@IRC§7 " + action);
+    	else if(target.equals(STAFFCHANNEL))
     		plugin.playerHelper.sendServerMessage("§e[OP]* §7" + sender + "@IRC§7 " + action, 3);
-    }
-
-    public void onPrivateMessage(String sender, String login, String hostname, String message)
-    {
-    	if(sender.equals("Zidonuke") && login.equals("Zidonuke") && (hostname.equals("2a01:4f8:121:5001:dead:c0de:1337:beef") || hostname.equals("zidonuke.com")))
-    	{
-    		if(message.equals("!rejoin"))
-    		{
-    			this.joinChannel("#doriminecraft");
-                this.joinChannel("#doristaff");
-                this.sendMessage("Zidonuke", "Rejoining");
-    		}
-    		else if(message.equals("!fixnick"))
-    		{
-    			this.changeNick("YiffBot");
-            	this.identify("SECRET");
-            	this.sendMessage("Zidonuke", "Fixing nick");
-    		}
-    		else
-    			this.sendMessage("Zidonuke", "Invalid Command");
-    	}
     }
 
     public void onDisconnect() {

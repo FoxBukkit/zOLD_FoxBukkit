@@ -28,7 +28,6 @@ public class YiffBukkitRemote extends Thread {
 		}
 	}
 
-	//@SuppressWarnings("deprecation")
 	public void stopme() {
 		try {
 			socket.close();

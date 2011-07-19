@@ -42,7 +42,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -74,7 +73,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Lowest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.High, plugin);
-		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
@@ -245,12 +243,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 
-		String rank = playerHelper.getPlayerRank(event.getPlayer());
-		/*if (rank.equals("banned")) {
-			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] You're banned");
-			return;
-		}*/
-		if (plugin.serverClosed && rank.equals("guest")) {
+		if (plugin.serverClosed && playerHelper.getPlayerRank(event.getPlayer()).equals("guest")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
 			return;
 		}
@@ -307,15 +300,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		for (Map<Player, ?> map : playerHelper.registeredMaps) {
 			map.remove(event.getPlayer());
-		}
-	}
-
-	@Override
-	public void onPlayerMove(PlayerMoveEvent event) {
-		Player ply = event.getPlayer();
-		if (ply.getHealth() <= 0) {
-			event.setCancelled(true);
-			return;
 		}
 	}
 
@@ -401,7 +385,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		case RIGHT_CLICK_BLOCK:
 			try {
 				Material itemMaterial = event.getMaterial();
-				// This will not be logged by bigbrother so I only allowed it for ops+ for now.
+				// This will not be logged by logblock so I only allowed it for ops+ for now.
 				// A fix would be to modify the event a bit to make BB log this. 
 				if (itemMaterial == Material.INK_SACK && plugin.permissionHandler.has(ply, "yiffbukkit.dyepaint")) {
 					if (clickedBlock.getType() == Material.WOOL) {

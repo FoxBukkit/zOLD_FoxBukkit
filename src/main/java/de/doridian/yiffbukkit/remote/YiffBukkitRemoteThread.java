@@ -9,6 +9,7 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.util.Configuration;
 
 public class YiffBukkitRemoteThread extends Thread {
 	private YiffBukkitPlayerListener listen;
@@ -16,12 +17,12 @@ public class YiffBukkitRemoteThread extends Thread {
 	private Socket socket;
 	private PrintWriter out;
 
-	private final String PASSWORD = "SECRET";
+	private final String PASSWORD = Configuration.getValue("rcon-password", "");
 
 	public YiffBukkitRemoteThread(YiffBukkit plug, YiffBukkitPlayerListener listener, Socket sock) {
 		plugin = plug;
 		listen = listener;
-		socket =  sock;
+		socket = sock;
 	}
 
 	public void run() {
@@ -34,60 +35,59 @@ public class YiffBukkitRemoteThread extends Thread {
 			out = new PrintWriter(socket.getOutputStream(), true);
 
 			final String str = in.readLine();
-			if(!str.equals(PASSWORD)) throw new Exception("Invalid password");
+			if(PASSWORD.equals("") || !str.equals(PASSWORD)) throw new Exception("Invalid password");
 
 			send("OK");
-			out.flush();
+			flush();
 
 			command = in.readLine();
 			server = plugin.getServer();
 			commandSender = new RemotePlayer(server, this);
-			
-			server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-				@Override
-				public void run() {
-					try {
-						YiffBukkitRemote.currentCommandSender = commandSender;
-						boolean ret = listen.runCommand(commandSender, command);
-
-						if(!ret) throw new Exception("Invalid command");
-					}
-					catch(Exception e) {
-						e.printStackTrace();
-						send(e.getMessage());
-					}
-				}
-			});
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			send(e.getMessage());
+			closeThis();
 			return;
 		}
-		finally {
-			try {
-				out.flush();
+		server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				try {
+					YiffBukkitRemote.currentCommandSender = commandSender;
+					boolean ret = listen.runCommand(commandSender, command);
+					if(!ret) throw new Exception("Invalid command");
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+					send(e.getMessage());
+				}
+				server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+					@Override
+					public void run() {
+						closeThis();
+					}
+				}, 2);
 			}
-			catch(Exception e) { }
-			
-			try {
-				Thread.sleep(1000);
-			}
-			catch (InterruptedException e1) { }
-			
-			YiffBukkitRemote.currentCommandSender = null;
-	
-			try {
-				out.flush();
-			}
-			catch(Exception e) { }
-			try {
-				socket.close();
-			}
-			catch(Exception e) { }
-		}
+		});
 	}
 
+	private void closeThis() {
+		YiffBukkitRemote.currentCommandSender = null;
+		flush();
+		try {
+			socket.close();
+		}
+		catch(Exception e) { }
+	}
+	
+	public void flush() {
+		try {
+			out.flush();
+		}
+		catch(Exception e) { }
+	}
+	
 	public void send(String txt) {
 		try {
 			out.write(txt + "\n");
