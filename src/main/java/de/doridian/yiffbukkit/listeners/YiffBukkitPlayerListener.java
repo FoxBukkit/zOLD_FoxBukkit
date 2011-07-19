@@ -277,16 +277,22 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		playerHelper.pushWeather(player);
 	}
 
+	public Hashtable<String,String> offlinePlayers = new Hashtable<String, String>();
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
+		final Player player = event.getPlayer();
+		final String playerName = player.getName();
+
 		event.setQuitMessage(null);
-		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
-		plugin.ircbot.sendToChannel(event.getPlayer().getName() + " disconnected!");
-		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e disconnected!");
+		plugin.chatManager.pushCurrentOrigin(player);
+		plugin.ircbot.sendToChannel(playerName + " disconnected!");
+		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e disconnected!");
 		plugin.chatManager.popCurrentOrigin();
 
+		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
+
 		for (Map<Player, ?> map : playerHelper.registeredMaps) {
-			map.remove(event.getPlayer());
+			map.remove(player);
 		}
 	}
 

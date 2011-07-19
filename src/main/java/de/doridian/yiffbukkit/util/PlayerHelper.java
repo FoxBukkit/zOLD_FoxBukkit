@@ -802,15 +802,19 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	public String getPlayerNameByIP(String name) {
+	public String getPlayerNameByIP(String ip) {
 		for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
 			final String address = onlinePlayer.getAddress().getAddress().getHostAddress();
-			if (!address.equals(name))
+			if (!address.equals(ip))
 				continue;
 
-			name = onlinePlayer.getName();
-			break;
+			return onlinePlayer.getName();
 		}
-		return name;
+
+		String offlinePlayerName = plugin.playerListener.offlinePlayers.get(ip);
+		if (offlinePlayerName != null)
+			return "§7"+offlinePlayerName+"§f";
+
+		return ip;
 	}
 }
