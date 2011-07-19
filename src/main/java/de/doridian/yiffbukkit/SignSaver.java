@@ -101,10 +101,10 @@ public class SignSaver extends StateContainer {
 				stream.write("x"+current.location.getX());
 				stream.newLine();
 
-				stream.write("y"+current.location.getX());
+				stream.write("y"+current.location.getY());
 				stream.newLine();
 
-				stream.write("z"+current.location.getX());
+				stream.write("z"+current.location.getZ());
 				stream.newLine();
 
 				stream.write("w"+current.location.getWorld().getName());
