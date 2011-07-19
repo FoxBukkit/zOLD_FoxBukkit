@@ -813,7 +813,7 @@ public class PlayerHelper extends StateContainer {
 
 		String offlinePlayerName = plugin.playerListener.offlinePlayers.get(ip);
 		if (offlinePlayerName != null)
-			return "("+offlinePlayerName+")";
+			return "§7"+offlinePlayerName+"§f";
 
 		return ip;
 	}

@@ -126,10 +126,10 @@ public class YiffBukkit extends JavaPlugin {
 				listeners.add(new Listener<ChatEvent>() {
 					@Override
 					public void triggered(ChatEvent t) {
-						String name = t.name;
+						String name = t.name.replace('\u00a7','$');
 						name = playerHelper.getPlayerNameByIP(name);
-						ircbot.sendToChannel("[WEB] " + name.replace('\u00a7','$') + ": " + t.message.replace('\u00a7','$'));
-						getServer().broadcastMessage("[WEB]" + name.replace('\u00a7','$') + ": " + t.message.replace('\u00a7','$'));
+						ircbot.sendToChannel("[WEB] " + name + ": " + t.message.replace('\u00a7','$'));
+						getServer().broadcastMessage("[WEB]" + name + ": " + t.message.replace('\u00a7','$'));
 					}
 				});
 			}
