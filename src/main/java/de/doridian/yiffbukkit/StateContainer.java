@@ -81,9 +81,13 @@ public class StateContainer {
 		}
 	}
 
-	public static void loadSingle(String loaderName) {
+	public static boolean loadSingle(String loaderName) {
 		final Closure closure = loadersByName.get(loaderName);
+		if (closure == null)
+			return false;
+		
 		closure.invoke();
+		return true;
 	}
 
 	public static void saveAll() {
@@ -94,8 +98,12 @@ public class StateContainer {
 		}
 	}
 
-	public static void saveSingle(String saverName) {
+	public static boolean saveSingle(String saverName) {
 		final Closure closure = saversByName.get(saverName);
+		if (closure == null)
+			return false;
+		
 		closure.invoke();
+		return true;
 	}
 }
