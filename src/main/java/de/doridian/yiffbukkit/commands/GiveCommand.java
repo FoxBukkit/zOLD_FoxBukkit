@@ -88,7 +88,7 @@ public class GiveCommand extends ICommand {
 	};
 
 	static Material matchMaterial(String materialName) {
-		Material material = aliases.get(materialName);
+		Material material = aliases.get(materialName.toLowerCase());
 		if (material != null)
 			return material;
 
