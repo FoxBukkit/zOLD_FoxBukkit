@@ -20,5 +20,6 @@ public class ReloadConfigCommand extends ICommand {
 			e.printStackTrace();
 			throw new YiffBukkitCommandException("Exception caught while loading config. See Log.", e);
 		}
+		playerHelper.sendDirectedMessage(commandSender, "Reloaded "+argStr+" config.");
 	}
 }

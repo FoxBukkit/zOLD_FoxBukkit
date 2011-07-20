@@ -51,9 +51,8 @@ public class SignSaver extends StateContainer {
 			String line;
 			SignDescriptor current = new SignDescriptor();
 			while((line = stream.readLine()) != null) {
-				if (line.isEmpty()) {
+				if (line.isEmpty())
 					continue;
-				}
 
 				char field = line.charAt(0);
 				String value = line.substring(1);
@@ -90,7 +89,9 @@ public class SignSaver extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception e) { }
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Saver({"signsaver", "sign_saver"})
@@ -98,13 +99,13 @@ public class SignSaver extends StateContainer {
 		try {
 			BufferedWriter stream = new BufferedWriter(new FileWriter("signsaver.txt"));
 			for (SignDescriptor current : saved_signs) {
-				stream.write("x"+current.location.getX());
+				stream.write("x"+current.location.getBlockX());
 				stream.newLine();
 
-				stream.write("y"+current.location.getY());
+				stream.write("y"+current.location.getBlockY());
 				stream.newLine();
 
-				stream.write("z"+current.location.getZ());
+				stream.write("z"+current.location.getBlockZ());
 				stream.newLine();
 
 				stream.write("w"+current.location.getWorld().getName());

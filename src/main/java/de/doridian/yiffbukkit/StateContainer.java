@@ -85,7 +85,7 @@ public class StateContainer {
 		final Closure closure = loadersByName.get(loaderName);
 		if (closure == null)
 			return false;
-		
+
 		closure.invoke();
 		return true;
 	}
