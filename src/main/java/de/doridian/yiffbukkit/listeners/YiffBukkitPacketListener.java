@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 
+import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
 import net.minecraft.server.Packet70Bed;
 
@@ -19,6 +20,7 @@ public class YiffBukkitPacketListener extends PacketListener {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
+		PacketListener.addPacketListener(true, 3, this, plugin);
 		PacketListener.addPacketListener(true, 4, this, plugin);
 		PacketListener.addPacketListener(true, 70, this, plugin);
 	}
@@ -26,8 +28,15 @@ public class YiffBukkitPacketListener extends PacketListener {
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
+		case 3:
+			Packet3Chat p3 = (Packet3Chat) packet;
+			if (p3.message.equals("§4You are in a no-PvP area."))
+				return false;
+
+			break;
+
 		case 4:
-			Packet4UpdateTime p4 = (Packet4UpdateTime)packet;
+			Packet4UpdateTime p4 = (Packet4UpdateTime) packet;
 			Long frozenTime = playerHelper.frozenTimes.get(ply.getName());
 
 			if (frozenTime != null) {
@@ -36,7 +45,9 @@ public class YiffBukkitPacketListener extends PacketListener {
 			else if (playerHelper.frozenServerTime != null) {
 				p4.a = playerHelper.frozenServerTime;
 			}
+
 			break;
+
 		case 70:
 			Packet70Bed p70 = (Packet70Bed) packet;
 			int reason = p70.b;
