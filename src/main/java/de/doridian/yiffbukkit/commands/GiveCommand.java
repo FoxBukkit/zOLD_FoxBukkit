@@ -141,6 +141,8 @@ public class GiveCommand extends ICommand {
 			return;
 		}
 
+		if (material.getId() == 0)
+			throw new YiffBukkitCommandException("Material "+materialName+" not found");
 
 		ItemStack stack = new ItemStack(material, count);
 
