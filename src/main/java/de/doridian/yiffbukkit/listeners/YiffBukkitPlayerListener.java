@@ -359,7 +359,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					throw new PermissionDeniedException();
 				}
 				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+commandSender.getName()+": "+baseCmd);
-				plugin.ircbot.sendToStaffChannel("Command: " + commandSender.getName() + ": " +baseCmd);
 				icmd.run(commandSender,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {
