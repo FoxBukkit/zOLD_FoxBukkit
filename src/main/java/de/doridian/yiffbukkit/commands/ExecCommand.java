@@ -36,6 +36,9 @@ public class ExecCommand extends ICommand {
 				if (line.charAt(0) == '#')
 					continue;
 
+				if (line.charAt(0) == '\\')
+					line = line.substring(1);
+
 				list.add(line);
 			}
 		}
