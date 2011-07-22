@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
@@ -10,8 +11,12 @@ import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("compass")
-@Help("Gives you your current bearing")
-@Usage("[spawn|home|here|player <name>|warp <name>]")
+@Help(
+		"Gives the current bearing or sets the compass target.\n" +
+		"Direction can be a direction acronym, like N or NE,\n" +
+		"or a full direction name, like north_east or northeast."
+)
+@Usage("[spawn|home|here|player <name>|warp <name>|<direction>]")
 @Level(0)
 @Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
@@ -53,7 +58,91 @@ public class CompassCommand extends ICommand {
 			location = warpDescriptor.location;
 		}
 		else {
-			throw new YiffBukkitCommandException("Unrecognised parameter");
+			final int xmod;
+			final int zmod;
+			switch (args[0].length()) {
+			case 2:
+				switch (args[0].charAt(0)) {
+				case 'n':
+				case 'N':
+					xmod = -1000000000;
+					break;
+
+				case 's':
+				case 'S':
+					xmod = 1000000000;
+					break;
+
+				default:
+					throw new YiffBukkitCommandException("Unrecognised parameter");
+				}
+
+				switch (args[0].charAt(1)) {
+				case 'e':
+				case 'E':
+					zmod = -1000000000;
+					break;
+
+				case 'w':
+				case 'W':
+					zmod = 1000000000;
+					break;
+
+				default:
+					throw new YiffBukkitCommandException("Unrecognised parameter");
+				}
+
+				location = new Location(ply.getWorld(), xmod, 0, zmod);
+				/* FALL-THROUGH */
+				break;
+
+			case 1:
+				switch (args[0].charAt(0)) {
+				case 'n':
+				case 'N':
+					xmod = -1000000000;
+					zmod = 0;
+					break;
+
+				case 's':
+				case 'S':
+					xmod = 1000000000;
+					zmod = 0;
+					break;
+
+				case 'e':
+				case 'E':
+					xmod = 0;
+					zmod = -1000000000;
+					break;
+
+				case 'w':
+				case 'W':
+					xmod = 0;
+					zmod = 1000000000;
+					break;
+
+				default:
+					throw new YiffBukkitCommandException("Unrecognised parameter");
+				}
+
+				location = new Location(ply.getWorld(), xmod, 0, zmod);
+				break;
+
+			default:
+				Location loc = null;
+				for (BlockFace face : BlockFace.values()) {
+					if (!face.name().replaceAll("_", "").equalsIgnoreCase(args[0])) 
+						continue;
+
+					loc = new Location(ply.getWorld(), face.getModX()*1000000000, face.getModY()*1000000000, face.getModZ()*1000000000);
+					break;
+				}
+
+				if (loc == null)
+					throw new YiffBukkitCommandException("Unrecognised parameter");
+				location = loc;
+			}		
 		}
 
 		ply.setCompassTarget(location);
