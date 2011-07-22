@@ -56,7 +56,7 @@ public class CompassCommand extends ICommand {
 			throw new YiffBukkitCommandException("Unrecognised parameter");
 		}
 
-		ply.setCompassTarget(new Location(location.getWorld(), location.getX()*16, location.getY()*16, location.getZ()*16));
+		ply.setCompassTarget(location);
 
 		playerHelper.sendDirectedMessage(ply, String.format("Set your compass target to %d/%d/%d", location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 	}
