@@ -21,9 +21,8 @@ public class SetNickCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		String otherName = playerHelper.completePlayerName(args[0], false);
 
-		if (otherName == null) {
-			return;
-		}
+		if (otherName == null)
+			throw new YiffBukkitCommandException("No unique player found.");
 
 		Player otherPly = playerHelper.matchPlayerSingle(args[0]);
 
