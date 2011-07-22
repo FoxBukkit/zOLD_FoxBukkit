@@ -23,6 +23,8 @@ import org.dynmap.Event.Listener;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import de.diddiz.LogBlock.Consumer;
+import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.chatmanager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
@@ -60,21 +62,24 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
 	public Vanish vanish;
 	public Transmute transmute;
-	public MCBans mcbans;
-	public Ircbot ircbot;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils = new Utils(this);
-	public Permissions permissions;
-	public YiffBukkitPermissionHandler permissionHandler;
-	public WorldEditPlugin worldEdit;
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
 	public SignSaver signSaver;
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
+
+	public Permissions permissions;
+	public YiffBukkitPermissionHandler permissionHandler;
+	public MCBans mcbans;
+	public Ircbot ircbot;
+	public WorldEditPlugin worldEdit;
 	public DynmapPlugin dynmap;
+	public Consumer logBlockConsumer;
+
 	public boolean serverClosed = false;
 
 	@Override
@@ -97,13 +102,15 @@ public class YiffBukkit extends JavaPlugin {
 
 	public void setupIPC() {
 		final PluginManager pm = getServer().getPluginManager();
-		worldEdit = (WorldEditPlugin)pm.getPlugin("WorldEdit");
-		System.out.println( "YiffBukkit found WorldEdit!" );
+
+		worldEdit = (WorldEditPlugin) pm.getPlugin("WorldEdit");
+		if (worldEdit != null)
+			System.out.println( "YiffBukkit found WorldEdit!" );
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {
-				dynmap = (DynmapPlugin)getServer().getPluginManager().getPlugin("dynmap");
+				dynmap = (DynmapPlugin) getServer().getPluginManager().getPlugin("dynmap");
 				if (dynmap == null)
 					return;
 
@@ -134,6 +141,13 @@ public class YiffBukkit extends JavaPlugin {
 				});
 			}
 		});
+
+		LogBlock logBlock = (LogBlock) pm.getPlugin("WorldEdit");
+
+		if (logBlock != null) {
+			logBlockConsumer = logBlock.getConsumer();
+			System.out.println( "YiffBukkit found LogBlock!" );
+		}
 	}
 
 	public void onEnable() {

@@ -395,7 +395,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				if (itemMaterial == Material.INK_SACK && plugin.permissionHandler.has(ply, "yiffbukkit.dyepaint")) {
 					if (clickedBlock.getType() == Material.WOOL) {
 						ItemStack item = event.getItem();
-						clickedBlock.setData((byte)(15 - item.getDurability()));
+
+						final byte newData = (byte)(15 - item.getDurability());
+
+						if (plugin.logBlockConsumer != null)
+							plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), event.getClickedBlock().getState(), 35, newData);
+						clickedBlock.setData(newData);
+
 						int newAmount = item.getAmount()-1;
 						if (newAmount > 0)
 							item.setAmount(newAmount);
