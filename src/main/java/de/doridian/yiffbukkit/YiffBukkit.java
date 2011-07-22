@@ -142,7 +142,7 @@ public class YiffBukkit extends JavaPlugin {
 			}
 		});
 
-		LogBlock logBlock = (LogBlock) pm.getPlugin("WorldEdit");
+		LogBlock logBlock = (LogBlock) pm.getPlugin("LogBlock");
 
 		if (logBlock != null) {
 			logBlockConsumer = logBlock.getConsumer();
