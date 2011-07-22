@@ -26,6 +26,7 @@ public class ChatManager {
 	private static final ChatEntry EMPTY_CHAT_ENTRY = new ChatEntry("", null);
 	private static final int CHAT_QUEUE_LENGTH = 100;
 	private static final int SPAM_WINDOW = 20;
+	private static final int SPAM_COUNT = 5;
 	YiffBukkit plugin;
 	Stack<Object> currentOrigin = new Stack<Object>();
 
@@ -74,11 +75,11 @@ public class ChatManager {
 					if (prev.equals(text))
 						++count;
 
-					if (count >= 5)
+					if (count >= SPAM_COUNT)
 						break;
 				}
 
-				if (count >= 5) {
+				if (count >= SPAM_COUNT) {
 					ply.kickPlayer("spam");
 
 					for (Entry<String, Queue<ChatEntry>> bar : chatQueues.entrySet()) {
