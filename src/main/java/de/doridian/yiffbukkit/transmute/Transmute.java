@@ -56,11 +56,11 @@ public class Transmute {
 	}
 
 	public void setShape(Player player, int mobType) {
-		setShape(player, new MobShape(this, player, mobType));
+		setShape(player, Shape.getShape(this, player, mobType));
 	}
 
 	public void setShape(Player player, String mobType) {
-		setShape(player, new MobShape(this, player, mobType));
+		setShape(player, Shape.getShape(this, player, mobType));
 	}
 
 	public Shape resetShape(Player player) {
