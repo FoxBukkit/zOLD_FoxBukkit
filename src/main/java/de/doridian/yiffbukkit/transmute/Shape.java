@@ -129,7 +129,7 @@ public abstract class Shape {
 	
 	private static Shape getShapeImpl(Transmute transmute, Player player, int mobType, Class<? extends Shape> shapeClass) {
 		try {
-			return shapeClass.getConstructor(Transmute.class, Player.class, int.class, Class.class).newInstance(transmute, player, mobType);
+			return shapeClass.getConstructor(Transmute.class, Player.class, int.class).newInstance(transmute, player, mobType);
 		} catch (Exception e) {
 			throw new RuntimeException("Error instantiating shape.", e);
 		}
