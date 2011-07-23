@@ -104,14 +104,14 @@ public class Ircbot extends PircBot implements Runnable {
     public void onMessage(String channel, String sender, String login, String hostname, String message) {
     	if(channel.equals(PUBLICCHANNEL))
     		if(this.getUser(sender,channel).isOp())
-    			plugin.playerHelper.sendServerMessage("§5@" + sender + "@IRC§f: " + message);
+    			plugin.playerHelper.sendServerMessage("@§5" + sender + "@IRC§f: " + message);
     		else if(this.getUser(sender,channel).hasVoice())
-    			plugin.playerHelper.sendServerMessage("§f+" + sender + "@IRC§f: " + message);
+    			plugin.playerHelper.sendServerMessage("+§7" + sender + "@IRC§f: " + message);
     		else
     			plugin.playerHelper.sendServerMessage("§7" + sender + "@IRC§f: " + message);
     	else if(channel.equals(STAFFCHANNEL))
     		if(this.getUser(sender,channel).isOp())
-    			plugin.playerHelper.sendServerMessage("§e[OP] §5@" + sender + "@IRC§f: " + message);
+    			plugin.playerHelper.sendServerMessage("§e[OP] §f@§5" + sender + "@IRC§f: " + message);
     		else
     			plugin.playerHelper.sendServerMessage("§e[OP] §f" + sender + "@IRC§f: " + message, 3);
     }
@@ -119,16 +119,16 @@ public class Ircbot extends PircBot implements Runnable {
     public void onAction(String sender, String login, String hostname, String target, String action) {
     	if(target.equals(PUBLICCHANNEL))
     		if(this.getUser(sender,target).isOp())
-    			plugin.playerHelper.sendServerMessage("§5* @" + sender + "@IRC§7 " + action);
+    			plugin.playerHelper.sendServerMessage("§7* §f@§5" + sender + "@IRC§7 " + action);
     		else if(this.getUser(sender,target).hasVoice())
-    			plugin.playerHelper.sendServerMessage("§f* +" + sender + "@IRC§7 " + action);
+    			plugin.playerHelper.sendServerMessage("§7* §f+§7" + sender + "@IRC§7 " + action);
     		else
-    			plugin.playerHelper.sendServerMessage("§7* " + sender + "@IRC§7 " + action);
+    			plugin.playerHelper.sendServerMessage("§7* §7" + sender + "@IRC§7 " + action);
     	else if(target.equals(STAFFCHANNEL))
     		if(this.getUser(sender,target).isOp())
-    			plugin.playerHelper.sendServerMessage("§e[OP]* §5@" + sender + "@IRC§7 " + action, 3);
+    			plugin.playerHelper.sendServerMessage("§e[OP]§7* §f@§5" + sender + "@IRC§7 " + action, 3);
     		else
-    			plugin.playerHelper.sendServerMessage("§e[OP]* §f" + sender + "@IRC§7 " + action, 3);
+    			plugin.playerHelper.sendServerMessage("§e[OP]§7* §f" + sender + "@IRC§7 " + action, 3);
     }
 
     public void onDisconnect() {
