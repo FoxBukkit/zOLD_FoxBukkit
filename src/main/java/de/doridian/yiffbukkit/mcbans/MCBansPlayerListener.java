@@ -64,7 +64,10 @@ public class MCBansPlayerListener extends PlayerListener {
 		case 'b':
 			String rep = connret.get("playerRep").toString();
 			sendIRCMessage(name + " has previous bans and "+rep+" REP");
-			sendServerMessage(name + " has previous bans and "+rep+" REP", 3);
+			if(plugin.playerHelper.getPlayerLevel(name) < 5)
+				sendServerMessage(name + " has previous bans and "+rep+" REP", 3);
+			else
+				sendServerMessage(name + " has previous bans and "+rep+" REP", 5);
 			/* FALL-THROUGH */
 
 		case 'n':
@@ -72,7 +75,10 @@ public class MCBansPlayerListener extends PlayerListener {
 				String alts = ((String)connret.get("altList")).trim();
 				if(alts.length() > 0) {
 					sendIRCMessage(name + " has potential alts: "+alts);
-					sendServerMessage(name + " has potential alts: "+alts, 3);
+					if(plugin.playerHelper.getPlayerLevel(name) < 5)
+						sendServerMessage(name + " has potential alts: "+alts, 3);
+					else
+						sendServerMessage(name + " has potential alts: "+alts, 5);
 				}
 			}
 			break;

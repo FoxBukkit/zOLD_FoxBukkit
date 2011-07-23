@@ -262,13 +262,15 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		event.setJoinMessage(null);
 		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists()) {
-			plugin.ircbot.sendToChannel(player.getName() + " joined!");
+			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
+			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
 			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
 		} else {
 			Player ply = event.getPlayer();
 			Location location = playerHelper.getPlayerSpawnPosition(ply);
 			ply.teleport(location);
-			plugin.ircbot.sendToChannel(player.getName() + " joined for the first time!");
+			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
+			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
 			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 		}
 
@@ -336,6 +338,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			event.setMessage("/youdontwantthiscommand "+event.getMessage());
 		}
+		else
+		{
+			plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +event.getMessage().substring(1).trim());
+			Logger.getLogger("Minecraft").log(Level.INFO, "Other Command: "+ply.getName()+": "+event.getMessage().substring(1).trim());
+		}
 		plugin.chatManager.popCurrentOrigin();
 	}
 
@@ -358,7 +365,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				if(!icmd.canPlayerUseCommand(commandSender)) {
 					throw new PermissionDeniedException();
 				}
-				Logger.getLogger("Minecraft").log(Level.INFO, "Command: "+commandSender.getName()+": "+baseCmd);
+				if(!(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation")))
+				{
+					plugin.ircbot.sendToStaffChannel("YB Command: " + commandSender.getName() + ": " +baseCmd);
+					Logger.getLogger("Minecraft").log(Level.INFO, "YB Command: "+commandSender.getName()+": "+baseCmd);
+				}
 				icmd.run(commandSender,args,argStr);
 			}
 			catch (YiffBukkitCommandException e) {

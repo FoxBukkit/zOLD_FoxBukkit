@@ -23,6 +23,8 @@ import org.dynmap.Event.Listener;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
@@ -79,6 +81,7 @@ public class YiffBukkit extends JavaPlugin {
 	public WorldEditPlugin worldEdit;
 	public DynmapPlugin dynmap;
 	public Consumer logBlockConsumer;
+	public WorldGuardPlugin worldGuard;
 
 	public boolean serverClosed = false;
 
@@ -106,6 +109,10 @@ public class YiffBukkit extends JavaPlugin {
 		worldEdit = (WorldEditPlugin) pm.getPlugin("WorldEdit");
 		if (worldEdit != null)
 			System.out.println( "YiffBukkit found WorldEdit!" );
+		
+		worldGuard = (WorldGuardPlugin) pm.getPlugin("WorldGuard");
+		if (worldGuard != null)
+			System.out.println( "YiffBukkit found WorldGuard!" );
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
