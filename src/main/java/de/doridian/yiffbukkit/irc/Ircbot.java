@@ -103,16 +103,32 @@ public class Ircbot extends PircBot implements Runnable {
 
     public void onMessage(String channel, String sender, String login, String hostname, String message) {
     	if(channel.equals(PUBLICCHANNEL))
-    		plugin.playerHelper.sendServerMessage("§7" + sender + "@IRC§f: " + message);
+    		if(this.getUser(sender,channel).isOp())
+    			plugin.playerHelper.sendServerMessage("§5@" + sender + "@IRC§f: " + message);
+    		else if(this.getUser(sender,channel).hasVoice())
+    			plugin.playerHelper.sendServerMessage("§f+" + sender + "@IRC§f: " + message);
+    		else
+    			plugin.playerHelper.sendServerMessage("§7" + sender + "@IRC§f: " + message);
     	else if(channel.equals(STAFFCHANNEL))
-    		plugin.playerHelper.sendServerMessage("§e[OP] §7" + sender + "@IRC§f: " + message, 3);
+    		if(this.getUser(sender,channel).isOp())
+    			plugin.playerHelper.sendServerMessage("§e[OP] §5@" + sender + "@IRC§f: " + message);
+    		else
+    			plugin.playerHelper.sendServerMessage("§e[OP] §f" + sender + "@IRC§f: " + message, 3);
     }
 
     public void onAction(String sender, String login, String hostname, String target, String action) {
     	if(target.equals(PUBLICCHANNEL))
-    		plugin.playerHelper.sendServerMessage("§7* " + sender + "@IRC§7 " + action);
+    		if(this.getUser(sender,target).isOp())
+    			plugin.playerHelper.sendServerMessage("§5* @" + sender + "@IRC§7 " + action);
+    		else if(this.getUser(sender,target).hasVoice())
+    			plugin.playerHelper.sendServerMessage("§f* +" + sender + "@IRC§7 " + action);
+    		else
+    			plugin.playerHelper.sendServerMessage("§7* " + sender + "@IRC§7 " + action);
     	else if(target.equals(STAFFCHANNEL))
-    		plugin.playerHelper.sendServerMessage("§e[OP]* §7" + sender + "@IRC§7 " + action, 3);
+    		if(this.getUser(sender,target).isOp())
+    			plugin.playerHelper.sendServerMessage("§e[OP]* §5@" + sender + "@IRC§7 " + action, 3);
+    		else
+    			plugin.playerHelper.sendServerMessage("§e[OP]* §f" + sender + "@IRC§7 " + action, 3);
     }
 
     public void onDisconnect() {

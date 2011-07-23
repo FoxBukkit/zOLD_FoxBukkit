@@ -2859,6 +2859,44 @@ public abstract class PircBot implements ReplyConstants {
         return userArray;
     }
     
+    /**
+     * Returns the User object for the specified nick in the specified channel.
+     * <p>
+     * There are some important things to note about this method:-
+     * <ul>
+     * <li>This method may not return the User if you call it before the
+     * complete nick list has arrived from the IRC server.</li>
+     * <li>This method will return immediately, as it does not require any
+     * interaction with the IRC server.</li>
+     * <li>The bot must be in a channel to be able to know which users are in
+     * it.</li>
+     * </ul>
+     * 
+     * @param sourceNick
+     *            The nick of the user to find.
+     * @param channel
+     *            The name of the channel to look for the user in.
+     * 
+     * @return User object for the user if found, <code>null</code> if not
+     *         found.
+     */
+    public final User getUser(String sourceNick, String channel) {
+        channel = channel.toLowerCase();
+        synchronized (_channels) {
+            Hashtable<User,User> users = _channels.get(channel);
+            if (users != null) {
+                Enumeration<User> enumeration = users.elements();
+                while (enumeration.hasMoreElements()) {
+                    User user = (User) enumeration.nextElement();
+                    if (user.getNick().equalsIgnoreCase(sourceNick)) {
+                        return user;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
     
     /**
      * Returns an array of all channels that we are in.  Note that if you
