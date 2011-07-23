@@ -159,7 +159,9 @@ public class YiffBukkit extends JavaPlugin {
 		jailEngine = new JailEngine(this);
 		signSaver = new SignSaver(this);
 		//portalEngine = new PortalEngine(this);
+		System.out.println("YiffBukkit state components loaded.");
 		StateContainer.loadAll();
+		System.out.println("YiffBukkit state component config loaded.");
 		chatManager = new ChatManager(this);
 
 		playerListener = new YiffBukkitPlayerListener(this);
@@ -171,11 +173,15 @@ public class YiffBukkit extends JavaPlugin {
 		transmute = new Transmute(this);
 		adHandler = new AdvertismentSigns(this);
 
+		System.out.println("YiffBukkit components loaded.");
 		mcbans = new MCBans(this);
+		System.out.println("YiffBukkit MCBans loaded.");
 		ircbot = new Ircbot(this).init();
+		System.out.println("YiffBukkit IRC bot loaded.");
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
+		System.out.println("YiffBukkit Remote loaded.");
 
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
