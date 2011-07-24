@@ -113,7 +113,7 @@ public class ButcherCommand extends ICommand {
 		else
 			entities = world.getLivingEntities();
 
-		boolean doLightning = booleanFlags.contains('n');
+		boolean doLightning = booleanFlags.contains('l');
 		for (Entity entity : entities) {
 			if (isSpared(entity, spareNPCs))
 				continue;
