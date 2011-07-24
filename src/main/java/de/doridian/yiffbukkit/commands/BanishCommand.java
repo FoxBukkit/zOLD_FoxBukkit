@@ -13,7 +13,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("banish")
 @Help("Banishes the specified user to the spawn and optionally resets their home location.")
 @Usage("<name> [resethome]")
-@Level(3)
 @Permission("yiffbukkit.teleport.banish")
 public class BanishCommand extends ICommand {
 	@Override

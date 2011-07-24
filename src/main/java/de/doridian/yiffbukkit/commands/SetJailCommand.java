@@ -15,7 +15,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("setjail")
 @Help("Defines a jail cell from the current WorldEdit selection or removes the cell whose center you're standing closest to.")
 @Usage("[remove]")
-@Level(4)
 @Permission("yiffbukkit.jail.setjail")
 public class SetJailCommand extends ICommand {
 	@Override

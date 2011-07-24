@@ -10,7 +10,6 @@ import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 @Names("servertime")
 @Help("Forces/fixes current time *serverside*.")
 @Usage("[normal|night|day|morning|afternoon|<0-23>]")
-@Level(3)
 @StringFlags("w")
 @Permission("yiffbukkit.servertime")
 public class ServerTimeCommand extends ICommand {

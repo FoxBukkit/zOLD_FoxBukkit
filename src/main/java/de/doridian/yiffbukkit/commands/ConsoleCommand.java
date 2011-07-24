@@ -13,7 +13,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("rcon")
 @Help("Pushes a command to console")
 @Usage("<command>")
-@Level(5)
 @Permission("yiffbukkit.rcon")
 public class ConsoleCommand extends ICommand {
 	private final MinecraftServer mcServer;

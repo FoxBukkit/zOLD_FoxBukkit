@@ -34,7 +34,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 		"  -s Set skylight instead of blocklight"
 )
 @Usage("[<flags>] [<level>]")
-@Level(4)
 @BooleanFlags("fs")
 @Permission("yiffbukkit.experimental.light")
 public class LightCommand extends ICommand {

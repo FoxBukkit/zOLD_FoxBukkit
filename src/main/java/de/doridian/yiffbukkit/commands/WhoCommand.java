@@ -16,7 +16,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({ "who", "list" })
 @Help("Prints user list if used without parameters or information about the specified user")
 @Usage("[name]")
-@Level(0)
 @Permission("yiffbukkit.who")
 public class WhoCommand extends ICommand {
 	@Override

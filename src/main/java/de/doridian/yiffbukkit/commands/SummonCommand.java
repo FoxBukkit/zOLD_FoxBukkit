@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({"summon", "tphere"})
 @Help("Teleports the specified user to you")
 @Usage("<name>")
-@Level(2)
 @Permission("yiffbukkit.teleport.summon")
 public class SummonCommand extends ICommand {
 	@Override

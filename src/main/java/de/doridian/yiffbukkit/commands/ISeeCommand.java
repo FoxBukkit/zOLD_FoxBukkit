@@ -13,7 +13,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("isee")
 @Help("Opens the inventory of target player as a chest")
 @Usage("<player>")
-@Level(4)
 @Permission("yiffbukkit.players.isee")
 public class ISeeCommand extends ICommand {
 	@Override

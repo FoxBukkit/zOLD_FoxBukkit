@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("leash")
 @Help("Leashes or unleashes a player.")
 @Usage("<name>")
-@Level(4)
 @Permission("yiffbukkit.players.leash")
 public class LeashCommand extends ICommand {
 	@Override

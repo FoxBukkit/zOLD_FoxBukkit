@@ -3,6 +3,10 @@ package de.doridian.yiffbukkit.commands;
 import java.util.List;
 
 import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.MathHelper;
+import net.minecraft.server.Packet71Weather;
+
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
@@ -27,8 +31,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 		"  -v remove vehicles too"
 )
 @Usage("[<target>] [<radius>]")
-@Level(3)
-@BooleanFlags("nv")
+@BooleanFlags("nvl")
 @Permission("yiffbukkit.butcher")
 public class ButcherCommand extends ICommand {
 	@Override
@@ -110,16 +113,27 @@ public class ButcherCommand extends ICommand {
 		else
 			entities = world.getLivingEntities();
 
+		boolean doLightning = booleanFlags.contains('n');
 		for (Entity entity : entities) {
 			if (isSpared(entity, spareNPCs))
 				continue;
 
-			final Vector currentPos = entity.getLocation().toVector();
+			final Location location = entity.getLocation();
+			final Vector currentPos = location.toVector();
 			final double distanceSquared = currentPos.distanceSquared(targetPos);
 
 			if (distanceSquared > radiusSquared)
 				continue;
 
+			if (doLightning) {
+				final Packet71Weather p71 = new Packet71Weather();
+				p71.a = 999999999;
+				p71.b = MathHelper.floor(location.getX()*32D);
+				p71.c = MathHelper.floor(location.getY()*32D);
+				p71.d = MathHelper.floor(location.getZ()*32D);
+				p71.e = 1;
+				playerHelper.sendPacketToPlayersAround(location, 512, p71);
+			}
 			entity.remove();
 			++removed;
 		}

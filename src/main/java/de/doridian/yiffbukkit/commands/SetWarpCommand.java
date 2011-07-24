@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("setwarp")
 @Help("Creates a warp point with the specified name.")
 @Usage("<warp point name>")
-@Level(3)
 @Permission("yiffbukkit.warp.setwarp")
 public class SetWarpCommand extends ICommand {
 	@Override

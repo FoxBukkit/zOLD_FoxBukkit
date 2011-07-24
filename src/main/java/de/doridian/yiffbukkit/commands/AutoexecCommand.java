@@ -17,7 +17,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("autoexec")
 @Help("Schedules commands to be executed every time you connect.")
 @Usage("[[-a] <command>|-r <index>]")
-@Level(3)
 @Permission("yiffbukkit.autoexec")
 public class AutoexecCommand extends ICommand {
 	public AutoexecCommand() {

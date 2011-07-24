@@ -21,7 +21,6 @@ import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 		"       m=minutes, h=hours, d=days"
 )
 @Usage("[<flags>] <name> [reason here]")
-@Level(3)
 @BooleanFlags("jrg")
 @StringFlags("t")
 @Permission("yiffbukkit.users.ban")

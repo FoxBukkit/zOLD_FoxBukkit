@@ -17,7 +17,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("god")
 @Help("Activates or deactivates god mode.")
 @Usage("[<name>] [on|off]")
-@Level(3)
 @Permission("yiffbukkit.players.god")
 public class GodCommand extends AbstractPlayerStateCommand {
 	private final Set<String> godded = states;

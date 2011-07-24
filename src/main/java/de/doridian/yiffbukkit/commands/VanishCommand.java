@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("vanish")
 @Help("Makes you invisible")
 @Usage("[on|off]")
-@Level(3)
 @Permission("yiffbukkit.vanish")
 public class VanishCommand extends ICommand {
 	@Override

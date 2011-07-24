@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("setrank")
 @Help("Sets rank of specified user")
 @Usage("<full name> <rank>")
-@Level(3)
 @Permission("yiffbukkit.users.setrank")
 public class SetRankCommand extends ICommand {
 	@Override

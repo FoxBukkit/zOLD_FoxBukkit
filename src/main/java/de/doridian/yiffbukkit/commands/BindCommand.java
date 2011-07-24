@@ -17,7 +17,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("bind")
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
 @Usage("[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
-@Level(3)
 @Permission("yiffbukkit.bind")
 public class BindCommand extends ICommand {
 	private static final Set<String> filter = new HashSet<String>();

@@ -7,7 +7,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({"unban", "pardon"})
 @Help("Unbans specified user")
 @Usage("<full name>")
-@Level(3)
 @Permission("yiffbukkit.users.unban")
 public class UnbanCommand extends ICommand {
 	@Override

@@ -6,7 +6,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({"me", "emote"})
 @Help("Well, it's /me, durp")
 @Usage("<stuff here>")
-@Level(0)
 @Permission("yiffbukkit.communication.emote")
 public class MeCommand extends ICommand {
 	@Override

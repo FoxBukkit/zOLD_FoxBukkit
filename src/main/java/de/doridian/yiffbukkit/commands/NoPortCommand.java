@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("noport")
 @Help("Prevents teleportation and summoning or grants/revokes exceptions.")
 @Usage("[on|off|allow <name>|deny <name>]")
-@Level(1)
 @Permission("yiffbukkit.teleport.noport.noport")
 public class NoPortCommand extends ICommand {
 	protected Set<String> tpPermissions;

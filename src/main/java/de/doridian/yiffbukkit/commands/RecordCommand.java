@@ -33,7 +33,6 @@ import de.doridian.yiffbukkit.util.Utils;
 @Names("record")
 @Help("Records a player's actions. Use the -s flag to stop recording.")
 @Usage("[-s] <name>")
-@Level(4)
 @BooleanFlags("s")
 @Permission("yiffbukkit.replay.record")
 public class RecordCommand extends ICommand {

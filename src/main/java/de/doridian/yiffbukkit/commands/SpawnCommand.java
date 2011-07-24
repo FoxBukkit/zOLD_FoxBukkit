@@ -7,7 +7,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("spawn")
 @Help("Teleports you to the spawn position")
-@Level(0)
 @Permission("yiffbukkit.teleport.basic.spawn")
 public class SpawnCommand extends ICommand {
 	@Override

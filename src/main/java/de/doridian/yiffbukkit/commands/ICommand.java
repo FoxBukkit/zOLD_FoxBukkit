@@ -86,6 +86,7 @@ public abstract class ICommand {
 	protected String[] parseFlags(String[] args) throws YiffBukkitCommandException {
 		int nextArg = 0;
 
+		parseFlagsAnnotations();
 		booleanFlags.clear();
 		stringFlags.clear();
 		numericFlags.clear();

@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("lockdown")
 @Help("Locks or unlocks the server for guests")
 @Usage("[on|off]")
-@Level(5)
 @Permission("yiffbukkit.users.lockdown")
 public class LockdownCommand extends ICommand {
 	@Override

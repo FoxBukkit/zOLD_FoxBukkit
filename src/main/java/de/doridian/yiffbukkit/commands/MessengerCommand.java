@@ -12,7 +12,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({"messenger","msngr"})
 @Help("Command for the MCBans messenger system")
 @Usage("<inbox/read/send/block/unblock> [parameter]")
-@Level(0)
 @Permission("yiffbukkit.messenger")
 public class MessengerCommand extends ICommand {
 	@Override

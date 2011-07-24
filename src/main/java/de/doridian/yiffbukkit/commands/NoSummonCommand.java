@@ -5,7 +5,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("nosummon")
 @Help("Prevents summoning or grants/revokes exceptions.")
 @Usage("[on|off|allow <name>|deny <name>]")
-@Level(1)
 @Permission("yiffbukkit.teleport.noport.nosummon")
 public class NoSummonCommand extends NoPortCommand {
 	public NoSummonCommand() {

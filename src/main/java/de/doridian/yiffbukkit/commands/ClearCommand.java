@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("clear")
 @Help("Clears your inventory or another player's. Use -a to include the toolbar.")
 @Usage("[-a] [<name>]")
-@Level(4)
 @BooleanFlags("a")
 @Permission("yiffbukkit.players.clear")
 public class ClearCommand extends ICommand {

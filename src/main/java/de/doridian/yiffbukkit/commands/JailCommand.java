@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("jail")
 @Help("Sends someone to a previously defined jail cell.")
 @Usage("<name> [release]")
-@Level(3)
 @Permission("yiffbukkit.jail.jail")
 public class JailCommand extends ICommand {
 	@Override

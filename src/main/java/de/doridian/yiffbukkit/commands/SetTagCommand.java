@@ -11,7 +11,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 		"Colors: §0$0 §1$1 §2$2 §3$3 §4$4 §5$5 §6$6 §7$7 §8$8 §9$9 §a$a §b$b §c$c §d$d §e$e §f$f"
 )
 @Usage("<name> <tag>|none")
-@Level(3)
 @Permission("yiffbukkit.users.settag")
 public class SetTagCommand extends ICommand {
 	@Override

@@ -6,7 +6,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("home")
 @Help("Teleports you to your home position (see /sethome)")
-@Level(0)
 @Permission("yiffbukkit.teleport.basic.home")
 public class HomeCommand extends ICommand {
 	@Override

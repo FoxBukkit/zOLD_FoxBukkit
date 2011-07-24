@@ -33,8 +33,8 @@ import de.doridian.yiffbukkit.util.Utils;
 		"  creeper:charged"
 )
 @Usage("[-i <item name or id>][<type>[ <forward>[ <up>[ <left>]]]]")
-@Level(3)
 @StringFlags("i")
+@Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();

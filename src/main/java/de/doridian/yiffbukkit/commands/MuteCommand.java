@@ -18,7 +18,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("mute")
 @Help("Mutes or unmutes a player.")
 @Usage("<name> [on|off]")
-@Level(4)
 @Permission("yiffbukkit.users.mute")
 public class MuteCommand extends AbstractPlayerStateCommand {
 	private final Set<String> muted = states;

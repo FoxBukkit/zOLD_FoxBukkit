@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("heal")
 @Help("Heals a player fully or by the given amount.")
 @Usage("[<name>] [<amount>]")
-@Level(4)
 @Permission("yiffbukkit.players.heal")
 public class HealCommand extends ICommand {
 	@Override

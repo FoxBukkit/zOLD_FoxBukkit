@@ -41,7 +41,6 @@ import de.doridian.yiffbukkit.util.Utils;
 		"  -v <name> to view the replay from the perspective of a player"
 )
 @Usage("-s|[-v <name> ]<replay name>")
-@Level(4)
 @BooleanFlags("s")
 @StringFlags("v")
 @Permission("yiffbukkit.replay.replay")

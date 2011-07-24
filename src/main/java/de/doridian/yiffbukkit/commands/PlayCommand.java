@@ -21,7 +21,6 @@ import de.doridian.yiffbukkit.util.Utils;
 
 @Names("play")
 @Help("Plays notes (currently qbasic format)")
-@Level(4)
 @Permission("yiffbukkit.experimental.play")
 public class PlayCommand extends ICommand {
 	public class Packet53BlockChangeExpress extends Packet53BlockChange {

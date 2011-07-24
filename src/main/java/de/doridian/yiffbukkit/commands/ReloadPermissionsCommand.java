@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("reloadpermissions")
 @Help("Reloads the permissions system.")
 @Usage("")
-@Level(5)
 @Permission("yiffbukkit.reloadpermissions")
 public class ReloadPermissionsCommand extends ICommand {
 	@Override

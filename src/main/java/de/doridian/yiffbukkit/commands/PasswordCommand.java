@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("setpass")
 @Help("Sets your web login password.")
 @Usage("<password>")
-@Level(2)
 @Permission("yiffbukkit.useless.password")
 public class PasswordCommand extends ICommand {
 	@Override

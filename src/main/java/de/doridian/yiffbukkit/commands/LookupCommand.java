@@ -11,7 +11,6 @@ import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 @Names("lookup")
 @Help("Does an MCBans lookup on target player")
 @Usage("<name>")
-@Level(3)
 @Permission("yiffbukkit.users.lookup")
 public class LookupCommand extends ICommand {
 	@Override

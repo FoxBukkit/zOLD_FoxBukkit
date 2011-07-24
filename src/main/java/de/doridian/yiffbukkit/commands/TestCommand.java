@@ -6,7 +6,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.mcbans.MCBansBlockLoggerLogBlock;
 
 @Names("test")
-@Level(5)
 @Permission("yiffbukkit.useless.test")
 public class TestCommand extends ICommand {
 	@Override

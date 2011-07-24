@@ -11,7 +11,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("kick")
 @Help("Kicks specified user")
 @Usage("<name> [reason here]")
-@Level(2)
 @Permission("yiffbukkit.users.kick")
 public class KickCommand extends ICommand {
 	@Override

@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("help")
 @Help("Prints command list if used without parameters or information about the specified command")
 @Usage("[<command>]")
-@Level(0)
 @Permission("yiffbukkit.help")
 public class HelpCommand extends ICommand {
 	@Override

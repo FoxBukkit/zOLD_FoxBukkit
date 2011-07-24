@@ -10,7 +10,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({"pm", "msg"})
 @Help("Sends a private message to the specified user, that cannot be seen by anyone but the target and yourself.")
 @Usage("<name> <text>")
-@Level(0)
 @Permission("yiffbukkit.communication.pm")
 public class PmCommand extends ICommand {
 	@Override

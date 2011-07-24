@@ -5,7 +5,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("reloadads")
 @Help("Reload ads")
-@Level(3)
 @Permission("yiffbukkit.useless.reloadads")
 public class ReloadAdsCommand extends ICommand {
 	@Override

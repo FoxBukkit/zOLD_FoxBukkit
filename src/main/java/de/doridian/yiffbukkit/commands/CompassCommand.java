@@ -17,7 +17,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 		"or a full direction name, like north_east or northeast."
 )
 @Usage("[spawn|home|here|player <name>|warp <name>|<direction>]")
-@Level(0)
 @Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
 	@Override

@@ -7,7 +7,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("rescan")
 @Help("Rescans YiffBukkit's commands. Pretty useless without a debug connection.")
-@Level(5)
 @Permission("yiffbukkit.rescancommands")
 public class RescanCommand extends ICommand {
 	@Override
