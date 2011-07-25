@@ -17,10 +17,10 @@ public class VanishPlayerListener extends PlayerListener {
 
 		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, this, Priority.Highest, vanish.plugin);
 
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, this, Priority.Highest, vanish.plugin);
+		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, this, Priority.Monitor, vanish.plugin);
 
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, this, Priority.Highest, vanish.plugin);
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, this, Priority.Highest, vanish.plugin);
+		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, this, Priority.Monitor, vanish.plugin);
+		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, this, Priority.Monitor, vanish.plugin);
 	}
 
 	@Override
@@ -45,7 +45,6 @@ public class VanishPlayerListener extends PlayerListener {
 		Player ply = event.getPlayer();
 		int entityId = ply.getEntityId();
 
-		System.out.println("quit "+entityId);
 		unVanishId(entityId);
 	}
 
@@ -55,14 +54,13 @@ public class VanishPlayerListener extends PlayerListener {
 		int entityId = ply.getEntityId();
 
 		unVanishId(entityId);
-		System.out.println("kick "+entityId);
 	}
 
 	private void vanishId(int entityId) {
-		vanish.vanishedEntityIds.remove(entityId);
+		vanish.vanishedEntityIds.add(entityId);
 	}
 
 	private void unVanishId(int entityId) {
-		vanish.vanishedEntityIds.add(entityId);
+		vanish.vanishedEntityIds.remove(entityId);
 	}
 }
