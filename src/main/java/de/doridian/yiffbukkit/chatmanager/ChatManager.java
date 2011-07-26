@@ -171,34 +171,38 @@ public class ChatManager {
 
 	}
 
-	public void filterChat(String regex) {
+	public void filterChats(String regex) {
 		for (Player ply : plugin.getServer().getOnlinePlayers()) {
-			Queue<ChatEntry> chatQueue = chatQueues.get(ply.getName());
+			filterChat(regex, ply);
+		}
+	}
 
-			if (chatQueue == null)
-				continue;
+	public void filterChat(String regex, Player ply) {
+		Queue<ChatEntry> chatQueue = chatQueues.get(ply.getName());
 
-			int removed = 0;
+		if (chatQueue == null)
+			return;
 
-			for (Iterator<ChatEntry> it = chatQueue.iterator(); it.hasNext(); ) {
-				ChatEntry chatEntry = it.next();
-				if (chatEntry.getText().matches(regex)) {
-					it.remove();
-					++removed;
-				}
+		int removed = 0;
+
+		for (Iterator<ChatEntry> it = chatQueue.iterator(); it.hasNext(); ) {
+			ChatEntry chatEntry = it.next();
+			if (chatEntry.getText().matches(regex)) {
+				it.remove();
+				++removed;
 			}
+		}
 
-			if (removed > 0) {
-				Queue<ChatEntry> newChatQueue = new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1);
+		if (removed > 0) {
+			Queue<ChatEntry> newChatQueue = new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1);
 
-				for (int i = 0; i < removed; ++i)
-					newChatQueue.offer(EMPTY_CHAT_ENTRY);
+			for (int i = 0; i < removed; ++i)
+				newChatQueue.offer(EMPTY_CHAT_ENTRY);
 
-				newChatQueue.addAll(chatQueue);
-				chatQueues.put(ply.getName(), chatQueue = newChatQueue);
+			newChatQueue.addAll(chatQueue);
+			chatQueues.put(ply.getName(), chatQueue = newChatQueue);
 
-				resend(ply);
-			}
+			resend(ply);
 		}
 	}
 }
