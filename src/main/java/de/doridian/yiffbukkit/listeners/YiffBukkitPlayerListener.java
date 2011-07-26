@@ -12,6 +12,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -293,22 +294,26 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
 
-		for (Map<Player, ?> map : playerHelper.registeredMaps) {
+		for (Map<Player, ?> map : playerHelper.registeredMaps)
 			map.remove(player);
-		}
+		for (Set<Player> set : playerHelper.registeredSets)
+			set.remove(player);
 	}
 
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
+		final Player player = event.getPlayer();
+
 		event.setLeaveMessage(null);
-		plugin.chatManager.pushCurrentOrigin(event.getPlayer());
-		plugin.ircbot.sendToChannel(event.getPlayer().getName() + " was kicked (" + event.getReason() + ")!");
-		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(event.getPlayer()) + "§e was kicked (" + event.getReason() + ")!");
+		plugin.chatManager.pushCurrentOrigin(player);
+		plugin.ircbot.sendToChannel(player.getName() + " was kicked (" + event.getReason() + ")!");
+		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e was kicked (" + event.getReason() + ")!");
 		plugin.chatManager.popCurrentOrigin();
 
-		for (Map<Player, ?> map : playerHelper.registeredMaps) {
-			map.remove(event.getPlayer());
-		}
+		for (Map<Player, ?> map : playerHelper.registeredMaps)
+			map.remove(player);
+		for (Set<Player> set : playerHelper.registeredSets)
+			set.remove(player);
 	}
 
 	@Override

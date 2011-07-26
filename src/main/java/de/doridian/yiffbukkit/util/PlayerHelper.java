@@ -718,8 +718,12 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public Set<Map<Player,?>> registeredMaps = new HashSet<Map<Player,?>>();
+	public Set<Set<Player>> registeredSets = new HashSet<Set<Player>>();
 	public void registerMap(Map<Player,?> map) {
 		registeredMaps.add(map);
+	}
+	public void registerSet(Set<Player> set) {
+		registeredSets.add(set);
 	}
 
 	public Map<String, List<String>> autoexecs = new HashMap<String, List<String>>();
