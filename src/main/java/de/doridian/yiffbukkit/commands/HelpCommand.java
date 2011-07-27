@@ -4,23 +4,24 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.bukkit.command.CommandSender;
+
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("help")
-@Help("Prints command list if used without parameters or information about the specified command")
+@Help("Prints a list of available commands or information about the specified command.")
 @Usage("[<command>]")
 @Permission("yiffbukkit.help")
 public class HelpCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Hashtable<String,ICommand> commands = plugin.getCommands();
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
-			if(val == null || !val.canPlayerUseCommand(commandSender)) {
-				playerHelper.sendDirectedMessage(commandSender, "Command not found!");
-				return;
-			}
+			if (val == null || !val.canPlayerUseCommand(commandSender))
+				throw new YiffBukkitCommandException("Command not found!");
+
 			for (String line : val.getHelp().split("\n")) {
 				playerHelper.sendDirectedMessage(commandSender, line);
 			}
