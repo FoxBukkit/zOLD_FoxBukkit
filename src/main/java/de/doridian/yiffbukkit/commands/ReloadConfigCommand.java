@@ -12,14 +12,18 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class ReloadConfigCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		final boolean success;
 		try {
-			if (!StateContainer.loadSingle(argStr))
-				throw new YiffBukkitCommandException("Config not found");
+			success = StateContainer.loadSingle(argStr);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			throw new YiffBukkitCommandException("Exception caught while loading config. See Log.", e);
 		}
+
+		if (!success)
+			throw new YiffBukkitCommandException("Config not found");
+
 		playerHelper.sendDirectedMessage(commandSender, "Reloaded "+argStr+" config.");
 	}
 }
