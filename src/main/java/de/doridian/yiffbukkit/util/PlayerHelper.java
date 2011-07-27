@@ -90,7 +90,7 @@ public class PlayerHelper extends StateContainer {
 		if (matcher.matches())
 			return matcher.group(1);
 
-		java.util.List<Player> otherplys = plugin.getServer().matchPlayer(subString);
+		List<Player> otherplys = plugin.getServer().matchPlayer(subString);
 		int c = otherplys.size();
 
 		if (c == 0 && implicitlyLiteralNames)
