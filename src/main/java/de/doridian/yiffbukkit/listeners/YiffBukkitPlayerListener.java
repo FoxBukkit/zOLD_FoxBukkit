@@ -345,7 +345,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 		else
 		{
-			plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +event.getMessage().substring(1).trim());
+			if(!(playerHelper.getPlayerLevel(ply.getName()) >= 5 && event.getMessage().startsWith("//")))
+				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +event.getMessage().substring(1).trim());
 			Logger.getLogger("Minecraft").log(Level.INFO, "Other Command: "+ply.getName()+": "+event.getMessage().substring(1).trim());
 		}
 		plugin.chatManager.popCurrentOrigin();
