@@ -24,7 +24,7 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.*;
+import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
@@ -215,7 +215,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			// removes the .class extension
 			String classname = matcher.group(1);
 			try {
-				final Class<?> classObject = Class.forName(packageName+"."+classname);
+				final Class<?> classObject = Class.forName(packageName+"."+classname.replace('/', '.'));
 				final Class<? extends T> classT = classObject.asSubclass(baseClass);
 
 				// Try to create an instance of the object
@@ -409,7 +409,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				// This will not be logged by logblock so I only allowed it for ops+ for now.
 				// A fix would be to modify the event a bit to make BB log this. 
 				if (itemMaterial == Material.INK_SACK && plugin.permissionHandler.has(ply, "yiffbukkit.dyepaint")) {
-					if (clickedBlock.getType() == Material.WOOL) {
+					if (clickedBlock != null && clickedBlock.getType() == Material.WOOL) {
 						ItemStack item = event.getItem();
 
 						final byte newData = (byte)(15 - item.getDurability());
