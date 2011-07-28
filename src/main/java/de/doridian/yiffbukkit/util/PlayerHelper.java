@@ -229,22 +229,24 @@ public class PlayerHelper extends StateContainer {
 
 	//Permission levels
 	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
-	public Integer getPlayerLevel(CommandSender ply) {
+	public int getPlayerLevel(CommandSender ply) {
 		return getPlayerLevel(ply.getName());
 	}
 
-	public Integer getPlayerLevel(String name) {
+	public int getPlayerLevel(String name) {
 		if(name.equals("[CONSOLE]"))
 			return 9999;
 
 		return getRankLevel(getPlayerRank(name));
 	}
-	public Integer getRankLevel(String rankname) {
+
+	public int getRankLevel(String rankname) {
 		rankname = rankname.toLowerCase();
-		if(ranklevels.containsKey(rankname))
-			return ranklevels.get(rankname);
-		else
+		final Integer rankLevel = ranklevels.get(rankname);
+		if (rankLevel == null)
 			return 0;
+
+		return rankLevel;
 	}
 
 	@Loader({ "ranks", "ranknames" })
