@@ -78,11 +78,36 @@ public class WhoCommand extends ICommand {
 		}
 		else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
-			String str = "Online players: " + players[0].getName();
+			String str = "Online players: " + formatPlayer(players[0]);
 			for(int i=1;i<players.length;i++) {
-				str += ", " + players[i].getName();
+				str += ", " + formatPlayer(players[i]);
 			}
 			playerHelper.sendDirectedMessage(commandSender, str);
+		}
+	}
+
+	private String formatPlayer(Player player) {
+		int playerLevel = playerHelper.getPlayerLevel(player);
+		final String playerName = player.getName();
+
+		if (playerLevel < 0)
+			return "§0"+playerName;
+
+		switch (playerLevel) {
+		case 0:
+			return "§7"+playerName;
+
+		case 1:
+			return "§a"+playerName;
+
+		case 2:
+			return "§2"+playerName;
+
+		case 3:
+			return "§b"+playerName;
+
+		default:
+			return "§5"+playerName;
 		}
 	}
 }
