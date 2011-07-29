@@ -65,9 +65,9 @@ public class MCBansPlayerListener extends PlayerListener {
 			String rep = connret.get("playerRep").toString();
 			sendIRCMessage(name + " has previous bans and "+rep+" REP");
 			if(plugin.playerHelper.getPlayerLevel(name) < 10)
-				sendServerMessage(name + " has previous bans and "+rep+" REP", 3);
+				sendServerMessage(name + " has previous bans and "+rep+" REP", "mcbans.joinstats");
 			else
-				sendServerMessage(name + " has previous bans and "+rep+" REP", 5);
+				sendServerMessage(name + " has previous bans and "+rep+" REP", "mcbans.joinstats.owner");
 			/* FALL-THROUGH */
 
 		case 'n':
@@ -76,9 +76,9 @@ public class MCBansPlayerListener extends PlayerListener {
 				if(alts.length() > 0) {
 					sendIRCMessage(name + " has potential alts: "+alts);
 					if(plugin.playerHelper.getPlayerLevel(name) < 10)
-						sendServerMessage(name + " has potential alts: "+alts, 3);
+						sendServerMessage(name + " has potential alts: "+alts, "mcbans.joinstats");
 					else
-						sendServerMessage(name + " has potential alts: "+alts, 5);
+						sendServerMessage(name + " has potential alts: "+alts, "mcbans.joinstats.owner");
 				}
 			}
 			break;
@@ -101,10 +101,10 @@ public class MCBansPlayerListener extends PlayerListener {
 		});
 	}
 
-	private void sendServerMessage(final String msg, final int color) {
+	private void sendServerMessage(final String msg, final String permission) {
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
-				plugin.playerHelper.sendServerMessage(msg, color);
+				plugin.playerHelper.sendServerMessage(msg, permission);
 			}
 		});
 	}

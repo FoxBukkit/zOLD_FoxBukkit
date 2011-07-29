@@ -38,6 +38,7 @@ import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
@@ -171,6 +172,25 @@ public class PlayerHelper extends StateContainer {
 
 		for (Player player : players) {
 			if (getPlayerLevel(player) < minLevel)
+				continue;
+
+			player.sendMessage(msg);
+		}
+
+		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
+	}
+
+	public void sendServerMessage(String msg, String permission) {
+		sendServerMessage(msg, permission, '5');
+	}
+	public void sendServerMessage(String msg, String permission, char colorCode) {
+		msg = "§"+colorCode+"[YB]§f " + msg;
+
+		Player[] players = plugin.getServer().getOnlinePlayers();
+		final YiffBukkitPermissionHandler permissionHandler = plugin.permissionHandler;
+
+		for (Player player : players) {
+			if (!permissionHandler.has(player, permission))
 				continue;
 
 			player.sendMessage(msg);

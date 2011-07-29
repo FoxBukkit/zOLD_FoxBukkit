@@ -101,7 +101,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 				else if(message.charAt(0) == '#') {
 					event.setCancelled(true);
 					plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
-					playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), 3);
+					playerHelper.sendServerMessage("§e[OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), "yiffbukkit.opchat");
 
 					event.setCancelled(true);
 					return;
