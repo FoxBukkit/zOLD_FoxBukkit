@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Achievement;
@@ -27,6 +28,10 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
@@ -502,6 +507,66 @@ public class OfflinePlayer implements Player {
 
 	@Override
 	public void setPlayerTime(long arg0, boolean arg1) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean isPermissionSet(String name) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean isPermissionSet(Permission perm) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean hasPermission(String name) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean hasPermission(Permission perm) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public PermissionAttachment addAttachment(Plugin plugin) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void removeAttachment(PermissionAttachment attachment) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void recalculatePermissions() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void setOp(boolean value) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }
