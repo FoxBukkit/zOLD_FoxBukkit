@@ -17,7 +17,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("give")
 @Help("Gives resource (use _ for spaces in name!)")
 @Usage("<name or id> [amount] [player]")
-@Level(3) // See CanPlayerUseCommand
 @Permission("yiffbukkit.players.give")
 public class GiveCommand extends ICommand {
 	private static final Map<String,Material> aliases = new HashMap<String,Material>();
