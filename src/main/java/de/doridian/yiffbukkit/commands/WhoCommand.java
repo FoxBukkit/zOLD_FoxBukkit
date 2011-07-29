@@ -108,12 +108,15 @@ public class WhoCommand extends ICommand {
 			return "§7"+playerName;
 
 		case 1:
-			return "§a"+playerName;
+			return "§f"+playerName;
 
 		case 2:
+			return "§a"+playerName;
+			
+		case 3:
 			return "§2"+playerName;
 
-		case 3:
+		case 4:
 			return "§b"+playerName;
 
 		default:
