@@ -35,11 +35,14 @@ public class WarpCommand extends ICommand {
 			final Vector playerPos = ply.getLocation().toVector();
 			Arrays.sort(valueArray, 0, valueArray.length, new Comparator<WarpDescriptor>() {
 				public int compare(WarpDescriptor lhs, WarpDescriptor rhs) {
-					return Double.compare(lhs.location.toVector().distanceSquared(playerPos), rhs.location.toVector().distanceSquared(playerPos));
+					return -Double.compare(lhs.location.toVector().distanceSquared(playerPos), rhs.location.toVector().distanceSquared(playerPos));
 				}
 			});
 
 			for (WarpDescriptor warp : valueArray) {
+				if (warp.isHidden)
+					continue;
+
 				final int rank = warp.checkAccess(playerName);
 				if (rank < 1)
 					continue;
@@ -68,6 +71,7 @@ public class WarpCommand extends ICommand {
 			playerHelper.sendDirectedMessage(ply, "info - Shows information");
 			playerHelper.sendDirectedMessage(ply, "changeowner <new owner> - Transfers ownership");
 			playerHelper.sendDirectedMessage(ply, "public|private - Change public access");
+			playerHelper.sendDirectedMessage(ply, "hide|show - Change warp visibility in warp list");
 			playerHelper.sendDirectedMessage(ply, "addguest <name> - Grant guest access (can teleport)");
 			playerHelper.sendDirectedMessage(ply, "addop <name> - Grant op access (can add guests)");
 			playerHelper.sendDirectedMessage(ply, "deny <name> - Deny access");
@@ -97,6 +101,24 @@ public class WarpCommand extends ICommand {
 				warp.setOwner(playerName, newOwnerName);
 
 				playerHelper.sendDirectedMessage(ply, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
+			}
+			else if (command.equals("hide")) {
+				//warp <warp point name> public
+				if (rank < 3)
+					throw new WarpException("Permission denied");
+
+				warp.isHidden = true;
+
+				playerHelper.sendDirectedMessage(ply, "Hiding warp §9" + warp.name + "§f in warp list.");
+			}
+			else if (command.equals("show") || command.equals("unhide")) {
+				//warp <warp point name> public
+				if (rank < 3)
+					throw new WarpException("Permission denied");
+
+				warp.isHidden = true;
+
+				playerHelper.sendDirectedMessage(ply, "Showing warp §9" + warp.name + "§f in warp list.");
 			}
 			else if (command.equals("public") || command.equals("unlock")) {
 				//warp <warp point name> public

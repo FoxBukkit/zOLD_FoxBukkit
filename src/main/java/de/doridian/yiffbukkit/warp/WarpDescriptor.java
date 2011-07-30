@@ -19,6 +19,7 @@ public class WarpDescriptor {
 	public String name;
 	public Location location;
 	public boolean isPublic = false;
+	public boolean isHidden = false;
 	/* ranks:
 	 * 0 = not allowed
 	 * 1 = guest, can port to warp
@@ -102,6 +103,7 @@ public class WarpDescriptor {
 
 		Ini.saveLocation(section, "%s", location);
 		section.put("public", Arrays.asList(String.valueOf(isPublic)));
+		section.put("hidden", Arrays.asList(String.valueOf(isHidden)));
 
 		List<String> ops = new ArrayList<String>();
 		List<String> guests = new ArrayList<String>();
@@ -130,6 +132,10 @@ public class WarpDescriptor {
 		ownerName = section.get("owner").get(0);
 		location = Ini.loadLocation(section, "%s", plugin.getServer());
 		isPublic = Boolean.valueOf(section.get("public").get(0));
+		try {
+			isHidden = Boolean.valueOf(section.get("hidden").get(0));
+		}
+		catch (Exception e) { }
 
 		if (section.containsKey("guest"))
 			for (String name : section.get("guest"))
