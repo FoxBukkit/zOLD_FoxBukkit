@@ -33,6 +33,7 @@ import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.jail.JailEngine;
 import de.doridian.yiffbukkit.listeners.InventoryPacketListener;
+import de.doridian.yiffbukkit.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
@@ -65,6 +66,9 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
 	@SuppressWarnings("unused")
 	private InventoryPacketListener inventoryPacketListener;
+	@SuppressWarnings("unused")
+	private SignPortalPlayerListener signPortalPlayerListener;
+
 	public Vanish vanish;
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
@@ -180,6 +184,7 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
 		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
 		inventoryPacketListener = new InventoryPacketListener(this);
+		signPortalPlayerListener = new SignPortalPlayerListener(this);
 		vanish = new Vanish(this);
 		transmute = new Transmute(this);
 		adHandler = new AdvertismentSigns(this);
