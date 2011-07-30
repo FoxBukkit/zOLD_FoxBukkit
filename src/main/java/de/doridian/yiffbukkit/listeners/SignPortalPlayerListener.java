@@ -54,14 +54,19 @@ public class SignPortalPlayerListener extends PlayerListener {
 		if (!sign.getLine(0).trim().equalsIgnoreCase("[Portal]"))
 			return;
 
+		final Player player = event.getPlayer();
 		try {
-			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(event.getPlayer().getName(), sign.getLine(1));
+			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(player.getName(), sign.getLine(1));
 			sign.setLine(0, "§9[Portal]");
 			sign.setLine(1, warpDescriptor.name);
+			if (!plugin.permissionHandler.has(player, "yiffbukkit.signportal.public"))
+				sign.setLine(2, "private");
 			sign.update(true);
 		} catch (WarpException e) {
-			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), e.getMessage(), e.getColor());
+			plugin.playerHelper.sendDirectedMessage(player, e.getMessage(), e.getColor());
 		}
+
+		plugin.playerHelper.sendDirectedMessage(player, "Portal sign activated.");
 	}
 
 	Map<Player, Integer> timerIds = new HashMap<Player, Integer>();
