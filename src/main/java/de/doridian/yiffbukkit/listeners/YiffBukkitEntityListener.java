@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.EntityLiving;
+
 import org.bukkit.craftbukkit.entity.*;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
@@ -14,6 +17,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -49,7 +53,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftSlime.class, "a §9slime§f");
 		monsterMap.put(CraftGhast.class, "a §9ghast§f");
 	}
-	
+
 	@Override
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getCreatureType() == CreatureType.SLIME)
@@ -168,6 +172,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		if (!plugin.vanish.vanishedPlayers.contains(target.getName()))
 			return;
+
+		if (event.getReason() != TargetReason.CLOSEST_PLAYER) {
+			event.setCancelled(true);
+			return;
+		}
 		final Entity mob = event.getEntity();
 		final Vector mobPos = mob.getLocation().toVector();
 		Player newTarget = null;
@@ -177,8 +186,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 			if (plugin.vanish.vanishedPlayers.contains(player.getName()))
 				continue;
 
-			// TODO: check pig zombie aggression etc
-			// TODO: walls
+			EntityLiving notchEntity = ((CraftLivingEntity)mob).getHandle();
+			EntityHuman notchPlayer = ((CraftHumanEntity)player).getHandle();
+
+			if (!notchEntity.e(notchPlayer))
+				continue;
 
 			final Vector playerPos = player.getLocation().toVector();
 
@@ -189,6 +201,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 			minDistanceSquared = distanceSquared;
 			newTarget = player;
+		}
+
+		if (newTarget == null) {
+			event.setCancelled(true);
+			return;
 		}
 
 		event.setTarget(newTarget);
