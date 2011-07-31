@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.listeners;
 
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
@@ -8,6 +9,8 @@ import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 
+import net.minecraft.server.EntityWolf;
+import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
 import net.minecraft.server.Packet70Bed;
@@ -33,7 +36,7 @@ public class YiffBukkitPacketListener extends PacketListener {
 			if (p3.message.equals("§4You are in a no-PvP area."))
 				return false;
 
-			break;
+			return true;
 
 		case 4:
 			Packet4UpdateTime p4 = (Packet4UpdateTime) packet;
@@ -46,9 +49,38 @@ public class YiffBukkitPacketListener extends PacketListener {
 				p4.a = playerHelper.frozenServerTime;
 			}
 
-			break;
+			return true;
 
-		case 70:
+		case 38: {
+			if (!ply.getWorld().hasStorm())
+				return true;
+
+			WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
+
+			if (frozenWeather != null) {
+				if (frozenWeather != WeatherType.CLEAR) {
+					return true;
+				}
+			}
+			else if (playerHelper.frozenServerWeather != null) {
+				if (playerHelper.frozenServerWeather != WeatherType.CLEAR) {
+					return true;
+				}
+			}
+
+			Packet38EntityStatus p38 = (Packet38EntityStatus) packet;
+			if (p38.b != 8) // shaking
+				return true;
+
+			final int entityId = p38.a;
+			net.minecraft.server.Entity notchEntity = ((CraftWorld)ply.getWorld()).getHandle().getEntity(entityId);
+			if (notchEntity instanceof EntityWolf)
+				return false;
+
+			return true;
+		}
+
+		case 70: {
 			Packet70Bed p70 = (Packet70Bed) packet;
 			int reason = p70.b;
 			final boolean rainState;
@@ -74,7 +106,8 @@ public class YiffBukkitPacketListener extends PacketListener {
 				}
 			}
 
-			break;
+			return true;
+		}
 		}
 
 		return true;
