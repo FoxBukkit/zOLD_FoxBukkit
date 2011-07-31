@@ -191,9 +191,20 @@ public class SignPortalPlayerListener extends PlayerListener {
 					warpDescriptor = plugin.warpEngine.getWarps().get(warpName);
 				}
 
-				if (player != entityToPort)
+				if (player != entityToPort) {
+					final Class<? extends Entity> clazz = entityToPort.getClass();
+					player.leaveVehicle();
+					entityToPort.remove();
+					player.teleport(warpDescriptor.location);
+					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+						Entity newEntityToPort = warpDescriptor.location.getWorld().spawn(warpDescriptor.location, clazz);
+						newEntityToPort.setPassenger(player);
+					}});
+				}
+				else {
 					entityToPort.teleport(warpDescriptor.location);
-				entityToPort.teleport(warpDescriptor.location);
+				}
+
 				player.sendMessage("§9You're hurtled through the ethereal realm to your destination.");
 			}
 		}
