@@ -191,6 +191,8 @@ public class SignPortalPlayerListener extends PlayerListener {
 					warpDescriptor = plugin.warpEngine.getWarps().get(warpName);
 				}
 
+				if (player != entityToPort)
+					entityToPort.teleport(warpDescriptor.location);
 				entityToPort.teleport(warpDescriptor.location);
 				player.sendMessage("§9You're hurtled through the ethereal realm to your destination.");
 			}
