@@ -26,7 +26,7 @@ import de.doridian.yiffbukkit.YiffBukkit;
 public class ChatManager {
 	private static final ChatLogEntry EMPTY_CHAT_LOG_ENTRY = new ChatLogEntry("", null);
 	private static final int CHAT_QUEUE_LENGTH = 100;
-	
+
 	private static final int SPAM_WINDOW = 20;
 	private static final int SPAM_COUNT = 5;
 	private static final int SPAM_TIME_WINDOW = 10000; // ms
@@ -77,38 +77,40 @@ public class ChatManager {
 				if (text.charAt(0) == '/')
 					return true;
 
-				long minTime = System.currentTimeMillis() - SPAM_TIME_WINDOW;
-				while (spamWindow.peek().getTime() < minTime) {
-					spamWindow.remove();
-				}
+				if (!spamWindow.isEmpty()) {
+					long minTime = System.currentTimeMillis() - SPAM_TIME_WINDOW;
+					while (!spamWindow.isEmpty() && spamWindow.peek().getTime() < minTime) {
+						spamWindow.remove();
+					}
 
-				if (spamWindow.get(spamWindow.size() - RATE_LIMIT).getTime() < System.currentTimeMillis() - RATE_TIME_WINDOW) {
-					ply.kickPlayer("flood");
+					if (spamWindow.size() >=  RATE_LIMIT && System.currentTimeMillis() - spamWindow.get(spamWindow.size() - RATE_LIMIT).getTime() < RATE_TIME_WINDOW) {
+						ply.kickPlayer("flood");
 
-					filterPlayer(ply);
+						filterPlayer(ply);
 
-					resendAll();
+						resendAll();
 
-					return false;
-				}
+						return false;
+					}
 
-				int count = 0;
-				for (ChatEntry prev : spamWindow) {
-					if (prev.getText().equals(text))
-						++count;
+					int count = 0;
+					for (ChatEntry prev : spamWindow) {
+						if (prev.getText().equals(text))
+							++count;
 
-					if (count >= SPAM_COUNT)
-						break;
-				}
+						if (count >= SPAM_COUNT)
+							break;
+					}
 
-				if (count >= SPAM_COUNT) {
-					ply.kickPlayer("spam");
+					if (count >= SPAM_COUNT) {
+						ply.kickPlayer("spam");
 
-					filterPlayer(ply);
+						filterPlayer(ply);
 
-					resendAll();
+						resendAll();
 
-					return false;
+						return false;
+					}
 				}
 
 				// add to queue
