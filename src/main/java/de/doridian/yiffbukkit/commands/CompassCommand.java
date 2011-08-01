@@ -1,5 +1,9 @@
 package de.doridian.yiffbukkit.commands;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -19,12 +23,49 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Usage("[spawn|home|here|player <name>|warp <name>|<direction>]")
 @Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
+	int taskId = -1;
+	protected Map<Player, Player> playerCompassTargets = new HashMap<Player, Player>();
+	{
+		plugin.playerHelper.registerMap(playerCompassTargets);
+	}
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (args.length == 0) {
-			float yaw = ply.getLocation().getYaw();
+			final float yaw = ply.getLocation().getYaw();
 			playerHelper.sendDirectedMessage(ply, "Direction: "+Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
 			return;
+		}
+
+		if (args[0].equals("player")) {
+			if (!plugin.permissionHandler.has(ply, "yiffbukkit.compass.player"))
+				throw new PermissionDeniedException();
+
+			if (args.length < 2)
+				throw new YiffBukkitCommandException("Expected player name");
+
+			final Player target = playerHelper.matchPlayerSingle(args[1]);
+
+			if (!playerHelper.canTp(ply, target))
+				throw new PermissionDeniedException();
+
+			playerCompassTargets.put(ply, target);
+
+			if (taskId == -1) {
+				taskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() { public void run() {
+					for (Entry<Player, Player> entry : playerCompassTargets.entrySet()) {
+						entry.getKey().setCompassTarget(entry.getValue().getLocation());
+					}
+				}}, 0, 1);
+			}
+
+			playerHelper.sendDirectedMessage(ply, "Set your compass to follow "+target.getName()+".");
+			return;
+		}
+
+		playerCompassTargets.remove(ply);
+		if (playerCompassTargets.isEmpty()) {
+			plugin.getServer().getScheduler().cancelTask(taskId);
+			taskId = -1;
 		}
 
 		final Location location;
@@ -37,22 +78,11 @@ public class CompassCommand extends ICommand {
 		else if (args[0].equals("here")) {
 			location = ply.getLocation();
 		}
-		else if (args[0].equals("player")) {
-			if (args.length < 2)
-				throw new YiffBukkitCommandException("Expected player name");
-
-			Player target = playerHelper.matchPlayerSingle(args[1]);
-
-			if (!playerHelper.canTp(ply, target))
-				throw new PermissionDeniedException();
-
-			location = target.getLocation();
-		}
 		else if (args[0].equals("warp")) {
 			if (args.length < 2)
 				throw new YiffBukkitCommandException("Expected warp name");
 
-			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(ply.getName(), args[1]);
+			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(ply.getName(), args[1]);
 
 			location = warpDescriptor.location;
 		}
