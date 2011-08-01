@@ -108,6 +108,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 			sign.update(true);
 		} catch (WarpException e) {
 			plugin.playerHelper.sendDirectedMessage(player, e.getMessage(), e.getColor());
+			return;
 		}
 
 		plugin.playerHelper.sendDirectedMessage(player, "Portal sign activated.");
