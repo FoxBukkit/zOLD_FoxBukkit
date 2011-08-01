@@ -188,7 +188,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 					}
 				}
 				else {
-					warpDescriptor = plugin.warpEngine.getWarps().get(warpName);
+					warpDescriptor = plugin.warpEngine.getWarps().get(warpName.toLowerCase());
 				}
 
 				if (player != entityToPort) {
