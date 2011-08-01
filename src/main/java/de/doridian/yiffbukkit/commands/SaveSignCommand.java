@@ -36,5 +36,7 @@ public class SaveSignCommand extends ICommand {
 		Location location = new Location(world, vec.getX(), vec.getY(), vec.getZ());
 
 		plugin.signSaver.addSign(location);
+
+		playerHelper.sendDirectedMessage(ply, "Sign at "+location+" will now be restored each time a player spawns.");
 	}
 }
