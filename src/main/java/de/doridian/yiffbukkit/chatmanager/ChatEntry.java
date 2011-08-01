@@ -1,14 +1,12 @@
 package de.doridian.yiffbukkit.chatmanager;
 
-import org.bukkit.entity.Player;
-
 public class ChatEntry {
-	private String text;
-	private Object origin;
+	private final String text;
+	private final long time;
 
-	public ChatEntry(String text, Object origin) {
+	public ChatEntry(String text, long time) {
 		this.text = text;
-		this.origin = origin;
+		this.time = time;
 	}
 
 	public String getText() {
@@ -19,11 +17,7 @@ public class ChatEntry {
 		return text;
 	}
 
-	public void send(Player ply) {
-		ply.sendMessage(text);
-	}
-
-	public Object getOrigin() {
-		return origin;
+	public long getTime() {
+		return time;
 	}
 }

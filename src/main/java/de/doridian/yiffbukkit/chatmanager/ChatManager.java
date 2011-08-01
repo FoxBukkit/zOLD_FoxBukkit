@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.chatmanager;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
@@ -23,20 +24,26 @@ import org.bukkit.event.server.PacketListener;
 import de.doridian.yiffbukkit.YiffBukkit;
 
 public class ChatManager {
-	private static final ChatEntry EMPTY_CHAT_ENTRY = new ChatEntry("", null);
+	private static final ChatLogEntry EMPTY_CHAT_LOG_ENTRY = new ChatLogEntry("", null);
 	private static final int CHAT_QUEUE_LENGTH = 100;
+	
 	private static final int SPAM_WINDOW = 20;
 	private static final int SPAM_COUNT = 5;
+	private static final int SPAM_TIME_WINDOW = 10000; // ms
+
+	private static final int RATE_TIME_WINDOW = 500; // ms
+	private static final int RATE_LIMIT = 4;
+
 	YiffBukkit plugin;
 	Stack<Object> currentOrigin = new Stack<Object>();
 
-	Map<String, Queue<ChatEntry>> chatQueues = new HashMap<String, Queue<ChatEntry>>();
+	Map<String, Queue<ChatLogEntry>> chatQueues = new HashMap<String, Queue<ChatLogEntry>>();
 
-	private Queue<ChatEntry> getChatQueue(Player ply) {
+	private Queue<ChatLogEntry> getChatQueue(Player ply) {
 		return chatQueues.get(ply.getName());
 	}
 
-	Map<Player, Queue<String>> lastPlayerMessages = new HashMap<Player, Queue<String>>();
+	Map<Player, LinkedList<ChatEntry>> lastPlayerMessages = new HashMap<Player, LinkedList<ChatEntry>>();
 	public ChatManager(YiffBukkit plugin) {
 		this.plugin = plugin;
 
@@ -45,9 +52,9 @@ public class ChatManager {
 			public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 				String text = ((Packet3Chat)packet).message;
 
-				ChatEntry chatEntry = new ChatEntry(text, getCurrentOrigin());
+				ChatLogEntry chatEntry = new ChatLogEntry(text, getCurrentOrigin());
 
-				Queue<ChatEntry> chatQueue = getChatQueue(ply);
+				Queue<ChatLogEntry> chatQueue = getChatQueue(ply);
 				if (chatQueue == null)
 					return false;
 
@@ -61,7 +68,7 @@ public class ChatManager {
 
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-				Queue<String> spamWindow = lastPlayerMessages.get(ply);
+				LinkedList<ChatEntry> spamWindow = lastPlayerMessages.get(ply);
 				if (spamWindow == null)
 					return false;
 
@@ -70,9 +77,24 @@ public class ChatManager {
 				if (text.charAt(0) == '/')
 					return true;
 
+				long minTime = System.currentTimeMillis() - SPAM_TIME_WINDOW;
+				while (spamWindow.peek().getTime() < minTime) {
+					spamWindow.remove();
+				}
+
+				if (spamWindow.get(spamWindow.size() - RATE_LIMIT).getTime() < System.currentTimeMillis() - RATE_TIME_WINDOW) {
+					ply.kickPlayer("flood");
+
+					filterPlayer(ply);
+
+					resendAll();
+
+					return false;
+				}
+
 				int count = 0;
-				for (String prev : spamWindow) {
-					if (prev.equals(text))
+				for (ChatEntry prev : spamWindow) {
+					if (prev.getText().equals(text))
 						++count;
 
 					if (count >= SPAM_COUNT)
@@ -82,13 +104,7 @@ public class ChatManager {
 				if (count >= SPAM_COUNT) {
 					ply.kickPlayer("spam");
 
-					for (Entry<String, Queue<ChatEntry>> bar : chatQueues.entrySet()) {
-						for (Iterator<ChatEntry> it = bar.getValue().iterator(); it.hasNext();) {
-							ChatEntry chatEntry = it.next();
-							if (ply.equals(chatEntry.getOrigin()))
-								it.remove();
-						}
-					}
+					filterPlayer(ply);
 
 					resendAll();
 
@@ -96,7 +112,7 @@ public class ChatManager {
 				}
 
 				// add to queue
-				spamWindow.add(text);
+				spamWindow.add(new ChatEntry(text, System.currentTimeMillis()));
 
 				// limit queue size
 				if (spamWindow.size() > SPAM_WINDOW)
@@ -111,12 +127,12 @@ public class ChatManager {
 		PlayerListener playerListener = new PlayerListener() {
 			@Override
 			public void onPlayerJoin(PlayerJoinEvent event) {
-				final ArrayBlockingQueue<ChatEntry> chatQueue = new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1);
+				final ArrayBlockingQueue<ChatLogEntry> chatQueue = new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1);
 				for (int i = 0; i < CHAT_QUEUE_LENGTH; ++i) {
-					chatQueue.offer(EMPTY_CHAT_ENTRY);
+					chatQueue.offer(EMPTY_CHAT_LOG_ENTRY);
 				}
 				chatQueues.put(event.getPlayer().getName(), chatQueue);
-				lastPlayerMessages.put(event.getPlayer(), new ArrayBlockingQueue<String>(SPAM_WINDOW+1));
+				lastPlayerMessages.put(event.getPlayer(), new LinkedList<ChatEntry>());
 			}
 
 			@Override
@@ -161,11 +177,11 @@ public class ChatManager {
 	}
 
 	private void resend(Player ply) {
-		Queue<ChatEntry> chatQueue = chatQueues.get(ply.getName());
+		Queue<ChatLogEntry> chatQueue = chatQueues.get(ply.getName());
 		if (chatQueue == null)
 			return;
 
-		for (ChatEntry chatEntry : new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1, false, chatQueue)) {
+		for (ChatLogEntry chatEntry : new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1, false, chatQueue)) {
 			ply.sendRawMessage(chatEntry.getText());
 		}
 
@@ -178,15 +194,15 @@ public class ChatManager {
 	}
 
 	public void filterChat(String regex, Player ply) {
-		Queue<ChatEntry> chatQueue = chatQueues.get(ply.getName());
+		Queue<ChatLogEntry> chatQueue = chatQueues.get(ply.getName());
 
 		if (chatQueue == null)
 			return;
 
 		int removed = 0;
 
-		for (Iterator<ChatEntry> it = chatQueue.iterator(); it.hasNext(); ) {
-			ChatEntry chatEntry = it.next();
+		for (Iterator<ChatLogEntry> it = chatQueue.iterator(); it.hasNext(); ) {
+			ChatLogEntry chatEntry = it.next();
 			if (chatEntry.getText().matches(regex)) {
 				it.remove();
 				++removed;
@@ -194,15 +210,25 @@ public class ChatManager {
 		}
 
 		if (removed > 0) {
-			Queue<ChatEntry> newChatQueue = new ArrayBlockingQueue<ChatEntry>(CHAT_QUEUE_LENGTH+1);
+			Queue<ChatLogEntry> newChatQueue = new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1);
 
 			for (int i = 0; i < removed; ++i)
-				newChatQueue.offer(EMPTY_CHAT_ENTRY);
+				newChatQueue.offer(EMPTY_CHAT_LOG_ENTRY);
 
 			newChatQueue.addAll(chatQueue);
 			chatQueues.put(ply.getName(), chatQueue = newChatQueue);
 
 			resend(ply);
+		}
+	}
+
+	private void filterPlayer(Player ply) {
+		for (Entry<String, Queue<ChatLogEntry>> bar : chatQueues.entrySet()) {
+			for (Iterator<ChatLogEntry> it = bar.getValue().iterator(); it.hasNext();) {
+				ChatLogEntry chatEntry = it.next();
+				if (ply.equals(chatEntry.getOrigin()))
+					it.remove();
+			}
 		}
 	}
 }
