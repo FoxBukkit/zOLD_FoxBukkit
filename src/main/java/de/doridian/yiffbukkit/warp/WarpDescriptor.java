@@ -132,10 +132,7 @@ public class WarpDescriptor {
 		ownerName = section.get("owner").get(0);
 		location = Ini.loadLocation(section, "%s", plugin.getServer());
 		isPublic = Boolean.valueOf(section.get("public").get(0));
-		try {
-			isHidden = Boolean.valueOf(section.get("hidden").get(0));
-		}
-		catch (Exception e) { }
+		isHidden = Boolean.valueOf(section.get("hidden").get(0));
 
 		if (section.containsKey("guest"))
 			for (String name : section.get("guest"))
