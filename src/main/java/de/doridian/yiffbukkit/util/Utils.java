@@ -47,6 +47,7 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.sheep.CamoSheep;
 import de.doridian.yiffbukkit.sheep.PartySheep;
+import de.doridian.yiffbukkit.sheep.TrapSheep;
 
 public class Utils {
 	private YiffBukkit plugin;
@@ -334,6 +335,9 @@ public class Utils {
 				}
 				else if ("PARTY".equalsIgnoreCase(data)) {
 					new PartySheep(plugin, sheep);
+				}
+				else if ("TRAP".equalsIgnoreCase(data)) {
+					new TrapSheep(plugin, sheep);
 				}
 				else if ("SHEARED".equalsIgnoreCase(data) || "SHORN".equalsIgnoreCase(data) || "NUDE".equalsIgnoreCase(data) || "NAKED".equalsIgnoreCase(data)) {
 					sheep.setSheared(true);
