@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.sheep;
 
 import org.bukkit.DyeColor;
-import org.bukkit.craftbukkit.entity.CraftSheep;
 import org.bukkit.entity.Sheep;
 import de.doridian.yiffbukkit.YiffBukkit;
 
@@ -17,13 +16,9 @@ public abstract class AbstractSheep implements Runnable {
 		taskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 10);
 	}
 
-	private final boolean isDead() {
-		return ((CraftSheep)sheep).getHandle().dead;
-	}
-
 	@Override
 	public void run() {
-		if (isDead() || sheep.isSheared()) {
+		if (sheep.isDead() || sheep.isSheared()) {
 			plugin.getServer().getScheduler().cancelTask(taskId);
 			return;
 		}
