@@ -3,9 +3,6 @@ package de.doridian.yiffbukkit.commands;
 import java.util.List;
 
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.MathHelper;
-import net.minecraft.server.Packet71Weather;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -126,13 +123,7 @@ public class ButcherCommand extends ICommand {
 				continue;
 
 			if (doLightning) {
-				final Packet71Weather p71 = new Packet71Weather();
-				p71.a = 999999999;
-				p71.b = MathHelper.floor(location.getX()*32D);
-				p71.c = MathHelper.floor(location.getY()*32D);
-				p71.d = MathHelper.floor(location.getZ()*32D);
-				p71.e = 1;
-				playerHelper.sendPacketToPlayersAround(location, 512, p71);
+				entity.getWorld().strikeLightningEffect(location);
 			}
 			entity.remove();
 			++removed;
