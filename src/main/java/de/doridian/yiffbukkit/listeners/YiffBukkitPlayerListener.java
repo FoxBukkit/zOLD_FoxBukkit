@@ -38,6 +38,7 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -75,6 +76,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Lowest, plugin);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.High, plugin);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
 
@@ -460,6 +462,39 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			}
 
 			break;
+		}
+	}
+
+	@Override
+	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+		Player ply = event.getPlayer();
+
+		try {
+			Material itemMaterial = ply.getItemInHand().getType();
+
+			String key = ply.getName()+" "+itemMaterial.name();
+			ToolBind toolBind = playerHelper.toolMappings.get(key);
+			if (toolBind != null) {
+				event.setCancelled(true);
+				try {
+					toolBind.run(event);
+				}
+				catch (YiffBukkitCommandException e) {
+					playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
+				}
+				catch (Exception e) {
+					if (plugin.permissionHandler.has(ply, "yiffbukkit.detailederrors")) {
+						playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+						e.printStackTrace();
+					}
+					else {
+						playerHelper.sendDirectedMessage(ply,"Command error!");
+					}
+				}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public abstract class ToolBind {
@@ -11,6 +12,7 @@ public abstract class ToolBind {
 		this.name = name;
 		playerName = ply.getName();
 	}
-	
-	public abstract void run(PlayerInteractEvent event) throws YiffBukkitCommandException;
+
+	public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {};
+	public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {};
 }
