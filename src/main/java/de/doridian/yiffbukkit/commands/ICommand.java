@@ -110,6 +110,9 @@ public abstract class ICommand {
 				break;
 
 			String arg = args[nextArg];
+			
+			if (arg.isEmpty())
+				continue;
 
 			if (arg.charAt(0) != '-')
 				break;
