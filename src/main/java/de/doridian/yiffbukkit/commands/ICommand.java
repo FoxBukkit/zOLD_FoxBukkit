@@ -84,9 +84,15 @@ public abstract class ICommand {
 	}
 
 	protected String parseFlags(String argStr) throws YiffBukkitCommandException {
+		if (argStr.trim().isEmpty())
+			return argStr;
+
 		String[] args = argStr.split(" ");
 
 		args = parseFlags(args);
+
+		if (args.length == 0)
+			return "";
 
 		StringBuilder sb = new StringBuilder(args[0]);
 		for (int i = 1; i < args.length; ++i) {
@@ -110,7 +116,7 @@ public abstract class ICommand {
 				break;
 
 			String arg = args[nextArg];
-			
+
 			if (arg.isEmpty())
 				continue;
 
