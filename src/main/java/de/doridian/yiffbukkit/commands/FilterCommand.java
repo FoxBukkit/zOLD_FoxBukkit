@@ -12,6 +12,8 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class FilterCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		argStr = parseFlags(argStr);
+
 		if (booleanFlags.contains('a'))
 			plugin.chatManager.filterChats(argStr);
 		else
