@@ -83,6 +83,20 @@ public abstract class ICommand {
 		}
 	}
 
+	protected String parseFlags(String argStr) throws YiffBukkitCommandException {
+		String[] args = argStr.split(" ");
+
+		args = parseFlags(args);
+
+		StringBuilder sb = new StringBuilder(args[0]);
+		for (int i = 1; i < args.length; ++i) {
+			sb.append(' ');
+			sb.append(args[i]);
+		}
+
+		return sb.toString();
+	}
+
 	protected String[] parseFlags(String[] args) throws YiffBukkitCommandException {
 		int nextArg = 0;
 
