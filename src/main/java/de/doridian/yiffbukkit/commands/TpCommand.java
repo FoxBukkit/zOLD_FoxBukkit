@@ -37,12 +37,13 @@ public class TpCommand extends ICommand {
 			if (!plugin.permissionHandler.has(ply, "yiffbukkit.vanish"))
 				throw new PermissionDeniedException();
 
-			Location location = otherply.getLocation();
-			Vector vec = location.toVector().subtract(location.getDirection().multiply(3.0));
+			final Location location = otherply.getLocation();
+			final Vector vec = location.toVector().subtract(location.getDirection().multiply(3.0));
 
 			location.setX(vec.getX());
 			location.setY(vec.getY());
 			location.setZ(vec.getZ());
+			ply.teleport(location);
 		}
 		else {
 			ply.teleport(otherply);
