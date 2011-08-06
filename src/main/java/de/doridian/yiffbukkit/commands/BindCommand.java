@@ -18,32 +18,32 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
 @Usage("[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
 @Permission("yiffbukkit.bind")
+@StringFlags("i")
 public class BindCommand extends ICommand {
 	private static final Set<String> filter = new HashSet<String>();
 
 	static {
 		filter.add("/pm");
+		filter.add("/msg");
+		filter.add("/emote");
 		filter.add("/say");
 		filter.add("/me");
+		filter.add("/emote");
 		filter.add("/throw");
 		filter.add("/bind");
 	}
 
-	private static final Pattern argumentPattern = Pattern.compile("^-i +([^ ]+) +(.*)$");
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		argStr = argStr.trim();
-		Matcher argumentMatcher = argumentPattern.matcher(argStr);
+		argStr = parseFlags(argStr).trim();
 
 		Material toolType;
-		if (argumentMatcher.matches()) {
-			final String materialName = argumentMatcher.group(1);
+		if (stringFlags.containsKey('i')) {
+			final String materialName = stringFlags.get('i');
 
 			toolType = GiveCommand.matchMaterial(materialName);
 			if (toolType == null)
 				throw new YiffBukkitCommandException("Material "+materialName+" not found");
-
-			argStr = argumentMatcher.group(2);
 		}
 		else if (!argStr.isEmpty() && argStr.charAt(0) == '-') {
 			throw new YiffBukkitCommandException("Invalid flag specified");
