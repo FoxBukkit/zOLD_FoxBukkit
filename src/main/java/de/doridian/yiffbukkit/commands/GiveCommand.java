@@ -14,7 +14,7 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
-@Names("give")
+@Names({"give", "item", "i"})
 @Help("Gives resource (use _ for spaces in name!)")
 @Usage("<name or id> [amount] [player]")
 @Permission("yiffbukkit.players.give")
