@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.commands;
 import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.util.MultiplePlayersFoundException;
 
 @Names("bb")
 @Help("Tries to emulate the /bb command from BigBrother using LogBlock.")
@@ -35,6 +36,8 @@ public class BigBrotherCommand extends ICommand {
 					//bb here <name> - bb here for a specific player with the default radius
 					radius = 20;
 					target = playerHelper.completePlayerName(args[1], true);
+					if (target == null)
+						throw new MultiplePlayersFoundException(null);
 				}
 				break;
 
@@ -47,6 +50,8 @@ public class BigBrotherCommand extends ICommand {
 				catch (NumberFormatException e) {
 					//bb here <name> <...> - not sure yet
 					target = playerHelper.completePlayerName(args[2], true);
+					if (target == null)
+						throw new MultiplePlayersFoundException(null);
 
 					try {
 						//bb here <name> <radius> - bb here for a specific player with the given radius
