@@ -347,7 +347,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 		else
 		{
-			if(!(playerHelper.getPlayerLevel(ply.getName()) >= 5 && event.getMessage().startsWith("//")))
+			if(!(plugin.permissionHandler.has(ply, "yiffbukkit.ignoreworldeditlogging") && event.getMessage().startsWith("//")))
 				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +event.getMessage().substring(1).trim());
 			Logger.getLogger("Minecraft").log(Level.INFO, "Other Command: "+ply.getName()+": "+event.getMessage().substring(1).trim());
 		}

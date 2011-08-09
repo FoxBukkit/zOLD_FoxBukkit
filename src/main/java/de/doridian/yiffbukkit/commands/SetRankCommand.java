@@ -39,6 +39,12 @@ public class SetRankCommand extends ICommand {
 
 		if(selflvl <= playerHelper.getRankLevel(newRank))
 			throw new PermissionDeniedException();
+		
+		if(playerHelper.getRankLevel(newRank) >= 4 && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
+			throw new PermissionDeniedException();
+		
+		if(playerHelper.getPlayerLevel(otherName) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
+			throw new PermissionDeniedException();
 
 		playerHelper.setPlayerRank(otherName, newRank);
 
