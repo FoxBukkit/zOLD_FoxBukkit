@@ -32,12 +32,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -79,6 +82,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
+		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
 
 		pm.registerEvent(Event.Type.PLAYER_CHAT, new PlayerListener() {
 			public void onPlayerChat(PlayerChatEvent event) {
@@ -530,5 +534,42 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			item.setDurability(Short.MAX_VALUE);
 			return;
 		}
+	}
+
+	@Override
+	public void onPlayerDropItem(PlayerDropItemEvent event) {
+		if (event.isCancelled())
+			return;
+
+		final Item item = event.getItemDrop();
+		final int typeId = item.getItemStack().getTypeId();
+		final ItemStack itemStack = item.getItemStack();
+
+		int amount = itemStack.getAmount();
+
+		List<Item> itemList = new ArrayList<Item>();
+		for (Entity entity : item.getNearbyEntities(2, 2, 2)) {
+			if (!(entity instanceof Item))
+				continue;
+
+			final Item otherItem = (Item) entity;
+
+			itemList.add(otherItem);
+		}
+
+		if (itemList.size() < 10)
+			return;
+
+		for (Item otherItem : itemList) {
+			final ItemStack otherItemStack = otherItem.getItemStack();
+			if (typeId != otherItemStack.getTypeId())
+				continue;
+
+			amount += otherItemStack.getAmount();
+
+			otherItem.remove();
+		}
+
+		itemStack.setAmount(amount);
 	}
 }
