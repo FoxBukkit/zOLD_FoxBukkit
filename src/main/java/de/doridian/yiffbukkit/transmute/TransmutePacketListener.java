@@ -6,7 +6,6 @@ import java.util.Set;
 import net.minecraft.server.Packet17;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
-import net.minecraft.server.Packet22Collect;
 import net.minecraft.server.Packet23VehicleSpawn;
 import net.minecraft.server.Packet24MobSpawn;
 
