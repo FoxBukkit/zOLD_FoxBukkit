@@ -561,6 +561,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 
 		for (Item otherItem : itemList) {
+			if (otherItem.isDead())
+				continue;
+
 			final ItemStack otherItemStack = otherItem.getItemStack();
 			if (typeId != otherItemStack.getTypeId())
 				continue;
