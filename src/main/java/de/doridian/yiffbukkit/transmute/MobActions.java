@@ -177,7 +177,7 @@ final class MobActions {
 
 		@Override
 		public void run(MobShape shape, String[] args, String argStr) {
-			final Location location = shape.player.getLocation();
+			final Location location = shape.entity.getLocation();
 			final World world = location.getWorld();
 			for (Player player : world.getPlayers()) {
 				shape.transmute.plugin.playerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityID, status));

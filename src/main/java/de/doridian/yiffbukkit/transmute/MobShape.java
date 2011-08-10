@@ -8,6 +8,7 @@ import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet24MobSpawn;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -17,8 +18,8 @@ public class MobShape extends Shape {
 	int mobType;
 	private Map<String, MobAction> actions;
 
-	public MobShape(Transmute transmute, Player player, int mobType) {
-		super(transmute, player);
+	public MobShape(Transmute transmute, Player player, Entity entity, int mobType) {
+		super(transmute, player, entity);
 
 		this.mobType = mobType;
 		actions = MobActions.get(mobType);
@@ -26,17 +27,20 @@ public class MobShape extends Shape {
 
 	@Override
 	public void createTransmutedEntity() {
-		transmute.plugin.playerHelper.sendPacketToPlayersAround(player.getLocation(), 1024, createMobSpawnPacket(), player);
+		if (entity instanceof Player)
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createMobSpawnPacket()), (Player) entity);
+		else
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createMobSpawnPacket()));
 	}
 
 
 	@Override
 	public void createTransmutedEntity(Player forPlayer) {
-		transmute.plugin.playerHelper.sendPacketToPlayer(forPlayer, createMobSpawnPacket());
+		transmute.plugin.playerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createMobSpawnPacket()));
 	}
 
 	private Packet24MobSpawn createMobSpawnPacket() {
-		Location location = player.getLocation();
+		Location location = entity.getLocation();
 
 		final Packet24MobSpawn p24 = new Packet24MobSpawn();
 
