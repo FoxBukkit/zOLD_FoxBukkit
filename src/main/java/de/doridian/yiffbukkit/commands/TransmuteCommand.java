@@ -37,6 +37,10 @@ public class TransmuteCommand extends ICommand {
 			plugin.transmute.resetShape(ply);
 
 			playerHelper.sendDirectedMessage(ply, "Transmuted you back into your original shape.");
+
+			if (!plugin.vanish.isVanished(ply)) {
+				effect(ply.getEyeLocation());
+			}
 			return;
 		}
 
@@ -66,12 +70,12 @@ public class TransmuteCommand extends ICommand {
 						plugin.transmute.resetShape(entity);
 
 						playerHelper.sendDirectedMessage(player, "Transmuted your target back into its original shape.");
-						return;
 					}
+					else {
+						plugin.transmute.setShape(player, entity , mobType);
 
-					plugin.transmute.setShape(player, entity , mobType);
-
-					playerHelper.sendDirectedMessage(player, "Transmuted your target into a "+mobType+".");
+						playerHelper.sendDirectedMessage(player, "Transmuted your target into a "+mobType+".");
+					}
 
 					final Location location;
 					if (entity instanceof LivingEntity)
