@@ -72,13 +72,16 @@ public class Transmute {
 		return transmuted.get(entity.id);
 	}
 
-	public void setShape(Entity entity, Shape shape) {
+	public void setShape(Entity entity, final Shape shape) {
 		if (shape.entity != entity)
 			throw new IllegalArgumentException("Assigned a shape to the wrong player!");
 
 		transmuted.put(entity.getEntityId(), shape);
 		shape.deleteEntity();
-		shape.createTransmutedEntity();
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+			shape.createTransmutedEntity();
+			shape.reattachPassenger();
+		}}, 2);
 	}
 
 	public void setShape(Player player, Entity entity, int mobType) {
@@ -90,11 +93,15 @@ public class Transmute {
 	}
 
 	public Shape resetShape(Entity entity) {
-		Shape shape = removeShape(entity);
-		if (shape != null)
-			shape.createOriginalEntity();
+		final Shape shape = removeShape(entity);
+		if (shape != null) {
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+				shape.createOriginalEntity();
+				shape.reattachPassenger();
+			}}, 2);
+		}
 
-		return shape;
+			return shape;
 	}
 
 	public Shape removeShape(Entity entity) {

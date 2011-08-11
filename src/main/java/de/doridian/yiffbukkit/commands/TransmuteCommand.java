@@ -61,6 +61,14 @@ public class TransmuteCommand extends ICommand {
 						throw new PermissionDeniedException();
 
 					Entity entity = event.getRightClicked();
+
+					if (plugin.transmute.isTransmuted(entity)) {
+						plugin.transmute.resetShape(entity);
+
+						playerHelper.sendDirectedMessage(player, "Transmuted your target back into its original shape.");
+						return;
+					}
+
 					plugin.transmute.setShape(player, entity , mobType);
 
 					playerHelper.sendDirectedMessage(player, "Transmuted your target into a "+mobType+".");
