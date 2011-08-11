@@ -26,6 +26,7 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
@@ -556,5 +557,13 @@ public class Utils {
 			ago = weeks+"w "+ago;
 
 		return date+" ("+ago;
+	}
+
+	public static Entity getVehicle(Entity entity) {
+		final net.minecraft.server.Entity notchVehicle = ((CraftEntity)entity).getHandle().vehicle;
+		if (notchVehicle == null)
+			return null;
+
+		return notchVehicle.getBukkitEntity();
 	}
 }

@@ -6,7 +6,6 @@ import java.util.Map;
 import net.minecraft.server.Packet10Flying;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -111,13 +110,11 @@ public class ThrowCommand extends ICommand {
 					}
 					Vector direction = Utils.toWorldAxis(location, speed);
 
-					if (player.isInsideVehicle()) {
-						Entity vehicle = ((CraftPlayer)player).getHandle().vehicle.getBukkitEntity();//ply.getVehicle()
-						vehicle.setVelocity(direction);
-					}
-					else {
+					Entity vehicle = Utils.getVehicle(player);
+					if (vehicle == null)
 						player.setVelocity(direction);
-					}
+					else
+						vehicle.setVelocity(direction);
 				}
 			};
 		}
