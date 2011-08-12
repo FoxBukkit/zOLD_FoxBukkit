@@ -28,6 +28,7 @@ public class CompassCommand extends ICommand {
 	{
 		plugin.playerHelper.registerMap(playerCompassTargets);
 	}
+
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (args.length == 0) {
@@ -36,7 +37,7 @@ public class CompassCommand extends ICommand {
 			return;
 		}
 
-		if (args[0].equals("player")) {
+		if ("player".equals(args[0]) || "pl".equals(args[0])) {
 			if (!plugin.permissionHandler.has(ply, "yiffbukkit.compass.player"))
 				throw new PermissionDeniedException();
 
@@ -69,16 +70,16 @@ public class CompassCommand extends ICommand {
 		}
 
 		final Location location;
-		if (args[0].equals("spawn")) {
+		if ("spawn".equals(args[0])) {
 			location = ply.getWorld().getSpawnLocation();
 		}
-		else if (args[0].equals("home")) {
+		else if ("home".equals(args[0])) {
 			location = playerHelper.getPlayerHomePosition(ply);
 		}
-		else if (args[0].equals("here")) {
+		else if ("here".equals(args[0])) {
 			location = ply.getLocation();
 		}
-		else if (args[0].equals("warp")) {
+		else if ("warp".equals(args[0])) {
 			if (args.length < 2)
 				throw new YiffBukkitCommandException("Expected warp name");
 
@@ -171,7 +172,7 @@ public class CompassCommand extends ICommand {
 				if (loc == null)
 					throw new YiffBukkitCommandException("Unrecognised parameter");
 				location = loc;
-			}		
+			}
 		}
 
 		ply.setCompassTarget(location);
