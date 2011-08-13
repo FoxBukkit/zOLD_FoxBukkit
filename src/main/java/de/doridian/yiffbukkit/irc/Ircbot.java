@@ -10,8 +10,8 @@ public class Ircbot extends PircBot implements Runnable {
 
 	private YiffBukkit plugin;
 
-	private static String STAFFCHANNEL = Configuration.getValue("irc-staff-channel", "#doristaff");
-	private static String PUBLICCHANNEL = Configuration.getValue("irc-public-channel", "#doriminecraft");
+	public static String STAFFCHANNEL = Configuration.getValue("irc-staff-channel", "#doristaff");
+	public static String PUBLICCHANNEL = Configuration.getValue("irc-public-channel", "#doriminecraft");
 
 	public Ircbot(YiffBukkit plug) {
 		this.plugin = plug;
@@ -74,16 +74,16 @@ public class Ircbot extends PircBot implements Runnable {
 
 	public void onJoin(String channel, String sender, String login, String hostname) {
 		if(channel.equals(PUBLICCHANNEL))
-			plugin.playerHelper.sendServerMessage("§a[+] §e" + sender + "@IRC§e joined!");
+			plugin.getServer().broadcastMessage("§a[+] §e" + sender + "@IRC§e joined!");
 		else if(channel.equals(STAFFCHANNEL))
-			plugin.playerHelper.sendServerMessage("§e[OP]§a[+] §e" + sender + "@IRC§e joined!", "yiffbukkit.opchat"); 
+			plugin.playerHelper.broadcastMessage("§e[#OP]§a[+] §e" + sender + "@IRC§e joined!", "yiffbukkit.opchat"); 
 	}
 
 	public void onPart(String channel, String sender, String login, String hostname) {
 		if(channel.equals(PUBLICCHANNEL))
-			plugin.playerHelper.sendServerMessage("§c[-] §e" + sender + "@IRC§e left!");
+			plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e left!");
 		else if(channel.equals(STAFFCHANNEL))
-			plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + sender + "@IRC§e left!", "yiffbukkit.opchat");
+			plugin.playerHelper.broadcastMessage("§e[#OP]§c[-] §e" + sender + "@IRC§e left!", "yiffbukkit.opchat");
 	}
 
 	public void onQuit(String sender, String login, String hostname, String reason) {
@@ -96,39 +96,39 @@ public class Ircbot extends PircBot implements Runnable {
 			this.joinChannel(channel);
 		}
 		if(channel.equals(PUBLICCHANNEL))
-			plugin.playerHelper.sendServerMessage("§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!");
+			plugin.getServer().broadcastMessage("§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!");
 		else if(channel.equals(STAFFCHANNEL))
-			plugin.playerHelper.sendServerMessage("§e[OP]§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!", "yiffbukkit.opchat");
+			plugin.playerHelper.broadcastMessage("§e[#OP]§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!", "yiffbukkit.opchat");
 	}
 
 	public void onMessage(String channel, String sender, String login, String hostname, String message) {
 		if(channel.equals(PUBLICCHANNEL))
 			if(this.getUser(sender,channel).isOp())
-				plugin.playerHelper.sendServerMessage("@§5" + sender + "@IRC§f: " + message);
+				plugin.getServer().broadcastMessage("@§5" + sender + "@IRC§f: " + message);
 			else if(this.getUser(sender,channel).hasVoice())
-				plugin.playerHelper.sendServerMessage("+§7" + sender + "@IRC§f: " + message);
+				plugin.getServer().broadcastMessage("+§7" + sender + "@IRC§f: " + message);
 			else
-				plugin.playerHelper.sendServerMessage("§7" + sender + "@IRC§f: " + message);
+				plugin.getServer().broadcastMessage("§7" + sender + "@IRC§f: " + message);
 		else if(channel.equals(STAFFCHANNEL))
 			if(this.getUser(sender,channel).isOp())
-				plugin.playerHelper.sendServerMessage("§e[OP] §f@§5" + sender + "@IRC§f: " + message);
+				plugin.playerHelper.broadcastMessage("§e[#OP] §f@§5" + sender + "@IRC§f: " + message, "yiffbukkit.opchat");
 			else
-				plugin.playerHelper.sendServerMessage("§e[OP] §f" + sender + "@IRC§f: " + message, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("§e[#OP] §f" + sender + "@IRC§f: " + message, "yiffbukkit.opchat");
 	}
 
 	public void onAction(String sender, String login, String hostname, String target, String action) {
 		if(target.equals(PUBLICCHANNEL))
 			if(this.getUser(sender,target).isOp())
-				plugin.playerHelper.sendServerMessage("§7* §f@§5" + sender + "@IRC§7 " + action);
+				plugin.getServer().broadcastMessage("§7* §f@§5" + sender + "@IRC§7 " + action);
 			else if(this.getUser(sender,target).hasVoice())
-				plugin.playerHelper.sendServerMessage("§7* §f+§7" + sender + "@IRC§7 " + action);
+				plugin.getServer().broadcastMessage("§7* §f+§7" + sender + "@IRC§7 " + action);
 			else
-				plugin.playerHelper.sendServerMessage("§7* §7" + sender + "@IRC§7 " + action);
+				plugin.getServer().broadcastMessage("§7* §7" + sender + "@IRC§7 " + action);
 		else if(target.equals(STAFFCHANNEL))
 			if(this.getUser(sender,target).isOp())
-				plugin.playerHelper.sendServerMessage("§e[OP]§7* §f@§5" + sender + "@IRC§7 " + action, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("§e[#OP]§7* §f@§5" + sender + "@IRC§7 " + action, "yiffbukkit.opchat");
 			else
-				plugin.playerHelper.sendServerMessage("§e[OP]§7* §f" + sender + "@IRC§7 " + action, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("§e[#OP]§7* §f" + sender + "@IRC§7 " + action, "yiffbukkit.opchat");
 	}
 
 	public void onDisconnect() {
