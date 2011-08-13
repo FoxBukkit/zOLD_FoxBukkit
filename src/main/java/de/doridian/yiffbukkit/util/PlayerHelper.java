@@ -180,12 +180,27 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
+	
+	/** Broadcasts a message to all players with the given permission, prefixed with [YB] in purple.
+	 * @param msg
+	 * @param permission
+	 */
 	public void sendServerMessage(String msg, String permission) {
 		sendServerMessage(msg, permission, '5');
 	}
+	/** Broadcasts a message to all players with the given permission, prefixed with [YB] in the given color.
+	 * @param msg
+	 * @param permission
+	 */
 	public void sendServerMessage(String msg, String permission, char colorCode) {
-		msg = "§"+colorCode+"[YB]§f " + msg;
+		broadcastMessage("§"+colorCode+"[YB]§f " + msg, permission);
+	}
 
+	/** Broadcasts a message to all players with the given permission.
+	 * @param msg
+	 * @param permission
+	 */
+	public void broadcastMessage(String msg, String permission) {
 		Player[] players = plugin.getServer().getOnlinePlayers();
 		final YiffBukkitPermissionHandler permissionHandler = plugin.permissionHandler;
 
