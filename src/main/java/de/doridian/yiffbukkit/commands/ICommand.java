@@ -84,8 +84,12 @@ public abstract class ICommand {
 	}
 
 	protected String parseFlags(String argStr) throws YiffBukkitCommandException {
-		if (argStr.trim().isEmpty())
+		if (argStr.trim().isEmpty()) {
+			booleanFlags.clear();
+			stringFlags.clear();
+			numericFlags.clear();
 			return argStr;
+		}
 
 		String[] args = argStr.split(" ");
 
