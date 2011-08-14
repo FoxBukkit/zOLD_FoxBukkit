@@ -33,10 +33,6 @@ public class TransmutePacketListener extends PacketListener {
 
 	@Override
 	public boolean onOutgoingPacket(final Player ply, int packetID, final Packet packet) {
-		if (ignoredPackets.contains(packet)) {
-			System.out.println(packet);
-			System.out.println("ignored");
-		}
 		if (ignoredPackets.contains(packet))
 			return true;
 
@@ -62,8 +58,6 @@ public class TransmutePacketListener extends PacketListener {
 			return handleSpawn(ply, ((Packet24MobSpawn) packet).a);
 
 		case 40:
-			System.out.println(packet);
-			System.out.println(!transmute.isTransmuted(((Packet40EntityMetadata) packet).a));
 			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a);
 
 		default:
