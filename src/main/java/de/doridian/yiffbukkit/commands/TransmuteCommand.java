@@ -57,6 +57,7 @@ public class TransmuteCommand extends ICommand {
 			else {
 				toolType = ply.getItemInHand().getType();
 			}
+
 			playerHelper.addToolMapping(ply, toolType, new ToolBind(mobType, ply) {
 				@Override
 				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
@@ -64,7 +65,7 @@ public class TransmuteCommand extends ICommand {
 					if (!plugin.permissionHandler.has(player, "yiffbukkit.transmute.others"))
 						throw new PermissionDeniedException();
 
-					Entity entity = event.getRightClicked();
+					final Entity entity = event.getRightClicked();
 
 					if (plugin.transmute.isTransmuted(entity)) {
 						plugin.transmute.resetShape(entity);

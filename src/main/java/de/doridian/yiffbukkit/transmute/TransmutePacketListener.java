@@ -8,6 +8,7 @@ import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet23VehicleSpawn;
 import net.minecraft.server.Packet24MobSpawn;
+import net.minecraft.server.Packet40EntityMetadata;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
@@ -27,15 +28,21 @@ public class TransmutePacketListener extends PacketListener {
 		PacketListener.addPacketListener(true, 20, this, plugin);
 		PacketListener.addPacketListener(true, 23, this, plugin);
 		PacketListener.addPacketListener(true, 24, this, plugin);
+		PacketListener.addPacketListener(true, 40, this, plugin);
 	}
 
 	@Override
 	public boolean onOutgoingPacket(final Player ply, int packetID, final Packet packet) {
+		if (ignoredPackets.contains(packet)) {
+			System.out.println(packet);
+			System.out.println("ignored");
+		}
+		if (ignoredPackets.contains(packet))
+			return true;
+
 		switch (packetID) {
 		case 17:
-			final Packet17 p17 = (Packet17) packet;
-
-			return !transmute.isTransmuted(p17.a);
+			return !transmute.isTransmuted(((Packet17) packet).a);
 
 		case 18:
 			final Packet18ArmAnimation p18 = (Packet18ArmAnimation) packet;
@@ -46,25 +53,18 @@ public class TransmutePacketListener extends PacketListener {
 			return !transmute.isTransmuted(p18.a);
 
 		case 20:
-			if (ignoredPackets.contains(packet))
-				return true;
-
-			final Packet20NamedEntitySpawn p20 = (Packet20NamedEntitySpawn) packet;
-			return handleSpawn(ply, p20.a);
+			return handleSpawn(ply, ((Packet20NamedEntitySpawn) packet).a);
 
 		case 23:
-			if (ignoredPackets.contains(packet))
-				return true;
-
-			final Packet23VehicleSpawn p23 = (Packet23VehicleSpawn) packet;
-			return handleSpawn(ply, p23.a);
+			return handleSpawn(ply, ((Packet23VehicleSpawn) packet).a);
 
 		case 24:
-			if (ignoredPackets.contains(packet))
-				return true;
+			return handleSpawn(ply, ((Packet24MobSpawn) packet).a);
 
-			final Packet24MobSpawn p24 = (Packet24MobSpawn) packet;
-			return handleSpawn(ply, p24.a);
+		case 40:
+			System.out.println(packet);
+			System.out.println(!transmute.isTransmuted(((Packet40EntityMetadata) packet).a));
+			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a);
 
 		default:
 			return true;

@@ -173,7 +173,10 @@ public abstract class Shape {
 	public void setData(int index, Object value) {
 		Packet40EntityMetadata p40 = createMetadataPacket(index, value);
 
-		transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, p40, player);
+		if (entity instanceof Player)
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40), (Player) entity);
+		else
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40));
 	}
 
 	private Packet40EntityMetadata createMetadataPacket(int index, Object value) {
