@@ -51,7 +51,7 @@ public class ShapeActionCommand extends ICommand {
 
 					final Shape shape = plugin.transmute.getShape(entity);
 					if (shape == null)
-						throw new YiffBukkitCommandException("You are not currently transmuted.");
+						throw new YiffBukkitCommandException("Your target is not currently transmuted.");
 
 					shape.runAction(shapeAction);
 				}
