@@ -28,6 +28,7 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.map.MapView;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -184,12 +185,12 @@ public class OfflinePlayer implements Player {
 		return world;
 	}
 	@Override
-	public void teleportTo(Location location) {
-		teleport(location);
+	public boolean teleport(Location location) {
+		return teleport(location);
 	}
 	@Override
-	public void teleportTo(Entity destination) {
-		teleport(destination);
+	public boolean teleport(Entity destination) {
+		return teleport(destination);
 	}
 	@Override
 	public int getEntityId() {
@@ -321,17 +322,6 @@ public class OfflinePlayer implements Player {
 	@Override
 	public void setNoDamageTicks(int ticks) {
 		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
-	@Override
-	public boolean teleport(Location location) {
-		//throw new UnsupportedOperationException("Not yet implemented!");
-		return false;
-	}
-
-	@Override
-	public boolean teleport(Entity destination) {
-		return teleport(destination.getLocation());
 	}
 
 	@Override
@@ -567,6 +557,11 @@ public class OfflinePlayer implements Player {
 
 	@Override
 	public void setOp(boolean value) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void sendMap(MapView arg0) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }
