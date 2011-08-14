@@ -87,18 +87,35 @@ public class Ircbot extends PircBot implements Runnable {
 	}
 
 	public void onQuit(String sender, String login, String hostname, String reason) {
-		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e disconnected (" + reason + ")!");;
+		plugin.getServer().broadcastMessage("§c[-] §e" + sender + "@IRC§e disconnected (" + reason + ")!");
+	}
+	
+	public void onNickChange(String oldNick, String login, String hostname, String newNick) {
+		plugin.getServer().broadcastMessage("§e" + oldNick + "@IRC changed nick to " + newNick + "@IRC");
+	}
+	
+	public void onMode(String channel, String sourceNick, String sourceLogin, String sourceHostname, String mode) {
+		if(channel.equals(PUBLICCHANNEL)) {
+			plugin.getServer().broadcastMessage("§e" + sourceNick + "@IRC set mode " + mode);
+		}
 	}
 
 	public void onKick(String channel, String kickerNick, String kickerLogin, String kickerHostname,
 			String recipientNick, String reason) {
 		if (recipientNick.equalsIgnoreCase(this.getNick())) {
+			this.sendMessage("chanserv", "unban " + channel);
 			this.joinChannel(channel);
 		}
 		if(channel.equals(PUBLICCHANNEL))
 			plugin.getServer().broadcastMessage("§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!");
 		else if(channel.equals(STAFFCHANNEL))
 			plugin.playerHelper.broadcastMessage("§e[#OP]§c[-] §e" + recipientNick + "@IRC§e was kicked (" + reason + ")!", "yiffbukkit.opchat");
+	}
+	
+	public void onDeop(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
+		if (recipient.equalsIgnoreCase(this.getNick())) {
+			this.sendMessage("chanserv", "op " + channel);
+		}
 	}
 
 	public void onMessage(String channel, String sender, String login, String hostname, String message) {
@@ -148,4 +165,3 @@ public class Ircbot extends PircBot implements Runnable {
 		this.init();
 	}
 }
-
