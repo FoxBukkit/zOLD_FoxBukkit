@@ -28,7 +28,7 @@ public class ShapeActionCommand extends ICommand {
 		final String shapeAction = parseFlags(argStr);
 
 		if (booleanFlags.contains('e')) {
-			if (!plugin.permissionHandler.has(ply, "yiffbukkit.transmute.others"))
+			if (!plugin.permissionHandler.has(ply, "yiffbukkit.transmute.shapeaction.others"))
 				throw new PermissionDeniedException();
 
 			final Material toolType;
@@ -44,7 +44,7 @@ public class ShapeActionCommand extends ICommand {
 				@Override
 				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();
-					if (!plugin.permissionHandler.has(player, "yiffbukkit.transmute.others"))
+					if (!plugin.permissionHandler.has(player, "yiffbukkit.transmute.shapeaction.others"))
 						throw new PermissionDeniedException();
 
 					final Entity entity = event.getRightClicked();
@@ -60,6 +60,7 @@ public class ShapeActionCommand extends ICommand {
 			playerHelper.sendDirectedMessage(ply, "Bound §9"+shapeAction+"§f to your tool (§e"+toolType.name()+"§f). Right-click an entity to use.");
 			return;
 		}
+
 		final Shape shape = plugin.transmute.getShape(ply);
 		if (shape == null)
 			throw new YiffBukkitCommandException("You are not currently transmuted.");
