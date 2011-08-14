@@ -27,6 +27,7 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -108,7 +109,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					event.setCancelled(true);
 					plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
 					playerHelper.broadcastMessage("§e[#OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), "yiffbukkit.opchat");
-
+					System.out.println("[OP] " + event.getPlayer().getName() + ": " + message);
+					
 					event.setCancelled(true);
 					return;
 				}
@@ -116,7 +118,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					plugin.chatManager.pushCurrentOrigin(ply);
 					plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + message);
 					plugin.getServer().broadcastMessage(formattedMessage);
-					System.out.println(formattedMessage);
+					System.out.println(event.getPlayer().getName() + ": " + message);
 
 					if (plugin.dynmap != null)
 						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
@@ -266,19 +268,18 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		player.setDisplayName(nick);
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
-		event.setJoinMessage(null);
 		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists()) {
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
-			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
+			event.setJoinMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
 		} else {
 			Player ply = event.getPlayer();
 			Location location = playerHelper.getPlayerSpawnPosition(ply);
 			ply.teleport(location);
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
-			plugin.getServer().broadcastMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
+			event.setJoinMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
 		}
 
 		playerHelper.updateToolMappings(player);
@@ -292,10 +293,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
 
-		event.setQuitMessage(null);
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
-		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e disconnected!");
+		event.setQuitMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e disconnected!");
 		plugin.chatManager.popCurrentOrigin();
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
@@ -310,10 +310,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		final Player player = event.getPlayer();
 
-		event.setLeaveMessage(null);
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(player.getName() + " was kicked (" + event.getReason() + ")!");
-		plugin.getServer().broadcastMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e was kicked (" + event.getReason() + ")!");
+		event.setLeaveMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e was kicked (" + event.getReason() + ")!");
 		plugin.chatManager.popCurrentOrigin();
 
 		for (Map<Player, ?> map : playerHelper.registeredMaps)
