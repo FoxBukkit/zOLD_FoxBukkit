@@ -26,7 +26,12 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac hiss|charge [on|off]"),
 				"sss", "ssss", "sssss", "ssssss", "hiss", "fuse", "ignite",
-				new MetadataMobAction(16, (byte) 1, "Hissing..."),
+				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+					shape.setData(16, (byte) 0);
+					shape.setData(16, (byte) 1);
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Hissing...");
+				}},
 				"charge",
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
 		);
