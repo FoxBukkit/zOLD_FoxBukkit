@@ -26,7 +26,7 @@ public class MCBansBlockLoggerLogBlock extends MCBansBlockLogger {
 		try {
 			QueryParams getChangesQuery = new QueryParams(lb);
 			getChangesQuery.world = world;
-			getChangesQuery.coords = true;
+			getChangesQuery.needCoords = true;
 			getChangesQuery.setPlayer(name);
 			getChangesQuery.bct = BlockChangeType.BOTH;
 			getChangesQuery.silent = true;
@@ -34,7 +34,7 @@ public class MCBansBlockLoggerLogBlock extends MCBansBlockLogger {
 			Connection conn = lb.getConnection();
 			Statement stmt = conn.createStatement();
 			
-			ResultSet res = stmt.executeQuery(getChangesQuery.getRollbackQuery());
+			ResultSet res = stmt.executeQuery(getChangesQuery.getQuery());
 			while(res.next()) {
 				MCBansBlockChange tmp = new MCBansBlockChange();
 		        int type = res.getInt("type");
