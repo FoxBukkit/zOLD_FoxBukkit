@@ -33,6 +33,9 @@ public class Ircbot extends PircBot implements Runnable {
 	}
 
 	public void start() {
+		if (!Boolean.valueOf(Configuration.getValue("irc-enabled","true")))
+			return;
+
 		try {
 			this.setAutoNickChange(true);
 			this.connect(Configuration.getValue("irc-server","irc.esper.net"), Integer.valueOf(Configuration.getValue("irc-port", "6667")));
