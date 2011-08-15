@@ -185,14 +185,6 @@ public class OfflinePlayer implements Player {
 		return world;
 	}
 	@Override
-	public boolean teleport(Location location) {
-		return teleport(location);
-	}
-	@Override
-	public boolean teleport(Entity destination) {
-		return teleport(destination);
-	}
-	@Override
 	public int getEntityId() {
 		return entId ;
 	}
@@ -322,6 +314,17 @@ public class OfflinePlayer implements Player {
 	@Override
 	public void setNoDamageTicks(int ticks) {
 		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public boolean teleport(Location location) {
+		//throw new UnsupportedOperationException("Not yet implemented!");
+		return false;
+	}
+
+	@Override
+	public boolean teleport(Entity destination) {
+		return teleport(destination.getLocation());
 	}
 
 	@Override
@@ -561,7 +564,7 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public void sendMap(MapView arg0) {
+	public void sendMap(MapView map) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }
