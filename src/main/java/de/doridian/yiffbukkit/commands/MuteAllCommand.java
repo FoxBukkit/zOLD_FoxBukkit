@@ -1,8 +1,5 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Set;
-
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -26,7 +23,7 @@ public class MuteAllCommand extends ICommand {
 			@Override
 			public void onPlayerChat(PlayerChatEvent event) {
 				if (muteall && !plugin.permissionHandler.has(event.getPlayer(), "yiffbukkit.users.muteall")) {
-					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
+					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "Server chat is disabled at this time for all users.");
 					event.setCancelled(true);
 					return;
 				}
@@ -35,9 +32,14 @@ public class MuteAllCommand extends ICommand {
 			@Override
 			public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 				if (muteall && !plugin.permissionHandler.has(event.getPlayer(), "yiffbukkit.users.muteall")) {
-					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
-					event.setCancelled(true);
-					return;
+					String fullCmd = event.getMessage();
+					String cmd = fullCmd.substring(0, fullCmd.indexOf(' ')).trim();
+					if(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation") || cmd.equals("kick") || cmd.equals("irckick") || cmd.equals("settag") || cmd.equals("setnick") || cmd.equals("setrank") || cmd.equals("jail"))
+					{
+						plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "Some server commands have been disabled for all users.");
+						event.setCancelled(true);
+						return;
+					}
 				}
 			}
 		};
@@ -55,7 +57,7 @@ public class MuteAllCommand extends ICommand {
 				throw new YiffBukkitCommandException("The server is already muted!");
 
 			muteall = false;
-			playerHelper.sendServerMessage(playerName + " disabled server chat and commands.");
+			playerHelper.sendServerMessage(playerName + " enabled server chat and commands.");
 		}
 		else {
 			if (argStr.equals("off"))
