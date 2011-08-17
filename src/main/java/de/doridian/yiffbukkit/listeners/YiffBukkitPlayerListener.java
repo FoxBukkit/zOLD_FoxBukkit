@@ -306,6 +306,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
+		if (event.getReason().equals("You dropped your items too quickly (Hacking?)")) {
+			event.setCancelled(true);
+			return;
+		}
+
 		final Player player = event.getPlayer();
 
 		plugin.chatManager.pushCurrentOrigin(player);
