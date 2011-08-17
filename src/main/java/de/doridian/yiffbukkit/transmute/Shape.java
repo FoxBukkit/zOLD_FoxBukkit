@@ -200,11 +200,11 @@ public abstract class Shape {
 
 	abstract public void runAction(String action) throws YiffBukkitCommandException;
 
-	public static Shape getShape(Transmute transmute, Player player, Entity entity, String mobType) {
+	public static Shape getShape(Transmute transmute, Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
 		return getShape(transmute, player, entity, typeNameToClass(mobType));
 	}
 
-	public static Shape getShape(Transmute transmute, Player player, Entity entity, Class<? extends net.minecraft.server.Entity> mobType) {
+	public static Shape getShape(Transmute transmute, Player player, Entity entity, Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
 		return getShape(transmute, player, entity, classToId(mobType));
 	}
 
@@ -239,7 +239,7 @@ public abstract class Shape {
 		}
 	}
 
-	private static final Class<? extends net.minecraft.server.Entity> typeNameToClass(String mobType) {
+	private static final Class<? extends net.minecraft.server.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
 		Map<String, Class<? extends net.minecraft.server.Entity>> typeNameToClass = Utils.getPrivateValue(EntityTypes.class, null, "a");
 
 		for (Entry<String, Class<? extends net.minecraft.server.Entity>> entry : typeNameToClass.entrySet()) {
@@ -247,13 +247,17 @@ public abstract class Shape {
 				return entry.getValue();
 		}
 
-		return null;
+		throw new EntityTypeNotFoundException();
 		//return typeNameToClass.get(mobType);
 	}
-	private static final int classToId(Class<? extends net.minecraft.server.Entity> mobType) {
+	private static final int classToId(Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
 		Map<Class<? extends net.minecraft.server.Entity>, Integer> classToId = Utils.getPrivateValue(EntityTypes.class, null, "d");
 
-		return classToId.get(mobType);
+		final Integer id = classToId.get(mobType);
+		if (id == null)
+			throw new EntityTypeNotFoundException();
+
+		return id;
 	}
 
 	public void reattachPassenger() {
@@ -267,5 +271,4 @@ public abstract class Shape {
 		if (vehicle != null)
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(notchEntity, vehicle));
 	}
-
 }

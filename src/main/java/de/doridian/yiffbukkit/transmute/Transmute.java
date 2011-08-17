@@ -88,7 +88,7 @@ public class Transmute {
 		setShape(entity, Shape.getShape(this, player, entity, mobType));
 	}
 
-	public void setShape(Player player, Entity entity, String mobType) {
+	public void setShape(Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
 		setShape(entity, Shape.getShape(this, player, entity, mobType));
 	}
 
