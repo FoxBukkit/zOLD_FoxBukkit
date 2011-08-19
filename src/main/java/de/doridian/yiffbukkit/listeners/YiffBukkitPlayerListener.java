@@ -549,20 +549,16 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		int amount = itemStack.getAmount();
 
-		List<Item> itemList = new ArrayList<Item>();
-		for (Entity entity : item.getNearbyEntities(2, 2, 2)) {
+		final List<Entity> nearbyEntities = item.getNearbyEntities(2, 2, 2);
+		if (nearbyEntities.size() < 15)
+			return;
+
+		for (Entity entity : nearbyEntities) {
 			if (!(entity instanceof Item))
 				continue;
 
 			final Item otherItem = (Item) entity;
 
-			itemList.add(otherItem);
-		}
-
-		if (itemList.size() < 10)
-			return;
-
-		for (Item otherItem : itemList) {
 			if (otherItem.isDead())
 				continue;
 
