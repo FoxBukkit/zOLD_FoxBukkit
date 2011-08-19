@@ -13,5 +13,6 @@ public class RemotePlayer extends ConsoleCommandSender {
 
 	public void sendMessage(String message) {
 		yiffBukkitRemoteThread.send(message);
+		System.out.println("YiffBukkitRemote: "+message);
 	}
 }
