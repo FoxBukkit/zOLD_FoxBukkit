@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Ini;
@@ -41,17 +43,18 @@ public class WarpDescriptor {
 		load(section);
 	}
 
-	public int checkAccess(String playerName) {
-		if (playerName == null)
+	public int checkAccess(CommandSender commandSender) {
+		if (commandSender == null)
 			return 1;
 		
+		String playerName = commandSender.getName();
 		if (playerName.equals(ownerName))
 			return 3;
 
 		int playerLevel = plugin.playerHelper.getPlayerLevel(playerName);
 		int ownerLevel = plugin.playerHelper.getPlayerLevel(ownerName);
 
-		if (playerLevel > ownerLevel && plugin.permissionHandler.has(location.getWorld().getName(), playerName, "yiffbukkit.warp.override"))
+		if (playerLevel > ownerLevel && plugin.permissionHandler.has(commandSender, "yiffbukkit.warp.override"))
 			return 3;
 
 		if (ranks.containsKey(playerName))
@@ -63,9 +66,9 @@ public class WarpDescriptor {
 		return 0;
 	}
 
-	public void setAccess(String commandSenderName, String playerName, int rank) throws WarpException {
-		int commandSenderRank = checkAccess(commandSenderName);
-		int playerRank = checkAccess(playerName);
+	public void setAccess(CommandSender commandSender, Player player, int rank) throws WarpException {
+		int commandSenderRank = checkAccess(commandSender);
+		int playerRank = checkAccess(player);
 
 		if (commandSenderRank <= playerRank)
 			throw new WarpException("Permission denied: You do not exceed the target's rank!").setColor('4');
@@ -74,15 +77,15 @@ public class WarpDescriptor {
 			throw new WarpException("Permission denied: You do not exceed the specified rank!").setColor('4');
 
 		if (rank == 0) {
-			ranks.remove(playerName);
+			ranks.remove(player.getName());
 		}
 		else {
-			ranks.put(playerName, rank);
+			ranks.put(player.getName(), rank);
 		}
 	}
 
-	public void setOwner(String commandSenderName, String newOwnerName) throws WarpException {
-		if (checkAccess(commandSenderName) < 3)
+	public void setOwner(CommandSender commandSender, String newOwnerName) throws WarpException {
+		if (checkAccess(commandSender) < 3)
 			throw new WarpException("Permission denied: You do not own this warp!").setColor('4');
 
 		ownerName = newOwnerName;

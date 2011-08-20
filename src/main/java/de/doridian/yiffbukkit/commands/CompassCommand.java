@@ -83,7 +83,7 @@ public class CompassCommand extends ICommand {
 			if (args.length < 2)
 				throw new YiffBukkitCommandException("Expected warp name");
 
-			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(ply.getName(), args[1]);
+			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(ply, args[1]);
 
 			location = warpDescriptor.location;
 		}

@@ -21,7 +21,6 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class WarpCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		String playerName = commandSender.getName();
 		if (args.length == 0) {
 			//warp
 			final StringBuilder sb = new StringBuilder("Available warps: ");
@@ -43,7 +42,7 @@ public class WarpCommand extends ICommand {
 				if (warp.isHidden)
 					continue;
 
-				final int rank = warp.checkAccess(playerName);
+				final int rank = warp.checkAccess(commandSender);
 				if (rank < 1)
 					continue;
 
@@ -81,7 +80,7 @@ public class WarpCommand extends ICommand {
 		}
 
 		try {
-			final WarpDescriptor warp = plugin.warpEngine.getWarp(playerName, args[0]);
+			final WarpDescriptor warp = plugin.warpEngine.getWarp(commandSender, args[0]);
 			if (args.length == 1) {
 				//warp <warp point name>
 				if (plugin.jailEngine.isJailed(asPlayer(commandSender)))
@@ -93,7 +92,7 @@ public class WarpCommand extends ICommand {
 
 			final String command = args[1].toLowerCase();
 
-			int rank = warp.checkAccess(playerName);
+			int rank = warp.checkAccess(commandSender);
 
 			if (command.equals("chown") || command.equals("changeowner")) {
 				//warp <warp point name> changeowner <new owner>
@@ -101,7 +100,7 @@ public class WarpCommand extends ICommand {
 				if (newOwnerName == null)
 					throw new WarpException("No unique player found for '"+args[2]+"'");
 
-				warp.setOwner(playerName, newOwnerName);
+				warp.setOwner(commandSender, newOwnerName);
 
 				playerHelper.sendDirectedMessage(commandSender, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
 			}
@@ -140,33 +139,27 @@ public class WarpCommand extends ICommand {
 			}
 			else if (command.equals("deny")) {
 				//warp <warp point name> deny <name>
-				final String targetName = playerHelper.completePlayerName(args[2], false);
-				if (targetName == null)
-					throw new WarpException("No unique player found for '"+args[2]+"'");
+				final Player target = playerHelper.matchPlayerSingle(args[2], false);
 
-				warp.setAccess(playerName, targetName, 0);
+				warp.setAccess(commandSender, target, 0);
 
-				playerHelper.sendDirectedMessage(commandSender, "Revoked " + targetName + "'s access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Revoked " + target.getName() + "'s access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("addguest")) {
 				//warp <warp point name> addguest <name>
-				final String targetName = playerHelper.completePlayerName(args[2], false);
-				if (targetName == null)
-					throw new WarpException("No unique player found for '"+args[2]+"'");
+				final Player target = playerHelper.matchPlayerSingle(args[2], false);
 
-				warp.setAccess(playerName, targetName, 1);
+				warp.setAccess(commandSender, target, 1);
 
-				playerHelper.sendDirectedMessage(commandSender, "Granted " + targetName + " guest access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Granted " + target.getName() + " guest access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("addop")) {
 				//warp <warp point name> addop <name>
-				final String targetName = playerHelper.completePlayerName(args[2], false);
-				if (targetName == null)
-					throw new WarpException("No unique player found for '"+args[2]+"'");
+				final Player target = playerHelper.matchPlayerSingle(args[2], false);
 
-				warp.setAccess(playerName, targetName, 2);
+				warp.setAccess(commandSender, target, 2);
 
-				playerHelper.sendDirectedMessage(commandSender, "Granted " + targetName + " op access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Granted " + target.getName() + " op access to warp §9" + warp.name + "§f.");
 			}
 			else if (command.equals("move")) {
 				//warp <warp point name> move
@@ -215,7 +208,7 @@ public class WarpCommand extends ICommand {
 				playerHelper.sendDirectedMessage(commandSender, msg);
 			}
 			else if (command.equals("remove")) {
-				plugin.warpEngine.removeWarp(playerName, warp.name);
+				plugin.warpEngine.removeWarp(commandSender, warp.name);
 				playerHelper.sendDirectedMessage(commandSender, "Removed warp §9" + warp.name + "§f.");
 			}
 			else {

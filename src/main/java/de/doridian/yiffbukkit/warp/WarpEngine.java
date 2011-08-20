@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 
 import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -71,13 +72,13 @@ public class WarpEngine extends StateContainer {
 		return warp;
 	}
 
-	public WarpDescriptor removeWarp(String commandSenderName, String name) throws WarpException {
+	public WarpDescriptor removeWarp(CommandSender commandSender, String name) throws WarpException {
 		WarpDescriptor warp = warps.get(name.toLowerCase());
 
 		if (warp == null)
 			throw new WarpException("Warp not found.");
 
-		if (warp.checkAccess(commandSenderName) < 3)
+		if (warp.checkAccess(commandSender) < 3)
 			throw new WarpException("Permission denied.").setColor('4');
 
 		warps.remove(name.toLowerCase());
@@ -86,13 +87,13 @@ public class WarpEngine extends StateContainer {
 		return warp;
 	}
 
-	public WarpDescriptor getWarp(String playerName, String name) throws WarpException {
+	public WarpDescriptor getWarp(CommandSender commandSender, String name) throws WarpException {
 		WarpDescriptor warp = warps.get(name.toLowerCase());
 
 		if (warp == null)
 			throw new WarpException("Warp not found.");
 
-		if (warp.checkAccess(playerName) < 1)
+		if (warp.checkAccess(commandSender) < 1)
 			throw new WarpException("Permission denied.").setColor('4');
 
 		return warp;
