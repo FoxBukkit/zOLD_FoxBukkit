@@ -115,23 +115,25 @@ public abstract class ICommand {
 		stringFlags.clear();
 		numericFlags.clear();
 
-		while (true) {
-			if (nextArg >= args.length)
-				break;
+		while (nextArg < args.length) {
+			// Fetch argument
+			String arg = args[nextArg++];
 
-			String arg = args[nextArg];
-
+			// Empty argument? (multiple consecutive spaces)
 			if (arg.isEmpty())
 				continue;
 
-			if (arg.charAt(0) != '-')
+			// No more flags?
+			if (arg.charAt(0) != '-' || arg.length() == 1) {
+				--nextArg;
+				break;
+			}
+
+			// Handle flag parsing terminator --
+			if (arg.equals("--"))
 				break;
 
-			++nextArg;
-
-			if (arg.length() == 1 || arg.equals("--"))
-				break;
-
+			// Go through the flags
 			for (int i = 1; i < arg.length(); ++i) {
 				char flagName = arg.charAt(i);
 
@@ -145,13 +147,25 @@ public abstract class ICommand {
 					break;
 
 				case STRING:
-					stringFlags.put(flagName, args[nextArg]);
-					++nextArg;
+					// Skip empty arguments...
+					while (nextArg < args.length && args[nextArg].isEmpty())
+						++nextArg;
+
+					if (nextArg >= args.length)
+						throw new YiffBukkitCommandException("No value specified for "+flagName+" flag.");
+
+					stringFlags.put(flagName, args[nextArg++]);
 					break;
 
 				case NUMERIC:
-					numericFlags.put(flagName, Double.parseDouble(args[nextArg]));
-					++nextArg;
+					// Skip empty arguments...
+					while (nextArg < args.length && args[nextArg].isEmpty())
+						++nextArg;
+
+					if (nextArg >= args.length)
+						throw new YiffBukkitCommandException("No value specified for "+flagName+" flag.");
+
+					numericFlags.put(flagName, Double.parseDouble(args[nextArg++]));
 					break;
 				}
 			}
