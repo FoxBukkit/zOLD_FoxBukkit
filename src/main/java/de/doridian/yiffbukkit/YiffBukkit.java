@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.LivingEntity;
@@ -103,6 +104,8 @@ public class YiffBukkit extends JavaPlugin {
 
 		System.out.println( "YiffBukkit started YiffBukkitPermissions!" );
 		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
+		
+		YiffBukkitClassInjectionLoader classLoader = new YiffBukkitClassInjectionLoader(this);
 	}
 
 	public void onDisable() {
@@ -150,7 +153,7 @@ public class YiffBukkit extends JavaPlugin {
 						String name = t.name.replace('\u00a7','$');
 						name = playerHelper.getPlayerNameByIP(name);
 						ircbot.sendToChannel("[WEB] " + name + ": " + t.message.replace('\u00a7','$'));
-						getServer().broadcastMessage("[WEB]" + name + ": " + t.message.replace('\u00a7','$'));
+						getServer().broadcast(Server.BROADCAST_CHANNEL_USERS, "[WEB]" + name + ": " + t.message.replace('\u00a7','$'));
 					}
 				});
 			}
