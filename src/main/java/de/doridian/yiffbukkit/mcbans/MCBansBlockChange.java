@@ -7,7 +7,7 @@ public class MCBansBlockChange {
 	public int blockID;
 	public int blockData;
 	public Location position;
-	public int action;
+	public int action; //2 = removed, 1 = placed, 0 = nothing
 	
 	public MCBansBlockChange() {
 		
