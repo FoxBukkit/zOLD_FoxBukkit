@@ -104,8 +104,6 @@ public class YiffBukkit extends JavaPlugin {
 
 		System.out.println( "YiffBukkit started YiffBukkitPermissions!" );
 		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
-		
-		YiffBukkitClassInjectionLoader classLoader = new YiffBukkitClassInjectionLoader(this);
 	}
 
 	public void onDisable() {
