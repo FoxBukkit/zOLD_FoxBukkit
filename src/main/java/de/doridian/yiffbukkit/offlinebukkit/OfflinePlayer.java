@@ -682,4 +682,8 @@ public class OfflinePlayer implements Player {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void setSprinting(boolean arg0) {
+		// TODO Auto-generated method stub
+	}
 }
