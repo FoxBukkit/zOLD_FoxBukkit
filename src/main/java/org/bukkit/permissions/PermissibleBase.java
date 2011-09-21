@@ -3,6 +3,7 @@ package org.bukkit.permissions;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -26,8 +27,9 @@ public class PermissibleBase implements Permissible {
 		
 		if(this.parent instanceof CommandSender) {
 			this.parentC = (CommandSender)parent;
-			Bukkit.getServer().getPluginManager().subscribeToPermission("bukkit.broadcast.user", this.parentC);
 		}
+		
+		recalculatePermissions();
 	}
 	
 	public PermissibleBase(Permissible parent) {
@@ -66,25 +68,31 @@ public class PermissibleBase implements Permissible {
 			opable.setOp(arg0);
 		else if(parent != null)
 			parent.setOp(arg0);
+		
+		recalculatePermissions();
 	}
 
     public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
+    	recalculatePermissions();
     	return null;
     }
 
     public PermissionAttachment addAttachment(Plugin plugin) {
+    	recalculatePermissions();
     	return null;
     }
 
     public void removeAttachment(PermissionAttachment attachment) {
-        
+    	recalculatePermissions();
     }
     
     public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
+    	recalculatePermissions();
         return null;
     }
 
     public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
+    	recalculatePermissions();
     	return null;
     }
 
@@ -121,7 +129,16 @@ public class PermissibleBase implements Permissible {
 
 	@Override
 	public void recalculatePermissions() {
-		// TODO Auto-generated method stub
-
+		__addAllSubscribe(Server.BROADCAST_CHANNEL_USERS);
+	}
+	
+	private void __addAllSubscribe(String perm) {
+		__addSubscribe(this, perm);
+		__addSubscribe(this.parent, perm);
+	}
+	
+	private void __addSubscribe(Permissible what, String perm) {
+		if(what == null) return;
+		Bukkit.getServer().getPluginManager().subscribeToPermission(perm, what);
 	}
 }
