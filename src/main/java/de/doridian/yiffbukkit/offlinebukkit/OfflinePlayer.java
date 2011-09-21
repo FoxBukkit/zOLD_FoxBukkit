@@ -686,4 +686,8 @@ public class OfflinePlayer implements Player {
 	public void setSprinting(boolean arg0) {
 		// TODO Auto-generated method stub
 	}
+	
+	public boolean isSprinting() {
+		return false;
+	}
 }
