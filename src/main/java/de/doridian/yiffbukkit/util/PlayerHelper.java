@@ -745,7 +745,8 @@ public class PlayerHelper extends StateContainer {
 		}
 
 		int reason = weatherType == WeatherType.CLEAR ? 2 : 1;
-		sendPacketToPlayer(ply, new Packet70Bed(reason));
+		//@TODO fixme
+		sendPacketToPlayer(ply, new Packet70Bed(reason, reason));
 	}
 
 	public void pushWeather() {

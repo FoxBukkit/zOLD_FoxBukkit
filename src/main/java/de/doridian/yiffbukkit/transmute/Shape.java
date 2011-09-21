@@ -103,8 +103,8 @@ public abstract class Shape {
 			} else if (notchEntity instanceof EntityFish) {
 				return new Packet23VehicleSpawn(notchEntity, 90);
 			} else if (notchEntity instanceof EntityArrow) {
-				EntityLiving entityliving = ((EntityArrow) notchEntity).shooter;
-
+				net.minecraft.server.Entity entityliving = ((EntityArrow) notchEntity).shooter;
+				if(!(entityliving instanceof EntityLiving)) entityliving = null;
 				return new Packet23VehicleSpawn(notchEntity, 60, entityliving != null ? entityliving.id : notchEntity.id);
 			} else if (notchEntity instanceof EntitySnowball) {
 				return new Packet23VehicleSpawn(notchEntity, 61);

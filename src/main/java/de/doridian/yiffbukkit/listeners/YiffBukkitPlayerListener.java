@@ -118,8 +118,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 					plugin.getServer().broadcastMessage(formattedMessage);
 					System.out.println(event.getPlayer().getName() + ": " + message);
 
-					if (plugin.dynmap != null)
-						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
+					try {
+						if (plugin.dynmap != null) {
+							plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
+						}
+					}
+					catch(Exception e) { }
+					
 					plugin.chatManager.popCurrentOrigin();
 
 					event.setCancelled(true);

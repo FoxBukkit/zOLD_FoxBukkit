@@ -164,9 +164,9 @@ public class LightCommand extends ICommand {
 
 		final NibbleArray nibbleArray;
 		if (doSkyLight)
-			nibbleArray = chunk.f;
-		else
 			nibbleArray = chunk.g;
+		else
+			nibbleArray = chunk.h;
 
 		nibbleArray.a(x, y, z, Math.max(lightLevel, nibbleArray.a(x, y, z)));
 	}
