@@ -210,21 +210,24 @@ public abstract class Shape {
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, int mobType) {
 		switch (mobType) {
-		case 49:
-		case 50:
-		case 51:
-		case 52:
-		case 53:
-		case 54:
-		case 55:
-		case 56:
-		case 57:
-		case 90:
-		case 91:
-		case 92:
-		case 93:
-		case 94:
-		case 95:
+		case 49: // Monster
+		case 50: // Creeper
+		case 51: // Skeleton
+		case 52: // Spider
+		case 53: // Giant
+		case 54: // Zombie
+		case 55: // Slime
+		case 56: // Ghast
+		case 57: // PigZombie
+		case 58: // Enderman
+		case 59: // CaveSpider
+		case 60: // Silverfish
+		case 90: // Pig
+		case 91: // Sheep
+		case 92: // Cow
+		case 93: // Chicken
+		case 94: // Squid
+		case 95: // Wolf
 			return getShapeImpl(transmute, player, entity, mobType, MobShape.class);
 		default:
 			throw new RuntimeException("Invalid shape.");
