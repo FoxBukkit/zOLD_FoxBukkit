@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import net.minecraft.server.EntityEnderman;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
 
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.entity.*;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
@@ -14,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EndermanPickupEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -37,6 +40,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 		pm.registerEvent(Event.Type.ENTITY_DEATH, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_TARGET, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.CREATURE_SPAWN, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.ENDERMAN_PICKUP, this, Priority.Highest, plugin);
 	}
 
 	Map<String, String> lastAttacker = new HashMap<String, String>();
@@ -54,6 +58,18 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftGhast.class, "a §9ghast§f");
 	}
 
+	@Override
+	public void onEndermanPickup(EndermanPickupEvent event) {		
+		//Oh no you don't!
+		event.setCancelled(true);
+		
+		//Yay Endermen now dupe items!
+		Block block = event.getBlock();
+		EntityEnderman enderman = (EntityEnderman)event.getEntity();
+		enderman.setCarriedId(block.getTypeId());
+		enderman.setCarriedData(block.getData());
+	}
+	
 	@Override
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getCreatureType() == CreatureType.SLIME)
