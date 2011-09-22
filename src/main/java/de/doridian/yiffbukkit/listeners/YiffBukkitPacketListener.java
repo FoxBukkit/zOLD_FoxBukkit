@@ -1,15 +1,19 @@
 package de.doridian.yiffbukkit.listeners;
 
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
+import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
+import de.doridian.yiffbukkit.util.Utils;
 
 import net.minecraft.server.EntityWolf;
+import net.minecraft.server.Packet10Flying;
 import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
@@ -26,6 +30,11 @@ public class YiffBukkitPacketListener extends PacketListener {
 		PacketListener.addPacketListener(true, 3, this, plugin);
 		PacketListener.addPacketListener(true, 4, this, plugin);
 		PacketListener.addPacketListener(true, 70, this, plugin);
+
+		//PacketListener.addPacketListener(false, 10, this, plugin);
+		PacketListener.addPacketListener(false, 11, this, plugin);
+		//PacketListener.addPacketListener(false, 12, this, plugin);
+		PacketListener.addPacketListener(false, 13, this, plugin);
 	}
 
 	@Override
@@ -108,6 +117,44 @@ public class YiffBukkitPacketListener extends PacketListener {
 
 			return true;
 		}
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
+		switch (packetID) {
+		//case 10:
+		case 11:
+		//case 12:
+		case 13:
+			if (!ply.isInsideVehicle())
+				break;
+
+			final Entity vehicle = Utils.getVehicle(ply);
+
+			final Packet10Flying p10 = (Packet10Flying) packet;
+
+			/*if (!p10.h)
+				break;*/
+
+			if (p10.y != -999.0D)
+				break;
+
+			if (p10.stance != -999.0D)
+				break;
+
+			double factor = 5D;
+
+			//System.out.println(p10.y);
+			Vector passengerXZVel = new Vector(p10.x, 0, p10.z);
+			double vel = passengerXZVel.length();
+			if (vel > 1) factor *= 1 / vel;
+			passengerXZVel = passengerXZVel.multiply(factor);
+			vehicle.setVelocity(vehicle.getVelocity().add(passengerXZVel));
+			//System.out.println(passengerXZVel);
+			break;
 		}
 
 		return true;
