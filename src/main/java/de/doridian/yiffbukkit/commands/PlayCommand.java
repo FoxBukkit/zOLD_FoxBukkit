@@ -25,8 +25,8 @@ import de.doridian.yiffbukkit.util.Utils;
 public class PlayCommand extends ICommand {
 	public class Packet53BlockChangeExpress extends Packet53BlockChange {
 		{
-			Map<Class<? extends Packet>, Integer> b = Utils.getPrivateValue(Packet.class, null, "b");
-			b.put(Packet53BlockChangeExpress.class, 53);
+			Map<Class<? extends Packet>, Integer> classToId = Utils.getPrivateValue(Packet.class, null, "c");
+			classToId.put(Packet53BlockChangeExpress.class, 53);
 		}
 		public Packet53BlockChangeExpress() {
 			k = false;

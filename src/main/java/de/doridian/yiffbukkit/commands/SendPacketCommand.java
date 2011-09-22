@@ -27,7 +27,7 @@ public class SendPacketCommand extends ICommand {
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 		int packetId = Integer.parseInt(args[1]);
 
-		Map<Integer, Class<? extends Packet>> idToClass = Utils.getPrivateValue(Packet.class, null, "a");
+		Map<Integer, Class<? extends Packet>> idToClass = Utils.getPrivateValue(Packet.class, null, "b");
 		Class<? extends Packet> packetClass = idToClass.get(packetId);
 
 		if (packetClass == null)
