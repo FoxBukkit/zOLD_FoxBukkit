@@ -3,8 +3,6 @@ package de.doridian.yiffbukkit.listeners;
 import java.util.HashMap;
 import java.util.Map;
 
-
-import net.minecraft.server.EntityEnderman;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
 
@@ -24,6 +22,7 @@ import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
@@ -65,9 +64,9 @@ public class YiffBukkitEntityListener extends EntityListener {
 		
 		//Yay Endermen now dupe items!
 		Block block = event.getBlock();
-		EntityEnderman enderman = (EntityEnderman)event.getEntity();
-		enderman.setCarriedId(block.getTypeId());
-		enderman.setCarriedData(block.getData());
+		MaterialData data = new MaterialData(block.getType(), block.getData());
+		CraftEnderman enderman = (CraftEnderman)event.getEntity();
+		enderman.setCarriedMaterial(data);
 	}
 	
 	@Override
