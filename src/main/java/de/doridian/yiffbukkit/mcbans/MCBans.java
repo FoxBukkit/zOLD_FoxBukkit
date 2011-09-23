@@ -88,10 +88,13 @@ public class MCBans {
 						plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
 						break;
 					case 's':
-						plugin.playerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in a group this server is part of!");
+						plugin.playerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in our servergroup(s)!");
 						break;
 					case 'y':
 						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + "!");
+						break;
+					case 'w':
+						plugin.playerHelper.sendDirectedMessage(from, "Could not ban " + ply + " because ban contained badword: " + (String)banret.get("word"));
 						break;
 					default:
 					case 'e':
