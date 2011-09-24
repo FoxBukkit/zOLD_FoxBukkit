@@ -7,6 +7,7 @@ import net.minecraft.server.Packet3Chat;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
@@ -18,8 +19,8 @@ public class CheaterCommand extends ICommand {
 		playerHelper.sendServerMessage("Player "+ply.getName()+" tried to crash the server!", "yiffbukkit.opchat");
 
 		EntityPlayer eply = ((CraftPlayer)ply).getHandle();
-		playerHelper.sendPacketToPlayer(ply, new Packet100OpenWindow((Integer)Utils.getPrivateValue(EntityPlayer.class, eply, "bH"), 0, "DIE", Integer.MAX_VALUE));
-		playerHelper.sendPacketToPlayer(ply, new Packet3Chat("§3"));
+		PlayerHelper.sendPacketToPlayer(ply, new Packet100OpenWindow((Integer)Utils.getPrivateValue(EntityPlayer.class, eply, "bH"), 0, "DIE", Integer.MAX_VALUE));
+		PlayerHelper.sendPacketToPlayer(ply, new Packet3Chat("§3"));
 
 	}
 }

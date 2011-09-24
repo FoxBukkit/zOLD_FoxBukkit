@@ -13,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 
 final class MobActions {
 	private static HashMap<Integer, Map<String, MobAction>> mobActions = new HashMap<Integer, Map<String, MobAction>>();
@@ -185,7 +186,7 @@ final class MobActions {
 			final Location location = shape.entity.getLocation();
 			final World world = location.getWorld();
 			for (Player player : world.getPlayers()) {
-				shape.transmute.plugin.playerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityID, status));
+				PlayerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityID, status));
 			}
 
 			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);

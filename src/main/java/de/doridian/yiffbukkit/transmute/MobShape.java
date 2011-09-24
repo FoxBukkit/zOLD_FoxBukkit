@@ -12,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class MobShape extends Shape {
@@ -36,7 +37,7 @@ public class MobShape extends Shape {
 
 	@Override
 	public void createTransmutedEntity(Player forPlayer) {
-		transmute.plugin.playerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createMobSpawnPacket()));
+		PlayerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createMobSpawnPacket()));
 	}
 
 	private Packet24MobSpawn createMobSpawnPacket() {

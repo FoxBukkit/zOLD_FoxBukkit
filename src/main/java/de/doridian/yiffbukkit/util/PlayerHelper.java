@@ -512,7 +512,7 @@ public class PlayerHelper extends StateContainer {
 	public Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
 	public Long frozenServerTime;
 
-	public final void sendPacketToPlayer(final Player ply, final Packet packet) {
+	public static final void sendPacketToPlayer(final Player ply, final Packet packet) {
 		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket(packet);
 	}
 

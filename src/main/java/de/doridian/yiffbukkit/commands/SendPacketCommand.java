@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 
 @Names("sendpacket")
@@ -126,7 +127,7 @@ public class SendPacketCommand extends ICommand {
 			}
 		}
 
-		playerHelper.sendPacketToPlayer(otherply, packet);
+		PlayerHelper.sendPacketToPlayer(otherply, packet);
 		playerHelper.sendDirectedMessage(commandSender, "Sent packet to "+otherply.getName()+".");
 	}
 }

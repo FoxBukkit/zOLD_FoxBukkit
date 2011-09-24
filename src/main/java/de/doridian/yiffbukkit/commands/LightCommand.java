@@ -25,6 +25,7 @@ import com.sk89q.worldedit.regions.Region;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 
 @Names("light")
 @Help(
@@ -144,7 +145,7 @@ public class LightCommand extends ICommand {
 				if (Math.abs(z-location.getZ()) > 192)
 					continue;
 
-				playerHelper.sendPacketToPlayer(player, p51);
+				PlayerHelper.sendPacketToPlayer(player, p51);
 			}
 		}
 
