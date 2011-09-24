@@ -101,7 +101,7 @@ public class TransmuteCommand extends ICommand {
 		}
 	}
 
-	private void effect(final Location location) {
+	private static final void effect(final Location location) {
 		final World world = location.getWorld();
 
 		world.playEffect(location, Effect.EXTINGUISH, 0);
