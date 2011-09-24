@@ -209,8 +209,28 @@ public abstract class Shape {
 	}
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, int mobType) {
+		/*
+		 from: "    a\(.*\.class, "(.*)", (.*)\);"
+		 to: case \2: // \1
+		 */
 		switch (mobType) {
+		//case 1: // Item
+		//case 2: // XPOrb
+
+		//case 9: // Painting
+		//case 10: // Arrow
+		//case 11: // Snowball
+
+		//case 20: // PrimedTnt
+		//case 21: // FallingSand
+
+		//case 40: // Minecart
+		//case 41: // Boat
+			//return getShapeImpl(transmute, player, entity, mobType, VehicleShape.class);
+
+		//case 48: // Mob
 		case 49: // Monster
+
 		case 50: // Creeper
 		case 51: // Skeleton
 		case 52: // Spider
@@ -222,6 +242,7 @@ public abstract class Shape {
 		case 58: // Enderman
 		case 59: // CaveSpider
 		case 60: // Silverfish
+
 		case 90: // Pig
 		case 91: // Sheep
 		case 92: // Cow
