@@ -32,6 +32,7 @@ import org.bukkit.entity.Boat;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
@@ -46,6 +47,8 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.fakeentity.FakeEntity;
+import de.doridian.yiffbukkit.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkit.sheep.CamoSheep;
 import de.doridian.yiffbukkit.sheep.PartySheep;
 import de.doridian.yiffbukkit.sheep.TrapSheep;
@@ -271,6 +274,21 @@ public class Utils {
 			}
 			else if (type.equalsIgnoreCase("MINECART") || type.equalsIgnoreCase("CART")) {
 				entity = world.spawn(location, Minecart.class);
+			}
+			else if (type.equalsIgnoreCase("XP") || type.equalsIgnoreCase("XPBALL")) {
+				entity = world.spawn(location, ExperienceOrb.class);
+			}
+			else if (type.equalsIgnoreCase("FAKEXP") || type.equalsIgnoreCase("FAKEBALL")) {
+				final FakeEntity a = new FakeExperienceOrb(location, 1);
+				a.send();
+				a.teleport(location);
+				System.out.println("sent");
+
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+					a.remove();
+					System.out.println("deleted");
+				}}, 1000);
+				entity = a;
 			}
 			else if (type.equalsIgnoreCase("BOAT")) {
 				entity = world.spawn(location, Boat.class);
