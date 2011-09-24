@@ -282,11 +282,9 @@ public class Utils {
 				final FakeEntity a = new FakeExperienceOrb(location, 1);
 				a.send();
 				a.teleport(location);
-				System.out.println("sent");
 
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
 					a.remove();
-					System.out.println("deleted");
 				}}, 1000);
 				entity = a;
 			}
