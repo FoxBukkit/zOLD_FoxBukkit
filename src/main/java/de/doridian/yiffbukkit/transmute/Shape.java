@@ -229,7 +229,7 @@ public abstract class Shape {
 			//return getShapeImpl(transmute, player, entity, mobType, VehicleShape.class);
 
 		//case 48: // Mob
-		case 49: // Monster
+		//case 49: // Monster
 
 		case 50: // Creeper
 		case 51: // Skeleton
