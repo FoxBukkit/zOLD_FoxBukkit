@@ -22,6 +22,7 @@ import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
@@ -35,11 +36,9 @@ public class YiffBukkitEntityListener extends EntityListener {
 		plugin = instance;
 
 		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.ENTITY_DAMAGE, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_DEATH, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.ENTITY_TARGET, this, Priority.Highest, plugin);
 		pm.registerEvent(Event.Type.CREATURE_SPAWN, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.ENDERMAN_PICKUP, this, Priority.Highest, plugin);
 	}
 
 	Map<String, String> lastAttacker = new HashMap<String, String>();
@@ -55,20 +54,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftWolf.class, "a §9wolf§f");
 		monsterMap.put(CraftSlime.class, "a §9slime§f");
 		monsterMap.put(CraftGhast.class, "a §9ghast§f");
+		monsterMap.put(CraftEnderman.class, "an §9enderman§f");
+		monsterMap.put(CraftSilverfish.class, "a §9silverfish§f");
+		monsterMap.put(CraftCaveSpider.class, "a §9cave spider§f");
 	}
 
-	@Override
-	public void onEndermanPickup(EndermanPickupEvent event) {		
-		//Oh no you don't!
-		event.setCancelled(true);
-		
-		//Yay Endermen now dupe items!
-		Block block = event.getBlock();
-		MaterialData data = new MaterialData(block.getType(), block.getData());
-		CraftEnderman enderman = (CraftEnderman)event.getEntity();
-		enderman.setCarriedMaterial(data);
-	}
-	
 	@Override
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getCreatureType() == CreatureType.SLIME)
@@ -76,7 +66,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 	}
 
 	@Override
-	public void onEntityDamage(EntityDamageEvent event) {
+	public void onEntityDeath(EntityDeathEvent event) {
 		final Entity ent = event.getEntity();
 
 		if (!(ent instanceof Player))
@@ -84,10 +74,12 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		final Player ply = (Player)ent;
 
-		final String deathMessage;
+		String deathMessage = "§c%s§f died.";
 
-		final DamageCause cause = event.getCause();
-		switch (cause) {
+		final String playerName = ply.getName();
+		
+		EntityDamageEvent damageEvent = ent.getLastDamageCause();
+		switch (damageEvent.getCause()) {
 		case BLOCK_EXPLOSION:
 			deathMessage = "§c%s§f exploded.";
 			break;
@@ -101,12 +93,12 @@ public class YiffBukkitEntityListener extends EntityListener {
 			break;
 
 		case ENTITY_ATTACK: {
-			if (!(event instanceof EntityDamageByEntityEvent)) {
+			if (!(damageEvent instanceof EntityDamageByEntityEvent)) {
 				deathMessage = "§c%s§f was killed.";
 				break;
 			}
 
-			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)event;
+			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)damageEvent;
 			Entity damager = edbee.getDamager();
 
 			if (damager == null) {
@@ -148,32 +140,17 @@ public class YiffBukkitEntityListener extends EntityListener {
 			break;
 
 		default:
-			deathMessage = "§c%s§f died.";
+			if (ply.getLocation().getY() < -10D) {
+				deathMessage = "§c%s§f dug too deep.";
+			}
+			else {
+				deathMessage = "§c%s§f died.";
+			}
 		}
-
-		lastAttacker.put(ply.getName(), deathMessage);
-	}
-
-	@Override
-	public void onEntityDeath(EntityDeathEvent event) {
-		final Entity ent = event.getEntity();
-
-		if (!(ent instanceof Player))
-			return;
-
-		final Player ply = (Player)ent;
-
-		String deathMessage = "§c%s§f died.";
-
-		final String playerName = ply.getName();
-		if (ply.getLocation().getY() < -10D)
-			deathMessage = "§c%s§f dug too deep.";
-		else if (lastAttacker.containsKey(playerName))
-			deathMessage = lastAttacker.get(playerName);
 
 		lastAttacker.remove(playerName);
 		plugin.ircbot.sendToChannel(playerName + " died.");
-		plugin.getServer().broadcastMessage(String.format(deathMessage, playerName));
+		((PlayerDeathEvent) event).setDeathMessage(String.format(deathMessage, playerName));
 	}
 
 	@Override
