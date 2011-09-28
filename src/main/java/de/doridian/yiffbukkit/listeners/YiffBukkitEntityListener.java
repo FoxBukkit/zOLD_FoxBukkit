@@ -70,11 +70,11 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 		final Player ply = (Player)ent;
 
-		String deathMessage = "§c%s§f died.";
 
 		final String playerName = ply.getName();
 		
 		EntityDamageEvent damageEvent = ent.getLastDamageCause();
+		final String deathMessage;
 		switch (damageEvent.getCause()) {
 		case BLOCK_EXPLOSION:
 			deathMessage = "§c%s§f exploded.";
@@ -131,17 +131,28 @@ public class YiffBukkitEntityListener extends EntityListener {
 			deathMessage = "§c%s§f went looking for diamonds in the wrong place.";
 			break;
 
+		case LIGHTNING:
+			deathMessage = "§c%s§f angered the gods.";
+			break;
+
+		case PROJECTILE:
+			deathMessage = "§c%s§f was not fast enough.";
+			break;
+
+		case SUICIDE:
+			deathMessage = "§c%s§f brought shame to family.";
+			break;
+
 		case SUFFOCATION:
 			deathMessage = "§c%s§f got a Mafia funeral.";
 			break;
 
+		case VOID:
+			deathMessage = "§c%s§f dug too deep.";
+			break;
+
 		default:
-			if (ply.getLocation().getY() < -10D) {
-				deathMessage = "§c%s§f dug too deep.";
-			}
-			else {
-				deathMessage = "§c%s§f died.";
-			}
+			deathMessage = "§c%s§f died.";
 		}
 
 		lastAttacker.remove(playerName);
