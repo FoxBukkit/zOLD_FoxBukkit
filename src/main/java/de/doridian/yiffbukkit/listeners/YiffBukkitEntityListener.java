@@ -6,7 +6,6 @@ import java.util.Map;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
 
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.entity.*;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
@@ -14,16 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EndermanPickupEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
