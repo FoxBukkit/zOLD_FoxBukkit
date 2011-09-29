@@ -279,7 +279,6 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 
 		public void apply() {
-			System.out.println("Applying state "+state);
 			targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
 		}
 	}
