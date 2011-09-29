@@ -1,8 +1,13 @@
 package de.doridian.yiffbukkit.listeners;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -10,6 +15,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -18,13 +24,19 @@ import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.PluginManager;
+
+import com.sk89q.worldedit.PlayerDirection;
+import com.sk89q.worldedit.blocks.BlockType;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
 
 /**
  * Handle events for all Block related events
@@ -77,6 +89,8 @@ public class YiffBukkitBlockListener extends BlockListener {
 		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGE, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.BLOCK_PHYSICS, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.BLOCK_PISTON_EXTEND, this, Priority.Highest, plugin);
+		pm.registerEvent(Event.Type.BLOCK_PISTON_RETRACT, this, Priority.Highest, plugin);
 
 		playerHelper.registerMap(torchQueues);
 	}
@@ -171,5 +185,146 @@ public class YiffBukkitBlockListener extends BlockListener {
 				event.setBuildable(true);
 			}
 		}
+	}
+
+	@Override
+	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
+		if (event.isCancelled())
+			return;
+
+		handlePistons(event.getBlocks(), event.getDirection());
+	}
+
+	@Override
+	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
+		if (event.isCancelled())
+			return;
+
+		if (!event.isSticky())
+			return;
+
+		final Block block = event.getRetractLocation().getBlock();
+		final BlockFace pistonDirection = event.getDirection();
+		BlockFace pushDirection = pistonDirection.getOppositeFace();
+
+		final List<State> states = new ArrayList<State>();
+
+		for (BlockFace face : faces.get(pushDirection)) {
+			handlePistonBlock(block, face, pushDirection, states);
+		}
+
+		do {
+			final Block attachedBlock = block.getRelative(pistonDirection);
+			final PlayerDirection attachment = BlockType.getAttachment(attachedBlock.getTypeId(), attachedBlock.getData());
+			if (attachment == null)
+				break;
+
+			if (!attachment.name().equals(pistonDirection.getOppositeFace().name()))
+				break;
+
+			final Block targetBlock = attachedBlock.getRelative(pushDirection);
+
+			states.add(new State(targetBlock, attachedBlock.getState()));
+
+			attachedBlock.setTypeIdAndData(0, (byte) 0, false);
+		} while (false);
+
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+			for (State state : states) {
+				state.apply();
+			}
+		}}, 3);
+	}
+
+	private static final Map<Integer, BlockFace> dataAttachments = new HashMap<Integer, BlockFace>();
+	private static final Map<Integer, BlockFace> nonDataAttachments = new HashMap<Integer, BlockFace>();
+	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<BlockFace, BlockFace[]>();
+	static {
+		Map<Integer, PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
+		Map<Integer, PlayerDirection> weNonDataAttachments = Utils.getPrivateValue(BlockType.class, null, "nonDataAttachments");
+
+		for (Entry<Integer, PlayerDirection> foo : weDataAttachments.entrySet()) {
+			dataAttachments.put(foo.getKey(), BlockFace.valueOf(foo.getValue().name()));
+		}
+		for (Entry<Integer, PlayerDirection> foo : weNonDataAttachments.entrySet()) {
+			nonDataAttachments.put(foo.getKey(), BlockFace.valueOf(foo.getValue().name()));
+		}
+
+		final BlockFace[] xArray = new BlockFace[] { BlockFace.EAST , BlockFace.WEST , BlockFace.UP  , BlockFace.DOWN };
+		final BlockFace[] yArray = new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
+		final BlockFace[] zArray = new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH, BlockFace.UP  , BlockFace.DOWN };
+
+		faces.put(BlockFace.NORTH, xArray);
+		faces.put(BlockFace.SOUTH, xArray);
+		faces.put(BlockFace.UP, yArray);
+		faces.put(BlockFace.DOWN, yArray);
+		faces.put(BlockFace.EAST, zArray);
+		faces.put(BlockFace.WEST, zArray);
+	}
+
+	private class State {
+		private Block targetBlock;
+		private BlockState state;
+
+		public State(Block targetBlock, BlockState state) {
+			this.targetBlock = targetBlock;
+			this.state = state;
+		}
+
+		public void apply() {
+			System.out.println("Applying state "+state);
+			targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
+		}
+	}
+
+	private void handlePistons(List<Block> blocks, BlockFace pushDirection) {
+		if (blocks.isEmpty())
+			return;
+
+		final int modX = pushDirection.getModX();
+		final int modY = pushDirection.getModY();
+		final int modZ = pushDirection.getModZ();
+		blocks = new ArrayList<Block>(blocks);
+		Collections.sort(blocks, new Comparator<Block>() { public int compare(Block lhs, Block rhs) {
+			return
+			(rhs.getX()-lhs.getX())*modX +
+			(rhs.getY()-lhs.getY())*modY +
+			(rhs.getZ()-lhs.getZ())*modZ;
+		}});
+
+		final List<State> states = new ArrayList<State>();
+
+		final BlockFace[] blockFaces = faces.get(pushDirection);
+		for (Block block : blocks) {
+			for (BlockFace face : blockFaces) {
+				handlePistonBlock(block, face, pushDirection, states);
+			}
+		}
+
+		handlePistonBlock(blocks.get(0), pushDirection, pushDirection, states);
+
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+			for (State state : states) {
+				state.apply();
+			}
+		}}, 2);
+	}
+
+	private void handlePistonBlock(Block block, BlockFace face, BlockFace pushDirection, final List<State> states) {
+		final Block attachedBlock = block.getRelative(face);
+		final PlayerDirection attachment = BlockType.getAttachment(attachedBlock.getTypeId(), attachedBlock.getData());
+		if (attachment == null)
+			return;
+
+		if (!attachment.name().equals(face.getOppositeFace().name()))
+			return;
+
+		final Block targetBlock = attachedBlock.getRelative(pushDirection);
+		if (!targetBlock.isEmpty())
+			return;
+
+		states.add(new State(targetBlock, attachedBlock.getState()));
+
+		attachedBlock.setTypeIdAndData(0, (byte) 0, false);
 	}
 }
