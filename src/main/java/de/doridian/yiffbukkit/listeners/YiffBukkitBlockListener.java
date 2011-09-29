@@ -262,6 +262,13 @@ public class YiffBukkitBlockListener extends BlockListener {
 		faces.put(BlockFace.WEST, zArray);
 	}
 
+	public static BlockFace getAttachment(int type, int data) {
+		BlockFace direction = nonDataAttachments.get(type);
+		if (direction != null) return direction;
+
+		return dataAttachments.get((type << 4) | (data & 0xf));
+	}
+
 	private class State {
 		private Block targetBlock;
 		private BlockState state;
@@ -312,11 +319,11 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 	private void handlePistonBlock(Block block, BlockFace face, BlockFace pushDirection, final List<State> states) {
 		final Block attachedBlock = block.getRelative(face);
-		final PlayerDirection attachment = BlockType.getAttachment(attachedBlock.getTypeId(), attachedBlock.getData());
+		final BlockFace attachment = getAttachment(attachedBlock.getTypeId(), attachedBlock.getData());
 		if (attachment == null)
 			return;
 
-		if (!attachment.name().equals(face.getOppositeFace().name()))
+		if (attachment != face.getOppositeFace())
 			return;
 
 		final Block targetBlock = attachedBlock.getRelative(pushDirection);
