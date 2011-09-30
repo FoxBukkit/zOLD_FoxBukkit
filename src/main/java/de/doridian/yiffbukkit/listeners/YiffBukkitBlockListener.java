@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -280,6 +281,15 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		public void apply() {
 			targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
+
+			switch (state.getTypeId()) {
+			case 63: // SIGN_POST
+			case 68: // WALL_SIGN
+				Sign newState = (Sign)targetBlock.getState();
+				for (int i = 0; i < 4; ++i) {
+					newState.setLine(i, ((Sign)state).getLine(i));
+				}
+			}
 		}
 	}
 
