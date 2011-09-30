@@ -280,6 +280,9 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 
 		public void apply() {
+			if (!targetBlock.isEmpty())
+				return;
+
 			targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
 
 			switch (state.getTypeId()) {
