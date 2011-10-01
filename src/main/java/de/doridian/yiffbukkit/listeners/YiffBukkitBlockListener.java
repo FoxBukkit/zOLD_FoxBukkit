@@ -287,15 +287,26 @@ public class YiffBukkitBlockListener extends BlockListener {
 				return;
 			}
 
-			targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
-
 			switch (state.getTypeId()) {
+			case 70: // STONE_PLATE
+			case 72: // WOOD_PLATE
+				targetBlock.setTypeIdAndData(state.getTypeId(), (byte) 0, false);
+				break;
+
+			case 77: // STONE_BUTTON
+				targetBlock.setTypeIdAndData(state.getTypeId(), (byte) (state.getRawData() & ~0x4), false);
+				break;
+
 			case 63: // SIGN_POST
 			case 68: // WALL_SIGN
 				Sign newState = (Sign)targetBlock.getState();
 				for (int i = 0; i < 4; ++i) {
 					newState.setLine(i, ((Sign)state).getLine(i));
 				}
+				/* FALL-THROUGH */
+
+			default:
+				targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
 			}
 		}
 	}
