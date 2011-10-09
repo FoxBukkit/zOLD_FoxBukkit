@@ -82,56 +82,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
-
-		pm.registerEvent(Event.Type.PLAYER_CHAT, new PlayerListener() {
-			public void onPlayerChat(PlayerChatEvent event) {
-				if (event.isCancelled())
-					return;
-
-				final Player ply = event.getPlayer();
-				String conversationTarget = playerHelper.conversations.get(ply.getName());
-				String message = event.getMessage();
-				String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);
-				if (conversationTarget != null) {
-					formattedMessage = "§e[CONV]§f "+formattedMessage;
-
-					plugin.chatManager.pushCurrentOrigin(ply);
-					ply.sendMessage(formattedMessage);
-					plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
-					plugin.chatManager.popCurrentOrigin();
-
-					event.setCancelled(true);
-					return;
-				}
-				else if(message.charAt(0) == '#') {
-					event.setCancelled(true);
-					plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
-					playerHelper.broadcastMessage("§e[#OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), "yiffbukkit.opchat");
-					System.out.println("[OP] " + event.getPlayer().getName() + ": " + message);
-					
-					event.setCancelled(true);
-					return;
-				}
-				else {
-					plugin.chatManager.pushCurrentOrigin(ply);
-					plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + message);
-					plugin.getServer().broadcastMessage(formattedMessage);
-					System.out.println(event.getPlayer().getName() + ": " + message);
-
-					try {
-						if (plugin.dynmap != null) {
-							plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
-						}
-					}
-					catch(Exception e) { }
-					
-					plugin.chatManager.popCurrentOrigin();
-
-					event.setCancelled(true);
-					return;
-				}
-			}
-		}, Priority.Monitor, plugin);
 	}
 
 	public void scanCommands() {
@@ -342,6 +292,49 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
+
+		final Player ply = event.getPlayer();
+		String conversationTarget = playerHelper.conversations.get(ply.getName());
+		String message = event.getMessage();
+		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);
+		if (conversationTarget != null) {
+			formattedMessage = "§e[CONV]§f "+formattedMessage;
+
+			plugin.chatManager.pushCurrentOrigin(ply);
+			ply.sendMessage(formattedMessage);
+			plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
+			plugin.chatManager.popCurrentOrigin();
+
+			event.setCancelled(true);
+			return;
+		}
+		else if(message.charAt(0) == '#') {
+			event.setCancelled(true);
+			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
+			playerHelper.broadcastMessage("§e[#OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), "yiffbukkit.opchat");
+			System.out.println("[OP] " + event.getPlayer().getName() + ": " + message);
+			
+			event.setCancelled(true);
+			return;
+		}
+		else {
+			plugin.chatManager.pushCurrentOrigin(ply);
+			plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + message);
+			plugin.getServer().broadcastMessage(formattedMessage);
+			System.out.println(event.getPlayer().getName() + ": " + message);
+
+			try {
+				if (plugin.dynmap != null) {
+					plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
+				}
+			}
+			catch(Exception e) { }
+			
+			plugin.chatManager.popCurrentOrigin();
+
+			event.setCancelled(true);
+			return;
+		}
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();

@@ -41,7 +41,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
 
 public class OfflinePlayer implements Player {
 	private Location location;
-	private World world;
+	public World world;
 	private int entId = -1;
 	String name;
 	private String displayName;

@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 @Names("ban")
 @Help(
@@ -42,6 +43,11 @@ public class BanCommand extends ICommand {
 		}
 
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
+			if(otherply instanceof OfflinePlayer && commandSender instanceof Player) {
+				((OfflinePlayer)otherply).world = asPlayer(commandSender).getWorld();
+			}
+			plugin.mcbans.evidence(commandSender, otherply.getName(), otherply.getWorld());
+			
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
 

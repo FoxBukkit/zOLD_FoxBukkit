@@ -1,32 +1,34 @@
 package de.doridian.yiffbukkit.mcbans;
 
+import java.sql.Date;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 public class MCBansBlockChange {
-	public int blockID;
-	public int blockData;
 	public Location position;
-	public int action; //2 = removed, 1 = placed, 0 = nothing
+	public Date date = new Date(0);
+	public int type = 0;
+	public int replaced = 0;
 	
 	public MCBansBlockChange() {
 		
 	}
 	
 	public MCBansBlockChange(Block block) {
-		action = 0;
 		position = block.getLocation();
-		blockID = block.getTypeId();
-		blockData = block.getData();
+		type = block.getTypeId();
+		replaced = type;
+		date = new Date(0);
 	}
 	
 	@Override
 	public String toString() {
-		return position.getBlockX()+","+position.getBlockY()+","+position.getBlockZ()+","+blockID+","+blockData+","+action;
+		return "{d="+date.getTime()+", x="+position.getBlockX()+", y="+position.getBlockY()+", z="+position.getBlockZ()+", r="+type+", t="+replaced+"}";
 	}
 	
 	public String toString(int centerX, int centerY, int centerZ) {
-		return (position.getBlockX() - centerX)+","+(position.getBlockY() - centerY)+","+(position.getBlockZ() - centerZ)+","+blockID+","+blockData+","+action;
+		return "{d="+date.getTime()+", x="+(position.getBlockX() - centerX)+", y="+(position.getBlockY() - centerY)+", z="+(position.getBlockZ() - centerZ)+", r="+type+", t="+replaced+"}";
 	}
 	
 	@Override

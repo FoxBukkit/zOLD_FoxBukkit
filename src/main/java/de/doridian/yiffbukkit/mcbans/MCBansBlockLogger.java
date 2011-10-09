@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.mcbans;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Location;
@@ -16,8 +15,8 @@ public abstract class MCBansBlockLogger {
 		plugin = plug;
 	}
 	
-	public String getFormattedBlockChangesBy(String name, World world, boolean center) {
-		HashMap<Location,MCBansBlockChange> changes = getChangedRawBlocks(name, world);
+	public String getFormattedBlockChangesBy(String name, World world, boolean center, boolean surroundings) {
+		HashSet<MCBansBlockChange> changes = getChangedRawBlocks(name, world);
 		if(changes.isEmpty()) return "";
 		
 		StringBuilder ret = new StringBuilder();
@@ -25,7 +24,7 @@ public abstract class MCBansBlockLogger {
 		if(center) {
 			int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
 			int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
-			for(MCBansBlockChange change : changes.values()) {
+			for(MCBansBlockChange change : changes) {
 				int x = change.position.getBlockX();
 				int y = change.position.getBlockY();
 				int z = change.position.getBlockZ();
@@ -40,12 +39,19 @@ public abstract class MCBansBlockLogger {
 			centerY = 0;
 			centerZ = 0;
 		}
-		addSurroundings(changes);
-		for(MCBansBlockChange change : changes.values()) {
+		if(surroundings) addSurroundings(changes);
+		
+		ret.append('[');
+		for(MCBansBlockChange change : changes) {
 			ret.append(',');
-			ret.append(change.toString(centerX,centerY,centerZ));
+			if(center) {
+				ret.append(change.toString(centerX,centerY,centerZ));
+			} else {
+				ret.append(change.toString());
+			}
 		}
-		return ret.deleteCharAt(0).toString();
+		ret.append(']');
+		return ret.deleteCharAt(1).toString();
 	}
 	
 	public Collection<MCBansBlockChange> getChangedBlocksBy(String name, World world) {
@@ -53,14 +59,14 @@ public abstract class MCBansBlockLogger {
 	}
 	
 	public Collection<MCBansBlockChange> getChangedBlocksBy(String name, World world, boolean surroundings) {
-		HashMap<Location,MCBansBlockChange> rawChanges = getChangedRawBlocks(name, world);
+		HashSet<MCBansBlockChange> rawChanges = getChangedRawBlocks(name, world);
 		if(surroundings) addSurroundings(rawChanges);
-		return rawChanges.values();
+		return rawChanges;
 	}
 	
-	protected void addSurroundings(HashMap<Location,MCBansBlockChange> blockSet) {
+	protected void addSurroundings(HashSet<MCBansBlockChange> blockSet) {
 		@SuppressWarnings("unchecked")
-		HashSet<MCBansBlockChange> iterator = (HashSet<MCBansBlockChange>) blockSet.clone();
+		Collection<MCBansBlockChange> iterator = (HashSet<MCBansBlockChange>)blockSet.clone();
 		for(MCBansBlockChange change : iterator) {
 			Location loc = change.position;
 			World world = loc.getWorld();
@@ -70,13 +76,12 @@ public abstract class MCBansBlockLogger {
 					for(int z = bz - 5; z <= bz + 5; z++) {
 						Block block = world.getBlockAt(x, y, z);
 						if(block == null || block.getTypeId() == 0) continue;
-						MCBansBlockChange tmp = new MCBansBlockChange(block);
-						blockSet.put(tmp.position,tmp);
+						blockSet.add(new MCBansBlockChange(block));
 					}
 				}
 			}
 		}
 	}
 	
-	protected abstract HashMap<Location,MCBansBlockChange> getChangedRawBlocks(String name, World world);
+	protected abstract HashSet<MCBansBlockChange> getChangedRawBlocks(String name, World world);
 }

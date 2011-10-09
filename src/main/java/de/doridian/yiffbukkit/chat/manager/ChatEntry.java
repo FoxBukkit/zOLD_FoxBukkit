@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.chatmanager;
+package de.doridian.yiffbukkit.chat.manager;
 
 public class ChatEntry {
 	private final String text;

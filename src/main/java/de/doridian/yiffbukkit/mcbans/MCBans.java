@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.mcbans;
 
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
@@ -11,10 +12,13 @@ public class MCBans {
 	private YiffBukkit plugin;
 	@SuppressWarnings("unused")
 	private MCBansPlayerListener listener;
+	
+	private MCBansBlockLogger logger;
 
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
 		listener = new MCBansPlayerListener(plug);
+		logger = new MCBansBlockLoggerLogBlock(plug);
 	}
 
 
@@ -91,7 +95,7 @@ public class MCBans {
 						plugin.playerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in our servergroup(s)!");
 						break;
 					case 'y':
-						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + "!");
+						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
 						break;
 					case 'w':
 						plugin.playerHelper.sendDirectedMessage(from, "Could not ban " + ply + " because ban contained badword: " + (String)banret.get("word"));
@@ -101,6 +105,23 @@ public class MCBans {
 						plugin.playerHelper.sendDirectedMessage(from, "Error while banning player " + ply + "!");
 						break;
 				}
+			}
+		}.start();
+	}
+	
+	public void evidence(final CommandSender from, final String ply, final World worldx) {
+		new Thread() {
+			public void run() {
+				World world = worldx;
+				if(world == null && from instanceof Player) {
+					world = ((Player)from).getWorld();
+				}
+				if(world == null) return;
+				String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
+				JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
+				tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + (Long)ret.get("value");
+				System.out.println(tmp);
+				plugin.playerHelper.sendDirectedMessage(from, tmp);
 			}
 		}.start();
 	}

@@ -29,7 +29,8 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
-import de.doridian.yiffbukkit.chatmanager.ChatManager;
+import de.doridian.yiffbukkit.chat.ChatListener;
+import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.jail.JailEngine;
@@ -69,6 +70,8 @@ public class YiffBukkit extends JavaPlugin {
 	private InventoryPacketListener inventoryPacketListener;
 	@SuppressWarnings("unused")
 	private SignPortalPlayerListener signPortalPlayerListener;
+	@SuppressWarnings("unused")
+	private ChatListener chatListener;
 
 	public Vanish vanish;
 	public Transmute transmute;
@@ -189,6 +192,7 @@ public class YiffBukkit extends JavaPlugin {
 		vanish = new Vanish(this);
 		transmute = new Transmute(this);
 		adHandler = new AdvertismentSigns(this);
+		//chatListener = new ChatListener(this);
 
 		System.out.println("YiffBukkit components loaded.");
 		mcbans = new MCBans(this);

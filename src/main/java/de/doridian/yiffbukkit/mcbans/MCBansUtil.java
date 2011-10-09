@@ -21,6 +21,7 @@ public class MCBansUtil {
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static JSONObject apiQuery(String data) {
 		try {
 			URL url = new URL("http://api.mcbans.com/v2/" + APIKEY);
@@ -34,7 +35,15 @@ public class MCBansUtil {
 			writer.flush();
 			writer.close();
 			
-			return (JSONObject)parser.parse(new InputStreamReader(conn.getInputStream()));
+			Object ret = parser.parse(new InputStreamReader(conn.getInputStream()));
+			
+			if(ret instanceof JSONObject) {
+				return (JSONObject)ret;
+			} else {
+				JSONObject tmp = new JSONObject();
+				tmp.put("value", ret);
+				return tmp;
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();

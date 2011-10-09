@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.chatmanager;
+package de.doridian.yiffbukkit.chat.manager;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
