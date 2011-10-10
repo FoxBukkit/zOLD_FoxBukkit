@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -43,10 +44,23 @@ public class BanCommand extends ICommand {
 		}
 
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
-			if(otherply instanceof OfflinePlayer && commandSender instanceof Player) {
-				((OfflinePlayer)otherply).world = asPlayer(commandSender).getWorld();
+			World cWorld = null;
+			World tWorld = null;
+			
+			if(!(otherply instanceof OfflinePlayer)) {
+				tWorld = otherply.getWorld();
+				if(tWorld != cWorld) 
+					plugin.mcbans.evidence(commandSender, otherply.getName(), tWorld);
+				cWorld = tWorld;
 			}
-			plugin.mcbans.evidence(commandSender, otherply.getName(), otherply.getWorld());
+			
+			if(commandSender instanceof Player) {
+				tWorld = ((Player)commandSender).getWorld();
+				if(tWorld != cWorld)
+					plugin.mcbans.evidence(commandSender, otherply.getName(), tWorld);
+				cWorld = tWorld;
+			}
+			
 			
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
