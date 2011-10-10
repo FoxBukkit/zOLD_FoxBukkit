@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names({"channel", "c"})
 @Help("YiffBukkit chat system :3")
 @Usage("Read help...")
+@Permission("yiffbukkit.useless.channel")
 public class ChannelCommand extends ICommand {
 	private enum SubCommand {
 		JOIN, LIST, INFO, //everyone [or yiffbukkit.channels.force.user for forcing join allowance]
