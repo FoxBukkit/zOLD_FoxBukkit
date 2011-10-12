@@ -10,15 +10,15 @@ public class Ircbot extends PircBot implements Runnable {
 
 	private YiffBukkit plugin;
 
-	public static String STAFFCHANNEL = Configuration.getValue("irc-staff-channel", "#doristaff");
-	public static String PUBLICCHANNEL = Configuration.getValue("irc-public-channel", "#doriminecraft");
+	public static String STAFFCHANNEL = Configuration.getValue("irc-staff-channel", "#minecraftstaff");
+	public static String PUBLICCHANNEL = Configuration.getValue("irc-public-channel", "#minecraft");
 
 	public Ircbot(YiffBukkit plug) {
 		this.plugin = plug;
 	}
 
 	public synchronized Ircbot init() {
-		this.setMessageDelay(1000);
+		this.setMessageDelay(0);
 		this.setName(Configuration.getValue("irc-nick", "YiffBot"));
 		this.setFinger("YiffBukkit");
 		this.setLogin("YiffBukkit");
@@ -38,7 +38,7 @@ public class Ircbot extends PircBot implements Runnable {
 
 		try {
 			this.setAutoNickChange(true);
-			this.connect(Configuration.getValue("irc-server","irc.esper.net"), Integer.valueOf(Configuration.getValue("irc-port", "6667")));
+			this.connect(Configuration.getValue("irc-server","irc.doridian.de"), Integer.valueOf(Configuration.getValue("irc-port", "6667")));
 			this.changeNick(Configuration.getValue("irc-nick", "YiffBot"));
 			this.identify(Configuration.getValue("irc-nickserv-pw", "none"));
 			try {
