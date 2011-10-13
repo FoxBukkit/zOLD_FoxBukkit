@@ -17,7 +17,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -164,7 +163,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
 					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", "yiffbukkit.opchat");
-					plugin.mcbans.ban(new ConsoleCommandSender(plugin.getServer()), ply, "[AUTOMATED] Torchbreak", BanType.GLOBAL);
+					plugin.mcbans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.GLOBAL);
 					event.setCancelled(true);
 					ply.kickPlayer("[YB AUTOMATED] Torchbreak");
 				}

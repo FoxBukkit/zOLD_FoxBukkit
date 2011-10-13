@@ -10,7 +10,6 @@ import net.minecraft.server.EntityBoat;
 import net.minecraft.server.EntityEgg;
 import net.minecraft.server.EntityFallingSand;
 import net.minecraft.server.EntityFireball;
-import net.minecraft.server.EntityFish;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
@@ -100,8 +99,8 @@ public abstract class Shape {
 				return new Packet23VehicleSpawn(notchEntity, 1);
 			} else if (notchEntity instanceof IAnimal) {
 				return new Packet24MobSpawn((EntityLiving) notchEntity);
-			} else if (notchEntity instanceof EntityFish) {
-				return new Packet23VehicleSpawn(notchEntity, 90);
+			/*} else if (notchEntity instanceof EntityFish) {
+				return new Packet23VehicleSpawn(notchEntity, 90);*/
 			} else if (notchEntity instanceof EntityArrow) {
 				net.minecraft.server.Entity entityliving = ((EntityArrow) notchEntity).shooter;
 				if(!(entityliving instanceof EntityLiving)) entityliving = null;
@@ -112,9 +111,9 @@ public abstract class Shape {
 				EntityFireball entityfireball = (EntityFireball) notchEntity;
 				Packet23VehicleSpawn packet23vehiclespawn = new Packet23VehicleSpawn(notchEntity, 63, entityfireball.shooter.id);
 
-				packet23vehiclespawn.e = (int) (entityfireball.c * 8000.0D);
-				packet23vehiclespawn.f = (int) (entityfireball.d * 8000.0D);
-				packet23vehiclespawn.g = (int) (entityfireball.e * 8000.0D);
+				packet23vehiclespawn.e = (int) (entityfireball.motX * 8000.0D);
+				packet23vehiclespawn.f = (int) (entityfireball.motY * 8000.0D);
+				packet23vehiclespawn.g = (int) (entityfireball.motZ * 8000.0D);
 				return packet23vehiclespawn;
 			} else if (notchEntity instanceof EntityEgg) {
 				return new Packet23VehicleSpawn(notchEntity, 62);
@@ -144,7 +143,7 @@ public abstract class Shape {
 
 	public byte getDataByte(int index) {
 		try {
-			return datawatcher.a(index);
+			return datawatcher.getByte(index);
 		}
 		catch (NullPointerException e) {
 			return 0;
@@ -153,7 +152,7 @@ public abstract class Shape {
 
 	public int getDataInteger(int index) {
 		try {
-			return datawatcher.b(index);
+			return datawatcher.getInt(index);
 		}
 		catch (NullPointerException e) {
 			return 0;
@@ -162,7 +161,7 @@ public abstract class Shape {
 
 	public String getDataString(int index) {
 		try {
-			return datawatcher.c(index);
+			return datawatcher.getString(index);
 		}
 		catch (NullPointerException e) {
 			return null;

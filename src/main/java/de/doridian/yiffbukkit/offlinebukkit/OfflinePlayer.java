@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -689,5 +690,35 @@ public class OfflinePlayer implements Player {
 	
 	public boolean isSprinting() {
 		return false;
+	}
+
+	@Override
+	public int getTicksLived() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setTicksLived(int arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, Object> serialize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPlayerListName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPlayerListName(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -215,9 +215,9 @@ public class Utils {
 
 				double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-				notchEntity.c = dx * d3;
-				notchEntity.d = dy * d3;
-				notchEntity.e = dz * d3;
+				notchEntity.motX = dx * d3;
+				notchEntity.motY = dy * d3;
+				notchEntity.motZ = dz * d3;
 
 				notchWorld.addEntity(notchEntity);
 
@@ -232,13 +232,13 @@ public class Utils {
 			}
 			else if(type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
 				int material = Material.valueOf(type.toUpperCase()).getId();
-				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material);
+				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
 				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 			}
 			else if(type.equalsIgnoreCase("LIGHTNING")) {
-				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId()) {
+				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId(), 0) {
 					@Override
 					public void s_() {
 						if (this.a == 0)
