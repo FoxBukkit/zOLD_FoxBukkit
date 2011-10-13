@@ -19,7 +19,8 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 		+ "  -r to rollback\n"
 		+ "  -g to issue an mcbans.com global ban\n"
 		+ "  -t <time> to issue a temporary ban. Possible suffixes:\n"
-		+ "       m=minutes, h=hours, d=days")
+		+ "       m=minutes, h=hours, d=days"
+)
 @Usage("[<flags>] <name> [reason here]")
 @BooleanFlags("jrg")
 @StringFlags("t")
