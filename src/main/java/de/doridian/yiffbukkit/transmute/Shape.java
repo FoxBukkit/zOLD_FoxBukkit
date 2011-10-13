@@ -10,6 +10,7 @@ import net.minecraft.server.EntityBoat;
 import net.minecraft.server.EntityEgg;
 import net.minecraft.server.EntityFallingSand;
 import net.minecraft.server.EntityFireball;
+import net.minecraft.server.EntityFishingHook;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
@@ -99,8 +100,8 @@ public abstract class Shape {
 				return new Packet23VehicleSpawn(notchEntity, 1);
 			} else if (notchEntity instanceof IAnimal) {
 				return new Packet24MobSpawn((EntityLiving) notchEntity);
-			/*} else if (notchEntity instanceof EntityFish) {
-				return new Packet23VehicleSpawn(notchEntity, 90);*/
+			} else if (notchEntity instanceof EntityFishingHook) {
+				return new Packet23VehicleSpawn(notchEntity, 90);
 			} else if (notchEntity instanceof EntityArrow) {
 				net.minecraft.server.Entity entityliving = ((EntityArrow) notchEntity).shooter;
 				if(!(entityliving instanceof EntityLiving)) entityliving = null;
@@ -111,9 +112,9 @@ public abstract class Shape {
 				EntityFireball entityfireball = (EntityFireball) notchEntity;
 				Packet23VehicleSpawn packet23vehiclespawn = new Packet23VehicleSpawn(notchEntity, 63, entityfireball.shooter.id);
 
-				packet23vehiclespawn.e = (int) (entityfireball.motX * 8000.0D);
-				packet23vehiclespawn.f = (int) (entityfireball.motY * 8000.0D);
-				packet23vehiclespawn.g = (int) (entityfireball.motZ * 8000.0D);
+				packet23vehiclespawn.e = (int) (entityfireball.dirX * 8000.0D);
+				packet23vehiclespawn.f = (int) (entityfireball.dirY * 8000.0D);
+				packet23vehiclespawn.g = (int) (entityfireball.dirZ * 8000.0D);
 				return packet23vehiclespawn;
 			} else if (notchEntity instanceof EntityEgg) {
 				return new Packet23VehicleSpawn(notchEntity, 62);

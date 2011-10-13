@@ -234,6 +234,6 @@ public class YiffBukkit extends JavaPlugin {
 		/*for (World world : getServer().getWorlds()) {
 			if (world.getName().equals(name)) return world;
 		}*/
-		return getServer().createWorld(name, env);
+		return getServer().getWorld(name);
 	}
 }

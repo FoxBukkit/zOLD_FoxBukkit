@@ -28,13 +28,4 @@ public class FakeExperienceOrb extends FakeEntity {
 
 		PlayerHelper.sendPacketToPlayer(player, p26);
 	}
-
-	@Override
-	public int getTicksLived() {
-		return 0;
-	}
-
-	@Override
-	public void setTicksLived(int arg0) {
-	}
 }

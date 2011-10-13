@@ -699,7 +699,7 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public void setTicksLived(int arg0) {
+	public void setTicksLived(int value) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -717,7 +717,7 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public void setPlayerListName(String arg0) {
+	public void setPlayerListName(String name) {
 		// TODO Auto-generated method stub
 		
 	}

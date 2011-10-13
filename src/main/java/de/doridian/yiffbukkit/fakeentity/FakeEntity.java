@@ -181,4 +181,16 @@ public abstract class FakeEntity implements Entity {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int getTicksLived() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setTicksLived(int value) {
+		// TODO Auto-generated method stub
+
+	}
 }

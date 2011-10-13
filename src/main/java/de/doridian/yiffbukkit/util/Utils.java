@@ -215,9 +215,9 @@ public class Utils {
 
 				double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-				notchEntity.motX = dx * d3;
-				notchEntity.motY = dy * d3;
-				notchEntity.motZ = dz * d3;
+				notchEntity.dirX = dx * d3;
+				notchEntity.dirY = dy * d3;
+				notchEntity.dirZ = dz * d3;
 
 				notchWorld.addEntity(notchEntity);
 
