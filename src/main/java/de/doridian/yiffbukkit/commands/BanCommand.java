@@ -14,8 +14,10 @@ import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 @Names("ban")
 @Help("Bans specified user. Specify offline players in quotation marks.\n"
-		+ "Flags:\n" + "  -j to unjail the player first\n"
-		+ "  -r to rollback\n" + "  -g to issue an mcbans.com global ban\n"
+		+ "Flags:\n"
+		+ "  -j to unjail the player first\n"
+		+ "  -r to rollback\n"
+		+ "  -g to issue an mcbans.com global ban\n"
 		+ "  -t <time> to issue a temporary ban. Possible suffixes:\n"
 		+ "       m=minutes, h=hours, d=days")
 @Usage("[<flags>] <name> [reason here]")
