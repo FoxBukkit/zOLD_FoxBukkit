@@ -109,22 +109,20 @@ public class MCBans {
 		}.start();
 	}
 	
-	public long evidence(final CommandSender from, final String ply, final World worldx) {
-		World world = worldx;
-		if(world == null && from instanceof Player) {
-			world = ((Player)from).getWorld();
-		}
-		if(world == null) return 0;
-		
-		String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
-		JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
-		
-		long evid = (Long)ret.get("value");
-		
-		tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + (Long)ret.get("value");
-		System.out.println(tmp);
-		plugin.playerHelper.sendDirectedMessage(from, tmp);
-		
-		return evid;
+	public void evidence(final CommandSender from, final String ply, final World worldx) {
+		new Thread() {
+			public void run() {
+				World world = worldx;
+				if(world == null && from instanceof Player) {
+					world = ((Player)from).getWorld();
+				}
+				if(world == null) return;
+				String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
+				JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
+				tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + (Long)ret.get("value");
+				System.out.println(tmp);
+				plugin.playerHelper.sendDirectedMessage(from, tmp);
+			}
+		}.start();
 	}
 }
