@@ -49,7 +49,7 @@ public class BanishCommand extends ICommand {
 					commandSender, otherply.getName() + "'s home is " +
 					unitsFromPrevious + "m from the previous location, " +
 					unitsFromYou +
-					unitsFromSpawn + "m from the spawn. Use '!banish " + otherply.getName() + " resethome' to move it to the spawn.");
+					unitsFromSpawn + "m from the spawn. Use '/banish " + otherply.getName() + " resethome' to move it to the spawn.");
 		}
 
 		playerHelper.sendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
