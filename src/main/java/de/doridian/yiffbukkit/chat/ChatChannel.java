@@ -140,7 +140,7 @@ public class ChatChannel implements Serializable {
 	}
 	
 	public boolean isModerator(Player player) {
-		return moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkit.channels.force.moderator");
+		return isOwner(player) || moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkit.channels.force.moderator");
 	}
 	
 	public enum ChatChannelMode {
