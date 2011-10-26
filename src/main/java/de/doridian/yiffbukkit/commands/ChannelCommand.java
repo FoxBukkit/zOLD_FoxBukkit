@@ -88,7 +88,7 @@ public class ChannelCommand extends ICommand {
 		 		chan = helper.addChannel(ply, args[1]);
 		 		helper.joinChannel(ply, chan);
 		 		
-		 		plugin.playerHelper.sendDirectedMessage(ply, "Channel " + chan + " has been created!");
+		 		plugin.playerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " has been created!");
 		 		break;
 		 		
 		 	case PASSWORD:
