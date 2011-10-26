@@ -1,5 +1,9 @@
 package de.doridian.yiffbukkit.chat;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -10,11 +14,7 @@ import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public class ChatHelper extends StateContainer {
-	//maps STRING (name) to CHATCHANNEL
-	public HashMap<String, ChatChannel> channels = new HashMap<String, ChatChannel>();
-	//maps PLAYER to CHATCHANNEL
-	public HashMap<String, ChatChannel> activeChannel = new HashMap<String, ChatChannel>();
-	
+	public final ChatChannelContainer container;
 	public final ChatChannel DEFAULT;
 	
 	public void joinChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
@@ -24,15 +24,19 @@ public class ChatHelper extends StateContainer {
 		} else {
 			throw new YiffBukkitCommandException("Player already in channel!");
 		}
+		saveChannels();
 	}
 	
 	public void leaveChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
+		if(channel == DEFAULT) throw new YiffBukkitCommandException("You cannot leave the default channel! Mute it!");
+		
 		String plyname = player.getName().toLowerCase();
 		if(channel.players.containsKey(plyname)) {
 			channel.players.remove(plyname);
 		} else {
 			throw new YiffBukkitCommandException("Player not in channel!");
 		}
+		saveChannels();
 	}
 	
 	public ChatChannel addChannel(Player owner, String name) throws YiffBukkitCommandException {
@@ -42,17 +46,19 @@ public class ChatHelper extends StateContainer {
 	public ChatChannel addChannel(Player owner, String name, boolean overwrite) throws YiffBukkitCommandException {
 		String keyname = name.toLowerCase();
 		ChatChannel newChan;
-		if(channels.containsKey(keyname)) {
+		if(container.channels.containsKey(keyname)) {
 			if(overwrite) {
-				newChan = channels.get(keyname);
+				newChan = container.channels.get(keyname);
 			} else {
 				throw new YiffBukkitCommandException("Channel exists already!");
 			}
 		} else {
 			newChan = new ChatChannel(name);
-			channels.put(keyname, newChan);
+			container.channels.put(keyname, newChan);
 		}
 		newChan.owner = owner.getName().toLowerCase();
+		
+		saveChannels();
 		return newChan;
 	}
 	
@@ -66,18 +72,20 @@ public class ChatHelper extends StateContainer {
 		
 		String channame = channel.name.toLowerCase();
 		
-		channels.remove(channame);
+		container.channels.remove(channame);
 		
-		for(Entry<String,ChatChannel> entry : ((HashMap<String,ChatChannel>)activeChannel.clone()).entrySet()) {
+		for(Entry<String,ChatChannel> entry : ((HashMap<String,ChatChannel>)container.activeChannel.clone()).entrySet()) {
 			if(entry.getValue() == channel) {
-				activeChannel.remove(entry.getKey());
+				container.activeChannel.remove(entry.getKey());
 			}
 		}
+		
+		saveChannels();
 	}
 	
 	public ChatChannel getChannel(String name) throws YiffBukkitCommandException {
-		if(channels.containsKey(name)) {
-			return channels.get(name);
+		if(container.channels.containsKey(name)) {
+			return container.channels.get(name);
 		} else {
 			throw new YiffBukkitCommandException("Channel does not exist!");
 		}
@@ -86,10 +94,33 @@ public class ChatHelper extends StateContainer {
 	public ChatChannel getActiveChannel(Player ply) {
 		if(ply == null) return DEFAULT;
 		
-		ChatChannel chan = activeChannel.get(ply.getName().toLowerCase());
-		if(chan == null) chan = DEFAULT;
+		ChatChannel chan = container.activeChannel.get(ply.getName().toLowerCase());
+		if(chan == null) {
+			verifyPlayerInDefaultChannel(ply);
+			return DEFAULT;
+		}
 		
 		return chan;
+	}
+	
+	public void verifyPlayerInDefaultChannel(Player ply) {
+		if(ply == null) return;
+		
+		boolean needsSave = false;
+		
+		String plyname = ply.getName().toLowerCase();
+		
+		if(container.activeChannel.get(plyname) == null) {
+			container.activeChannel.put(plyname, DEFAULT);
+			needsSave = true;
+		}
+		
+		try {
+			joinChannel(ply, DEFAULT);
+			needsSave = true;
+		} catch(Exception e) { }
+		
+		if(needsSave) saveChannels();
 	}
 	
 	public void sendChat(Player ply, String msg) {
@@ -122,15 +153,49 @@ public class ChatHelper extends StateContainer {
 		plugin = plug;
 		instance = this;
 		
+		ChatChannelContainer cont = null;
+		try {
+			FileInputStream stream = new FileInputStream("channels.dat");
+			ObjectInputStream reader = new ObjectInputStream(stream);
+			try {
+				cont = (ChatChannelContainer)reader.readObject();
+			} catch(Exception e) {
+				e.printStackTrace();
+				cont = null;
+			}
+			reader.close();
+			stream.close();
+		} catch(Exception e) { }
+		
+		if(cont == null) container = new ChatChannelContainer();
+		else container = cont;
+		
 		ChatChannel cc = null;
 		try {
 			cc = addChannel(null, "DEFAULT", true);
 		} catch(Exception e) { }
 		
 		DEFAULT = cc;
+		
+		saveChannels();
 	}
 	
 	public static ChatHelper getInstance() {
 		return instance;
+	}
+	
+	@Saver({"channels"})
+	public static void saveChannels() {
+		try {
+			FileOutputStream stream = new FileOutputStream("channels.dat");
+			ObjectOutputStream writer = new ObjectOutputStream(stream);
+			try {
+				writer.writeObject(ChatHelper.instance.container);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}		
+			writer.close();
+			stream.close();
+		} catch(Exception e) { }
 	}
 }

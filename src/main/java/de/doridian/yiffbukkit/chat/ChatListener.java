@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.chat;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -15,6 +16,7 @@ public class ChatListener extends PlayerListener {
 		plugin = plug;
 		helper = new ChatHelper(plugin);
 		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
+		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Monitor, plugin);
 	}
 	
 	@Override
@@ -28,5 +30,10 @@ public class ChatListener extends PlayerListener {
 		helper.sendChat(event.getPlayer(), msg);
 		
 		event.setCancelled(true);
+	}
+	
+	@Override
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		helper.verifyPlayerInDefaultChannel(event.getPlayer());
 	}
 }

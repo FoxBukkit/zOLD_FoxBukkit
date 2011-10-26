@@ -59,7 +59,7 @@ public class ChannelCommand extends ICommand {
 		 		break;
 		 	case LIST:
 		 		StringBuilder sb = new StringBuilder();
-		 		for(ChatChannel channel : helper.channels.values()) {
+		 		for(ChatChannel channel : helper.container.channels.values()) {
 		 			if(channel.players.containsKey(plyname)) {
 		 				if(channel.players.get(plyname)) {
 		 					sb.append("§2");
@@ -73,14 +73,14 @@ public class ChannelCommand extends ICommand {
 		 		sb.setLength(sb.length() - 4);
 		 		
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Current channels: " + sb.toString());
-		 		break;
+		 		return; //prevents saving!
 		 	case INFO:
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Channel info");
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Name: " + chan.name);
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Owner: " + chan.owner);
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Mode: " + chan.mode.toString());
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Range: " + chan.range);
-		 		break;
+		 		return; //prevents saving!
 		 		
 		 	case CREATE:
 		 		if(!ply.hasPermission("yiffbukkit.channels.create")) throw new PermissionDeniedException();
@@ -119,7 +119,7 @@ public class ChannelCommand extends ICommand {
 		 				break;
 		 			case 'l':
 		 				plugin.playerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concatArray(chan.moderators.toArray(new String[0]), 0, "No moderators"));
-		 				break;
+		 				return; //prevents saving!
 		 			default:
 		 				throw new YiffBukkitCommandException("Unknown action!");
 		 		}
@@ -188,7 +188,7 @@ public class ChannelCommand extends ICommand {
 		 				break;
 		 			case 'l':
 		 				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.users.toArray(new String[0]), 0, "No users"));
-		 				break;
+		 				return; //prevents saving!
 		 			default:
 		 				throw new YiffBukkitCommandException("Unknown action!");
 		 		}
@@ -197,7 +197,7 @@ public class ChannelCommand extends ICommand {
 		 	case SWITCH:
 		 		if(chan.players.containsKey(plyname)) {
 		 			chan.players.put(plyname, true);
-		 			helper.activeChannel.put(plyname, chan);
+		 			helper.container.activeChannel.put(plyname, chan);
 		 			plugin.playerHelper.sendDirectedMessage(ply, "You switched to channel " + chan.name);
 		 		} else {
 		 			throw new PermissionDeniedException();
@@ -205,7 +205,7 @@ public class ChannelCommand extends ICommand {
 		 		break;
 		 	case SAY:
 		 		helper.sendChat(ply, Utils.concatArray(args, 2, null), chan);
-		 		break;
+		 		return; //prevents saving!
 		 	case MUTE:
 		 		if(!chan.players.containsKey(plyname)) {
 		 			throw new YiffBukkitCommandException("You are not in that channel!");
@@ -231,7 +231,7 @@ public class ChannelCommand extends ICommand {
 		 		
 		 		chan.players.put(plyname, true);
 		 		
-		 		for(ChatChannel otherchan : helper.channels.values()) {
+		 		for(ChatChannel otherchan : helper.container.channels.values()) {
 		 			if(otherchan == chan || !otherchan.players.containsKey(plyname)) continue;
 		 			otherchan.players.put(plyname, false);
 		 		}
@@ -243,5 +243,7 @@ public class ChannelCommand extends ICommand {
 		 		helper.leaveChannel(ply, chan);
 		 		break;
 		 }
+		 
+		 ChatHelper.saveChannels();
 	}
 }
