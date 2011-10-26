@@ -36,11 +36,7 @@ public class ChannelCommand extends ICommand {
 			 try {
 				 chan = helper.getChannel(args[1]);
 			 }
-			 catch(YiffBukkitCommandException e) {
-				 if(cmd != SubCommand.LIST) {
-					 throw e;
-				 }
-			 }
+			 catch(YiffBukkitCommandException e) { throw e; }
 			 catch(Exception e) { }
 		 }
 		 
@@ -220,9 +216,11 @@ public class ChannelCommand extends ICommand {
 		 		}
 		 		
 		 		boolean state;
-		 		if("off".equals(args[2])) state = true;
-		 		else if("on".equals(args[2])) state = false;
-		 		else state = !chan.players.get(plyname);
+		 		try {
+		 			if("off".equals(args[2])) state = true;
+		 			else if("on".equals(args[2])) state = false;
+		 			else throw new Exception();
+		 		} catch(Exception e) { state = !chan.players.get(plyname); }
 		 		
 		 		chan.players.put(plyname, state);
 		 		
@@ -250,6 +248,8 @@ public class ChannelCommand extends ICommand {
 		 		helper.sendChat(null, ply.getName() + " left this channel", chan, false);
 		 		helper.leaveChannel(ply, chan);
 		 		break;
+		 	default:
+		 		throw new YiffBukkitCommandException("Unknown command");
 		 }
 		 
 		 ChatHelper.saveChannels();
