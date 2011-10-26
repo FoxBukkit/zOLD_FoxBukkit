@@ -126,13 +126,15 @@ public class ChatHelper extends StateContainer {
 		if(needsSave) saveChannels();
 	}
 	
-	public void sendChat(Player ply, String msg, boolean format) {
+	public void sendChat(Player ply, String msg, boolean format) throws YiffBukkitCommandException {
 		sendChat(ply, msg, null, format);
 	}
 	
-	public void sendChat(Player ply, String msg, ChatChannel chan, boolean format) {
+	public void sendChat(Player ply, String msg, ChatChannel chan, boolean format) throws YiffBukkitCommandException {
 		if(chan == null) chan = getActiveChannel(ply);
-		if(!chan.canSpeak(ply)) return;
+		if(!chan.canSpeak(ply)) {
+			throw new YiffBukkitCommandException("You cannot speak in this channel!");
+		}
 		
 		if(format && ply != null) {
 			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;

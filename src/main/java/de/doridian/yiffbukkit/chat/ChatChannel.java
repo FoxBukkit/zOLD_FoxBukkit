@@ -76,7 +76,7 @@ public class ChatChannel implements Serializable {
 		}
 		
 		//if channel is moderated, is user in the users list?
-		if(mode == ChatChannelMode.MODERATED && !users.contains(pname)) {
+		if(mode == ChatChannelMode.MODERATED && !isUser(player)) {
 			return false;
 		}
 		
@@ -141,6 +141,10 @@ public class ChatChannel implements Serializable {
 	
 	public boolean isModerator(Player player) {
 		return isOwner(player) || moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkit.channels.force.moderator");
+	}
+	
+	public boolean isUser(Player player) {
+		return isModerator(player) || users.contains(player.getName().toLowerCase());
 	}
 	
 	public enum ChatChannelMode {
