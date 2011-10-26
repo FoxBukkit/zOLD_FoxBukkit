@@ -208,7 +208,7 @@ public class ChannelCommand extends ICommand {
 		 		}
 		 		break;
 		 	case SAY:
-		 		helper.sendChat(ply, Utils.concatArray(args, 2, null), chan, false);
+		 		helper.sendChat(ply, Utils.concatArray(args, 2, null), chan, true);
 		 		return; //prevents saving!
 		 	case MUTE:
 		 		if(!chan.players.containsKey(plyname)) {
