@@ -56,7 +56,10 @@ public class ChatHelper extends StateContainer {
 			newChan = new ChatChannel(name);
 			container.channels.put(keyname, newChan);
 		}
-		newChan.owner = owner.getName().toLowerCase();
+		
+		try {
+			newChan.owner = owner.getName().toLowerCase();
+		} catch(Exception e) { newChan.owner = null; }
 		
 		saveChannels();
 		return newChan;
