@@ -55,7 +55,7 @@ public class ChannelCommand extends ICommand {
 		 		}
 		 		
 		 		helper.joinChannel(ply, chan);
-		 		helper.sendChat(null, ply.getName() + " joined this channel", chan);
+		 		helper.sendChat(null, ply.getName() + " joined this channel", chan, false);
 		 		break;
 		 	case LIST:
 		 		StringBuilder sb = new StringBuilder();
@@ -166,7 +166,7 @@ public class ChannelCommand extends ICommand {
 		 		helper.leaveChannel(plyx, chan);
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Kicked " + plyx.getName() + " out of " + chan.name);
 		 		plugin.playerHelper.sendDirectedMessage(plyx, "You got kicked out of " + chan.name);
-		 		helper.sendChat(null, plyx.getName() + " got kicked out of this channel", chan);
+		 		helper.sendChat(null, plyx.getName() + " got kicked out of this channel", chan, false);
 		 		break;
 		 	case USER:
 		 		if(!chan.isModerator(ply)) {
@@ -204,7 +204,7 @@ public class ChannelCommand extends ICommand {
 		 		}
 		 		break;
 		 	case SAY:
-		 		helper.sendChat(ply, Utils.concatArray(args, 2, null), chan);
+		 		helper.sendChat(ply, Utils.concatArray(args, 2, null), chan, false);
 		 		return; //prevents saving!
 		 	case MUTE:
 		 		if(!chan.players.containsKey(plyname)) {
@@ -239,7 +239,7 @@ public class ChannelCommand extends ICommand {
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Muted all channels except " + chan.name);
 		 		break;
 		 	case LEAVE:
-		 		helper.sendChat(null, ply.getName() + " left this channel", chan);
+		 		helper.sendChat(null, ply.getName() + " left this channel", chan, false);
 		 		helper.leaveChannel(ply, chan);
 		 		break;
 		 }

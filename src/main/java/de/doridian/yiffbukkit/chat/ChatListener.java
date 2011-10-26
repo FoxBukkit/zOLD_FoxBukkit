@@ -27,7 +27,7 @@ public class ChatListener extends PlayerListener {
 		char fchar = msg.charAt(0);
 		if(fchar == '/' || fchar == '#') return;
 		
-		helper.sendChat(event.getPlayer(), msg);
+		helper.sendChat(event.getPlayer(), msg, true);
 		
 		event.setCancelled(true);
 	}

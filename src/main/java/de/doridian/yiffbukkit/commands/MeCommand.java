@@ -20,7 +20,7 @@ public class MeCommand extends ICommand {
 			if(ChatHelper.getInstance().getActiveChannel(asPlayer(commandSender)) == ChatHelper.getInstance().DEFAULT) {
 				plugin.ircbot.sendToPublicChannel("* " + commandSender.getName() + " " + argStr);
 			}
-			ChatHelper.getInstance().sendChat(asPlayer(commandSender), message);
+			ChatHelper.getInstance().sendChat(asPlayer(commandSender), message, false);
 		}
 		else {
 			message = "§e[CONV]§f "+message;

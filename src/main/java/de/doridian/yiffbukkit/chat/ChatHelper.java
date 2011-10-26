@@ -126,13 +126,15 @@ public class ChatHelper extends StateContainer {
 		if(needsSave) saveChannels();
 	}
 	
-	public void sendChat(Player ply, String msg) {
-		sendChat(ply, msg, null);
+	public void sendChat(Player ply, String msg, boolean format) {
+		sendChat(ply, msg, null, format);
 	}
 	
-	public void sendChat(Player ply, String msg, ChatChannel chan) {
+	public void sendChat(Player ply, String msg, ChatChannel chan, boolean format) {
 		if(chan == null) chan = getActiveChannel(ply);
 		if(!chan.canSpeak(ply)) return;
+		
+		msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;
 		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if(!entry.getValue()) continue; //for speed!
