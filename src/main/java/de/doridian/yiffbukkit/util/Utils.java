@@ -62,11 +62,12 @@ public class Utils {
 	public static String concatArray(String[] array, int start, String def) {
 		if(array.length <= start) return def;
 		if(array.length <= start + 1) return array[start];
-		String ret = array[start];
+		StringBuilder ret = new StringBuilder(array[start]);
 		for(int i=start+1;i<array.length;i++) {
-			ret += " " + array[i];
+			ret.append(' ');
+			ret.append(array[i]);
 		}
-		return ret;
+		return ret.toString();
 	}
 
 	public static String serializeLocation(Location loc) {

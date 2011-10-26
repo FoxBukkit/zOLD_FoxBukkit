@@ -19,8 +19,6 @@ public class ChatListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerChat(PlayerChatEvent event) {
-		if(true) return; //for now!
-		
 		if(event.isCancelled()) return;
 		
 		String msg = event.getMessage();

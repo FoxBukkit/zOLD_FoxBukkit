@@ -1,6 +1,9 @@
 package de.doridian.yiffbukkit.commands;
 
 import org.bukkit.command.CommandSender;
+
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names({"me", "emote"})
@@ -9,13 +12,15 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Permission("yiffbukkit.communication.emote")
 public class MeCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		String message = "§7* "+playerHelper.getPlayerTag(commandSender) + commandSender.getDisplayName() + "§7 " + argStr;
 
 		final String conversationTarget = playerHelper.conversations.get(commandSender.getName());
 		if (conversationTarget == null) {
-			plugin.ircbot.sendToPublicChannel("* " + commandSender.getName() + " " + argStr);
-			plugin.getServer().broadcastMessage(message);
+			if(ChatHelper.getInstance().getActiveChannel(asPlayer(commandSender)) == ChatHelper.getInstance().DEFAULT) {
+				plugin.ircbot.sendToPublicChannel("* " + commandSender.getName() + " " + argStr);
+			}
+			ChatHelper.getInstance().sendChat(asPlayer(commandSender), message);
 		}
 		else {
 			message = "§e[CONV]§f "+message;

@@ -24,6 +24,7 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -319,9 +320,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 		else {
 			plugin.chatManager.pushCurrentOrigin(ply);
-			plugin.ircbot.sendToPublicChannel("[" + event.getPlayer().getName() + "]: " + message);
-			plugin.getServer().broadcastMessage(formattedMessage);
-			System.out.println(event.getPlayer().getName() + ": " + message);
+			if(ChatHelper.getInstance().getActiveChannel(ply) == ChatHelper.getInstance().DEFAULT) {
+				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + message);
+			}
+			//plugin.getServer().broadcastMessage(formattedMessage);
+			//System.out.println(event.getPlayer().getName() + ": " + message);
 
 			try {
 				if (plugin.dynmap != null) {
@@ -332,7 +335,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			
 			plugin.chatManager.popCurrentOrigin();
 
-			event.setCancelled(true);
+			//event.setCancelled(true);
 			return;
 		}
 	}

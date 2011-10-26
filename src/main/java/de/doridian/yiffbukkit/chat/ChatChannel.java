@@ -5,6 +5,9 @@ import java.util.HashSet;
 
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.util.PlayerNotFoundException;
+
 public class ChatChannel {
 	public ChatChannelMode mode = ChatChannelMode.PUBLIC;
 	public final String name;
@@ -37,7 +40,7 @@ public class ChatChannel {
 	}
 	
 	public boolean canHear(Player target, Player source) {
-		if(target == source) return true;
+		if(source == null || target == source) return true;
 		
 		String tname = target.getName().toLowerCase();
 		
@@ -60,6 +63,8 @@ public class ChatChannel {
 	}
 	
 	public boolean canSpeak(Player player) {
+		if(player == null) return true;
+		
 		String pname = player.getName().toLowerCase();
 		
 		//is the player in the channel?
@@ -73,6 +78,66 @@ public class ChatChannel {
 		}
 		
 		return true;
+	}
+	
+	public void addUser(Player player) throws YiffBukkitCommandException {
+		if(player == null) throw new PlayerNotFoundException();
+		
+		String plyname = player.getName().toLowerCase();
+		if(!this.users.contains(plyname)) {
+			this.users.add(plyname);
+		} else {
+			throw new YiffBukkitCommandException("Player is already a user of this channel!");
+		}
+	}
+	
+	public void removeUser(Player player) throws YiffBukkitCommandException {
+		if(player == null) throw new PlayerNotFoundException();
+		
+		try {
+			removeModerator(player);
+		} catch(Exception e) { }
+		
+		String plyname = player.getName().toLowerCase();
+		if(this.users.contains(plyname)) {
+			this.users.remove(plyname);
+		} else {
+			throw new YiffBukkitCommandException("Player is not a user of this channel!");
+		}
+	}
+	
+	public void addModerator(Player player) throws YiffBukkitCommandException {
+		if(player == null) throw new PlayerNotFoundException();
+		
+		try {
+			addUser(player);
+		} catch(Exception e) { }
+		
+		String plyname = player.getName().toLowerCase();
+		if(!this.moderators.contains(plyname)) {
+			this.moderators.add(plyname);
+		} else {
+			throw new YiffBukkitCommandException("Player is already a moderator of this channel!");
+		}
+	}
+	
+	public void removeModerator(Player player) throws YiffBukkitCommandException {
+		if(player == null) throw new PlayerNotFoundException();
+		
+		String plyname = player.getName().toLowerCase();
+		if(this.moderators.contains(plyname)) {
+			this.moderators.remove(plyname);
+		} else {
+			throw new YiffBukkitCommandException("Player is not a moderator of this channel!");
+		}
+	}
+	
+	public boolean isOwner(Player player) {
+		return player.getName().toLowerCase().equals(this.owner) || player.hasPermission("yiffbukkit.channels.force.owner");
+	}
+	
+	public boolean isModerator(Player player) {
+		return moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkit.channels.force.moderator");
 	}
 	
 	public enum ChatChannelMode {

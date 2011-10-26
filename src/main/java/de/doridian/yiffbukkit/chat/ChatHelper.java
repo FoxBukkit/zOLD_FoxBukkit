@@ -17,17 +17,21 @@ public class ChatHelper extends StateContainer {
 	
 	public final ChatChannel DEFAULT;
 	
-	public void joinChannel(Player player, ChatChannel channel) {
+	public void joinChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
 		String plyname = player.getName().toLowerCase();
 		if(!channel.players.containsKey(plyname)) {
 			channel.players.put(plyname, true);
+		} else {
+			throw new YiffBukkitCommandException("Player already in channel!");
 		}
 	}
 	
-	public void leaveChannel(Player player, ChatChannel channel) {
+	public void leaveChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
 		String plyname = player.getName().toLowerCase();
 		if(channel.players.containsKey(plyname)) {
 			channel.players.remove(plyname);
+		} else {
+			throw new YiffBukkitCommandException("Player not in channel!");
 		}
 	}
 	
@@ -52,6 +56,25 @@ public class ChatHelper extends StateContainer {
 		return newChan;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void removeChannel(ChatChannel channel) {
+		channel.players.clear();
+		channel.moderators.clear();
+		channel.users.clear();
+		channel.owner = null;
+		channel.mode = ChatChannel.ChatChannelMode.PRIVATE;
+		
+		String channame = channel.name.toLowerCase();
+		
+		channels.remove(channame);
+		
+		for(Entry<String,ChatChannel> entry : ((HashMap<String,ChatChannel>)activeChannel.clone()).entrySet()) {
+			if(entry.getValue() == channel) {
+				activeChannel.remove(entry.getKey());
+			}
+		}
+	}
+	
 	public ChatChannel getChannel(String name) throws YiffBukkitCommandException {
 		if(channels.containsKey(name)) {
 			return channels.get(name);
@@ -61,6 +84,8 @@ public class ChatHelper extends StateContainer {
 	}
 	
 	public ChatChannel getActiveChannel(Player ply) {
+		if(ply == null) return DEFAULT;
+		
 		ChatChannel chan = activeChannel.get(ply.getName().toLowerCase());
 		if(chan == null) chan = DEFAULT;
 		
@@ -73,17 +98,20 @@ public class ChatHelper extends StateContainer {
 	
 	public void sendChat(Player ply, String msg, ChatChannel chan) {
 		if(chan == null) chan = getActiveChannel(ply);
+		if(!chan.canSpeak(ply)) return;
 		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
-			if(!entry.getValue()) continue;
+			if(!entry.getValue()) continue; //for speed!
 			
 			Player player = plugin.getServer().getPlayerExact(entry.getKey());
 			if(player == null) continue;
 			
-			if(getActiveChannel(player) == chan) {
-				player.sendRawMessage(msg);
-			} else {
-				player.sendRawMessage("§2[" + chan.name + "]§f " + msg);
+			if(chan.canHear(player, ply)) {
+				if(getActiveChannel(player) == chan) {
+					player.sendRawMessage(msg);
+				} else {
+					player.sendRawMessage("§2[" + chan.name + "]§f " + msg);
+				}
 			}
 		}
 	}
