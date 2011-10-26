@@ -192,7 +192,7 @@ public class YiffBukkit extends JavaPlugin {
 		vanish = new Vanish(this);
 		transmute = new Transmute(this);
 		adHandler = new AdvertismentSigns(this);
-		//chatListener = new ChatListener(this);
+		chatListener = new ChatListener(this);
 
 		System.out.println("YiffBukkit components loaded.");
 		mcbans = new MCBans(this);
