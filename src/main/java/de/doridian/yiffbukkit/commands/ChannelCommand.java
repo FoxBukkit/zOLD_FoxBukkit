@@ -36,7 +36,11 @@ public class ChannelCommand extends ICommand {
 			 try {
 				 chan = helper.getChannel(args[1]);
 			 }
-			 catch(YiffBukkitCommandException e) { throw e;  }
+			 catch(YiffBukkitCommandException e) {
+				 if(cmd != SubCommand.LIST) {
+					 throw e;
+				 }
+			 }
 			 catch(Exception e) { }
 		 }
 		 
@@ -58,21 +62,25 @@ public class ChannelCommand extends ICommand {
 		 		helper.sendChat(null, ply.getName() + " joined this channel", chan, false);
 		 		break;
 		 	case LIST:
-		 		StringBuilder sb = new StringBuilder();
-		 		for(ChatChannel channel : helper.container.channels.values()) {
-		 			if(channel.players.containsKey(plyname)) {
-		 				if(channel.players.get(plyname)) {
-		 					sb.append("§2");
-		 				} else {
-		 					sb.append("§4");
-		 				}
-		 				sb.append(channel.name);
-		 				sb.append("§f, ");
-		 			}
+		 		if(args.length < 2) {
+			 		StringBuilder sb = new StringBuilder();
+			 		for(ChatChannel channel : helper.container.channels.values()) {
+			 			if(channel.players.containsKey(plyname)) {
+			 				if(channel.players.get(plyname)) {
+			 					sb.append("§2");
+			 				} else {
+			 					sb.append("§4");
+			 				}
+			 				sb.append(channel.name);
+			 				sb.append("§f, ");
+			 			}
+			 		}
+			 		sb.setLength(sb.length() - 4);
+			 		
+			 		plugin.playerHelper.sendDirectedMessage(ply, "Current channels: " + sb.toString());
+		 		} else {
+		 			plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.players.keySet().toArray(new String[0]), 0, "No users"));
 		 		}
-		 		sb.setLength(sb.length() - 4);
-		 		
-		 		plugin.playerHelper.sendDirectedMessage(ply, "Current channels: " + sb.toString());
 		 		return; //prevents saving!
 		 	case INFO:
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Channel info");

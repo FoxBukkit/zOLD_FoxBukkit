@@ -134,7 +134,9 @@ public class ChatHelper extends StateContainer {
 		if(chan == null) chan = getActiveChannel(ply);
 		if(!chan.canSpeak(ply)) return;
 		
-		msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;
+		if(format && ply != null) {
+			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;
+		}
 		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if(!entry.getValue()) continue; //for speed!
