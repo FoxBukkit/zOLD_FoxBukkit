@@ -17,6 +17,7 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 public class ChatHelper extends StateContainer {
 	public final ChatChannelContainer container;
 	public final ChatChannel DEFAULT;
+	public final ChatChannel OOC;
 	
 	public void joinChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
 		String plyname = player.getName().toLowerCase();
@@ -139,7 +140,7 @@ public class ChatHelper extends StateContainer {
 		}
 		
 		if(format && ply != null) {
-			if(chan == DEFAULT) {
+			if(chan == OOC) {
 				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
 				try {
 					if (plugin.dynmap != null) {
@@ -194,8 +195,13 @@ public class ChatHelper extends StateContainer {
 		try {
 			cc = addChannel(null, "DEFAULT", true);
 		} catch(Exception e) { }
-		
 		DEFAULT = cc;
+		
+		cc = null;
+		try {
+			cc = addChannel(null, "OOC", true);
+		} catch(Exception e) { }
+		OOC = cc;
 		
 		saveChannels();
 	}
