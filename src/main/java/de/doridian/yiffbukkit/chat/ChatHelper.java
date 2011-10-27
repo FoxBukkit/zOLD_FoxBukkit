@@ -133,6 +133,13 @@ public class ChatHelper extends StateContainer {
 		try {
 			joinChannel(ply, OOC);
 			needsSave = true;
+			if(ply.hasPermission("yiffbukkit.channels.main")) {
+				plugin.playerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
+				plugin.playerHelper.sendDirectedMessage(ply, "To talk to everyone, you have two options");
+				plugin.playerHelper.sendDirectedMessage(ply, "/c switch ooc - to permanently talk in ooc");
+				plugin.playerHelper.sendDirectedMessage(ply, "/c say ooc MESSAGE - to say one message in ooc");
+				plugin.playerHelper.sendDirectedMessage(ply, "(/c switch default - to switch back to the local channel)");
+			}
 		} catch(Exception e) { }
 		
 		if(needsSave) saveChannels();
