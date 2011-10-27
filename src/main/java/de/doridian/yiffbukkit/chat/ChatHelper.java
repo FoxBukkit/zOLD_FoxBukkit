@@ -87,6 +87,7 @@ public class ChatHelper extends StateContainer {
 	}
 	
 	public ChatChannel getChannel(String name) throws YiffBukkitCommandException {
+		name = name.toLowerCase();
 		if(container.channels.containsKey(name)) {
 			return container.channels.get(name);
 		} else {
