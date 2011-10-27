@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("setrank")
@@ -49,5 +50,9 @@ public class SetRankCommand extends ICommand {
 		playerHelper.setPlayerRank(otherName, newRank);
 
 		playerHelper.sendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
+		
+		try {
+			ChatHelper.getInstance().verifyPlayerInDefaultChannel(plugin.getServer().getPlayerExact(otherName));
+		} catch(Exception e) { }
 	}
 }
