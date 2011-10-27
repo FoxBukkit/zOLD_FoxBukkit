@@ -31,6 +31,7 @@ public class ChatHelper extends StateContainer {
 	
 	public void leaveChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
 		if(channel == DEFAULT) throw new YiffBukkitCommandException("You cannot leave the default channel! Mute it!");
+		if(channel == OOC) throw new YiffBukkitCommandException("You cannot leave the OOC channel! Mute it!");
 		
 		String plyname = player.getName().toLowerCase();
 		if(channel.players.containsKey(plyname)) {

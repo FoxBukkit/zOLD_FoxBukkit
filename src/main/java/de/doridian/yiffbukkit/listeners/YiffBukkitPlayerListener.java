@@ -24,7 +24,6 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -51,7 +50,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
-import org.dynmap.Client;
 
 /**
  * Handle events for all Player related events
