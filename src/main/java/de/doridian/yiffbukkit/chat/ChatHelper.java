@@ -34,6 +34,9 @@ public class ChatHelper extends StateContainer {
 		
 		String plyname = player.getName().toLowerCase();
 		if(channel.players.containsKey(plyname)) {
+			if(container.activeChannel.get(plyname) == channel) {
+				container.activeChannel.put(plyname, DEFAULT);
+			}
 			channel.players.remove(plyname);
 		} else {
 			throw new YiffBukkitCommandException("Player not in channel!");
@@ -69,6 +72,12 @@ public class ChatHelper extends StateContainer {
 	
 	@SuppressWarnings("unchecked")
 	public void removeChannel(ChatChannel channel) {
+		for(Entry<String,ChatChannel> entry : ((HashMap<String,ChatChannel>)container.activeChannel.clone()).entrySet()) {
+			if(entry.getValue() == channel) {
+				container.activeChannel.put(entry.getKey(), DEFAULT);
+			}
+		}
+		
 		channel.players.clear();
 		channel.moderators.clear();
 		channel.users.clear();
@@ -78,12 +87,6 @@ public class ChatHelper extends StateContainer {
 		String channame = channel.name.toLowerCase();
 		
 		container.channels.remove(channame);
-		
-		for(Entry<String,ChatChannel> entry : ((HashMap<String,ChatChannel>)container.activeChannel.clone()).entrySet()) {
-			if(entry.getValue() == channel) {
-				container.activeChannel.remove(entry.getKey());
-			}
-		}
 		
 		saveChannels();
 	}
@@ -126,7 +129,14 @@ public class ChatHelper extends StateContainer {
 			needsSave = true;
 		} catch(Exception e) { }
 		
+		try {
+			joinChannel(ply, OOC);
+			needsSave = true;
+		} catch(Exception e) { }
+		
 		if(needsSave) saveChannels();
+		
+		
 	}
 	
 	public void sendChat(Player ply, String msg, boolean format) throws YiffBukkitCommandException {
