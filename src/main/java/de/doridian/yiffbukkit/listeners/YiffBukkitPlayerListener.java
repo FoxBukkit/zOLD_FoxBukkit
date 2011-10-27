@@ -319,23 +319,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 		}
 		else {
-			plugin.chatManager.pushCurrentOrigin(ply);
-			if(ChatHelper.getInstance().getActiveChannel(ply) == ChatHelper.getInstance().DEFAULT) {
-				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + message);
-			}
-			//plugin.getServer().broadcastMessage(formattedMessage);
-			//System.out.println(event.getPlayer().getName() + ": " + message);
-
-			try {
-				if (plugin.dynmap != null) {
-					plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), event.getMessage(), ply.getName()));
-				}
-			}
-			catch(Exception e) { }
-			
-			plugin.chatManager.popCurrentOrigin();
-
-			//event.setCancelled(true);
+			//plugin.chatManager.pushCurrentOrigin(ply);
+			//plugin.chatManager.popCurrentOrigin();
 			return;
 		}
 	}

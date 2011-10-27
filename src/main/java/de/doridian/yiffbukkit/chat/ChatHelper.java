@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
+import org.dynmap.Client;
 
 import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -138,6 +139,15 @@ public class ChatHelper extends StateContainer {
 		}
 		
 		if(format && ply != null) {
+			if(chan == DEFAULT) {
+				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
+				try {
+					if (plugin.dynmap != null) {
+						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), msg, ply.getName()));
+					}
+				}
+				catch(Exception e) { }
+			}
 			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;
 		}
 		
