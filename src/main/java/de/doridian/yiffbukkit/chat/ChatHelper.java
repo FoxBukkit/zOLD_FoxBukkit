@@ -130,17 +130,12 @@ public class ChatHelper extends StateContainer {
 			needsSave = true;
 		} catch(Exception e) { }
 		
-		if(ply.hasPermission("yiffbukkit.channels.main")) {
-			try {
-				joinChannel(ply, OOC);
-				needsSave = true;
-				plugin.playerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
-				plugin.playerHelper.sendDirectedMessage(ply, "To talk to everyone, you have two options");
-				plugin.playerHelper.sendDirectedMessage(ply, "/c switch ooc - to permanently talk in ooc");
-				plugin.playerHelper.sendDirectedMessage(ply, "/c say ooc MESSAGE - to say one message in ooc");
-				plugin.playerHelper.sendDirectedMessage(ply, "(/c switch default - to switch back to the local channel)");
-			} catch(Exception e) { }
-		}
+		try {
+			joinChannel(ply, OOC);
+			needsSave = true;
+			plugin.playerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
+			plugin.playerHelper.sendDirectedMessage(ply, "To talk to everyone, you do /ooc MESSAGE");
+		} catch(Exception e) { }
 		
 		if(needsSave) saveChannels();
 		
@@ -148,10 +143,10 @@ public class ChatHelper extends StateContainer {
 	}
 	
 	public void sendChat(Player ply, String msg, boolean format) throws YiffBukkitCommandException {
-		sendChat(ply, msg, null, format);
+		sendChat(ply, msg, format, null);
 	}
 	
-	public void sendChat(Player ply, String msg, ChatChannel chan, boolean format) throws YiffBukkitCommandException {
+	public void sendChat(Player ply, String msg, boolean format, ChatChannel chan) throws YiffBukkitCommandException {
 		if(chan == null) chan = getActiveChannel(ply);
 		if(!chan.canSpeak(ply)) {
 			throw new YiffBukkitCommandException("You cannot speak in this channel!");
@@ -177,7 +172,7 @@ public class ChatHelper extends StateContainer {
 			if(player == null) continue;
 			
 			if(chan.canHear(player, ply)) {
-				if(getActiveChannel(player) == chan) {
+				if(chan == DEFAULT) {
 					player.sendRawMessage(msg);
 				} else {
 					player.sendRawMessage("§2[" + chan.name + "]§f " + msg);
