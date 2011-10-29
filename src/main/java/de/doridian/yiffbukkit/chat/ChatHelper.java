@@ -164,6 +164,10 @@ public class ChatHelper extends StateContainer {
 			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;
 		}
 		
+		int canhear = 0;
+		
+		if(chan != DEFAULT) msg = "§2[" + chan.name + "]§f " + msg;
+		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if(!entry.getValue()) continue; //for speed!
 			
@@ -171,12 +175,13 @@ public class ChatHelper extends StateContainer {
 			if(player == null) continue;
 			
 			if(chan.canHear(player, ply)) {
-				if(chan == DEFAULT) {
-					player.sendRawMessage(msg);
-				} else {
-					player.sendRawMessage("§2[" + chan.name + "]§f " + msg);
-				}
+				player.sendRawMessage(msg);
+				if(player != ply) canhear++;
 			}
+		}
+		
+		if(chan.range > 0 && canhear < 1) {
+			plugin.playerHelper.sendDirectedMessage(ply, "No one can hear you (forgot /ooc?)");
 		}
 	}
 	
