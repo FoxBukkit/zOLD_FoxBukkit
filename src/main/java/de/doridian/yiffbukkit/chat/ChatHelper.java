@@ -133,13 +133,12 @@ public class ChatHelper extends StateContainer {
 		try {
 			joinChannel(ply, OOC);
 			needsSave = true;
-			plugin.playerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
-			plugin.playerHelper.sendDirectedMessage(ply, "To talk to everyone, you do /ooc MESSAGE");
 		} catch(Exception e) { }
 		
 		if(needsSave) saveChannels();
 		
-		
+		plugin.playerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
+		plugin.playerHelper.sendDirectedMessage(ply, "To talk to everyone, you do /ooc MESSAGE");
 	}
 	
 	public void sendChat(Player ply, String msg, boolean format) throws YiffBukkitCommandException {
