@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import org.bukkit.entity.Player;
 import org.dynmap.Client;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -111,6 +112,16 @@ public class ChatHelper extends StateContainer {
 		}
 		
 		return chan;
+	}
+	
+	public void setActiveChannel(Player ply, ChatChannel chan) throws YiffBukkitCommandException {
+		String plyname = ply.getName().toLowerCase();
+		if(chan.players.containsKey(plyname)) {
+ 			chan.players.put(plyname, true);
+ 			container.activeChannel.put(plyname, chan);
+ 		} else {
+ 			throw new PermissionDeniedException();
+ 		}
 	}
 	
 	public void verifyPlayerInDefaultChannel(Player ply) {

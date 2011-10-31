@@ -25,8 +25,11 @@ import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,6 +53,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+import org.getspout.spout.player.SpoutCraftPlayer;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  * Handle events for all Player related events
@@ -212,8 +217,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		final Player player = event.getPlayer();
+		final SpoutCraftPlayer player = (SpoutCraftPlayer)event.getPlayer();
 
+		Utils.setPrivateValue(SpoutCraftPlayer.class, player, "perm", new YiffBukkitPermissibleBase(player));
+		
 		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
 			nick = player.getName();

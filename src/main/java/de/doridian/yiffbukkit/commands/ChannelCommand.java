@@ -197,13 +197,8 @@ public class ChannelCommand extends ICommand {
 		 		break;
 		 		
 		 	case SWITCH:
-		 		if(chan.players.containsKey(plyname)) {
-		 			chan.players.put(plyname, true);
-		 			helper.container.activeChannel.put(plyname, chan);
-		 			plugin.playerHelper.sendDirectedMessage(ply, "You switched to channel " + chan.name);
-		 		} else {
-		 			throw new PermissionDeniedException();
-		 		}
+		 		helper.setActiveChannel(ply, chan);
+		 		plugin.playerHelper.sendDirectedMessage(ply, "You switched to channel " + chan.name);
 		 		break;
 		 	case SAY:
 		 		helper.sendChat(ply, Utils.concatArray(args, 2, null), true, chan);

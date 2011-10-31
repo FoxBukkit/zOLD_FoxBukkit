@@ -5,18 +5,23 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 
 public class ChatListener extends PlayerListener {
 	ChatHelper helper;
 	YiffBukkit plugin;
+	//ChatScreenListener screen;
 	
 	public ChatListener(YiffBukkit plug) {
 		plugin = plug;
 		helper = new ChatHelper(plugin);
+		//screen = new ChatScreenListener(plugin);
 		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
 		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Monitor, plugin);
+		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Monitor, plugin);
 	}
 	
 	@Override
@@ -36,6 +41,13 @@ public class ChatListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		helper.verifyPlayerInDefaultChannel(event.getPlayer());
+		SpoutPlayer ply = (SpoutPlayer)event.getPlayer();
+		helper.verifyPlayerInDefaultChannel(ply);
+		//screen.getPopupFor(ply);
+	}
+	
+	@Override
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		//screen.removePopupFor((SpoutPlayer)event.getPlayer());
 	}
 }
