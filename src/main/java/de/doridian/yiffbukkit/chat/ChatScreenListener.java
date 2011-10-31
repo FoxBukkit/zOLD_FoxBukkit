@@ -1,18 +1,13 @@
 package de.doridian.yiffbukkit.chat;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
-import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.event.screen.ScreenCloseEvent;
 import org.getspout.spoutapi.event.screen.ScreenListener;
 import org.getspout.spoutapi.event.screen.ScreenOpenEvent;
-import org.getspout.spoutapi.gui.GenericScreen;
-import org.getspout.spoutapi.gui.InGameScreen;
 import org.getspout.spoutapi.gui.ScreenType;
-import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.doridian.yiffbukkit.YiffBukkit;

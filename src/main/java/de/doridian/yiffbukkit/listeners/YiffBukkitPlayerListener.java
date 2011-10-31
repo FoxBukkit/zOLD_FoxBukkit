@@ -54,7 +54,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.getspout.spout.player.SpoutCraftPlayer;
-import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  * Handle events for all Player related events

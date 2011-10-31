@@ -5,8 +5,6 @@ import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.ContainerType;
 import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.GenericContainer;
-//import org.getspout.spoutapi.gui.GenericPopup;
-import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import de.doridian.yiffbukkit.YiffBukkit;
