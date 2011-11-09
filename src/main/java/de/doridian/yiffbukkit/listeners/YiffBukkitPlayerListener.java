@@ -534,8 +534,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			return;
 
 		final Item item = event.getItemDrop();
-		final int typeId = item.getItemStack().getTypeId();
 		final ItemStack itemStack = item.getItemStack();
+		final int typeId = itemStack.getTypeId();
 
 		int amount = itemStack.getAmount();
 
