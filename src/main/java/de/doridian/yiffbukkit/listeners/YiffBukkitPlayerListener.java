@@ -216,10 +216,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		final SpoutCraftPlayer player = (SpoutCraftPlayer)event.getPlayer();
+		final Player player = event.getPlayer();
+		if (player instanceof SpoutCraftPlayer) {
+			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer) player;
 
-		Utils.setPrivateValue(SpoutCraftPlayer.class, player, "perm", new YiffBukkitPermissibleBase(player));
-		
+			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
+		}
+
 		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
 			nick = player.getName();
@@ -232,9 +235,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
 			event.setJoinMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
 		} else {
-			Player ply = event.getPlayer();
-			Location location = playerHelper.getPlayerSpawnPosition(ply);
-			ply.teleport(location);
+			Location location = playerHelper.getPlayerSpawnPosition(player);
+			player.teleport(location);
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
 			event.setJoinMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
