@@ -227,6 +227,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (nick == null)
 			nick = player.getName();
 		player.setDisplayName(nick);
+		player.setPlayerListName(playerHelper.formatPlayer(player));
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
 		plugin.chatManager.pushCurrentOrigin(player);

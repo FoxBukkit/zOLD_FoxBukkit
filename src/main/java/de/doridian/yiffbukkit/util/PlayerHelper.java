@@ -260,6 +260,11 @@ public class PlayerHelper extends StateContainer {
 	public void setPlayerRank(String name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
 		plugin.permissionHandler.setGroup(name, rankname);
+
+		Player ply = plugin.getServer().getPlayerExact(name);
+		if (ply == null) return;
+
+		ply.setPlayerListName(formatPlayer(ply));
 	}
 
 	//Permission levels
