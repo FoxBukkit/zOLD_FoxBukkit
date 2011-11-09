@@ -82,6 +82,8 @@ public class GiveCommand extends ICommand {
 
 		dataValues.put("17:REDWOOD", (short) 1);
 		dataValues.put("17:DARK", (short) 1);
+        dataValues.put("17:PINE", (short) 1);
+        dataValues.put("17:SPRUCE", (short) 1);
 		dataValues.put("17:BIRCH", (short) 2);
 		dataValues.put("17:LIGHT", (short) 2);
 	};
