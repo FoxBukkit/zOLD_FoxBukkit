@@ -859,4 +859,32 @@ public class PlayerHelper extends StateContainer {
 
 		return ip;
 	}
+
+	public String formatPlayer(Player player) {
+		int playerLevel = getPlayerLevel(player);
+		final String playerName = player.getName();
+
+		if (playerLevel < 0)
+			return "§0"+playerName;
+
+		switch (playerLevel) {
+		case 0:
+			return "§7"+playerName;
+
+		case 1:
+			return "§a"+playerName;
+
+		case 2:
+			return "§2"+playerName;
+			
+		case 3:
+			return "§9"+playerName;
+
+		case 4:
+			return "§b"+playerName;
+
+		default:
+			return "§5"+playerName;
+		}
+	}
 }

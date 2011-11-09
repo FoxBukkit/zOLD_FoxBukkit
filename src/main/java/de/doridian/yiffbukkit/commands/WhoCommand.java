@@ -80,10 +80,9 @@ public class WhoCommand extends ICommand {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: ";
 			if (plugin.permissionHandler.has(commandSender, "yiffbukkit.who.ranklevels")) {
-
-				str += formatPlayer(players[0]);
+				str += playerHelper.formatPlayer(players[0]);
 				for(int i=1;i<players.length;i++) {
-					str += ", " + formatPlayer(players[i]);
+					str += ", " + playerHelper.formatPlayer(players[i]);
 				}
 			}
 			else {
@@ -93,34 +92,6 @@ public class WhoCommand extends ICommand {
 				}
 			}
 			playerHelper.sendDirectedMessage(commandSender, str);
-		}
-	}
-
-	private String formatPlayer(Player player) {
-		int playerLevel = playerHelper.getPlayerLevel(player);
-		final String playerName = player.getName();
-
-		if (playerLevel < 0)
-			return "§0"+playerName;
-
-		switch (playerLevel) {
-		case 0:
-			return "§7"+playerName;
-
-		case 1:
-			return "§a"+playerName;
-
-		case 2:
-			return "§2"+playerName;
-			
-		case 3:
-			return "§9"+playerName;
-
-		case 4:
-			return "§b"+playerName;
-
-		default:
-			return "§5"+playerName;
 		}
 	}
 }
