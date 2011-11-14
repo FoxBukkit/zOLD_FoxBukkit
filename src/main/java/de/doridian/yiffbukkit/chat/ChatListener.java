@@ -1,13 +1,12 @@
 package de.doridian.yiffbukkit.chat;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.getspout.spoutapi.player.SpoutPlayer;
-
 import de.doridian.yiffbukkit.YiffBukkit;
 
 public class ChatListener extends PlayerListener {
@@ -41,9 +40,9 @@ public class ChatListener extends PlayerListener {
 	
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		SpoutPlayer ply = (SpoutPlayer)event.getPlayer();
+		Player ply = event.getPlayer();
 		helper.verifyPlayerInDefaultChannel(ply);
-		//screen.getPopupFor(ply);
+		//screen.getPopupFor((SpoutPlayer)ply);
 	}
 	
 	@Override
