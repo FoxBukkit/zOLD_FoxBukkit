@@ -49,7 +49,7 @@ public class LightCommand extends ICommand {
 
 		final Region selected;
 		try {
-			selected = session.getSelection(new BukkitWorld(ply.getWorld()));
+			selected = session.getSelection(new BukkitWorld(world));
 		}
 		catch (IncompleteRegionException e) {
 			throw new YiffBukkitCommandException("Please select a region.", e);
