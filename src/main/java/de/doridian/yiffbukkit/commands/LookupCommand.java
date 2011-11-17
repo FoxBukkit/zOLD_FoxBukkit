@@ -30,11 +30,11 @@ public class LookupCommand extends ICommand {
 				 * }
 				 */
 
-				playerHelper.sendDirectedMessage(commandSender, "Player §3" + otherName + "§f has §4" + lookupret.get("total").toString() + " ban(s)§f and §9"+lookupret.get("reputation").toString()+" REP§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Player \u00a73" + otherName + "\u00a7f has \u00a74" + lookupret.get("total").toString() + " ban(s)\u00a7f and \u00a79"+lookupret.get("reputation").toString()+" REP\u00a7f.");
 
 				final JSONArray banReasonsGlobal = (JSONArray)lookupret.get("global");
 				if (!banReasonsGlobal.isEmpty()) {
-					playerHelper.sendDirectedMessage(commandSender, "§4Global bans");
+					playerHelper.sendDirectedMessage(commandSender, "\u00a74Global bans");
 					for(Object obj : banReasonsGlobal) {
 						playerHelper.sendDirectedMessage(commandSender, (String)obj);
 					}
@@ -42,7 +42,7 @@ public class LookupCommand extends ICommand {
 
 				final JSONArray banReasonsLocal = (JSONArray)lookupret.get("local");
 				if (!banReasonsLocal.isEmpty()) {
-					playerHelper.sendDirectedMessage(commandSender, "§6Local bans");
+					playerHelper.sendDirectedMessage(commandSender, "\u00a76Local bans");
 					for(Object obj : banReasonsLocal) {
 						playerHelper.sendDirectedMessage(commandSender, (String)obj);
 					}

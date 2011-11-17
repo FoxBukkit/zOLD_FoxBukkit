@@ -42,7 +42,7 @@ public class YiffBukkitPacketListener extends PacketListener {
 		switch (packetID) {
 		case 3:
 			Packet3Chat p3 = (Packet3Chat) packet;
-			if (p3.message.equals("§4You are in a no-PvP area."))
+			if (p3.message.equals("\u00a74You are in a no-PvP area."))
 				return false;
 
 			return true;

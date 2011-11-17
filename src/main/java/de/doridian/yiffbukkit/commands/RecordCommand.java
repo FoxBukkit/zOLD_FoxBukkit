@@ -69,7 +69,7 @@ public class RecordCommand extends ICommand {
 		String playerName = target.getName();
 		Location location = target.getLocation();
 
-		final String recorderName = String.format("§c%s", playerName);
+		final String recorderName = String.format("\u00a7c%s", playerName);
 
 		final Recorder recorder;
 		try {
@@ -142,7 +142,7 @@ public class RecordCommand extends ICommand {
 			if (playerName.length() < 2)
 				return true;
 
-			if (playerName.charAt(0) != '§')
+			if (playerName.charAt(0) != '\u00a7')
 				return true;
 
 			if (playerName.charAt(1) != 'c')

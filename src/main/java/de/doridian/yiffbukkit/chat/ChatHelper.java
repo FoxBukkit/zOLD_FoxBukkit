@@ -172,12 +172,12 @@ public class ChatHelper extends StateContainer {
 				}
 				catch(Exception e) { }
 			}
-			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":§f " + msg;
+			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":\u00a7f " + msg;
 		}
 		
 		int canhear = 0;
 		
-		if(chan != DEFAULT) msg = "§2[" + chan.name + "]§f " + msg;
+		if(chan != DEFAULT) msg = "\u00a72[" + chan.name + "]\u00a7f " + msg;
 		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if(!entry.getValue()) continue; //for speed!

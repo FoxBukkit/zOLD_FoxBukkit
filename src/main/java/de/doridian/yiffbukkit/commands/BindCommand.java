@@ -55,7 +55,7 @@ public class BindCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.sendDirectedMessage(ply, "Unbound your tool (§e"+toolType.name()+"§f).");
+			playerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
 			return;
 		}
@@ -75,12 +75,12 @@ public class BindCommand extends ICommand {
 				continue;
 
 			if (filter.contains(commandMatcher.group(1)))
-				throw new YiffBukkitCommandException("Command §9"+commandMatcher.group(1)+"§f cannot be bound.");
+				throw new YiffBukkitCommandException("Command \u00a79"+commandMatcher.group(1)+"\u00a7f cannot be bound.");
 
 			commands.add(command);
 
 			if (!first)
-				sb.append("§c; §9");
+				sb.append("\u00a7c; \u00a79");
 			first = false;
 
 			sb.append(command);
@@ -100,6 +100,6 @@ public class BindCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.sendDirectedMessage(ply, "Bound §9"+commandString+"§f to your tool (§e"+toolType.name()+"§f). Right-click to use.");
+		playerHelper.sendDirectedMessage(ply, "Bound \u00a79"+commandString+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}
 }

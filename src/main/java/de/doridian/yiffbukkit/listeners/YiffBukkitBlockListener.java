@@ -163,7 +163,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
 					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", "yiffbukkit.opchat");
-					plugin.mcbans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.GLOBAL);
+					plugin.mcbans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.LOCAL, false);
 					event.setCancelled(true);
 					ply.kickPlayer("[YB AUTOMATED] Torchbreak");
 				}

@@ -156,7 +156,7 @@ public class PlayerHelper extends StateContainer {
 		sendServerMessage(msg,'5');
 	}
 	public void sendServerMessage(String msg, char colorCode) {
-		msg = "§"+colorCode+"[YB]§f " + msg;
+		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 		plugin.getServer().broadcastMessage(msg);
 
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
@@ -166,7 +166,7 @@ public class PlayerHelper extends StateContainer {
 		sendServerMessage(msg, minLevel, '5');
 	}
 	public void sendServerMessage(String msg, int minLevel, char colorCode) {
-		msg = "§"+colorCode+"[YB]§f " + msg;
+		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
@@ -193,7 +193,7 @@ public class PlayerHelper extends StateContainer {
 	 * @param permission
 	 */
 	public void sendServerMessage(String msg, String permission, char colorCode) {
-		broadcastMessage("§"+colorCode+"[YB]§f " + msg, permission);
+		broadcastMessage("\u00a7"+colorCode+"[YB]\u00a7f " + msg, permission);
 	}
 
 	/** Broadcasts a message to all players with the given permission.
@@ -218,7 +218,7 @@ public class PlayerHelper extends StateContainer {
 		sendServerMessage(msg, '5', exceptPlayers);
 	}
 	public void sendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
-		msg = "§"+colorCode+"[YB]§f " + msg;
+		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 
 		Set<Player> exceptPlayersSet = new HashSet<Player>();
 		for (CommandSender exceptPlayer : exceptPlayers) {
@@ -241,7 +241,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void sendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
-		commandSender.sendMessage("§"+colorCode+"[YB]§f " + msg);
+		commandSender.sendMessage("\u00a7"+colorCode+"[YB]\u00a7f " + msg);
 	}
 	public void sendDirectedMessage(CommandSender commandSender, String msg) {
 		sendDirectedMessage(commandSender, msg, '5');
@@ -334,7 +334,7 @@ public class PlayerHelper extends StateContainer {
 		else if(ranktags.containsKey(rank))
 			return ranktags.get(rank);
 		else
-			return "§7";
+			return "\u00a77";
 	}
 	public void setPlayerTag(String name, String tag) {
 		name = name.toLowerCase();
@@ -570,7 +570,7 @@ public class PlayerHelper extends StateContainer {
 			if (playerName.equals(toolBind.playerName)) {
 				String toolName = entry.getKey();
 				toolName = toolName.substring(toolName.indexOf(' ')+1);
-				sendDirectedMessage(player, "Restored bind §e"+toolName+"§f => §9"+toolBind.name);
+				sendDirectedMessage(player, "Restored bind \u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
 			}
 		}
 	}
@@ -860,7 +860,7 @@ public class PlayerHelper extends StateContainer {
 
 		String offlinePlayerName = plugin.playerListener.offlinePlayers.get(ip);
 		if (offlinePlayerName != null)
-			return "§7"+offlinePlayerName+"§f";
+			return "\u00a77"+offlinePlayerName+"\u00a7f";
 
 		return ip;
 	}
@@ -870,26 +870,26 @@ public class PlayerHelper extends StateContainer {
 		final String playerName = player.getName();
 
 		if (playerLevel < 0)
-			return "§0"+playerName;
+			return "\u00a70"+playerName;
 
 		switch (playerLevel) {
 		case 0:
-			return "§7"+playerName;
+			return "\u00a77"+playerName;
 
 		case 1:
-			return "§a"+playerName;
+			return "\u00a7a"+playerName;
 
 		case 2:
-			return "§2"+playerName;
+			return "\u00a72"+playerName;
 			
 		case 3:
-			return "§9"+playerName;
+			return "\u00a79"+playerName;
 
 		case 4:
-			return "§b"+playerName;
+			return "\u00a7b"+playerName;
 
 		default:
-			return "§5"+playerName;
+			return "\u00a75"+playerName;
 		}
 	}
 }

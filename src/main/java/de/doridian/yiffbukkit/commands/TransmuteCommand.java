@@ -88,7 +88,7 @@ public class TransmuteCommand extends ICommand {
 				}
 			});
 
-			playerHelper.sendDirectedMessage(ply, "Bound §9"+mobType+"§f to your tool (§e"+toolType.name()+"§f). Right-click an entity to use.");
+			playerHelper.sendDirectedMessage(ply, "Bound \u00a79"+mobType+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click an entity to use.");
 			return;
 		}
 

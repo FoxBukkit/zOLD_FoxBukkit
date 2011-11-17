@@ -50,9 +50,9 @@ public class WarpCommand extends ICommand {
 					sb.append(", ");
 
 				if (rank == 2) // TODO: use actual rank, not checkAccess
-					sb.append("§7@§f");
+					sb.append("\u00a77@\u00a7f");
 				else if (rank >= 2)
-					sb.append("§7#§f");
+					sb.append("\u00a77#\u00a7f");
 
 				sb.append(warp.name);
 
@@ -102,7 +102,7 @@ public class WarpCommand extends ICommand {
 
 				warp.setOwner(commandSender, newOwnerName);
 
-				playerHelper.sendDirectedMessage(commandSender, "Transferred ownership of warp §9" + warp.name + "§f to "+newOwnerName+".");
+				playerHelper.sendDirectedMessage(commandSender, "Transferred ownership of warp \u00a79" + warp.name + "\u00a7f to "+newOwnerName+".");
 			}
 			else if (command.equals("hide")) {
 				//warp <warp point name> public
@@ -111,7 +111,7 @@ public class WarpCommand extends ICommand {
 
 				warp.isHidden = true;
 
-				playerHelper.sendDirectedMessage(commandSender, "Hiding warp §9" + warp.name + "§f in warp list.");
+				playerHelper.sendDirectedMessage(commandSender, "Hiding warp \u00a79" + warp.name + "\u00a7f in warp list.");
 			}
 			else if (command.equals("show") || command.equals("unhide")) {
 				//warp <warp point name> public
@@ -120,7 +120,7 @@ public class WarpCommand extends ICommand {
 
 				warp.isHidden = true;
 
-				playerHelper.sendDirectedMessage(commandSender, "Showing warp §9" + warp.name + "§f in warp list.");
+				playerHelper.sendDirectedMessage(commandSender, "Showing warp \u00a79" + warp.name + "\u00a7f in warp list.");
 			}
 			else if (command.equals("public") || command.equals("unlock")) {
 				//warp <warp point name> public
@@ -129,13 +129,13 @@ public class WarpCommand extends ICommand {
 
 				warp.isPublic = true;
 
-				playerHelper.sendDirectedMessage(commandSender, "Set warp §9" + warp.name + "§f to public.");
+				playerHelper.sendDirectedMessage(commandSender, "Set warp \u00a79" + warp.name + "\u00a7f to public.");
 			}
 			else if (command.equals("private") || command.equals("lock")) {
 				//warp <warp point name> private
 				warp.isPublic = false;
 
-				playerHelper.sendDirectedMessage(commandSender, "Set warp §9" + warp.name + "§f to private.");
+				playerHelper.sendDirectedMessage(commandSender, "Set warp \u00a79" + warp.name + "\u00a7f to private.");
 			}
 			else if (command.equals("deny")) {
 				//warp <warp point name> deny <name>
@@ -143,7 +143,7 @@ public class WarpCommand extends ICommand {
 
 				warp.setAccess(commandSender, target, 0);
 
-				playerHelper.sendDirectedMessage(commandSender, "Revoked " + target.getName() + "'s access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Revoked " + target.getName() + "'s access to warp \u00a79" + warp.name + "\u00a7f.");
 			}
 			else if (command.equals("addguest")) {
 				//warp <warp point name> addguest <name>
@@ -151,7 +151,7 @@ public class WarpCommand extends ICommand {
 
 				warp.setAccess(commandSender, target, 1);
 
-				playerHelper.sendDirectedMessage(commandSender, "Granted " + target.getName() + " guest access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Granted " + target.getName() + " guest access to warp \u00a79" + warp.name + "\u00a7f.");
 			}
 			else if (command.equals("addop")) {
 				//warp <warp point name> addop <name>
@@ -159,7 +159,7 @@ public class WarpCommand extends ICommand {
 
 				warp.setAccess(commandSender, target, 2);
 
-				playerHelper.sendDirectedMessage(commandSender, "Granted " + target.getName() + " op access to warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Granted " + target.getName() + " op access to warp \u00a79" + warp.name + "\u00a7f.");
 			}
 			else if (command.equals("move")) {
 				//warp <warp point name> move
@@ -168,13 +168,13 @@ public class WarpCommand extends ICommand {
 
 				warp.location = asPlayer(commandSender).getLocation().clone();
 
-				playerHelper.sendDirectedMessage(commandSender, "Moved warp §9" + warp.name + "§f to your current location.");
+				playerHelper.sendDirectedMessage(commandSender, "Moved warp \u00a79" + warp.name + "\u00a7f to your current location.");
 			}
 			else if (command.equals("info")) {
 				//warp <warp point name> info
 				final Vector warpPosition = warp.location.toVector();
 
-				playerHelper.sendDirectedMessage(commandSender, "Warp §9" + warp.name + "§f is owned by "+warp.getOwner());
+				playerHelper.sendDirectedMessage(commandSender, "Warp \u00a79" + warp.name + "\u00a7f is owned by "+warp.getOwner());
 				if (warp.isPublic)
 					playerHelper.sendDirectedMessage(commandSender, "Warp is public");
 				else
@@ -209,7 +209,7 @@ public class WarpCommand extends ICommand {
 			}
 			else if (command.equals("remove")) {
 				plugin.warpEngine.removeWarp(commandSender, warp.name);
-				playerHelper.sendDirectedMessage(commandSender, "Removed warp §9" + warp.name + "§f.");
+				playerHelper.sendDirectedMessage(commandSender, "Removed warp \u00a79" + warp.name + "\u00a7f.");
 			}
 			else {
 				throw new WarpException("Unknown /warp command.");

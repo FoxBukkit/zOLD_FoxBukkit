@@ -99,7 +99,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 		final Player player = event.getPlayer();
 		try {
 			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(player, sign.getLine(1));
-			sign.setLine(0, "§9[Portal]");
+			sign.setLine(0, "\u00a79[Portal]");
 			sign.setLine(1, warpDescriptor.name);
 			if (!plugin.permissionHandler.has(player, "yiffbukkit.signportal.public"))
 				sign.setLine(2, "private");
@@ -174,7 +174,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 
 				String[] lines = ((Sign)attached.getState()).getLines();
 
-				if (!lines[0].equals("§9[Portal]"))
+				if (!lines[0].equals("\u00a79[Portal]"))
 					continue;
 
 				final WarpDescriptor warpDescriptor;
@@ -183,7 +183,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 					try {
 						warpDescriptor = plugin.warpEngine.getWarp(player, warpName);
 					} catch (WarpException e) {
-						player.sendMessage("§cYour entrance is blocked by a powerful entity.");
+						player.sendMessage("\u00a7cYour entrance is blocked by a powerful entity.");
 						return;
 					}
 				}
@@ -205,7 +205,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 					entityToPort.teleport(warpDescriptor.location);
 				}
 
-				player.sendMessage("§9You're hurtled through the ethereal realm to your destination.");
+				player.sendMessage("\u00a79You're hurtled through the ethereal realm to your destination.");
 			}
 		}
 	}

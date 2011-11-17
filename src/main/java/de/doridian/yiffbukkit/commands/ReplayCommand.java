@@ -155,7 +155,7 @@ public class ReplayCommand extends ICommand {
 						p3.a(new DataInputStream(new ByteArrayInputStream(buffer, 1, length)));
 
 						// prefix replayed chat messages so they can be told from out-of-replay chat.
-						p3.message = "§c[RPL] §f"+p3.message;
+						p3.message = "\u00a7c[RPL] \u00a7f"+p3.message;
 
 						dos.write(packetID);
 						p3.a(dos);

@@ -21,7 +21,7 @@ public class SetPortalCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.sendDirectedMessage(ply, "Unbound your current tool (§e"+toolType.name()+"§f).");
+			playerHelper.sendDirectedMessage(ply, "Unbound your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
 			return;
 		}
@@ -65,6 +65,6 @@ public class SetPortalCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.sendDirectedMessage(ply, "right-click the in and out portals for §9"+portalName+"§f with your current tool (§e"+toolType.name()+"§f).");
+		playerHelper.sendDirectedMessage(ply, "right-click the in and out portals for \u00a79"+portalName+"\u00a7f with your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 	}
 }

@@ -65,7 +65,7 @@ public class AutoexecCommand extends ICommand {
 
 			playerHelper.saveAutoexecs();
 
-			playerHelper.sendDirectedMessage(ply, "Removed command "+id+": §9"+removedCommand+"§f.");
+			playerHelper.sendDirectedMessage(ply, "Removed command "+id+": \u00a79"+removedCommand+"\u00a7f.");
 			listAutoexec(ply);
 
 			return;
@@ -78,7 +78,7 @@ public class AutoexecCommand extends ICommand {
 		commands.add(argStr);
 		playerHelper.saveAutoexecs();
 
-		playerHelper.sendDirectedMessage(ply, "Added command "+(commands.size()-1)+": §9"+argStr+"§f.");
+		playerHelper.sendDirectedMessage(ply, "Added command "+(commands.size()-1)+": \u00a79"+argStr+"\u00a7f.");
 		listAutoexec(ply);
 	}
 
@@ -100,7 +100,7 @@ public class AutoexecCommand extends ICommand {
 
 		for (int i = 0; i < commands.size(); ++i) {
 			String command = commands.get(i);
-			playerHelper.sendDirectedMessage(player, i+": §9"+command);
+			playerHelper.sendDirectedMessage(player, i+": \u00a79"+command);
 		}
 	}
 

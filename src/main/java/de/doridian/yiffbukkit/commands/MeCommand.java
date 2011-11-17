@@ -13,7 +13,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class MeCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		String message = "§7* "+playerHelper.getPlayerTag(commandSender) + commandSender.getDisplayName() + "§7 " + argStr;
+		String message = "\u00a77* "+playerHelper.getPlayerTag(commandSender) + commandSender.getDisplayName() + "\u00a77 " + argStr;
 
 		final String conversationTarget = playerHelper.conversations.get(commandSender.getName());
 		if (conversationTarget == null) {
@@ -23,7 +23,7 @@ public class MeCommand extends ICommand {
 			ChatHelper.getInstance().sendChat(asPlayer(commandSender), message, false);
 		}
 		else {
-			message = "§e[CONV]§f "+message;
+			message = "\u00a7e[CONV]\u00a7f "+message;
 			commandSender.sendMessage(message);
 			plugin.getServer().getPlayer(conversationTarget).sendMessage(message);
 		}

@@ -28,7 +28,7 @@ public class MessengerCommand extends ICommand {
 						playerHelper.sendDirectedMessage(commandSender, "You have the following new messages:");
 						String[] msgs = ((String)connret.get("messages")).split(";");
 						for(String msg : msgs) {
-							playerHelper.sendDirectedMessage(commandSender, "§2"+msg);
+							playerHelper.sendDirectedMessage(commandSender, "\u00a72"+msg);
 						}
 					} else {
 						playerHelper.sendDirectedMessage(commandSender, "You have no new messages");
@@ -41,9 +41,9 @@ public class MessengerCommand extends ICommand {
 						connret = MCBansUtil.apiQuery("exec=getNewMessage&player="+MCBansUtil.URLEncode(commandSender.getName()));
 					
 					if(MCBansUtil.isKeyYesOrNo(connret, "result")) {
-						playerHelper.sendDirectedMessage(commandSender, "§3From:§2 " + ((String)connret.get("sender")));
-						playerHelper.sendDirectedMessage(commandSender, "§3Date:§2 " + ((String)connret.get("date")));
-						playerHelper.sendDirectedMessage(commandSender, "§3Message");
+						playerHelper.sendDirectedMessage(commandSender, "\u00a73From:\u00a72 " + ((String)connret.get("sender")));
+						playerHelper.sendDirectedMessage(commandSender, "\u00a73Date:\u00a72 " + ((String)connret.get("date")));
+						playerHelper.sendDirectedMessage(commandSender, "\u00a73Message");
 						playerHelper.sendDirectedMessage(commandSender, ((String)connret.get("message")));
 					} else {
 						playerHelper.sendDirectedMessage(commandSender, "No message found or invalid message specified!");

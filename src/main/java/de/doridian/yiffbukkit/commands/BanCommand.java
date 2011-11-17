@@ -87,7 +87,7 @@ public class BanCommand extends ICommand {
 				throw new YiffBukkitCommandException("Malformed ban duration");
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure);
+			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure, false);
 		}
 		else {
 			if (booleanFlags.contains('g')) {
@@ -96,7 +96,7 @@ public class BanCommand extends ICommand {
 				type = BanType.LOCAL;
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type);
+			plugin.mcbans.ban(commandSender, otherply, reason, type, booleanFlags.contains('r'));
 		}
 
 		if (booleanFlags.contains('r')) {

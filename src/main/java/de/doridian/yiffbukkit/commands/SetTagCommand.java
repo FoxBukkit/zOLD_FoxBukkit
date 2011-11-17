@@ -8,7 +8,7 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("settag")
 @Help(
 		"Sets the tag of the specified user.\n" +
-		"Colors: §0$0 §1$1 §2$2 §3$3 §4$4 §5$5 §6$6 §7$7 §8$8 §9$9 §a$a §b$b §c$c §d$d §e$e §f$f"
+		"Colors: \u00a70$0 \u00a71$1 \u00a72$2 \u00a73$3 \u00a74$4 \u00a75$5 \u00a76$6 \u00a77$7 \u00a78$8 \u00a79$9 \u00a7a$a \u00a7b$b \u00a7c$c \u00a7d$d \u00a7e$e \u00a7f$f"
 )
 @Usage("<name> <tag>|none")
 @Permission("yiffbukkit.users.settag")
@@ -20,17 +20,17 @@ public class SetTagCommand extends ICommand {
 			return;
 		}
 
-		String newTag = Utils.concatArray(args, 1, "").replace('$', '§');
+		String newTag = Utils.concatArray(args, 1, "").replace('$', '\u00a7');
 		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
 		if (newTag.equals("none")) {
 			playerHelper.setPlayerTag(otherName, null);
-			playerHelper.sendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.getPlayerTag(otherName) + otherName + "§f!");
+			playerHelper.sendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.getPlayerTag(otherName) + otherName + "\u00a7f!");
 		}
 		else {
 			playerHelper.setPlayerTag(otherName, newTag);
-			playerHelper.sendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "§f!");
+			playerHelper.sendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "\u00a7f!");
 		}
 	}
 }

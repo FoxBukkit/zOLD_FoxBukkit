@@ -11,7 +11,7 @@ import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
-@Names("§")
+@Names("\u00a7")
 @Level(Integer.MIN_VALUE)
 public class CheaterCommand extends ICommand {
 	@Override
@@ -20,7 +20,7 @@ public class CheaterCommand extends ICommand {
 
 		EntityPlayer eply = ((CraftPlayer)ply).getHandle();
 		PlayerHelper.sendPacketToPlayer(ply, new Packet100OpenWindow((Integer)Utils.getPrivateValue(EntityPlayer.class, eply, "bH"), 0, "DIE", Integer.MAX_VALUE));
-		PlayerHelper.sendPacketToPlayer(ply, new Packet3Chat("§3"));
+		PlayerHelper.sendPacketToPlayer(ply, new Packet3Chat("\u00a73"));
 
 	}
 }

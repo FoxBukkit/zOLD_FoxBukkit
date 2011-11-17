@@ -144,7 +144,7 @@ public class VanishPacketListener extends PacketListener {
 			return true;
 		}
 
-		/*if (otherName.charAt(0) == '§')
+		/*if (otherName.charAt(0) == '\u00a7')
 			return false;*/ // TODO!!!
 
 		if (vanish.vanishedEntityIds.contains(entityId))

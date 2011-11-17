@@ -23,7 +23,7 @@ public class PmCommand extends ICommand {
 
 		String message = Utils.concatArray(args, 1, "");
 
-		playerHelper.sendDirectedMessage(commandSender, "§e[PM >] §f" + otherply.getName() + "§f: " + message);
-		playerHelper.sendDirectedMessage(otherply, "§e[PM <] §f" + commandSender.getName() + "§f: " + message);
+		playerHelper.sendDirectedMessage(commandSender, "\u00a7e[PM >] \u00a7f" + otherply.getName() + "\u00a7f: " + message);
+		playerHelper.sendDirectedMessage(otherply, "\u00a7e[PM <] \u00a7f" + commandSender.getName() + "\u00a7f: " + message);
 	}
 }

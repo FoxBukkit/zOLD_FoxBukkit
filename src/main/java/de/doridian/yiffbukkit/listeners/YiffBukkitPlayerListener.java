@@ -234,13 +234,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (playerFile != null && playerFile.exists()) {
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
-			event.setJoinMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined!");
+			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
 		} else {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
-			event.setJoinMessage("§2[+] §e" + playerHelper.GetFullPlayerName(player) + "§e joined for the first time!");
+			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
 		}
 
 		playerHelper.updateToolMappings(player);
@@ -256,7 +256,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
-		event.setQuitMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e disconnected!");
+		event.setQuitMessage("\u00a74[-] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e disconnected!");
 		plugin.chatManager.popCurrentOrigin();
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
@@ -278,7 +278,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(player.getName() + " was kicked (" + event.getReason() + ")!");
-		event.setLeaveMessage("§4[-] §e" + playerHelper.GetFullPlayerName(player) + "§e was kicked (" + event.getReason() + ")!");
+		event.setLeaveMessage("\u00a74[-] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e was kicked (" + event.getReason() + ")!");
 		plugin.chatManager.popCurrentOrigin();
 
 		for (Map<Player, ?> map : playerHelper.registeredMaps)
@@ -299,14 +299,14 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (event.isCancelled())
 			return;
 
-		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:§f %s");
+		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:\u00a7f %s");
 
 		final Player ply = event.getPlayer();
 		String conversationTarget = playerHelper.conversations.get(ply.getName());
 		String message = event.getMessage();
 		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);
 		if (conversationTarget != null) {
-			formattedMessage = "§e[CONV]§f "+formattedMessage;
+			formattedMessage = "\u00a7e[CONV]\u00a7f "+formattedMessage;
 
 			plugin.chatManager.pushCurrentOrigin(ply);
 			ply.sendMessage(formattedMessage);
@@ -319,7 +319,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		else if(message.charAt(0) == '#') {
 			event.setCancelled(true);
 			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
-			playerHelper.broadcastMessage("§e[#OP] §f" + ply.getDisplayName() + "§f: " + message.substring(1), "yiffbukkit.opchat");
+			playerHelper.broadcastMessage("\u00a7e[#OP] \u00a7f" + ply.getDisplayName() + "\u00a7f: " + message.substring(1), "yiffbukkit.opchat");
 			System.out.println("[OP] " + event.getPlayer().getName() + ": " + message);
 			
 			event.setCancelled(true);

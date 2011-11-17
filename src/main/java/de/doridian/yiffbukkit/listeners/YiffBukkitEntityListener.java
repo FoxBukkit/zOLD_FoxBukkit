@@ -41,18 +41,18 @@ public class YiffBukkitEntityListener extends EntityListener {
 
 	Map<Class<? extends Entity>, String> monsterMap = new HashMap<Class<? extends Entity>, String>();
 	{
-		monsterMap.put(CraftCreeper.class, "a §9creeper§f");
-		monsterMap.put(CraftGiant.class, "a §9giant§f");
-		monsterMap.put(CraftSkeleton.class, "a §9skeleton§f");
-		monsterMap.put(CraftSpider.class, "a §9spider§f");
-		monsterMap.put(CraftZombie.class, "a §9zombie§f");
-		monsterMap.put(CraftPigZombie.class, "a §9pig zombie§f");
-		monsterMap.put(CraftWolf.class, "a §9wolf§f");
-		monsterMap.put(CraftSlime.class, "a §9slime§f");
-		monsterMap.put(CraftGhast.class, "a §9ghast§f");
-		monsterMap.put(CraftEnderman.class, "an §9enderman§f");
-		monsterMap.put(CraftSilverfish.class, "a §9silverfish§f");
-		monsterMap.put(CraftCaveSpider.class, "a §9cave spider§f");
+		monsterMap.put(CraftCreeper.class, "a \u00a79creeper\u00a7f");
+		monsterMap.put(CraftGiant.class, "a \u00a79giant\u00a7f");
+		monsterMap.put(CraftSkeleton.class, "a \u00a79skeleton\u00a7f");
+		monsterMap.put(CraftSpider.class, "a \u00a79spider\u00a7f");
+		monsterMap.put(CraftZombie.class, "a \u00a79zombie\u00a7f");
+		monsterMap.put(CraftPigZombie.class, "a \u00a79pig zombie\u00a7f");
+		monsterMap.put(CraftWolf.class, "a \u00a79wolf\u00a7f");
+		monsterMap.put(CraftSlime.class, "a \u00a79slime\u00a7f");
+		monsterMap.put(CraftGhast.class, "a \u00a79ghast\u00a7f");
+		monsterMap.put(CraftEnderman.class, "an \u00a79enderman\u00a7f");
+		monsterMap.put(CraftSilverfish.class, "a \u00a79silverfish\u00a7f");
+		monsterMap.put(CraftCaveSpider.class, "a \u00a79cave spider\u00a7f");
 	}
 
 	@Override
@@ -77,20 +77,20 @@ public class YiffBukkitEntityListener extends EntityListener {
 		final String deathMessage;
 		switch (damageEvent.getCause()) {
 		case BLOCK_EXPLOSION:
-			deathMessage = "§c%s§f exploded.";
+			deathMessage = "\u00a7c%s\u00a7f exploded.";
 			break;
 
 		case CONTACT:
-			deathMessage = "§c%s§f is not a fakir.";
+			deathMessage = "\u00a7c%s\u00a7f is not a fakir.";
 			break;
 
 		case DROWNING:
-			deathMessage = "§c%s§f can't hold breath for 10 minutes.";
+			deathMessage = "\u00a7c%s\u00a7f can't hold breath for 10 minutes.";
 			break;
 
 		case ENTITY_ATTACK: {
 			if (!(damageEvent instanceof EntityDamageByEntityEvent)) {
-				deathMessage = "§c%s§f was killed.";
+				deathMessage = "\u00a7c%s\u00a7f was killed.";
 				break;
 			}
 
@@ -98,7 +98,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 			Entity damager = edbee.getDamager();
 
 			if (damager == null) {
-				deathMessage = "§c%s§f was killed.";
+				deathMessage = "\u00a7c%s\u00a7f was killed.";
 				break;
 			}
 
@@ -107,52 +107,52 @@ public class YiffBukkitEntityListener extends EntityListener {
 				if (damager instanceof Player)
 					damagerName = ((Player) damager).getName();
 				else
-					damagerName = "§9"+damager.toString()+"§f";
+					damagerName = "\u00a79"+damager.toString()+"\u00a7f";
 			}
 
-			deathMessage = "§c%s§f was killed by "+damagerName+".";
+			deathMessage = "\u00a7c%s\u00a7f was killed by "+damagerName+".";
 			break;
 		}
 
 		case ENTITY_EXPLOSION:
-			deathMessage = "§c%s§f exploded.";
+			deathMessage = "\u00a7c%s\u00a7f exploded.";
 			break;
 
 		case FALL:
-			deathMessage = "§c%s§f cratered.";
+			deathMessage = "\u00a7c%s\u00a7f cratered.";
 			break;
 
 		case FIRE:
 		case FIRE_TICK:
-			deathMessage = "§c%s§f played with fire.";
+			deathMessage = "\u00a7c%s\u00a7f played with fire.";
 			break;
 
 		case LAVA:
-			deathMessage = "§c%s§f went looking for diamonds in the wrong place.";
+			deathMessage = "\u00a7c%s\u00a7f went looking for diamonds in the wrong place.";
 			break;
 
 		case LIGHTNING:
-			deathMessage = "§c%s§f angered the gods.";
+			deathMessage = "\u00a7c%s\u00a7f angered the gods.";
 			break;
 
 		case PROJECTILE:
-			deathMessage = "§c%s§f was not fast enough.";
+			deathMessage = "\u00a7c%s\u00a7f was not fast enough.";
 			break;
 
 		case SUICIDE:
-			deathMessage = "§c%s§f brought shame to family.";
+			deathMessage = "\u00a7c%s\u00a7f brought shame to family.";
 			break;
 
 		case SUFFOCATION:
-			deathMessage = "§c%s§f got a Mafia funeral.";
+			deathMessage = "\u00a7c%s\u00a7f got a Mafia funeral.";
 			break;
 
 		case VOID:
-			deathMessage = "§c%s§f dug too deep.";
+			deathMessage = "\u00a7c%s\u00a7f dug too deep.";
 			break;
 
 		default:
-			deathMessage = "§c%s§f died.";
+			deathMessage = "\u00a7c%s\u00a7f died.";
 		}
 
 		lastAttacker.remove(playerName);

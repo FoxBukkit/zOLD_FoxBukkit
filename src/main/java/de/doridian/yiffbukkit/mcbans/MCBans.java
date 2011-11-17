@@ -50,24 +50,24 @@ public class MCBans {
 		}.start();
 	}
 
-	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type) {
+	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final boolean saveproof) {
 		if(type == BanType.TEMPORARY) return;
-		ban(from, ply, reason, type, 0, "");
+		ban(from, ply, reason, type, 0, "", saveproof);
 	}
 
-	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final String measure) {
+	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final String measure, final boolean saveproof) {
 		String addr;
 		if(ply instanceof OfflinePlayer) addr = "";
 		else addr = ply.getAddress().getAddress().getHostAddress();
-		ban(from, ply.getName(), addr, reason, type, duration, measure);
+		ban(from, ply.getName(), ply.getWorld(), addr, reason, type, duration, measure, saveproof);
 	}
 
-	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type) {
+	public void ban(final CommandSender from, final String ply, final World world, final String ip, final String reason, final BanType type, final boolean saveproof) {
 		if(type == BanType.TEMPORARY) return;
-		ban(from, ply, ip, reason, type, 0, "");
+		ban(from, ply, world, ip, reason, type, 0, "", saveproof);
 	}
 
-	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type, final long duration, final String measure) {
+	public void ban(final CommandSender from, final String ply, final World world, final String ip, final String reasonx, final BanType type, final long duration, final String measure, final boolean saveproof) {
 		if(type == null) return;
 		final String exec;
 		switch(type) {
@@ -85,6 +85,21 @@ public class MCBans {
 		}
 		new Thread() {
 			public void run() {
+                String reason = reasonx;
+
+                if(saveproof) {
+                    if(world != null) {
+                        reason += " proofid#" + evidence(from, ply, world);
+                    }
+
+                    if(from instanceof Player) {
+                        World otherworld = ((Player)from).getWorld();
+                        if(otherworld != null && otherworld != world) {
+                            reason += " proofid#" + evidence(from, ply, otherworld);
+                        }
+                    }
+                }
+
 				JSONObject banret = MCBansUtil.apiQuery("exec="+exec+"&admin="+MCBansUtil.URLEncode(from.getName())+"&playerip="+MCBansUtil.URLEncode(ip)+"&reason="+MCBansUtil.URLEncode(reason)+"&player="+MCBansUtil.URLEncode(ply)+"&duration="+duration+"&measure="+MCBansUtil.URLEncode(measure));
 				char result = ((String)banret.get("result")).charAt(0);
 				switch(result) {
@@ -109,20 +124,14 @@ public class MCBans {
 		}.start();
 	}
 	
-	public void evidence(final CommandSender from, final String ply, final World worldx) {
-		new Thread() {
-			public void run() {
-				World world = worldx;
-				if(world == null && from instanceof Player) {
-					world = ((Player)from).getWorld();
-				}
-				if(world == null) return;
-				String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
-				JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
-				tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + (Long)ret.get("value");
-				System.out.println(tmp);
-				plugin.playerHelper.sendDirectedMessage(from, tmp);
-			}
-		}.start();
+	public long evidence(final CommandSender from, final String ply, World world) {
+        if(world == null) return 0;
+        String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
+        JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
+        long proofID = (Long)ret.get("value");
+        tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + proofID;
+        System.out.println(tmp);
+        plugin.playerHelper.sendDirectedMessage(from, tmp);
+        return proofID;
 	}
 }

@@ -17,6 +17,6 @@ public class SetWarpCommand extends ICommand {
 			throw new YiffBukkitCommandException("Not enough arguments");
 
 		WarpDescriptor warp = plugin.warpEngine.setWarp(ply.getName(), argStr, ply.getLocation());
-		playerHelper.sendDirectedMessage(ply, "Created warp §9" + warp.name + "§f here. Use '/warp help' to see how to modify it.");
+		playerHelper.sendDirectedMessage(ply, "Created warp \u00a79" + warp.name + "\u00a7f here. Use '/warp help' to see how to modify it.");
 	}
 }

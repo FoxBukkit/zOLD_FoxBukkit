@@ -53,7 +53,7 @@ public class ChannelCommand extends ICommand {
 		 		}
 		 		
 		 		helper.joinChannel(ply, chan);
-		 		helper.sendChat(null, ply.getDisplayName() + "§f joined this channel", false, chan);
+		 		helper.sendChat(null, ply.getDisplayName() + "\u00a7f joined this channel", false, chan);
 		 		break;
 		 	case LIST:
 		 		if(args.length < 2) {
@@ -61,12 +61,12 @@ public class ChannelCommand extends ICommand {
 			 		for(ChatChannel channel : helper.container.channels.values()) {
 			 			if(channel.players.containsKey(plyname)) {
 			 				if(channel.players.get(plyname)) {
-			 					sb.append("§2");
+			 					sb.append("\u00a72");
 			 				} else {
-			 					sb.append("§4");
+			 					sb.append("\u00a74");
 			 				}
 			 				sb.append(channel.name);
-			 				sb.append("§f, ");
+			 				sb.append("\u00a7f, ");
 			 			}
 			 		}
 			 		sb.setLength(sb.length() - 4);
@@ -168,7 +168,7 @@ public class ChannelCommand extends ICommand {
 		 		helper.leaveChannel(plyx, chan);
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Kicked " + plyx.getDisplayName() + " out of " + chan.name);
 		 		plugin.playerHelper.sendDirectedMessage(plyx, "You got kicked out of " + chan.name);
-		 		helper.sendChat(null, plyx.getDisplayName() + "§f got kicked out of this channel", false, chan);
+		 		helper.sendChat(null, plyx.getDisplayName() + "\u00a7f got kicked out of this channel", false, chan);
 		 		break;
 		 	case USER:
 		 		if(!chan.isModerator(ply)) {
@@ -180,13 +180,13 @@ public class ChannelCommand extends ICommand {
 		 			case 'a':
 		 				Player plya = plugin.playerHelper.matchPlayerSingle(args[3]);
 		 				chan.addUser(plya);
-		 				plugin.playerHelper.sendDirectedMessage(ply, "Added user " + plya.getDisplayName() + "§f to channel " + chan.name);
+		 				plugin.playerHelper.sendDirectedMessage(ply, "Added user " + plya.getDisplayName() + "\u00a7f to channel " + chan.name);
 		 				break;
 		 			case 'd':
 		 			case 'r':
 		 				Player plyb = plugin.playerHelper.matchPlayerSingle(args[3]);
 		 				chan.removeUser(plyb);
-		 				plugin.playerHelper.sendDirectedMessage(ply, "Removed user " + plyb.getDisplayName() + "§f from channel " + chan.name);
+		 				plugin.playerHelper.sendDirectedMessage(ply, "Removed user " + plyb.getDisplayName() + "\u00a7f from channel " + chan.name);
 		 				break;
 		 			case 'l':
 		 				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.users.toArray(new String[0]), 0, "No users"));
@@ -238,7 +238,7 @@ public class ChannelCommand extends ICommand {
 		 		plugin.playerHelper.sendDirectedMessage(ply, "Muted all channels except " + chan.name);
 		 		break;
 		 	case LEAVE:
-		 		helper.sendChat(null, ply.getDisplayName() + "§f left this channel", false, chan);
+		 		helper.sendChat(null, ply.getDisplayName() + "\u00a7f left this channel", false, chan);
 		 		helper.leaveChannel(ply, chan);
 		 		break;
 		 	default:
