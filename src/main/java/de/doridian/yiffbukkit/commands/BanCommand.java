@@ -41,8 +41,11 @@ public class BanCommand extends ICommand {
 			catch (JailException e) { }
 		}
 
+        boolean saveEvidence = false;
+
 		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
+            saveEvidence = true;
 		}
 
 		final String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
@@ -67,7 +70,7 @@ public class BanCommand extends ICommand {
 				throw new YiffBukkitCommandException("Malformed ban duration");
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure, false);
+			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure, saveEvidence);
 		}
 		else {
 			if (booleanFlags.contains('g')) {
@@ -76,7 +79,7 @@ public class BanCommand extends ICommand {
 				type = BanType.LOCAL;
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type, booleanFlags.contains('r'));
+			plugin.mcbans.ban(commandSender, otherply, reason, type, saveEvidence);
 		}
 
 		if (booleanFlags.contains('r')) {
