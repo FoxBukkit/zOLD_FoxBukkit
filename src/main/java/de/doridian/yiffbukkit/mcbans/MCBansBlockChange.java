@@ -24,11 +24,11 @@ public class MCBansBlockChange {
 	
 	@Override
 	public String toString() {
-		return "{d="+date.getTime()+", x="+position.getBlockX()+", y="+position.getBlockY()+", z="+position.getBlockZ()+", r="+type+", t="+replaced+"}";
+		return toString(0, 0, 0);
 	}
 	
 	public String toString(int centerX, int centerY, int centerZ) {
-		return "{d="+date.getTime()+", x="+(position.getBlockX() - centerX)+", y="+(position.getBlockY() - centerY)+", z="+(position.getBlockZ() - centerZ)+", r="+type+", t="+replaced+"}";
+		return "{d="+date.getTime()+", x="+(position.getBlockX() - centerX)+", y="+(position.getBlockY() - centerY)+", z="+(position.getBlockZ() - centerZ)+", t="+type+", r="+replaced+"}";
 	}
 	
 	@Override

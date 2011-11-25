@@ -89,13 +89,15 @@ public class MCBans {
 
                 if(saveproof) {
                     if(world != null) {
-                        reason += " proofid#" + evidence(from, ply, world);
+                        long proofid = evidence(from, ply, world);
+                        if(proofid > 0) reason += " proofid#" + proofid;
                     }
 
                     if(from instanceof Player) {
                         World otherworld = ((Player)from).getWorld();
                         if(otherworld != null && otherworld != world) {
-                            reason += " proofid#" + evidence(from, ply, otherworld);
+                            long proofid = evidence(from, ply, otherworld);
+                            if(proofid > 0) reason += " proofid#" + proofid;
                         }
                     }
                 }
@@ -129,6 +131,7 @@ public class MCBans {
         String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
         JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
         long proofID = (Long)ret.get("value");
+        if(proofID == 31) return 0; //i dunno why, but meh...
         tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + proofID;
         System.out.println(tmp);
         plugin.playerHelper.sendDirectedMessage(from, tmp);
