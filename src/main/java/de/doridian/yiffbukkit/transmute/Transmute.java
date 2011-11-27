@@ -30,7 +30,7 @@ public class Transmute {
 				long minTimestamp = System.currentTimeMillis() - 1000;
 
 				for (Iterator<Packet> iterator = transmutePacketListener.ignoredPackets.iterator(); iterator.hasNext(); ) {
-					final net.minecraft.server.Packet packet = (net.minecraft.server.Packet) iterator.next();
+					final Packet packet = iterator.next();
 
 					if (packet.timestamp < minTimestamp)
 						iterator.remove();

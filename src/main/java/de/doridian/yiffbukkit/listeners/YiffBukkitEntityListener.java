@@ -188,7 +188,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 			EntityLiving notchEntity = ((CraftLivingEntity)mob).getHandle();
 			EntityHuman notchPlayer = ((CraftHumanEntity)player).getHandle();
 
-			if (!notchEntity.b(notchPlayer))
+			if (!notchEntity.g(notchPlayer))
 				continue;
 
 			final Vector playerPos = player.getLocation().toVector();

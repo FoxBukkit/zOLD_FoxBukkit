@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,6 +20,8 @@ import org.bukkit.Server;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -40,22 +41,21 @@ import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.util.PlayerHelper;
 
-public class OfflinePlayer implements Player {
+public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	private Location location;
-	public World world;
 	private int entId = -1;
-	String name;
 	private String displayName;
 
-	public OfflinePlayer(Server server, World world, String name) {
+	public OfflinePlayer(Server server, String name) {
+		super((CraftServer) server, name);
 		final File playerFile = PlayerHelper.getPlayerFile(name, "world");
 		if (playerFile != null) {
 			final String playerFileName = playerFile.getName();
 			name = playerFileName.substring(0, playerFileName.length() - 4);
 		}
 
-		displayName = this.name = name;
-		this.world = world; // TEMP!
+		displayName = name;
+		World world = server.getWorld("world"); // TEMP!
 		location = world.getSpawnLocation(); // TEMP!
 		//ServerConfigurationManager confmgr = ((CraftServer)server).getHandle();
 		//File worldFile = ((CraftWorld)world).getHandle().u;
@@ -64,10 +64,6 @@ public class OfflinePlayer implements Player {
 		//new File(worldFile, "_tmp_.dat");
 	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
 	@Override
 	public PlayerInventory getInventory() {
 		throw new UnsupportedOperationException("Not yet implemented!");
@@ -184,11 +180,11 @@ public class OfflinePlayer implements Player {
 	}
 	@Override
 	public World getWorld() {
-		return world;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
 	public int getEntityId() {
-		return entId ;
+		return entId;
 	}
 	@Override
 	public int getFireTicks() {
@@ -207,20 +203,8 @@ public class OfflinePlayer implements Player {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 	@Override
-	public Server getServer() {
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-	@Override
 	public void sendMessage(String message) {
 		throw new UnsupportedOperationException("Player is offline");
-	}
-	@Override
-	public boolean isOp() {
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-	@Override
-	public boolean isOnline() {
-		return false;
 	}
 	@Override
 	public String getDisplayName() {
@@ -561,11 +545,6 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public void setOp(boolean value) {
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
-	@Override
 	public void sendMap(MapView map) {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
@@ -578,30 +557,6 @@ public class OfflinePlayer implements Player {
 
 	@Override
 	public void setGameMode(GameMode arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isBanned() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isWhitelisted() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setBanned(boolean arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setWhitelisted(boolean arg0) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -705,12 +660,6 @@ public class OfflinePlayer implements Player {
 	}
 
 	@Override
-	public Map<String, Object> serialize() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getPlayerListName() {
 		// TODO Auto-generated method stub
 		return null;
@@ -720,5 +669,11 @@ public class OfflinePlayer implements Player {
 	public void setPlayerListName(String name) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getMaxHealth() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

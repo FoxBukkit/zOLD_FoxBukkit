@@ -34,7 +34,6 @@ import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.jail.JailEngine;
-import de.doridian.yiffbukkit.listeners.InventoryPacketListener;
 import de.doridian.yiffbukkit.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
@@ -66,8 +65,6 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
-	@SuppressWarnings("unused")
-	private InventoryPacketListener inventoryPacketListener;
 	@SuppressWarnings("unused")
 	private SignPortalPlayerListener signPortalPlayerListener;
 	@SuppressWarnings("unused")
@@ -187,7 +184,6 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
 		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
-		inventoryPacketListener = new InventoryPacketListener(this);
 		signPortalPlayerListener = new SignPortalPlayerListener(this);
 		vanish = new Vanish(this);
 		transmute = new Transmute(this);

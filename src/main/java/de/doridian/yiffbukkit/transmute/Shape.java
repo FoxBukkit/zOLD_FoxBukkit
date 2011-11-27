@@ -67,6 +67,8 @@ public abstract class Shape {
 	}
 
 	private Packet createOriginalSpawnPacket() {
+		// TODO: update to 1.0.0
+		
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity)entity).getHandle();
 
 		if (notchEntity instanceof EntityItem) {

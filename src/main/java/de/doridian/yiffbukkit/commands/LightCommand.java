@@ -126,7 +126,7 @@ public class LightCommand extends ICommand {
 		}
 
 		WorldServer worldServer = ((CraftWorld)world).getHandle();
-		
+
 		for (ChunkCoordIntPair chunk : dirtyChunks) {
 			int x = chunk.x*16;
 			int z = chunk.z*16;

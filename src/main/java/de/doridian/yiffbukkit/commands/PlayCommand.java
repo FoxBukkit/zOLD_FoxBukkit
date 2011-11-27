@@ -29,12 +29,12 @@ public class PlayCommand extends ICommand {
 			classToId.put(Packet53BlockChangeExpress.class, 53);
 		}
 		public Packet53BlockChangeExpress() {
-			k = false;
+			l = false;
 		}
 
 		public Packet53BlockChangeExpress(int x, int y, int z, World world) {
 			super(x, y, z, world);
-			k = false;
+			l = false;
 		}
 	}
 

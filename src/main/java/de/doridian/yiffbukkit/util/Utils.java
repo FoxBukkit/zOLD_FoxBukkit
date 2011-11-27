@@ -241,7 +241,7 @@ public class Utils {
 			else if(type.equalsIgnoreCase("LIGHTNING")) {
 				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId(), 0) {
 					@Override
-					public void s_() {
+					public void w_() {
 						if (this.a == 0)
 							this.die();
 

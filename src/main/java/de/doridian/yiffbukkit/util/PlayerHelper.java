@@ -28,7 +28,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -56,7 +55,7 @@ public class PlayerHelper extends StateContainer {
 		if (onlinePlayer != null)
 			return onlinePlayer;
 
-		return new OfflinePlayer(plugin.getServer(), plugin.getOrCreateWorld("world", Environment.NORMAL), name);
+		return new OfflinePlayer(plugin.getServer(), name);
 	}
 
 	private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
@@ -751,7 +750,7 @@ public class PlayerHelper extends StateContainer {
 
 		int reason = weatherType == WeatherType.CLEAR ? 2 : 1;
 		//@TODO fixme
-		sendPacketToPlayer(ply, new Packet70Bed(reason, reason));
+		sendPacketToPlayer(ply, new Packet70Bed(reason, 0));
 	}
 
 	public void pushWeather() {
