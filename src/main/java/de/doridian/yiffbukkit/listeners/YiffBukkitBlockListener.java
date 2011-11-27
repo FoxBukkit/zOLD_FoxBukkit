@@ -3,8 +3,9 @@ package de.doridian.yiffbukkit.listeners;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,8 +45,8 @@ import de.doridian.yiffbukkit.util.Utils;
  */
 public class YiffBukkitBlockListener extends BlockListener {
 	private final YiffBukkit plugin;
-	public static final Map<Material,String> blocklevels = new HashMap<Material,String>();
-	public static final Set<Material> flammableBlocks = new HashSet<Material>();
+	public static final Map<Material,String> blocklevels = new EnumMap<Material,String>(Material.class);
+	public static final Set<Material> flammableBlocks = EnumSet.noneOf(Material.class);
 	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
 	private static final int TORCH_BREAK_WINDOW = 8;
