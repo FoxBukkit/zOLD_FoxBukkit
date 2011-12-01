@@ -676,4 +676,22 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void giveExp(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public float getExp() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setExp(float exp) {
+		// TODO Auto-generated method stub
+		
+	}
 }

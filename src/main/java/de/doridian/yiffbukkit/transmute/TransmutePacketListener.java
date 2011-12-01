@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.transmute;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.server.Packet17;
+import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet23VehicleSpawn;
@@ -38,7 +38,7 @@ public class TransmutePacketListener extends PacketListener {
 
 		switch (packetID) {
 		case 17:
-			return !transmute.isTransmuted(((Packet17) packet).a);
+			return !transmute.isTransmuted(((Packet17EntityLocationAction) packet).a);
 
 		case 18:
 			final Packet18ArmAnimation p18 = (Packet18ArmAnimation) packet;

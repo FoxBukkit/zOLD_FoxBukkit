@@ -5,7 +5,7 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.plugin.Plugin;
 
-import net.minecraft.server.Packet17;
+import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet22Collect;
@@ -62,7 +62,7 @@ public class VanishPacketListener extends PacketListener {
 			break;
 
 		case 17: // Use Bed
-			Packet17 p17 = (Packet17) packet;
+			Packet17EntityLocationAction p17 = (Packet17EntityLocationAction) packet;
 			entityId = p17.a;
 			break;
 

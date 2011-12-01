@@ -7,16 +7,16 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.Socket;
 import java.util.Date;
-
-import net.minecraft.server.EntityFallingSand;
+import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.EntityFireball;
 import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.EntityPotion;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.ItemInWorldManager;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.MovingObjectPosition;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
-import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.WorldServer;
 
 import org.bukkit.DyeColor;
@@ -233,37 +233,19 @@ public class Utils {
 			}
 			else if(type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
 				int material = Material.valueOf(type.toUpperCase()).getId();
-				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
+				EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
 				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 			}
 			else if(type.equalsIgnoreCase("LIGHTNING")) {
-				EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, location.getX(), location.getY(), location.getZ(), Material.GRAVEL.getId(), 0) {
+				net.minecraft.server.Entity notchEntity = new EntityPotion(notchWorld, location.getX(), location.getY(), location.getZ(), 0) {
 					@Override
-					public void w_() {
-						if (this.a == 0)
-							this.die();
-
-						this.lastX = this.locX;
-						this.lastY = this.locY;
-						this.lastZ = this.locZ;
-						++this.b;
-						this.motY -= 0.03999999910593033D;
-						this.move(this.motX, this.motY, this.motZ);
-						this.motX *= 0.9800000190734863D;
-						this.motY *= 0.9800000190734863D;
-						this.motZ *= 0.9800000190734863D;
-
-						if (this.onGround) {
-							org.bukkit.World world = getBukkitEntity().getWorld();
-							world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
-							plugin.playerHelper.sendPacketToPlayersAround(new Location(world, this.locX, this.locY, this.locZ), 200, new Packet53BlockChange((int)Math.floor(this.locX), (int)Math.floor(this.locY), (int)Math.floor(this.locZ), notchWorld));
-							this.die();
-						}
-						else if (this.b > 100 && !this.world.isStatic) {
-							this.die();
-						}
+					protected void a(MovingObjectPosition movingobjectposition) {
+						org.bukkit.World world = getBukkitEntity().getWorld();
+						world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
+						//plugin.playerHelper.sendPacketToPlayersAround(new Location(world, this.locX, this.locY, this.locZ), 200, new Packet53BlockChange((int)Math.floor(this.locX), (int)Math.floor(this.locY), (int)Math.floor(this.locZ), notchWorld));
+						this.die();
 					}
 				};
 				notchWorld.addEntity(notchEntity);

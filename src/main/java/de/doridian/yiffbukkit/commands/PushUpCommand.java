@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.server.EntityFallingSand;
+import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.WorldServer;
 
 import org.bukkit.World;
@@ -89,7 +89,7 @@ public class PushUpCommand extends ICommand {
 
 		final WorldServer notchWorld = ((CraftWorld) world).getHandle();
 
-		final EntityFallingSand notchEntity = new EntityFallingSand(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, block.getData());
+		final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, block.getData());
 		notchWorld.addEntity(notchEntity);
 
 		final Entity entity = notchEntity.getBukkitEntity();

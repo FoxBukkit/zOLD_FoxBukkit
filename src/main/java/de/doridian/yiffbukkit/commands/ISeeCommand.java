@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.InventoryPlayer;
+import net.minecraft.server.PlayerInventory;
 
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -26,7 +26,7 @@ public class ISeeCommand extends ICommand {
 		EntityHuman eotherply = ((CraftPlayer)otherply).getHandle();
 
 		// Get's the targets inventory
-		InventoryPlayer eotherinventory = eotherply.inventory;
+		PlayerInventory eotherinventory = eotherply.inventory;
 
 		eply.a(eotherinventory); // Show to the user.
 	}

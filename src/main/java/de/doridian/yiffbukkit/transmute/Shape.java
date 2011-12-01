@@ -8,7 +8,7 @@ import net.minecraft.server.DataWatcher;
 import net.minecraft.server.EntityArrow;
 import net.minecraft.server.EntityBoat;
 import net.minecraft.server.EntityEgg;
-import net.minecraft.server.EntityFallingSand;
+import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.EntityFireball;
 import net.minecraft.server.EntityFishingHook;
 import net.minecraft.server.EntityHuman;
@@ -123,8 +123,8 @@ public abstract class Shape {
 			} else if (notchEntity instanceof EntityTNTPrimed) {
 				return new Packet23VehicleSpawn(notchEntity, 50);
 			} else {
-				if (notchEntity instanceof EntityFallingSand) {
-					EntityFallingSand entityfallingsand = (EntityFallingSand) notchEntity;
+				if (notchEntity instanceof EntityFallingBlock) {
+					EntityFallingBlock entityfallingsand = (EntityFallingBlock) notchEntity;
 
 					if (entityfallingsand.a == Block.SAND.id) {
 						return new Packet23VehicleSpawn(notchEntity, 70);
