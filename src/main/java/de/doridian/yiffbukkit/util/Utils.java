@@ -265,6 +265,9 @@ public class Utils {
 							org.bukkit.World world = getBukkitEntity().getWorld();
 							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
 
+							if (movingobjectposition.entity == null)
+								return true;
+
 							final Entity bukkitEntity = movingobjectposition.entity.getBukkitEntity();
 							if (bukkitEntity instanceof LivingEntity) {
 								plugin.playerHelper.rage((LivingEntity) bukkitEntity, 100);
@@ -485,8 +488,14 @@ public class Utils {
 			if (movingobjectposition.entity == player)
 				return;
 
-			if (hit(movingobjectposition))
+			try {
+				if (hit(movingobjectposition))
+					die();
+			}
+			catch (Throwable e) {
+				e.printStackTrace();
 				die();
+			}
 		}
 
 		protected abstract boolean hit(MovingObjectPosition movingobjectposition);
