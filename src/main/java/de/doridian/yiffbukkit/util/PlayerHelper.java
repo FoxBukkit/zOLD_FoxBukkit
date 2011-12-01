@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
@@ -33,7 +34,10 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -896,39 +900,43 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	private final Set<Player> raging = Collections.synchronizedSet(new HashSet<Player>());
+	private final Set<Entity> raging = Collections.synchronizedSet(new HashSet<Entity>());
 
-	public boolean rage(final Player ply, final int ticks) {
+	public boolean rage(final LivingEntity entity, final int ticks) {
 		synchronized (raging) {
-			if (raging.contains(ply))
+			if (raging.contains(entity))
 				return false;
 
-			raging.add(ply);
+			raging.add(entity);
 		}
 
-		final EntityPlayer notchPlayer = ((CraftPlayer)ply).getHandle();
+		final EntityLiving notchEntity = ((CraftLivingEntity) entity).getHandle();
 		final ArrayList<Integer> taskIdContainer = new ArrayList<Integer>(1);
 		final Random random = new Random();
 		taskIdContainer.add(plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			int i = 0;
 			public void run() {
-				Location location = ply.getLocation();
-
-				// arm animation
-				sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchPlayer, 1));
+				Location location = entity.getLocation();
 
 				// damage animation
-				sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchPlayer, 2));
+				sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchEntity, 2));
 
-				// random looking
 				byte yaw = (byte)(random.nextInt(255)-128);
 				byte pitch = (byte)(random.nextInt(255)-128);
-				sendPacketToPlayersAround(location, 32, new Packet32EntityLook(ply.getEntityId(), yaw, pitch), ply);
+				if (entity instanceof Player) {
+					// arm animation
+					sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchEntity, 1));
+					// random looking
+					sendPacketToPlayersAround(location, 32, new Packet32EntityLook(entity.getEntityId(), yaw, pitch), (Player) entity);
+				}
+				else {
+					sendPacketToPlayersAround(location, 32, new Packet32EntityLook(entity.getEntityId(), yaw, pitch), null);
+				}
 
 				if (++i > ticks && !taskIdContainer.isEmpty()) {
 					plugin.getServer().getScheduler().cancelTask(taskIdContainer.get(0));
 					synchronized (raging) {
-						raging.remove(ply);
+						raging.remove(entity);
 					}
 				}
 			}

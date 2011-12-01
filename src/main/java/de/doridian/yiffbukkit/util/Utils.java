@@ -264,10 +264,13 @@ public class Utils {
 						protected boolean hit(MovingObjectPosition movingobjectposition) {
 							org.bukkit.World world = getBukkitEntity().getWorld();
 							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
-							if (movingobjectposition.entity instanceof EntityPlayer) {
-								plugin.playerHelper.rage((Player) movingobjectposition.entity.getBukkitEntity(), 100);
-								// TODO: add area effect
+
+							final Entity bukkitEntity = movingobjectposition.entity.getBukkitEntity();
+							if (bukkitEntity instanceof LivingEntity) {
+								plugin.playerHelper.rage((LivingEntity) bukkitEntity, 100);
 							}
+
+							// TODO: add area effect
 							return true;
 						}
 					};
