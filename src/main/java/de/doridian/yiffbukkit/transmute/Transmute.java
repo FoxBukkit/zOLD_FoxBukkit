@@ -84,7 +84,7 @@ public class Transmute {
 		}}, 2);
 	}
 
-	public void setShape(Player player, Entity entity, int mobType) {
+	public void setShape(Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
 		setShape(entity, Shape.getShape(this, player, entity, mobType));
 	}
 

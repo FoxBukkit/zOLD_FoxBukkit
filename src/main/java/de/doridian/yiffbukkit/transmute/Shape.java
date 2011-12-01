@@ -207,15 +207,16 @@ public abstract class Shape {
 	}
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
-		return getShape(transmute, player, entity, classToId(mobType));
-	}
-
-	public static Shape getShape(Transmute transmute, Player player, Entity entity, int mobType) {
+		final int id = classToId(mobType);
+		if (EntityLiving.class.isAssignableFrom(mobType)) {
+			return getShapeImpl(transmute, player, entity, id, MobShape.class);
+		}
+		
 		/*
 		 from: "    a\(.*\.class, "(.*)", (.*)\);"
 		 to: case \2: // \1
 		 */
-		switch (mobType) {
+		switch (id) {
 		//case 1: // Item
 		//case 2: // XPOrb
 
@@ -229,32 +230,13 @@ public abstract class Shape {
 		//case 40: // Minecart
 		//case 41: // Boat
 			//return getShapeImpl(transmute, player, entity, mobType, VehicleShape.class);
-
-		//case 48: // Mob
-		//case 49: // Monster
-
-		case 50: // Creeper
-		case 51: // Skeleton
-		case 52: // Spider
-		case 53: // Giant
-		case 54: // Zombie
-		case 55: // Slime
-		case 56: // Ghast
-		case 57: // PigZombie
-		case 58: // Enderman
-		case 59: // CaveSpider
-		case 60: // Silverfish
-
-		case 90: // Pig
-		case 91: // Sheep
-		case 92: // Cow
-		case 93: // Chicken
-		case 94: // Squid
-		case 95: // Wolf
-			return getShapeImpl(transmute, player, entity, mobType, MobShape.class);
 		default:
 			throw new RuntimeException("Invalid shape.");
 		}
+	}
+
+	public static Shape getShape(Transmute transmute, Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
+		return getShape(transmute, player, entity, idToClass(mobType));
 	}
 
 	private static Shape getShapeImpl(Transmute transmute, Player player, Entity entity, int mobType, Class<? extends Shape> shapeClass) {
@@ -284,6 +266,15 @@ public abstract class Shape {
 			throw new EntityTypeNotFoundException();
 
 		return id;
+	}
+	private static final Class<? extends net.minecraft.server.Entity> idToClass(int id) throws EntityTypeNotFoundException {
+		Map<Integer, Class<? extends net.minecraft.server.Entity>> idToClass = Utils.getPrivateValue(EntityTypes.class, null, "c");
+
+		final Class<? extends net.minecraft.server.Entity> mobType = idToClass.get(id);
+		if (mobType == null)
+			throw new EntityTypeNotFoundException();
+
+		return mobType;
 	}
 
 	public void reattachPassenger() {
