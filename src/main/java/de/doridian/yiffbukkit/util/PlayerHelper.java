@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -22,6 +24,8 @@ import java.util.regex.Pattern;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet;
+import net.minecraft.server.Packet18ArmAnimation;
+import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet70Bed;
 
 import org.bukkit.Location;
@@ -890,5 +894,46 @@ public class PlayerHelper extends StateContainer {
 		default:
 			return "\u00a75"+playerName;
 		}
+	}
+
+	private final Set<Player> raging = Collections.synchronizedSet(new HashSet<Player>());
+
+	public boolean rage(final Player ply, final int ticks) {
+		synchronized (raging) {
+			if (raging.contains(ply))
+				return false;
+
+			raging.add(ply);
+		}
+
+		final EntityPlayer notchPlayer = ((CraftPlayer)ply).getHandle();
+		final ArrayList<Integer> taskIdContainer = new ArrayList<Integer>(1);
+		final Random random = new Random();
+		taskIdContainer.add(plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			int i = 0;
+			public void run() {
+				Location location = ply.getLocation();
+
+				// arm animation
+				sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchPlayer, 1));
+
+				// damage animation
+				sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchPlayer, 2));
+
+				// random looking
+				byte yaw = (byte)(random.nextInt(255)-128);
+				byte pitch = (byte)(random.nextInt(255)-128);
+				sendPacketToPlayersAround(location, 32, new Packet32EntityLook(ply.getEntityId(), yaw, pitch), ply);
+
+				if (++i > ticks && !taskIdContainer.isEmpty()) {
+					plugin.getServer().getScheduler().cancelTask(taskIdContainer.get(0));
+					synchronized (raging) {
+						raging.remove(ply);
+					}
+				}
+			}
+		}, 0, 1));
+
+		return true;
 	}
 }
