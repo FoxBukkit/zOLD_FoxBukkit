@@ -20,6 +20,7 @@ import net.minecraft.server.NetworkManager;
 import net.minecraft.server.WorldServer;
 
 import org.bukkit.DyeColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -238,16 +239,50 @@ public class Utils {
 
 				entity = notchEntity.getBukkitEntity();
 			}
-			else if(type.equalsIgnoreCase("LIGHTNING")) {
-				net.minecraft.server.Entity notchEntity = new EntityPotion(notchWorld, location.getX(), location.getY(), location.getZ(), 0) {
+			else if(type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
+				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
+
+				net.minecraft.server.Entity notchEntity = new CustomPotion(location, 0, notchPlayer) {
 					@Override
-					protected void a(MovingObjectPosition movingobjectposition) {
+					protected boolean hit(MovingObjectPosition movingobjectposition) {
 						org.bukkit.World world = getBukkitEntity().getWorld();
 						world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
-						//plugin.playerHelper.sendPacketToPlayersAround(new Location(world, this.locX, this.locY, this.locZ), 200, new Packet53BlockChange((int)Math.floor(this.locX), (int)Math.floor(this.locY), (int)Math.floor(this.locZ), notchWorld));
-						this.die();
+						return true;
 					}
 				};
+				notchWorld.addEntity(notchEntity);
+
+				entity = notchEntity.getBukkitEntity();
+			}
+			else if(type.equalsIgnoreCase("POTION")) {
+				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
+
+				final net.minecraft.server.Entity notchEntity;
+				if ("RAGE".equalsIgnoreCase(data)) {
+					notchEntity = new CustomPotion(location, 252, notchPlayer) {
+						@Override
+						protected boolean hit(MovingObjectPosition movingobjectposition) {
+							org.bukkit.World world = getBukkitEntity().getWorld();
+							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+							if (movingobjectposition.entity instanceof EntityPlayer) {
+								plugin.playerHelper.rage((Player) movingobjectposition.entity.getBukkitEntity(), 100);
+								// TODO: add area effect
+							}
+							return true;
+						}
+					};
+				}
+				else {
+					final int potionId = Integer.parseInt(data);
+					notchEntity = new CustomPotion(location, potionId, notchPlayer) {
+						@Override
+						protected boolean hit(MovingObjectPosition movingobjectposition) {
+							org.bukkit.World world = getBukkitEntity().getWorld();
+							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+							return true;
+						}
+					};
+				}
 				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
@@ -430,6 +465,28 @@ public class Utils {
 
 		// and return it
 		return bukkitEntity;
+	}
+
+	private abstract class CustomPotion extends EntityPotion {
+		protected final int potionId;
+		private final EntityPlayer player;
+
+		private CustomPotion(Location location, int potionId, EntityPlayer notchPlayer) {
+			super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), potionId);
+			this.potionId = potionId;
+			this.player = notchPlayer;
+		}
+
+		@Override
+		protected void a(MovingObjectPosition movingobjectposition) {
+			if (movingobjectposition.entity == player)
+				return;
+
+			if (hit(movingobjectposition))
+				die();
+		}
+
+		protected abstract boolean hit(MovingObjectPosition movingobjectposition);
 	}
 
 	static class NPCSocket extends Socket {
