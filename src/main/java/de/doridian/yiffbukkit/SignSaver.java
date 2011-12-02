@@ -89,6 +89,8 @@ public class SignSaver extends StateContainer {
 			}
 			stream.close();
 		}
+		catch (IOException e) {
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
