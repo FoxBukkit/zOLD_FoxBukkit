@@ -242,7 +242,7 @@ public class Utils {
 			else if(type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
 				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-				net.minecraft.server.Entity notchEntity = new CustomPotion(location, 0, notchPlayer) {
+				net.minecraft.server.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 					@Override
 					protected boolean hit(MovingObjectPosition movingobjectposition) {
 						org.bukkit.World world = getBukkitEntity().getWorld();
