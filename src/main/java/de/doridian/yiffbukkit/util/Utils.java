@@ -61,8 +61,8 @@ public class Utils {
 	}
 
 	public static String concatArray(String[] array, int start, String def) {
-		if(array.length <= start) return def;
-		if(array.length <= start + 1) return array[start];
+		if (array.length <= start) return def;
+		if (array.length <= start + 1) return array[start];
 		StringBuilder ret = new StringBuilder(array[start]);
 		for(int i=start+1;i<array.length;i++) {
 			ret.append(' ');
@@ -232,14 +232,14 @@ public class Utils {
 				entity = notchEntity.getBukkitEntity();
 				entity.teleport(location);
 			}
-			else if(type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
+			else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
 				int material = Material.valueOf(type.toUpperCase()).getId();
 				EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
 				notchWorld.addEntity(notchEntity);
 
 				entity = notchEntity.getBukkitEntity();
 			}
-			else if(type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
+			else if (type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
 				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
 				net.minecraft.server.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
@@ -254,7 +254,7 @@ public class Utils {
 
 				entity = notchEntity.getBukkitEntity();
 			}
-			else if(type.equalsIgnoreCase("POTION")) {
+			else if (type.equalsIgnoreCase("POTION")) {
 				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
 				final net.minecraft.server.Entity notchEntity;
@@ -293,7 +293,7 @@ public class Utils {
 
 				entity = notchEntity.getBukkitEntity();
 			}
-			else if(type.equalsIgnoreCase("ARROW")) {
+			else if (type.equalsIgnoreCase("ARROW")) {
 				entity = world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
 			}
 			else if (type.equalsIgnoreCase("MINECART") || type.equalsIgnoreCase("CART")) {
