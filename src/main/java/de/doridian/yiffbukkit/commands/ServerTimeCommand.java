@@ -52,8 +52,7 @@ public class ServerTimeCommand extends ICommand {
 			displayTime = timeSwatches.get(args[0].toLowerCase());
 		}
 		else {
-			try
-			{
+			try {
 				displayTime = Long.valueOf(args[0]);
 			}
 			catch (Exception e) {
