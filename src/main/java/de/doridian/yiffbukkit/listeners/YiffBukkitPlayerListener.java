@@ -9,6 +9,7 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -51,6 +54,7 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.getspout.spout.player.SpoutCraftPlayer;
@@ -85,6 +89,10 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
+		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SPRINT, this, Priority.Monitor, plugin);
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
+		playerHelper.registerSet(sprintingPlayers);
 	}
 
 	public void scanCommands() {
@@ -565,5 +573,31 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 
 		itemStack.setAmount(amount);
+	}
+
+	Set<Player> sprintingPlayers = new HashSet<Player>();
+
+	public class SprintFlamesTask implements Runnable {
+		@Override
+		public void run() {
+			for (Player player : sprintingPlayers) {
+				player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
+			}
+		}
+	}
+
+	@Override
+	public void onPlayerToggleSprint(PlayerToggleSprintEvent event) {
+		Player player = event.getPlayer();
+		if (event.isSprinting()) {
+			if (plugin.vanish.isVanished(player))
+				return;
+
+			sprintingPlayers.add(player);
+			player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
+		}
+		else {
+			sprintingPlayers.remove(player);
+		}
 	}
 }
