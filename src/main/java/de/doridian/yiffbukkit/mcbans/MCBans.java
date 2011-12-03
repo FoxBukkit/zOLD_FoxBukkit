@@ -56,10 +56,17 @@ public class MCBans {
 	}
 
 	public void ban(final CommandSender from, final Player ply, final String reason, final BanType type, final long duration, final String measure, final boolean saveproof) {
-		String addr;
-		if (ply instanceof OfflinePlayer) addr = "";
-		else addr = ply.getAddress().getAddress().getHostAddress();
-		ban(from, ply.getName(), ply.getWorld(), addr, reason, type, duration, measure, saveproof);
+		final String addr;
+		final World world;
+		if (ply instanceof OfflinePlayer) {
+			addr = "";
+			world = null;
+		}
+		else {
+			addr = ply.getAddress().getAddress().getHostAddress();
+			world = ply.getWorld();
+		}
+		ban(from, ply.getName(), world, addr, reason, type, duration, measure, saveproof);
 	}
 
 	public void ban(final CommandSender from, final String ply, final World world, final String ip, final String reason, final BanType type, final boolean saveproof) {
