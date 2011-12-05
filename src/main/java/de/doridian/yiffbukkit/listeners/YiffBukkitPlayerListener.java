@@ -7,13 +7,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -31,10 +25,7 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -42,19 +33,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.getspout.spout.player.SpoutCraftPlayer;
@@ -90,6 +69,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
 		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
 		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SPRINT, this, Priority.Monitor, plugin);
+
+        pm.registerEvent(Event.Type.PLAYER_TELEPORT, this, Priority.Monitor, plugin);
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
 		playerHelper.registerSet(sprintingPlayers);
@@ -222,14 +203,26 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
+    public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
+    @Override
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        LinkedList<Location> locs = teleportHistory.get(event.getPlayer().getName().toLowerCase());
+        locs.push(event.getFrom());
+
+        if(locs.size() > 10) locs.removeFirst();
+    }
+
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
+
 		final Player player = event.getPlayer();
 		if (player instanceof SpoutCraftPlayer) {
 			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer) player;
 
 			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
-		}
+        }
+
+        teleportHistory.put(player.getName().toLowerCase(), new LinkedList<Location>());
 
 		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
@@ -266,6 +259,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
+
+        teleportHistory.remove(playerName.toLowerCase());
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
