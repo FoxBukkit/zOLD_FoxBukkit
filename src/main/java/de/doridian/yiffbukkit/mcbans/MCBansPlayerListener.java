@@ -25,8 +25,14 @@ public class MCBansPlayerListener extends PlayerListener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		if (plugin.serverClosed)
 			return;
-		
-		MCBansUtil.apiQuery("exec=playerDisconnect&player="+MCBansUtil.URLEncode(event.getPlayer().getName()));
+
+        final String ply = event.getPlayer().getName();
+
+		new Thread() {
+            public void run() {
+                MCBansUtil.apiQuery("exec=playerDisconnect&player="+MCBansUtil.URLEncode(ply));
+            }
+        }.start();
 	}
 
 	@Override
