@@ -21,6 +21,10 @@ public class BackCommand extends ICommand {
         }
 
         LinkedList<Location> teleports = plugin.playerListener.teleportHistory.get(ply.getName().toLowerCase());
+        if(teleports == null) {
+            playerHelper.sendDirectedMessage(ply, "No teleport history found!");
+            return;
+        }
 
         Location goTo = null;
         int curStep = 0;

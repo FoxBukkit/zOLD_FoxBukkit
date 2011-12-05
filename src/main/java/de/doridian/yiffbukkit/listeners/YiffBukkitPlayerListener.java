@@ -206,23 +206,26 @@ public class YiffBukkitPlayerListener extends PlayerListener {
     public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
     @Override
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        LinkedList<Location> locs = teleportHistory.get(event.getPlayer().getName().toLowerCase());
-        locs.push(event.getFrom());
+        String name = event.getPlayer().getName().toLowerCase();
 
+        LinkedList<Location> locs = teleportHistory.get(name);
+        if(locs == null) {
+            locs = new LinkedList<Location>();
+            teleportHistory.put(name, locs);
+        }
+
+        locs.push(event.getFrom());
         if(locs.size() > 10) locs.removeFirst();
     }
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-
 		final Player player = event.getPlayer();
 		if (player instanceof SpoutCraftPlayer) {
 			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer) player;
 
 			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
         }
-
-        teleportHistory.put(player.getName().toLowerCase(), new LinkedList<Location>());
 
 		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
