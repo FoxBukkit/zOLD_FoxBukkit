@@ -28,6 +28,7 @@ import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -222,9 +223,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		if (player instanceof SpoutCraftPlayer) {
-			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer) player;
-
+			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer)player;
 			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
+		} else {
+			final CraftPlayer craftPlayer = (CraftPlayer)player;
+			Utils.setPrivateValue(CraftPlayer.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
 		}
 
 		String nick = playerHelper.getPlayerNick(player.getName());
