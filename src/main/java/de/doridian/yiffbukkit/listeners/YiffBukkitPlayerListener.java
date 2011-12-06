@@ -213,6 +213,8 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			Utils.setPrivateValue(CraftPlayer.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
 		}
 
+		playerHelper.pushPlayerLocationOntoTeleportStack(player);
+
 		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
 			nick = player.getName();
@@ -249,7 +251,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
 
-		plugin.playerHelper.teleportHistory.remove(playerName.toLowerCase());
+		playerHelper.teleportHistory.remove(playerName.toLowerCase());
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
@@ -287,7 +289,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player ply = event.getPlayer();
-		plugin.playerHelper.pushPlayerLocationOntoTeleportStack(ply);
+		playerHelper.pushPlayerLocationOntoTeleportStack(ply);
 		Location location = playerHelper.getPlayerSpawnPosition(ply);
 		event.setRespawnLocation(location);
 	}
