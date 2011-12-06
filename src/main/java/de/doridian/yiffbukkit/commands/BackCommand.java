@@ -15,12 +15,17 @@ import java.util.LinkedList;
 public class BackCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+		if(plugin.jailEngine.isJailed(ply)) {
+			playerHelper.sendDirectedMessage(ply, "You are jailed!");
+			return;
+		}
+
         int numSteps = 1;
         if(args.length > 0) {
             numSteps = Integer.parseInt(args[0]);
         }
 
-        LinkedList<Location> teleports = plugin.playerListener.teleportHistory.get(ply.getName().toLowerCase());
+        LinkedList<Location> teleports = plugin.playerHelper.teleportHistory.get(ply.getName().toLowerCase());
         if(teleports == null) {
             playerHelper.sendDirectedMessage(ply, "No teleport history found!");
             return;

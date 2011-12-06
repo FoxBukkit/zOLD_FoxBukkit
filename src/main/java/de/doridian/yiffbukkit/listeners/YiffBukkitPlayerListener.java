@@ -71,8 +71,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
 		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SPRINT, this, Priority.Monitor, plugin);
 
-		pm.registerEvent(Event.Type.PLAYER_TELEPORT, this, Priority.Monitor, plugin);
-
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
 		playerHelper.registerSet(sprintingPlayers);
 	}
@@ -204,21 +202,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
-	@Override
-	public void onPlayerTeleport(PlayerTeleportEvent event) {
-		String name = event.getPlayer().getName().toLowerCase();
-
-		LinkedList<Location> locs = teleportHistory.get(name);
-		if(locs == null) {
-			locs = new LinkedList<Location>();
-			teleportHistory.put(name, locs);
-		}
-
-		locs.push(event.getFrom());
-		if(locs.size() > 10) locs.removeFirst();
-	}
-
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
@@ -266,7 +249,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
 
-		teleportHistory.remove(playerName.toLowerCase());
+		plugin.playerHelper.teleportHistory.remove(playerName.toLowerCase());
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
@@ -304,6 +287,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player ply = event.getPlayer();
+		plugin.playerHelper.pushPlayerLocationOntoTeleportStack(ply);
 		Location location = playerHelper.getPlayerSpawnPosition(ply);
 		event.setRespawnLocation(location);
 	}

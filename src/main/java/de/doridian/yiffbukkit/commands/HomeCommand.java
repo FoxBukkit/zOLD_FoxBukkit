@@ -15,7 +15,7 @@ public class HomeCommand extends ICommand {
 			return;
 		}
 
-		ply.teleport(playerHelper.getPlayerHomePosition(ply));
+		plugin.playerHelper.teleportWithHistory(ply, playerHelper.getPlayerHomePosition(ply));
 		playerHelper.sendServerMessage(ply.getName() + " went home!");
 	}
 }

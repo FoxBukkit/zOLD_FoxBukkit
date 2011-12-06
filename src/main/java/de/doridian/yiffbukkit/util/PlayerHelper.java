@@ -6,19 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -943,5 +932,29 @@ public class PlayerHelper extends StateContainer {
 		}, 0, 1));
 
 		return true;
+	}
+
+	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
+	public void pushPlayerLocationOntoTeleportStack(Player ply) {
+		String name = ply.getName().toLowerCase();
+
+		LinkedList<Location> locs = teleportHistory.get(name);
+		if(locs == null) {
+			locs = new LinkedList<Location>();
+			teleportHistory.put(name, locs);
+		}
+
+		locs.push(ply.getLocation());
+		if(locs.size() > 10) locs.removeFirst();
+	}
+
+	public void teleportWithHistory(Player ply, Location to) {
+		pushPlayerLocationOntoTeleportStack(ply);
+		ply.teleport(to);
+	}
+
+	public void teleportWithHistory(Player ply, Entity to) {
+		pushPlayerLocationOntoTeleportStack(ply);
+		ply.teleport(to);
 	}
 }

@@ -86,7 +86,7 @@ public class WarpCommand extends ICommand {
 				if (plugin.jailEngine.isJailed(asPlayer(commandSender)))
 					throw new YiffBukkitCommandException("You are jailed!");
 
-				asPlayer(commandSender).teleport(warp.location);
+				plugin.playerHelper.teleportWithHistory(asPlayer(commandSender), warp.location);
 				return;
 			}
 

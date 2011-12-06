@@ -43,10 +43,10 @@ public class TpCommand extends ICommand {
 			location.setX(vec.getX());
 			location.setY(vec.getY());
 			location.setZ(vec.getZ());
-			ply.teleport(location);
+			plugin.playerHelper.teleportWithHistory(ply, location);
 		}
 		else {
-			ply.teleport(otherply);
+			plugin.playerHelper.teleportWithHistory(ply, otherply);
 		}
 
 		if (plugin.vanish.vanishedPlayers.contains(playerName) || booleanFlags.contains('s')) {

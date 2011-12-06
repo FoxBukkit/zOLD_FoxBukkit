@@ -24,7 +24,7 @@ public class SendCommand extends ICommand {
 		if (!playerHelper.canTp(commandSender, toPlayer))
 			throw new PermissionDeniedException();
 
-		fromPlayer.teleport(toPlayer);
+		plugin.playerHelper.teleportWithHistory(fromPlayer, toPlayer);
 
 		playerHelper.sendServerMessage(commandSender.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
 	}
