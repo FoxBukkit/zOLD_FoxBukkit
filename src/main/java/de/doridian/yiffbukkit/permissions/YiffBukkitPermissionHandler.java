@@ -212,18 +212,16 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		HashSet<String> currentProhibitions = groupProhibitions.get(group);
 		if(currentProhibitions != null && currentProhibitions.contains(permission)) return false;
 
-		//System.out.println("Cache fail: " + permission);
-
 		int xpos = 0;
 		String tperm = permission;
 		while((xpos = tperm.lastIndexOf('.')) > 0) {
 			tperm = tperm.substring(0, xpos);
-			//String tperm2 = tperm + ".*";
-			//if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
-			if(currentPermissions.contains(tperm+".*")) { currentPermissions.add(permission); return true; }
+			String tperm2 = tperm + ".*";
+			if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
+			if(currentPermissions.contains(tperm2)) { currentPermissions.add(permission); return true; }
 		};
 
-		//if(currentProhibitions != null && currentProhibitions.contains("*")) { currentProhibitions.add(permission); return false; }
+		if(currentProhibitions != null && currentProhibitions.contains("*")) { currentProhibitions.add(permission); return false; }
 		if(currentPermissions.contains("*")) { currentPermissions.add(permission); return true; }
 
 		currentProhibitions.add(permission);
