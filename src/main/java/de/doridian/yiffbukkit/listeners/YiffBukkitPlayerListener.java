@@ -70,7 +70,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
 		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SPRINT, this, Priority.Monitor, plugin);
 
-        pm.registerEvent(Event.Type.PLAYER_TELEPORT, this, Priority.Monitor, plugin);
+		pm.registerEvent(Event.Type.PLAYER_TELEPORT, this, Priority.Monitor, plugin);
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
 		playerHelper.registerSet(sprintingPlayers);
@@ -203,20 +203,20 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-    public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
-    @Override
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
-        String name = event.getPlayer().getName().toLowerCase();
+	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
+	@Override
+	public void onPlayerTeleport(PlayerTeleportEvent event) {
+		String name = event.getPlayer().getName().toLowerCase();
 
-        LinkedList<Location> locs = teleportHistory.get(name);
-        if(locs == null) {
-            locs = new LinkedList<Location>();
-            teleportHistory.put(name, locs);
-        }
+		LinkedList<Location> locs = teleportHistory.get(name);
+		if(locs == null) {
+			locs = new LinkedList<Location>();
+			teleportHistory.put(name, locs);
+		}
 
-        locs.push(event.getFrom());
-        if(locs.size() > 10) locs.removeFirst();
-    }
+		locs.push(event.getFrom());
+		if(locs.size() > 10) locs.removeFirst();
+	}
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -225,18 +225,18 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer) player;
 
 			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
-        }
+		}
 
 		String nick = playerHelper.getPlayerNick(player.getName());
 		if (nick == null)
 			nick = player.getName();
 		player.setDisplayName(nick);
 
-        try {
-            String listName = playerHelper.formatPlayer(player);
-            if(listName.length() > 16) listName = listName.substring(0, 15);
-		    player.setPlayerListName(listName);
-        } catch(Exception e) { }
+		try {
+			String listName = playerHelper.formatPlayer(player);
+			if(listName.length() > 16) listName = listName.substring(0, 15);
+			player.setPlayerListName(listName);
+		} catch(Exception e) { }
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
 		plugin.chatManager.pushCurrentOrigin(player);
@@ -263,7 +263,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
 
-        teleportHistory.remove(playerName.toLowerCase());
+		teleportHistory.remove(playerName.toLowerCase());
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
@@ -332,7 +332,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
 			playerHelper.broadcastMessage("\u00a7e[#OP] \u00a7f" + ply.getDisplayName() + "\u00a7f: " + message.substring(1), "yiffbukkit.opchat");
 			System.out.println("[OP] " + event.getPlayer().getName() + ": " + message);
-			
+
 			event.setCancelled(true);
 			return;
 		}
