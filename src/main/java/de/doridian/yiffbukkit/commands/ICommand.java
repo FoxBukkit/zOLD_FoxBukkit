@@ -133,6 +133,11 @@ public abstract class ICommand {
 			if (arg.equals("--"))
 				break;
 
+			if (!Character.isLetter(arg.charAt(1))) {
+				--nextArg;
+				break;
+			}
+
 			// Go through the flags
 			for (int i = 1; i < arg.length(); ++i) {
 				char flagName = arg.charAt(i);
