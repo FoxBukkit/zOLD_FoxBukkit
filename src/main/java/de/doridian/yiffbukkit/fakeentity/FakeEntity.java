@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -192,5 +193,17 @@ public abstract class FakeEntity implements Entity {
 	public void setTicksLived(int value) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean teleport(Entity destination, TeleportCause cause) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean teleport(Location location, TeleportCause cause) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

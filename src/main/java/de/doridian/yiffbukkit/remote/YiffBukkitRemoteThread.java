@@ -42,7 +42,7 @@ public class YiffBukkitRemoteThread extends Thread {
 
 			command = in.readLine();
 			server = plugin.getServer();
-			commandSender = new RemotePlayer(server, this);
+			commandSender = new RemotePlayer(this);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

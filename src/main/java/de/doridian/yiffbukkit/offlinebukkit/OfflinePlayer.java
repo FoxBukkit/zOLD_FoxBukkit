@@ -29,6 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.map.MapView;
@@ -693,5 +694,17 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public void setExp(float exp) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean teleport(Location location, TeleportCause cause) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean teleport(Entity destination, TeleportCause cause) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
