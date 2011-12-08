@@ -32,6 +32,7 @@ import de.doridian.yiffbukkit.util.Utils;
 		"  creeper:charged"
 )
 @Usage("[-i <item name or id>][<type>[ <forward>[ <up>[ <left>]]]]")
+@BooleanFlags("p")
 @StringFlags("i")
 @Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
@@ -94,6 +95,8 @@ public class ThrowCommand extends ICommand {
 			}
 		}
 
+		final boolean usePitch = !booleanFlags.contains('p');
+
 		String typeName = args[0];
 
 		ToolBind runnable;
@@ -106,7 +109,8 @@ public class ThrowCommand extends ICommand {
 					final Location location = player.getEyeLocation();
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
 						location.setYaw(lastYaws.get(player));
-						location.setPitch(lastPitches.get(player));
+						if (usePitch)
+							location.setPitch(lastPitches.get(player));
 					}
 					Vector direction = Utils.toWorldAxis(location, speed);
 
@@ -129,7 +133,8 @@ public class ThrowCommand extends ICommand {
 					final Location location = player.getEyeLocation();
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
 						location.setYaw(lastYaws.get(player));
-						location.setPitch(lastPitches.get(player));
+						if (usePitch)
+							location.setPitch(lastPitches.get(player));
 					}
 					final Vector direction = Utils.toWorldAxis(location, speed);
 
