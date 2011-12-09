@@ -8,13 +8,15 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Names("heal")
 @Help("Heals a player fully or by the given amount.")
 @Usage("[<name>] [<amount>]")
+@BooleanFlags("f")
 @Permission("yiffbukkit.players.heal")
 public class HealCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		args = parseFlags(args);
 		int amount;
 		Player target;
-		switch (args.length){
+		switch (args.length) {
 		case 0:
 			//heal <name> - heal yourself fully
 			amount = 20;
@@ -56,7 +58,12 @@ public class HealCommand extends ICommand {
 			break;
 		}
 
-		target.setHealth(Math.min(20, target.getHealth() + amount));
+		if (booleanFlags.contains('f')) {
+			target.setFoodLevel(Math.min(20, target.getFoodLevel() + amount));
+		}
+		else {
+			target.setHealth(Math.min(20, target.getHealth() + amount));
+		}
 
 		if (amount >= 20)
 			playerHelper.sendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
