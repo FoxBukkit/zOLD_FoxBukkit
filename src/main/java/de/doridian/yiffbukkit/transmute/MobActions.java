@@ -37,7 +37,7 @@ final class MobActions {
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
 		);
 
-		registerMobActions(55, // Slime
+		final Object[] slimeActions = new Object[] {
 				"help",
 				new HelpMobAction("/sac size <1..127>"),
 				"size",
@@ -47,6 +47,9 @@ final class MobActions {
 
 					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Set your size to "+size);
 				}}
+		};
+		registerMobActions(55, // Slime
+				slimeActions
 		);
 
 		registerMobActions(56, // Ghast
@@ -54,6 +57,10 @@ final class MobActions {
 				new HelpMobAction("/sac fire [on|off]"),
 				"fire",
 				new MetadataBitMobAction(16, (byte) 0x1, "Ceasing fire...", "Firing...")
+		);
+
+		registerMobActions(62, // LavaSlime
+				slimeActions
 		);
 
 		registerMobActions(90, // Pig
