@@ -1,9 +1,6 @@
 package de.doridian.yiffbukkit.permissions;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,10 +13,38 @@ import org.bukkit.util.config.Configuration;
 import com.nijiko.permissions.PermissionHandler;
 
 public class YiffBukkitPermissionHandler extends PermissionHandler {
+	class GroupWorld {
+		public String group;
+		public String world;
+		public GroupWorld() {
+			
+		}
+		
+		public GroupWorld(String group, String world) {
+			this.group = group;
+			this.world = world;
+		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if(!(other instanceof  GroupWorld)) return false;
+			return equals((GroupWorld)other);
+		}
+
+		public boolean equals(GroupWorld other) {
+			return other.group.equals(this.group) && other.world.equals(this.world);
+		}
+		
+		@Override
+		public int hashCode() {
+			return (group + "|" + world).hashCode();
+		}
+	}
+
 	private boolean loaded = false;
 	private final HashMap<String,String> playerGroups = new HashMap<String,String>();
-	private final HashMap<String,HashSet<String>> groupPermissions = new HashMap<String,HashSet<String>>();
-	private final HashMap<String,HashSet<String>> groupProhibitions = new HashMap<String,HashSet<String>>();
+	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<GroupWorld,HashSet<String>>();
+	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<GroupWorld,HashSet<String>>();
 
 	@Override
 	public void setDefaultWorld(String world) {
@@ -59,50 +84,60 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		groupPermissions.clear();
 		groupProhibitions.clear();
 		playerGroups.clear();
+		
+		File[] files = (new File("permissions")).listFiles();
+
 		BufferedReader reader;
-		try {
-			String currentGroup = null;
-			HashSet<String> currentPermissions = null;
-			HashSet<String> currentProhibitions = null; //Prohibitons do NOT support wildcards! Its only to remove INDIVIDUAL permissions!
-			reader = new BufferedReader(new FileReader("group-permissions.txt"));
-			String line;
-			while((line = reader.readLine()) != null) {
-				line = line.trim().toLowerCase();
-				if(line.length() < 1) continue;
-				char c = line.charAt(0);
-				if(c == '-') {
-					line = line.substring(1).trim();
-					currentPermissions.remove(line);
-					if(!line.endsWith("*")) currentProhibitions.add(line);
-				} else if(c == '+') {
-					line = line.substring(1).trim();
-					currentPermissions.add(line);
-					if(!line.endsWith("*")) currentProhibitions.remove(line);
-				} else {
-					if(currentGroup != null) {
-						groupPermissions.put(currentGroup, currentPermissions);
-						groupProhibitions.put(currentGroup, currentProhibitions);
-					}
-					int i = line.indexOf(' ');
-					currentPermissions = new HashSet<String>();
-					currentProhibitions = new HashSet<String>();
-					if(i > 0) {
-						currentGroup = line.substring(0, i).trim();
-						line = line.substring(i+1).trim();
-						currentPermissions.addAll(groupPermissions.get(line));
-						currentProhibitions.addAll(groupProhibitions.get(line));
+		for(File file : files) {
+			try {
+				String currentWorld;
+				GroupWorld currentGroupWorld = null;
+				currentWorld = file.getName();
+				if(currentWorld.indexOf('.') > 0) {
+					currentWorld = currentWorld.substring(0, currentWorld.indexOf('.') - 1);
+				}
+				HashSet<String> currentPermissions = null;
+				HashSet<String> currentProhibitions = null; //Prohibitons do NOT support wildcards! Its only to remove INDIVIDUAL permissions!
+				reader = new BufferedReader(new FileReader(file));
+				String line;
+				while((line = reader.readLine()) != null) {
+					line = line.trim().toLowerCase();
+					if(line.length() < 1) continue;
+					char c = line.charAt(0);
+					if(c == '-') {
+						line = line.substring(1).trim();
+						currentPermissions.remove(line);
+						if(!line.endsWith("*")) currentProhibitions.add(line);
+					} else if(c == '+') {
+						line = line.substring(1).trim();
+						currentPermissions.add(line);
+						if(!line.endsWith("*")) currentProhibitions.remove(line);
 					} else {
-						currentGroup = line;
+						if(currentGroupWorld != null) {
+							groupPermissions.put(currentGroupWorld, currentPermissions);
+							groupProhibitions.put(currentGroupWorld, currentProhibitions);
+						}
+						int i = line.indexOf(' ');
+						currentPermissions = new HashSet<String>();
+						currentProhibitions = new HashSet<String>();
+						if(i > 0) {
+							currentGroupWorld = new GroupWorld(line.substring(0, i).trim(), currentWorld);
+							GroupWorld tmp = new GroupWorld(line.substring(i+1).trim(), currentWorld);
+							currentPermissions.addAll(groupPermissions.get(tmp));
+							currentProhibitions.addAll(groupProhibitions.get(tmp));
+						} else {
+							currentGroupWorld = new GroupWorld(line, currentWorld);
+						}
 					}
 				}
+				if(currentGroupWorld != null) {
+					groupPermissions.put(currentGroupWorld, currentPermissions);
+					groupProhibitions.put(currentGroupWorld, currentProhibitions);
+				}
+				reader.close();
 			}
-			if(currentGroup != null) {
-				groupPermissions.put(currentGroup, currentPermissions);
-				groupProhibitions.put(currentGroup, currentProhibitions);
-			}
-			reader.close();
+			catch(Exception e) { e.printStackTrace(); }
 		}
-		catch(Exception e) { e.printStackTrace(); }
 		try {
 			reader = new BufferedReader(new FileReader("player-groups.txt"));
 			String line; int lpos;
@@ -193,23 +228,20 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 	@Override
 	public boolean permission(Player player, String permission) {
-		return permission(player.getName(), permission);
+		return permission(player.getWorld().getName(), player.getName(), permission);
 	}
 
 	@Override
 	public boolean permission(String worldName, String playerName, String permission) {
-		return permission(playerName, permission);
-	}
-
-	public boolean permission(String playerName, String permission) {
 		playerName = playerName.toLowerCase();
 		permission = permission.toLowerCase();
-		String group = getGroup(playerName);
-		HashSet<String> currentPermissions = groupPermissions.get(group);
+		GroupWorld currentGroupWorld = new GroupWorld(getGroup(worldName, playerName), worldName);
+
+		HashSet<String> currentPermissions = groupPermissions.get(currentGroupWorld);
 		if(currentPermissions == null) return false;
 		if(currentPermissions.contains(permission)) return true;
 
-		HashSet<String> currentProhibitions = groupProhibitions.get(group);
+		HashSet<String> currentProhibitions = groupProhibitions.get(currentGroupWorld);
 		if(currentProhibitions != null && currentProhibitions.contains(permission)) return false;
 
 		int xpos = 0;
@@ -226,6 +258,10 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 		currentProhibitions.add(permission);
 		return false;
+	}
+
+	public boolean permission(String playerName, String permission) {
+		return permission("world", playerName, permission);
 	}
 
 	@Override
