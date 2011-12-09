@@ -36,6 +36,10 @@ final class MobActions {
 				"charge",
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
 		);
+		//registerMobActions(51, // Skeleton
+		//registerMobActions(52, // Spider
+		//registerMobActions(53, // Giant
+		//registerMobActions(54, // Zombie
 
 		final Object[] slimeActions = new Object[] {
 				"help",
@@ -59,9 +63,17 @@ final class MobActions {
 				new MetadataBitMobAction(16, (byte) 0x1, "Ceasing fire...", "Firing...")
 		);
 
+		//registerMobActions(57, // PigZombie
+		//registerMobActions(58, // Enderman
+		//registerMobActions(59, // CaveSpider
+		//registerMobActions(60, // Silverfish
+		//registerMobActions(61, // Blaze
+
 		registerMobActions(62, // LavaSlime
 				slimeActions
 		);
+
+		//registerMobActions(63, // EnderDragon
 
 		registerMobActions(90, // Pig
 				"help",
@@ -95,6 +107,10 @@ final class MobActions {
 				new MetadataMobAction(16, (byte) 16, "You are now shorn.")
 		);
 
+		//registerMobActions(92, // Cow
+		//registerMobActions(93, // Chicken
+		//registerMobActions(94, // Squid
+
 		registerMobActions(95, // Wolf
 				"help",
 				new HelpMobAction("/sac sit [on|off]|angry [on|off]|tame [on|off]|shake|hearts|smoke"),
@@ -111,6 +127,10 @@ final class MobActions {
 				"smoke",
 				new EntityStatusMobAction(6, "Smoking...")
 		);
+
+		//registerMobActions(96, // MushroomCow
+		//registerMobActions(97, // SnowMan
+		//registerMobActions(120, // Villager
 	}
 
 	private static void registerMobActions(int mobType, Object... objects) {
