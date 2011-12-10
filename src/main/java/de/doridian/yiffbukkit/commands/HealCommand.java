@@ -60,14 +60,19 @@ public class HealCommand extends ICommand {
 
 		if (booleanFlags.contains('f')) {
 			target.setFoodLevel(Math.min(20, target.getFoodLevel() + amount));
+
+			if (amount >= 20)
+				playerHelper.sendServerMessage(commandSender.getName() + " fully fed " + target.getName() + ".");
+			else
+				playerHelper.sendServerMessage(commandSender.getName() + " fed " + target.getName() + " by "+amount+" points.");
 		}
 		else {
 			target.setHealth(Math.min(20, target.getHealth() + amount));
-		}
 
-		if (amount >= 20)
-			playerHelper.sendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
-		else
-			playerHelper.sendServerMessage(commandSender.getName() + " healed " + target.getName() + " by "+amount+" points.");
+			if (amount >= 20)
+				playerHelper.sendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
+			else
+				playerHelper.sendServerMessage(commandSender.getName() + " healed " + target.getName() + " by "+amount+" points.");
+		}
 	}
 }
