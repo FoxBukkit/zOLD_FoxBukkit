@@ -94,7 +94,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 				GroupWorld currentGroupWorld = null;
 				currentWorld = file.getName();
 				if(currentWorld.indexOf('.') > 0) {
-					currentWorld = currentWorld.substring(0, currentWorld.indexOf('.') - 1);
+					currentWorld = currentWorld.substring(0, currentWorld.indexOf('.'));
 				}
 				HashSet<String> currentPermissions = null;
 				HashSet<String> currentProhibitions = null; //Prohibitons do NOT support wildcards! Its only to remove INDIVIDUAL permissions!
@@ -107,11 +107,11 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 					if(c == '-') {
 						line = line.substring(1).trim();
 						currentPermissions.remove(line);
-						if(!line.endsWith("*")) currentProhibitions.add(line);
+						currentProhibitions.add(line);
 					} else if(c == '+') {
 						line = line.substring(1).trim();
 						currentPermissions.add(line);
-						if(!line.endsWith("*")) currentProhibitions.remove(line);
+						currentProhibitions.remove(line);
 					} else {
 						if(currentGroupWorld != null) {
 							groupPermissions.put(currentGroupWorld, currentPermissions);
@@ -238,7 +238,11 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		GroupWorld currentGroupWorld = new GroupWorld(getGroup(worldName, playerName), worldName);
 
 		HashSet<String> currentPermissions = groupPermissions.get(currentGroupWorld);
-		if(currentPermissions == null) return false;
+		if(currentPermissions == null) {
+			currentGroupWorld = new GroupWorld(currentGroupWorld.group, "world");
+			currentPermissions = groupPermissions.get(currentGroupWorld);
+			if(currentPermissions == null) return false;
+		}
 		if(currentPermissions.contains(permission)) return true;
 
 		HashSet<String> currentProhibitions = groupProhibitions.get(currentGroupWorld);
