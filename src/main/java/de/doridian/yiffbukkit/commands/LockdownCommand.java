@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
@@ -11,21 +10,21 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 @Permission("yiffbukkit.users.lockdown")
 public class LockdownCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		final String playerName = ply.getName();
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		final String name = commandSender.getName();
 		if (plugin.serverClosed) {
 			if (argStr.equals("on"))
 				throw new YiffBukkitCommandException("The server is already locked!");
 
 			plugin.serverClosed = false;
-			playerHelper.sendServerMessage(playerName + " unlocked the server for guests.", 1);
+			playerHelper.sendServerMessage(name + " unlocked the server for guests.", 1);
 		}
 		else {
 			if (argStr.equals("off"))
 				throw new YiffBukkitCommandException("The server is already unlocked!");
 
 			plugin.serverClosed = true;
-			playerHelper.sendServerMessage(playerName + " locked the server for guests.", 1);
+			playerHelper.sendServerMessage(name + " locked the server for guests.", 1);
 		}
 
 	}
