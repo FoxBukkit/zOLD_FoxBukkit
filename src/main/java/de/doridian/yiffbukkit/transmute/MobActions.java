@@ -71,8 +71,13 @@ final class MobActions {
 				slimeActions
 		);
 
-		//registerMobActions(63, // EnderDragon
-
+		registerMobActions(63, // EnderDragon
+				"help",
+				new HelpMobAction("/sac health <0..200>"),
+				"health",
+				new MetadataCustomValueAction(16, "Set your health to %s", Integer.class)
+		);
+		
 		registerMobActions(90, // Pig
 				"help",
 				new HelpMobAction("/sac saddle [on|off]|baby|adult"),
