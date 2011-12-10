@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +38,7 @@ final class MobActions {
 				"charge",
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
 		);
+
 		//registerMobActions(51, // Skeleton
 		//registerMobActions(52, // Spider
 		//registerMobActions(53, // Giant
@@ -45,12 +48,7 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac size <1..127>"),
 				"size",
-				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
-					byte size = Byte.valueOf(argStr);
-					shape.setData(16, size);
-
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Set your size to "+size);
-				}}
+				new MetadataCustomValueAction(16, "Set your size to %s", Byte.class)
 		};
 		registerMobActions(55, // Slime
 				slimeActions
@@ -178,6 +176,42 @@ final class MobActions {
 		}
 
 		mobActions.put(mobType, actions);
+	}
+
+	private static class MetadataCustomValueAction implements MobAction {
+		final int index;
+		final String message;
+		final Constructor<? extends Number> constructor;
+
+		public MetadataCustomValueAction(int index, String message, Class<? extends Number> numberClass) {
+			this.index = index;
+			this.message = message;
+			try {
+				this.constructor = numberClass.getConstructor(String.class);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+			try {
+				final Number value = constructor.newInstance(argStr);
+				shape.setData(index, value);
+
+				shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, String.format(message, value.toString()));
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			} catch (InstantiationException e) {
+				throw new RuntimeException(e);
+			} catch (InvocationTargetException e) {
+				if (e.getTargetException() instanceof RuntimeException) {
+					throw (RuntimeException) e.getTargetException();
+				}
+
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	private static class HelpMobAction implements MobAction {
