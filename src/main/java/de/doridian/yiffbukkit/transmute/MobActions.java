@@ -62,7 +62,16 @@ final class MobActions {
 		);
 
 		//registerMobActions(57, // PigZombie
-		//registerMobActions(58, // Enderman
+
+		registerMobActions(58, // Enderman
+				"help",
+				new HelpMobAction("/sac type <0..255>|data <0..15>"),
+				"type",
+				new MetadataCustomValueAction(16, "Set the type of the block you carry to %s", Byte.class),
+				"data",
+				new MetadataCustomValueAction(17, "Set the data value of the block you carry to %s", Byte.class)
+		);
+
 		//registerMobActions(59, // CaveSpider
 		//registerMobActions(60, // Silverfish
 		//registerMobActions(61, // Blaze
