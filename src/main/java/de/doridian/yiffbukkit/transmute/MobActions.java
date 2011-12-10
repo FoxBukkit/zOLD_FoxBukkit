@@ -77,14 +77,18 @@ final class MobActions {
 
 		registerMobActions(90, // Pig
 				"help",
-				new HelpMobAction("/sac saddle [on|off]"),
+				new HelpMobAction("/sac saddle [on|off]|baby|adult"),
 				"saddle",
-				new MetadataBitMobAction(16, (byte) 0x1, "You no longer have a saddle.", "You now have a saddle.")
+				new MetadataBitMobAction(16, (byte) 0x1, "You no longer have a saddle.", "You now have a saddle."),
+				"baby",
+				new MetadataMobAction(12, -24000, "Now a baby..."),
+				"adult",
+				new MetadataMobAction(12, 0, "Now an adult...")
 		);
 
 		registerMobActions(91, // Sheep
 				"help",
-				new HelpMobAction("/sac shorn|color <color>"),
+				new HelpMobAction("/sac shorn|color <color>|baby|adult"),
 				"color",
 				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
@@ -104,16 +108,34 @@ final class MobActions {
 					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
 				}},
 				"shorn",
-				new MetadataMobAction(16, (byte) 16, "You are now shorn.")
+				new MetadataMobAction(16, (byte) 16, "You are now shorn."),
+				"baby",
+				new MetadataMobAction(12, -24000, "Now a baby..."),
+				"adult",
+				new MetadataMobAction(12, 0, "Now an adult...")
 		);
 
-		//registerMobActions(92, // Cow
-		//registerMobActions(93, // Chicken
+		final Object[] animalActions = new Object[] {
+				"help",
+				new HelpMobAction("/sac baby|adult"),
+				"baby",
+				new MetadataMobAction(12, -24000, "Now a baby..."),
+				"adult",
+				new MetadataMobAction(12, 0, "Now an adult...")
+		};
+		registerMobActions(92, // Cow
+				animalActions
+		);
+
+		registerMobActions(93, // Chicken
+				animalActions
+		);
+
 		//registerMobActions(94, // Squid
 
 		registerMobActions(95, // Wolf
 				"help",
-				new HelpMobAction("/sac sit [on|off]|angry [on|off]|tame [on|off]|shake|hearts|smoke"),
+				new HelpMobAction("/sac sit [on|off]|angry [on|off]|tame [on|off]|shake|hearts|smoke|baby|adult"),
 				"sit",
 				new MetadataBitMobAction(16, 0x1, "Getting up...", "Sitting down..."),
 				"angry",
@@ -125,10 +147,16 @@ final class MobActions {
 				"hearts","heart", "love",
 				new EntityStatusMobAction(7, "Loving..."),
 				"smoke",
-				new EntityStatusMobAction(6, "Smoking...")
+				new EntityStatusMobAction(6, "Smoking..."),
+				"baby",
+				new MetadataMobAction(12, -24000, "Now a baby..."),
+				"adult",
+				new MetadataMobAction(12, 0, "Now an adult...")
 		);
 
-		//registerMobActions(96, // MushroomCow
+		registerMobActions(96, // MushroomCow
+				animalActions
+		);
 		//registerMobActions(97, // SnowMan
 		//registerMobActions(120, // Villager
 	}
