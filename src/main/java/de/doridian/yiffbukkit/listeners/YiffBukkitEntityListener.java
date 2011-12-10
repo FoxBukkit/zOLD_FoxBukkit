@@ -53,6 +53,9 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftEnderman.class, "an \u00a79enderman\u00a7f");
 		monsterMap.put(CraftSilverfish.class, "a \u00a79silverfish\u00a7f");
 		monsterMap.put(CraftCaveSpider.class, "a \u00a79cave spider\u00a7f");
+		monsterMap.put(CraftEnderDragon.class, "an \u00a79ender dragon\u00a7f");
+		monsterMap.put(CraftBlaze.class, "a \u00a79blaze\u00a7f");
+		monsterMap.put(CraftMagmaCube.class, "a \u00a79lava slime\u00a7f");
 	}
 
 	@Override
