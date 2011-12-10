@@ -97,7 +97,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 					currentWorld = currentWorld.substring(0, currentWorld.indexOf('.'));
 				}
 				HashSet<String> currentPermissions = null;
-				HashSet<String> currentProhibitions = null; //Prohibitons do NOT support wildcards! Its only to remove INDIVIDUAL permissions!
+				HashSet<String> currentProhibitions = null;
 				reader = new BufferedReader(new FileReader(file));
 				String line;
 				while((line = reader.readLine()) != null) {
