@@ -260,6 +260,10 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		if(currentProhibitions != null && currentProhibitions.contains("*")) { currentProhibitions.add(permission); return false; }
 		if(currentPermissions.contains("*")) { currentPermissions.add(permission); return true; }
 
+		if(currentProhibitions == null) {
+			currentProhibitions = new HashSet<String>();
+			groupProhibitions.put(currentGroupWorld, currentProhibitions);
+		}
 		currentProhibitions.add(permission);
 		return false;
 	}
@@ -280,7 +284,6 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 	public void setGroup(String name, String group) {
 		group = group.toLowerCase();
-		if(!groupPermissions.containsKey(group)) return;
 		playerGroups.put(name.toLowerCase(), group);
 		save();
 	}
