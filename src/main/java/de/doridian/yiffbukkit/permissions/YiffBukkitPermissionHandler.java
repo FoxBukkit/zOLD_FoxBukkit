@@ -14,11 +14,8 @@ import com.nijiko.permissions.PermissionHandler;
 
 public class YiffBukkitPermissionHandler extends PermissionHandler {
 	class GroupWorld {
-		public String group;
-		public String world;
-		public GroupWorld() {
-			
-		}
+		public final String group;
+		public final String world;
 		
 		public GroupWorld(String group, String world) {
 			this.group = group;
@@ -27,8 +24,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		
 		@Override
 		public boolean equals(Object other) {
-			if(!(other instanceof  GroupWorld)) return false;
-			return equals((GroupWorld)other);
+			return (other instanceof  GroupWorld) && equals((GroupWorld)other);
 		}
 
 		public boolean equals(GroupWorld other) {
@@ -37,7 +33,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		
 		@Override
 		public int hashCode() {
-			return (group + "|" + world).hashCode();
+			return (group.hashCode() / 2) + (world.hashCode() / 2);
 		}
 	}
 
