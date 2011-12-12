@@ -41,10 +41,12 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	private final HashMap<String,String> playerGroups = new HashMap<String,String>();
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<GroupWorld,HashSet<String>>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<GroupWorld,HashSet<String>>();
+	
+	private String defaultWorld = "world";
 
 	@Override
 	public void setDefaultWorld(String world) {
-
+		defaultWorld = world;
 	}
 
 	@Override
@@ -206,10 +208,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 	public boolean has(CommandSender commandSender, String permission) {
 		// Console can do everything
-		if (!(commandSender instanceof Player))
-			return true;
-
-		return permission((Player)commandSender, permission);
+		return (!(commandSender instanceof Player)) || permission((Player)commandSender, permission);
 	}
 
 	@Override
@@ -235,7 +234,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 		HashSet<String> currentPermissions = groupPermissions.get(currentGroupWorld);
 		if(currentPermissions == null) {
-			currentGroupWorld = new GroupWorld(currentGroupWorld.group, "world");
+			currentGroupWorld = new GroupWorld(currentGroupWorld.group, defaultWorld);
 			currentPermissions = groupPermissions.get(currentGroupWorld);
 			if(currentPermissions == null) return false;
 		}
@@ -265,7 +264,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	}
 
 	public boolean permission(String playerName, String permission) {
-		return permission("world", playerName, permission);
+		return permission(defaultWorld, playerName, permission);
 	}
 
 	@Override
@@ -291,22 +290,22 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 	@Override
 	public boolean inGroup(String world, String name, String group) {
-		return inGroup(name, group);
+		return inSingleGroup(world, name, group);
 	}
 
 	@Override
 	public boolean inSingleGroup(String world, String name, String group) {
-		return inGroup(world, name, group);
+		return getGroup(name).equalsIgnoreCase(group);
 	}
 
 	@Override
 	public boolean inGroup(String name, String group) {
-		return inSingleGroup(name, group);
+		return inGroup(defaultWorld, name, group);
 	}
 
 	@Override
 	public boolean inSingleGroup(String name, String group) {
-		return getGroup(name).equalsIgnoreCase(group);
+		return inSingleGroup(defaultWorld, name, group);
 	}
 
 	@Override
