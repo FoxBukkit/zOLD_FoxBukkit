@@ -47,7 +47,7 @@ public class DoriLogin {
 			pstmt.setString(2, saltPassword(name, password));
 			ResultSet resultSet = pstmt.executeQuery();
 
-			return resultSet.getString(1) == name;
+			return resultSet.getString(1).equals(name);
 		}
 		catch (SQLException exception) {
             exception.printStackTrace();
