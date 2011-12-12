@@ -223,7 +223,14 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void sendConsoleMsg(String msg) {
-		ColouredConsoleSender.getInstance().sendMessage("\u00a7d[YB]\u00a7f " + msg);
+		sendConsoleMsg(msg, true);
+	}
+
+	public void sendConsoleMsg(String msg, boolean addprefix) {
+		if(addprefix) {
+			msg = "\u00a7d[YB]\u00a7f " + msg;
+		}
+		ColouredConsoleSender.getInstance().sendMessage(msg);
 	}
 
 	public Hashtable<String,ICommand> getCommands() {

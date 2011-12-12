@@ -179,7 +179,7 @@ public class ChatHelper extends StateContainer {
 		
 		if(chan != DEFAULT) msg = "\u00a72[" + chan.name + "]\u00a7f " + msg;
 
-
+		plugin.sendConsoleMsg(msg, false);
 		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if(!entry.getValue()) continue; //for speed!
