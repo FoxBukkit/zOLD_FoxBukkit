@@ -46,6 +46,7 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	private Location location;
 	private int entId = -1;
 	private String displayName;
+	private World world;
 
 	public OfflinePlayer(Server server, String name) {
 		super((CraftServer) server, name);
@@ -56,7 +57,7 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		}
 
 		displayName = name;
-		World world = server.getWorld("world"); // TEMP!
+		world = server.getWorld("world"); // TEMP!
 		location = world.getSpawnLocation(); // TEMP!
 		//ServerConfigurationManager confmgr = ((CraftServer)server).getHandle();
 		//File worldFile = ((CraftWorld)world).getHandle().u;
@@ -181,7 +182,7 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public World getWorld() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		return world;
 	}
 	@Override
 	public int getEntityId() {
