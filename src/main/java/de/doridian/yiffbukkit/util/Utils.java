@@ -262,18 +262,30 @@ public class Utils {
 					notchEntity = new CustomPotion(location, 252, notchPlayer) {
 						@Override
 						protected boolean hit(MovingObjectPosition movingobjectposition) {
-							org.bukkit.World world = getBukkitEntity().getWorld();
+							final Entity thisBukkitEntity = getBukkitEntity();
+							final World world = thisBukkitEntity.getWorld();
 							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
 
-							if (movingobjectposition.entity == null)
-								return true;
-
-							final Entity bukkitEntity = movingobjectposition.entity.getBukkitEntity();
-							if (bukkitEntity instanceof LivingEntity) {
-								plugin.playerHelper.rage((LivingEntity) bukkitEntity, 100);
+							if (movingobjectposition.entity != null) {
+								final Entity hitBukkitEntity = movingobjectposition.entity.getBukkitEntity();
+								if (hitBukkitEntity instanceof LivingEntity) {
+									plugin.playerHelper.rage((LivingEntity) hitBukkitEntity, 100);
+								}
 							}
 
-							// TODO: add area effect
+							final Location thisLocation = thisBukkitEntity.getLocation();
+							for (Entity entity: thisBukkitEntity.getNearbyEntities(3, 3, 3)) {
+								if (!(entity instanceof LivingEntity))
+									continue;
+
+								if (entity.getLocation().distanceSquared(thisLocation) > 9)
+									continue;
+
+								if (entity.equals(thrower))
+									continue;
+
+								plugin.playerHelper.rage((LivingEntity) entity, 75);
+							}
 							return true;
 						}
 					};
@@ -475,17 +487,17 @@ public class Utils {
 
 	private abstract class CustomPotion extends EntityPotion {
 		protected final int potionId;
-		private final EntityPlayer player;
+		protected final EntityPlayer thrower;
 
-		private CustomPotion(Location location, int potionId, EntityPlayer notchPlayer) {
+		private CustomPotion(Location location, int potionId, EntityPlayer thrower) {
 			super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), potionId);
 			this.potionId = potionId;
-			this.player = notchPlayer;
+			this.thrower = thrower;
 		}
 
 		@Override
 		protected void a(MovingObjectPosition movingobjectposition) {
-			if (movingobjectposition.entity == player)
+			if (movingobjectposition.entity == thrower)
 				return;
 
 			try {
