@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +16,14 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("bind")
-@Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
-@Usage("[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
+@Help(
+		"Binds a command to your current tool. The leading slash\n" +
+		"is optional. Unbind by typing '/bind' without arguments.\n" +
+		"The -l flag lists your current binds."
+)
+@Usage("-l|[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
 @Permission("yiffbukkit.bind")
+@BooleanFlags("l")
 @StringFlags("i")
 public class BindCommand extends ICommand {
 	private static final Set<String> filter = new HashSet<String>();
@@ -36,6 +42,18 @@ public class BindCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		argStr = parseFlags(argStr).trim();
+
+		if (booleanFlags.contains('l')) {
+			String playerName = ply.getName();
+			for (Entry<String, ToolBind> entry : playerHelper.toolMappings.entrySet()) {
+				ToolBind toolBind = entry.getValue();
+				if (playerName.equals(toolBind.playerName)) {
+					String toolName = entry.getKey();
+					toolName = toolName.substring(toolName.indexOf(' ')+1);
+					playerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
+				}
+			}
+		}
 
 		Material toolType;
 		if (stringFlags.containsKey('i')) {
