@@ -11,6 +11,6 @@ public class RemotePlayer extends CraftConsoleCommandSender {
 
 	public void sendMessage(String message) {
 		yiffBukkitRemoteThread.send(message);
-		System.out.println("YiffBukkitRemote: "+message);
+		yiffBukkitRemoteThread.plugin.sendConsoleMsg("YiffBukkitRemote: "+message);
 	}
 }

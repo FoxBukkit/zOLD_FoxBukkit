@@ -140,7 +140,7 @@ public class MCBans {
 		long proofID = (Long)ret.get("value");
 		if (proofID == 31) return 0; //i dunno why, but meh...
 		tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + proofID;
-		System.out.println(tmp);
+		plugin.sendConsoleMsg(tmp);
 		plugin.playerHelper.sendDirectedMessage(from, tmp);
 		return proofID;
 	}

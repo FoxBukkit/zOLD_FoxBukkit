@@ -132,7 +132,7 @@ public class SignSaver extends StateContainer {
 		for (SignDescriptor current : saved_signs) {
 			BlockState state = current.location.getBlock().getState();
 			if (!(state instanceof Sign)) {
-				System.out.println("SignSaver: Block at "+current.location+" is not a sign."); 
+				plugin.sendConsoleMsg("SignSaver: Block at "+current.location+" is not a sign.");
 				continue;
 			}
 

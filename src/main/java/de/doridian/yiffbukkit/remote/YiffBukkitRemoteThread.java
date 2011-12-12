@@ -12,9 +12,9 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.util.Configuration;
 
 public class YiffBukkitRemoteThread extends Thread {
-	private YiffBukkitPlayerListener listen;
-	private YiffBukkit plugin;
-	private Socket socket;
+	private final  YiffBukkitPlayerListener listen;
+	public final YiffBukkit plugin;
+	private final Socket socket;
 	private PrintWriter out;
 
 	private final String PASSWORD = Configuration.getValue("rcon-password", "");

@@ -273,7 +273,7 @@ public class ReplayCommand extends ICommand {
 				}
 				final String s = sb.toString();
 				playerHelper.sendDirectedMessage(player, s);
-				System.out.println(s);
+				plugin.sendConsoleMsg(s);
 				return;
 			}
 			catch (IOException e) {

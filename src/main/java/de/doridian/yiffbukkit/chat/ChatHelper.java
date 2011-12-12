@@ -178,6 +178,8 @@ public class ChatHelper extends StateContainer {
 		int canhear = 0;
 		
 		if(chan != DEFAULT) msg = "\u00a72[" + chan.name + "]\u00a7f " + msg;
+
+
 		
 		for(Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if(!entry.getValue()) continue; //for speed!

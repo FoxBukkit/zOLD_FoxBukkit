@@ -113,7 +113,7 @@ public class AdvertismentSigns {
 			return ret;
 		}
 		catch(Exception e) {
-			System.out.println(file);
+			plugin.sendConsoleMsg(file);
 			e.printStackTrace();
 			return 0;
 		}

@@ -115,7 +115,7 @@ public class PortalEngine {
 		final PortalPair portalPair = portals.values().iterator().next();
 		final Portal portal = portalPair.in;
 		
-		System.out.println("move in portal");
+		//plugin.sendConsoleMsg("move in portal");
 
 		Vector from = event.getFrom().toVector();
 		if (portal.anchor.distanceSquared(from) > 25)
@@ -130,6 +130,6 @@ public class PortalEngine {
 
 		portalPair.moveThroughPortal(event.getPlayer());
 		plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "woosh");
-		System.out.println("woosh");
+		//plugin.sendConsoleMsg("woosh");
 	}
 }
