@@ -18,7 +18,7 @@ import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
@@ -37,7 +37,7 @@ public class PushUpCommand extends ICommand {
 
 		final Region selected;
 		try {
-			selected = session.getSelection(new BukkitWorld(world));
+			selected = session.getSelection(BukkitUtil.getLocalWorld(world));
 		}
 		catch (IncompleteRegionException e) {
 			throw new YiffBukkitCommandException("Please select a region.", e);

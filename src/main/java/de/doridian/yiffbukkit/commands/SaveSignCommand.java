@@ -5,7 +5,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 
@@ -26,7 +26,7 @@ public class SaveSignCommand extends ICommand {
 
 		final com.sk89q.worldedit.Vector vec;
 		try {
-			final Region selected = session.getSelection(new BukkitWorld(ply.getWorld()));
+			final Region selected = session.getSelection(BukkitUtil.getLocalWorld(ply.getWorld()));
 			vec = ((CuboidRegion) selected).getPos1();
 		}
 		catch (IncompleteRegionException e) {

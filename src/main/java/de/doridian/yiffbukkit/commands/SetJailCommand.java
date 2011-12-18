@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
 
 import org.bukkit.util.Vector;
@@ -28,7 +28,7 @@ public class SetJailCommand extends ICommand {
 		LocalSession session = plugin.worldEdit.getSession(ply);
 
 		try {
-			Region selected = session.getSelection(new BukkitWorld(ply.getWorld()));
+			Region selected = session.getSelection(BukkitUtil.getLocalWorld(ply.getWorld()));
 			com.sk89q.worldedit.Vector pos1 = selected.getMaximumPoint();
 			com.sk89q.worldedit.Vector pos2 = selected.getMinimumPoint();
 			double y = Math.min(pos1.getY(), pos2.getY())+1;
