@@ -127,7 +127,7 @@ public class GiveCommand extends ICommand {
 
 			for (int i = 0; i < count; ++i) {
 				try {
-					plugin.utils.buildMob(args[0].split("\\+"), commandSender, target, target.getLocation());
+					plugin.spawnUtils.buildMob(args[0].split("\\+"), commandSender, target, target.getLocation());
 				}
 				catch (PermissionDeniedException e) {
 					throw new YiffBukkitCommandException("Material "+materialName+" not found");

@@ -28,7 +28,7 @@ import org.bukkit.event.server.PacketListener;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.util.SpawnUtils;
 
 @Names("record")
 @Help("Records a player's actions. Use the -s flag to stop recording.")
@@ -78,7 +78,7 @@ public class RecordCommand extends ICommand {
 			throw new YiffBukkitCommandException("Could not create replay file.", e);
 		}
 
-		final HumanEntity bukkitEntity = Utils.makeNPC(recorderName, location);
+		final HumanEntity bukkitEntity = SpawnUtils.makeNPC(recorderName, location);
 
 		EntityHuman eply = ((CraftHumanEntity)bukkitEntity).getHandle();
 		recorder.eply = eply;

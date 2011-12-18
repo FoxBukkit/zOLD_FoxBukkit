@@ -47,6 +47,7 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.transmute.Transmute;
+import de.doridian.yiffbukkit.util.SpawnUtils;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.vanish.Vanish;
@@ -76,6 +77,7 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
 	public final Utils utils = new Utils(this);
+	public final SpawnUtils spawnUtils = new SpawnUtils(this);
 	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;

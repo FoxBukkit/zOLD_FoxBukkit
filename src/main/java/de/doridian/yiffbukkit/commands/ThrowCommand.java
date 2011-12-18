@@ -102,7 +102,7 @@ public class ThrowCommand extends ICommand {
 
 		final ToolBind runnable;
 		if (typeName.equalsIgnoreCase("me")) {
-			plugin.utils.checkMobSpawn(ply, "me");
+			plugin.spawnUtils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
 				public void run(PlayerInteractEvent event) {
@@ -167,7 +167,7 @@ public class ThrowCommand extends ICommand {
 						finalLocation.setY(location.getY()+direction.getY()*scale);
 						finalLocation.setZ(location.getZ()+direction.getZ()*scale);
 
-						final Entity entity = plugin.utils.buildMob(types, player, null, finalLocation);
+						final Entity entity = plugin.spawnUtils.buildMob(types, player, null, finalLocation);
 						entity.setVelocity(direction);
 
 						yaw += offset;
