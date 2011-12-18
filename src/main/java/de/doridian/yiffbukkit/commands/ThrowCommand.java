@@ -31,9 +31,10 @@ import de.doridian.yiffbukkit.util.Utils;
 		"  wolf:angry|tame|sit - can be combined with a comma (,)\n"+
 		"  creeper:charged"
 )
-@Usage("[-i <item name or id>][<type>[ <forward>[ <up>[ <left>]]]]")
+@Usage("[-i <item name or id> ][-m <amount> ][<type>[ <forward>[ <up>[ <left>]]]]")
 @BooleanFlags("p")
 @StringFlags("i")
+@NumericFlags("m")
 @Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
@@ -97,24 +98,27 @@ public class ThrowCommand extends ICommand {
 
 		final boolean usePitch = !booleanFlags.contains('p');
 
-		String typeName = args[0];
+		final String typeName = args[0];
 
-		ToolBind runnable;
+		final ToolBind runnable;
 		if (typeName.equalsIgnoreCase("me")) {
 			plugin.utils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
 				public void run(PlayerInteractEvent event) {
-					Player player = event.getPlayer();
+					final Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
 						location.setYaw(lastYaws.get(player));
-						if (usePitch)
-							location.setPitch(lastPitches.get(player));
+						location.setPitch(lastPitches.get(player));
 					}
-					Vector direction = Utils.toWorldAxis(location, speed);
 
-					Entity vehicle = Utils.getVehicle(player);
+					if (!usePitch)
+						location.setPitch(0);
+
+					final Vector direction = Utils.toWorldAxis(location, speed);
+
+					final Entity vehicle = Utils.getVehicle(player);
 					if (vehicle == null)
 						player.setVelocity(direction);
 					else
@@ -126,24 +130,48 @@ public class ThrowCommand extends ICommand {
 			final String[] types = typeName.split("\\+");
 			final double scale = 1/speed.length();
 
+			final int amount;
+			final float offset;
+			if (numericFlags.containsKey('m')) {
+				final int maxItems = ply.hasPermission("yiffbukkit.throw.unlimited") ? 1000 : 10;
+				amount = Math.max(0, Math.min(maxItems, (int) (double) numericFlags.get('m')));
+				offset = 360.0f / amount;
+			}
+			else {
+				amount = 1;
+				offset = 0;
+			}
+
 			runnable = new ToolBind("/throw "+typeName, ply) {
 				@Override
 				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
+
+					float yaw = location.getYaw();
+
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
-						location.setYaw(lastYaws.get(player));
-						if (usePitch)
-							location.setPitch(lastPitches.get(player));
+						yaw = lastYaws.get(player);
+						location.setPitch(lastPitches.get(player));
 					}
-					final Vector direction = Utils.toWorldAxis(location, speed);
 
-					location.setX(location.getX()+direction.getX()*scale);
-					location.setY(location.getY()+direction.getY()*scale);
-					location.setZ(location.getZ()+direction.getZ()*scale);
-					Entity entity = plugin.utils.buildMob(types, player, null, location);
-					entity.setVelocity(direction);
+					if (!usePitch)
+						location.setPitch(0);
 
+					for (int i = 0; i < amount; ++i) {
+						location.setYaw(yaw);
+						final Vector direction = Utils.toWorldAxis(location, speed);
+
+						final Location finalLocation = location.clone();
+						finalLocation.setX(location.getX()+direction.getX()*scale);
+						finalLocation.setY(location.getY()+direction.getY()*scale);
+						finalLocation.setZ(location.getZ()+direction.getZ()*scale);
+
+						final Entity entity = plugin.utils.buildMob(types, player, null, finalLocation);
+						entity.setVelocity(direction);
+
+						yaw += offset;
+					}
 				}
 			};
 		}
