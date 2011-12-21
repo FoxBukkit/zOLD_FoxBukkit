@@ -25,42 +25,28 @@ public class VanishPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-		final Player player = event.getPlayer();
-		final String playerName = player.getName();
-		if (vanish.vanishedPlayers.contains(playerName))
+		if (vanish.isVanished(event.getPlayer()))
 			event.setCancelled(true);
 	}
 
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
-		int entityId = ply.getEntityId();
 
-		if (vanish.vanishedPlayers.contains(ply.getName()))
-			vanishId(entityId);
+		if (vanish.isVanished(ply))
+			vanish.vanishId(ply.getEntityId());
 	}
 
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player ply = event.getPlayer();
-		int entityId = ply.getEntityId();
-
-		unVanishId(entityId);
+		vanish.unVanishId(event.getPlayer().getEntityId());
 	}
 
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
-		Player ply = event.getPlayer();
-		int entityId = ply.getEntityId();
+		if (event.isCancelled())
+			return;
 
-		unVanishId(entityId);
-	}
-
-	private void vanishId(int entityId) {
-		vanish.vanishedEntityIds.add(entityId);
-	}
-
-	private void unVanishId(int entityId) {
-		vanish.vanishedEntityIds.remove(entityId);
+		vanish.unVanishId(event.getPlayer().getEntityId());
 	}
 }

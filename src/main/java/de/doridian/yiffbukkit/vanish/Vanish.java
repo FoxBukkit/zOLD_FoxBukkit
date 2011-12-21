@@ -20,7 +20,7 @@ public class Vanish {
 	private final VanishPlayerListener vanishPlayerListener;
 
 	Set<String> vanishedPlayers = new HashSet<String>();
-	public Set<Integer> vanishedEntityIds = new HashSet<Integer>();
+	Set<Integer> vanishedEntityIds = new HashSet<Integer>();
 
 	public Vanish(YiffBukkit plugin) {
 		this.plugin = plugin;
@@ -52,5 +52,13 @@ public class Vanish {
 		vanishedEntityIds.remove(ply.getEntityId());
 		plugin.playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
 		plugin.playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet20NamedEntitySpawn(((CraftPlayer)ply).getHandle()), ply, 3);
+	}
+
+	public void vanishId(int entityId) {
+		vanishedEntityIds.add(entityId);
+	}
+
+	public void unVanishId(int entityId) {
+		vanishedEntityIds.remove(entityId);
 	}
 }

@@ -82,7 +82,7 @@ public class RecordCommand extends ICommand {
 
 		EntityHuman eply = ((CraftHumanEntity)bukkitEntity).getHandle();
 		recorder.eply = eply;
-		plugin.vanish.vanishedEntityIds.add(eply.id);
+		plugin.vanish.vanishId(eply.id);
 		final WorldServer worldServer = (WorldServer)eply.world;
 		worldServer.manager.addPlayer((EntityPlayer)eply);
 
@@ -122,7 +122,7 @@ public class RecordCommand extends ICommand {
 
 			recorders.remove(playerName);
 			recorders.remove(recorderName);
-			plugin.vanish.vanishedEntityIds.remove(eply.id);
+			plugin.vanish.unVanishId(eply.id);
 		}
 	}
 
