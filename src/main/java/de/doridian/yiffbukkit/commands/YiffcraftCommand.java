@@ -11,7 +11,6 @@ public class YiffcraftCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if(argStr.equalsIgnoreCase("getcommands")) {
 			ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + 'c' + "http://mc.doridian.de/yb_commands.txt");
-			ply.sendRawMessage("Sent URL");
 		}
 	}
 }
