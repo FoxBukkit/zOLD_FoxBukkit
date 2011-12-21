@@ -37,6 +37,10 @@ public class Vanish {
 		return vanishedPlayers.contains(ply.getName());
 	}
 
+	public boolean isVanished(String playerName) {
+		return vanishedPlayers.contains(playerName);
+	}
+
 	public void vanish(Player ply) {
 		plugin.playerHelper.sendPacketToPlayersAround(ply.getLocation(), 1024, new Packet29DestroyEntity(ply.getEntityId()), ply, 3);
 		vanishedPlayers.add(ply.getName());
