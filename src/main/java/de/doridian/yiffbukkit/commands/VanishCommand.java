@@ -13,7 +13,8 @@ public class VanishCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		final String playerName = ply.getName();
-		if (plugin.vanish.vanishedPlayers.contains(playerName)) {
+
+		if (plugin.vanish.isVanished(playerName)) {
 			if (argStr.equals("on"))
 				throw new YiffBukkitCommandException("Already invisible!");
 
@@ -27,6 +28,5 @@ public class VanishCommand extends ICommand {
 			plugin.vanish.vanish(ply);
 			playerHelper.sendServerMessage(playerName + " vanished.", playerHelper.getPlayerLevel(ply));
 		}
-
 	}
 }

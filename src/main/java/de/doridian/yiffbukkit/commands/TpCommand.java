@@ -49,7 +49,7 @@ public class TpCommand extends ICommand {
 			plugin.playerHelper.teleportWithHistory(ply, otherply);
 		}
 
-		if (plugin.vanish.vanishedPlayers.contains(playerName) || booleanFlags.contains('s')) {
+		if (plugin.vanish.isVanished(ply) || booleanFlags.contains('s')) {
 			playerHelper.sendServerMessage(playerName + " silently teleported to " + otherName, "yiffbukkit.vanish.see");
 		}
 		else {

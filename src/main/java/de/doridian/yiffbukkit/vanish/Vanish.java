@@ -19,7 +19,7 @@ public class Vanish {
 	@SuppressWarnings("unused")
 	private final VanishPlayerListener vanishPlayerListener;
 
-	public Set<String> vanishedPlayers = new HashSet<String>();
+	Set<String> vanishedPlayers = new HashSet<String>();
 	public Set<Integer> vanishedEntityIds = new HashSet<Integer>();
 
 	public Vanish(YiffBukkit plugin) {
