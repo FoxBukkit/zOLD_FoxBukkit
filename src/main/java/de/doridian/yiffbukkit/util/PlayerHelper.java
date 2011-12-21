@@ -527,11 +527,8 @@ public class PlayerHelper extends StateContainer {
 		radius *= radius;
 		final Vector locationVector = location.toVector();
 		final World world = location.getWorld();
-		for (Player ply : plugin.getServer().getOnlinePlayers()) {
+		for (Player ply : world.getPlayers()) {
 			if (ply.equals(except))
-				continue;
-
-			if (world != ply.getWorld())
 				continue;
 
 			if (getPlayerLevel(ply) >= maxLevel)
