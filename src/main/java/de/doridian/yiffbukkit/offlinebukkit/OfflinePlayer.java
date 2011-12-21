@@ -305,6 +305,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
+	public Player getKiller() {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
 	public boolean teleport(Location location) {
 		//throw new UnsupportedOperationException("Not yet implemented!");
 		return false;
