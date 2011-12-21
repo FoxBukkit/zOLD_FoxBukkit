@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -199,7 +200,17 @@ public abstract class ICommand {
 		if (!(commandSender instanceof Player))
 			throw new YiffBukkitCommandException("This command can only be run as a player.");
 
-		return (Player)commandSender;
+		return (Player) commandSender;
+	}
+
+	public static CraftPlayer asCraftPlayer(CommandSender commandSender) throws YiffBukkitCommandException {
+		if (!(commandSender instanceof Player))
+			throw new YiffBukkitCommandException("This command can only be run as a player.");
+		
+		if (!(commandSender instanceof CraftPlayer))
+			throw new YiffBukkitCommandException("This command can only be run on CraftBukkit.");
+
+		return (CraftPlayer) commandSender;
 	}
 
 	public final String getHelp() {
