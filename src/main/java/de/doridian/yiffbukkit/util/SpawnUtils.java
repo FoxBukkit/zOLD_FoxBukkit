@@ -416,7 +416,7 @@ public class SpawnUtils {
 		return bukkitEntity;
 	}
 
-	private static abstract class CustomPotion extends EntityPotion {
+	private abstract class CustomPotion extends EntityPotion {
 		protected final int potionId;
 		protected final EntityPlayer thrower;
 
@@ -435,13 +435,17 @@ public class SpawnUtils {
 				if (hit(movingobjectposition))
 					die();
 			}
+			catch (YiffBukkitCommandException e) {
+				plugin.playerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
+				die();
+			}
 			catch (Throwable e) {
 				e.printStackTrace();
 				die();
 			}
 		}
 
-		protected abstract boolean hit(MovingObjectPosition movingobjectposition);
+		protected abstract boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException;
 	}
 
 	private static class NPCSocket extends Socket {
