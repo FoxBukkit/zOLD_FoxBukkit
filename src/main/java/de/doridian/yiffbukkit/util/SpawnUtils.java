@@ -56,7 +56,7 @@ public class SpawnUtils {
 		plugin = iface;
 	}
 
-	public Entity buildMob(final String[] types, CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
+	public Entity buildMob(final String[] types, final CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
 		boolean hasThis = false;
 		for (String part : types) {
 			if ("THIS".equalsIgnoreCase(part)) {
@@ -186,11 +186,11 @@ public class SpawnUtils {
 				entity = notchEntity.getBukkitEntity();
 			}
 			else if (type.equalsIgnoreCase("POTION")) {
-				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
+				final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
 
 				final net.minecraft.server.Entity notchEntity;
 				if ("RAGE".equalsIgnoreCase(data)) {
-					notchEntity = new CustomPotion(location, 252, notchPlayer) {
+					notchEntity = new CustomPotion(location, 12, notchPlayer) {
 						@Override
 						protected boolean hit(MovingObjectPosition movingobjectposition) {
 							final Entity thisBukkitEntity = getBukkitEntity();
@@ -217,6 +217,20 @@ public class SpawnUtils {
 
 								plugin.playerHelper.rage((LivingEntity) entity, 75);
 							}
+							return true;
+						}
+					};
+				}
+				else if ("NINJA".equalsIgnoreCase(data)) {
+					notchEntity = new CustomPotion(location, 8, notchPlayer) {
+						@Override
+						protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
+							final Entity thisBukkitEntity = getBukkitEntity();
+							final World world = thisBukkitEntity.getWorld();
+							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+
+							plugin.vanish.vanish(ICommand.asPlayer(commandSender));
+
 							return true;
 						}
 					};
