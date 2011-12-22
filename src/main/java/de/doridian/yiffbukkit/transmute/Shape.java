@@ -39,7 +39,7 @@ import de.doridian.yiffbukkit.util.Utils;
 
 public abstract class Shape {
 	final protected Transmute transmute;
-	final protected int entityID;
+	final protected int entityId;
 	final protected Player player;
 	final protected Entity entity;
 	protected DataWatcher datawatcher;
@@ -48,7 +48,7 @@ public abstract class Shape {
 		this.transmute = transmute;
 		this.player = player;
 		this.entity = entity;
-		entityID = entity.getEntityId();
+		entityId = entity.getEntityId();
 		datawatcher = new DataWatcher();
 	}
 
@@ -194,7 +194,7 @@ public abstract class Shape {
 		// put the actual data in
 		datawatcher.watch(index, value);
 
-		return new Packet40EntityMetadata(entityID, datawatcher);
+		return new Packet40EntityMetadata(entityId, datawatcher);
 	}
 
 	abstract public void createTransmutedEntity();

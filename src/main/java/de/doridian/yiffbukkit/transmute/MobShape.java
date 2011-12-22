@@ -45,7 +45,7 @@ public class MobShape extends Shape {
 
 		final Packet24MobSpawn p24 = new Packet24MobSpawn();
 
-		p24.a = entityID;
+		p24.a = entityId;
 		p24.b = (byte) mobType;
 		p24.c = MathHelper.floor(location.getX() * 32.0D);
 		p24.d = MathHelper.floor(location.getY() * 32.0D);

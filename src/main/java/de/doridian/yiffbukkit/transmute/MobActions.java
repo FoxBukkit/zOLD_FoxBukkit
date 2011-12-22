@@ -289,7 +289,7 @@ final class MobActions {
 			final Location location = shape.entity.getLocation();
 			final World world = location.getWorld();
 			for (Player player : world.getPlayers()) {
-				PlayerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityID, status));
+				PlayerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityId, status));
 			}
 
 			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);

@@ -48,8 +48,8 @@ public class Transmute {
 		}, 0, 200);
 	}
 
-	public boolean isTransmuted(int entityID) {
-		return transmuted.containsKey(entityID);
+	public boolean isTransmuted(int entityId) {
+		return transmuted.containsKey(entityId);
 	}
 
 	public boolean isTransmuted(Entity entity) {
@@ -60,8 +60,8 @@ public class Transmute {
 		return transmuted.containsKey(entity.id);
 	}
 
-	public Shape getShape(int entityID) {
-		return transmuted.get(entityID);
+	public Shape getShape(int entityId) {
+		return transmuted.get(entityId);
 	}
 
 	public Shape getShape(Entity entity) {

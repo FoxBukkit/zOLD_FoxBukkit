@@ -65,8 +65,8 @@ public class TransmutePacketListener extends PacketListener {
 		}
 	}
 
-	private boolean handleSpawn(final Player ply, final int entityID) {
-		final Shape shape = transmute.getShape(entityID);
+	private boolean handleSpawn(final Player ply, final int entityId) {
+		final Shape shape = transmute.getShape(entityId);
 		if (shape == null)
 			return true;
 
@@ -75,7 +75,7 @@ public class TransmutePacketListener extends PacketListener {
 		return false;
 	}
 
-	/*private Entity getEntityFromID(final Player ply, final int entityID) {
-		return ((CraftWorld)ply.getWorld()).getHandle().getEntity(entityID);
+	/*private Entity getEntityFromID(final Player ply, final int entityId) {
+		return ((CraftWorld)ply.getWorld()).getHandle().getEntity(entityId);
 	}*/
 }
