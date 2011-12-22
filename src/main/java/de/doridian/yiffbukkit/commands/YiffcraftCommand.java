@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.util.Configuration;
 import org.bukkit.entity.Player;
 
 import java.io.FileWriter;
@@ -15,7 +16,7 @@ public class YiffcraftCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if(argStr.equalsIgnoreCase("getcommands")) {
-			ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + 'c' + "http://mc.doridian.de/yb_commands.txt");
+			ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + 'c' + Configuration.getValue("yiffcraft-command-url","http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
 		} else if(argStr.equalsIgnoreCase("writecommands")) {
 			try {
 				Hashtable<String, ICommand> commands = plugin.playerListener.commands;
