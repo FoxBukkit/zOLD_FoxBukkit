@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet70Bed;
@@ -28,6 +27,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.StateContainer;
@@ -514,7 +514,7 @@ public class PlayerHelper extends StateContainer {
 	public Long frozenServerTime;
 
 	public static final void sendPacketToPlayer(final Player ply, final Packet packet) {
-		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket(packet);
+		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket((net.minecraft.server.Packet) packet);
 	}
 
 	public final void sendPacketToPlayersAround(final Location location, final double radius, final Packet packet) {
