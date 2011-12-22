@@ -5,42 +5,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.minecraft.server.MathHelper;
+import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet24MobSpawn;
+import net.minecraft.server.Packet30Entity;
+import net.minecraft.server.Packet34EntityTeleport;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 
 public class MobShape extends Shape {
-	int mobType;
+	protected int mobType;
 	private Map<String, MobAction> actions;
+
+	protected float yawOffset = 0;
+	protected double yOffset = 0;
 
 	public MobShape(Transmute transmute, Player player, Entity entity, int mobType) {
 		super(transmute, player, entity);
 
 		this.mobType = mobType;
 		actions = MobActions.get(mobType);
+
+		switch (mobType) {
+		case 63: // EnderDragon
+			yawOffset = 180;
+			break;
+		}
 	}
 
 	@Override
 	public void createTransmutedEntity() {
 		if (entity instanceof Player)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createMobSpawnPacket()), (Player) entity);
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createSpawnPacket()), (Player) entity);
 		else
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createMobSpawnPacket()));
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createSpawnPacket()));
 	}
 
 
 	@Override
 	public void createTransmutedEntity(Player forPlayer) {
-		PlayerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createMobSpawnPacket()));
+		PlayerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createSpawnPacket()));
 	}
 
-	private Packet24MobSpawn createMobSpawnPacket() {
+	protected Packet createSpawnPacket() {
 		Location location = entity.getLocation();
 
 		final Packet24MobSpawn p24 = new Packet24MobSpawn();
@@ -48,9 +61,9 @@ public class MobShape extends Shape {
 		p24.a = entityId;
 		p24.b = (byte) mobType;
 		p24.c = MathHelper.floor(location.getX() * 32.0D);
-		p24.d = MathHelper.floor(location.getY() * 32.0D);
+		p24.d = MathHelper.floor((location.getY()+yOffset) * 32.0D);
 		p24.e = MathHelper.floor(location.getZ() * 32.0D);
-		p24.f = (byte) ((int) (location.getYaw() * 256.0F / 360.0F));
+		p24.f = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F));
 		p24.g = (byte) ((int) (location.getPitch() * 256.0F / 360.0F));
 		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "h", datawatcher);
 		return p24;
@@ -84,5 +97,32 @@ public class MobShape extends Shape {
 			throw new YiffBukkitCommandException("No action named "+actionName+" defined for your current shape.");
 
 		mobAction.run(this, args, argStr);
+	}
+
+	@Override
+	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+		switch (packetID) {
+		case 18:
+			return ((Packet18ArmAnimation) packet).b == 2;
+
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+			Packet30Entity p30 = (Packet30Entity) packet;
+			p30.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
+
+			return true;
+
+		case 34:
+			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			p34.c += (int)(yOffset * 32.0);
+			p34.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
+
+			return true;
+
+		default:
+			return true;
+		}
 	}
 }

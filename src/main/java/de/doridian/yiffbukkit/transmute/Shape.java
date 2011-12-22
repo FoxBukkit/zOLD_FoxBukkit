@@ -38,11 +38,11 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.Utils;
 
 public abstract class Shape {
-	final protected Transmute transmute;
-	final protected int entityId;
-	final protected Player player;
-	final protected Entity entity;
-	protected DataWatcher datawatcher;
+	protected final Transmute transmute;
+	protected final int entityId;
+	protected final Player player;
+	protected final Entity entity;
+	protected final DataWatcher datawatcher;
 
 	protected Shape(Transmute transmute, Player player, Entity entity) {
 		this.transmute = transmute;
@@ -227,9 +227,9 @@ public abstract class Shape {
 		//case 20: // PrimedTnt
 		//case 21: // FallingSand
 
-		//case 40: // Minecart
-		//case 41: // Boat
-			//return getShapeImpl(transmute, player, entity, mobType, VehicleShape.class);
+		case 40: // Minecart
+		case 41: // Boat
+			return getShapeImpl(transmute, player, entity, id, VehicleShape.class);
 		default:
 			throw new RuntimeException("Invalid shape.");
 		}
@@ -288,4 +288,6 @@ public abstract class Shape {
 		if (vehicle != null)
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(notchEntity, vehicle));
 	}
+
+	public abstract boolean onOutgoingPacket(Player ply, int packetID, org.bukkit.event.server.Packet packet);
 }

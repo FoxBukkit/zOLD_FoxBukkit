@@ -8,6 +8,8 @@ import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet23VehicleSpawn;
 import net.minecraft.server.Packet24MobSpawn;
+import net.minecraft.server.Packet30Entity;
+import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet40EntityMetadata;
 
 import org.bukkit.entity.Player;
@@ -17,7 +19,7 @@ import org.bukkit.plugin.Plugin;
 
 public class TransmutePacketListener extends PacketListener {
 	private final Transmute transmute;
-	final Set<net.minecraft.server.Packet> ignoredPackets = new HashSet<net.minecraft.server.Packet>();
+	final Set<Packet> ignoredPackets = new HashSet<Packet>();
 
 	public TransmutePacketListener(Transmute transmute) {
 		this.transmute = transmute;
@@ -28,6 +30,11 @@ public class TransmutePacketListener extends PacketListener {
 		PacketListener.addPacketListener(true, 20, this, plugin);
 		PacketListener.addPacketListener(true, 23, this, plugin);
 		PacketListener.addPacketListener(true, 24, this, plugin);
+		PacketListener.addPacketListener(true, 30, this, plugin);
+		PacketListener.addPacketListener(true, 31, this, plugin);
+		PacketListener.addPacketListener(true, 32, this, plugin);
+		PacketListener.addPacketListener(true, 33, this, plugin);
+		PacketListener.addPacketListener(true, 34, this, plugin);
 		PacketListener.addPacketListener(true, 40, this, plugin);
 	}
 
@@ -36,17 +43,15 @@ public class TransmutePacketListener extends PacketListener {
 		if (ignoredPackets.contains(packet))
 			return true;
 
+		final int entityId;
+
 		switch (packetID) {
 		case 17:
 			return !transmute.isTransmuted(((Packet17EntityLocationAction) packet).a);
 
 		case 18:
-			final Packet18ArmAnimation p18 = (Packet18ArmAnimation) packet;
-
-			if (p18.b == 2)
-				return true;
-
-			return !transmute.isTransmuted(p18.a);
+			entityId = ((Packet18ArmAnimation) packet).a;
+			break;
 
 		case 20:
 			return handleSpawn(ply, ((Packet20NamedEntitySpawn) packet).a);
@@ -57,12 +62,29 @@ public class TransmutePacketListener extends PacketListener {
 		case 24:
 			return handleSpawn(ply, ((Packet24MobSpawn) packet).a);
 
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+			entityId = ((Packet30Entity) packet).a;
+			break;
+
+		case 34:
+			entityId = ((Packet34EntityTeleport) packet).a;
+			break;
+
 		case 40:
 			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a);
 
 		default:
 			return true;
 		}
+
+		final Shape shape = transmute.getShape(entityId);
+		if (shape == null)
+			return true;
+
+		return shape.onOutgoingPacket(ply, packetID, packet);
 	}
 
 	private boolean handleSpawn(final Player ply, final int entityId) {

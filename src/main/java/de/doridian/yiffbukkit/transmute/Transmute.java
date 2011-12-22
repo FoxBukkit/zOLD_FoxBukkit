@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.server.Packet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 
@@ -32,7 +32,7 @@ public class Transmute {
 				for (Iterator<Packet> iterator = transmutePacketListener.ignoredPackets.iterator(); iterator.hasNext(); ) {
 					final Packet packet = iterator.next();
 
-					if (packet.timestamp < minTimestamp)
+					if (((net.minecraft.server.Packet) packet).timestamp < minTimestamp)
 						iterator.remove();
 				}
 
@@ -112,7 +112,7 @@ public class Transmute {
 		return shape;
 	}
 
-	Packet ignorePacket(Packet packet) {
+	org.bukkit.event.server.Packet ignorePacket(org.bukkit.event.server.Packet packet) {
 		transmutePacketListener.ignoredPackets.add(packet);
 		return packet;
 	}
