@@ -211,7 +211,7 @@ public abstract class Shape {
 		if (EntityLiving.class.isAssignableFrom(mobType)) {
 			return getShapeImpl(transmute, player, entity, id, MobShape.class);
 		}
-		
+
 		/*
 		 from: "    a\(.*\.class, "(.*)", (.*)\);"
 		 to: case \2: // \1
@@ -221,15 +221,21 @@ public abstract class Shape {
 		//case 2: // XPOrb
 
 		//case 9: // Painting
-		//case 10: // Arrow
-		//case 11: // Snowball
 
-		//case 20: // PrimedTnt
-		//case 21: // FallingSand
 
+		case 10: // Arrow
+		case 11: // Snowball
+		case 12: // Fireball
+		case 13: // SmallFireball
+		case 14: // ThrownEnderpearl
+		case 15: // EyeOfEnderSignal
+		case 20: // PrimedTnt
+		case 21: // FallingSand
 		case 40: // Minecart
 		case 41: // Boat
+		case 200: // EnderCrystal
 			return getShapeImpl(transmute, player, entity, id, VehicleShape.class);
+
 		default:
 			throw new RuntimeException("Invalid shape.");
 		}

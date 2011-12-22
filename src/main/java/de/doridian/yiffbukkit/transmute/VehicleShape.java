@@ -12,8 +12,20 @@ import org.bukkit.entity.Player;
 public class VehicleShape extends MobShape {
 	private static final Map<Integer, Integer> mobTypeMap = new HashMap<Integer, Integer>();
 	{
-		mobTypeMap.put(40, 10);
-		mobTypeMap.put(41, 1);
+		mobTypeMap.put(10, 60); // Arrow
+		//mobTypeMap.put(fishinghook, 90);
+		mobTypeMap.put(11, 61); // Snowball
+		mobTypeMap.put(12, 63); // Fireball
+		mobTypeMap.put(13, 64); // SmallFireball
+		//mobTypeMap.put(potion, 73);
+		mobTypeMap.put(14, 65); // ThrownEnderpearl
+		mobTypeMap.put(15, 72); // EyeOfEnderSignal
+		//mobTypeMap.put(egg, 62);
+		mobTypeMap.put(20, 50); // PrimedTnt
+		mobTypeMap.put(21, 70); // FallingSand
+		mobTypeMap.put(40, 10); // Minecart
+		mobTypeMap.put(41, 1); // Boat
+		mobTypeMap.put(200, 51); // EnderCrystal
 	}
 
 	private int vehicleType;
@@ -21,10 +33,29 @@ public class VehicleShape extends MobShape {
 
 	public VehicleShape(Transmute transmute, Player player, Entity entity, int mobType) {
 		super(transmute, player, entity, mobType);
-		yawOffset = 270;
-		yOffset = 0.5;
 
 		vehicleType = mobTypeMap.get(mobType);
+
+		switch (mobType) {
+		case 40:
+		case 41:
+			yawOffset = 270;
+			yOffset = 0.5;
+			break;
+
+		case 10:
+			yawOffset = 90;
+			/* FALL-THROUGH */
+
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 20:
+		case 21:
+			yOffset = 1.62;
+			break;
+		}
 	}
 
 	@Override
