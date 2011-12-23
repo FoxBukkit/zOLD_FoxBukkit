@@ -82,6 +82,16 @@ public class Transmute {
 			shape.createTransmutedEntity();
 			shape.reattachPassenger();
 		}}, 2);
+
+		if (entity instanceof Player && shape instanceof EntityShape) {
+			int mobType = ((EntityShape) shape).mobType;
+			try {
+				String typeName = MyEntityTypes.classToTypeName(MyEntityTypes.idToClass(mobType));
+				plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', typeName);
+			}
+			catch (EntityTypeNotFoundException e) {
+			}
+		}
 	}
 
 	public void setShape(Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
@@ -101,7 +111,10 @@ public class Transmute {
 			}}, 2);
 		}
 
-			return shape;
+		if (entity instanceof Player)
+			plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', "");
+
+		return shape;
 	}
 
 	public Shape removeShape(Entity entity) {
