@@ -212,7 +212,8 @@ public abstract class Shape {
 		 to: case \2: // \1
 		 */
 		switch (id) {
-		//case 1: // Item
+		case 1: // Item
+			return getShapeImpl(transmute, player, entity, id, ItemShape.class);
 		//case 2: // XPOrb
 
 		//case 9: // Painting
