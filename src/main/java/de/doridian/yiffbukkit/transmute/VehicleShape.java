@@ -65,7 +65,6 @@ public class VehicleShape extends EntityShape {
 
 	@Override
 	protected Packet createSpawnPacket() {
-		System.out.println("Creating spawn packet");
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
 		final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn(notchEntity, vehicleType, subType);
