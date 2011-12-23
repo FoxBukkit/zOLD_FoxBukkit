@@ -74,26 +74,39 @@ public class GiveCommand extends ICommand {
 		dataValues.put("43:WOOD", (short) 2);
 		dataValues.put("43:COBBLE", (short) 3);
 		dataValues.put("43:COBBLESTONE", (short) 3);
+		dataValues.put("43:BRICK", (short) 4);
+		dataValues.put("43:STONEBRICK", (short) 5);
 
 		dataValues.put("44:SANDSTONE", (short) 1);
 		dataValues.put("44:WOOD", (short) 2);
 		dataValues.put("44:COBBLE", (short) 3);
 		dataValues.put("44:COBBLESTONE", (short) 3);
+		dataValues.put("44:BRICK", (short) 4);
+		dataValues.put("44:STONEBRICK", (short) 5);
+
+		for (short i = 1; i <= 5; ++i) {
+			dataValues.put("43:"+i, i);
+			dataValues.put("44:"+i, i);
+		}
 
 		dataValues.put("17:REDWOOD", (short) 1);
 		dataValues.put("17:DARK", (short) 1);
-        dataValues.put("17:PINE", (short) 1);
-        dataValues.put("17:SPRUCE", (short) 1);
+		dataValues.put("17:PINE", (short) 1);
+		dataValues.put("17:SPRUCE", (short) 1);
 		dataValues.put("17:BIRCH", (short) 2);
 		dataValues.put("17:LIGHT", (short) 2);
 	};
 
-	static Material matchMaterial(String materialName) {
+	public static Material matchMaterial(String materialName) {
 		Material material = aliases.get(materialName.toLowerCase());
 		if (material != null)
 			return material;
 
 		return Material.matchMaterial(materialName);
+	}
+
+	public static short getDataValue(final Material material, String dataName) {
+		return dataValues.get(material.getId()+":"+dataName);
 	}
 
 	@Override
@@ -110,17 +123,17 @@ public class GiveCommand extends ICommand {
 				otherName = args[1];
 		}
 
-		Player target = otherName == null ? asPlayer(commandSender) : playerHelper.matchPlayerSingle(otherName);
+		final Player target = otherName == null ? asPlayer(commandSender) : playerHelper.matchPlayerSingle(otherName);
 
 
 		String materialName = args[0];
-		int colonPos = materialName.indexOf(':');
+		final int colonPos = materialName.indexOf(':');
 		String colorName = null;
 		if (colonPos >= 0) {
 			colorName = materialName.substring(colonPos+1);
 			materialName = materialName.substring(0, colonPos);
 		}
-		Material material = matchMaterial(materialName);
+		final Material material = matchMaterial(materialName);
 		if (material == null) {
 			if (count > 10)
 				count = 10;
@@ -145,11 +158,11 @@ public class GiveCommand extends ICommand {
 		if (material.getId() == 0)
 			throw new YiffBukkitCommandException("Material "+materialName+" not found");
 
-		ItemStack stack = new ItemStack(material, count);
+		final ItemStack stack = new ItemStack(material, count);
 
 		if (colorName != null) {
 			colorName = colorName.toUpperCase();
-			Short dataValue = dataValues.get(material.getId()+":"+colorName);
+			Short dataValue = getDataValue(material, colorName);
 			if (dataValue != null) {
 				stack.setDurability(dataValue);
 			}
