@@ -48,9 +48,6 @@ public abstract class EntityShape extends Shape {
 
 	@Override
 	public void runAction(String action) throws YiffBukkitCommandException {
-		if (actions == null)
-			throw new YiffBukkitCommandException("No actions defined for your current shape.");
-	
 		final Matcher matcher = commandPattern.matcher(action);
 	
 		final String actionName;
@@ -64,13 +61,20 @@ public abstract class EntityShape extends Shape {
 		else {
 			actionName = action.trim();
 			argStr = "";
-			args = new String[0]; 
+			args = new String[0];
 		}
-	
+
+		runAction(actionName, args, argStr);
+	}
+
+	protected void runAction(final String actionName, final String[] args, final String argStr) throws YiffBukkitCommandException {
+		if (actions == null)
+			throw new YiffBukkitCommandException("No actions defined for your current shape.");
+
 		final MobAction mobAction = actions.get(actionName);
 		if (mobAction == null)
 			throw new YiffBukkitCommandException("No action named "+actionName+" defined for your current shape.");
-	
+
 		mobAction.run(this, args, argStr);
 	}
 
