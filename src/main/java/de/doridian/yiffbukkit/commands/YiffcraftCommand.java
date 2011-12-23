@@ -16,7 +16,8 @@ public class YiffcraftCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if(argStr.equalsIgnoreCase("getcommands")) {
-			ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + 'c' + Configuration.getValue("yiffcraft-command-url","http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
+			plugin.playerHelper.setYiffcraftState(ply, true);
+			plugin.playerHelper.sendYiffcraftClientCommand(ply, 'c', Configuration.getValue("yiffcraft-command-url","http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
 		} else if(argStr.equalsIgnoreCase("writecommands")) {
 			try {
 				Hashtable<String, ICommand> commands = plugin.playerListener.commands;

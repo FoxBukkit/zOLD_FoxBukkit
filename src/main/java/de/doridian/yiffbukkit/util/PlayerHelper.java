@@ -931,6 +931,25 @@ public class PlayerHelper extends StateContainer {
 		return true;
 	}
 
+	public HashSet<String> yiffcraftPlayers = new HashSet<String>();
+	public void setYiffcraftState(Player ply, boolean hasYC) {
+		String plyName = ply.getName().toLowerCase();
+		if(hasYC) {
+			if(!yiffcraftPlayers.contains(plyName)) {
+				yiffcraftPlayers.add(plyName);
+			}
+		} else {
+			if(yiffcraftPlayers.contains(plyName)) {
+				yiffcraftPlayers.remove(plyName);
+			}
+		}
+	}
+	
+	public void sendYiffcraftClientCommand(Player ply, char command, String args) {
+		if(!yiffcraftPlayers.contains(ply.getName().toLowerCase())) return;
+		ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + command + args);
+	}
+
 	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
 	public void pushPlayerLocationOntoTeleportStack(Player ply) {
 		String name = ply.getName().toLowerCase();

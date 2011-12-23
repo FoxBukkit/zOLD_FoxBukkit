@@ -213,6 +213,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			Utils.setPrivateValue(CraftPlayer.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
 		}
 
+		playerHelper.setYiffcraftState(player, false);
 		playerHelper.pushPlayerLocationOntoTeleportStack(player);
 
 		String nick = playerHelper.getPlayerNick(player.getName());
