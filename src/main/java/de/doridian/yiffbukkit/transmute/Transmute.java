@@ -84,10 +84,11 @@ public class Transmute {
 		}}, 2);
 
 		if (entity instanceof Player && shape instanceof EntityShape) {
-			int mobType = ((EntityShape) shape).mobType;
+			final EntityShape entityShape = (EntityShape) shape;
+			int mobType = entityShape.mobType;
 			try {
 				String typeName = MyEntityTypes.classToTypeName(MyEntityTypes.idToClass(mobType));
-				plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', typeName);
+				plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', typeName+"|"+entityShape.yawOffset+"|"+entityShape.yOffset);
 			}
 			catch (EntityTypeNotFoundException e) {
 			}
