@@ -1,8 +1,5 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.server.Block;
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.EntityArrow;
@@ -19,7 +16,6 @@ import net.minecraft.server.EntityPainting;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntitySnowball;
 import net.minecraft.server.EntityTNTPrimed;
-import net.minecraft.server.EntityTypes;
 import net.minecraft.server.IAnimal;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet20NamedEntitySpawn;
@@ -35,7 +31,6 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.Utils;
 
 public abstract class Shape {
 	protected final Transmute transmute;
@@ -203,11 +198,11 @@ public abstract class Shape {
 	abstract public void runAction(String action) throws YiffBukkitCommandException;
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
-		return getShape(transmute, player, entity, typeNameToClass(mobType));
+		return getShape(transmute, player, entity, MyEntityTypes.typeNameToClass(mobType));
 	}
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
-		final int id = classToId(mobType);
+		final int id = MyEntityTypes.classToId(mobType);
 		if (EntityLiving.class.isAssignableFrom(mobType)) {
 			return getShapeImpl(transmute, player, entity, id, MobShape.class);
 		}
@@ -234,6 +229,9 @@ public abstract class Shape {
 		case 40: // Minecart
 		case 41: // Boat
 		case 200: // EnderCrystal
+		case 1000: // FishingHook
+		case 1001: // Potion
+		case 1002: // Egg
 			return getShapeImpl(transmute, player, entity, id, VehicleShape.class);
 
 		default:
@@ -242,7 +240,7 @@ public abstract class Shape {
 	}
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
-		return getShape(transmute, player, entity, idToClass(mobType));
+		return getShape(transmute, player, entity, MyEntityTypes.idToClass(mobType));
 	}
 
 	private static Shape getShapeImpl(Transmute transmute, Player player, Entity entity, int mobType, Class<? extends Shape> shapeClass) {
@@ -253,35 +251,6 @@ public abstract class Shape {
 		}
 	}
 
-	private static final Class<? extends net.minecraft.server.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
-		Map<String, Class<? extends net.minecraft.server.Entity>> typeNameToClass = Utils.getPrivateValue(EntityTypes.class, null, "a");
-
-		for (Entry<String, Class<? extends net.minecraft.server.Entity>> entry : typeNameToClass.entrySet()) {
-			if (entry.getKey().equalsIgnoreCase(mobType))
-				return entry.getValue();
-		}
-
-		throw new EntityTypeNotFoundException();
-		//return typeNameToClass.get(mobType);
-	}
-	private static final int classToId(Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
-		Map<Class<? extends net.minecraft.server.Entity>, Integer> classToId = Utils.getPrivateValue(EntityTypes.class, null, "d");
-
-		final Integer id = classToId.get(mobType);
-		if (id == null)
-			throw new EntityTypeNotFoundException();
-
-		return id;
-	}
-	private static final Class<? extends net.minecraft.server.Entity> idToClass(int id) throws EntityTypeNotFoundException {
-		Map<Integer, Class<? extends net.minecraft.server.Entity>> idToClass = Utils.getPrivateValue(EntityTypes.class, null, "c");
-
-		final Class<? extends net.minecraft.server.Entity> mobType = idToClass.get(id);
-		if (mobType == null)
-			throw new EntityTypeNotFoundException();
-
-		return mobType;
-	}
 
 	public void reattachPassenger() {
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity) entity).getHandle();
