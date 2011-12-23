@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityEgg;
+import net.minecraft.server.EntityEnderDragon;
 import net.minecraft.server.EntityEnderPearl;
 import net.minecraft.server.EntityEnderSignal;
 import net.minecraft.server.EntityExperienceOrb;
@@ -32,6 +33,7 @@ public class MyEntityTypes {
 		addAliases(EntityEnderSignal.class, "EnderSignal", "EyeOfEnder", "EnderEye");
 		addAliases(EntityFallingBlock.class, "FallingBlock");
 		addAliases(EntityMagmaCube.class, "MagmaCube");
+		addAliases(EntityEnderDragon.class, "Dragon");
 
 		addType(EntityFishingHook.class, 1000, "FishingHook", "Fish", "Hook", "FishingPole");
 		addType(EntityPotion.class, 1001, "Potion", "ThrownPotion");
