@@ -56,6 +56,8 @@ public class VehicleShape extends EntityShape {
 		case 15:
 		case 20:
 		case 21:
+		case 1000:
+		case 1001:
 			yOffset = 1.62;
 			break;
 		}
