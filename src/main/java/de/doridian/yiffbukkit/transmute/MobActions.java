@@ -29,7 +29,7 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac hiss|charge [on|off]"),
 				"sss", "ssss", "sssss", "ssssss", "hiss", "fuse", "ignite",
-				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+				new MobAction() { @Override public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 					shape.setData(16, (byte) 0);
 					shape.setData(16, (byte) 1);
 
@@ -102,7 +102,7 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac shorn|color <color>|baby|adult"),
 				"color",
-				new MobAction() { @Override public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+				new MobAction() { @Override public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
 					try {
 						if ("RAINBOW".equalsIgnoreCase(argStr) || "RAINBOWS".equalsIgnoreCase(argStr) || "RANDOM".equalsIgnoreCase(argStr)) {
@@ -208,7 +208,7 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 			try {
 				final Number value = constructor.newInstance(argStr);
 				shape.setData(index, value);
@@ -236,7 +236,7 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(MobShape shape, String[] args, String argStr) {
+		public void run(EntityShape shape, String[] args, String argStr) {
 			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
 		}
 
@@ -257,7 +257,7 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(MobShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
 			final byte oldData = shape.getDataByte(index);
 			if ((oldData & bit) != 0) {
 				if ("on".equalsIgnoreCase(argStr))
@@ -285,7 +285,7 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(MobShape shape, String[] args, String argStr) {
+		public void run(EntityShape shape, String[] args, String argStr) {
 			final Location location = shape.entity.getLocation();
 			final World world = location.getWorld();
 			for (Player player : world.getPlayers()) {
@@ -308,7 +308,7 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(MobShape shape, String[] args, String argStr) {
+		public void run(EntityShape shape, String[] args, String argStr) {
 			shape.setData(index, value);
 
 			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);

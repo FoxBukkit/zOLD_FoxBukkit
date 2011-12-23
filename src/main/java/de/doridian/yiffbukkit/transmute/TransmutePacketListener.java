@@ -30,8 +30,8 @@ public class TransmutePacketListener extends PacketListener {
 		PacketListener.addPacketListener(true, 20, this, plugin);
 		PacketListener.addPacketListener(true, 23, this, plugin);
 		PacketListener.addPacketListener(true, 24, this, plugin);
-		PacketListener.addPacketListener(true, 30, this, plugin);
-		PacketListener.addPacketListener(true, 31, this, plugin);
+		//PacketListener.addPacketListener(true, 30, this, plugin);
+		//PacketListener.addPacketListener(true, 31, this, plugin);
 		PacketListener.addPacketListener(true, 32, this, plugin);
 		PacketListener.addPacketListener(true, 33, this, plugin);
 		PacketListener.addPacketListener(true, 34, this, plugin);
@@ -62,8 +62,8 @@ public class TransmutePacketListener extends PacketListener {
 		case 24:
 			return handleSpawn(ply, ((Packet24MobSpawn) packet).a);
 
-		case 30:
-		case 31:
+		//case 30:
+		//case 31:
 		case 32:
 		case 33:
 			entityId = ((Packet30Entity) packet).a;

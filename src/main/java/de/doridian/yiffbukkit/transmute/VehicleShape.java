@@ -9,7 +9,7 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-public class VehicleShape extends MobShape {
+public class VehicleShape extends EntityShape {
 	private static final Map<Integer, Integer> mobTypeMap = new HashMap<Integer, Integer>();
 	{
 		mobTypeMap.put(10, 60); // Arrow
