@@ -266,4 +266,6 @@ public abstract class Shape {
 	}
 
 	public abstract boolean onOutgoingPacket(Player ply, int packetID, org.bukkit.event.server.Packet packet);
+
+	public abstract void tick();
 }

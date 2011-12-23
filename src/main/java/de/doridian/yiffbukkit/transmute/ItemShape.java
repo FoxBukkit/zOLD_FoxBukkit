@@ -25,6 +25,7 @@ public class ItemShape extends EntityShape {
 		super(transmute, player, entity, mobType);
 
 		//yOffset = 1.62;
+		dropping = true;
 	}
 
 	@Override

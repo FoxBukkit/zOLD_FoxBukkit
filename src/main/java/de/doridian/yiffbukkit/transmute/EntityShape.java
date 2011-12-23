@@ -5,12 +5,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.minecraft.server.Packet18ArmAnimation;
+import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
 
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
+
+import com.sk89q.worldedit.blocks.BlockType;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.PlayerHelper;
@@ -21,13 +26,18 @@ public abstract class EntityShape extends Shape {
 
 	protected float yawOffset = 0;
 	protected double yOffset = 0;
+	protected boolean dropping = false;
 
 	@Override
 	public void createTransmutedEntity() {
+		sendPacketToPlayersAround(transmute.ignorePacket(createSpawnPacket()));
+	}
+
+	private void sendPacketToPlayersAround(Packet packet) {
 		if (entity instanceof Player)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createSpawnPacket()), (Player) entity);
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet, (Player) entity);
 		else
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createSpawnPacket()));
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet);
 	}
 
 	@Override
@@ -105,4 +115,21 @@ public abstract class EntityShape extends Shape {
 		}
 	}
 
+	@Override
+	public void tick() {
+		if (!dropping)
+			return;
+
+		final net.minecraft.server.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		if (yOffset == 0) {
+			if (Math.IEEEremainder(notchEntity.locY, 1.0) < 0.00001) {
+				int id = entity.getWorld().getBlockTypeIdAt(Location.locToBlock(notchEntity.locX), Location.locToBlock(notchEntity.locY)-1, Location.locToBlock(notchEntity.locZ));
+				if (!BlockType.canPassThrough(id))
+					return;
+			}
+		}
+
+		sendPacketToPlayersAround(new Packet34EntityTeleport(notchEntity));
+		sendPacketToPlayersAround(new Packet28EntityVelocity(entityId, notchEntity.motX, notchEntity.motZ, notchEntity.motZ));
+	}
 }

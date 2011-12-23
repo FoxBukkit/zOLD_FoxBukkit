@@ -40,16 +40,12 @@ public class VehicleShape extends EntityShape {
 		vehicleType = mobTypeMap.get(mobType);
 
 		switch (mobType) {
-		case 40: // Minecart
-		case 41: // Boat
-			yawOffset = 270;
-			yOffset = 0.5;
-			break;
 
 		case 10: // Arrow
 			yawOffset = 90;
 			/* FALL-THROUGH */
 
+		case 11: // Snowball
 		case 12: // Fireball
 		case 13: // SmallFireball
 		case 14: // ThrownEnderpearl
@@ -60,6 +56,26 @@ public class VehicleShape extends EntityShape {
 		case 1001: // Potion
 			yOffset = 1.62;
 			break;
+
+		case 40: // Minecart
+		case 41: // Boat
+			yawOffset = 270;
+			yOffset = 0.5;
+			break;
+		}
+
+		switch (mobType) {
+		case 10: // Arrow
+		case 15: // EyeOfEnderSignal
+		case 40: // Minecart
+		case 41: // Boat
+		case 200: // EnderCrystal
+		case 1000: // FishingHook
+			dropping = true;
+			break;
+
+		default:
+			dropping = true;
 		}
 	}
 

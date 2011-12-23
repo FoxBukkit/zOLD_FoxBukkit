@@ -8,10 +8,11 @@ import java.util.Map.Entry;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 
-public class Transmute {
+public class Transmute implements Runnable {
 	final YiffBukkit plugin;
 	private final TransmutePacketListener transmutePacketListener;
 	@SuppressWarnings("unused")
@@ -23,7 +24,8 @@ public class Transmute {
 		transmutePacketListener = new TransmutePacketListener(this);
 		transmutePlayerListener = new TransmutePlayerListener(this);
 
-		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+		final BukkitScheduler scheduler = plugin.getServer().getScheduler();
+		scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
 				// clean up ignored packets
@@ -46,6 +48,8 @@ public class Transmute {
 				}
 			}
 		}, 0, 200);
+
+		scheduler.scheduleSyncRepeatingTask(plugin, this, 0, 1);
 	}
 
 	public boolean isTransmuted(int entityId) {
@@ -129,5 +133,12 @@ public class Transmute {
 	org.bukkit.event.server.Packet ignorePacket(org.bukkit.event.server.Packet packet) {
 		transmutePacketListener.ignoredPackets.add(packet);
 		return packet;
+	}
+
+	@Override
+	public void run() {
+		for (Iterator<Entry<Integer, Shape>> iterator = transmuted.entrySet().iterator(); iterator.hasNext(); ) {
+			iterator.next().getValue().tick();
+		}
 	}
 }

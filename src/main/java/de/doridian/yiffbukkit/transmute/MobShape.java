@@ -20,6 +20,17 @@ public class MobShape extends EntityShape {
 			yawOffset = 180;
 			break;
 		}
+
+		switch (mobType) {
+		case 56: // Ghast
+		case 63: // EnderDragon
+		case 94: // Squid
+			dropping = false;
+			break;
+
+		default:
+			dropping = true;
+		}
 	}
 
 	@Override
