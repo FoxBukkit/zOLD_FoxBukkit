@@ -14,6 +14,7 @@ import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.EntityFishingHook;
 import net.minecraft.server.EntityMagmaCube;
 import net.minecraft.server.EntityPotion;
+import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityTypes;
 import de.doridian.yiffbukkit.util.Utils;
 
@@ -31,6 +32,7 @@ public class MyEntityTypes {
 		addAliases(EntityExperienceOrb.class, "XP");
 		addAliases(EntityEnderPearl.class, "Enderpearl");
 		addAliases(EntityEnderSignal.class, "EnderSignal", "EyeOfEnder", "EnderEye");
+		addAliases(EntityTNTPrimed.class, "Tnt");
 		addAliases(EntityFallingBlock.class, "FallingBlock");
 		addAliases(EntityMagmaCube.class, "MagmaCube");
 		addAliases(EntityEnderDragon.class, "Dragon");
