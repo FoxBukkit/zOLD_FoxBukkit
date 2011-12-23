@@ -8,6 +8,7 @@ import net.minecraft.server.Packet23VehicleSpawn;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
 
 public class VehicleShape extends EntityShape {
 	private static final Map<Integer, Integer> mobTypeMap = new HashMap<Integer, Integer>();
@@ -61,7 +62,7 @@ public class VehicleShape extends EntityShape {
 	}
 
 	@Override
-	protected Packet23VehicleSpawn createSpawnPacket() {
+	protected Packet createSpawnPacket() {
 		System.out.println("Creating spawn packet");
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
