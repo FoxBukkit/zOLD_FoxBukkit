@@ -69,7 +69,7 @@ public class ServerSSLSocket extends Thread {
 	}
 
 	public void run() {
-		while(listenerSocket.isBound() && !listenerSocket.isClosed()) {
+		while(listenerSocket != null && listenerSocket.isBound() && !listenerSocket.isClosed()) {
 			try {
 				final SSLSocket socket = (SSLSocket)listenerSocket.accept();
 				new Thread() {
