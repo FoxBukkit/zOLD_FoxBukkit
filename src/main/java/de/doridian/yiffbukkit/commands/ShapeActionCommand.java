@@ -16,11 +16,12 @@ import de.doridian.yiffbukkit.transmute.Shape;
 		"Gives your current shape a command.\n" +
 		"Flags:\n" +
 		"  -e to issue the command to an entity (binds to a tool)\n" +
-		"  -i <item name or id> together with -e to bind to a specific tool."
+		"  -i <item name or id> together with -e to bind to a specific tool.\n" +
+		"  -l to transmute the last entity you transmuted"
 )
 @Usage("[<flags>][<command>]")
 @Permission("yiffbukkit.transmute.shapeaction")
-@BooleanFlags("e")
+@BooleanFlags("el")
 @StringFlags("i")
 public class ShapeActionCommand extends ICommand {
 	@Override
@@ -61,9 +62,17 @@ public class ShapeActionCommand extends ICommand {
 			return;
 		}
 
-		final Shape shape = plugin.transmute.getShape(ply);
+		final Entity target;
+		if (booleanFlags.contains('l')) {
+			target = plugin.transmute.getLastTransmutedEntity(ply);
+		}
+		else {
+			target = ply;
+		}
+
+		final Shape shape = plugin.transmute.getShape(target);
 		if (shape == null)
-			throw new YiffBukkitCommandException("You are not currently transmuted.");
+			throw new YiffBukkitCommandException("Not currently transmuted.");
 
 		shape.runAction(ply, shapeAction);
 	}
