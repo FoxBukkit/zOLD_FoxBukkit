@@ -60,15 +60,13 @@ public class ServerSSLSocket extends Thread {
 
 		@Override
 		public void a(Packet2Handshake packet2handshake) {
-			if(cert == null) {
-				super.a(packet2handshake);
-			} else {
-				String name = packet2handshake.a;
-				if(cert.getPublicKey().equals(readKey(name))) {
-					isValidatedFor = name;
-				}
+			String name = packet2handshake.a;
+			if(cert != null && cert.getPublicKey().equals(readKey(name))) {
+				isValidatedFor = name;
 				this.networkManager.queue(new Packet2Handshake("-"));
+				return;
 			}
+			super.a(packet2handshake);
 		}
 
 		@Override
