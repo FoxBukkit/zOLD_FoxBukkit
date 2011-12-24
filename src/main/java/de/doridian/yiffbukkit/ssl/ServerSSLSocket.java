@@ -8,6 +8,8 @@ import org.bukkit.craftbukkit.CraftServer;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -21,19 +23,14 @@ public class ServerSSLSocket extends Thread {
 	
 	private int connCount = 1;
 
-	public ServerSSLSocket(YiffBukkit plug)  {
+	public ServerSSLSocket(YiffBukkit plug) throws IOException  {
 		plugin = plug;
 
 		server = ((CraftServer)plugin.getServer()).getHandle().server;
 
-		try {
-			int sslport = Integer.valueOf(Configuration.getValue("server-ssl-port", "" + (plugin.getServer().getPort() + 1)));
-			listenerSocket = (SSLServerSocket)SSLConnector.allTrustingSocketFactory.createServerSocket(sslport);
-			plugin.sendConsoleMsg("Bound SSL to " + sslport);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		int sslport = Integer.valueOf(Configuration.getValue("server-ssl-port", "" + (plugin.getServer().getPort() + 1)));
+		listenerSocket = (SSLServerSocket)SSLConnector.allTrustingSocketFactory.createServerSocket(sslport);
+		plugin.sendConsoleMsg("Bound SSL to " + sslport);
 	}
 
 	public void stopme() {
@@ -69,7 +66,7 @@ public class ServerSSLSocket extends Thread {
 	}
 
 	public void run() {
-		while(listenerSocket != null && listenerSocket.isBound() && !listenerSocket.isClosed()) {
+		while(listenerSocket.isBound() && !listenerSocket.isClosed()) {
 			try {
 				final SSLSocket socket = (SSLSocket)listenerSocket.accept();
 				new Thread() {

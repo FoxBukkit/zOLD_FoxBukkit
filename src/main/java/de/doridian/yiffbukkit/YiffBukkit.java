@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -207,8 +208,12 @@ public class YiffBukkit extends JavaPlugin {
 		remote.start();
 		sendConsoleMsg("YiffBukkit Remote loaded.");
 
-		serverSSLSocket = new ServerSSLSocket(this);
-		serverSSLSocket.start();
+		try {
+			serverSSLSocket = new ServerSSLSocket(this);
+			serverSSLSocket.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
