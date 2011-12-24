@@ -75,8 +75,8 @@ public class ServerSSLSocket extends Thread {
 				new Thread() {
 					public void run() {
 						try {
-							final HashMap networkListenThreadB = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "i");
-							
+							final HashMap<InetAddress, Long> networkListenThreadB = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "i");
+
 							if (socket != null) {
 								synchronized (networkListenThreadB) {
 									InetAddress inetaddress = socket.getInetAddress();
@@ -92,7 +92,7 @@ public class ServerSSLSocket extends Thread {
 
 								NetLoginHandler netloginhandler = new NetLoginHandlerNonValidating(server, socket, "SSL Connection #" + (connCount++), false);
 
-								final ArrayList networkListenThreadG = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "g");
+								final ArrayList<NetLoginHandler> networkListenThreadG = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "g");
 								networkListenThreadG.add(netloginhandler);
 							}
 						}
