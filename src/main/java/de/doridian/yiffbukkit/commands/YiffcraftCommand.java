@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkit.util.Configuration;
 import org.bukkit.entity.Player;
 
@@ -18,6 +19,8 @@ public class YiffcraftCommand extends ICommand {
 		if(argStr.equalsIgnoreCase("getcommands")) {
 			plugin.playerHelper.setYiffcraftState(ply, true);
 			plugin.playerHelper.sendYiffcraftClientCommand(ply, 'c', Configuration.getValue("yiffcraft-command-url","http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
+
+			SSLUtils.nagIfNoSSL(plugin.playerHelper, ply);
 		} else if(argStr.equalsIgnoreCase("writecommands")) {
 			try {
 				Hashtable<String, ICommand> commands = plugin.playerListener.commands;

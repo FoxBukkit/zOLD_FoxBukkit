@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.ssl;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -29,5 +30,12 @@ public class SSLUtils {
 
 	public static boolean hasSSL(String plyName) {
 		return sslPlayers.contains(plyName.toLowerCase());
+	}
+	
+	public static void nagIfNoSSL(PlayerHelper plyHelper, Player ply) {
+		if(!hasSSL(ply)) {
+			plyHelper.sendDirectedMessage(ply, "Please connect using +mc.doridian.de for SSL!");
+			plyHelper.sendDirectedMessage(ply, "Please note that this is *required* for /setrank and /rcon!");
+		}
 	}
 }
