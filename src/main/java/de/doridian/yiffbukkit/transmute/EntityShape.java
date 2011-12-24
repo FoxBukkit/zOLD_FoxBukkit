@@ -81,9 +81,16 @@ public abstract class EntityShape extends Shape {
 		if (actions == null)
 			throw new YiffBukkitCommandException("No actions defined for your current shape.");
 
-		final MobAction mobAction = actions.get(actionName);
-		if (mobAction == null)
-			throw new YiffBukkitCommandException("No action named "+actionName+" defined for your current shape.");
+		MobAction mobAction = actions.get(actionName);
+		if (mobAction == null) {
+			mobAction = actions.get("help");
+			if (mobAction == null)
+				throw new YiffBukkitCommandException("No action named '"+actionName+"' defined for your current shape.");
+
+			mobAction.run(this, player, new String[] { "" }, "");
+			return;
+		}
+		
 
 		mobAction.run(this, player, args, argStr);
 	}
