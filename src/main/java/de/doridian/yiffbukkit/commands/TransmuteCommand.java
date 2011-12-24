@@ -22,7 +22,7 @@ import de.doridian.yiffbukkit.transmute.Shape;
 		"Flags:\n" +
 		"  -e to transmute an entity (binds to a tool)\n" +
 		"  -i <item name or id> together with -e to bind to a specific tool.\n" +
-		"  -l to transmute the last entity you transmuted\n"
+		"  -l to transmute the last entity you transmuted"
 )
 @Usage("[<flags>][<shape>]")
 @Permission("yiffbukkit.transmute")
