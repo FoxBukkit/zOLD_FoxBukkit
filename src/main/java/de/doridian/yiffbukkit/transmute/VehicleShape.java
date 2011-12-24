@@ -7,7 +7,6 @@ import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet23VehicleSpawn;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 
 public class VehicleShape extends EntityShape {
@@ -34,8 +33,8 @@ public class VehicleShape extends EntityShape {
 	private int vehicleType;
 	private int subType = 0;
 
-	public VehicleShape(Transmute transmute, Player player, Entity entity, int mobType) {
-		super(transmute, player, entity, mobType);
+	public VehicleShape(Transmute transmute, Entity entity, int mobType) {
+		super(transmute, entity, mobType);
 
 		vehicleType = mobTypeMap.get(mobType);
 

@@ -21,8 +21,8 @@ public class ItemShape extends EntityShape {
 	private int data = 0;
 	private int count = 1;
 
-	public ItemShape(Transmute transmute, Player player, Entity entity, int mobType) {
-		super(transmute, player, entity, mobType);
+	public ItemShape(Transmute transmute, Entity entity, int mobType) {
+		super(transmute, entity, mobType);
 
 		//yOffset = 1.62;
 		dropping = true;
@@ -103,7 +103,7 @@ public class ItemShape extends EntityShape {
 	}
 
 	@Override
-	protected void runAction(String actionName, String[] args, String argStr) throws YiffBukkitCommandException {
+	protected void runAction(Player player, String actionName, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (actionName.equalsIgnoreCase("type")) {
 			final int count;
 			if (args.length >= 2) {

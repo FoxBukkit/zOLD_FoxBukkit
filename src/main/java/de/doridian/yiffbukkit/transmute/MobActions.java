@@ -10,12 +10,9 @@ import java.util.Map;
 import net.minecraft.server.Packet38EntityStatus;
 
 import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.PlayerHelper;
 
 final class MobActions {
 	private static HashMap<Integer, Map<String, MobAction>> mobActions = new HashMap<Integer, Map<String, MobAction>>();
@@ -29,11 +26,11 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac hiss|charge [on|off]"),
 				"sss", "ssss", "sssss", "ssssss", "hiss", "fuse", "ignite",
-				new MobAction() { @Override public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+				new MobAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					shape.setData(16, (byte) 0);
 					shape.setData(16, (byte) 1);
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "Hissing...");
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Hissing...");
 				}},
 				"charge",
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
@@ -102,7 +99,7 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac shorn|color <color>|baby|adult"),
 				"color",
-				new MobAction() { @Override public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+				new MobAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
 					try {
 						if ("RAINBOW".equalsIgnoreCase(argStr) || "RAINBOWS".equalsIgnoreCase(argStr) || "RANDOM".equalsIgnoreCase(argStr)) {
@@ -117,7 +114,7 @@ final class MobActions {
 
 					shape.setData(16, dyeColor.getData());
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
 				}},
 				"shorn",
 				new MetadataMobAction(16, (byte) 16, "You are now shorn."),
@@ -208,12 +205,12 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 			try {
 				final Number value = constructor.newInstance(argStr);
 				shape.setData(index, value);
 
-				shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, String.format(message, value.toString()));
+				shape.transmute.plugin.playerHelper.sendDirectedMessage(player, String.format(message, value.toString()));
 			} catch (IllegalAccessException e) {
 				throw new RuntimeException(e);
 			} catch (InstantiationException e) {
@@ -236,8 +233,8 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, String[] args, String argStr) {
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
+		public void run(EntityShape shape, Player player, String[] args, String argStr) {
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
 		}
 
 	}
@@ -257,20 +254,20 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 			final byte oldData = shape.getDataByte(index);
 			if ((oldData & bit) != 0) {
 				if ("on".equalsIgnoreCase(argStr))
 					throw new YiffBukkitCommandException("Already on");
 
 				shape.setData(index, (byte)(oldData & ~bit));
-				shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, unsetMessage);
+				shape.transmute.plugin.playerHelper.sendDirectedMessage(player, unsetMessage);
 			}
 			else {
 				if ("off".equalsIgnoreCase(argStr))
 					throw new YiffBukkitCommandException("Already off");
 				shape.setData(index, (byte)(oldData | bit));
-				shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, setMessage);
+				shape.transmute.plugin.playerHelper.sendDirectedMessage(player, setMessage);
 			}
 		}
 	}
@@ -285,14 +282,9 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, String[] args, String argStr) {
-			final Location location = shape.entity.getLocation();
-			final World world = location.getWorld();
-			for (Player player : world.getPlayers()) {
-				PlayerHelper.sendPacketToPlayer(player, new Packet38EntityStatus(shape.entityId, status));
-			}
-
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
+		public void run(EntityShape shape, Player player, String[] args, String argStr) {
+			shape.sendPacketToPlayersAround(new Packet38EntityStatus(shape.entityId, status));
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
 		}
 	}
 
@@ -308,10 +300,10 @@ final class MobActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, String[] args, String argStr) {
+		public void run(EntityShape shape, Player player, String[] args, String argStr) {
 			shape.setData(index, value);
 
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(shape.player, message);
+			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
 		}
 	}
 }

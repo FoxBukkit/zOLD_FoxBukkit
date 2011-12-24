@@ -35,13 +35,11 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 public abstract class Shape {
 	protected final Transmute transmute;
 	protected final int entityId;
-	protected final Player player;
 	protected final Entity entity;
 	protected final DataWatcher datawatcher;
 
-	protected Shape(Transmute transmute, Player player, Entity entity) {
+	protected Shape(Transmute transmute, Entity entity) {
 		this.transmute = transmute;
-		this.player = player;
 		this.entity = entity;
 		entityId = entity.getEntityId();
 		datawatcher = new DataWatcher();
@@ -195,7 +193,7 @@ public abstract class Shape {
 	abstract public void createTransmutedEntity();
 	abstract public void createTransmutedEntity(Player forPlayer);
 
-	abstract public void runAction(String action) throws YiffBukkitCommandException;
+	abstract public void runAction(Player player, String action) throws YiffBukkitCommandException;
 
 	public static Shape getShape(Transmute transmute, Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
 		return getShape(transmute, player, entity, MyEntityTypes.typeNameToClass(mobType));

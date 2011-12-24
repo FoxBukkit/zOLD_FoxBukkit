@@ -53,7 +53,7 @@ public class ShapeActionCommand extends ICommand {
 					if (shape == null)
 						throw new YiffBukkitCommandException("Your target is not currently transmuted.");
 
-					shape.runAction(shapeAction);
+					shape.runAction(player, shapeAction);
 				}
 			});
 
@@ -65,6 +65,6 @@ public class ShapeActionCommand extends ICommand {
 		if (shape == null)
 			throw new YiffBukkitCommandException("You are not currently transmuted.");
 
-		shape.runAction(shapeAction);
+		shape.runAction(ply, shapeAction);
 	}
 }

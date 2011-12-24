@@ -78,7 +78,7 @@ public class Transmute implements Runnable {
 
 	public void setShape(Entity entity, final Shape shape) {
 		if (shape.entity != entity)
-			throw new IllegalArgumentException("Assigned a shape to the wrong player!");
+			throw new IllegalArgumentException("Assigned a shape to the wrong entity!");
 
 		transmuted.put(entity.getEntityId(), shape);
 		shape.deleteEntity();

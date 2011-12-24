@@ -33,7 +33,7 @@ public abstract class EntityShape extends Shape {
 		sendPacketToPlayersAround(transmute.ignorePacket(createSpawnPacket()));
 	}
 
-	private void sendPacketToPlayersAround(Packet packet) {
+	public void sendPacketToPlayersAround(Packet packet) {
 		if (entity instanceof Player)
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet, (Player) entity);
 		else
@@ -46,10 +46,10 @@ public abstract class EntityShape extends Shape {
 	}
 
 	protected abstract Packet createSpawnPacket();
-	
-	public EntityShape(Transmute transmute, Player player, Entity entity, int mobType) {
-		super(transmute, player, entity);
-		
+
+	public EntityShape(Transmute transmute, Entity entity, int mobType) {
+		super(transmute, entity);
+
 		this.mobType = mobType;
 		actions = MobActions.get(mobType);
 	}
@@ -57,7 +57,7 @@ public abstract class EntityShape extends Shape {
 	private static final Pattern commandPattern = Pattern.compile("^([^ ]+) (.+)?$");
 
 	@Override
-	public void runAction(String action) throws YiffBukkitCommandException {
+	public void runAction(Player player, String action) throws YiffBukkitCommandException {
 		final Matcher matcher = commandPattern.matcher(action);
 	
 		final String actionName;
@@ -74,10 +74,10 @@ public abstract class EntityShape extends Shape {
 			args = new String[0];
 		}
 
-		runAction(actionName, args, argStr);
+		runAction(player, actionName, args, argStr);
 	}
 
-	protected void runAction(final String actionName, final String[] args, final String argStr) throws YiffBukkitCommandException {
+	protected void runAction(Player player, final String actionName, final String[] args, final String argStr) throws YiffBukkitCommandException {
 		if (actions == null)
 			throw new YiffBukkitCommandException("No actions defined for your current shape.");
 
@@ -85,7 +85,7 @@ public abstract class EntityShape extends Shape {
 		if (mobAction == null)
 			throw new YiffBukkitCommandException("No action named "+actionName+" defined for your current shape.");
 
-		mobAction.run(this, args, argStr);
+		mobAction.run(this, player, args, argStr);
 	}
 
 	@Override
