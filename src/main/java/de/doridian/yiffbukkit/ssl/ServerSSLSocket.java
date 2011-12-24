@@ -12,6 +12,7 @@ import javax.net.ssl.SSLSocket;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,6 +31,7 @@ public class ServerSSLSocket extends Thread {
 
 		int sslport = Integer.valueOf(Configuration.getValue("server-ssl-port", "" + (plugin.getServer().getPort() + 1)));
 		listenerSocket = (SSLServerSocket)SSLConnector.allTrustingSocketFactory.createServerSocket(sslport);
+		listenerSocket.setUseClientMode(true);
 		plugin.sendConsoleMsg("Bound SSL to " + sslport);
 	}
 
@@ -72,6 +74,15 @@ public class ServerSSLSocket extends Thread {
 				new Thread() {
 					public void run() {
 						try {
+							try {
+								Certificate cert = socket.getSession().getPeerCertificates()[0];
+								cert.verify(cert.getPublicKey());
+
+								System.out.println("Client identified with pubkey!");
+								System.out.println(cert.getPublicKey().toString());
+							}
+							catch(Exception e) { e.printStackTrace(); }
+
 							final HashMap<InetAddress, Long> networkListenThreadB = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "i");
 
 							if (socket != null) {
