@@ -13,17 +13,20 @@ import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.transmute.EntityShape;
+import de.doridian.yiffbukkit.transmute.Shape;
 
 @Names("transmute")
 @Help(
 		"Disguises you or an entity as a mob.\n" +
 		"Flags:\n" +
 		"  -e to transmute an entity (binds to a tool)\n" +
-		"  -i <item name or id> together with -e to bind to a specific tool."
+		"  -i <item name or id> together with -e to bind to a specific tool.\n" +
+		"  -l to transmute the last entity you transmuted\n"
 )
 @Usage("[<flags>][<shape>]")
 @Permission("yiffbukkit.transmute")
-@BooleanFlags("e")
+@BooleanFlags("el")
 @StringFlags("i")
 public class TransmuteCommand extends ICommand {
 	@Override
@@ -31,15 +34,28 @@ public class TransmuteCommand extends ICommand {
 		args = parseFlags(args);
 
 		if (args.length == 0) {
-			if (!plugin.transmute.isTransmuted(ply))
+			final Entity target;
+			if (booleanFlags.contains('l')) {
+				target = plugin.transmute.getLastTransmutedEntity(ply);
+			}
+			else {
+				target = ply;
+			}
+
+			if (!plugin.transmute.isTransmuted(target))
 				throw new YiffBukkitCommandException("Not transmuted");
 
-			plugin.transmute.resetShape(ply);
+			plugin.transmute.resetShape(ply, target);
 
-			playerHelper.sendDirectedMessage(ply, "Transmuted you back into your original shape.");
+			if (ply == target) {
+				playerHelper.sendDirectedMessage(ply, "Transmuted you back into your original shape.");
+			}
+			else {
+				playerHelper.sendDirectedMessage(ply, "Transmuted your last target back into its original shape.");
+			}
 
-			if (!plugin.vanish.isVanished(ply)) {
-				effect(ply.getEyeLocation());
+			if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
+				effect(target, null);
 			}
 			return;
 		}
@@ -67,24 +83,20 @@ public class TransmuteCommand extends ICommand {
 
 					final Entity entity = event.getRightClicked();
 
+					final Shape shape;
 					if (plugin.transmute.isTransmuted(entity)) {
-						plugin.transmute.resetShape(entity);
+						shape = null;
+						plugin.transmute.resetShape(player, entity);
 
 						playerHelper.sendDirectedMessage(player, "Transmuted your target back into its original shape.");
 					}
 					else {
-						plugin.transmute.setShape(player, entity , mobType);
+						shape = plugin.transmute.setShape(player, entity , mobType);
 
 						playerHelper.sendDirectedMessage(player, "Transmuted your target into a "+mobType+".");
 					}
 
-					final Location location;
-					if (entity instanceof LivingEntity)
-						location = ((LivingEntity) entity).getEyeLocation();
-					else
-						location = entity.getLocation();
-
-					effect(location);
+					effect(entity, shape);
 				}
 			});
 
@@ -92,16 +104,42 @@ public class TransmuteCommand extends ICommand {
 			return;
 		}
 
-		plugin.transmute.setShape(ply, ply, mobType);
+		final Entity target;
+		if (booleanFlags.contains('l')) {
+			target = plugin.transmute.getLastTransmutedEntity(ply);
+		}
+		else {
+			target = ply;
+		}
 
-		playerHelper.sendDirectedMessage(ply, "Transmuted you into "+mobType+".");
+		final Shape shape = plugin.transmute.setShape(ply, target, mobType);
 
-		if (!plugin.vanish.isVanished(ply)) {
-			effect(ply.getEyeLocation());
+		if (ply == target) {
+			playerHelper.sendDirectedMessage(ply, "Transmuted you into "+mobType+".");
+		}
+		else {
+			playerHelper.sendDirectedMessage(ply, "Transmuted your last target into "+mobType+".");
+		}
+
+		if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
+			effect(target, shape);
 		}
 	}
 
-	private static final void effect(final Location location) {
+	private void effect(Entity target, Shape shape) {
+		final Location location;
+		if (target instanceof LivingEntity) {
+			location = ((LivingEntity) target).getEyeLocation();
+		}
+		else {
+			location = target.getLocation();
+			if (shape instanceof EntityShape)
+				location.add(0, ((EntityShape) shape).getYOffset(), 0);
+		}
+		effect(location);
+	}
+
+	private static final void effect(Location location) {
 		final World world = location.getWorld();
 
 		world.playEffect(location, Effect.EXTINGUISH, 0);

@@ -195,14 +195,14 @@ public abstract class Shape {
 
 	abstract public void runAction(Player player, String action) throws YiffBukkitCommandException;
 
-	public static Shape getShape(Transmute transmute, Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
-		return getShape(transmute, player, entity, MyEntityTypes.typeNameToClass(mobType));
+	public static Shape getShape(Transmute transmute, Entity entity, String mobType) throws EntityTypeNotFoundException {
+		return getShape(transmute, entity, MyEntityTypes.typeNameToClass(mobType));
 	}
 
-	public static Shape getShape(Transmute transmute, Player player, Entity entity, Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
+	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
 		final int id = MyEntityTypes.classToId(mobType);
 		if (EntityLiving.class.isAssignableFrom(mobType)) {
-			return getShapeImpl(transmute, player, entity, id, MobShape.class);
+			return getShapeImpl(transmute, entity, id, MobShape.class);
 		}
 
 		/*
@@ -211,7 +211,7 @@ public abstract class Shape {
 		 */
 		switch (id) {
 		case 1: // Item
-			return getShapeImpl(transmute, player, entity, id, ItemShape.class);
+			return getShapeImpl(transmute, entity, id, ItemShape.class);
 		//case 2: // XPOrb
 
 		//case 9: // Painting
@@ -231,20 +231,20 @@ public abstract class Shape {
 		case 1000: // FishingHook
 		case 1001: // Potion
 		case 1002: // Egg
-			return getShapeImpl(transmute, player, entity, id, VehicleShape.class);
+			return getShapeImpl(transmute, entity, id, VehicleShape.class);
 
 		default:
 			throw new RuntimeException("Invalid shape.");
 		}
 	}
 
-	public static Shape getShape(Transmute transmute, Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
-		return getShape(transmute, player, entity, MyEntityTypes.idToClass(mobType));
+	public static Shape getShape(Transmute transmute, Entity entity, int mobType) throws EntityTypeNotFoundException {
+		return getShape(transmute, entity, MyEntityTypes.idToClass(mobType));
 	}
 
-	private static Shape getShapeImpl(Transmute transmute, Player player, Entity entity, int mobType, Class<? extends Shape> shapeClass) {
+	private static Shape getShapeImpl(Transmute transmute, Entity entity, int mobType, Class<? extends Shape> shapeClass) {
 		try {
-			return shapeClass.getConstructor(Transmute.class, Player.class, Entity.class, int.class).newInstance(transmute, player, entity, mobType);
+			return shapeClass.getConstructor(Transmute.class, Entity.class, int.class).newInstance(transmute, entity, mobType);
 		} catch (Exception e) {
 			throw new RuntimeException("Error instantiating shape.", e);
 		}

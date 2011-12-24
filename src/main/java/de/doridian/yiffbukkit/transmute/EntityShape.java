@@ -132,4 +132,8 @@ public abstract class EntityShape extends Shape {
 		sendPacketToPlayersAround(new Packet34EntityTeleport(notchEntity));
 		sendPacketToPlayersAround(new Packet28EntityVelocity(entityId, notchEntity.motX, notchEntity.motZ, notchEntity.motZ));
 	}
+
+	public double getYOffset() {
+		return yOffset;
+	}
 }

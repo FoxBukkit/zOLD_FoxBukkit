@@ -18,6 +18,7 @@ public class Transmute implements Runnable {
 	@SuppressWarnings("unused")
 	private TransmutePlayerListener transmutePlayerListener;
 	private final Map<Integer, Shape> transmuted = new HashMap<Integer, Shape>();
+	private Map<Player, Entity> lastEntities = new HashMap<Player, Entity>();
 
 	public Transmute(YiffBukkit plugin) {
 		this.plugin = plugin;
@@ -50,6 +51,8 @@ public class Transmute implements Runnable {
 		}, 0, 200);
 
 		scheduler.scheduleSyncRepeatingTask(plugin, this, 0, 1);
+
+		plugin.playerHelper.registerMap(lastEntities);
 	}
 
 	public boolean isTransmuted(int entityId) {
@@ -76,7 +79,7 @@ public class Transmute implements Runnable {
 		return transmuted.get(entity.id);
 	}
 
-	public void setShape(Entity entity, final Shape shape) {
+	public Shape setShape(Player player, Entity entity, final Shape shape) {
 		if (shape.entity != entity)
 			throw new IllegalArgumentException("Assigned a shape to the wrong entity!");
 
@@ -86,6 +89,8 @@ public class Transmute implements Runnable {
 			shape.createTransmutedEntity();
 			shape.reattachPassenger();
 		}}, 2);
+
+		lastEntities.put(player, entity);
 
 		if (entity instanceof Player && shape instanceof EntityShape) {
 			final EntityShape entityShape = (EntityShape) shape;
@@ -97,17 +102,19 @@ public class Transmute implements Runnable {
 			catch (EntityTypeNotFoundException e) {
 			}
 		}
+
+		return shape;
 	}
 
-	public void setShape(Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
-		setShape(entity, Shape.getShape(this, player, entity, mobType));
+	public Shape setShape(Player player, Entity entity, int mobType) throws EntityTypeNotFoundException {
+		return setShape(player, entity, Shape.getShape(this, entity, mobType));
 	}
 
-	public void setShape(Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
-		setShape(entity, Shape.getShape(this, player, entity, mobType));
+	public Shape setShape(Player player, Entity entity, String mobType) throws EntityTypeNotFoundException {
+		return setShape(player, entity, Shape.getShape(this, entity, mobType));
 	}
 
-	public Shape resetShape(Entity entity) {
+	public Shape resetShape(Player player, Entity entity) {
 		final Shape shape = removeShape(entity);
 		if (shape != null) {
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
@@ -115,6 +122,8 @@ public class Transmute implements Runnable {
 				shape.reattachPassenger();
 			}}, 2);
 		}
+
+		lastEntities.put(player, entity);
 
 		if (entity instanceof Player)
 			plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', "");
@@ -133,6 +142,10 @@ public class Transmute implements Runnable {
 	org.bukkit.event.server.Packet ignorePacket(org.bukkit.event.server.Packet packet) {
 		transmutePacketListener.ignoredPackets.add(packet);
 		return packet;
+	}
+
+	public Entity getLastTransmutedEntity(Player ply) {
+		return lastEntities.get(ply);
 	}
 
 	@Override
