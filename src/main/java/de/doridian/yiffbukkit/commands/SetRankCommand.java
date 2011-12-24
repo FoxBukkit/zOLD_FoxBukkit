@@ -14,6 +14,8 @@ import de.doridian.yiffbukkit.commands.ICommand.*;
 public class SetRankCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		requireSSL(commandSender);
+
 		String otherName = args[0];
 		String newRank = args[1];
 		String oldRank = playerHelper.getPlayerRank(otherName);

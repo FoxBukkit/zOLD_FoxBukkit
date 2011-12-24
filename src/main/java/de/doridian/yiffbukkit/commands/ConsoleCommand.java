@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.commands;
 
 import java.util.logging.Logger;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import net.minecraft.server.MinecraftServer;
 
 import org.bukkit.ChatColor;
@@ -36,7 +37,8 @@ public class ConsoleCommand extends ICommand {
 	}
 
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		requireSSL(commandSender);
 		sendServerCmd(argStr, commandSender);
 	}
 }

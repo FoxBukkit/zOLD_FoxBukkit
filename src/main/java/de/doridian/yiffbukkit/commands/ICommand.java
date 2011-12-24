@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import de.doridian.yiffbukkit.ssl.SSLUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -238,5 +239,11 @@ public abstract class ICommand {
 		int reqlvl = getMinLevel();
 
 		return plylvl >= reqlvl;
+	}
+
+	protected void requireSSL(CommandSender commandSender)throws YiffBukkitCommandException
+	{
+		if(commandSender instanceof Player && !SSLUtils.hasSSL(commandSender.getName()))
+			throw new YiffBukkitCommandException("This command can only be run over a SSL connection or from console!");
 	}
 }
