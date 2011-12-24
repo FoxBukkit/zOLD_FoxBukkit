@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
 import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
@@ -94,6 +95,8 @@ public class YiffBukkit extends JavaPlugin {
 	public Consumer logBlockConsumer;
 	public WorldGuardPlugin worldGuard;
 
+	public ServerSSLSocket serverSSLSocket;
+
 	public boolean serverClosed = false;
 
 	@Override
@@ -110,6 +113,7 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void onDisable() {
+		serverSSLSocket.stopme();
 		remote.stopme();
 		sendConsoleMsg( "YiffBukkit is disabled!" );
 	}
@@ -202,6 +206,9 @@ public class YiffBukkit extends JavaPlugin {
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
 		sendConsoleMsg("YiffBukkit Remote loaded.");
+
+		serverSSLSocket = new ServerSSLSocket(this);
+		serverSSLSocket.start();
 
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override

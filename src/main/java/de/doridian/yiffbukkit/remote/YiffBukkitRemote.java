@@ -8,8 +8,6 @@ import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
-
-
 public class YiffBukkitRemote extends Thread {
 	public static CommandSender currentCommandSender;
 
