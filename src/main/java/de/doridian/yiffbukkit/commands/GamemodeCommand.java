@@ -1,14 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
-
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.Help;
 import de.doridian.yiffbukkit.commands.ICommand.Names;
-import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 
 @Names("gamemode")
 @Help("Sets the gamemode (creative / survival) for a player (default: you)")

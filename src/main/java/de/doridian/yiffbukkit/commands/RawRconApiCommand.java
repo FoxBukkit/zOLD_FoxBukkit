@@ -1,14 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.Level;
 import de.doridian.yiffbukkit.commands.ICommand.Names;
 import de.doridian.yiffbukkit.remote.RemotePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 @Names("rawrconapi")
 @Level(9000)

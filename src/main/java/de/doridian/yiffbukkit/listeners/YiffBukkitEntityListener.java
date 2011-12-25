@@ -1,12 +1,25 @@
 package de.doridian.yiffbukkit.listeners;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import de.doridian.yiffbukkit.YiffBukkit;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
-
-import org.bukkit.craftbukkit.entity.*;
+import org.bukkit.craftbukkit.entity.CraftBlaze;
+import org.bukkit.craftbukkit.entity.CraftCaveSpider;
+import org.bukkit.craftbukkit.entity.CraftCreeper;
+import org.bukkit.craftbukkit.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.entity.CraftEnderman;
+import org.bukkit.craftbukkit.entity.CraftGhast;
+import org.bukkit.craftbukkit.entity.CraftGiant;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftMagmaCube;
+import org.bukkit.craftbukkit.entity.CraftPigZombie;
+import org.bukkit.craftbukkit.entity.CraftSilverfish;
+import org.bukkit.craftbukkit.entity.CraftSkeleton;
+import org.bukkit.craftbukkit.entity.CraftSlime;
+import org.bukkit.craftbukkit.entity.CraftSpider;
+import org.bukkit.craftbukkit.entity.CraftWolf;
+import org.bukkit.craftbukkit.entity.CraftZombie;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,15 +28,16 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.util.HashMap;
+import java.util.Map;
 
 public class YiffBukkitEntityListener extends EntityListener {
 	private final YiffBukkit plugin;

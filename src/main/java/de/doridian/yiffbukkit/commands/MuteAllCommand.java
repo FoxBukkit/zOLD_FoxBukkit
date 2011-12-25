@@ -1,5 +1,10 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -7,9 +12,6 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("muteall")
 @Help("Mutes all player chat")

@@ -1,14 +1,16 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.ToolBind;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.portals.PortalEngine;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.portals.PortalEngine;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("setportal")
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")

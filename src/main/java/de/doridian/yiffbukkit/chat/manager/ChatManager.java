@@ -1,15 +1,6 @@
 package de.doridian.yiffbukkit.chat.manager;
 
-import java.util.EmptyStackException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.ArrayBlockingQueue;
-
+import de.doridian.yiffbukkit.YiffBukkit;
 import net.minecraft.server.Packet3Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
@@ -21,7 +12,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.util.EmptyStackException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class ChatManager {
 	private static final ChatLogEntry EMPTY_CHAT_LOG_ENTRY = new ChatLogEntry("", null);

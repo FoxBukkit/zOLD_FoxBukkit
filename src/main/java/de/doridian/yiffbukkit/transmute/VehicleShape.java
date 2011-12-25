@@ -1,13 +1,13 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet23VehicleSpawn;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.server.Packet;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VehicleShape extends EntityShape {
 	private static final Map<Integer, Integer> mobTypeMap = new HashMap<Integer, Integer>();

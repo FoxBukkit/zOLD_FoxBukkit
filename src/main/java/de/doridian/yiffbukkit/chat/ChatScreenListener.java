@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.chat;
 
-import java.util.HashMap;
-
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.getspout.spoutapi.event.screen.ScreenCloseEvent;
@@ -10,7 +9,7 @@ import org.getspout.spoutapi.event.screen.ScreenOpenEvent;
 import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.util.HashMap;
 
 public class ChatScreenListener extends ScreenListener {
 	YiffBukkit plugin;

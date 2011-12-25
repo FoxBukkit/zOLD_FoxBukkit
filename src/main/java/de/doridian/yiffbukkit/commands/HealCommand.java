@@ -1,9 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("heal")
 @Help("Heals a player fully or by the given amount.")

@@ -2,9 +2,9 @@ package de.doridian.yiffbukkit.noexplode;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class NoExplodeEntityListener extends EntityListener
 {

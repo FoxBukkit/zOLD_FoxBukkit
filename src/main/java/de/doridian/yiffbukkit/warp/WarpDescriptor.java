@@ -1,5 +1,11 @@
 package de.doridian.yiffbukkit.warp;
 
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Ini;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,13 +13,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Ini;
 
 public class WarpDescriptor {
 	private YiffBukkit plugin;

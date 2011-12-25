@@ -1,5 +1,9 @@
 package de.doridian.yiffbukkit.noexplode;
 
+import de.doridian.yiffbukkit.YiffBukkit;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginManager;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -7,11 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.logging.Logger;
-
-import org.bukkit.event.Event;
-import org.bukkit.plugin.PluginManager;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class NoExplode
 {

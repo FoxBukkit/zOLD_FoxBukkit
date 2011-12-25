@@ -1,18 +1,20 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.Utils;
-import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Names("compass")
 @Help(

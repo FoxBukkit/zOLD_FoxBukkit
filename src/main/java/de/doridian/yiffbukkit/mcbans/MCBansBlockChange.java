@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import java.sql.Date;
-
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+
+import java.sql.Date;
 
 public class MCBansBlockChange {
 	public Location position;

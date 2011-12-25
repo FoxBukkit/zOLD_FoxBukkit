@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
-import java.util.Set;
-
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -14,8 +14,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.Plugin;
 
-import com.nijiko.permissions.PermissionHandler;
-import com.nijikokun.bukkit.Permissions.Permissions;
+import java.util.Set;
 
 public class YiffBukkitPermissibleBase implements Permissible {
 	private Permissible parent = this;

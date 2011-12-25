@@ -1,8 +1,9 @@
 package com.nijiko.permissions;
 
-import java.util.Map;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
+
+import java.util.Map;
 
 /**
 * Permissions 2.x

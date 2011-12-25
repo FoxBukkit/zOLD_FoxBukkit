@@ -1,23 +1,21 @@
 package de.doridian.yiffbukkit.listeners;
 
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
-import org.bukkit.util.Vector;
-
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 import de.doridian.yiffbukkit.util.Utils;
-
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.Packet10Flying;
 import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
 import net.minecraft.server.Packet70Bed;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
+import org.bukkit.util.Vector;
 
 public class YiffBukkitPacketListener extends PacketListener {
 	private final YiffBukkit plugin;

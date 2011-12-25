@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.util;
 
-import java.util.List;
-
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class MultiplePlayersFoundException extends PlayerFindException {
 	private static final long serialVersionUID = 1L;

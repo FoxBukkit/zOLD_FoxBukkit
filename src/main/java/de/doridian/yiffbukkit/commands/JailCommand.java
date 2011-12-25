@@ -1,10 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.util.PlayerFindException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import org.bukkit.entity.Player;
 
 @Names("jail")
 @Help("Sends someone to a previously defined jail cell.")

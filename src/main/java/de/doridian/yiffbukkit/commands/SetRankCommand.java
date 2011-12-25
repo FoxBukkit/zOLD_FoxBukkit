@@ -1,11 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
-
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.chat.ChatHelper;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import org.bukkit.command.CommandSender;
 
 @Names("setrank")
 @Help("Sets rank of specified user")

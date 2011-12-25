@@ -1,9 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
-
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.irc.Ircbot;
+import org.bukkit.command.CommandSender;
 
 @Names({"ircmute", "ircm"})
 @Help("Mutes specified user from IRC Chat")

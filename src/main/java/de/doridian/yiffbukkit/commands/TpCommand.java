@@ -1,12 +1,15 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("tp")
 @Help(

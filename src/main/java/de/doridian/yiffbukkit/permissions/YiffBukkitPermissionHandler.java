@@ -1,16 +1,19 @@
 package de.doridian.yiffbukkit.permissions;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import com.nijiko.permissions.PermissionHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
-import com.nijiko.permissions.PermissionHandler;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class YiffBukkitPermissionHandler extends PermissionHandler {
 	class GroupWorld {

@@ -1,15 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.commands.ICommand.Level;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet100OpenWindow;
 import net.minecraft.server.Packet3Chat;
-
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.util.PlayerHelper;
-import de.doridian.yiffbukkit.util.Utils;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("\u00a7")
 @Level(Integer.MIN_VALUE)

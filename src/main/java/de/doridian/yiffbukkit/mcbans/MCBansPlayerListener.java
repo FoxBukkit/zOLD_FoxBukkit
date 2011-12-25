@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.mcbans;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerListener;
@@ -8,8 +9,6 @@ import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.json.simple.JSONObject;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class MCBansPlayerListener extends PlayerListener {
 	protected YiffBukkit plugin;

@@ -1,14 +1,16 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.PlayerFindException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("banish")
 @Help("Banishes the specified user to the spawn and optionally resets their home location.")

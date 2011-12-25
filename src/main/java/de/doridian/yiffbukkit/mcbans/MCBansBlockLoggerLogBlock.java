@@ -1,17 +1,16 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.HashSet;
-
-import org.bukkit.Location;
-import org.bukkit.World;
-
 import de.diddiz.LogBlock.LogBlock;
 import de.diddiz.LogBlock.QueryParams;
 import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.doridian.yiffbukkit.YiffBukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashSet;
 
 public class MCBansBlockLoggerLogBlock extends MCBansBlockLogger {
 	LogBlock lb;

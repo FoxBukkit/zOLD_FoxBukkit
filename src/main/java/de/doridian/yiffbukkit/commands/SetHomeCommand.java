@@ -1,8 +1,9 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
 import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("sethome")
 @Help("Sets your home position (see /home)")

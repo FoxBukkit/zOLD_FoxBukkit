@@ -1,18 +1,20 @@
 package de.doridian.yiffbukkit.commands;
+
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
+import net.minecraft.server.Packet;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.minecraft.server.Packet;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.util.PlayerHelper;
-import de.doridian.yiffbukkit.util.Utils;
 
 @Names("sendpacket")
 @Help("Sends a packet to the given player (requires technical knowledge).")

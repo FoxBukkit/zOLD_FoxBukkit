@@ -1,13 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 import de.doridian.yiffbukkit.util.Utils;
-
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import org.bukkit.entity.Player;
+import org.json.simple.JSONObject;
 
 @Names({"messenger","msngr"})
 @Help("Command for the MCBans messenger system")

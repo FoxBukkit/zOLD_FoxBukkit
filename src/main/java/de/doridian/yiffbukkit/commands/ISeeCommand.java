@@ -1,14 +1,15 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.PlayerFindException;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.PlayerInventory;
-
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.util.PlayerFindException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("isee")
 @Help("Opens the inventory of target player as a chest")

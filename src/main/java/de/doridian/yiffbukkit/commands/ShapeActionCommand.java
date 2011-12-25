@@ -1,15 +1,19 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.ToolBind;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.transmute.Shape;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.transmute.Shape;
 
 @Names({"shapeaction", "sac"})
 @Help(

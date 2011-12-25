@@ -1,15 +1,14 @@
 package de.doridian.yiffbukkit.vanish;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import net.minecraft.server.Packet20NamedEntitySpawn;
-import net.minecraft.server.Packet29DestroyEntity;
-
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import net.minecraft.server.Packet20NamedEntitySpawn;
+import net.minecraft.server.Packet29DestroyEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Vanish {
 	YiffBukkit plugin;

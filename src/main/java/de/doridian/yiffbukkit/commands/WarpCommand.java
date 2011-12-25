@@ -1,18 +1,20 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map.Entry;
-
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkit.warp.WarpException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkit.warp.WarpException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Map.Entry;
 
 @Names("warp")
 @Help("Teleports you to the specified warp point.")

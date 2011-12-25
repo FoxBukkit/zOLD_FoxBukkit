@@ -1,12 +1,12 @@
 package de.doridian.yiffbukkit.remote;
 
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
+import org.bukkit.command.CommandSender;
+
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import org.bukkit.command.CommandSender;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 
 public class YiffBukkitRemote extends Thread {
 	public static CommandSender currentCommandSender;

@@ -1,18 +1,12 @@
 package de.doridian.yiffbukkit.listeners;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-
+import com.sk89q.worldedit.PlayerDirection;
+import com.sk89q.worldedit.blocks.BlockType;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -30,14 +24,18 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.PluginManager;
 
-import com.sk89q.worldedit.PlayerDirection;
-import com.sk89q.worldedit.blocks.BlockType;
-
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkit.util.PlayerHelper;
-import de.doridian.yiffbukkit.util.Utils;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Handle events for all Block related events

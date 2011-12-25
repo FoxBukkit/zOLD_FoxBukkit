@@ -1,5 +1,10 @@
 package de.doridian.yiffbukkit.util;
 
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.util.Vector;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -12,11 +17,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.util.Vector;
 
 public abstract class Ini {
 	public static Map<String, List<Map<String, List<String>>>> load(String fileName) {

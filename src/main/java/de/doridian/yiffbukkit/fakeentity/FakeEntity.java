@@ -1,13 +1,10 @@
 package de.doridian.yiffbukkit.fakeentity;
 
-import java.util.List;
-import java.util.UUID;
-
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet29DestroyEntity;
 import net.minecraft.server.Packet34EntityTeleport;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -18,7 +15,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.util.PlayerHelper;
+import java.util.List;
+import java.util.UUID;
 
 public abstract class FakeEntity implements Entity {
 	static int lastFakeEntityId = 1000000000;

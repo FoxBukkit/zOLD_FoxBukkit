@@ -1,20 +1,5 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashSet;
-import java.util.Set;
-import net.minecraft.server.Chunk;
-import net.minecraft.server.ChunkCoordIntPair;
-import net.minecraft.server.NibbleArray;
-import net.minecraft.server.Packet51MapChunk;
-import net.minecraft.server.WorldServer;
-
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftChunk;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.entity.Player;
-
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
@@ -22,10 +7,27 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import net.minecraft.server.Chunk;
+import net.minecraft.server.ChunkCoordIntPair;
+import net.minecraft.server.NibbleArray;
+import net.minecraft.server.Packet51MapChunk;
+import net.minecraft.server.WorldServer;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.CraftChunk;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.Player;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Names("light")
 @Help(

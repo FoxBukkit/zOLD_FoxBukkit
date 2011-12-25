@@ -1,17 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.Utils;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
@@ -23,15 +19,23 @@ import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet39AttachEntity;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
-
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.util.Utils;
+
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Names("replay")
 @Help(

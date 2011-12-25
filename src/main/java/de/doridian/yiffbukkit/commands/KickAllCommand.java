@@ -1,9 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("kickall")
 @Help("Kicks everyone from the server except for yourself.")

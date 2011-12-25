@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.advertisement;
 
-import java.util.TimerTask;
-
 import org.bukkit.Location;
+
+import java.util.TimerTask;
 
 public class AdvertismentSignTask extends TimerTask {
 	private Location origin;

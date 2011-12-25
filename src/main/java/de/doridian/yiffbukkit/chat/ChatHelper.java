@@ -1,19 +1,18 @@
 package de.doridian.yiffbukkit.chat;
 
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.StateContainer;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import org.bukkit.entity.Player;
+import org.dynmap.Client;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import org.bukkit.entity.Player;
-import org.dynmap.Client;
-
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.StateContainer;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public class ChatHelper extends StateContainer {
 	public final ChatChannelContainer container;

@@ -1,15 +1,15 @@
 package de.doridian.yiffbukkit.remote;
 
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.util.Configuration;
+import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
-import org.bukkit.Server;
-import org.bukkit.command.CommandSender;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkit.util.Configuration;
 
 public class YiffBukkitRemoteThread extends Thread {
 	private final  YiffBukkitPlayerListener listen;

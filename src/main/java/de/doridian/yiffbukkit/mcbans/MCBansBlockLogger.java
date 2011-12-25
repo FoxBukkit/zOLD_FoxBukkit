@@ -1,13 +1,12 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import java.util.Collection;
-import java.util.HashSet;
-
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.util.Collection;
+import java.util.HashSet;
 
 public abstract class MCBansBlockLogger {
 	YiffBukkit plugin;

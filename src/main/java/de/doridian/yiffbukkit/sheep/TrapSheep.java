@@ -1,17 +1,16 @@
 package de.doridian.yiffbukkit.sheep;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityListener;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TrapSheep implements Runnable {
 	private final YiffBukkit plugin;

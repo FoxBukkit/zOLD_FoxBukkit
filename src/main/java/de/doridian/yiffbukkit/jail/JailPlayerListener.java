@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.jail;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -7,8 +8,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.PluginManager;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class JailPlayerListener extends PlayerListener {
 	private final YiffBukkit plugin;

@@ -6,7 +6,11 @@ import net.minecraft.server.NetLoginHandler;
 import net.minecraft.server.Packet1Login;
 import net.minecraft.server.Packet2Handshake;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.security.PublicKey;
 import java.security.cert.Certificate;

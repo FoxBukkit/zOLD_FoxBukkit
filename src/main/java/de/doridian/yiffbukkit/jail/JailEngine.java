@@ -1,20 +1,19 @@
 package de.doridian.yiffbukkit.jail;
 
+import de.doridian.yiffbukkit.StateContainer;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Ini;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
-
-import de.doridian.yiffbukkit.StateContainer;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Ini;
 
 public class JailEngine extends StateContainer {
 	public class JailDescriptor {

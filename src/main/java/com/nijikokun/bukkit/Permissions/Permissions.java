@@ -1,13 +1,11 @@
 package com.nijikokun.bukkit.Permissions;
 
-import java.io.File;
-
+import com.nijiko.permissions.PermissionHandler;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.nijiko.permissions.PermissionHandler;
-
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import java.io.File;
 
 public class Permissions extends JavaPlugin {
 

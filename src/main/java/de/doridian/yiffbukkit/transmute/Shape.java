@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import net.minecraft.server.Block;
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.EntityArrow;
@@ -26,11 +27,9 @@ import net.minecraft.server.Packet25EntityPainting;
 import net.minecraft.server.Packet29DestroyEntity;
 import net.minecraft.server.Packet39AttachEntity;
 import net.minecraft.server.Packet40EntityMetadata;
-
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public abstract class Shape {
 	protected final Transmute transmute;

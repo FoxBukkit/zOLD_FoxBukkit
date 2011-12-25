@@ -1,9 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.util.Utils;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import org.bukkit.command.CommandSender;
 
 @Names("settag")
 @Help(

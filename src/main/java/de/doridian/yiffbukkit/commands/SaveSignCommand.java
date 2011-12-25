@@ -1,16 +1,17 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 @Names("savesign")
 @Help("Select one sign with worldedit, then run this command to automatically restore this sign each time someone joins or respawns. Removing entries is impossible, so use this on permanent signs only.")

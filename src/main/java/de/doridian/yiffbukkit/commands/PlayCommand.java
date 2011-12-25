@@ -1,11 +1,10 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.util.Utils;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet54PlayNoteBlock;
@@ -15,9 +14,11 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.util.Utils;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 @Names("play")
 @Help("Plays notes (currently qbasic format)")

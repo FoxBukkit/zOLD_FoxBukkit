@@ -1,9 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 import java.util.LinkedList;
 

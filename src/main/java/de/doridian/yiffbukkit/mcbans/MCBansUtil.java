@@ -1,16 +1,15 @@
 package de.doridian.yiffbukkit.mcbans;
 
+import de.doridian.yiffbukkit.util.Configuration;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import de.doridian.yiffbukkit.util.Configuration;
 
 public class MCBansUtil {
 	private final static String APIKEY = Configuration.getValue("mcbans-api-key", "");

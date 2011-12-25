@@ -1,10 +1,5 @@
 package de.doridian.yiffbukkit.vanish;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
-import org.bukkit.plugin.Plugin;
-
 import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
@@ -19,6 +14,10 @@ import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet39AttachEntity;
 import net.minecraft.server.Packet40EntityMetadata;
 import net.minecraft.server.Packet5EntityEquipment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
+import org.bukkit.plugin.Plugin;
 
 public class VanishPacketListener extends PacketListener {
 	private final Vanish vanish;

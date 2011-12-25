@@ -1,15 +1,17 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import org.bukkit.entity.Player;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
 
 @Names("exec")
 @Help("Enters all non-empty lines that dont start with # from the given file into your chat. Files are taken from scripts/<filename>.txt")

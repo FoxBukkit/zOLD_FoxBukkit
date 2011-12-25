@@ -1,13 +1,12 @@
 package de.doridian.yiffbukkit.chat;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.util.PlayerNotFoundException;
+import org.bukkit.entity.Player;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.PlayerNotFoundException;
 
 public class ChatChannel implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -1,12 +1,11 @@
 package de.doridian.yiffbukkit.mcbans;
 
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
-
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 
 public class MCBans {
 	private YiffBukkit plugin;

@@ -1,10 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Set;
-
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.Set;
 
 @Names("noport")
 @Help("Prevents teleportation and summoning or grants/revokes exceptions.")

@@ -1,9 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import de.doridian.yiffbukkit.util.Utils;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityEgg;
 import net.minecraft.server.EntityEnderDragon;
@@ -16,7 +13,10 @@ import net.minecraft.server.EntityMagmaCube;
 import net.minecraft.server.EntityPotion;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityTypes;
-import de.doridian.yiffbukkit.util.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class MyEntityTypes {
 	@SuppressWarnings("unchecked")

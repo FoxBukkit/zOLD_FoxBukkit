@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.chat;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -7,7 +8,6 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class ChatListener extends PlayerListener {
 	ChatHelper helper;

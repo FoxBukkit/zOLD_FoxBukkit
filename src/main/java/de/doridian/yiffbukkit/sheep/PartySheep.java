@@ -1,9 +1,8 @@
 package de.doridian.yiffbukkit.sheep;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Sheep;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class PartySheep extends AbstractSheep {
 	public PartySheep(YiffBukkit plugin, Sheep sheep) {

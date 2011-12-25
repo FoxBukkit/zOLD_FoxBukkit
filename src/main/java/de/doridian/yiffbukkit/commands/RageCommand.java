@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import org.bukkit.entity.Player;
 
 @Names("rage")
 @Permission("yiffbukkit.experimental.rage")

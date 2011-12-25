@@ -14,9 +14,20 @@ found at http://www.jibble.org/licenses/
 
 package org.jibble.pircbot;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
 
 /**
  * PircBot is a Java framework for writing IRC bots quickly and easily.

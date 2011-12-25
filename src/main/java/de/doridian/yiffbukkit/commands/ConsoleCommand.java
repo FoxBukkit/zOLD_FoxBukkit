@@ -1,15 +1,16 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.logging.Logger;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import net.minecraft.server.MinecraftServer;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftServer;
 
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.logging.Logger;
 
 @Names("rcon")
 @Help("Pushes a command to console")

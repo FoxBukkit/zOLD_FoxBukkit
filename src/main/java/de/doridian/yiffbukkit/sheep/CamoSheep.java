@@ -1,11 +1,10 @@
 package de.doridian.yiffbukkit.sheep;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Sheep;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class CamoSheep extends AbstractSheep {
 	private DyeColor dyeMap[] = {

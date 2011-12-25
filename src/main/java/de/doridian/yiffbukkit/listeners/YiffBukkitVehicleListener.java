@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.listeners;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -15,8 +16,6 @@ import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class YiffBukkitVehicleListener extends VehicleListener {
 	private YiffBukkit plugin;

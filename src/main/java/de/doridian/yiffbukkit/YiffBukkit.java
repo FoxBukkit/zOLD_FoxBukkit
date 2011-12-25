@@ -1,34 +1,8 @@
 package de.doridian.yiffbukkit;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-
-import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
-import org.bukkit.craftbukkit.command.ColouredConsoleSender;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.SimplePluginManager;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Slime;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.dynmap.ChatEvent;
-import org.dynmap.DynmapPlugin;
-import org.dynmap.Event;
-import org.dynmap.SimpleWebChatComponent;
-import org.dynmap.Event.Listener;
-
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
@@ -48,12 +22,35 @@ import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
 import de.doridian.yiffbukkit.transmute.Transmute;
-import de.doridian.yiffbukkit.util.SpawnUtils;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.SpawnUtils;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.vanish.Vanish;
 import de.doridian.yiffbukkit.warp.WarpEngine;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.craftbukkit.command.ColouredConsoleSender;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Slime;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.ChatEvent;
+import org.dynmap.DynmapPlugin;
+import org.dynmap.Event;
+import org.dynmap.Event.Listener;
+import org.dynmap.SimpleWebChatComponent;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * YiffBukkit

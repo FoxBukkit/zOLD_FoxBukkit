@@ -1,12 +1,17 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.BlockVector2D;
+import com.sk89q.worldedit.IncompleteRegionException;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
+import com.sk89q.worldedit.regions.Region;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
 import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.WorldServer;
-
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -14,15 +19,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.BlockVector2D;
-import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.bukkit.BukkitUtil;
-import com.sk89q.worldedit.regions.Region;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Names("pushup")
 @Help("Pushes the selected region up, if it's sand or gravel.")

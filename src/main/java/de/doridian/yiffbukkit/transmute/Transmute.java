@@ -1,16 +1,15 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Transmute implements Runnable {
 	final YiffBukkit plugin;

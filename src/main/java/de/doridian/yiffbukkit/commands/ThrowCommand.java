@@ -1,8 +1,15 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import de.doridian.yiffbukkit.ToolBind;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.NumericFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.Utils;
 import net.minecraft.server.Packet10Flying;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,10 +20,8 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.util.Utils;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Names("throw")

@@ -1,10 +1,12 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import org.bukkit.entity.Player;
 
 @Names("setwarp")
 @Help("Creates a warp point with the specified name.")

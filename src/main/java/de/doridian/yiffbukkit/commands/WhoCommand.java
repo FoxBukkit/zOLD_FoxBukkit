@@ -1,17 +1,20 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.net.InetAddress;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import de.doridian.yiffbukkit.util.PlayerFindException;
+import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkit.util.PlayerFindException;
-import de.doridian.yiffbukkit.util.PlayerHelper;
-import de.doridian.yiffbukkit.util.Utils;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.net.InetAddress;
 
 @Names({ "who", "list" })
 @Help("Prints user list if used without parameters or information about the specified user")

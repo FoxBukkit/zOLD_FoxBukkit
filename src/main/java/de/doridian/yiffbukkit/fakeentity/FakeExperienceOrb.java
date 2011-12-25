@@ -1,12 +1,10 @@
 package de.doridian.yiffbukkit.fakeentity;
 
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet26AddExpOrb;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.util.PlayerHelper;
 
 public class FakeExperienceOrb extends FakeEntity {
 	public int value;

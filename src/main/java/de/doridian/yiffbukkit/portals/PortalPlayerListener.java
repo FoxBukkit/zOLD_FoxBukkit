@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.portals;
 
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,8 +11,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
-
-import de.doridian.yiffbukkit.YiffBukkit;
 
 public class PortalPlayerListener extends PlayerListener {
 	final YiffBukkit plugin;

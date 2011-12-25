@@ -1,14 +1,14 @@
 package de.doridian.yiffbukkit.util;
 
-import java.lang.reflect.Field;
-import java.util.Date;
+import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import java.lang.reflect.Field;
+import java.util.Date;
 
 public class Utils {
 	private YiffBukkit plugin;

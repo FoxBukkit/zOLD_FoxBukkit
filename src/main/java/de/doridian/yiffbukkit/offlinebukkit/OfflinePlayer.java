@@ -1,14 +1,6 @@
 package de.doridian.yiffbukkit.offlinebukkit;
 
-import java.io.File;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import org.bukkit.Achievement;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -40,7 +32,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.util.PlayerHelper;
+import java.io.File;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	private Location location;

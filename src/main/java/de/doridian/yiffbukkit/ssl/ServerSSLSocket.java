@@ -3,13 +3,14 @@ package de.doridian.yiffbukkit.ssl;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Configuration;
 import de.doridian.yiffbukkit.util.Utils;
-import net.minecraft.server.*;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.NetLoginHandler;
+import net.minecraft.server.NetworkListenThread;
 import org.bukkit.craftbukkit.CraftServer;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
-
-import java.io.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.security.cert.Certificate;
 import java.util.ArrayList;

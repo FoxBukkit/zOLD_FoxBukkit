@@ -1,5 +1,26 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.util.SpawnUtils;
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.Packet50PreChunk;
+import net.minecraft.server.Packet51MapChunk;
+import net.minecraft.server.WorldServer;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
+import org.bukkit.event.server.PacketListener;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -10,25 +31,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.Packet50PreChunk;
-import net.minecraft.server.Packet51MapChunk;
-import net.minecraft.server.WorldServer;
-
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.util.SpawnUtils;
 
 @Names("record")
 @Help("Records a player's actions. Use the -s flag to stop recording.")

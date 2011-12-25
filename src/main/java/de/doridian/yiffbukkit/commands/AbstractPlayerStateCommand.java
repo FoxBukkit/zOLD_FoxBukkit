@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import org.bukkit.command.CommandSender;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import org.bukkit.command.CommandSender;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 public abstract class AbstractPlayerStateCommand extends ICommand {
 	protected final Set<String> states = new HashSet<String>();

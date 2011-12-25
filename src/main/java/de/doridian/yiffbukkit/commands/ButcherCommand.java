@@ -1,7 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.List;
-
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import net.minecraft.server.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,8 +19,7 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.List;
 
 @Names("butcher")
 @Help(

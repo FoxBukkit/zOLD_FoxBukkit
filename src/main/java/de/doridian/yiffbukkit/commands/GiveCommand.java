@@ -1,8 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -10,9 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Names({"give", "item", "i"})
 @Help("Gives resource (use _ for spaces in name!)")

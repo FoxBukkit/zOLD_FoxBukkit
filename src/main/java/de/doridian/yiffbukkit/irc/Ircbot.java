@@ -1,10 +1,11 @@
 package de.doridian.yiffbukkit.irc;
 
-import java.io.IOException;
-
-import org.jibble.pircbot.*;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.util.Configuration;
+import org.jibble.pircbot.IrcException;
+import org.jibble.pircbot.PircBot;
+
+import java.io.IOException;
 
 public class Ircbot extends PircBot implements Runnable {
 

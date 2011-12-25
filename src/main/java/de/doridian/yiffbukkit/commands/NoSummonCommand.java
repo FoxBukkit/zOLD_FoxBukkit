@@ -1,6 +1,9 @@
 package de.doridian.yiffbukkit.commands;
 
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 
 @Names("nosummon")
 @Help("Prevents summoning or grants/revokes exceptions.")

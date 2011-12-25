@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.login;
 
-import java.net.SocketAddress;
-
 import net.minecraft.server.NetLoginHandler;
 import net.minecraft.server.Packet1Login;
+
+import java.net.SocketAddress;
 
 public class ThreadDoriLoginVerifier extends Thread {
 	final NetLoginHandler loginHandler;

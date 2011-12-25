@@ -1,5 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.ssl.SSLUtils;
+import de.doridian.yiffbukkit.util.PlayerHelper;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
@@ -7,16 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import de.doridian.yiffbukkit.ssl.SSLUtils;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkit.util.PlayerHelper;
 
 public abstract class ICommand {
 	@Retention(RetentionPolicy.RUNTIME) protected @interface Names { String[] value(); }

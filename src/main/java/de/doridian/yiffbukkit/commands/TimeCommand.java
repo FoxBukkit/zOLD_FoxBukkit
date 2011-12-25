@@ -1,9 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
+import org.bukkit.command.CommandSender;
 
 @Names("time")
 @Help("Forces/fixes current time *clientside*.")

@@ -1,18 +1,16 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import net.minecraft.server.Packet38EntityStatus;
+import org.bukkit.DyeColor;
+import org.bukkit.entity.Player;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.server.Packet38EntityStatus;
-
-import org.bukkit.DyeColor;
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
 
 final class MobActions {
 	private static HashMap<Integer, Map<String, MobAction>> mobActions = new HashMap<Integer, Map<String, MobAction>>();

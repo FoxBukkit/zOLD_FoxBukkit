@@ -1,8 +1,5 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
@@ -11,11 +8,13 @@ import net.minecraft.server.Packet24MobSpawn;
 import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet40EntityMetadata;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.plugin.Plugin;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class TransmutePacketListener extends PacketListener {
 	private final Transmute transmute;

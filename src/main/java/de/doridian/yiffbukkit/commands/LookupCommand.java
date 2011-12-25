@@ -1,12 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 import org.bukkit.command.CommandSender;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
-import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 
 @Names("lookup")
 @Help("Does an MCBans lookup on target player")

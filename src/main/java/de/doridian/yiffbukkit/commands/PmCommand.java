@@ -1,11 +1,13 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.util.PlayerFindException;
 import de.doridian.yiffbukkit.util.Utils;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @Names({"pm", "msg"})
 @Help("Sends a private message to the specified user, that cannot be seen by anyone but the target and yourself.")

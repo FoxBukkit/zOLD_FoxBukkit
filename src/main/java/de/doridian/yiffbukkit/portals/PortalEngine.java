@@ -1,8 +1,7 @@
 package de.doridian.yiffbukkit.portals;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -10,8 +9,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Utils;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PortalEngine {
 	private YiffBukkit plugin;

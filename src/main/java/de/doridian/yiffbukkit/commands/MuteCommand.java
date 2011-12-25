@@ -1,7 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Set;
-
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
@@ -11,9 +15,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
 
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.Set;
 
 @Names("mute")
 @Help("Mutes or unmutes a player.")

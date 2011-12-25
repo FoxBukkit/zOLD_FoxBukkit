@@ -1,11 +1,8 @@
 package de.doridian.yiffbukkit.listeners;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkit.warp.WarpException;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,9 +20,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
 import org.bukkit.plugin.PluginManager;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkit.warp.WarpException;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 
 public class SignPortalPlayerListener extends PlayerListener {
 	final YiffBukkit plugin;

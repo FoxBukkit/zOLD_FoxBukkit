@@ -1,20 +1,5 @@
 package de.doridian.yiffbukkit.listeners;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.security.CodeSource;
-import java.security.ProtectionDomain;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
@@ -24,8 +9,10 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
-
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -34,10 +21,43 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.getspout.spout.player.SpoutCraftPlayer;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Handle events for all Player related events

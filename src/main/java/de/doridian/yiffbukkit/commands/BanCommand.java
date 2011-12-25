@@ -1,14 +1,18 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.Utils;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.util.Utils;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @Names("ban")
 @Help(

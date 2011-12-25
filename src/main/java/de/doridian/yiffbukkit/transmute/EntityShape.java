@@ -1,24 +1,21 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.sk89q.worldedit.blocks.BlockType;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
-
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 
-import com.sk89q.worldedit.blocks.BlockType;
-
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.PlayerHelper;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class EntityShape extends Shape {
 	protected int mobType;

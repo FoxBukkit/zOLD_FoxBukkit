@@ -1,9 +1,11 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.login.DoriLogin;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import org.bukkit.entity.Player;
 
 @Names("setpass")
 @Help("Sets your web login password.")

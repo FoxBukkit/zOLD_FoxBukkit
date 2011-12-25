@@ -1,12 +1,14 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 @Names("help")
 @Help("Prints a list of available commands or information about the specified command.")

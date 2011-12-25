@@ -1,22 +1,18 @@
 package de.doridian.yiffbukkit.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import de.doridian.yiffbukkit.StateContainer;
+import de.doridian.yiffbukkit.ToolBind;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkit.warp.WarpException;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet70Bed;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -30,14 +26,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.StateContainer;
-import de.doridian.yiffbukkit.ToolBind;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
-import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkit.warp.WarpException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlayerHelper extends StateContainer {
 	private YiffBukkit plugin;

@@ -1,10 +1,14 @@
 package de.doridian.yiffbukkit.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
+import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.fakeentity.FakeEntity;
+import de.doridian.yiffbukkit.fakeentity.FakeExperienceOrb;
+import de.doridian.yiffbukkit.sheep.CamoSheep;
+import de.doridian.yiffbukkit.sheep.PartySheep;
+import de.doridian.yiffbukkit.sheep.TrapSheep;
 import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.EntityFireball;
 import net.minecraft.server.EntityPlayer;
@@ -16,7 +20,6 @@ import net.minecraft.server.MovingObjectPosition;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.WorldServer;
-
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -40,15 +43,11 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.PermissionDeniedException;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand;
-import de.doridian.yiffbukkit.fakeentity.FakeEntity;
-import de.doridian.yiffbukkit.fakeentity.FakeExperienceOrb;
-import de.doridian.yiffbukkit.sheep.CamoSheep;
-import de.doridian.yiffbukkit.sheep.PartySheep;
-import de.doridian.yiffbukkit.sheep.TrapSheep;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 public class SpawnUtils {
 	private YiffBukkit plugin;

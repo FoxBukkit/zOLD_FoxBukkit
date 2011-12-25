@@ -1,11 +1,15 @@
 package de.doridian.yiffbukkit.commands;
 
-import java.util.Hashtable;
-
-import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
+import org.bukkit.command.CommandSender;
+
+import java.util.Hashtable;
 
 @Names("servertime")
 @Help("Forces/fixes current time *serverside*.")

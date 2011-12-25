@@ -1,16 +1,16 @@
 package de.doridian.yiffbukkit.commands;
 
-import org.bukkit.entity.Player;
-
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
-
-import org.bukkit.util.Vector;
-
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.*;
+import de.doridian.yiffbukkit.commands.ICommand.Help;
+import de.doridian.yiffbukkit.commands.ICommand.Names;
+import de.doridian.yiffbukkit.commands.ICommand.Permission;
+import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 @Names("setjail")
 @Help("Defines a jail cell from the current WorldEdit selection or removes the cell whose center you're standing closest to.")
