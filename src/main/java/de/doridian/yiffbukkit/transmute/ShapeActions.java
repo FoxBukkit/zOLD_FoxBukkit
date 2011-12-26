@@ -20,6 +20,54 @@ final class ShapeActions {
 	}
 
 	static {
+		//registerMobActions(1, // Item
+		//registerMobActions(2, // XPOrb
+		//registerMobActions(9, // Painting
+		//registerMobActions(10, // Arrow
+		//registerMobActions(11, // Snowball
+		//registerMobActions(12, // Fireball
+		//registerMobActions(13, // SmallFireball
+		//registerMobActions(14, // ThrownEnderpearl
+		//registerMobActions(15, // EyeOfEnderSignal
+		//registerMobActions(20, // PrimedTnt
+		//registerMobActions(21, // FallingSand
+
+		registerMobActions(40, // Minecart
+				"help",
+				new HelpMobAction("/sac empty|chest|furnace|bob[ <amount>[ <time>]]|smoke [on|off]"),
+				"empty",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					((VehicleShape) shape).setVehicleType(10);
+				}},
+				"chest",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					((VehicleShape) shape).setVehicleType(11);
+				}},
+				"furnace",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					((VehicleShape) shape).setVehicleType(12);
+				}},
+				"bob",
+				new VehicleBobAction(),
+				"smoke",
+				new MetadataBitMobAction(16, 0x1, "No longer smoking.", "Now smoking.")
+		);
+
+		registerMobActions(41, // Boat
+				"help",
+				new HelpMobAction("/sac bob[ <amount>[ <time>]]"),
+				"bob",
+				new VehicleBobAction(),
+				"17",
+				new MetadataCustomValueAction(17, "Set your 17 to %s", Integer.class),
+				"18",
+				new MetadataCustomValueAction(18, "Set your 18 to %s", Integer.class),
+				"19",
+				new MetadataCustomValueAction(19, "Set your 19 to %s", Integer.class)
+		);
+		//registerMobActions(48, // Mob
+		//registerMobActions(49, // Monster
+
 		registerMobActions(50, // Creeper
 				"help",
 				new HelpMobAction("/sac hiss|charge [on|off]"),
@@ -166,6 +214,10 @@ final class ShapeActions {
 		);
 		//registerMobActions(97, // SnowMan
 		//registerMobActions(120, // Villager
+		//registerMobActions(200, // EnderCrystal
+		//registerMobActions(1000, // FishingHook
+		//registerMobActions(1001, // Potion
+		//registerMobActions(1002, // Egg
 	}
 
 	private static void registerMobActions(int mobType, Object... objects) {
@@ -185,6 +237,38 @@ final class ShapeActions {
 		}
 
 		mobActions.put(mobType, actions);
+	}
+
+	private static class VehicleBobAction implements ShapeAction {
+		@Override
+		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+			final int amplitude;
+			final int time;
+			try {
+				if (args.length < 1) {
+					amplitude = 30;
+				}
+				else {
+					amplitude = Integer.parseInt(args[0]);
+				}
+
+				if (args.length < 2) {
+					time = 10;
+				}
+				else {
+					time = Integer.parseInt(args[1]);
+				}
+			}
+			catch (NumberFormatException e) {
+				throw new YiffBukkitCommandException("Number expected.", e);
+			}
+
+			shape.setData(17, 0);
+			shape.setData(19, 0);
+			shape.setData(17, time);
+			shape.setData(18, shape.getDataInteger(18) > 0 ? -1 : 1);
+			shape.setData(19, amplitude);
+		}
 	}
 
 	private static class MetadataCustomValueAction implements ShapeAction {
