@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 public abstract class EntityShape extends Shape {
 	protected int mobType;
-	private Map<String, MobAction> actions;
+	private Map<String, ShapeAction> actions;
 
 	protected float yawOffset = 0;
 	protected double yOffset = 0;
@@ -48,7 +48,7 @@ public abstract class EntityShape extends Shape {
 		super(transmute, entity);
 
 		this.mobType = mobType;
-		actions = MobActions.get(mobType);
+		actions = ShapeActions.get(mobType);
 	}
 
 	private static final Pattern commandPattern = Pattern.compile("^([^ ]+) (.+)?$");
@@ -78,7 +78,7 @@ public abstract class EntityShape extends Shape {
 		if (actions == null)
 			throw new YiffBukkitCommandException("No actions defined for your current shape.");
 
-		MobAction mobAction = actions.get(actionName);
+		ShapeAction mobAction = actions.get(actionName);
 		if (mobAction == null) {
 			mobAction = actions.get("help");
 			if (mobAction == null)

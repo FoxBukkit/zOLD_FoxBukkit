@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class MobActions {
-	private static HashMap<Integer, Map<String, MobAction>> mobActions = new HashMap<Integer, Map<String, MobAction>>();
+final class ShapeActions {
+	private static HashMap<Integer, Map<String, ShapeAction>> mobActions = new HashMap<Integer, Map<String, ShapeAction>>();
 
-	public static final Map<String, MobAction> get(int mobType) {
+	public static final Map<String, ShapeAction> get(int mobType) {
 		return mobActions.get(mobType);
 	}
 
@@ -24,7 +24,7 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac hiss|charge [on|off]"),
 				"sss", "ssss", "sssss", "ssssss", "hiss", "fuse", "ignite",
-				new MobAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					shape.setData(16, (byte) 0);
 					shape.setData(16, (byte) 1);
 
@@ -97,7 +97,7 @@ final class MobActions {
 				"help",
 				new HelpMobAction("/sac shorn|color <color>|baby|adult"),
 				"color",
-				new MobAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
 					try {
 						if ("RAINBOW".equalsIgnoreCase(argStr) || "RAINBOWS".equalsIgnoreCase(argStr) || "RANDOM".equalsIgnoreCase(argStr)) {
@@ -169,16 +169,16 @@ final class MobActions {
 	}
 
 	private static void registerMobActions(int mobType, Object... objects) {
-		Map<String, MobAction> actions = new HashMap<String, MobAction>();
+		Map<String, ShapeAction> actions = new HashMap<String, ShapeAction>();
 
 		List<String> names = new ArrayList<String>();
 		for (Object object : objects) {
 			if (object instanceof String) {
 				names.add((String)object);
 			}
-			else if (object instanceof MobAction) {
+			else if (object instanceof ShapeAction) {
 				for (String name : names) {
-					actions.put(name, (MobAction)object);
+					actions.put(name, (ShapeAction)object);
 				}
 				names.clear();
 			}
@@ -187,7 +187,7 @@ final class MobActions {
 		mobActions.put(mobType, actions);
 	}
 
-	private static class MetadataCustomValueAction implements MobAction {
+	private static class MetadataCustomValueAction implements ShapeAction {
 		final int index;
 		final String message;
 		final Constructor<? extends Number> constructor;
@@ -223,7 +223,7 @@ final class MobActions {
 		}
 	}
 
-	private static class HelpMobAction implements MobAction {
+	private static class HelpMobAction implements ShapeAction {
 		final String message;
 
 		public HelpMobAction(String message) {
@@ -237,7 +237,7 @@ final class MobActions {
 
 	}
 
-	private static class MetadataBitMobAction implements MobAction {
+	private static class MetadataBitMobAction implements ShapeAction {
 		private final int index;
 		private final byte bit;
 		private final String unsetMessage;
@@ -270,7 +270,7 @@ final class MobActions {
 		}
 	}
 
-	static class EntityStatusMobAction implements MobAction {
+	static class EntityStatusMobAction implements ShapeAction {
 		private final byte status;
 		private final String message;
 
@@ -286,7 +286,7 @@ final class MobActions {
 		}
 	}
 
-	static class MetadataMobAction implements MobAction {
+	static class MetadataMobAction implements ShapeAction {
 		private final int index;
 		private final Object value;
 		private final String message;
