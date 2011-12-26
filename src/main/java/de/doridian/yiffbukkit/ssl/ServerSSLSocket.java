@@ -21,6 +21,7 @@ public class ServerSSLSocket extends Thread {
 	private SSLServerSocket listenerSocket;
 
 	private MinecraftServer server;
+	@SuppressWarnings("unused")
 	private SSLPlayerListener sslPlayerListener;
 
 	private int connCount = 1;
