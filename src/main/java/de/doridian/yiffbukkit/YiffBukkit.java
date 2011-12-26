@@ -111,7 +111,8 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		serverSSLSocket.stopme();
+		if (serverSSLSocket != null)
+			serverSSLSocket.stopme();
 		remote.stopme();
 		sendConsoleMsg( "YiffBukkit is disabled!" );
 	}
