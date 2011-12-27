@@ -228,8 +228,7 @@ public abstract class ICommand {
 		return usageAnnotation.value();
 	}
 
-	public boolean canPlayerUseCommand(CommandSender commandSender)
-	{
+	public boolean canPlayerUseCommand(CommandSender commandSender) {
 		Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
 		if (permissionAnnotation != null)
 			return plugin.permissionHandler.has(commandSender, permissionAnnotation.value());
@@ -240,9 +239,8 @@ public abstract class ICommand {
 		return plylvl >= reqlvl;
 	}
 
-	protected void requireSSL(CommandSender commandSender)throws YiffBukkitCommandException
-	{
+	protected void requireSSL(CommandSender commandSender) throws YiffBukkitCommandException {
 		if(commandSender instanceof Player && !SSLUtils.hasSSL(commandSender.getName()))
-			throw new YiffBukkitCommandException("This command can only be run over a SSL connection or from console!");
+			throw new YiffBukkitCommandException("This command can only be run over an SSL connection or from the console!");
 	}
 }
