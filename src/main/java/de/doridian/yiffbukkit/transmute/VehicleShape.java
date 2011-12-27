@@ -113,7 +113,7 @@ public class VehicleShape extends EntityShape {
 	public void setVehicleType(int vehicleType, int subType) {
 		this.vehicleType = vehicleType;
 		this.subType = subType;
-		
+
 		deleteEntity();
 		createTransmutedEntity();
 	}

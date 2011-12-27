@@ -6,6 +6,7 @@ import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet24MobSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 
 public class MobShape extends EntityShape {
@@ -45,5 +46,10 @@ public class MobShape extends EntityShape {
 		p24.g = (byte) ((int) (location.getPitch() * 256.0F / 360.0F));
 		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "h", datawatcher);
 		return p24;
+	}
+
+	@Override
+	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+		return packetID == 22 || super.onOutgoingPacket(ply, packetID, packet);
 	}
 }

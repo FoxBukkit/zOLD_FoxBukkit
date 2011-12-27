@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.transmute;
 import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
+import net.minecraft.server.Packet22Collect;
 import net.minecraft.server.Packet23VehicleSpawn;
 import net.minecraft.server.Packet24MobSpawn;
 import net.minecraft.server.Packet30Entity;
@@ -27,6 +28,7 @@ public class TransmutePacketListener extends PacketListener {
 		PacketListener.addPacketListener(true, 17, this, plugin);
 		PacketListener.addPacketListener(true, 18, this, plugin);
 		PacketListener.addPacketListener(true, 20, this, plugin);
+		PacketListener.addPacketListener(true, 22, this, plugin);
 		PacketListener.addPacketListener(true, 23, this, plugin);
 		PacketListener.addPacketListener(true, 24, this, plugin);
 		//PacketListener.addPacketListener(true, 30, this, plugin);
@@ -54,6 +56,10 @@ public class TransmutePacketListener extends PacketListener {
 
 		case 20:
 			return handleSpawn(ply, ((Packet20NamedEntitySpawn) packet).a);
+
+		case 22:
+			entityId = ((Packet22Collect) packet).b;
+			break;
 
 		case 23:
 			return handleSpawn(ply, ((Packet23VehicleSpawn) packet).a);

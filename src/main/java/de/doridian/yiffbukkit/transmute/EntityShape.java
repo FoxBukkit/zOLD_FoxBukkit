@@ -97,23 +97,26 @@ public abstract class EntityShape extends Shape {
 		switch (packetID) {
 		case 18:
 			return ((Packet18ArmAnimation) packet).b == 2;
-	
+
+		case 22:
+			return false; // will be overridden in MobShape
+
 		//case 30:
 		//case 31:
 		case 32:
 		case 33:
 			Packet30Entity p30 = (Packet30Entity) packet;
 			p30.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
-	
+
 			return true;
-	
+
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
 			p34.c += (int)(yOffset * 32.0);
 			p34.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
-	
+
 			return true;
-	
+
 		default:
 			return true;
 		}
