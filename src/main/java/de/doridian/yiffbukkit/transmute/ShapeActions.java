@@ -104,14 +104,20 @@ final class ShapeActions {
 				"empty",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(10);
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now a regular minecart...");
 				}},
 				"chest",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(11);
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now a storage minecart...");
 				}},
 				"furnace",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(12);
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now a powered minecart...");
 				}},
 				"bob",
 				new VehicleBobAction(),
