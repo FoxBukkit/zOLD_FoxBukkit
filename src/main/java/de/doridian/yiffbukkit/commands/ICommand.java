@@ -44,6 +44,7 @@ public abstract class ICommand {
 	protected ICommand() {
 		this(YiffBukkit.instance.playerListener);
 	}
+
 	private ICommand(YiffBukkitPlayerListener playerListener) {
 		plugin = playerListener.plugin;
 		playerHelper = plugin.playerHelper;

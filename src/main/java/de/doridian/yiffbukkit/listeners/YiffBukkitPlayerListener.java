@@ -70,6 +70,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	public YiffBukkitPlayerListener(YiffBukkit plug) {
 		plugin = plug;
+		plugin.playerListener = this;
 		playerHelper = plugin.playerHelper;
 		permissionHandler = plugin.permissionHandler;
 
