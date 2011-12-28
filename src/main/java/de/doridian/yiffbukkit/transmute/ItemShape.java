@@ -19,7 +19,6 @@ public class ItemShape extends EntityShape {
 	public ItemShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
 
-		//yOffset = 1.62;
 		dropping = true;
 	}
 

@@ -214,10 +214,11 @@ public abstract class Shape {
 		switch (id) {
 		case 1: // Item
 			return getShapeImpl(transmute, entity, id, ItemShape.class);
-		//case 2: // XPOrb
+
+		case 2: // XPOrb
+			return getShapeImpl(transmute, entity, id, ExperienceOrbShape.class);
 
 		//case 9: // Painting
-
 
 		case 10: // Arrow
 		case 11: // Snowball
