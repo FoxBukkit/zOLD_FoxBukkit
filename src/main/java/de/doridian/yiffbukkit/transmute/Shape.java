@@ -218,7 +218,8 @@ public abstract class Shape {
 		case 2: // XPOrb
 			return getShapeImpl(transmute, entity, id, ExperienceOrbShape.class);
 
-		//case 9: // Painting
+		case 9: // Painting
+			return getShapeImpl(transmute, entity, id, PaintingShape.class);
 
 		case 10: // Arrow
 		case 11: // Snowball

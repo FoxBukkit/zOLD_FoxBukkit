@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.GiveCommand;
+import net.minecraft.server.EnumArt;
 import net.minecraft.server.Packet38EntityStatus;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -87,8 +88,28 @@ final class ShapeActions {
 					itemShape.setType(stack.getTypeId(), stack.getDurability(), stack.getAmount());
 				}}
 		);
+
 		//registerMobActions(2, // XPOrb
-		//registerMobActions(9, // Painting
+
+		registerMobActions(9, // Painting
+				"help",
+				new HelpMobAction("/sac art <name>"),
+				"art", "painting", "name", "type",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					for (EnumArt art : EnumArt.values()) {
+						final String currentName = art.A;
+						if (!currentName.equalsIgnoreCase(argStr))
+							continue;
+
+						((PaintingShape) shape).setPaintingName(currentName);
+						shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Set painting to "+currentName);
+						return;
+					}
+
+					throw new YiffBukkitCommandException("Cannot find a painting with that name.");
+				}}
+		);
+
 		//registerMobActions(10, // Arrow
 		//registerMobActions(11, // Snowball
 		//registerMobActions(12, // Fireball
@@ -137,6 +158,7 @@ final class ShapeActions {
 				"19",
 				new MetadataCustomValueAction(19, "Set your 19 to %s", Integer.class)
 		);
+
 		//registerMobActions(48, // Mob
 		//registerMobActions(49, // Monster
 
@@ -284,10 +306,12 @@ final class ShapeActions {
 		registerMobActions(96, // MushroomCow
 				animalActions
 		);
+
 		//registerMobActions(97, // SnowMan
 		//registerMobActions(120, // Villager
 		//registerMobActions(200, // EnderCrystal
 		//registerMobActions(1000, // FishingHook
+
 		registerMobActions(1001, // Potion
 				"help",
 				new HelpMobAction("/sac type <type>"),
@@ -303,6 +327,7 @@ final class ShapeActions {
 					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now potion type "+argStr+"...");
 				}}
 		);
+
 		//registerMobActions(1002, // Egg
 	}
 
