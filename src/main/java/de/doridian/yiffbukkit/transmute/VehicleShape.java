@@ -10,8 +10,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VehicleShape extends EntityShape {
+	static {
+		yawOffsets[10] = 90; // Arrow
+		yOffsets[10] = 1.62;
+		yOffsets[11] = 1.62; // Snowball
+		yOffsets[12] = 1.62; // Fireball
+		yOffsets[13] = 1.62; // SmallFireball
+		yOffsets[14] = 1.62; // ThrownEnderpearl
+		yOffsets[15] = 1.62; // EyeOfEnderSignal
+		yOffsets[20] = 1.62; // PrimedTnt
+		yOffsets[21] = 1.62; // FallingSand
+		yawOffsets[40] = 270; // Minecart
+		yOffsets[40] = 0.5;
+		yawOffsets[41] = 270; // Boat
+		yOffsets[41] = 0.5;
+		yOffsets[1000] = 1.62; // FishingHook
+		yOffsets[1001] = 1.62; // Potion
+	}
+
 	private static final Map<Integer, Integer> mobTypeMap = new HashMap<Integer, Integer>();
-	{
+	static {
 		mobTypeMap.put(10, 60); // Arrow
 		mobTypeMap.put(11, 61); // Snowball
 		mobTypeMap.put(12, 63); // Fireball
@@ -37,31 +55,6 @@ public class VehicleShape extends EntityShape {
 		super(transmute, entity, mobType);
 
 		vehicleType = mobTypeMap.get(mobType);
-
-		switch (mobType) {
-
-		case 10: // Arrow
-			yawOffset = 90;
-			/* FALL-THROUGH */
-
-		case 11: // Snowball
-		case 12: // Fireball
-		case 13: // SmallFireball
-		case 14: // ThrownEnderpearl
-		case 15: // EyeOfEnderSignal
-		case 20: // PrimedTnt
-		case 21: // FallingSand
-		case 1000: // FishingHook
-		case 1001: // Potion
-			yOffset = 1.62;
-			break;
-
-		case 40: // Minecart
-		case 41: // Boat
-			yawOffset = 270;
-			yOffset = 0.5;
-			break;
-		}
 
 		switch (mobType) {
 		case 10: // Arrow

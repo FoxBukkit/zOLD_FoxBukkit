@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.transmute;
 
-
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet21PickupSpawn;
 import org.bukkit.Location;
@@ -9,6 +8,10 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
 
 public class ItemShape extends EntityShape {
+	static {
+		//yOffsets[1] = 1.62;
+	}
+
 	private int type = 81; // cactus
 	private int data = 0;
 	private int count = 1;

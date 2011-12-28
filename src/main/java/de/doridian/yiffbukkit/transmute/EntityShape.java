@@ -18,12 +18,35 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class EntityShape extends Shape {
+	protected static double[] yOffsets = new double[1024];
+	protected static float[] yawOffsets = new float[1024];
+
 	protected int mobType;
 	private Map<String, ShapeAction> actions;
 
 	protected float yawOffset = 0;
 	protected double yOffset = 0;
 	protected boolean dropping = false;
+
+	public EntityShape(Transmute transmute, Entity entity, int mobType) {
+		super(transmute, entity);
+
+		this.mobType = mobType;
+		actions = ShapeActions.get(mobType);
+
+		yOffset = yOffsets[mobType];
+		yawOffset = yawOffsets[mobType];
+
+		try {
+			Class<? extends net.minecraft.server.Entity> entityClass = ((CraftEntity) entity).getHandle().getClass();
+			int entityMobType = MyEntityTypes.classToId(entityClass);
+
+			yOffset -= yOffsets[entityMobType];
+			yawOffset -= yawOffsets[entityMobType];
+		}
+		catch (EntityTypeNotFoundException e) {
+		}
+	}
 
 	@Override
 	public void createTransmutedEntity() {
@@ -43,13 +66,6 @@ public abstract class EntityShape extends Shape {
 	}
 
 	protected abstract Packet createSpawnPacket();
-
-	public EntityShape(Transmute transmute, Entity entity, int mobType) {
-		super(transmute, entity);
-
-		this.mobType = mobType;
-		actions = ShapeActions.get(mobType);
-	}
 
 	private static final Pattern commandPattern = Pattern.compile("^([^ ]+) (.+)?$");
 

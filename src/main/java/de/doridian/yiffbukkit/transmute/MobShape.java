@@ -10,6 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 
 public class MobShape extends EntityShape {
+	static {
+		yawOffsets[63] = 180;
+	}
+
 	public MobShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
 
