@@ -288,7 +288,21 @@ final class ShapeActions {
 		//registerMobActions(120, // Villager
 		//registerMobActions(200, // EnderCrystal
 		//registerMobActions(1000, // FishingHook
-		//registerMobActions(1001, // Potion
+		registerMobActions(1001, // Potion
+				"help",
+				new HelpMobAction("/sac type <type>"),
+				"type",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					try {
+						((VehicleShape) shape).setVehicleType(Integer.parseInt(argStr));
+					}
+					catch (NumberFormatException e) {
+						throw new YiffBukkitCommandException("Number expected.", e);
+					}
+
+					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now potion type "+argStr+"...");
+				}}
+		);
 		//registerMobActions(1002, // Egg
 	}
 
