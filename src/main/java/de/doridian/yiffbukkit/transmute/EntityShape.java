@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.transmute;
 import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet30Entity;
@@ -128,8 +129,11 @@ public abstract class EntityShape extends Shape {
 
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
-			p34.c += (int)(yOffset * 32.0);
-			p34.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
+			final net.minecraft.server.Entity notchEntity = ((CraftEntity) entity).getHandle();
+			p34.c = MathHelper.floor((notchEntity.locY+yOffset-0.1) * 32.0D);
+			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F));
+			//p34.c += (int)(yOffset * 32.0);
+			//p34.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
 
 			return true;
 
