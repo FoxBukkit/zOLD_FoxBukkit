@@ -60,7 +60,7 @@ public abstract class Shape {
 
 	private Packet createOriginalSpawnPacket() {
 		// TODO: update to 1.0.0
-		
+
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity)entity).getHandle();
 
 		if (notchEntity instanceof EntityItem) {
@@ -189,10 +189,10 @@ public abstract class Shape {
 		return new Packet40EntityMetadata(entityId, datawatcher);
 	}
 
-	abstract public void createTransmutedEntity();
-	abstract public void createTransmutedEntity(Player forPlayer);
+	public abstract void createTransmutedEntity();
+	public abstract void createTransmutedEntity(Player forPlayer);
 
-	abstract public void runAction(Player player, String action) throws YiffBukkitCommandException;
+	public abstract void runAction(Player player, String action) throws YiffBukkitCommandException;
 
 	public static Shape getShape(Transmute transmute, Entity entity, String mobType) throws EntityTypeNotFoundException {
 		return getShape(transmute, entity, MyEntityTypes.typeNameToClass(mobType));
