@@ -73,7 +73,7 @@ public abstract class EntityShape extends Shape {
 	@Override
 	public void runAction(Player player, String action) throws YiffBukkitCommandException {
 		final Matcher matcher = commandPattern.matcher(action);
-	
+
 		final String actionName;
 		final String argStr;
 		final String[] args;
@@ -104,7 +104,6 @@ public abstract class EntityShape extends Shape {
 			mobAction.run(this, player, new String[] { "" }, "");
 			return;
 		}
-		
 
 		mobAction.run(this, player, args, argStr);
 	}

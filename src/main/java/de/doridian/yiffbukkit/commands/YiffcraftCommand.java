@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkit.util.Configuration;
 import org.bukkit.entity.Player;
@@ -10,9 +11,9 @@ import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.util.Map;
 
-@ICommand.Names("yiffcraft")
-@ICommand.Help("Command used by the YC client")
-@ICommand.Level(0)
+@Names("yiffcraft")
+@Help("Command used by the YC client")
+@Level(0)
 public class YiffcraftCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

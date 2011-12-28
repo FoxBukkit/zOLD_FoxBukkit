@@ -954,8 +954,23 @@ public class PlayerHelper extends StateContainer {
 			}
 		}
 	}
-	
-	public void sendYiffcraftClientCommand(Player ply, char command, String args) {
+
+	public void sendYiffcraftClientCommand(Player ply, char command, String... args) {
+		StringBuilder sb = new StringBuilder();
+		boolean notfirst = false;
+		for (String arg : args) {
+			if (notfirst)
+				sb.append('|');
+
+			notfirst = true;
+
+			sb.append(arg);
+		}
+
+		sendYiffcraftClientCommand(ply, command, sb);
+	}
+
+	public void sendYiffcraftClientCommand(Player ply, char command, CharSequence args) {
 		if(!yiffcraftPlayers.contains(ply.getName().toLowerCase())) return;
 		ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + command + args);
 	}
