@@ -42,7 +42,7 @@ public abstract class ICommand {
 	protected PlayerHelper playerHelper;
 
 	protected ICommand() {
-		this(YiffBukkitPlayerListener.instance);
+		this(YiffBukkit.instance.playerListener);
 	}
 	private ICommand(YiffBukkitPlayerListener playerListener) {
 		plugin = playerListener.plugin;

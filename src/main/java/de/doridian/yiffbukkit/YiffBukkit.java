@@ -57,6 +57,7 @@ import java.util.List;
  * @author Doridian
  */
 public class YiffBukkit extends JavaPlugin {
+	public static YiffBukkit instance;
 	public YiffBukkitPlayerListener playerListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
@@ -96,6 +97,10 @@ public class YiffBukkit extends JavaPlugin {
 	public ServerSSLSocket serverSSLSocket;
 
 	public boolean serverClosed = false;
+
+	public YiffBukkit() {
+		instance = this;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

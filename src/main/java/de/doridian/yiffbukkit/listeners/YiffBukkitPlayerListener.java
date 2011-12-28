@@ -64,13 +64,11 @@ import java.util.regex.Pattern;
  * @author Doridian
  */
 public class YiffBukkitPlayerListener extends PlayerListener {
-	public static YiffBukkitPlayerListener instance;
 	public final YiffBukkit plugin;
 	private final PlayerHelper playerHelper;
 	private YiffBukkitPermissionHandler permissionHandler;
 
 	public YiffBukkitPlayerListener(YiffBukkit plug) {
-		instance = this;
 		plugin = plug;
 		playerHelper = plugin.playerHelper;
 		permissionHandler = plugin.permissionHandler;
