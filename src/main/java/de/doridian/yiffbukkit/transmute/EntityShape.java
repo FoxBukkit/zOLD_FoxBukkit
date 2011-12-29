@@ -52,6 +52,7 @@ public abstract class EntityShape extends Shape {
 	@Override
 	public void createTransmutedEntity() {
 		sendPacketToPlayersAround(transmute.ignorePacket(createSpawnPacket()));
+		// TODO: send datawatcher to players around
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {
@@ -64,6 +65,7 @@ public abstract class EntityShape extends Shape {
 	@Override
 	public void createTransmutedEntity(Player forPlayer) {
 		PlayerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createSpawnPacket()));
+		// TODO: send datawatcher to player
 	}
 
 	protected abstract Packet createSpawnPacket();
