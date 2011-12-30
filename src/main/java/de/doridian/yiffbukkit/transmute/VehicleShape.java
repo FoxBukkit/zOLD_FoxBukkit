@@ -21,9 +21,9 @@ public class VehicleShape extends EntityShape {
 		yOffsets[20] = 1.62; // PrimedTnt
 		yOffsets[21] = 1.62; // FallingSand
 		yawOffsets[40] = 270; // Minecart
-		yOffsets[40] = 0.5;
+		yOffsets[40] = 0.6;
 		yawOffsets[41] = 270; // Boat
-		yOffsets[41] = 0.5;
+		yOffsets[41] = 0.6;
 		yOffsets[1000] = 1.62; // FishingHook
 		yOffsets[1001] = 1.62; // Potion
 	}

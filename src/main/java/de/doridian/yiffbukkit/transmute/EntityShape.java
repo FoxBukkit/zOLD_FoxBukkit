@@ -131,7 +131,7 @@ public abstract class EntityShape extends Shape {
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
 			final net.minecraft.server.Entity notchEntity = ((CraftEntity) entity).getHandle();
-			p34.c = MathHelper.floor((notchEntity.locY+yOffset-0.1) * 32.0D);
+			p34.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);
 			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F));
 			//p34.c += (int)(yOffset * 32.0);
 			//p34.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
@@ -158,7 +158,7 @@ public abstract class EntityShape extends Shape {
 		}
 
 		sendPacketToPlayersAround(new Packet34EntityTeleport(notchEntity));
-		sendPacketToPlayersAround(new Packet28EntityVelocity(entityId, notchEntity.motX, notchEntity.motZ, notchEntity.motZ));
+		sendPacketToPlayersAround(new Packet28EntityVelocity(entityId, notchEntity.motX, notchEntity.motY, notchEntity.motZ));
 	}
 
 	public double getYOffset() {
