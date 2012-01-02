@@ -6,20 +6,20 @@ import de.doridian.yiffbukkit.chat.ChatHelper;
 import org.bukkit.entity.Player;
 
 public abstract class GenericChannelCommand extends ICommand {
-	protected ChatChannel MYCHANNEL;
-	
-	protected ChatChannel getChannelInt() {
-		if(MYCHANNEL == null) {
-			MYCHANNEL = getChannel();
+	private ChatChannel myChannel;
+
+	private ChatChannel getChannelInternal() {
+		if (myChannel == null) {
+			myChannel = getChannel();
 		}
-		
-		return MYCHANNEL;
+
+		return myChannel;
 	}
-	
+
 	protected abstract ChatChannel getChannel();
-	
+
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		ChatHelper.getInstance().sendChat(ply, argStr, true, getChannelInt());
+		ChatHelper.getInstance().sendChat(ply, argStr, true, getChannelInternal());
 	}
 }
