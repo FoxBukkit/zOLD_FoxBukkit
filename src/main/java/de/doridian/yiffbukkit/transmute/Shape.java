@@ -168,12 +168,16 @@ public abstract class Shape {
 		Packet40EntityMetadata p40 = createMetadataPacket(index, value);
 
 		if (entity instanceof Player) {
-			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
+			sendYCData(index, value);
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40), (Player) entity);
 		}
 		else {
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40));
 		}
+	}
+
+	public void sendYCData(int index, Object value) {
+		YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
 	}
 
 	private Packet40EntityMetadata createMetadataPacket(int index, Object value) {

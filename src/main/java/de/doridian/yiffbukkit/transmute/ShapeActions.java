@@ -477,6 +477,7 @@ final class ShapeActions {
 		@Override
 		public void run(EntityShape shape, Player player, String[] args, String argStr) {
 			shape.sendPacketToPlayersAround(new Packet38EntityStatus(shape.entityId, status));
+			shape.sendYCData(-1, status);
 			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
 		}
 	}
