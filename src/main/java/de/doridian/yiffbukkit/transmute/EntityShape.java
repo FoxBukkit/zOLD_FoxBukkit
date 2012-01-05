@@ -1,6 +1,8 @@
 package de.doridian.yiffbukkit.transmute;
 
 import com.sk89q.worldedit.blocks.BlockType;
+
+import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import net.minecraft.server.MathHelper;
@@ -52,14 +54,17 @@ public abstract class EntityShape extends Shape {
 	@Override
 	public void createTransmutedEntity() {
 		sendPacketToPlayersAround(transmute.ignorePacket(createSpawnPacket()));
-		// TODO: send datawatcher to players around
-	}
 
-	public void sendPacketToPlayersAround(Packet packet) {
-		if (entity instanceof Player)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet, (Player) entity);
-		else
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet);
+		// TODO: send datawatcher to players around
+
+		if (entity instanceof Player) {
+			try {
+				String typeName = MyEntityTypes.classToTypeName(MyEntityTypes.idToClass(mobType));
+				YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', typeName+"|"+yawOffset+"|"+yOffset);
+			}
+			catch (EntityTypeNotFoundException e) {
+			}
+		}
 	}
 
 	@Override

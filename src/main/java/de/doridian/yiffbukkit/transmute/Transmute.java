@@ -91,17 +91,6 @@ public class Transmute implements Runnable {
 
 		lastEntities.put(player, entity);
 
-		if (entity instanceof Player && shape instanceof EntityShape) {
-			final EntityShape entityShape = (EntityShape) shape;
-			int mobType = entityShape.mobType;
-			try {
-				String typeName = MyEntityTypes.classToTypeName(MyEntityTypes.idToClass(mobType));
-				plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', typeName+"|"+entityShape.yawOffset+"|"+entityShape.yOffset);
-			}
-			catch (EntityTypeNotFoundException e) {
-			}
-		}
-
 		return shape;
 	}
 
@@ -123,9 +112,6 @@ public class Transmute implements Runnable {
 		}
 
 		lastEntities.put(player, entity);
-
-		if (entity instanceof Player)
-			plugin.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', "");
 
 		return shape;
 	}

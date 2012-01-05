@@ -19,7 +19,6 @@ import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntitySnowball;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.IAnimal;
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet21PickupSpawn;
 import net.minecraft.server.Packet23VehicleSpawn;
@@ -31,6 +30,7 @@ import net.minecraft.server.Packet40EntityMetadata;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.Packet;
 
 public abstract class Shape {
 	protected final Transmute transmute;
@@ -45,18 +45,22 @@ public abstract class Shape {
 		datawatcher = new DataWatcher();
 	}
 
-	public void deleteEntity() {
+	public void sendPacketToPlayersAround(Packet packet) {
 		if (entity instanceof Player)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet29DestroyEntity(entity.getEntityId()), (Player) entity);
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet, (Player) entity);
 		else
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet29DestroyEntity(entity.getEntityId()));
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, packet);
+	}
+
+	public void deleteEntity() {
+		sendPacketToPlayersAround(new Packet29DestroyEntity(entity.getEntityId()));
 	}
 
 	public void createOriginalEntity() {
 		if (entity instanceof Player)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createOriginalSpawnPacket()), (Player) entity);
-		else
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(createOriginalSpawnPacket()));
+			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', "");
+
+		sendPacketToPlayersAround(transmute.ignorePacket(createOriginalSpawnPacket()));
 	}
 
 	private Packet createOriginalSpawnPacket() {
