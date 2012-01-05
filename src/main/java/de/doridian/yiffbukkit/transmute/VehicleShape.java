@@ -72,6 +72,13 @@ public class VehicleShape extends EntityShape {
 	}
 
 	@Override
+	public void createTransmutedEntity() {
+		super.createTransmutedEntity();
+
+		sendYCData(-2, vehicleType);
+	}
+
+	@Override
 	protected Packet createSpawnPacket() {
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
