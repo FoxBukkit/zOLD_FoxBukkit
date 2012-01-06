@@ -10,6 +10,8 @@ import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
+import net.minecraft.server.Packet38EntityStatus;
+
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
@@ -168,5 +170,10 @@ public abstract class EntityShape extends Shape {
 
 	public double getYOffset() {
 		return yOffset;
+	}
+
+	public void sendEntityStatus(byte status) {
+		sendPacketToPlayersAround(new Packet38EntityStatus(entityId, status));
+		sendYCData(ShapeYCData.ENTITY_STATUS, status);
 	}
 }

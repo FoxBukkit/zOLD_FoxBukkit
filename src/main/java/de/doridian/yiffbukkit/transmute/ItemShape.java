@@ -23,6 +23,16 @@ public class ItemShape extends EntityShape {
 	}
 
 	@Override
+	public void createTransmutedEntity() {
+		super.createTransmutedEntity();
+
+		sendYCData(ShapeYCData.ITEM_TYPE, type);
+		sendYCData(ShapeYCData.ITEM_DATA, data);
+		sendYCData(ShapeYCData.ITEM_COUNT, count);
+	}
+
+
+	@Override
 	protected Packet createSpawnPacket() {
 		Location location = entity.getLocation();
 

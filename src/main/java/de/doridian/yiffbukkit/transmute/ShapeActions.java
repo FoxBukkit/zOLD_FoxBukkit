@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.transmute;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.GiveCommand;
 import net.minecraft.server.EnumArt;
-import net.minecraft.server.Packet38EntityStatus;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -476,8 +475,7 @@ final class ShapeActions {
 
 		@Override
 		public void run(EntityShape shape, Player player, String[] args, String argStr) {
-			shape.sendPacketToPlayersAround(new Packet38EntityStatus(shape.entityId, status));
-			shape.sendYCData(-1, status);
+			shape.sendEntityStatus(status);
 			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
 		}
 	}
