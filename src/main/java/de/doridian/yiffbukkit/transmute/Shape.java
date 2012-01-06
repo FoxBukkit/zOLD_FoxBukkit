@@ -181,7 +181,8 @@ public abstract class Shape {
 	}
 
 	public void sendYCData(int index, Object value) {
-		YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
+		if (entity instanceof Player)
+			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
 	}
 
 	private Packet40EntityMetadata createMetadataPacket(int index, Object value) {
