@@ -119,6 +119,9 @@ public abstract class EntityShape extends Shape {
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+		if (ply == entity)
+			return true;
+
 		switch (packetID) {
 		case 18:
 			return ((Packet18ArmAnimation) packet).b == 2;
