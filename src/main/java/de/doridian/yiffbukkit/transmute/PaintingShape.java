@@ -10,13 +10,20 @@ public class PaintingShape extends EntityShape {
 		yOffsets[9] = 1.62;
 	}
 
-	private String paintingName;
+	private String paintingName = "Kebab";
 
 	public PaintingShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
 
 		yOffsets[9] = 1.62;
 		dropping = true;
+	}
+
+	@Override
+	public void createTransmutedEntity() {
+		super.createTransmutedEntity();
+
+		sendYCData(ShapeYCData.PAINTING_NAME, paintingName);
 	}
 
 	@Override

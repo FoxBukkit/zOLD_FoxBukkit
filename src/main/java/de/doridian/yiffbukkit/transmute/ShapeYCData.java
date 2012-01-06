@@ -6,4 +6,5 @@ public final class ShapeYCData {
 	public static final int ITEM_TYPE = -3;
 	public static final int ITEM_DATA = -4;
 	public static final int ITEM_COUNT = -5;
+	public static final int PAINTING_NAME = -6;
 }
