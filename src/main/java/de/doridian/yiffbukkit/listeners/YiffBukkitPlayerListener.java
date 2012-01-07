@@ -288,6 +288,9 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
+		if(event.isCancelled())
+			return;
+
 		if (event.getReason().equals("You dropped your items too quickly (Hacking?)")) {
 			event.setCancelled(true);
 			return;
@@ -334,7 +337,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			plugin.chatManager.popCurrentOrigin();
 
 			event.setCancelled(true);
-			return;
 		}
 		else if(message.charAt(0) == '#') {
 			event.setCancelled(true);
@@ -343,12 +345,6 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			playerHelper.broadcastMessage(message, "yiffbukkit.opchat");
 
 			event.setCancelled(true);
-			return;
-		}
-		else {
-			//plugin.chatManager.pushCurrentOrigin(ply);
-			//plugin.chatManager.popCurrentOrigin();
-			return;
 		}
 	}
 

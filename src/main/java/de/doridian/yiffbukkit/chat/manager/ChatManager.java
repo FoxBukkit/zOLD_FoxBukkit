@@ -138,6 +138,8 @@ public class ChatManager {
 
 			@Override
 			public void onPlayerKick(PlayerKickEvent event) {
+				if(event.isCancelled())
+					return;
 				lastPlayerMessages.remove(event.getPlayer());
 				chatQueues.remove(event.getPlayer().getName());
 			}
@@ -149,9 +151,9 @@ public class ChatManager {
 			}
 		};
 
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Lowest, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, playerListener, Priority.Lowest, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Lowest, plugin);
+		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Monitor, plugin);
+		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, playerListener, Priority.Monitor, plugin);
+		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Monitor, plugin);
 	}
 
 	public Object getCurrentOrigin() {
