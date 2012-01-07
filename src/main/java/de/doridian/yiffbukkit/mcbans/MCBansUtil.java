@@ -25,6 +25,8 @@ public class MCBansUtil {
 		try {
 			URL url = new URL("http://api.mcbans.com/v2/" + APIKEY);
 			URLConnection conn = url.openConnection();
+			System.setProperty("http.agent", "");
+			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30");
 			conn.setConnectTimeout(10000);
 			conn.setReadTimeout(20000);
 			conn.setDoOutput(true);
