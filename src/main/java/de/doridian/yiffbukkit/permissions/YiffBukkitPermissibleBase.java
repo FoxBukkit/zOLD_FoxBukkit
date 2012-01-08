@@ -14,6 +14,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.Plugin;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class YiffBukkitPermissibleBase implements Permissible {
@@ -101,7 +102,7 @@ public class YiffBukkitPermissibleBase implements Permissible {
 
 	@Override
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
-		return null;
+		return new HashSet<PermissionAttachmentInfo>();
 	}
 
 	@Override
