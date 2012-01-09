@@ -41,12 +41,9 @@ class NetLoginHandlerSSL extends NetLoginHandler {
 	public void a(Packet2Handshake packet2handshake) {
 		String name = packet2handshake.a;
 		PublicKey pubKey = readKey(name);
-		if(cert != null && cert.getPublicKey().equals(pubKey)) {
+		if(cert != null && pubKey != null && cert.getPublicKey().equals(pubKey)) {
 			isValidatedFor = name;
 			this.networkManager.queue(new Packet2Handshake("-"));
-			return;
-		} else if(pubKey != null) {
-			this.disconnect("Sorry, but your publickey differs!");
 			return;
 		}
 		super.a(packet2handshake);
