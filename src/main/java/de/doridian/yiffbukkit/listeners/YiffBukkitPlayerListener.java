@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import de.doridian.yiffbukkit.util.IPGeolocation;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.Bukkit;
@@ -251,13 +252,13 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		if (playerFile != null && playerFile.exists()) {
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
-			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
+			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined from " + IPGeolocation.getCountry(player.getAddress()) + "!");
 		} else {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
-			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
+			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined from " + IPGeolocation.getCountry(player.getAddress()) + " for the first time!");
 		}
 
 		playerHelper.updateToolMappings(player);
