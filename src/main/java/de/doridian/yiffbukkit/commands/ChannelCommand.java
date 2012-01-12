@@ -21,7 +21,7 @@ public class ChannelCommand extends ICommand {
 		CREATE, //yiffbukkit.channels.create
 		PASSWORD, MODERATOR, DROP, MODE, RANGE, //channel owner or yiffbukkit.channels.force.owner
 		KICK, USER, //moderator or yiffbukkit.channels.force.moderator
-		SWITCH, SAY, MUTE, SINGLE, LEAVE; //users in channel or yiffbukkit.channels.force.user
+		SWITCH, SAY, MUTE, SINGLE, LEAVE //users in channel or yiffbukkit.channels.force.user
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class ChannelCommand extends ICommand {
 				plugin.playerHelper.sendDirectedMessage(ply, "Current channels: " + sb.toString());
 			}
 			else {
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.players.keySet().toArray(new String[0]), 0, "No users"));
+				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.players.keySet().toArray(new String[chan.players.size()]), 0, "No users"));
 			}
 			return; //prevents saving!
 
@@ -134,7 +134,7 @@ public class ChannelCommand extends ICommand {
 				break;
 
 			case 'l':
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concatArray(chan.moderators.toArray(new String[0]), 0, "No moderators"));
+				plugin.playerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concatArray(chan.moderators.toArray(new String[chan.moderators.size()]), 0, "No moderators"));
 				return; //prevents saving!
 
 			default:
@@ -211,7 +211,7 @@ public class ChannelCommand extends ICommand {
 				break;
 
 			case 'l':
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.users.toArray(new String[0]), 0, "No users"));
+				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.users.toArray(new String[chan.users.size()]), 0, "No users"));
 				return; //prevents saving!
 
 			default:
