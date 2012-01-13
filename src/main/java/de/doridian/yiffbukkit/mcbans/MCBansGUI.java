@@ -42,10 +42,9 @@ public class MCBansGUI extends GenericPopup {
 		//Player list
 		playerList = new GenericListWidget();
 		for(SpoutPlayer otherply : SpoutManager.getOnlinePlayers()) {
-			//if(otherply.equals(ply)) continue;
+			if(otherply.equals(ply)) continue;
 			playerList.addItem(new ListWidgetItem(otherply.getName(), plugin.playerHelper.getPlayerRank(otherply)));
 		}
-		playerList.addItem(new ListWidgetItem("test", "rawr"));
 		playerList.setAnchor(WidgetAnchor.TOP_LEFT);
 		playerList.setHeight(this.getHeight());
 		playerList.setWidth(100);
