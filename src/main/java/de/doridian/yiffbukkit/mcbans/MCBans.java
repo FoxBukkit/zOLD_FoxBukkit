@@ -10,13 +10,16 @@ import org.json.simple.JSONObject;
 public class MCBans {
 	private YiffBukkit plugin;
 	@SuppressWarnings("unused")
-	private MCBansPlayerListener listener;
+	private MCBansPlayerListener playerListener;
+	@SuppressWarnings("unused")
+	private MCBansKeyListener keyListener;
 	
 	private MCBansBlockLogger logger;
 
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
-		listener = new MCBansPlayerListener(plug);
+		playerListener = new MCBansPlayerListener(plug);
+		keyListener = new MCBansKeyListener(plug);
 		logger = new MCBansBlockLoggerLogBlock(plug);
 	}
 

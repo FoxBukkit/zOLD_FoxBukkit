@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
+import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.commands.ICommand.Help;
@@ -10,6 +11,7 @@ import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,13 +34,16 @@ public class BanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
+		executeBan(commandSender, args[0], Utils.concatArray(args, 1, null), plugin, booleanFlags.contains('j'), booleanFlags.contains('r'), booleanFlags.contains('g'), stringFlags.get('t'));
+	}
 
-		final Player otherply = playerHelper.matchPlayerSingle(args[0], false);
+	public static void executeBan(CommandSender commandSender, String plyName, String reason, YiffBukkit plugin, boolean unjail, boolean rollback, boolean global, final String duration) throws YiffBukkitCommandException {
+		final Player otherply = plugin.playerHelper.matchPlayerSingle(plyName, false);
 
-		if(playerHelper.getPlayerLevel(commandSender) <= playerHelper.getPlayerLevel(otherply))
+		if(plugin.playerHelper.getPlayerLevel(commandSender) <= plugin.playerHelper.getPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
-		if (booleanFlags.contains('j')) {
+		if (unjail) {
 			try {
 				plugin.jailEngine.jailPlayer(otherply, false);
 			}
@@ -47,20 +52,21 @@ public class BanCommand extends ICommand {
 
         boolean saveEvidence = false;
 
-		if(booleanFlags.contains('g') || booleanFlags.contains('r')) {
+		if(global || rollback) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
             saveEvidence = true;
 		}
 
-		final String reason = Utils.concatArray(args, 1, "Kickbanned by " + commandSender.getName());
+		if(reason == null) {
+			reason = "Kickbanned by " + commandSender.getName();
+		}
 
 		final BanType type;
-		if (stringFlags.containsKey('t')) {
-			if (booleanFlags.contains('g'))
+		if (duration != null) {
+			if (global)
 				throw new YiffBukkitCommandException("Bans can only be either global or temporary");
 			type = BanType.TEMPORARY;
 
-			final String duration = stringFlags.get('t');
 			if (duration.length() < 2)
 				throw new YiffBukkitCommandException("Malformed ban duration");
 
@@ -77,7 +83,7 @@ public class BanCommand extends ICommand {
 			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure, saveEvidence);
 		}
 		else {
-			if (booleanFlags.contains('g')) {
+			if (global) {
 				type = BanType.GLOBAL;
 			} else {
 				type = BanType.LOCAL;
@@ -86,7 +92,7 @@ public class BanCommand extends ICommand {
 			plugin.mcbans.ban(commandSender, otherply, reason, type, saveEvidence);
 		}
 
-		if (booleanFlags.contains('r')) {
+		if (rollback) {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
 		}
 
