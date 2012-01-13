@@ -38,6 +38,8 @@ public class BanCommand extends ICommand {
 	}
 
 	public static void executeBan(CommandSender commandSender, String plyName, String reason, YiffBukkit plugin, boolean unjail, boolean rollback, boolean global, final String duration) throws YiffBukkitCommandException {
+		if(!commandSender.hasPermission("yiffbukkit.users.ban")) throw new PermissionDeniedException();
+
 		final Player otherply = plugin.playerHelper.matchPlayerSingle(plyName, false);
 
 		if(plugin.playerHelper.getPlayerLevel(commandSender) <= plugin.playerHelper.getPlayerLevel(otherply))
