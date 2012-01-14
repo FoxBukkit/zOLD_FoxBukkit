@@ -967,12 +967,12 @@ public class PlayerHelper extends StateContainer {
 			sb.append(arg);
 		}
 
-		sendYiffcraftClientCommand(ply, command, sb);
+		sendYiffcraftClientCommand(ply, command, sb.toString());
 	}
 
-	public void sendYiffcraftClientCommand(Player ply, char command, CharSequence args) {
+	public void sendYiffcraftClientCommand(Player ply, char command, String args) {
 		if(!yiffcraftPlayers.contains(ply.getName().toLowerCase())) return;
-		ply.sendRawMessage("\u00a7f\u00a75\u00a7d" + command + args);
+		ply.sendPluginMessage(plugin, "yiffcraft", args.getBytes());
 	}
 
 	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();

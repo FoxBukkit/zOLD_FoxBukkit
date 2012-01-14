@@ -22,35 +22,43 @@ import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
 import de.doridian.yiffbukkit.transmute.Transmute;
+import de.doridian.yiffbukkit.util.Configuration;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.SpawnUtils;
 import de.doridian.yiffbukkit.util.Utils;
 import de.doridian.yiffbukkit.vanish.Vanish;
 import de.doridian.yiffbukkit.warp.WarpEngine;
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.dynmap.ChatEvent;
 import org.dynmap.DynmapPlugin;
 import org.dynmap.Event;
 import org.dynmap.Event.Listener;
 import org.dynmap.SimpleWebChatComponent;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * YiffBukkit
@@ -237,6 +245,39 @@ public class YiffBukkit extends JavaPlugin {
 		}, 1000, 200);
 
 		sendConsoleMsg( "YiffBukkit is enabled!" );
+
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraft");
+		Bukkit.getMessenger().registerIncomingPluginChannel(this, "yiffcraft", new PluginMessageListener() {
+			@Override
+			public void onPluginMessageReceived(String s, Player ply, byte[] bytes) {
+				String argStr = new String(bytes);
+
+				playerHelper.setYiffcraftState(ply, true);
+				SSLUtils.nagIfNoSSL(playerHelper, ply);
+
+				if(argStr.equalsIgnoreCase("getcommands")) {
+					playerHelper.sendYiffcraftClientCommand(ply, 'c', Configuration.getValue("yiffcraft-command-url", "http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
+				} else if(argStr.equalsIgnoreCase("writecommands")) {
+					try {
+						Hashtable<String, ICommand> commands = playerListener.commands;
+
+						PrintWriter writer = new PrintWriter(new FileWriter("yb_commands.txt"));
+
+						for(Map.Entry<String, ICommand> command : commands.entrySet()) {
+							ICommand cmd = command.getValue();
+							String help = cmd.getHelp();
+							if(help.indexOf("\n") > 0) {
+								help = help.substring(0, help.indexOf("\n"));
+							}
+							writer.println('/' + command.getKey() + '|' + cmd.getUsage() + " - " + help);
+						}
+
+						writer.close();
+					}
+					catch(Exception e) { playerHelper.sendDirectedMessage(ply, "Error: " + e.getMessage()); }
+				}
+			}
+		});
 	}
 
 	public void sendConsoleMsg(String msg) {
