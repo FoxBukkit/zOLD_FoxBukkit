@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.offlinebukkit;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import org.bukkit.Achievement;
 import org.bukkit.Effect;
+import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Instrument;
 import org.bukkit.Location;
@@ -63,6 +64,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		//PlayerNBTManager pnm = confmgr.
 		//PlayerNBTManager pnm = new PlayerNBTManager(worldFile , name, false);
 		//new File(worldFile, "_tmp_.dat");
+	}
+
+	@Override
+	public void playEffect(EntityEffect effect) {
+		//TODO: Maybe implement?
 	}
 
 	@Override

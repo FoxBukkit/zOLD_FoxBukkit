@@ -6,6 +6,7 @@ import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet29DestroyEntity;
 import net.minecraft.server.Packet34EntityTeleport;
 import org.bukkit.Bukkit;
+import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -24,6 +25,10 @@ public abstract class FakeEntity implements Entity {
 	public final int entityId;
 	public Location location;
 	private boolean isDead;
+
+	public void playEffect(EntityEffect effect) {
+		//TODO: Implement?
+	}
 
 	public FakeEntity(Location location) {
 		entityId = ++lastFakeEntityId;
