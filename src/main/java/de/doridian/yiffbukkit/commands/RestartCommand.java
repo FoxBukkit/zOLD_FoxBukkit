@@ -53,25 +53,29 @@ public class RestartCommand extends ICommand {
 
 			SpoutPlayer[] players = SpoutManager.getOnlinePlayers();
 			for(SpoutPlayer ply : players) {
-				GenericLabel lbl = labels.get(ply);
-				if(lbl == null) {
-					lbl = new GenericLabel();
-					lbl.setAuto(true);
-					lbl.setX(200); lbl.setY(120);
-					lbl.setWidth(1); lbl.setHeight(1);
-					lbl.setAlign(WidgetAnchor.CENTER_CENTER);
-					lbl.setTextColor(new Color(255, 0, 0));
-					ply.getMainScreen().attachWidget(plugin, lbl);
-					labels.put(ply, lbl);
-				}
-				lbl.setText(formattedTime);
+				try {
+					GenericLabel lbl = labels.get(ply);
+					if(lbl == null) {
+						lbl = new GenericLabel();
+						lbl.setAuto(true);
+						lbl.setX(200); lbl.setY(120);
+						lbl.setWidth(1); lbl.setHeight(1);
+						lbl.setAlign(WidgetAnchor.CENTER_CENTER);
+						lbl.setTextColor(new Color(255, 0, 0));
+						ply.getMainScreen().attachWidget(plugin, lbl);
+						labels.put(ply, lbl);
+					}
+					lbl.setText(formattedTime);
+				} catch(Exception e) { }
 			}
 
 			HashSet<SpoutPlayer> plys = new HashSet<SpoutPlayer>(Arrays.asList(players));
 			for(SpoutPlayer ply : labels.keySet()) {
-				if(!plys.contains(ply)) {
-					labels.remove(ply);
-				}
+				try {
+					if(!plys.contains(ply)) {
+						labels.remove(ply);
+					}
+				} catch(Exception e) { }
 			}
 		}
 
