@@ -123,11 +123,11 @@ public abstract class Shape {
 				if (notchEntity instanceof EntityFallingBlock) {
 					EntityFallingBlock entityfallingsand = (EntityFallingBlock) notchEntity;
 
-					if (entityfallingsand.a == Block.SAND.id) {
+					if (entityfallingsand.id == Block.SAND.id) {
 						return new Packet23VehicleSpawn(notchEntity, 70);
 					}
 
-					if (entityfallingsand.a == Block.GRAVEL.id) {
+					if (entityfallingsand.id == Block.GRAVEL.id) {
 						return new Packet23VehicleSpawn(notchEntity, 71);
 					}
 				}

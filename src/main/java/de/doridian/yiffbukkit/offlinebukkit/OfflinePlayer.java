@@ -728,4 +728,15 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public Set<String> getListeningPluginChannels() {
 		return new HashSet<String>();
 	}
+
+	@Override
+	public void setAllowFlight(boolean b) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public boolean getAllowFlight() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }
