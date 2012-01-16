@@ -69,14 +69,14 @@ public class RestartCommand extends ICommand {
 				} catch(Exception e) { }
 			}
 
-			HashSet<SpoutPlayer> plys = new HashSet<SpoutPlayer>(Arrays.asList(players));
-			for(SpoutPlayer ply : labels.keySet()) {
-				try {
+			try {
+				HashSet<SpoutPlayer> plys = new HashSet<SpoutPlayer>(Arrays.asList(players));
+				for(SpoutPlayer ply : ((HashMap<SpoutPlayer, GenericLabel>)labels.clone()).keySet()) {
 					if(!plys.contains(ply)) {
 						labels.remove(ply);
 					}
-				} catch(Exception e) { }
-			}
+				}
+			} catch(Exception e) { }
 		}
 
 		void removeGUI() {
