@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
+import gnu.trove.map.TIntIntMap;
+import gnu.trove.map.hash.TIntIntHashMap;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet23VehicleSpawn;
 import org.bukkit.craftbukkit.entity.CraftEntity;
@@ -28,7 +30,7 @@ public class VehicleShape extends EntityShape {
 		yOffsets[1001] = 1.62; // Potion
 	}
 
-	private static final Map<Integer, Integer> mobTypeMap = new HashMap<Integer, Integer>();
+	private static final TIntIntMap mobTypeMap = new TIntIntHashMap();
 	static {
 		mobTypeMap.put(10, 60); // Arrow
 		mobTypeMap.put(11, 61); // Snowball

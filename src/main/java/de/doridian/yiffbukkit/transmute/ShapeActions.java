@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.commands.GiveCommand;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.EnumArt;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -16,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 final class ShapeActions {
-	private static HashMap<Integer, Map<String, ShapeAction>> mobActions = new HashMap<Integer, Map<String, ShapeAction>>();
+	private static TIntObjectMap<Map<String, ShapeAction>> mobActions = new TIntObjectHashMap<Map<String, ShapeAction>>();
 
-	public static final Map<String, ShapeAction> get(int mobType) {
+	public static Map<String, ShapeAction> get(int mobType) {
 		return mobActions.get(mobType);
 	}
 

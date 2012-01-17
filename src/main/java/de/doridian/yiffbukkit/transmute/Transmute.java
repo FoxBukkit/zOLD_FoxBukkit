@@ -1,6 +1,11 @@
 package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.procedure.TIntObjectProcedure;
+import gnu.trove.procedure.TObjectProcedure;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
@@ -16,7 +21,7 @@ public class Transmute implements Runnable {
 	private final TransmutePacketListener transmutePacketListener;
 	@SuppressWarnings("unused")
 	private TransmutePlayerListener transmutePlayerListener;
-	private final Map<Integer, Shape> transmuted = new HashMap<Integer, Shape>();
+	private final TIntObjectMap<Shape> transmuted = new TIntObjectHashMap<Shape>();
 	private Map<Player, Entity> lastEntities = new HashMap<Player, Entity>();
 
 	public Transmute(YiffBukkit plugin) {
@@ -39,12 +44,17 @@ public class Transmute implements Runnable {
 				}
 
 				// clean up transmuted entities
-				for (Iterator<Entry<Integer, Shape>> iterator = transmuted.entrySet().iterator(); iterator.hasNext(); ) {
-					final Entry<Integer, Shape> entry = iterator.next();
-					final Shape shape = entry.getValue();
-
-					if (shape.entity.isDead())
-						iterator.remove();
+				try {
+					transmuted.forEachEntry(new TIntObjectProcedure<Shape>() {
+						@Override
+						public boolean execute(int i, Shape shape) {
+							if (shape.entity.isDead())
+								transmuted.remove(i);
+							return true;
+						}
+					});
+				} catch(Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}, 0, 200);
@@ -135,8 +145,12 @@ public class Transmute implements Runnable {
 
 	@Override
 	public void run() {
-		for (Iterator<Entry<Integer, Shape>> iterator = transmuted.entrySet().iterator(); iterator.hasNext(); ) {
-			iterator.next().getValue().tick();
-		}
+		transmuted.forEachValue(new TObjectProcedure<Shape>() {
+			@Override
+			public boolean execute(Shape shape) {
+				shape.tick();
+				return true;
+			}
+		});
 	}
 }

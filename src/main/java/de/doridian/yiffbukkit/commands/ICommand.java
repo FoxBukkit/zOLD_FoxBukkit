@@ -5,6 +5,10 @@ import de.doridian.yiffbukkit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkit.util.PlayerHelper;
+import gnu.trove.map.TCharObjectMap;
+import gnu.trove.map.hash.TCharObjectHashMap;
+import gnu.trove.set.TCharSet;
+import gnu.trove.set.hash.TCharHashSet;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -32,11 +36,11 @@ public abstract class ICommand {
 		BOOLEAN, STRING, NUMERIC
 	}
 
-	private final Map<Character, FlagType> flagTypes = new HashMap<Character, FlagType>();
+	private final TCharObjectMap<FlagType> flagTypes = new TCharObjectHashMap<FlagType>();
 
-	protected final Set<Character> booleanFlags = new HashSet<Character>();
-	protected final Map<Character, String> stringFlags = new HashMap<Character, String>();
-	protected final Map<Character, Double> numericFlags = new HashMap<Character, Double>();
+	protected final TCharSet booleanFlags = new TCharHashSet();
+	protected final TCharObjectMap<String> stringFlags = new TCharObjectHashMap<String>();
+	protected final TCharObjectMap<Double> numericFlags = new TCharObjectHashMap<Double>();
 
 	protected YiffBukkit plugin;
 	protected PlayerHelper playerHelper;

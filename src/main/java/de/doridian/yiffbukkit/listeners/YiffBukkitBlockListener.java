@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -181,7 +182,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 	@Override
 	public void onBlockCanBuild(BlockCanBuildEvent event)
 	{
-		if (event.isBuildable() == false) {
+		if (!event.isBuildable()) {
 			if (event.getMaterial() == Material.FENCE) {
 				event.setBuildable(true);
 			}
@@ -237,8 +238,8 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}}, 3);
 	}
 
-	private static final Map<Integer, BlockFace> dataAttachments = new HashMap<Integer, BlockFace>();
-	private static final Map<Integer, BlockFace> nonDataAttachments = new HashMap<Integer, BlockFace>();
+	private static final TIntObjectMap<BlockFace> dataAttachments = new TIntObjectHashMap<BlockFace>();
+	private static final TIntObjectMap<BlockFace> nonDataAttachments = new TIntObjectHashMap<BlockFace>();
 	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<BlockFace, BlockFace[]>();
 	static {
 		TIntObjectMap<PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
