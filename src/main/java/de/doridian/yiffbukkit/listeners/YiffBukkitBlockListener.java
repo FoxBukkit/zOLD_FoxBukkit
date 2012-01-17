@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.procedure.TIntObjectProcedure;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -239,15 +241,24 @@ public class YiffBukkitBlockListener extends BlockListener {
 	private static final Map<Integer, BlockFace> nonDataAttachments = new HashMap<Integer, BlockFace>();
 	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<BlockFace, BlockFace[]>();
 	static {
-		Map<Integer, PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
-		Map<Integer, PlayerDirection> weNonDataAttachments = Utils.getPrivateValue(BlockType.class, null, "nonDataAttachments");
+		TIntObjectMap<PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
+		TIntObjectMap<PlayerDirection> weNonDataAttachments = Utils.getPrivateValue(BlockType.class, null, "nonDataAttachments");
 
-		for (Entry<Integer, PlayerDirection> foo : weDataAttachments.entrySet()) {
-			dataAttachments.put(foo.getKey(), BlockFace.valueOf(foo.getValue().name()));
-		}
-		for (Entry<Integer, PlayerDirection> foo : weNonDataAttachments.entrySet()) {
-			nonDataAttachments.put(foo.getKey(), BlockFace.valueOf(foo.getValue().name()));
-		}
+		weDataAttachments.forEachEntry(new TIntObjectProcedure<PlayerDirection>() {
+			@Override
+			public boolean execute(int i, PlayerDirection dir) {
+				dataAttachments.put(i, BlockFace.valueOf(dir.name()));
+				return true;
+			}
+		});
+
+		weNonDataAttachments.forEachEntry(new TIntObjectProcedure<PlayerDirection>() {
+			@Override
+			public boolean execute(int i, PlayerDirection dir) {
+				nonDataAttachments.put(i, BlockFace.valueOf(dir.name()));
+				return true;
+			}
+		});
 
 		final BlockFace[] xArray = new BlockFace[] { BlockFace.EAST , BlockFace.WEST , BlockFace.UP  , BlockFace.DOWN };
 		final BlockFace[] yArray = new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
