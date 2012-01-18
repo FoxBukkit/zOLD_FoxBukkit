@@ -270,7 +270,15 @@ public class PlayerHelper extends StateContainer {
 		Player ply = plugin.getServer().getPlayerExact(name);
 		if (ply == null) return;
 
-		ply.setPlayerListName(formatPlayer(ply));
+		setPlayerListName(ply);
+	}
+	
+	public void setPlayerListName(Player ply) {
+		try {
+			String listName = formatPlayer(ply);
+			if(listName.length() > 16) listName = listName.substring(0, 15);
+			ply.setPlayerListName(listName);
+		} catch(Exception e) { }
 	}
 
 	//Permission levels
