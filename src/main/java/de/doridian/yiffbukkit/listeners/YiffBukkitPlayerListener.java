@@ -353,15 +353,17 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		final Player ply = event.getPlayer();
 		plugin.chatManager.pushCurrentOrigin(ply);
-		if (runCommand(ply, event.getMessage().substring(1).trim())) {
+		final String cmdString = event.getMessage().substring(1).trim();
+		
+		if (runCommand(ply,cmdString )) {
 			event.setCancelled(true);
 			event.setMessage("/youdontwantthiscommand "+event.getMessage());
 		}
 		else
 		{
 			if(!(plugin.permissionHandler.has(ply, "yiffbukkit.ignoreworldeditlogging") && event.getMessage().startsWith("//")))
-				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +event.getMessage().substring(1).trim());
-			Logger.getLogger("Minecraft").log(Level.INFO, "Other Command: "+ply.getName()+": "+event.getMessage().substring(1).trim());
+				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +cmdString);
+			Logger.getLogger("Minecraft").log(Level.INFO, "Other Command: "+ply.getName()+": "+cmdString);
 		}
 		plugin.chatManager.popCurrentOrigin();
 	}
@@ -370,12 +372,11 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		int posSpace = baseCmd.indexOf(' ');
 		String cmd; String args[]; String argStr;
 		if (posSpace < 0) {
-			cmd = baseCmd;
+			cmd = baseCmd.toLowerCase();
 			args = new String[0];
 			argStr = "";
-		}
-		else {
-			cmd = baseCmd.substring(0, posSpace).trim();
+		} else {
+			cmd = baseCmd.substring(0, posSpace).trim().toLowerCase();
 			argStr = baseCmd.substring(posSpace).trim();
 			args = argStr.split(" +");
 		}
