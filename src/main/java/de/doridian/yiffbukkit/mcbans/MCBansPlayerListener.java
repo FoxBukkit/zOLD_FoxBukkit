@@ -2,25 +2,24 @@ package de.doridian.yiffbukkit.mcbans;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.PluginManager;
 import org.json.simple.JSONObject;
 
-public class MCBansPlayerListener extends PlayerListener {
+public class MCBansPlayerListener implements Listener {
 	protected YiffBukkit plugin;
 
 	public MCBansPlayerListener(YiffBukkit plug) {
 		plugin = plug;
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_PRELOGIN, this, Event.Priority.High, plugin);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Event.Priority.High, plugin);
+
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
-	@Override
+
+	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.HIGH)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		if (plugin.serverClosed)
 			return;
@@ -34,7 +33,7 @@ public class MCBansPlayerListener extends PlayerListener {
         }.start();
 	}
 
-	@Override
+	@EventHandler(event = PlayerPreLoginEvent.class, priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(PlayerPreLoginEvent event) {
 		if (plugin.serverClosed)
 			return;

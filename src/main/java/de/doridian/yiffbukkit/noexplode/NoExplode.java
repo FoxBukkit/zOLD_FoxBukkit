@@ -14,22 +14,17 @@ import java.util.logging.Logger;
 
 public class NoExplode
 {
-	private YiffBukkit yiffbukkit;
+	public YiffBukkit yiffbukkit;
 	public NoExplode(YiffBukkit yiffbukkit) {
 		this.yiffbukkit = yiffbukkit;
-		
-		PluginManager pm = yiffbukkit.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.Normal, yiffbukkit);
-		pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.Normal, yiffbukkit);
 
-		//PluginDescriptionFile pdfFile = this.getDescription();
-		//log.info(pdfFile.getName()+" version "+pdfFile.getVersion()+" is enabled!");
+		entityListener = new NoExplodeEntityListener(this);
 
 		reload();
 	}
 
 	public static final Logger log = Logger.getLogger("Minecraft");
-	private final NoExplodeEntityListener entityListener = new NoExplodeEntityListener(this);
+	private final NoExplodeEntityListener entityListener;
 
 	public void reload()
 	{

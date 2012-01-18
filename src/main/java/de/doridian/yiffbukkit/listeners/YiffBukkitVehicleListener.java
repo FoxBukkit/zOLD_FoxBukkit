@@ -9,26 +9,23 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
-import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
-public class YiffBukkitVehicleListener extends VehicleListener {
+public class YiffBukkitVehicleListener implements Listener {
 	private YiffBukkit plugin;
 
 	public YiffBukkitVehicleListener(YiffBukkit instance) {
 		plugin = instance;
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.VEHICLE_UPDATE, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.VEHICLE_COLLISION_ENTITY, this, Priority.Highest, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@Override
+	@EventHandler(event = VehicleUpdateEvent.class, priority = EventPriority.HIGHEST)
 	public void onVehicleUpdate(VehicleUpdateEvent event) {
 		final Vehicle vehicle = event.getVehicle();
 
@@ -99,7 +96,7 @@ public class YiffBukkitVehicleListener extends VehicleListener {
 	}
 
 
-	@Override
+	@EventHandler(event = VehicleEntityCollisionEvent.class, priority = EventPriority.HIGHEST)
 	public void onVehicleEntityCollision(VehicleEntityCollisionEvent event) {
 		if (event.isCancelled())
 			return;

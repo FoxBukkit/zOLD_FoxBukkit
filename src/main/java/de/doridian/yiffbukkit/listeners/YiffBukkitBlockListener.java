@@ -16,16 +16,15 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.plugin.PluginManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +34,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -44,7 +42,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Handle events for all Block related events
  * @author Doridian
  */
-public class YiffBukkitBlockListener extends BlockListener {
+public class YiffBukkitBlockListener implements Listener {
 	private final YiffBukkit plugin;
 	public static final Map<Material,String> blocklevels = new EnumMap<Material,String>(Material.class);
 	public static final Set<Material> flammableBlocks = EnumSet.noneOf(Material.class);
@@ -66,10 +64,10 @@ public class YiffBukkitBlockListener extends BlockListener {
 
 		blocklevels.put(Material.FLINT_AND_STEEL, "yiffbukkit.place.block.flint_and_steel");
 		blocklevels.put(Material.FIRE, "yiffbukkit.place.block.fire");
-		blocklevels.put(Material.PISTON_BASE, "yiffbukkit.place.block.piston.base");
-		blocklevels.put(Material.PISTON_EXTENSION, "yiffbukkit.place.block.piston.extension");
-		blocklevels.put(Material.PISTON_MOVING_PIECE, "yiffbukkit.place.block.piston.moving_piece");
-		blocklevels.put(Material.PISTON_STICKY_BASE, "yiffbukkit.place.block.piston.sticky_base");
+		//blocklevels.put(Material.PISTON_BASE, "yiffbukkit.place.block.piston.base");
+		//blocklevels.put(Material.PISTON_EXTENSION, "yiffbukkit.place.block.piston.extension");
+		//blocklevels.put(Material.PISTON_MOVING_PIECE, "yiffbukkit.place.block.piston.moving_piece");
+		//blocklevels.put(Material.PISTON_STICKY_BASE, "yiffbukkit.place.block.piston.sticky_base");
 
 		flammableBlocks.add(Material.LOG);
 		flammableBlocks.add(Material.WOOD);
@@ -85,19 +83,12 @@ public class YiffBukkitBlockListener extends BlockListener {
 		playerHelper = plugin.playerHelper;
 		permissionHandler = plugin.permissionHandler;
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.BLOCK_PLACE, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.BLOCK_CANBUILD, this, Priority.Normal, plugin);
-		//pm.registerEvent(Event.Type.BLOCK_BREAK, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.BLOCK_DAMAGE, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.BLOCK_PHYSICS, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.BLOCK_PISTON_EXTEND, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.BLOCK_PISTON_RETRACT, this, Priority.Highest, plugin);
-
 		playerHelper.registerMap(torchQueues);
+
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@Override
+	@EventHandler(event = BlockPlaceEvent.class, priority = EventPriority.NORMAL)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
 		if (playerHelper.isPlayerDisabled(ply)) {
@@ -138,7 +129,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 	}
 
 	Map<Player, Queue<Long>> torchQueues = new HashMap<Player, Queue<Long>>();
-	@Override
+	@EventHandler(event = BlockDamageEvent.class, priority = EventPriority.NORMAL)
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
 		if(playerHelper.isPlayerDisabled(ply)) {
@@ -173,13 +164,13 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = BlockPhysicsEvent.class, priority = EventPriority.HIGHEST)
 	public void onBlockPhysics(BlockPhysicsEvent event) {
 		if (event.getChangedType() == Material.PORTAL)
 			event.setCancelled(true);
 	}
 
-	@Override
+	@EventHandler(event = BlockCanBuildEvent.class, priority = EventPriority.HIGHEST)
 	public void onBlockCanBuild(BlockCanBuildEvent event)
 	{
 		if (!event.isBuildable()) {
@@ -189,7 +180,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = BlockPistonExtendEvent.class, priority = EventPriority.HIGHEST)
 	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
 		if (event.isCancelled())
 			return;
@@ -197,7 +188,7 @@ public class YiffBukkitBlockListener extends BlockListener {
 		handlePistons(event.getBlocks(), event.getDirection());
 	}
 
-	@Override
+	@EventHandler(event = BlockPistonRetractEvent.class, priority = EventPriority.HIGHEST)
 	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
 		if (event.isCancelled())
 			return;

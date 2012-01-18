@@ -1,17 +1,21 @@
 package de.doridian.yiffbukkit.noexplode;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 
-public class NoExplodeEntityListener extends EntityListener
+public class NoExplodeEntityListener implements Listener
 {
 	public static NoExplode plugin;
 	public NoExplodeEntityListener(NoExplode instance)
 	{
 		plugin = instance;
+
+		plugin.yiffbukkit.getServer().getPluginManager().registerEvents(this, plugin.yiffbukkit);
 	}
 	
 	private String getEntityName(EntityEvent event)
@@ -26,6 +30,7 @@ public class NoExplodeEntityListener extends EntityListener
 		return name;
 	}
 
+	@EventHandler(event = ExplosionPrimeEvent.class, priority = EventPriority.NORMAL)
 	public void onExplosionPrimed(ExplosionPrimeEvent event)
 	{
 		String name = getEntityName(event);
@@ -46,6 +51,7 @@ public class NoExplodeEntityListener extends EntityListener
 		}
 	}
 
+	@EventHandler(event = EntityExplodeEvent.class, priority = EventPriority.NORMAL)
 	public void onEntityExplode(EntityExplodeEvent event)
 	{
 		String name = getEntityName(event);

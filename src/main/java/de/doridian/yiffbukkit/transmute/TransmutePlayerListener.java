@@ -1,26 +1,23 @@
 package de.doridian.yiffbukkit.transmute;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.PluginManager;
 
-public class TransmutePlayerListener extends PlayerListener {
+public class TransmutePlayerListener implements Listener {
 	final Transmute transmute;
 
 	public TransmutePlayerListener(Transmute transmute) {
 		this.transmute = transmute;
 
-		final PluginManager pm = transmute.plugin.getServer().getPluginManager();
-		pm.registerEvent(Type.PLAYER_JOIN, this, Priority.Monitor, transmute.plugin);
-		pm.registerEvent(Type.PLAYER_KICK, this, Priority.Monitor, transmute.plugin);
-		pm.registerEvent(Type.PLAYER_QUIT, this, Priority.Monitor, transmute.plugin);
+		transmute.plugin.getServer().getPluginManager().registerEvents(this, transmute.plugin);
+
 	}
 
-	@Override
+	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Shape shape = transmute.getShape(event.getPlayer());
 
@@ -31,7 +28,7 @@ public class TransmutePlayerListener extends PlayerListener {
 		//shape.rejoin();
 	}
 
-	@Override
+	@EventHandler(event = PlayerKickEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerKick(PlayerKickEvent event) {
 		if (event.isCancelled())
 			return;
@@ -39,7 +36,7 @@ public class TransmutePlayerListener extends PlayerListener {
 		transmute.removeShape(event.getPlayer());
 	}
 
-	@Override
+	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		transmute.removeShape(event.getPlayer());
 	}

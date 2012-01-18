@@ -1,35 +1,30 @@
 package de.doridian.yiffbukkit.vanish;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class VanishPlayerListener extends PlayerListener {
+public class VanishPlayerListener implements Listener {
 	final Vanish vanish;
 
 	public VanishPlayerListener(Vanish vanish) {
 		this.vanish = vanish;
 
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_PICKUP_ITEM, this, Priority.Highest, vanish.plugin);
-
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, this, Priority.Monitor, vanish.plugin);
-
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, this, Priority.Monitor, vanish.plugin);
-		vanish.plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, this, Priority.Monitor, vanish.plugin);
+		vanish.plugin.getServer().getPluginManager().registerEvents(this, vanish.plugin);
 	}
 
-	@Override
+	@EventHandler(event = PlayerPickupItemEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 		if (vanish.isVanished(event.getPlayer()))
 			event.setCancelled(true);
 	}
 
-	@Override
+	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
 
@@ -37,12 +32,12 @@ public class VanishPlayerListener extends PlayerListener {
 			vanish.vanishId(ply.getEntityId());
 	}
 
-	@Override
+	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		vanish.unVanishId(event.getPlayer().getEntityId());
 	}
 
-	@Override
+	@EventHandler(event = PlayerKickEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerKick(PlayerKickEvent event) {
 		if (event.isCancelled())
 			return;

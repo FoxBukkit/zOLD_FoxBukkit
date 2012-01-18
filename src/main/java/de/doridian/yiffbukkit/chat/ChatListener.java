@@ -2,14 +2,14 @@ package de.doridian.yiffbukkit.chat;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class ChatListener extends PlayerListener {
+public class ChatListener implements Listener {
 	ChatHelper helper;
 	YiffBukkit plugin;
 	//ChatScreenListener screen;
@@ -18,12 +18,11 @@ public class ChatListener extends PlayerListener {
 		plugin = plug;
 		helper = new ChatHelper(plugin);
 		//screen = new ChatScreenListener(plugin);
-		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_CHAT, this, Priority.Highest, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Monitor, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Monitor, plugin);
+
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@Override
+	@EventHandler(event = PlayerChatEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled()) return;
 
@@ -42,14 +41,14 @@ public class ChatListener extends PlayerListener {
 		event.setCancelled(true);
 	}
 
-	@Override
+	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
 		helper.verifyPlayerInDefaultChannel(ply);
 		//screen.getPopupFor((SpoutPlayer)ply);
 	}
 
-	@Override
+	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		//screen.removePopupFor((SpoutPlayer)event.getPlayer());
 	}

@@ -1,15 +1,14 @@
 package de.doridian.yiffbukkit.jail;
 
 import de.doridian.yiffbukkit.YiffBukkit;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.plugin.PluginManager;
 
-public class JailPlayerListener extends PlayerListener {
+public class JailPlayerListener implements Listener {
 	private final YiffBukkit plugin;
 	private final JailEngine jailEngine;
 
@@ -17,25 +16,22 @@ public class JailPlayerListener extends PlayerListener {
 		plugin = jailEngine.plugin;
 		this.jailEngine = jailEngine;
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Lowest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Highest, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@Override
+	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (jailEngine.isJailed(event.getPlayer()))
 			jailEngine.rejailPlayer(event.getPlayer());
 	}
 
-	@Override
+	@EventHandler(event = PlayerCommandPreprocessEvent.class, priority = EventPriority.LOW)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		if(jailEngine.isJailed(event.getPlayer()))
 			event.setCancelled(true);
 	}
 
-	@Override
+	@EventHandler(event = PlayerRespawnEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		if (jailEngine.isJailed(event.getPlayer()))
 			event.setRespawnLocation(event.getPlayer().getLocation());

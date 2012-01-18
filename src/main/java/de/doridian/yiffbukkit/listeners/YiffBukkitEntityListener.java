@@ -23,32 +23,28 @@ import org.bukkit.craftbukkit.entity.CraftZombie;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class YiffBukkitEntityListener extends EntityListener {
+public class YiffBukkitEntityListener implements Listener {
 	private final YiffBukkit plugin;
 
 	public YiffBukkitEntityListener(YiffBukkit instance) {
 		plugin = instance;
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.ENTITY_DEATH, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.ENTITY_TARGET, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.CREATURE_SPAWN, this, Priority.Highest, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	Map<String, String> lastAttacker = new HashMap<String, String>();
@@ -72,13 +68,13 @@ public class YiffBukkitEntityListener extends EntityListener {
 		monsterMap.put(CraftMagmaCube.class, "a \u00a79lava slime\u00a7f");
 	}
 
-	@Override
+	@EventHandler(event = CreatureSpawnEvent.class, priority = EventPriority.HIGHEST)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getCreatureType() == CreatureType.SLIME)
 			event.setCancelled(true);
 	}
 
-	@Override
+	@EventHandler(event = EntityDeathEvent.class, priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
 		final Entity ent = event.getEntity();
 
@@ -177,7 +173,7 @@ public class YiffBukkitEntityListener extends EntityListener {
 		((PlayerDeathEvent) event).setDeathMessage(String.format(deathMessage, playerName));
 	}
 
-	@Override
+	@EventHandler(event = EntityTargetEvent.class, priority = EventPriority.HIGHEST)
 	public void onEntityTarget(EntityTargetEvent event) {
 		final Entity entTarget = event.getTarget();
 

@@ -11,15 +11,13 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
-import org.bukkit.plugin.PluginManager;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-public class SignPortalPlayerListener extends PlayerListener {
+public class SignPortalPlayerListener implements Listener {
 	final YiffBukkit plugin;
 
 	public SignPortalPlayerListener(final YiffBukkit plugin) {
@@ -36,17 +34,16 @@ public class SignPortalPlayerListener extends PlayerListener {
 		plugin.playerHelper.registerMap(timerIds);
 
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Monitor, plugin);
-		pm.registerEvent(Event.Type.PLAYER_MOVE, this, Priority.Monitor, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-		VehicleListener vehicleListener = new VehicleListener() {
+		Listener vehicleListener = new Listener() {
 			Set<Player> portalStates = new HashSet<Player>();
 
 			{
 				plugin.playerHelper.registerSet(portalStates);
 			}
-			@Override
+
+			@EventHandler(event = VehicleUpdateEvent.class, priority = EventPriority.HIGHEST)
 			public void onVehicleUpdate(VehicleUpdateEvent event) {
 				final Vehicle vehicle = event.getVehicle();
 
@@ -69,12 +66,12 @@ public class SignPortalPlayerListener extends PlayerListener {
 				}
 			}
 		};
-		pm.registerEvent(Event.Type.VEHICLE_UPDATE, vehicleListener, Priority.Highest, plugin);
+		plugin.getServer().getPluginManager().registerEvents(vehicleListener, plugin);
 	}
 
 	private static final BlockFace[] faces = { BlockFace.NORTH,BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
-	@Override
+	@EventHandler(event = PlayerInteractEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.isCancelled())
 			return;
@@ -114,7 +111,7 @@ public class SignPortalPlayerListener extends PlayerListener {
 	}
 
 	Map<Player, Integer> timerIds = new HashMap<Player, Integer>();
-	@Override
+	@EventHandler(event = PlayerMoveEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		if (event.isCancelled())
 			return;

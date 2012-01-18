@@ -20,8 +20,9 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -30,13 +31,11 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginManager;
 import org.getspout.spout.player.SpoutCraftPlayer;
 
 import java.io.File;
@@ -64,7 +63,7 @@ import java.util.regex.Pattern;
  * Handle events for all Player related events
  * @author Doridian
  */
-public class YiffBukkitPlayerListener extends PlayerListener {
+public class YiffBukkitPlayerListener implements Listener {
 	public final YiffBukkit plugin;
 	private final PlayerHelper playerHelper;
 	private YiffBukkitPermissionHandler permissionHandler;
@@ -77,19 +76,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 
 		scanCommands();
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_LOGIN, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_KICK, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, this, Priority.Highest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this, Priority.Lowest, plugin);
-		pm.registerEvent(Event.Type.PLAYER_CHAT, this, Priority.High, plugin);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.PLAYER_BUCKET_EMPTY, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this, Priority.Normal, plugin);
-		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, this, Priority.Monitor, plugin);
-		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SPRINT, this, Priority.Monitor, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
 		playerHelper.registerSet(sprintingPlayers);
@@ -208,7 +195,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		commands.put(name, command);
 	}
 
-	@Override
+	@EventHandler(event = PlayerLoginEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		final String playerName = event.getPlayer().getName();
 		if (!playerName.matches("^.*[A-Za-z].*$")) {
@@ -222,7 +209,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		if (player instanceof SpoutCraftPlayer) {
@@ -263,7 +250,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	}
 
 	public Hashtable<String,String> offlinePlayers = new Hashtable<String, String>();
-	@Override
+	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
@@ -283,7 +270,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			set.remove(player);
 	}
 
-	@Override
+	@EventHandler(event = PlayerKickEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerKick(PlayerKickEvent event) {
 		if(event.isCancelled())
 			return;
@@ -306,7 +293,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 			set.remove(player);
 	}
 
-	@Override
+	@EventHandler(event = PlayerRespawnEvent.class, priority = EventPriority.NORMAL)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player ply = event.getPlayer();
 		playerHelper.pushPlayerLocationOntoTeleportStack(ply);
@@ -314,7 +301,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		event.setRespawnLocation(location);
 	}
 
-	@Override
+	@EventHandler(event = PlayerChatEvent.class, priority = EventPriority.HIGHEST)
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled())
 			return;
@@ -346,7 +333,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 	}
 
 	public Hashtable<String,ICommand> commands = new Hashtable<String,ICommand>();
-	@Override
+	@EventHandler(event = PlayerCommandPreprocessEvent.class, priority = EventPriority.LOWEST)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		if (event.isCancelled())
 			return;
@@ -410,7 +397,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		return false;
 	}
 
-	@Override
+	@EventHandler(event = PlayerInteractEvent.class, priority = EventPriority.NORMAL)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		/*if (event.isCancelled())
 			return;*/
@@ -478,7 +465,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = PlayerInteractEntityEvent.class, priority = EventPriority.NORMAL)
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 		Player ply = event.getPlayer();
 
@@ -511,7 +498,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = PlayerBucketEmptyEvent.class, priority = EventPriority.NORMAL)
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		ItemStack item = event.getItemStack();
 		Material itemMaterial = item.getType();
@@ -545,7 +532,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = PlayerDropItemEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
 		if (event.isCancelled())
 			return;
@@ -592,7 +579,7 @@ public class YiffBukkitPlayerListener extends PlayerListener {
 		}
 	}
 
-	@Override
+	@EventHandler(event = PlayerToggleSprintEvent.class, priority = EventPriority.MONITOR)
 	public void onPlayerToggleSprint(PlayerToggleSprintEvent event) {
 		Player player = event.getPlayer();
 		if (event.isSprinting()) {
