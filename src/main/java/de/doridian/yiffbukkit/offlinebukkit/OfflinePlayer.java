@@ -580,6 +580,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
+	public void setBedSpawnLocation(Location location) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
 	public float getExhaustion() {
 		// TODO Auto-generated method stub
 		return 0;
