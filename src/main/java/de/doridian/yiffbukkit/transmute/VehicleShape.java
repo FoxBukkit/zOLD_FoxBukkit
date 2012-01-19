@@ -8,9 +8,6 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.server.Packet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class VehicleShape extends EntityShape {
 	static {
 		yawOffsets[10] = 90; // Arrow

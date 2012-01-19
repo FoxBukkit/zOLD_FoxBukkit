@@ -16,10 +16,6 @@ import org.bukkit.entity.Player;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public abstract class ICommand {
 	@Retention(RetentionPolicy.RUNTIME) protected @interface Names { String[] value(); }

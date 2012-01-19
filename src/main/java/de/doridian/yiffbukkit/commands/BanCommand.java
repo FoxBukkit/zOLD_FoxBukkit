@@ -11,7 +11,6 @@ import de.doridian.yiffbukkit.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
-import de.doridian.yiffbukkit.util.PlayerHelper;
 import de.doridian.yiffbukkit.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

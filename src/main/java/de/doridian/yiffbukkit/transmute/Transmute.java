@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.YiffBukkit;
-import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
@@ -14,7 +13,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class Transmute implements Runnable {
 	final YiffBukkit plugin;
