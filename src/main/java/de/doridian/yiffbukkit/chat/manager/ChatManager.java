@@ -3,11 +3,10 @@ package de.doridian.yiffbukkit.chat.manager;
 import de.doridian.yiffbukkit.YiffBukkit;
 import net.minecraft.server.Packet3Chat;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
@@ -122,38 +121,36 @@ public class ChatManager {
 				return true;
 			}
 		};
+
 		PacketListener.addPacketListener(true, 3, packetListener, plugin);
 		PacketListener.addPacketListener(false, 3, packetListener, plugin);
+	}
 
-		PlayerListener playerListener = new PlayerListener() {
-			@Override
-			public void onPlayerJoin(PlayerJoinEvent event) {
-				final ArrayBlockingQueue<ChatLogEntry> chatQueue = new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1);
-				for (int i = 0; i < CHAT_QUEUE_LENGTH; ++i) {
-					chatQueue.offer(EMPTY_CHAT_LOG_ENTRY);
-				}
-				chatQueues.put(event.getPlayer().getName(), chatQueue);
-				lastPlayerMessages.put(event.getPlayer(), new LinkedList<ChatEntry>());
-			}
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		final ArrayBlockingQueue<ChatLogEntry> chatQueue = new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1);
 
-			@Override
-			public void onPlayerKick(PlayerKickEvent event) {
-				if(event.isCancelled())
-					return;
-				lastPlayerMessages.remove(event.getPlayer());
-				chatQueues.remove(event.getPlayer().getName());
-			}
+		for (int i = 0; i < CHAT_QUEUE_LENGTH; ++i) {
+			chatQueue.offer(EMPTY_CHAT_LOG_ENTRY);
+		}
 
-			@Override
-			public void onPlayerQuit(PlayerQuitEvent event) {
-				lastPlayerMessages.remove(event.getPlayer());
-				chatQueues.remove(event.getPlayer().getName());
-			}
-		};
+		chatQueues.put(event.getPlayer().getName(), chatQueue);
+		lastPlayerMessages.put(event.getPlayer(), new LinkedList<ChatEntry>());
+	}
 
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Monitor, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_KICK, playerListener, Priority.Monitor, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Monitor, plugin);
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerKick(PlayerKickEvent event) {
+		if (event.isCancelled())
+			return;
+
+		lastPlayerMessages.remove(event.getPlayer());
+		chatQueues.remove(event.getPlayer().getName());
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		lastPlayerMessages.remove(event.getPlayer());
+		chatQueues.remove(event.getPlayer().getName());
 	}
 
 	public Object getCurrentOrigin() {
