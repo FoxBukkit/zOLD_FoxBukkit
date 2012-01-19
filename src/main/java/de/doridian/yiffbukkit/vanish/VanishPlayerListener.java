@@ -18,13 +18,13 @@ public class VanishPlayerListener implements Listener {
 		vanish.plugin.getServer().getPluginManager().registerEvents(this, vanish.plugin);
 	}
 
-	@EventHandler(event = PlayerPickupItemEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 		if (vanish.isVanished(event.getPlayer()))
 			event.setCancelled(true);
 	}
 
-	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
 
@@ -32,12 +32,12 @@ public class VanishPlayerListener implements Listener {
 			vanish.vanishId(ply.getEntityId());
 	}
 
-	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		vanish.unVanishId(event.getPlayer().getEntityId());
 	}
 
-	@EventHandler(event = PlayerKickEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerKick(PlayerKickEvent event) {
 		if (event.isCancelled())
 			return;

@@ -25,7 +25,7 @@ public class YiffBukkitVehicleListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(event = VehicleUpdateEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onVehicleUpdate(VehicleUpdateEvent event) {
 		final Vehicle vehicle = event.getVehicle();
 
@@ -96,7 +96,7 @@ public class YiffBukkitVehicleListener implements Listener {
 	}
 
 
-	@EventHandler(event = VehicleEntityCollisionEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onVehicleEntityCollision(VehicleEntityCollisionEvent event) {
 		if (event.isCancelled())
 			return;

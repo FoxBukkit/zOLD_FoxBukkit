@@ -40,7 +40,7 @@ public class SignPortalPlayerListener implements Listener {
 
 	private static final BlockFace[] faces = { BlockFace.NORTH,BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
-	@EventHandler(event = PlayerInteractEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.isCancelled())
 			return;
@@ -80,7 +80,7 @@ public class SignPortalPlayerListener implements Listener {
 	}
 
 	Map<Player, Integer> timerIds = new HashMap<Player, Integer>();
-	@EventHandler(event = PlayerMoveEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		if (event.isCancelled())
 			return;

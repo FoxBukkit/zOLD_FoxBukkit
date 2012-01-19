@@ -19,19 +19,19 @@ public class JailPlayerListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (jailEngine.isJailed(event.getPlayer()))
 			jailEngine.rejailPlayer(event.getPlayer());
 	}
 
-	@EventHandler(event = PlayerCommandPreprocessEvent.class, priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		if(jailEngine.isJailed(event.getPlayer()))
 			event.setCancelled(true);
 	}
 
-	@EventHandler(event = PlayerRespawnEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		if (jailEngine.isJailed(event.getPlayer()))
 			event.setRespawnLocation(event.getPlayer().getLocation());

@@ -19,7 +19,7 @@ public class MCBansPlayerListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		if (plugin.serverClosed)
 			return;
@@ -33,7 +33,7 @@ public class MCBansPlayerListener implements Listener {
         }.start();
 	}
 
-	@EventHandler(event = PlayerPreLoginEvent.class, priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(PlayerPreLoginEvent event) {
 		if (plugin.serverClosed)
 			return;

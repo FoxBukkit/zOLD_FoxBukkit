@@ -20,7 +20,7 @@ public class PortalPlayerListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(event = PlayerMoveEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Location from = event.getFrom();
 		Location to = event.getTo();

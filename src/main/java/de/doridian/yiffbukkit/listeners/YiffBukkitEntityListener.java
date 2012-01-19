@@ -68,13 +68,13 @@ public class YiffBukkitEntityListener implements Listener {
 		monsterMap.put(CraftMagmaCube.class, "a \u00a79lava slime\u00a7f");
 	}
 
-	@EventHandler(event = CreatureSpawnEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getCreatureType() == CreatureType.SLIME)
 			event.setCancelled(true);
 	}
 
-	@EventHandler(event = EntityDeathEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
 		final Entity ent = event.getEntity();
 
@@ -173,7 +173,7 @@ public class YiffBukkitEntityListener implements Listener {
 		((PlayerDeathEvent) event).setDeathMessage(String.format(deathMessage, playerName));
 	}
 
-	@EventHandler(event = EntityTargetEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityTarget(EntityTargetEvent event) {
 		final Entity entTarget = event.getTarget();
 

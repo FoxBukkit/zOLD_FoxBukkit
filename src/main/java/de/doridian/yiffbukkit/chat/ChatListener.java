@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(event = PlayerChatEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled()) return;
 
@@ -41,14 +41,14 @@ public class ChatListener implements Listener {
 		event.setCancelled(true);
 	}
 
-	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
 		helper.verifyPlayerInDefaultChannel(ply);
 		//screen.getPopupFor((SpoutPlayer)ply);
 	}
 
-	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		//screen.removePopupFor((SpoutPlayer)event.getPlayer());
 	}

@@ -17,7 +17,7 @@ public class TransmutePlayerListener implements Listener {
 
 	}
 
-	@EventHandler(event = PlayerJoinEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Shape shape = transmute.getShape(event.getPlayer());
 
@@ -28,7 +28,7 @@ public class TransmutePlayerListener implements Listener {
 		//shape.rejoin();
 	}
 
-	@EventHandler(event = PlayerKickEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerKick(PlayerKickEvent event) {
 		if (event.isCancelled())
 			return;
@@ -36,7 +36,7 @@ public class TransmutePlayerListener implements Listener {
 		transmute.removeShape(event.getPlayer());
 	}
 
-	@EventHandler(event = PlayerQuitEvent.class, priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		transmute.removeShape(event.getPlayer());
 	}

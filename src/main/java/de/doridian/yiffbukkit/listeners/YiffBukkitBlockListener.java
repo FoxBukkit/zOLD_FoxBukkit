@@ -88,7 +88,7 @@ public class YiffBukkitBlockListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(event = BlockPlaceEvent.class, priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
 		if (playerHelper.isPlayerDisabled(ply)) {
@@ -129,7 +129,7 @@ public class YiffBukkitBlockListener implements Listener {
 	}
 
 	Map<Player, Queue<Long>> torchQueues = new HashMap<Player, Queue<Long>>();
-	@EventHandler(event = BlockDamageEvent.class, priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
 		if(playerHelper.isPlayerDisabled(ply)) {
@@ -164,13 +164,13 @@ public class YiffBukkitBlockListener implements Listener {
 		}
 	}
 
-	@EventHandler(event = BlockPhysicsEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPhysics(BlockPhysicsEvent event) {
 		if (event.getChangedType() == Material.PORTAL)
 			event.setCancelled(true);
 	}
 
-	@EventHandler(event = BlockCanBuildEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockCanBuild(BlockCanBuildEvent event)
 	{
 		if (!event.isBuildable()) {
@@ -180,7 +180,7 @@ public class YiffBukkitBlockListener implements Listener {
 		}
 	}
 
-	@EventHandler(event = BlockPistonExtendEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
 		if (event.isCancelled())
 			return;
@@ -188,7 +188,7 @@ public class YiffBukkitBlockListener implements Listener {
 		handlePistons(event.getBlocks(), event.getDirection());
 	}
 
-	@EventHandler(event = BlockPistonRetractEvent.class, priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
 		if (event.isCancelled())
 			return;
