@@ -4,13 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.plugin.PluginManager;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -19,28 +17,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignSaver extends StateContainer {
+public class SignSaver extends StateContainer implements Listener {
 	private final YiffBukkit plugin;
 	List<SignDescriptor> saved_signs = new ArrayList<SignDescriptor>();
 
 	public SignSaver(YiffBukkit plugin) {
 		this.plugin = plugin;
 
-		PlayerListener listener = new PlayerListener() {
-			@Override
-			public void onPlayerJoin(PlayerJoinEvent event) {
-				fixSigns();
-			}
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-			@Override
-			public void onPlayerRespawn(PlayerRespawnEvent event) {
-				fixSigns();
-			}
-		};
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		fixSigns();
+	}
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Type.PLAYER_JOIN, listener, Priority.Monitor, plugin);
-		pm.registerEvent(Type.PLAYER_RESPAWN, listener, Priority.Monitor, plugin);
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		fixSigns();
 	}
 
 	@Loader({"signsaver", "sign_saver"})
