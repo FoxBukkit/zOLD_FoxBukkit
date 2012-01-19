@@ -71,7 +71,6 @@ public class SopaCommand extends ICommand {
 			}
 
 			event.setMessage(Utils.concatArray(words, 0, ""));
-			System.out.println(event.getMessage());
 		}
 	}
 }
