@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.commands;
 
+import de.doridian.yiffbukkit.commands.ICommand.*;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
@@ -8,16 +10,17 @@ import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-@ICommand.Names("restart")
-@ICommand.Permission("yiffbukkit.admin.restart")
+@Names("restart")
+@Permission("yiffbukkit.admin.restart")
 public class RestartCommand extends ICommand {
 	int taskID = -1;
 	RestartRunnable restarter;
-	
+
 	@Override
 	public void run(final CommandSender sender, String[] args, String argStr) {
 		if(taskID >= 0) {
@@ -71,7 +74,7 @@ public class RestartCommand extends ICommand {
 
 			try {
 				HashSet<SpoutPlayer> plys = new HashSet<SpoutPlayer>(Arrays.asList(players));
-				for(SpoutPlayer ply : ((HashMap<SpoutPlayer, GenericLabel>)labels.clone()).keySet()) {
+				for(SpoutPlayer ply : new ArrayList<SpoutPlayer>(labels.keySet())) {
 					if(!plys.contains(ply)) {
 						labels.remove(ply);
 					}
