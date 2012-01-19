@@ -8,11 +8,10 @@ import de.doridian.yiffbukkit.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityListener;
-import org.bukkit.plugin.PluginManager;
 
 import java.util.Set;
 
@@ -20,27 +19,24 @@ import java.util.Set;
 @Help("Activates or deactivates god mode.")
 @Usage("[<name>] [on|off]")
 @Permission("yiffbukkit.players.god")
-public class GodCommand extends AbstractPlayerStateCommand {
+public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 	private final Set<String> godded = states;
 
 	public GodCommand() {
-		EntityListener entityListener = new EntityListener() {
-			@Override
-			public void onEntityDamage(EntityDamageEvent event) {
-				if (!(event.getEntity() instanceof Player))
-					return;
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-				Player ply = (Player)event.getEntity();
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntityDamage(EntityDamageEvent event) {
+		if (!(event.getEntity() instanceof Player))
+			return;
 
-				String playerName = ply.getName();
+		Player ply = (Player)event.getEntity();
 
-				if (godded.contains(playerName))
-					event.setCancelled(true);
-			}
-		};
+		String playerName = ply.getName();
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Type.ENTITY_DAMAGE, entityListener, Priority.Highest, plugin);
+		if (godded.contains(playerName))
+			event.setCancelled(true);
 	}
 
 	@Override
