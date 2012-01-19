@@ -2,18 +2,14 @@ package de.doridian.yiffbukkit.commands;
 
 import de.doridian.yiffbukkit.PermissionDeniedException;
 import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.ICommand.Help;
-import de.doridian.yiffbukkit.commands.ICommand.Names;
-import de.doridian.yiffbukkit.commands.ICommand.Permission;
-import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.commands.ICommand.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.plugin.PluginManager;
 
 import java.util.Set;
 
@@ -21,33 +17,29 @@ import java.util.Set;
 @Help("Mutes or unmutes a player.")
 @Usage("<name> [on|off]")
 @Permission("yiffbukkit.users.mute")
-public class MuteCommand extends AbstractPlayerStateCommand {
+public class MuteCommand extends AbstractPlayerStateCommand implements Listener {
 	private final Set<String> muted = states;
 
 	public MuteCommand() {
-		final PlayerListener chatListener = new PlayerListener() {
-			@Override
-			public void onPlayerChat(PlayerChatEvent event) {
-				if (muted.contains(event.getPlayer().getName())) {
-					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
-					event.setCancelled(true);
-					return;
-				}
-			}
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-			@Override
-			public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-				if (muted.contains(event.getPlayer().getName())) {
-					plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
-					event.setCancelled(true);
-					return;
-				}
-			}
-		};
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerChat(PlayerChatEvent event) {
+		if (muted.contains(event.getPlayer().getName())) {
+			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
+			event.setCancelled(true);
+			return;
+		}
+	}
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvent(Type.PLAYER_CHAT, chatListener, Priority.Highest, plugin);
-		pm.registerEvent(Type.PLAYER_COMMAND_PREPROCESS, chatListener, Priority.Lowest, plugin);
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+		if (muted.contains(event.getPlayer().getName())) {
+			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
+			event.setCancelled(true);
+			return;
+		}
 	}
 
 	@Override
