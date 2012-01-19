@@ -8,11 +8,10 @@ import de.doridian.yiffbukkit.commands.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.commands.ICommand.Usage;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,20 +21,20 @@ import java.util.List;
 @Permission("yiffbukkit.autoexec")
 @BooleanFlags("e")
 @NumericFlags("r")
-public class AutoexecCommand extends ICommand {
+public class AutoexecCommand extends ICommand implements Listener {
 	public AutoexecCommand() {
-		plugin.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new PlayerListener() {
-			@Override
-			public void onPlayerJoin(PlayerJoinEvent event) {
-				final Player player = event.getPlayer();
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-					public void run() {
-						execCommands(player);
-					}
-				});
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		final Player player = event.getPlayer();
+
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			public void run() {
+				execCommands(player);
 			}
-		}, Priority.Lowest, plugin);
+		});
 	}
 
 	@Override
