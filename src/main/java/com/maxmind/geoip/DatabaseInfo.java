@@ -45,83 +45,83 @@ import java.text.ParseException;
  */
 public class DatabaseInfo {
 
-    public final static int COUNTRY_EDITION = 1;
-    public final static int REGION_EDITION_REV0 = 7;
-    public final static int REGION_EDITION_REV1 = 3;
-    public final static int CITY_EDITION_REV0 = 6;
-    public final static int CITY_EDITION_REV1 = 2;
-    public final static int ORG_EDITION = 5;
-    public final static int ISP_EDITION = 4;
-    public final static int PROXY_EDITION = 8;
-    public final static int ASNUM_EDITION = 9;
-    public final static int NETSPEED_EDITION = 10;
-    public final static int  DOMAIN_EDITION      = 11;
-   public final static int COUNTRY_EDITION_V6 = 12;
-   public final static int ASNUM_EDITION_V6         = 21;
-   public final static int ISP_EDITION_V6           = 22;
-   public final static int ORG_EDITION_V6           = 23;
-   public final static int DOMAIN_EDITION_V6        = 24;
-   public final static int CITY_EDITION_REV1_V6     = 30;
-   public final static int CITY_EDITION_REV0_V6     = 31;
-   public final static int NETSPEED_EDITION_REV1    = 32;
-   public final static int NETSPEED_EDITION_REV1_V6 = 33;
-   
+	public final static int COUNTRY_EDITION = 1;
+	public final static int REGION_EDITION_REV0 = 7;
+	public final static int REGION_EDITION_REV1 = 3;
+	public final static int CITY_EDITION_REV0 = 6;
+	public final static int CITY_EDITION_REV1 = 2;
+	public final static int ORG_EDITION = 5;
+	public final static int ISP_EDITION = 4;
+	public final static int PROXY_EDITION = 8;
+	public final static int ASNUM_EDITION = 9;
+	public final static int NETSPEED_EDITION = 10;
+	public final static int  DOMAIN_EDITION      = 11;
+	public final static int COUNTRY_EDITION_V6 = 12;
+	public final static int ASNUM_EDITION_V6         = 21;
+	public final static int ISP_EDITION_V6           = 22;
+	public final static int ORG_EDITION_V6           = 23;
+	public final static int DOMAIN_EDITION_V6        = 24;
+	public final static int CITY_EDITION_REV1_V6     = 30;
+	public final static int CITY_EDITION_REV0_V6     = 31;
+	public final static int NETSPEED_EDITION_REV1    = 32;
+	public final static int NETSPEED_EDITION_REV1_V6 = 33;
 
-private static SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 
-    private String info;
+	private static SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 
-    /**
-     * Creates a new DatabaseInfo object given the database info String.
-     * @param info
-     */
-    public DatabaseInfo(String info) {
-        this.info = info;
-    }
+	private String info;
 
-    public int getType() {
-        if (info == null || info.equals("")) {
-            return COUNTRY_EDITION;
-        }
-        else {
-            // Get the type code from the database info string and then
-            // subtract 105 from the value to preserve compatability with
-            // databases from April 2003 and earlier.
-            return Integer.parseInt(info.substring(4, 7)) - 105;
-        }
-    }
+	/**
+	 * Creates a new DatabaseInfo object given the database info String.
+	 * @param info
+	 */
+	public DatabaseInfo(String info) {
+		this.info = info;
+	}
 
-    /**
-     * Returns true if the database is the premium version.
-     *
-     * @return true if the premium version of the database.
-     */
-    public boolean isPremium() {
-        return info.indexOf("FREE") < 0;
-    }
+	public int getType() {
+		if (info == null || info.equals("")) {
+			return COUNTRY_EDITION;
+		}
+		else {
+			// Get the type code from the database info string and then
+			// subtract 105 from the value to preserve compatability with
+			// databases from April 2003 and earlier.
+			return Integer.parseInt(info.substring(4, 7)) - 105;
+		}
+	}
 
-    /**
-     * Returns the date of the database.
-     *
-     * @return the date of the database.
-     */
-    public Date getDate() {
-        for (int i=0; i<info.length()-9; i++) {
-            if (Character.isWhitespace(info.charAt(i))) {
-                String dateString = info.substring(i+1, i+9);
-                try {
-                    synchronized (formatter) {
-                        return formatter.parse(dateString);
-                    }
-                }
-                catch (ParseException pe) {  }
-                break;
-            }
-        }
-        return null;
-    }
+	/**
+	 * Returns true if the database is the premium version.
+	 *
+	 * @return true if the premium version of the database.
+	 */
+	public boolean isPremium() {
+		return info.indexOf("FREE") < 0;
+	}
 
-    public String toString() {
-        return info;
-    }
+	/**
+	 * Returns the date of the database.
+	 *
+	 * @return the date of the database.
+	 */
+	public Date getDate() {
+		for (int i=0; i<info.length()-9; i++) {
+			if (Character.isWhitespace(info.charAt(i))) {
+				String dateString = info.substring(i+1, i+9);
+				try {
+					synchronized (formatter) {
+						return formatter.parse(dateString);
+					}
+				}
+				catch (ParseException pe) {  }
+				break;
+			}
+		}
+		return null;
+	}
+
+	public String toString() {
+		return info;
+	}
 }
