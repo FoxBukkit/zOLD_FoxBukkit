@@ -32,41 +32,10 @@ public class SignPortalPlayerListener implements Listener {
 		this.plugin = plugin;
 
 		plugin.playerHelper.registerMap(timerIds);
-
+		plugin.playerHelper.registerSet(portalStates);
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-		Listener vehicleListener = new Listener() {
-			Set<Player> portalStates = new HashSet<Player>();
-
-			{
-				plugin.playerHelper.registerSet(portalStates);
-			}
-
-			@EventHandler(event = VehicleUpdateEvent.class, priority = EventPriority.HIGHEST)
-			public void onVehicleUpdate(VehicleUpdateEvent event) {
-				final Vehicle vehicle = event.getVehicle();
-
-				final Entity passenger = vehicle.getPassenger();
-				if (!(passenger instanceof Player))
-					return;
-
-				final Player player = (Player)vehicle.getPassenger();
-
-				final Location location = vehicle.getLocation();
-				final boolean isPortal = vehicle.getWorld().getBlockTypeIdAt(location) == 90;
-				final boolean wasPortal = portalStates.contains(player);
-				if (wasPortal == isPortal)
-					return;
-
-				if (isPortal) {
-					final Block block = location.getBlock();
-
-					doPort(player, vehicle, block);
-				}
-			}
-		};
-		plugin.getServer().getPluginManager().registerEvents(vehicleListener, plugin);
 	}
 
 	private static final BlockFace[] faces = { BlockFace.NORTH,BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
@@ -139,6 +108,31 @@ public class SignPortalPlayerListener implements Listener {
 			plugin.getServer().getScheduler().cancelTask(taskId);
 		}
 	}
+
+	Set<Player> portalStates = new HashSet<Player>();
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onVehicleUpdate(VehicleUpdateEvent event) {
+		final Vehicle vehicle = event.getVehicle();
+
+		final Entity passenger = vehicle.getPassenger();
+		if (!(passenger instanceof Player))
+			return;
+
+		final Player player = (Player)vehicle.getPassenger();
+
+		final Location location = vehicle.getLocation();
+		final boolean isPortal = vehicle.getWorld().getBlockTypeIdAt(location) == 90;
+		final boolean wasPortal = portalStates.contains(player);
+		if (wasPortal == isPortal)
+			return;
+
+		if (isPortal) {
+			final Block block = location.getBlock();
+
+			doPort(player, vehicle, block);
+		}
+	}
+
 	private void doPort(final Player player, final Entity entityToPort, final Block block) {
 		Stack<Block> todo = new Stack<Block>();
 		todo.push(block);
