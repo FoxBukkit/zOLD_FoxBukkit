@@ -122,8 +122,8 @@ public class ChatManager {
 			}
 		};
 
-		PacketListener.addPacketListener(true, 3, packetListener, plugin);
-		PacketListener.addPacketListener(false, 3, packetListener, plugin);
+		//PacketListener.addPacketListener(true, 3, packetListener, plugin);
+		//PacketListener.addPacketListener(false, 3, packetListener, plugin);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
