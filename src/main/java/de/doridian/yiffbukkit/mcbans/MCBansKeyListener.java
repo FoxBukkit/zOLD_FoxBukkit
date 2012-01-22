@@ -3,11 +3,11 @@ package de.doridian.yiffbukkit.mcbans;
 import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.getspout.spoutapi.event.input.InputListener;
+import org.bukkit.event.Listener;
 import org.getspout.spoutapi.event.input.KeyReleasedEvent;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
-public class MCBansKeyListener extends InputListener {
+public class MCBansKeyListener implements Listener {
 	final YiffBukkit plugin;
 
 	public MCBansKeyListener(YiffBukkit plug) {
