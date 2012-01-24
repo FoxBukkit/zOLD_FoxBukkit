@@ -233,10 +233,18 @@ public class YiffBukkitBlockListener implements Listener {
 	private static final TIntObjectMap<BlockFace> nonDataAttachments = new TIntObjectHashMap<BlockFace>();
 	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<BlockFace, BlockFace[]>();
 	static {
-		TIntObjectMap<PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
-		TIntObjectMap<PlayerDirection> weNonDataAttachments = Utils.getPrivateValue(BlockType.class, null, "nonDataAttachments");
+		HashMap<Integer, PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
+		HashMap<Integer, PlayerDirection> weNonDataAttachments = Utils.getPrivateValue(BlockType.class, null, "nonDataAttachments");
 
-		weDataAttachments.forEachEntry(new TIntObjectProcedure<PlayerDirection>() {
+		for(Map.Entry<Integer, PlayerDirection> entry : weDataAttachments.entrySet()) {
+			dataAttachments.put(entry.getKey(), BlockFace.valueOf(entry.getValue().name()));
+		}
+
+		for(Map.Entry<Integer, PlayerDirection> entry : weNonDataAttachments.entrySet()) {
+			nonDataAttachments.put(entry.getKey(), BlockFace.valueOf(entry.getValue().name()));
+		}
+
+		/*weDataAttachments.forEachEntry(new TIntObjectProcedure<PlayerDirection>() {
 			@Override
 			public boolean execute(int i, PlayerDirection dir) {
 				dataAttachments.put(i, BlockFace.valueOf(dir.name()));
@@ -250,7 +258,7 @@ public class YiffBukkitBlockListener implements Listener {
 				nonDataAttachments.put(i, BlockFace.valueOf(dir.name()));
 				return true;
 			}
-		});
+		});*/
 
 		final BlockFace[] xArray = new BlockFace[] { BlockFace.EAST , BlockFace.WEST , BlockFace.UP  , BlockFace.DOWN };
 		final BlockFace[] yArray = new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
