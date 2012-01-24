@@ -37,7 +37,7 @@ public class YiffBukkitPacketListener extends PacketListener {
 		PacketListener.addPacketListener(false, 13, this, plugin);
 
 		PacketListener.addPacketListener(true, 1, this, plugin);
-		//PacketListener.addPacketListener(false, 9, this, plugin);
+		PacketListener.addPacketListener(true, 9, this, plugin);
 	}
 
 	@Override
@@ -47,6 +47,11 @@ public class YiffBukkitPacketListener extends PacketListener {
 			Packet1Login login = (Packet1Login)packet;
 			login.c = 1337;
 			return true;
+		case 9:
+			Packet9Respawn respawn = (Packet9Respawn)packet;
+			respawn.a = 1337;
+			return true;
+
 		case 3:
 			Packet3Chat p3 = (Packet3Chat) packet;
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))
