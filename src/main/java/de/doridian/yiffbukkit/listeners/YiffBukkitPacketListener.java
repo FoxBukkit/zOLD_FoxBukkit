@@ -6,10 +6,12 @@ import de.doridian.yiffbukkit.util.PlayerHelper.WeatherType;
 import de.doridian.yiffbukkit.util.Utils;
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.Packet10Flying;
+import net.minecraft.server.Packet1Login;
 import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet4UpdateTime;
 import net.minecraft.server.Packet70Bed;
+import net.minecraft.server.Packet9Respawn;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -33,11 +35,18 @@ public class YiffBukkitPacketListener extends PacketListener {
 		PacketListener.addPacketListener(false, 11, this, plugin);
 		//PacketListener.addPacketListener(false, 12, this, plugin);
 		PacketListener.addPacketListener(false, 13, this, plugin);
+
+		PacketListener.addPacketListener(true, 1, this, plugin);
+		//PacketListener.addPacketListener(false, 9, this, plugin);
 	}
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
+		case 1:
+			Packet1Login login = (Packet1Login)packet;
+			login.c = 1337;
+			return true;
 		case 3:
 			Packet3Chat p3 = (Packet3Chat) packet;
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))

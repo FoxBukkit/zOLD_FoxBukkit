@@ -13,6 +13,8 @@ public class MCBans {
 	private MCBansPlayerListener playerListener;
 	@SuppressWarnings("unused")
 	private MCBansKeyListener keyListener;
+	@SuppressWarnings("unused")
+	private ClientBlacklist clientBlacklist;
 	
 	private MCBansBlockLogger logger;
 
@@ -21,6 +23,7 @@ public class MCBans {
 		playerListener = new MCBansPlayerListener(plug);
 		keyListener = new MCBansKeyListener(plug);
 		logger = new MCBansBlockLoggerLogBlock(plug);
+		clientBlacklist = new ClientBlacklist(plug);
 	}
 
 

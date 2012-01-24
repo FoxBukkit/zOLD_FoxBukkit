@@ -17,6 +17,7 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitVehicleListener;
+import de.doridian.yiffbukkit.mcbans.ClientBlacklist;
 import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
@@ -41,6 +42,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.PluginProfiler;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -140,6 +142,19 @@ public class YiffBukkit extends JavaPlugin {
 		worldGuard = (WorldGuardPlugin) pm.getPlugin("WorldGuard");
 		if (worldGuard != null)
 			sendConsoleMsg( "YiffBukkit found WorldGuard!" );
+
+		/*getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("=============================================================");
+				System.out.println("Last tick took: " + PluginProfiler.getLastTickTotalTime() / 1E6D + "ms");
+				HashMap<Plugin, Long> plugins = PluginProfiler.getLastTickPluginTimes();
+				for(Map.Entry<Plugin, Long> pluginEntry : plugins.entrySet()) {
+					System.out.println(pluginEntry.getKey().getDescription().getName() + " took " + pluginEntry.getValue() / 1E6D + "ms");
+				}
+				System.out.println("=============================================================");
+			}
+		}, 1, 20);*/
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
