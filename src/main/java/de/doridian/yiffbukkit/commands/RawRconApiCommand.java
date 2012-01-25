@@ -60,6 +60,8 @@ public class RawRconApiCommand extends ICommand {
 							str.append("\n" + ply.getName() + " " + plugin.playerHelper.GetFullPlayerName(ply));
 						}
 						return str.deleteCharAt(0).toString();
+					case 'r': //rank
+						return plugin.playerHelper.getPlayerRank(args[1]);
 				}
 		}
 		return null;
