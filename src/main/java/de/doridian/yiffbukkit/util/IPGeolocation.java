@@ -46,12 +46,12 @@ public class IPGeolocation {
 	public static void initialize() {
 		if(lookupSvc == null) {
 			if(DATABASE == null) {
-				downloadFile();
 				DATABASE = YiffBukkit.instance.getDataFolder() + "/GeoIP.dat";
 			}
 			try {
 				lookupSvc = new LookupService(DATABASE, LookupService.GEOIP_MEMORY_CACHE);
 			} catch(Exception e) { }
+			downloadFile();
 		}
 	}
 
