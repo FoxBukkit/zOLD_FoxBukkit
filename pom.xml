@@ -23,19 +23,34 @@
   		<groupId>org.getspout</groupId>
   		<artifactId>spoutplugin</artifactId>
   		<version>dev-SNAPSHOT</version>
-  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>de.diddiz</groupId>
   		<artifactId>logblock</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
-  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.dynmap</groupId>
   		<artifactId>dynmap</artifactId>
-  		<version>0.30</version>
-  		<scope>provided</scope>
+  		<version>0.24</version>
   	</dependency>
   </dependencies>
+	<repositories>
+		<repository>
+			<releases>
+			</releases>
+			<snapshots>
+			</snapshots>
+			<id>spout-repo</id>
+			<url>http://repo.spout.org</url>
+		</repository>
+		<repository>
+			<releases>
+			</releases>
+			<snapshots>
+			</snapshots>
+			<id>sk89q-repo</id>
+			<url>http://mvn2.sk89q.com/repo</url>
+		</repository>
+	</repositories>
 </project>
