@@ -32,7 +32,7 @@
   	<dependency>
   		<groupId>org.dynmap</groupId>
   		<artifactId>dynmap</artifactId>
-  		<version>0.24</version>
+  		<version>0.30</version>
   	</dependency>
   </dependencies>
 	<repositories>
