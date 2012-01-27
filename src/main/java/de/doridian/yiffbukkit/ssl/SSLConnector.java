@@ -14,9 +14,6 @@ public class SSLConnector {
     public static SSLServerSocketFactory allTrustingSocketFactory;
 
     static {
-		char[] keystorePW = Configuration.getValue("server-ssl-keystore-password","SECRET").toCharArray();
-		char[] keyPW = Configuration.getValue("server-ssl-key-password","SECRET").toCharArray();
-
         try {
             // Create a trust manager that does not validate certificate chains
             TrustManager[] trustAllCerts = new TrustManager[]{
@@ -33,14 +30,8 @@ public class SSLConnector {
                 }
             };
 
-			KeyStore kStore  = KeyStore.getInstance(KeyStore.getDefaultType());
-			kStore.load(new FileInputStream(Configuration.getValue("server-ssl-keystore", "server.keystore")), keystorePW);
-
-			KeyManagerFactory kmfac = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-			kmfac.init(kStore, keyPW);
-
             SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(kmfac.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
             allTrustingSocketFactory = sc.getServerSocketFactory();
         }
         catch(Exception e) {
