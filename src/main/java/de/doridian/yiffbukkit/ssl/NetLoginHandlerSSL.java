@@ -20,11 +20,11 @@ class NetLoginHandlerSSL extends NetLoginHandler {
 	private String isValidatedFor = null;
 	private MinecraftServer mcserver;
 	private YiffBukkit plugin;
-	
+
 	private static File pubKeyDir;
 	static {
 		try {
-			pubKeyDir = new File("pubkeys");
+			pubKeyDir = new File(YiffBukkit.instance.getDataFolder() + "/pubkeys");
 			pubKeyDir.mkdirs();
 		}
 		catch(Exception e) { e.printStackTrace(); }
