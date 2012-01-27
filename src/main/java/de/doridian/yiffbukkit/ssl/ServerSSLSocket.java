@@ -31,7 +31,7 @@ public class ServerSSLSocket extends Thread {
 
 		server = ((CraftServer)plugin.getServer()).getHandle().server;
 
-		int sslport = Integer.valueOf(Configuration.getValue("server-ssl-port", "" + (plugin.getServer().getPort() + 1)));
+		int sslport = Integer.valueOf(Configuration.getValue("server-ssl-port", "25566"));
 		listenerSocket = (SSLServerSocket)SSLConnector.allTrustingSocketFactory.createServerSocket(sslport);
 		listenerSocket.setUseClientMode(true);
 		plugin.sendConsoleMsg("Bound SSL to " + sslport);
