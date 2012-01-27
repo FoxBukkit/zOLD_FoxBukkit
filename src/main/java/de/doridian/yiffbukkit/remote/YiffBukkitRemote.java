@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.remote;
 
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.util.Configuration;
 import org.bukkit.command.CommandSender;
 
 import java.net.InetAddress;
@@ -19,7 +20,7 @@ public class YiffBukkitRemote extends Thread {
 		plugin = plug;
 		listen = listener;
 		try {
-			socket = new ServerSocket(13388,0,InetAddress.getByName("localhost"));
+			socket = new ServerSocket(Integer.valueOf(Configuration.getValue("rcon-port", "13388")), 0, InetAddress.getByName(Configuration.getValue("rcon-host", "localhost")));
 		}
 		catch(Exception e) {
 			e.printStackTrace();

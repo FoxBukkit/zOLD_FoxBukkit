@@ -17,7 +17,7 @@ public class YiffBukkitRemoteThread extends Thread {
 	private final Socket socket;
 	private PrintWriter out;
 
-	private final String PASSWORD = Configuration.getValue("rcon-password", "");
+	private final String PASSWORD = Configuration.getValue("rcon-password", null);
 
 	public YiffBukkitRemoteThread(YiffBukkit plug, YiffBukkitPlayerListener listener, Socket sock) {
 		plugin = plug;
@@ -35,7 +35,7 @@ public class YiffBukkitRemoteThread extends Thread {
 			out = new PrintWriter(socket.getOutputStream(), true);
 
 			final String str = in.readLine();
-			if(PASSWORD.equals("") || !str.equals(PASSWORD)) throw new Exception("Invalid password");
+			if(PASSWORD == null || !str.equals(PASSWORD)) throw new Exception("Invalid password");
 
 			send("OK");
 			flush();
