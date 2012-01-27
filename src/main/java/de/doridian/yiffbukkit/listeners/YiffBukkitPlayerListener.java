@@ -80,6 +80,8 @@ public class YiffBukkitPlayerListener implements Listener {
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
 		playerHelper.registerSet(sprintingPlayers);
+
+		IPGeolocation.initialize();
 	}
 
 	public void scanCommands() {
