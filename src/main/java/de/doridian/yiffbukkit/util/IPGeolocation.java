@@ -4,6 +4,7 @@ import com.maxmind.geoip.LookupService;
 import de.doridian.yiffbukkit.YiffBukkit;
 import de.doridian.yiffbukkit.config.ConfigFileWriter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -17,10 +18,14 @@ public class IPGeolocation {
 	private static String DATABASE;
 	private static LookupService lookupSvc = null;
 
+	private static boolean ISDOWNLOADED = false;
 	public static void downloadFile() {
+		if(ISDOWNLOADED) return;
+		ISDOWNLOADED = true;
 		new Thread() {
 			@Override
 			public void run() {
+				File tmpFile = new File(DATABASE + ".tmp");
 				try {
 					URL url = new URL(DOWNLOADURL);
 					URLConnection conn = url.openConnection();
@@ -29,7 +34,7 @@ public class IPGeolocation {
 					conn.setConnectTimeout(10000);
 					conn.setReadTimeout(20000);
 					InputStreamReader reader = new InputStreamReader(new GZIPInputStream(conn.getInputStream()));
-					FileWriter writer = new FileWriter(DATABASE);
+					FileWriter writer = new FileWriter(tmpFile);
 					char[] buff = new char[256]; int data;
 					while((data = reader.read(buff)) > 0) {
 						writer.write(buff, 0, data);
@@ -38,6 +43,9 @@ public class IPGeolocation {
 					reader.close();
 				} catch(Exception e) { e.printStackTrace(); return; }
 				lookupSvc = null;
+				tmpFile.renameTo(new File(DATABASE));
+				if(tmpFile.exists()) tmpFile.delete();
+				if(tmpFile.exists()) tmpFile.deleteOnExit();
 				initialize();
 			}
 		}.start();
