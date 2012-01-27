@@ -1,6 +1,9 @@
 package de.doridian.yiffbukkit.permissions;
 
 import com.nijiko.permissions.PermissionHandler;
+import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.config.ConfigFileReader;
+import de.doridian.yiffbukkit.config.ConfigFileWriter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
@@ -9,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -86,7 +88,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		groupProhibitions.clear();
 		playerGroups.clear();
 		
-		File[] files = (new File("permissions")).listFiles();
+		File[] files = (new File(YiffBukkit.instance.getDataFolder() + "/permissions")).listFiles();
 
 		BufferedReader reader;
 		for(File file : files) {
@@ -140,7 +142,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 			catch(Exception e) { e.printStackTrace(); }
 		}
 		try {
-			reader = new BufferedReader(new FileReader("player-groups.txt"));
+			reader = new BufferedReader(new ConfigFileReader("player-groups.txt"));
 			String line; int lpos;
 			while((line = reader.readLine()) != null) {
 				line = line.toLowerCase();
@@ -155,7 +157,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 
 	public void save() {
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("player-groups.txt"));
+			BufferedWriter writer = new BufferedWriter(new ConfigFileWriter("player-groups.txt"));
 			Set<String> e = playerGroups.keySet();
 			for(String key : e) {
 				String value = playerGroups.get(key);

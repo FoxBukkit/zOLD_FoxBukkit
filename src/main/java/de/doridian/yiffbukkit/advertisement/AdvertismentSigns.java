@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.advertisement;
 
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.config.ConfigFileReader;
 import org.bukkit.Location;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -22,7 +22,7 @@ public class AdvertismentSigns {
 		letterwidth[0] = 0;
 		for(int i=1;i<256;i++) {
 			try {
-				stream = new BufferedReader(new FileReader("advertisments/letters/" + String.valueOf((char)i) + ".txt"));
+				stream = new BufferedReader(new ConfigFileReader("advertisments/letters/" + String.valueOf((char)i) + ".txt"));
 				letterwidth[i] = stream.readLine().length();
 				stream.close();
 			}
@@ -45,13 +45,13 @@ public class AdvertismentSigns {
 		timers.clear();
 		BufferedReader stream = null;
 		try {
-			stream = new BufferedReader(new FileReader("advertisments/list.txt"));
+			stream = new BufferedReader(new ConfigFileReader("advertisments/list.txt"));
 			String line; BufferedReader innerStream; Timer timer; String[] lsplit; Location origin; AdvertismentSignTask newtask; byte[][] fileData = null;  
 			
 			while((line = stream.readLine()) != null) {
 				lsplit = line.split(";", 5);
 				
-				innerStream = new BufferedReader(new FileReader("advertisments/" + lsplit[0] + ".txt"));
+				innerStream = new BufferedReader(new ConfigFileReader("advertisments/" + lsplit[0] + ".txt"));
 				
 				int fullx = 0;
 				int fully = Integer.valueOf(lsplit[3]);
@@ -106,7 +106,7 @@ public class AdvertismentSigns {
 	
 	private int parseFileIntoArray(int startx, byte[][] fileData, String file, char defcolor) {
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("advertisments/" + file + ".txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("advertisments/" + file + ".txt"));
 			int ret = parseFileIntoArray(startx, fileData, stream, defcolor);
 			stream.close();
 			return ret;

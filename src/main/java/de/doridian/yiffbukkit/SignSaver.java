@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit;
 
+import de.doridian.yiffbukkit.config.ConfigFileReader;
+import de.doridian.yiffbukkit.config.ConfigFileWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockState;
@@ -11,8 +13,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class SignSaver extends StateContainer implements Listener {
 	public void loadSignSaver() {
 		saved_signs.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("signsaver.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("signsaver.txt"));
 			String line;
 			SignDescriptor current = new SignDescriptor();
 			while((line = stream.readLine()) != null) {
@@ -93,7 +93,7 @@ public class SignSaver extends StateContainer implements Listener {
 	@Saver({"signsaver", "sign_saver"})
 	public void saveSignSaver() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("signsaver.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("signsaver.txt"));
 			for (SignDescriptor current : saved_signs) {
 				stream.write("x"+current.location.getBlockX());
 				stream.newLine();

@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.util;
 import de.doridian.yiffbukkit.StateContainer;
 import de.doridian.yiffbukkit.ToolBind;
 import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkit.config.ConfigFileReader;
+import de.doridian.yiffbukkit.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
@@ -29,8 +31,6 @@ import org.bukkit.util.Vector;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -132,7 +132,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadPlayerHomePositions() {
 		playerhomepos.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("player-homepositions.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-homepositions.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
@@ -145,7 +145,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "homepositions", "home_positions", "homes", "home" })
 	public void savePlayerHomePositions() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("player-homepositions.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-homepositions.txt"));
 			Enumeration<String> e = playerhomepos.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
@@ -308,7 +308,7 @@ public class PlayerHelper extends StateContainer {
 		ranklevels.clear();
 		ranktags.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("ranks-config.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("ranks-config.txt"));
 			String line; String[] split;
 			while((line = stream.readLine()) != null) {
 				split = line.split("=");
@@ -322,7 +322,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "ranks", "ranknames", "rank_names" })
 	public void saveRanks() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("ranks-config.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("ranks-config.txt"));
 			Enumeration<String> e = playerranks.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
@@ -363,7 +363,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadPlayerTags() {
 		playertags.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("player-tags.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-tags.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
@@ -376,7 +376,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "playertags", "player_tags", "tags" })
 	public void savePlayerTags() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("player-tags.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-tags.txt"));
 			Enumeration<String> e = playertags.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
@@ -393,7 +393,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadPlayerNicks() {
 		playernicks.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("player-nicks.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-nicks.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
@@ -406,7 +406,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
 	public void savePlayerNicks() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("player-nicks.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-nicks.txt"));
 			Enumeration<String> e = playernicks.keys();
 			while(e.hasMoreElements()) {
 				String key = e.nextElement();
@@ -485,7 +485,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadPortPermissions() {
 		playerTpPermissions.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("player-notp.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-notp.txt"));
 			String line;
 			while((line = stream.readLine()) != null) {
 				playerTpPermissions.add(line);
@@ -496,7 +496,7 @@ public class PlayerHelper extends StateContainer {
 
 		playerSummonPermissions.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("player-nosummon.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-nosummon.txt"));
 			String line;
 			while((line = stream.readLine()) != null) {
 				playerSummonPermissions.add(line);
@@ -508,7 +508,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "portpermissions", "port_permissions", "noport" })
 	public void savePortPermissions() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("player-notp.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-notp.txt"));
 			for (String element : playerTpPermissions) {
 				stream.write(element);
 				stream.newLine();
@@ -518,7 +518,7 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception e) { }
 
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("player-nosummon.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-nosummon.txt"));
 			for (String element : playerSummonPermissions) {
 				stream.write(element);
 				stream.newLine();
@@ -787,7 +787,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadAutoexecs() {
 		autoexecs.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("autoexecs.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("autoexecs.txt"));
 
 			String line;
 			String currentPlayerName = null;
@@ -826,7 +826,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "autoexecs", "autoexec" })
 	public void saveAutoexecs() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new FileWriter("autoexecs.txt"));
+			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("autoexecs.txt"));
 			for (Entry<String, List<String>> entry : autoexecs.entrySet()) {
 				stream.write('['+entry.getKey()+']');
 				stream.newLine();

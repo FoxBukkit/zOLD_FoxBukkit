@@ -5,10 +5,10 @@ import de.doridian.yiffbukkit.commands.ICommand.Help;
 import de.doridian.yiffbukkit.commands.ICommand.Names;
 import de.doridian.yiffbukkit.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.config.ConfigFileReader;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ExecCommand extends ICommand {
 		List<String> list = new ArrayList<String>();
 
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("scripts/"+argStr+".txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("scripts/"+argStr+".txt"));
 			String line;
 			while((line = stream.readLine()) != null) {
 				if (line.isEmpty())

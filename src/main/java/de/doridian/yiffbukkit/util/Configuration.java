@@ -1,7 +1,8 @@
 package de.doridian.yiffbukkit.util;
 
+import de.doridian.yiffbukkit.config.ConfigFileReader;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.HashMap;
 
 public class Configuration {
@@ -9,7 +10,7 @@ public class Configuration {
 	static {
 		configValues.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new FileReader("yiffbukkit-config.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("yiffbukkit-config.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
