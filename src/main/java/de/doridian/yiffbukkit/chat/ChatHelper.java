@@ -231,7 +231,7 @@ public class ChatHelper extends StateContainer {
 
 		ChatChannelContainer cont = null;
 		try {
-			FileInputStream stream = new FileInputStream("channels.dat");
+			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/channels.dat");
 			try {
 				ObjectInputStream reader = new ObjectInputStream(stream);
 				try {
@@ -272,7 +272,7 @@ public class ChatHelper extends StateContainer {
 	@Saver("channels")
 	public static void saveChannels() {
 		try {
-			FileOutputStream stream = new FileOutputStream("channels.dat");
+			FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/channels.dat");
 			ObjectOutputStream writer = new ObjectOutputStream(stream);
 			try {
 				writer.writeObject(ChatHelper.instance.container);
