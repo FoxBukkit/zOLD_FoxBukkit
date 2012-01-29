@@ -82,16 +82,18 @@ public class WhoCommand extends ICommand {
 		else {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: ";
-			if (plugin.permissionHandler.has(commandSender, "yiffbukkit.who.ranklevels")) {
-				str += playerHelper.formatPlayer(players[0]);
-				for(int i=1;i<players.length;i++) {
-					str += ", " + playerHelper.formatPlayer(players[i]);
+			if(players.length > 0) {
+				if (plugin.permissionHandler.has(commandSender, "yiffbukkit.who.ranklevels")) {
+					str += playerHelper.formatPlayer(players[0]);
+					for(int i=1;i<players.length;i++) {
+						str += ", " + playerHelper.formatPlayer(players[i]);
+					}
 				}
-			}
-			else {
-				str += players[0].getName();
-				for(int i=1;i<players.length;i++) {
-					str += ", " + players[i].getName();
+				else {
+					str += players[0].getName();
+					for(int i=1;i<players.length;i++) {
+						str += ", " + players[i].getName();
+					}
 				}
 			}
 			playerHelper.sendDirectedMessage(commandSender, str);

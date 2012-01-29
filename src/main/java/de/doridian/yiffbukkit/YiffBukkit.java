@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.chat.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
+import de.doridian.yiffbukkit.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.jail.JailEngine;
 import de.doridian.yiffbukkit.listeners.SignPortalPlayerListener;
@@ -81,6 +82,8 @@ public class YiffBukkit extends JavaPlugin {
 	private SignPortalPlayerListener signPortalPlayerListener;
 	@SuppressWarnings("unused")
 	private ChatListener chatListener;
+	@SuppressWarnings("unused")
+	private YiffBukkitConsoleCommands consoleCommands;
 
 	public Vanish vanish;
 	public Transmute transmute;
@@ -223,6 +226,7 @@ public class YiffBukkit extends JavaPlugin {
 		transmute = new Transmute(this);
 		adHandler = new AdvertismentSigns(this);
 		chatListener = new ChatListener(this);
+		consoleCommands = new YiffBukkitConsoleCommands(this);
 
 		sendConsoleMsg("YiffBukkit components loaded.");
 		mcbans = new MCBans(this);

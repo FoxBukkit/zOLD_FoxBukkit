@@ -344,7 +344,7 @@ public class YiffBukkitPlayerListener implements Listener {
 		plugin.chatManager.pushCurrentOrigin(ply);
 		final String cmdString = event.getMessage().substring(1).trim();
 		
-		if (runCommand(ply,cmdString )) {
+		if (runCommand(ply, cmdString)) {
 			event.setCancelled(true);
 			event.setMessage("/youdontwantthiscommand "+event.getMessage());
 		}
@@ -357,18 +357,17 @@ public class YiffBukkitPlayerListener implements Listener {
 		plugin.chatManager.popCurrentOrigin();
 	}
 
-	public boolean runCommand(CommandSender commandSender, String baseCmd) {
-		int posSpace = baseCmd.indexOf(' ');
-		String cmd; String args[]; String argStr;
-		if (posSpace < 0) {
-			cmd = baseCmd.toLowerCase();
+	public boolean runCommand(CommandSender commandSender, String cmd, String argStr) {
+		String args[];
+		if(argStr.isEmpty()) {
 			args = new String[0];
-			argStr = "";
 		} else {
-			cmd = baseCmd.substring(0, posSpace).trim().toLowerCase();
-			argStr = baseCmd.substring(posSpace).trim();
 			args = argStr.split(" +");
 		}
+		return runCommand(commandSender, cmd, args, argStr);
+	}
+
+	public boolean runCommand(CommandSender commandSender, String cmd, String[] args, String argStr) {
 		if (commands.containsKey(cmd)) {
 			ICommand icmd = commands.get(cmd);
 			try {
@@ -377,10 +376,11 @@ public class YiffBukkitPlayerListener implements Listener {
 				}
 				if(!(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation")))
 				{
-					plugin.ircbot.sendToStaffChannel("YB Command: " + commandSender.getName() + ": " +baseCmd);
-					Logger.getLogger("Minecraft").log(Level.INFO, "YB Command: "+commandSender.getName()+": "+baseCmd);
+					String logmsg = "YB Command: " + commandSender.getName() + ": "  + cmd + " " + argStr;
+					plugin.ircbot.sendToStaffChannel(logmsg);
+					Logger.getLogger("Minecraft").log(Level.INFO, logmsg);
 				}
-				icmd.run(commandSender,args,argStr);
+				icmd.run(commandSender, args, argStr);
 			}
 			catch (YiffBukkitCommandException e) {
 				playerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
@@ -397,6 +397,19 @@ public class YiffBukkitPlayerListener implements Listener {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean runCommand(CommandSender commandSender, String baseCmd) {
+		int posSpace = baseCmd.indexOf(' ');
+		String cmd; String argStr;
+		if (posSpace < 0) {
+			cmd = baseCmd.toLowerCase();
+			argStr = "";
+		} else {
+			cmd = baseCmd.substring(0, posSpace).trim().toLowerCase();
+			argStr = baseCmd.substring(posSpace).trim();
+		}
+		return runCommand(commandSender, cmd, argStr);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
