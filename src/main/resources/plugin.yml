@@ -1,3 +1,12 @@
 name: YiffBukkit
 main: de.doridian.yiffbukkit.YiffBukkit
 version: 1.3.3.7
+commands:
+    rawlist:
+        description: Outputs a list with player names rather than display names
+        permission: yiffbukkit.no_one_has_this_ever
+        usage: /<command>
+    yb:
+        description: Runs any YiffBukkit command (used for console)
+        permission: yiffbukkit.no_one_has_this_ever
+        usage: /<command>
