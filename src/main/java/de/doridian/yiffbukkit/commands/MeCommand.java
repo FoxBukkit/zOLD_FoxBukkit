@@ -19,10 +19,13 @@ public class MeCommand extends ICommand {
 
 		final String conversationTarget = playerHelper.conversations.get(commandSender.getName());
 		if (conversationTarget == null) {
-			if(ChatHelper.getInstance().getActiveChannel(asPlayer(commandSender)) == ChatHelper.getInstance().OOC) {
-				plugin.ircbot.sendToPublicChannel("* " + commandSender.getName() + " " + argStr);
+			final ChatHelper helper = ChatHelper.getInstance();
+			if(helper.getActiveChannel(asPlayer(commandSender)) == helper.OOC) {
+				final String msg = "* " + commandSender.getName() + " " + argStr;
+				plugin.ircbot.sendToPublicChannel(msg);
+				plugin.sendConsoleMsg(msg, false);
 			}
-			ChatHelper.getInstance().sendChat(asPlayer(commandSender), message, false);
+			helper.sendChat(asPlayer(commandSender), message, false);
 		}
 		else {
 			message = "\u00a7e[CONV]\u00a7f "+message;

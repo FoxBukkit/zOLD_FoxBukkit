@@ -189,12 +189,15 @@ public class ChatHelper extends StateContainer {
 		if (format && ply != null) {
 			if (chan == OOC) {
 				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
+				plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
 				try {
 					if (plugin.dynmap != null) {
 						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), msg, ply.getName()));
 					}
 				}
 				catch (Exception e) { }
+			} else {
+				plugin.sendConsoleMsg("[" + chan.name + "] <" + ply.getName() + "> " + msg, false);
 			}
 			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":\u00a7f " + msg;
 		}
@@ -202,8 +205,6 @@ public class ChatHelper extends StateContainer {
 		boolean noOneHearsYou = true;
 
 		if (chan != DEFAULT) msg = "\u00a72[" + chan.name + "]\u00a7f " + msg;
-
-		plugin.sendConsoleMsg(msg, false);
 
 		for (Entry<String,Boolean> entry : chan.players.entrySet()) {
 			if (!entry.getValue())
