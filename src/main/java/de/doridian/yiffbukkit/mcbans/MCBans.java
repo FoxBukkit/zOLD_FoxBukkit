@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 
+import java.util.logging.Level;
+
 public class MCBans {
 	private YiffBukkit plugin;
 	@SuppressWarnings("unused")
@@ -147,7 +149,7 @@ public class MCBans {
 		long proofID = (Long)ret.get("value");
 		if (proofID == 31) return 0; //i dunno why, but meh...
 		tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + proofID;
-		plugin.sendConsoleMsg(tmp);
+		plugin.log(tmp);
 		plugin.playerHelper.sendDirectedMessage(from, tmp);
 		return proofID;
 	}

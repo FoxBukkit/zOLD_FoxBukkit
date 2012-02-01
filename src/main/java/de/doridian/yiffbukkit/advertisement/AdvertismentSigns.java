@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.logging.Level;
 
 public class AdvertismentSigns {
 	private YiffBukkit plugin;
@@ -112,7 +113,7 @@ public class AdvertismentSigns {
 			return ret;
 		}
 		catch(Exception e) {
-			plugin.sendConsoleMsg(file);
+			plugin.log(Level.WARNING, "Could not load advertisment file: " + file);
 			e.printStackTrace();
 			return 0;
 		}

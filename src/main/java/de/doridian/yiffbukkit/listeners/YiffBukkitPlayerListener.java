@@ -352,7 +352,7 @@ public class YiffBukkitPlayerListener implements Listener {
 		{
 			if(!(plugin.permissionHandler.has(ply, "yiffbukkit.ignoreworldeditlogging") && event.getMessage().startsWith("//")))
 				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +cmdString);
-			Logger.getLogger("Minecraft").log(Level.INFO, "Other Command: "+ply.getName()+": "+cmdString);
+			plugin.log("Other Command: "+ply.getName()+": "+cmdString);
 		}
 		plugin.chatManager.popCurrentOrigin();
 	}
@@ -378,7 +378,7 @@ public class YiffBukkitPlayerListener implements Listener {
 				{
 					String logmsg = "YB Command: " + commandSender.getName() + ": "  + cmd + " " + argStr;
 					plugin.ircbot.sendToStaffChannel(logmsg);
-					Logger.getLogger("Minecraft").log(Level.INFO, logmsg);
+					plugin.log(logmsg);
 				}
 				icmd.run(commandSender, args, argStr);
 			}

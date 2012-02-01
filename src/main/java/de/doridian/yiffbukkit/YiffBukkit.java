@@ -62,6 +62,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * YiffBukkit
@@ -124,7 +126,7 @@ public class YiffBukkit extends JavaPlugin {
 		((List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "plugins")).add(permissions);
 		((HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "lookupNames")).put("Permissions", permissions);
 
-		sendConsoleMsg( "YiffBukkit started YiffBukkitPermissions!" );
+		log( "YiffBukkit started YiffBukkitPermissions!" );
 		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
 	}
 
@@ -132,7 +134,7 @@ public class YiffBukkit extends JavaPlugin {
 		if (serverSSLSocket != null)
 			serverSSLSocket.stopme();
 		remote.stopme();
-		sendConsoleMsg( "YiffBukkit is disabled!" );
+		log("YiffBukkit is disabled!" ) ;
 	}
 
 	public void setupIPC() {
@@ -140,11 +142,11 @@ public class YiffBukkit extends JavaPlugin {
 
 		worldEdit = (WorldEditPlugin) pm.getPlugin("WorldEdit");
 		if (worldEdit != null)
-			sendConsoleMsg( "YiffBukkit found WorldEdit!" );
+			log( "YiffBukkit found WorldEdit!" );
 		
 		worldGuard = (WorldGuardPlugin) pm.getPlugin("WorldGuard");
 		if (worldGuard != null)
-			sendConsoleMsg( "YiffBukkit found WorldGuard!" );
+			log( "YiffBukkit found WorldGuard!" );
 
 		/*getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 			@Override
@@ -203,7 +205,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		if (logBlock != null) {
 			logBlockConsumer = logBlock.getConsumer();
-			sendConsoleMsg( "YiffBukkit found LogBlock!" );
+			log( "YiffBukkit found LogBlock!" );
 		}
 	}
 
@@ -216,9 +218,9 @@ public class YiffBukkit extends JavaPlugin {
 		jailEngine = new JailEngine(this);
 		signSaver = new SignSaver(this);
 		//portalEngine = new PortalEngine(this);
-		sendConsoleMsg("YiffBukkit state components loaded.");
+		log("YiffBukkit state components loaded.");
 		StateContainer.loadAll();
-		sendConsoleMsg("YiffBukkit state component config loaded.");
+		log("YiffBukkit state component config loaded.");
 		chatManager = new ChatManager(this);
 
 		playerListener = new YiffBukkitPlayerListener(this);
@@ -233,15 +235,15 @@ public class YiffBukkit extends JavaPlugin {
 		chatListener = new ChatListener(this);
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 
-		sendConsoleMsg("YiffBukkit components loaded.");
+		log("YiffBukkit core components loaded.");
 		mcbans = new MCBans(this);
-		sendConsoleMsg("YiffBukkit MCBans loaded.");
+		log("YiffBukkit MCBans loaded.");
 		ircbot = new Ircbot(this).init();
-		sendConsoleMsg("YiffBukkit IRC bot loaded.");
+		log("YiffBukkit IRC bot loaded.");
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
-		sendConsoleMsg("YiffBukkit Remote loaded.");
+		log("YiffBukkit Remote loaded.");
 
 		try {
 			serverSSLSocket = new ServerSSLSocket(this);
@@ -268,7 +270,7 @@ public class YiffBukkit extends JavaPlugin {
 			}
 		}, 1000, 200);
 
-		sendConsoleMsg( "YiffBukkit is enabled!" );
+		log( "YiffBukkit is enabled!" );
 
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraft");
 		Bukkit.getMessenger().registerIncomingPluginChannel(this, "yiffcraft", new PluginMessageListener() {
@@ -303,7 +305,15 @@ public class YiffBukkit extends JavaPlugin {
 			}
 		});
 	}
+	
+	public void log(String msg) {
+		log(Level.INFO, msg);
+	}
 
+	public void log(Level level, String msg) {
+		getLogger().log(level, msg);
+	}
+	
 	public void sendConsoleMsg(String msg) {
 		sendConsoleMsg(msg, true);
 	}

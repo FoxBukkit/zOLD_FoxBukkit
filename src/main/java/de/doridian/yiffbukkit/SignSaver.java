@@ -16,6 +16,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class SignSaver extends StateContainer implements Listener {
 	private final YiffBukkit plugin;
@@ -126,7 +127,7 @@ public class SignSaver extends StateContainer implements Listener {
 		for (SignDescriptor current : saved_signs) {
 			BlockState state = current.location.getBlock().getState();
 			if (!(state instanceof Sign)) {
-				plugin.sendConsoleMsg("SignSaver: Block at "+current.location+" is not a sign.");
+				plugin.log(Level.WARNING, "SignSaver: Block at " + current.location + " is not a sign.");
 				continue;
 			}
 

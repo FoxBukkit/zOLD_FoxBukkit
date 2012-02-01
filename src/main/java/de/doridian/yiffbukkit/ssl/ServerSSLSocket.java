@@ -15,6 +15,7 @@ import java.net.InetAddress;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class ServerSSLSocket extends Thread {
 	private YiffBukkit plugin;
@@ -34,7 +35,7 @@ public class ServerSSLSocket extends Thread {
 		int sslport = Integer.valueOf(Configuration.getValue("server-ssl-port", "25566"));
 		listenerSocket = (SSLServerSocket)SSLConnector.allTrustingSocketFactory.createServerSocket(sslport);
 		listenerSocket.setUseClientMode(true);
-		plugin.sendConsoleMsg("Bound SSL to " + sslport);
+		plugin.log(Level.INFO, "Bound SSL to " + sslport);
 		sslPlayerListener = new SSLPlayerListener(plugin);
 	}
 
