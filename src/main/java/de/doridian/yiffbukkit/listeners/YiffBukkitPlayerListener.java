@@ -125,7 +125,7 @@ public class YiffBukkitPlayerListener implements Listener {
 		final String[] fileList;
 
 		String packageName = baseClass.getPackage().getName();
-		if (file.isDirectory()) {
+		if (file.isDirectory() || (file.isFile() && !file.getName().endsWith(".jar"))) {
 			String packageFolderName = "/"+packageName.replace('.','/');
 
 			URL url = baseClass.getResource(packageFolderName);
