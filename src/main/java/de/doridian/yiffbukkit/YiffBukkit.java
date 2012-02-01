@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
@@ -18,7 +17,6 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitVehicleListener;
-import de.doridian.yiffbukkit.mcbans.ClientBlacklist;
 import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
@@ -43,7 +41,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.PluginProfiler;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -63,7 +60,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * YiffBukkit
@@ -107,7 +103,6 @@ public class YiffBukkit extends JavaPlugin {
 	public WorldEditPlugin worldEdit;
 	public DynmapPlugin dynmap;
 	public Consumer logBlockConsumer;
-	public WorldGuardPlugin worldGuard;
 
 	public ServerSSLSocket serverSSLSocket;
 
@@ -126,7 +121,7 @@ public class YiffBukkit extends JavaPlugin {
 		((List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "plugins")).add(permissions);
 		((HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "lookupNames")).put("Permissions", permissions);
 
-		log( "YiffBukkit started YiffBukkitPermissions!" );
+		log( "Started YiffBukkitPermissions!" );
 		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
 	}
 
@@ -134,7 +129,7 @@ public class YiffBukkit extends JavaPlugin {
 		if (serverSSLSocket != null)
 			serverSSLSocket.stopme();
 		remote.stopme();
-		log("YiffBukkit is disabled!" ) ;
+		log("Plugin disabled!" ) ;
 	}
 
 	public void setupIPC() {
@@ -142,24 +137,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		worldEdit = (WorldEditPlugin) pm.getPlugin("WorldEdit");
 		if (worldEdit != null)
-			log( "YiffBukkit found WorldEdit!" );
-		
-		worldGuard = (WorldGuardPlugin) pm.getPlugin("WorldGuard");
-		if (worldGuard != null)
-			log( "YiffBukkit found WorldGuard!" );
-
-		/*getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("=============================================================");
-				System.out.println("Last tick took: " + PluginProfiler.getLastTickTotalTime() / 1E6D + "ms");
-				HashMap<Plugin, Long> plugins = PluginProfiler.getLastTickPluginTimes();
-				for(Map.Entry<Plugin, Long> pluginEntry : plugins.entrySet()) {
-					System.out.println(pluginEntry.getKey().getDescription().getName() + " took " + pluginEntry.getValue() / 1E6D + "ms");
-				}
-				System.out.println("=============================================================");
-			}
-		}, 1, 20);*/
+			log( "Found WorldEdit!" );
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
@@ -205,7 +183,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		if (logBlock != null) {
 			logBlockConsumer = logBlock.getConsumer();
-			log( "YiffBukkit found LogBlock!" );
+			log( "Found LogBlock!" );
 		}
 	}
 
@@ -218,9 +196,9 @@ public class YiffBukkit extends JavaPlugin {
 		jailEngine = new JailEngine(this);
 		signSaver = new SignSaver(this);
 		//portalEngine = new PortalEngine(this);
-		log("YiffBukkit state components loaded.");
+		log("State components loaded.");
 		StateContainer.loadAll();
-		log("YiffBukkit state component config loaded.");
+		log("State component config loaded.");
 		chatManager = new ChatManager(this);
 
 		playerListener = new YiffBukkitPlayerListener(this);
@@ -235,15 +213,15 @@ public class YiffBukkit extends JavaPlugin {
 		chatListener = new ChatListener(this);
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 
-		log("YiffBukkit core components loaded.");
+		log("Core components loaded.");
 		mcbans = new MCBans(this);
-		log("YiffBukkit MCBans loaded.");
+		log("MCBans loaded.");
 		ircbot = new Ircbot(this).init();
-		log("YiffBukkit IRC bot loaded.");
+		log("IRC bot loaded.");
 
 		remote = new YiffBukkitRemote(this, playerListener);
 		remote.start();
-		log("YiffBukkit Remote loaded.");
+		log("Remote loaded.");
 
 		try {
 			serverSSLSocket = new ServerSSLSocket(this);
@@ -270,7 +248,7 @@ public class YiffBukkit extends JavaPlugin {
 			}
 		}, 1000, 200);
 
-		log( "YiffBukkit is enabled!" );
+		log( "Plugin enabled!" );
 
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraft");
 		Bukkit.getMessenger().registerIncomingPluginChannel(this, "yiffcraft", new PluginMessageListener() {
