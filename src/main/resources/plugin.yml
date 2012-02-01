@@ -4,7 +4,7 @@ version: 1.0.0
 depend: [WorldEdit, Spout]
 softdepend: [dynmap, LogBlock]
 commands:
-    rawlist:
+    list:
         description: Outputs a list with player names rather than display names
         permission: yiffbukkit.no_one_has_this_ever
         usage: /<command>
