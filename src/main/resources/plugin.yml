@@ -1,6 +1,8 @@
 name: YiffBukkit
 main: de.doridian.yiffbukkit.YiffBukkit
 version: 1.3.3.7
+depend: [WorldEdit, WorldGuard, LogBlock, Spout]
+softdepend: [dynmap]
 commands:
     rawlist:
         description: Outputs a list with player names rather than display names

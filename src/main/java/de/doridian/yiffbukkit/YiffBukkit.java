@@ -162,35 +162,39 @@ public class YiffBukkit extends JavaPlugin {
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {
-				dynmap = (DynmapPlugin) getServer().getPluginManager().getPlugin("dynmap");
-				if (dynmap == null)
-					return;
+				try {
+					dynmap = (DynmapPlugin) getServer().getPluginManager().getPlugin("dynmap");
+					if (dynmap == null)
+						return;
 
-				Event<?> event = dynmap.events.events.get("webchat");
+					Event<?> event = dynmap.events.events.get("webchat");
 
-				// listeners = event.listeners;
-				List<Event.Listener<ChatEvent>> listeners = Utils.getPrivateValue(Event.class, event, "listeners");
-				if (listeners == null)
-					return;
+					// listeners = event.listeners;
+					List<Event.Listener<ChatEvent>> listeners = Utils.getPrivateValue(Event.class, event, "listeners");
+					if (listeners == null)
+						return;
 
-				// Remove the old listener
-				for (Iterator<Listener<ChatEvent>> it = listeners.iterator(); it.hasNext(); ) {
-					Listener<ChatEvent> foo = it.next();
-					if (!foo.getClass().getEnclosingClass().equals(SimpleWebChatComponent.class))
-						continue;
+					// Remove the old listener
+					for (Iterator<Listener<ChatEvent>> it = listeners.iterator(); it.hasNext(); ) {
+						Listener<ChatEvent> foo = it.next();
+						if (!foo.getClass().getEnclosingClass().equals(SimpleWebChatComponent.class))
+							continue;
 
-					it.remove();
-				}
-
-				listeners.add(new Listener<ChatEvent>() {
-					@Override
-					public void triggered(ChatEvent t) {
-						String name = t.name.replace('\u00a7','$');
-						name = playerHelper.getPlayerNameByIP(name);
-						ircbot.sendToChannel("[WEB] " + name + ": " + t.message.replace('\u00a7','$'));
-						getServer().broadcast(Server.BROADCAST_CHANNEL_USERS, "[WEB]" + name + ": " + t.message.replace('\u00a7','$'));
+						it.remove();
 					}
-				});
+
+					listeners.add(new Listener<ChatEvent>() {
+						@Override
+						public void triggered(ChatEvent t) {
+							String name = t.name.replace('\u00a7','$');
+							name = playerHelper.getPlayerNameByIP(name);
+							ircbot.sendToChannel("[WEB] " + name + ": " + t.message.replace('\u00a7','$'));
+							getServer().broadcast(Server.BROADCAST_CHANNEL_USERS, "[WEB]" + name + ": " + t.message.replace('\u00a7','$'));
+						}
+					});
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
