@@ -6,6 +6,7 @@ import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.doridian.yiffbukkit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.plugin.Plugin;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,9 +15,13 @@ import java.util.HashSet;
 
 public class MCBansBlockLoggerLogBlock extends MCBansBlockLogger {
 	LogBlock lb;
-	public MCBansBlockLoggerLogBlock(YiffBukkit plug) {
+	public MCBansBlockLoggerLogBlock(YiffBukkit plug) throws Exception {
 		super(plug);
-		lb = (LogBlock)plugin.getServer().getPluginManager().getPlugin("LogBlock");
+		Plugin tmp = plugin.getServer().getPluginManager().getPlugin("LogBlock");
+		if(tmp == null) {
+			throw new Exception("LogBlock not found!");
+		}
+		lb = (LogBlock)tmp;
 	}
 	
 	@Override

@@ -22,7 +22,9 @@ public class MCBans {
 		plugin = plug;
 		playerListener = new MCBansPlayerListener(plug);
 		keyListener = new MCBansKeyListener(plug);
-		logger = new MCBansBlockLoggerLogBlock(plug);
+		try {
+			logger = new MCBansBlockLoggerLogBlock(plug);
+		} catch(Exception e) { }
 		clientBlacklist = new ClientBlacklist(plug);
 	}
 
@@ -139,7 +141,7 @@ public class MCBans {
 	}
 
 	public long evidence(final CommandSender from, final String ply, World world) {
-		if (world == null) return 0;
+		if (world == null || logger == null) return 0;
 		String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
 		JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
 		long proofID = (Long)ret.get("value");

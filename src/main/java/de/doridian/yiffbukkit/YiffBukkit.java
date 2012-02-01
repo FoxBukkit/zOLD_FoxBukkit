@@ -163,9 +163,10 @@ public class YiffBukkit extends JavaPlugin {
 			@Override
 			public void run() {
 				try {
-					dynmap = (DynmapPlugin) getServer().getPluginManager().getPlugin("dynmap");
-					if (dynmap == null)
+					Plugin tmp = getServer().getPluginManager().getPlugin("dynmap");
+					if (tmp == null)
 						return;
+					dynmap = (DynmapPlugin)tmp;
 
 					Event<?> event = dynmap.events.events.get("webchat");
 
