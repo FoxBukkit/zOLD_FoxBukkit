@@ -4,7 +4,6 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
-import de.doridian.yiffbukkit.advertisement.AdvertismentSigns;
 import de.doridian.yiffbukkit.chat.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.commands.ICommand;
@@ -18,7 +17,6 @@ import de.doridian.yiffbukkit.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.listeners.YiffBukkitVehicleListener;
 import de.doridian.yiffbukkit.mcbans.MCBans;
-import de.doridian.yiffbukkit.noexplode.NoExplode;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
@@ -89,7 +87,6 @@ public class YiffBukkit extends JavaPlugin {
 	public PlayerHelper playerHelper = null;
 	public final Utils utils = new Utils(this);
 	public final SpawnUtils spawnUtils = new SpawnUtils(this);
-	public AdvertismentSigns adHandler;
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
 	public SignSaver signSaver;
@@ -190,7 +187,6 @@ public class YiffBukkit extends JavaPlugin {
 	public void onEnable() {
 		setupIPC();
 
-		new NoExplode(this);
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
@@ -209,7 +205,6 @@ public class YiffBukkit extends JavaPlugin {
 		signPortalPlayerListener = new SignPortalPlayerListener(this);
 		vanish = new Vanish(this);
 		transmute = new Transmute(this);
-		adHandler = new AdvertismentSigns(this);
 		chatListener = new ChatListener(this);
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 
