@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.remote;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.listeners.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkit.util.Configuration;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.main.util.Configuration;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 

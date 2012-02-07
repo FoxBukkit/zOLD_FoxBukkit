@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.ssl;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Configuration;
-import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.NetLoginHandler;
 import net.minecraft.server.NetworkListenThread;

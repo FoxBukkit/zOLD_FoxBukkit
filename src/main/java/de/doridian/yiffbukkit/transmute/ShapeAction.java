@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import org.bukkit.entity.Player;
 
 public interface ShapeAction {

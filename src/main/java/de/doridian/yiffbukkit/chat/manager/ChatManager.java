@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.chat.manager;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.Packet3Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

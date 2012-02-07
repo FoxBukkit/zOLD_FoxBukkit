@@ -1,5 +1,5 @@
 name: YiffBukkit
-main: de.doridian.yiffbukkit.YiffBukkit
+main: de.doridian.yiffbukkit.main.YiffBukkit
 version: 1.0.0
 depend: [WorldEdit, Spout]
 softdepend: [dynmap, LogBlock]

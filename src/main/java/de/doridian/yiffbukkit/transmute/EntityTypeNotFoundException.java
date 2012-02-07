@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
+import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 
 public class EntityTypeNotFoundException extends YiffBukkitCommandException {
 	private static final long serialVersionUID = 1L;

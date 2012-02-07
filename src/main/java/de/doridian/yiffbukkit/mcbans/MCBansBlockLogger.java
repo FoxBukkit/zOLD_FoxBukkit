@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;

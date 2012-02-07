@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.warp;
 
-import de.doridian.yiffbukkit.StateContainer;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Ini;
+import de.doridian.yiffbukkitsplit.StateContainer;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.util.Ini;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 

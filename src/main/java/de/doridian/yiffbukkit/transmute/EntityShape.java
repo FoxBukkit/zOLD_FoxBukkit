@@ -2,9 +2,9 @@ package de.doridian.yiffbukkit.transmute;
 
 import com.sk89q.worldedit.blocks.BlockType;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.util.PlayerHelper;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet28EntityVelocity;

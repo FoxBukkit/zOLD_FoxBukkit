@@ -1,17 +1,12 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Utils;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.getspout.spout.packet.CustomPacket;
-import org.getspout.spout.player.SpoutCraftPlayer;
-import org.getspout.spoutapi.event.spout.SpoutCraftEnableEvent;
 import org.getspout.spoutapi.packet.PacketFullVersion;
-import org.getspout.spoutapi.packet.SpoutPacket;
-import org.getspout.spoutapi.packet.listener.Listener;
-import org.getspout.spoutapi.packet.listener.Listeners;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;

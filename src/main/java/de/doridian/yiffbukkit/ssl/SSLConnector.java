@@ -1,14 +1,9 @@
 package de.doridian.yiffbukkit.ssl;
 
-import de.doridian.yiffbukkit.util.Configuration;
-
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.FileInputStream;
-import java.security.KeyStore;
 
 public class SSLConnector {
     public static SSLServerSocketFactory allTrustingSocketFactory;

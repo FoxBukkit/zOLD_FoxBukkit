@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.permissions;
 
 import com.nijiko.permissions.PermissionHandler;
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.config.ConfigFileReader;
-import de.doridian.yiffbukkit.config.ConfigFileWriter;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.config.ConfigFileReader;
+import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;

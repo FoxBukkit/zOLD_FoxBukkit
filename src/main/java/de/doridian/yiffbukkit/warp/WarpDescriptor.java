@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.warp;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Ini;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.util.Ini;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -53,7 +53,7 @@ public class WarpDescriptor {
 		int playerLevel = plugin.playerHelper.getPlayerLevel(playerName);
 		int ownerLevel = plugin.playerHelper.getPlayerLevel(ownerName);
 
-		if (playerLevel > ownerLevel && plugin.permissionHandler.has(commandSender, "yiffbukkit.warp.override"))
+		if (playerLevel > ownerLevel && plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.warp.override"))
 			return 3;
 
 		if (ranks.containsKey(playerName))

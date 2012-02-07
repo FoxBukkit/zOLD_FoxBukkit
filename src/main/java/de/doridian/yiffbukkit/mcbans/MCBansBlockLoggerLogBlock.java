@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.mcbans;
 import de.diddiz.LogBlock.LogBlock;
 import de.diddiz.LogBlock.QueryParams;
 import de.diddiz.LogBlock.QueryParams.BlockChangeType;
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;

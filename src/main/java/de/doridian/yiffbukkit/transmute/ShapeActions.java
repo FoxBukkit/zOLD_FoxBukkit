@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
-import de.doridian.yiffbukkit.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.commands.GiveCommand;
+import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
+import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.EnumArt;
@@ -52,7 +52,7 @@ final class ShapeActions {
 						colorName = materialName.substring(colonPos+1);
 						materialName = materialName.substring(0, colonPos);
 					}
-					final Material material = de.doridian.yiffbukkit.commands.GiveCommand.matchMaterial(materialName);
+					final Material material = GiveCommand.matchMaterial(materialName);
 					if (material == null) {
 						throw new YiffBukkitCommandException("Material "+materialName+" not found");
 					}

@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.irc;
 
-import de.doridian.yiffbukkit.YiffBukkit;
-import de.doridian.yiffbukkit.util.Configuration;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.util.Configuration;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 
@@ -80,14 +80,14 @@ public class Ircbot extends PircBot implements Runnable {
 		if(channel.equals(PUBLICCHANNEL))
 			plugin.getServer().broadcastMessage("\u00a7a[+] \u00a7e" + sender + "@IRC\u00a7e joined!");
 		else if(channel.equals(STAFFCHANNEL))
-			plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a7a[+] \u00a7e" + sender + "@IRC\u00a7e joined!", "yiffbukkit.opchat");
+			plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a7a[+] \u00a7e" + sender + "@IRC\u00a7e joined!", "yiffbukkitsplit.opchat");
 	}
 
 	public void onPart(String channel, String sender, String login, String hostname) {
 		if(channel.equals(PUBLICCHANNEL))
 			plugin.getServer().broadcastMessage("\u00a7c[-] \u00a7e" + sender + "@IRC\u00a7e left!");
 		else if(channel.equals(STAFFCHANNEL))
-			plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a7c[-] \u00a7e" + sender + "@IRC\u00a7e left!", "yiffbukkit.opchat");
+			plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a7c[-] \u00a7e" + sender + "@IRC\u00a7e left!", "yiffbukkitsplit.opchat");
 	}
 
 	public void onQuit(String sender, String login, String hostname, String reason) {
@@ -113,7 +113,7 @@ public class Ircbot extends PircBot implements Runnable {
 		if(channel.equals(PUBLICCHANNEL))
 			plugin.getServer().broadcastMessage("\u00a7c[-] \u00a7e" + recipientNick + "@IRC\u00a7e was kicked (" + reason + ")!");
 		else if(channel.equals(STAFFCHANNEL))
-			plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a7c[-] \u00a7e" + recipientNick + "@IRC\u00a7e was kicked (" + reason + ")!", "yiffbukkit.opchat");
+			plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a7c[-] \u00a7e" + recipientNick + "@IRC\u00a7e was kicked (" + reason + ")!", "yiffbukkitsplit.opchat");
 	}
 	
 	public void onDeop(String channel, String sourceNick, String sourceLogin, String sourceHostname, String recipient) {
@@ -132,9 +132,9 @@ public class Ircbot extends PircBot implements Runnable {
 				plugin.getServer().broadcastMessage("\u00a77" + sender + "@IRC\u00a7f: " + message);
 		else if(channel.equals(STAFFCHANNEL))
 			if(this.getUser(sender,channel).isOp())
-				plugin.playerHelper.broadcastMessage("\u00a7e[#OP] \u00a7f@\u00a75" + sender + "@IRC\u00a7f: " + message, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("\u00a7e[#OP] \u00a7f@\u00a75" + sender + "@IRC\u00a7f: " + message, "yiffbukkitsplit.opchat");
 			else
-				plugin.playerHelper.broadcastMessage("\u00a7e[#OP] \u00a7f" + sender + "@IRC\u00a7f: " + message, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("\u00a7e[#OP] \u00a7f" + sender + "@IRC\u00a7f: " + message, "yiffbukkitsplit.opchat");
 	}
 
 	public void onAction(String sender, String login, String hostname, String target, String action) {
@@ -147,9 +147,9 @@ public class Ircbot extends PircBot implements Runnable {
 				plugin.getServer().broadcastMessage("\u00a77* \u00a77" + sender + "@IRC\u00a77 " + action);
 		else if(target.equals(STAFFCHANNEL))
 			if(this.getUser(sender,target).isOp())
-				plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a77* \u00a7f@\u00a75" + sender + "@IRC\u00a77 " + action, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a77* \u00a7f@\u00a75" + sender + "@IRC\u00a77 " + action, "yiffbukkitsplit.opchat");
 			else
-				plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a77* \u00a7f" + sender + "@IRC\u00a77 " + action, "yiffbukkit.opchat");
+				plugin.playerHelper.broadcastMessage("\u00a7e[#OP]\u00a77* \u00a7f" + sender + "@IRC\u00a77 " + action, "yiffbukkitsplit.opchat");
 	}
 
 	public void onDisconnect() {

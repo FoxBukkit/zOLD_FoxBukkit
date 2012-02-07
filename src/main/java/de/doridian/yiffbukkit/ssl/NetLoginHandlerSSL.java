@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.ssl;
 
-import de.doridian.yiffbukkit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.NetLoginHandler;
 import net.minecraft.server.Packet1Login;
