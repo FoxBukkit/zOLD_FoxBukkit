@@ -1,12 +1,10 @@
 package de.doridian.yiffbukkit.permissions;
 
-import com.nijiko.permissions.PermissionHandler;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.config.Configuration;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,10 +12,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-public class YiffBukkitPermissionHandler extends PermissionHandler {
+public class YiffBukkitPermissionHandler {
+	public static final YiffBukkitPermissionHandler instance = new YiffBukkitPermissionHandler();
+
 	class GroupWorld {
 		public final String group;
 		public final String world;
@@ -49,39 +48,15 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 	
 	private String defaultWorld = "world";
 
-	@Override
 	public void setDefaultWorld(String world) {
 		defaultWorld = world;
 	}
 
-	@Override
-	public boolean loadWorld(String world) {
-		load();
-		return true;
-	}
-
-	@Override
-	public void forceLoadWorld(String world) {
-		load();
-	}
-
-	@Override
-	public boolean checkWorld(String world) {
-		return true;
-	}
-
-	@Override
 	public void load() {
 		if(loaded) return;
 		reload();
 	}
 
-	@Override
-	public void load(String world, Configuration config) {
-		load();
-	}
-
-	@Override
 	public void reload() {
 		loaded = true;
 		groupPermissions.clear();
@@ -170,72 +145,19 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		catch(Exception e) { }
 	}
 
-	@Override
-	public boolean reload(String world) {
-		reload();
-		return true;
-	}
-
-	@Override
-	public void setCache(String world, Map<String, Boolean> Cache) {
-
-	}
-
-	@Override
-	public void setCacheItem(String world, String player, String permission, boolean data) {
-
-	}
-
-	@Override
-	public Map<String, Boolean> getCache(String world) {
-		return null;
-	}
-
-	@Override
-	public boolean getCacheItem(String world, String player, String permission) {
-		return false;
-	}
-
-	@Override
-	public void removeCachedItem(String world, String player, String permission) {
-
-	}
-
-	@Override
-	public void clearCache(String world) {
-
-	}
-
-	@Override
-	public void clearAllCache() {
-
-	}
-
 	public boolean has(CommandSender commandSender, String permission) {
 		// Console can do everything
-		return (!(commandSender instanceof Player)) || permission((Player)commandSender, permission);
+		return (!(commandSender instanceof Player)) || has((Player) commandSender, permission);
 	}
 
-	@Override
 	public boolean has(Player player, String permission) {
-		return permission(player, permission);
+		return has(player.getWorld().getName(), player.getName(), permission);
 	}
 
-	@Override
 	public boolean has(String worldName, String playerName, String permission) {
-		return permission(worldName, playerName, permission);
-	}
-
-	@Override
-	public boolean permission(Player player, String permission) {
-		return permission(player.getWorld().getName(), player.getName(), permission);
-	}
-
-	@Override
-	public boolean permission(String worldName, String playerName, String permission) {
 		playerName = playerName.toLowerCase();
 		permission = permission.toLowerCase();
-		GroupWorld currentGroupWorld = new GroupWorld(getGroup(worldName, playerName), worldName);
+		GroupWorld currentGroupWorld = new GroupWorld(getGroup(playerName), worldName);
 
 		HashSet<String> currentPermissions = groupPermissions.get(currentGroupWorld);
 		if(currentPermissions == null) {
@@ -255,7 +177,7 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 			String tperm2 = tperm + ".*";
 			if(currentProhibitions != null && currentProhibitions.contains(tperm2)) { currentProhibitions.add(permission); return false; }
 			if(currentPermissions.contains(tperm2)) { currentPermissions.add(permission); return true; }
-		};
+		}
 
 		if(currentProhibitions != null && currentProhibitions.contains("*")) { currentProhibitions.add(permission); return false; }
 		if(currentPermissions.contains("*")) { currentPermissions.add(permission); return true; }
@@ -268,13 +190,8 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		return false;
 	}
 
-	public boolean permission(String playerName, String permission) {
-		return permission(defaultWorld, playerName, permission);
-	}
-
-	@Override
-	public String getGroup(String world, String name) {
-		return getGroup(name);
+	public boolean has(String playerName, String permission) {
+		return has(defaultWorld, playerName, permission);
 	}
 
 	public String getGroup(String name) {
@@ -288,133 +205,11 @@ public class YiffBukkitPermissionHandler extends PermissionHandler {
 		save();
 	}
 
-	@Override
-	public String[] getGroups(String world, String name) {
-		return new String[] { getGroup(world,name) };
-	}
-
-	@Override
 	public boolean inGroup(String world, String name, String group) {
-		return inSingleGroup(world, name, group);
-	}
-
-	@Override
-	public boolean inSingleGroup(String world, String name, String group) {
 		return getGroup(name).equalsIgnoreCase(group);
 	}
 
-	@Override
 	public boolean inGroup(String name, String group) {
 		return inGroup(defaultWorld, name, group);
-	}
-
-	@Override
-	public boolean inSingleGroup(String name, String group) {
-		return inSingleGroup(defaultWorld, name, group);
-	}
-
-	@Override
-	public String getGroupPrefix(String world, String group) {
-		return "";
-	}
-
-	@Override
-	public String getGroupSuffix(String world, String group) {
-		return "";
-	}
-
-	@Override
-	public boolean canGroupBuild(String world, String group) {
-		return true;
-	}
-
-	@Override
-	public String getGroupPermissionString(String world, String group, String permission) {
-		return "";
-	}
-
-	@Override
-	public int getGroupPermissionInteger(String world, String group, String permission) {
-		return 0;
-	}
-
-	@Override
-	public boolean getGroupPermissionBoolean(String world, String group, String permission) {
-		return false;
-	}
-
-	@Override
-	public double getGroupPermissionDouble(String world, String group, String permission) {
-		return 0;
-	}
-
-	@Override
-	public String getUserPermissionString(String world, String name, String permission) {
-		return null;
-	}
-
-	@Override
-	public int getUserPermissionInteger(String world, String name, String permission) {
-		return 0;
-	}
-
-	@Override
-	public boolean getUserPermissionBoolean(String world, String name, String permission) {
-		return false;
-	}
-
-	@Override
-	public double getUserPermissionDouble(String world, String name, String permission) {
-		return 0;
-	}
-
-	@Override
-	public String getPermissionString(String world, String name, String permission) {
-		return null;
-	}
-
-	@Override
-	public int getPermissionInteger(String world, String name, String permission) {
-		return 0;
-	}
-
-	@Override
-	public boolean getPermissionBoolean(String world, String name, String permission) {
-		return false;
-	}
-
-	@Override
-	public double getPermissionDouble(String world, String name, String permission) {
-		return 0;
-	}
-
-	@Override
-	public void addGroupInfo(String world, String group, String node, Object data) {
-
-	}
-
-	@Override
-	public void removeGroupInfo(String world, String group, String node) {
-
-	}
-
-	@Override
-	public void addUserPermission(String world, String user, String node) {
-
-	}
-
-	@Override
-	public void removeUserPermission(String world, String user, String node) {
-
-	}
-
-	@Override
-	public void save(String world) {
-
-	}
-
-	@Override
-	public void saveAll() {
-
 	}
 }

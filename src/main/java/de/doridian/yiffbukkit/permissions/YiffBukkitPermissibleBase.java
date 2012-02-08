@@ -1,7 +1,5 @@
 package de.doridian.yiffbukkit.permissions;
 
-import com.nijiko.permissions.PermissionHandler;
-import com.nijikokun.bukkit.Permissions.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -14,17 +12,18 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.Plugin;
 
+import java.security.Permissions;
 import java.util.HashSet;
 import java.util.Set;
 
 public class YiffBukkitPermissibleBase implements Permissible {
 	private Permissible parent = this;
 	private CommandSender parentC = null;
-	private PermissionHandler handler;
 	private ServerOperator opable = null;
-	
+
+	private YiffBukkitPermissionHandler handler;
 	private void __init() {
-		handler = Permissions.Security;
+		handler = YiffBukkitPermissionHandler.instance;
 	}
 	private void __init_end() {
 		if(this.parent == null) return;

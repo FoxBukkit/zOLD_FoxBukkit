@@ -46,7 +46,7 @@ public abstract class ICommand {
 	}
 
 	private ICommand(YiffBukkitPlayerListener playerListener) {
-		plugin = playerListener.plugin;
+		plugin = YiffBukkit.instance;
 		playerHelper = plugin.playerHelper;
 
 		if (this.getClass().getAnnotation(Disabled.class) != null)

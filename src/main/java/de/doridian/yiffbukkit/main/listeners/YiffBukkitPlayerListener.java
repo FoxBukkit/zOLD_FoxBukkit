@@ -58,22 +58,10 @@ import java.util.regex.Pattern;
  * Handle events for all Player related events
  * @author Doridian
  */
-public class YiffBukkitPlayerListener implements Listener {
-	public final YiffBukkit plugin;
-	private final PlayerHelper playerHelper;
-	private YiffBukkitPermissionHandler permissionHandler;
-
-	public YiffBukkitPlayerListener(YiffBukkit plug) {
-		plugin = plug;
-		plugin.playerListener = this;
-		playerHelper = plugin.playerHelper;
-		permissionHandler = plugin.permissionHandler;
-
+public class YiffBukkitPlayerListener extends BaseListener {
+	public YiffBukkitPlayerListener() {
+		super();
 		scanCommands();
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
-		IPGeolocation.initialize();
 	}
 
 	public void scanCommands() {
@@ -497,40 +485,6 @@ public class YiffBukkitPlayerListener implements Listener {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
-		ItemStack item = event.getItemStack();
-		Material itemMaterial = item.getType();
-		if(itemMaterial == Material.AIR) return;
-
-		Player ply = event.getPlayer();
-		if(playerHelper.isPlayerDisabled(ply)) {
-			item.setType(Material.GOLD_HOE);
-			item.setAmount(1);
-			item.setDurability(Short.MAX_VALUE);
-			return;
-		}
-
-		if (!permissionHandler.has(ply, "yiffbukkitsplit.place")) {
-			plugin.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
-			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
-			item.setType(Material.GOLD_HOE);
-			item.setAmount(1);
-			item.setDurability(Short.MAX_VALUE);
-			return;
-		}
-
-		final String permission = YiffBukkitBlockListener.blocklevels.get(itemMaterial);
-		if (permission != null && !permissionHandler.has(ply, permission)) {
-			plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn illegal block " + itemMaterial);
-			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
-			item.setType(Material.GOLD_HOE);
-			item.setAmount(1);
-			item.setDurability(Short.MAX_VALUE);
-			return;
 		}
 	}
 

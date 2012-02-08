@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkitsplit;
 
-import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
@@ -91,7 +90,6 @@ public class YiffBukkit extends JavaPlugin {
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 
-	public Permissions permissions;
 	public YiffBukkitPermissionHandler permissionHandler;
 	public MCBans mcbans;
 	public Ircbot ircbot;
@@ -105,19 +103,6 @@ public class YiffBukkit extends JavaPlugin {
 
 	public YiffBukkit() {
 		instance = this;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public void onLoad() {
-		final SimplePluginManager pm = (SimplePluginManager)getServer().getPluginManager();
-		permissions = new Permissions(this,this.getClassLoader(),this.getFile());
-
-		((List<Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "plugins")).add(permissions);
-		((HashMap<String,Plugin>)Utils.getPrivateValue(SimplePluginManager.class, pm, "lookupNames")).put("Permissions", permissions);
-
-		log( "Started YiffBukkitPermissions!" );
-		permissionHandler = (YiffBukkitPermissionHandler)permissions.getHandler();
 	}
 
 	public void onDisable() {
@@ -194,7 +179,7 @@ public class YiffBukkit extends JavaPlugin {
 		log("State component config loaded.");
 		chatManager = new ChatManager(this);
 
-		playerListener = new YiffBukkitPlayerListener(this);
+		playerListener = new YiffBukkitPlayerListener();
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
