@@ -2,11 +2,11 @@ package de.doridian.yiffbukkitsplit.listeners;
 
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import de.doridian.yiffbukkitsplit.util.Utils;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import org.bukkit.Material;

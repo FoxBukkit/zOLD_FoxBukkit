@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.main.util;
 
 import org.bukkit.entity.Player;
 

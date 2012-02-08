@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
 
-import de.doridian.yiffbukkitsplit.util.Utils;
+import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet24MobSpawn;
 import org.bukkit.Location;

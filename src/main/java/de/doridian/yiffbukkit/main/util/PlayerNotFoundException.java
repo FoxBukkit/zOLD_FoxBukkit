@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.main.util;
 
 public class PlayerNotFoundException extends PlayerFindException {
 	private static final long serialVersionUID = 1L;

@@ -5,7 +5,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
-import de.doridian.yiffbukkitsplit.util.Utils;
+import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet54PlayNoteBlock;

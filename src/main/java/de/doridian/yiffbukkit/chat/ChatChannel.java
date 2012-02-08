@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.chat;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.util.PlayerNotFoundException;
+import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import org.bukkit.entity.Player;
 
 import java.io.Serializable;

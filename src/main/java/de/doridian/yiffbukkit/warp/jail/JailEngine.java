@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.warp.jail;
 
 import de.doridian.yiffbukkit.main.StateContainer;
+import de.doridian.yiffbukkit.main.util.Ini;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.Ini;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

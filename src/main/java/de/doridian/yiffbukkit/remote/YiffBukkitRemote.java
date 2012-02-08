@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.remote;
 
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
+import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.Configuration;
 import org.bukkit.command.CommandSender;
 
 import java.net.InetAddress;

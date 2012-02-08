@@ -10,7 +10,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkitsplit.util.Utils;
+import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.Packet10Flying;
 import org.bukkit.Location;
 import org.bukkit.Material;

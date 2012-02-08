@@ -3,12 +3,12 @@ package de.doridian.yiffbukkit.fun.commands;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkitsplit.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public class CompassCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (args.length == 0) {
 			final float yaw = ply.getLocation().getYaw();
-			playerHelper.sendDirectedMessage(ply, "Direction: "+Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
+			playerHelper.sendDirectedMessage(ply, "Direction: "+ Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
 			return;
 		}
 

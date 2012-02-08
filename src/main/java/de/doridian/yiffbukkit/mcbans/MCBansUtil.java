@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import de.doridian.yiffbukkitsplit.util.Configuration;
+import de.doridian.yiffbukkit.main.util.Configuration;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 

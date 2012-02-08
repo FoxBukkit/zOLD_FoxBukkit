@@ -6,7 +6,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkitsplit.util.PlayerFindException;
+import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import org.bukkit.entity.Player;
 
 @Names({"summon", "tphere"})

@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
-import de.doridian.yiffbukkitsplit.util.Utils;
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.Packet10Flying;
 import net.minecraft.server.Packet1Login;

@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.mcbans;
 
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
@@ -37,7 +37,7 @@ public class ClientBlacklist extends PacketListener {
 		CustomPacket cpacket = (CustomPacket)opacket;
 		if(!(cpacket.packet instanceof PacketFullVersion)) return true;
 		PacketFullVersion vpacket = (PacketFullVersion)cpacket.packet;
-		String version = (String)Utils.getPrivateValue(PacketFullVersion.class, vpacket, "versionString");
+		String version = (String) Utils.getPrivateValue(PacketFullVersion.class, vpacket, "versionString");
 
 		for(Pattern pattern : disallowedClients) {
 			if(pattern.matcher(version).matches()) {
