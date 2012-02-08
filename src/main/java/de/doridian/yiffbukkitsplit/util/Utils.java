@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.main.util;
+package de.doridian.yiffbukkitsplit.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;

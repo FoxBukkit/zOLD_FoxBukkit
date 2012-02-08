@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.warp;
 
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 
 public class WarpException extends YiffBukkitCommandException {
 	private static final long serialVersionUID = 1L;

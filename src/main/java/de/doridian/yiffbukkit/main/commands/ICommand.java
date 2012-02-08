@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.main.commands;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TCharObjectMap;
 import gnu.trove.map.hash.TCharObjectHashMap;
 import gnu.trove.set.TCharSet;

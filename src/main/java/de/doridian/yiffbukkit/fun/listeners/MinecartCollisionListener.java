@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.listeners;
+package de.doridian.yiffbukkit.fun.listeners;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.entity.Entity;
@@ -11,10 +11,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
-public class YiffBukkitVehicleListener implements Listener {
+public class MinecartCollisionListener implements Listener {
 	private YiffBukkit plugin;
 
-	public YiffBukkitVehicleListener(YiffBukkit instance) {
+	public MinecartCollisionListener(YiffBukkit instance) {
 		plugin = instance;
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);

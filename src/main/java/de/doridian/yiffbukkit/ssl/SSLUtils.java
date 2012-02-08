@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.ssl;
 
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;

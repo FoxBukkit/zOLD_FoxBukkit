@@ -1,9 +1,9 @@
-package de.doridian.yiffbukkit.main.util;
+package de.doridian.yiffbukkitsplit.util;
 
+import de.doridian.yiffbukkit.main.PermissionDeniedException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkitsplit.PermissionDeniedException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;

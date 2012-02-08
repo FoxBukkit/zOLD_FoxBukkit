@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.main.commands;
 
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;

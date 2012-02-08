@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.chat;
 
-import de.doridian.yiffbukkitsplit.PermissionDeniedException;
-import de.doridian.yiffbukkitsplit.StateContainer;
+import de.doridian.yiffbukkit.main.PermissionDeniedException;
+import de.doridian.yiffbukkit.main.StateContainer;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import org.bukkit.entity.Player;
 import org.dynmap.Client;
 

@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityEgg;
 import net.minecraft.server.EntityEnderDragon;

@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.EnumArt;

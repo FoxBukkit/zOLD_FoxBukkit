@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.main.offlinebukkit;
 
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Achievement;
 import org.bukkit.Effect;
 import org.bukkit.EntityEffect;

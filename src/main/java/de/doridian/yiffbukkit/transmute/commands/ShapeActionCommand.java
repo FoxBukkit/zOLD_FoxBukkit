@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.transmute.commands;
 
+import de.doridian.yiffbukkit.main.PermissionDeniedException;
+import de.doridian.yiffbukkit.main.ToolBind;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
-import de.doridian.yiffbukkitsplit.PermissionDeniedException;
-import de.doridian.yiffbukkitsplit.ToolBind;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;

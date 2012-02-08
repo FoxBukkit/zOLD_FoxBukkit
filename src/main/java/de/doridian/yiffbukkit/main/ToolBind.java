@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit;
+package de.doridian.yiffbukkit.main;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

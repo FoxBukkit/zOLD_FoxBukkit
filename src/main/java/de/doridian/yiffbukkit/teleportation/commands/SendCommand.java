@@ -1,12 +1,12 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkitsplit.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkit.main.util.PlayerFindException;
+import de.doridian.yiffbukkitsplit.util.PlayerFindException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

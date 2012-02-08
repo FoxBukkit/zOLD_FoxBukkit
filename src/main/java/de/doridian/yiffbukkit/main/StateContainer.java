@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit;
+package de.doridian.yiffbukkit.main;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.main.commands;
 
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashSet;

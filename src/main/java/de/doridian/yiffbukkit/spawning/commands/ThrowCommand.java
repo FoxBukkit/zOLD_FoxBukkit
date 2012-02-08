@@ -1,9 +1,8 @@
 package de.doridian.yiffbukkit.spawning.commands;
 
+import de.doridian.yiffbukkit.main.ToolBind;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
-import de.doridian.yiffbukkitsplit.ToolBind;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
@@ -11,7 +10,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import net.minecraft.server.Packet10Flying;
 import org.bukkit.Location;
 import org.bukkit.Material;

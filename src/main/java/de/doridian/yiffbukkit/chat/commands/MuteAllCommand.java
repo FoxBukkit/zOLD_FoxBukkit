@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.chat.commands;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

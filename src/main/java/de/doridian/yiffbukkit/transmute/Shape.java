@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import net.minecraft.server.Block;
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.EntityArrow;

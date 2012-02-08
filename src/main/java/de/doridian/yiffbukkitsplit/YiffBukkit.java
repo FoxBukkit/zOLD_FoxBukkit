@@ -4,19 +4,20 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
+import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.chat.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
+import de.doridian.yiffbukkit.fun.listeners.MinecartCollisionListener;
+import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.ICommand;
+import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.warp.jail.JailEngine;
-import de.doridian.yiffbukkitsplit.listeners.SignPortalPlayerListener;
+import de.doridian.yiffbukkit.warp.portals.SignPortalPlayerListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitPacketListener;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitVehicleListener;
 import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.warp.portals.PortalEngine;
@@ -24,11 +25,10 @@ import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
 import de.doridian.yiffbukkit.transmute.Transmute;
-import de.doridian.yiffbukkit.main.util.Configuration;
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
-import de.doridian.yiffbukkit.main.util.SpawnUtils;
-import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.vanish.Vanish;
+import de.doridian.yiffbukkitsplit.util.Configuration;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.SpawnUtils;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -73,7 +73,7 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
 	@SuppressWarnings("unused")
-	private YiffBukkitVehicleListener yiffBukkitVehicleListener;
+	private MinecartCollisionListener minecartCollisionListener;
 	@SuppressWarnings("unused")
 	private SignPortalPlayerListener signPortalPlayerListener;
 	@SuppressWarnings("unused")
@@ -81,7 +81,6 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitConsoleCommands consoleCommands;
 
-	public Vanish vanish;
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
@@ -89,7 +88,6 @@ public class YiffBukkit extends JavaPlugin {
 	public final SpawnUtils spawnUtils = new SpawnUtils(this);
 	public WarpEngine warpEngine;
 	public JailEngine jailEngine;
-	public SignSaver signSaver;
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 
@@ -190,7 +188,6 @@ public class YiffBukkit extends JavaPlugin {
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
-		signSaver = new SignSaver(this);
 		//portalEngine = new PortalEngine(this);
 		log("State components loaded.");
 		StateContainer.loadAll();
@@ -201,9 +198,8 @@ public class YiffBukkit extends JavaPlugin {
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
-		yiffBukkitVehicleListener = new YiffBukkitVehicleListener(this);
+		minecartCollisionListener = new MinecartCollisionListener(this);
 		signPortalPlayerListener = new SignPortalPlayerListener(this);
-		vanish = new Vanish(this);
 		transmute = new Transmute(this);
 		chatListener = new ChatListener(this);
 		consoleCommands = new YiffBukkitConsoleCommands(this);

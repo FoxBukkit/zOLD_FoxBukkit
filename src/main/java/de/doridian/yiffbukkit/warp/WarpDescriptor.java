@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.warp;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkit.main.util.Ini;
+import de.doridian.yiffbukkitsplit.util.Ini;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

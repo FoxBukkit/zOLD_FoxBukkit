@@ -1,15 +1,15 @@
 package de.doridian.yiffbukkit.chat.commands;
 
+import de.doridian.yiffbukkit.main.PermissionDeniedException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkitsplit.PermissionDeniedException;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.chat.ChatChannel;
 import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import org.bukkit.entity.Player;
 
 @Names({"channel", "channels", "c"})

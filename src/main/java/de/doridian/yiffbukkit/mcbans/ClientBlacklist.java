@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.mcbans;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;

@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.listeners;
+package de.doridian.yiffbukkit.warp.portals;
 
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;

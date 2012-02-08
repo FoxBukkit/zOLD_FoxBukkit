@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet29DestroyEntity;

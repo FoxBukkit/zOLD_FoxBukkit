@@ -1,9 +1,9 @@
-package de.doridian.yiffbukkit.main.util;
+package de.doridian.yiffbukkitsplit.util;
 
+import de.doridian.yiffbukkit.main.StateContainer;
+import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
-import de.doridian.yiffbukkitsplit.StateContainer;
-import de.doridian.yiffbukkitsplit.ToolBind;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;

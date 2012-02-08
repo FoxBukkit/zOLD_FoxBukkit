@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.irc;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkitsplit.util.Configuration;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 

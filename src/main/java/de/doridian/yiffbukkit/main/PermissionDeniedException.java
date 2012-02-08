@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit;
+package de.doridian.yiffbukkit.main;
 
 public class PermissionDeniedException extends YiffBukkitCommandException {
 	private static final long serialVersionUID = 1L;

@@ -1,13 +1,13 @@
 package de.doridian.yiffbukkit.advanced.commands;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import net.minecraft.server.Packet;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

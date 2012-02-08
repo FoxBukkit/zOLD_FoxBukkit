@@ -1,6 +1,6 @@
-package de.doridian.yiffbukkit.main.util;
+package de.doridian.yiffbukkitsplit.util;
 
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 
 public class PlayerFindException extends YiffBukkitCommandException {
 	private static final long serialVersionUID = 1L;

@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.main.commands.ICommand.Level;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet100OpenWindow;
 import net.minecraft.server.Packet3Chat;

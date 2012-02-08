@@ -1,17 +1,17 @@
-package de.doridian.yiffbukkitsplit.listeners;
+package de.doridian.yiffbukkit.main.listeners;
 
+import de.doridian.yiffbukkit.main.PermissionDeniedException;
+import de.doridian.yiffbukkit.main.ToolBind;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkitsplit.PermissionDeniedException;
-import de.doridian.yiffbukkitsplit.ToolBind;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkit.main.util.IPGeolocation;
-import de.doridian.yiffbukkit.main.util.PlayerHelper;
-import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
+import de.doridian.yiffbukkitsplit.util.IPGeolocation;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -34,7 +34,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spout.player.SpoutCraftPlayer;
 
@@ -47,7 +46,6 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -75,9 +73,6 @@ public class YiffBukkitPlayerListener implements Listener {
 		scanCommands();
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new SprintFlamesTask(), 0, 8);
-		playerHelper.registerSet(sprintingPlayers);
 
 		IPGeolocation.initialize();
 	}
@@ -274,11 +269,6 @@ public class YiffBukkitPlayerListener implements Listener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		if(event.isCancelled())
 			return;
-
-		if (event.getReason().equals("You dropped your items too quickly (Hacking?)")) {
-			event.setCancelled(true);
-			return;
-		}
 
 		final Player player = event.getPlayer();
 
@@ -579,31 +569,5 @@ public class YiffBukkitPlayerListener implements Listener {
 		}
 
 		itemStack.setAmount(amount);
-	}
-
-	Set<Player> sprintingPlayers = new HashSet<Player>();
-
-	public class SprintFlamesTask implements Runnable {
-		@Override
-		public void run() {
-			for (Player player : sprintingPlayers) {
-				player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerToggleSprint(PlayerToggleSprintEvent event) {
-		Player player = event.getPlayer();
-		if (event.isSprinting()) {
-			if (plugin.vanish.isVanished(player))
-				return;
-
-			sprintingPlayers.add(player);
-			player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
-		}
-		else {
-			sprintingPlayers.remove(player);
-		}
 	}
 }
