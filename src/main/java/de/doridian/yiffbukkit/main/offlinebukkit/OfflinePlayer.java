@@ -744,4 +744,22 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	@Override
+	public void hidePlayer(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showPlayer(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean canSee(Player player) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

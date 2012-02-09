@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.chat.commands;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.AbstractPlayerStateCommand;
@@ -64,7 +65,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 		if (commandSenderLevel <= targetLevel)
 			throw new PermissionDeniedException();
 
-		if (!plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.users.mute.nonguests") && targetLevel > 0)
+		if (!FakePermissions.has(commandSender, "yiffbukkitsplit.users.mute.nonguests") && targetLevel > 0)
 			throw new PermissionDeniedException();
 
 		if (targetName.equals(commandSenderName)) {

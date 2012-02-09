@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
@@ -15,7 +16,7 @@ import org.bukkit.command.CommandSender;
 public class ReloadPermissionsCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		plugin.permissionHandler.reload();
+		FakePermissions.reload();
 		plugin.playerHelper.sendDirectedMessage(commandSender, "Permissions system reloaded!");
 	}
 }

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.transmute.commands;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -68,7 +69,7 @@ public class TransmuteCommand extends ICommand {
 
 		final String mobType = args[0];
 		if (booleanFlags.contains('e')) {
-			if (!plugin.permissionHandler.has(ply, "yiffbukkitsplit.transmute.others"))
+			if (!FakePermissions.has(ply, "yiffbukkitsplit.transmute.others"))
 				throw new PermissionDeniedException();
 
 			final Material toolType;
@@ -84,7 +85,7 @@ public class TransmuteCommand extends ICommand {
 				@Override
 				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();
-					if (!plugin.permissionHandler.has(player, "yiffbukkitsplit.transmute.others"))
+					if (!FakePermissions.has(player, "yiffbukkitsplit.transmute.others"))
 						throw new PermissionDeniedException();
 
 					final Entity entity = event.getRightClicked();

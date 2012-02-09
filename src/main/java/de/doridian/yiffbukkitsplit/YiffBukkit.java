@@ -20,7 +20,6 @@ import de.doridian.yiffbukkit.warp.portals.SignPortalPlayerListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.mcbans.MCBans;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.warp.portals.PortalEngine;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
@@ -99,7 +98,6 @@ public class YiffBukkit extends JavaPlugin {
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 
-	public YiffBukkitPermissionHandler permissionHandler;
 	public MCBans mcbans;
 	public Ircbot ircbot;
 	public WorldEditPlugin worldEdit;

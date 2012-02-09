@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -34,11 +35,11 @@ public class TpCommand extends ICommand {
 		if (!playerHelper.canTp(ply, otherply))
 			throw new PermissionDeniedException();
 
-		if (booleanFlags.contains('s') && !plugin.permissionHandler.has(ply, "yiffbukkitsplit.vanish"))
+		if (booleanFlags.contains('s') && !FakePermissions.has(ply, "yiffbukkitsplit.vanish"))
 			throw new PermissionDeniedException();
 
 		if (booleanFlags.contains('n')) {
-			if (!plugin.permissionHandler.has(ply, "yiffbukkitsplit.vanish"))
+			if (!FakePermissions.has(ply, "yiffbukkitsplit.vanish"))
 				throw new PermissionDeniedException();
 
 			final Location location = otherply.getLocation();

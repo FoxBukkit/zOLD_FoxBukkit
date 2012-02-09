@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.commands;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
@@ -42,11 +43,11 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 	@Override
 	protected void onStateChange(boolean prevState, boolean newState, String targetName, CommandSender commandSender) throws YiffBukkitCommandException {
 		if (commandSender.getName().equals(targetName)) {
-			/*if (!plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.players.god.self"))
+			/*if (!FakePermissions.has(commandSender, "yiffbukkitsplit.players.god.self"))
 				throw new PermissionDeniedException();*/
 		}
 		else {
-			if (!plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.players.god.others"))
+			if (!FakePermissions.has(commandSender, "yiffbukkitsplit.players.god.others"))
 				throw new PermissionDeniedException();
 		}
 

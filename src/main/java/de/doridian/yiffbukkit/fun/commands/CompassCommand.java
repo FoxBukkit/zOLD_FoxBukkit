@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.fun.commands;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -41,7 +42,7 @@ public class CompassCommand extends ICommand {
 		}
 
 		if ("player".equals(args[0]) || "pl".equals(args[0])) {
-			if (!plugin.permissionHandler.has(ply, "yiffbukkitsplit.compass.player"))
+			if (!FakePermissions.has(ply, "yiffbukkitsplit.compass.player"))
 				throw new PermissionDeniedException();
 
 			if (args.length < 2)

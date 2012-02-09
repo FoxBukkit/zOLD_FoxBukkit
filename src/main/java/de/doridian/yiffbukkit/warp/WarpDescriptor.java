@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.warp;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.util.Ini;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
@@ -53,7 +54,7 @@ public class WarpDescriptor {
 		int playerLevel = plugin.playerHelper.getPlayerLevel(playerName);
 		int ownerLevel = plugin.playerHelper.getPlayerLevel(ownerName);
 
-		if (playerLevel > ownerLevel && plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.warp.override"))
+		if (playerLevel > ownerLevel && FakePermissions.has(commandSender, "yiffbukkitsplit.warp.override"))
 			return 3;
 
 		if (ranks.containsKey(playerName))

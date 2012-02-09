@@ -4,6 +4,7 @@ import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.chat.ChatHelper;
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
@@ -46,10 +47,10 @@ public class SetRankCommand extends ICommand {
 		if(selflvl <= playerHelper.getRankLevel(newRank))
 			throw new PermissionDeniedException();
 		
-		if(playerHelper.getRankLevel(newRank) >= 4 && !plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.users.makestaff"))
+		if(playerHelper.getRankLevel(newRank) >= 4 && !FakePermissions.has(commandSender, "yiffbukkitsplit.users.makestaff"))
 			throw new PermissionDeniedException();
 		
-		if(playerHelper.getPlayerLevel(otherName) >= 4 && !plugin.permissionHandler.has(commandSender, "yiffbukkitsplit.users.modifystaff"))
+		if(playerHelper.getPlayerLevel(otherName) >= 4 && !FakePermissions.has(commandSender, "yiffbukkitsplit.users.modifystaff"))
 			throw new PermissionDeniedException();
 
 		playerHelper.setPlayerRank(otherName, newRank);

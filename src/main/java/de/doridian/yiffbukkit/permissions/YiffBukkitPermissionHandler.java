@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class YiffBukkitPermissionHandler {
 	public static final YiffBukkitPermissionHandler instance = new YiffBukkitPermissionHandler();
 

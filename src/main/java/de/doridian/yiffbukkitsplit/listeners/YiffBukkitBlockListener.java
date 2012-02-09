@@ -2,10 +2,11 @@ package de.doridian.yiffbukkitsplit.listeners;
 
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
+
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -75,12 +76,10 @@ public class YiffBukkitBlockListener implements Listener {
 		flammableBlocks.add(Material.LEAVES);
 	}
 	private PlayerHelper playerHelper;
-	private YiffBukkitPermissionHandler permissionHandler;
 
 	public YiffBukkitBlockListener(YiffBukkit instance) {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
-		permissionHandler = plugin.permissionHandler;
 
 		playerHelper.registerMap(torchQueues);
 
@@ -98,7 +97,7 @@ public class YiffBukkitBlockListener implements Listener {
 
 		final Block block = event.getBlock();
 		Material material = block.getType();
-		if (!permissionHandler.has(ply, "yiffbukkitsplit.place")) {
+		if (!FakePermissions.has(ply, "yiffbukkitsplit.place")) {
 			plugin.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			event.setBuild(false);
@@ -106,7 +105,7 @@ public class YiffBukkitBlockListener implements Listener {
 		}
 
 		final String permission = blocklevels.get(material);
-		if (permission != null && !permissionHandler.has(ply, permission)) {
+		if (permission != null && !FakePermissions.has(ply, permission)) {
 			plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn illegal block " + material+".");
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material+".");
 			event.setBuild(false);
@@ -114,7 +113,7 @@ public class YiffBukkitBlockListener implements Listener {
 		}
 
 		if (flammableBlocks.contains(material)) {
-			if (!permissionHandler.has(ply, "yiffbukkitsplit.place.flammablenearfire")) {
+			if (!FakePermissions.has(ply, "yiffbukkitsplit.place.flammablenearfire")) {
 				for (BlockFace face : flameSpreadDirections) {
 					Material neighborMaterial = block.getRelative(face).getType();
 					if (neighborMaterial == Material.FIRE) {

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkitsplit.util;
 
+import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
@@ -11,7 +12,6 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
@@ -211,10 +211,9 @@ public class PlayerHelper extends StateContainer {
 	 */
 	public void broadcastMessage(String msg, String permission) {
 		Player[] players = plugin.getServer().getOnlinePlayers();
-		final YiffBukkitPermissionHandler permissionHandler = plugin.permissionHandler;
 
 		for (Player player : players) {
-			if (!permissionHandler.has(player, permission))
+			if (!FakePermissions.has(player, permission))
 				continue;
 
 			player.sendMessage(msg);
@@ -262,13 +261,13 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerRank(ply.getName());
 	}
 	public String getPlayerRank(String name) {
-		name = plugin.permissionHandler.getGroup(name);
+		name = FakePermissions.getGroup(name);
 		if(name == null) name = "guest";
 		return name;
 	}
 	public void setPlayerRank(String name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
-		plugin.permissionHandler.setGroup(name, rankname);
+		FakePermissions.setGroup(name, rankname);
 
 		Player ply = plugin.getServer().getPlayerExact(name);
 		if (ply == null) return;
