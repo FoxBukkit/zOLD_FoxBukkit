@@ -33,6 +33,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.command.ColouredConsoleSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
@@ -79,6 +80,17 @@ public class YiffBukkit extends JavaPlugin {
 	private ChatListener chatListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitConsoleCommands consoleCommands;
+
+	// TEMP!
+	public class Vanish {
+		public boolean isVanished(Player player) {
+			return false;
+		}
+
+		public void vanish(Player player) {
+		}
+	}
+	public Vanish vanish = new Vanish();
 
 	public Transmute transmute;
 	private YiffBukkitRemote remote;

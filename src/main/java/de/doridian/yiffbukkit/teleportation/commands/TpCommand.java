@@ -53,11 +53,11 @@ public class TpCommand extends ICommand {
 			plugin.playerHelper.teleportWithHistory(ply, otherply);
 		}
 
-		/*if (plugin.vanish.isVanished(ply) || booleanFlags.contains('s')) {
+		if (plugin.vanish.isVanished(ply) || booleanFlags.contains('s')) {
 			playerHelper.sendServerMessage(playerName + " silently teleported to " + otherName, "yiffbukkitsplit.vanish.see");
 		}
 		else {
 			playerHelper.sendServerMessage(playerName + " teleported to " + otherName);
-		}*/
+		}
 	}
 }

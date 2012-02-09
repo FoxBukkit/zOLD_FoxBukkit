@@ -228,7 +228,7 @@ public class SpawnUtils {
 							final World world = thisBukkitEntity.getWorld();
 							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
 
-							//plugin.vanish.vanish(ICommand.asPlayer(commandSender));
+							plugin.vanish.vanish(ICommand.asPlayer(commandSender));
 
 							return true;
 						}

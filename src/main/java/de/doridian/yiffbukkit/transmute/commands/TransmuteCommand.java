@@ -60,9 +60,9 @@ public class TransmuteCommand extends ICommand {
 				playerHelper.sendDirectedMessage(ply, "Transmuted your last target back into its original shape.");
 			}
 
-			/*if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
+			if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
 				effect(target, null);
-			}*/
+			}
 			return;
 		}
 
@@ -127,9 +127,9 @@ public class TransmuteCommand extends ICommand {
 			playerHelper.sendDirectedMessage(ply, "Transmuted your last target into "+mobType+".");
 		}
 
-		/*if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
+		if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
 			effect(target, shape);
-		}*/
+		}
 	}
 
 	private void effect(Entity target, Shape shape) {

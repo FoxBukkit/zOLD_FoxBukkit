@@ -182,8 +182,8 @@ public class YiffBukkitEntityListener implements Listener {
 
 		final Player target = (Player)entTarget;
 
-		//if (!plugin.vanish.isVanished(target))
-			//return;
+		if (!plugin.vanish.isVanished(target))
+			return;
 
 		if (event.getReason() != TargetReason.CLOSEST_PLAYER) {
 			event.setCancelled(true);
@@ -195,8 +195,8 @@ public class YiffBukkitEntityListener implements Listener {
 		double minDistanceSquared = 256.0D; // 16^2
 
 		for (Player player : plugin.getServer().getOnlinePlayers()) {
-			//if (plugin.vanish.isVanished(player))
-				//continue;
+			if (plugin.vanish.isVanished(player))
+				continue;
 
 			EntityLiving notchEntity = ((CraftLivingEntity)mob).getHandle();
 			EntityHuman notchPlayer = ((CraftHumanEntity)player).getHandle();
