@@ -55,7 +55,7 @@ import java.util.regex.Pattern;
  */
 public class YiffBukkitPlayerListener extends BaseListener {
 	public YiffBukkitPlayerListener() {
-		super();
+		plugin.playerListener = this;
 		scanCommands();
 	}
 
