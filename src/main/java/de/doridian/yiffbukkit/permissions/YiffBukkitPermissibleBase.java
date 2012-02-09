@@ -12,7 +12,6 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.Plugin;
 
-import java.security.Permissions;
 import java.util.HashSet;
 import java.util.Set;
 

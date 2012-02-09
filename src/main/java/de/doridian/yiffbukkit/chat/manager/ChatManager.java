@@ -45,6 +45,7 @@ public class ChatManager {
 	public ChatManager(YiffBukkit plugin) {
 		this.plugin = plugin;
 
+		@SuppressWarnings("unused")
 		final PacketListener packetListener = new PacketListener() {
 			@Override
 			public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
