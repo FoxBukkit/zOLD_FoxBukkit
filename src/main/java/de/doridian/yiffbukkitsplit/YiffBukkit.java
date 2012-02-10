@@ -61,7 +61,8 @@ import java.util.logging.Level;
  */
 public class YiffBukkit extends JavaPlugin {
 	public static YiffBukkit instance;
-	public YiffBukkitPlayerListener playerListener;
+	@SuppressWarnings("unused")
+	private YiffBukkitPlayerListener playerListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
 	@SuppressWarnings("unused")

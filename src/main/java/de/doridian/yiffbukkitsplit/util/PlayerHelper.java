@@ -871,9 +871,9 @@ public class PlayerHelper extends StateContainer {
 			return onlinePlayer.getName();
 		}
 
-		String offlinePlayerName = plugin.playerListener.offlinePlayers.get(ip);
+		/*String offlinePlayerName = plugin.playerListener.offlinePlayers.get(ip);
 		if (offlinePlayerName != null)
-			return "\u00a77"+offlinePlayerName+"\u00a7f";
+			return "\u00a77"+offlinePlayerName+"\u00a7f";*/
 
 		return ip;
 	}
