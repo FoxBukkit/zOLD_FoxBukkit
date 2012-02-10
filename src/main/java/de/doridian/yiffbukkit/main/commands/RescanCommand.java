@@ -11,9 +11,8 @@ import org.bukkit.command.CommandSender;
 @Permission("yiffbukkitsplit.rescancommands")
 public class RescanCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr)
-	throws YiffBukkitCommandException {
-		plugin.playerListener.scanCommands();
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		plugin.commandSystem.scanCommands();
 
 		playerHelper.sendDirectedMessage(commandSender, "Rescanned YiffBukkit commands.");
 	}

@@ -17,7 +17,7 @@ public class YiffBukkitCommandExecutor implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 		if(commandSender instanceof Player) return true;
-		plugin.playerListener.runCommand(commandSender, Utils.concatArray(strings, 0, ""));
+		plugin.commandSystem.runCommand(commandSender, Utils.concatArray(strings, 0, ""));
 		return true;
 	}
 }

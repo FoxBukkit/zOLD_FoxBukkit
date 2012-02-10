@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.chat.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.fun.listeners.MinecartCollisionListener;
 import de.doridian.yiffbukkit.main.StateContainer;
+import de.doridian.yiffbukkit.main.commands.CommandSystem;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
@@ -49,7 +50,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +107,7 @@ public class YiffBukkit extends JavaPlugin {
 	public ServerSSLSocket serverSSLSocket;
 
 	public boolean serverClosed = false;
+	public CommandSystem commandSystem;
 
 	public YiffBukkit() {
 		instance = this;
@@ -186,6 +187,7 @@ public class YiffBukkit extends JavaPlugin {
 		log("State component config loaded.");
 		chatManager = new ChatManager(this);
 
+		commandSystem = new CommandSystem(this);
 		playerListener = new YiffBukkitPlayerListener();
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
@@ -202,7 +204,7 @@ public class YiffBukkit extends JavaPlugin {
 		ircbot = new Ircbot(this).init();
 		log("IRC bot loaded.");
 
-		remote = new YiffBukkitRemote(this, playerListener);
+		remote = new YiffBukkitRemote(this);
 		remote.start();
 		log("Remote loaded.");
 
@@ -246,7 +248,7 @@ public class YiffBukkit extends JavaPlugin {
 					playerHelper.sendYiffcraftClientCommand(ply, 'c', Configuration.getValue("yiffcraft-command-url", "http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
 				} else if(argStr.equalsIgnoreCase("writecommands")) {
 					try {
-						Hashtable<String, ICommand> commands = playerListener.commands;
+						Map<String, ICommand> commands = commandSystem.getCommands();
 
 						PrintWriter writer = new PrintWriter(new FileWriter("yb_commands.txt"));
 
@@ -284,10 +286,6 @@ public class YiffBukkit extends JavaPlugin {
 			msg = "\u00a7d[YB]\u00a7f " + msg;
 		}
 		ColouredConsoleSender.getInstance().sendMessage(msg);
-	}
-
-	public Hashtable<String,ICommand> getCommands() {
-		return playerListener.commands;
 	}
 
 	public World getOrCreateWorld(String name, Environment env) {

@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -43,10 +42,10 @@ public abstract class ICommand {
 	protected PlayerHelper playerHelper;
 
 	protected ICommand() {
-		this(YiffBukkit.instance.playerListener);
+		this(YiffBukkit.instance.commandSystem);
 	}
 
-	private ICommand(YiffBukkitPlayerListener playerListener) {
+	private ICommand(CommandSystem commandSystem) {
 		plugin = YiffBukkit.instance;
 		playerHelper = plugin.playerHelper;
 
@@ -56,7 +55,7 @@ public abstract class ICommand {
 		Names namesAnnotation = this.getClass().getAnnotation(Names.class);
 		if (namesAnnotation != null) {
 			for (String name : namesAnnotation.value()) {
-				playerListener.registerCommand(name, this);
+				commandSystem.registerCommand(name, this);
 			}
 		}
 

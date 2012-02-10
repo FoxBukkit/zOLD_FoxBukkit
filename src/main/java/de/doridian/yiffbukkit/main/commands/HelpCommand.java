@@ -7,8 +7,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Map;
 
 @Names("help")
 @Help("Prints a list of available commands or information about the specified command.")
@@ -17,7 +16,7 @@ import java.util.Hashtable;
 public class HelpCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		Hashtable<String,ICommand> commands = plugin.getCommands();
+		Map<String, ICommand> commands = plugin.commandSystem.getCommands();
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
@@ -31,9 +30,7 @@ public class HelpCommand extends ICommand {
 		}
 		else {
 			String ret = "Available commands: /";
-			Enumeration<String> e = commands.keys();
-			while(e.hasMoreElements()) {
-				String key = e.nextElement();
+			for (String key : commands.keySet()) {
 				if (key == "\u00a7")
 					continue;
 

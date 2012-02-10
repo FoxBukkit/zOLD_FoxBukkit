@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.remote;
 
-import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.command.CommandSender;
@@ -12,13 +11,11 @@ import java.net.Socket;
 public class YiffBukkitRemote extends Thread {
 	public static CommandSender currentCommandSender;
 
-	private YiffBukkitPlayerListener listen;
 	private YiffBukkit plugin;
 	private ServerSocket socket;
 
-	public YiffBukkitRemote(YiffBukkit plug, YiffBukkitPlayerListener listener) {
-		plugin = plug;
-		listen = listener;
+	public YiffBukkitRemote(YiffBukkit plugin) {
+		this.plugin = plugin;
 		try {
 			socket = new ServerSocket(Integer.valueOf(Configuration.getValue("rcon-port", "13388")), 0, InetAddress.getByName(Configuration.getValue("rcon-host", "localhost")));
 		}
@@ -40,7 +37,7 @@ public class YiffBukkitRemote extends Thread {
 		while(socket.isBound() && !socket.isClosed()) {
 			try {
 				Socket socketX = socket.accept();
-				YiffBukkitRemoteThread thread = new YiffBukkitRemoteThread(plugin, listen, socketX);
+				YiffBukkitRemoteThread thread = new YiffBukkitRemoteThread(plugin, socketX);
 				thread.start();
 			}
 			catch(Exception e) {

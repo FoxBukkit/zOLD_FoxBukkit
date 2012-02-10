@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.remote;
 
-import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Server;
@@ -12,17 +11,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class YiffBukkitRemoteThread extends Thread {
-	private final  YiffBukkitPlayerListener listen;
 	public final YiffBukkit plugin;
 	private final Socket socket;
 	private PrintWriter out;
 
 	private final String PASSWORD = Configuration.getValue("rcon-password", null);
 
-	public YiffBukkitRemoteThread(YiffBukkit plug, YiffBukkitPlayerListener listener, Socket sock) {
-		plugin = plug;
-		listen = listener;
-		socket = sock;
+	public YiffBukkitRemoteThread(YiffBukkit plugin, Socket socket) {
+		this.plugin = plugin;
+		this.socket = socket;
 	}
 
 	public void run() {
@@ -55,7 +52,7 @@ public class YiffBukkitRemoteThread extends Thread {
 			public void run() {
 				try {
 					YiffBukkitRemote.currentCommandSender = commandSender;
-					boolean ret = listen.runCommand(commandSender, command);
+					boolean ret = plugin.commandSystem.runCommand(commandSender, command);
 					if(!ret) throw new Exception("Invalid command");
 				}
 				catch(Exception e) {
