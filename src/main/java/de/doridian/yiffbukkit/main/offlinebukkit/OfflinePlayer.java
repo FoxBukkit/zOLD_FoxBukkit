@@ -30,12 +30,15 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -714,14 +717,12 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public boolean teleport(Location location, TeleportCause cause) {
-		// TODO Auto-generated method stub
-		return false;
+		return teleport(location);
 	}
 
 	@Override
 	public boolean teleport(Entity destination, TeleportCause cause) {
-		// TODO Auto-generated method stub
-		return false;
+		return teleport(destination);
 	}
 
 	@Override
@@ -761,5 +762,41 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public boolean canSee(Player player) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean addPotionEffect(PotionEffect effect) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addPotionEffect(PotionEffect effect, boolean force) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addPotionEffects(Collection<PotionEffect> effects) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasPotionEffect(PotionEffectType type) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void removePotionEffect(PotionEffectType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Collection<PotionEffect> getActivePotionEffects() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
