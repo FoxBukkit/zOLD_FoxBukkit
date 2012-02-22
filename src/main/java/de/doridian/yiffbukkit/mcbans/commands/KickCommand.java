@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 @Names("kick")
 @Help("Kicks specified user")
 @Usage("<name> [reason here]")
-@Permission("yiffbukkitsplit.users.kick")
+@Permission("yiffbukkit.users.kick")
 public class KickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

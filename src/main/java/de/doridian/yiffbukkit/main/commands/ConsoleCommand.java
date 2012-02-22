@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @Names("rcon")
 @Help("Pushes a command to console")
 @Usage("<command>")
-@Permission("yiffbukkitsplit.rcon")
+@Permission("yiffbukkit.rcon")
 public class ConsoleCommand extends ICommand {
 	private final MinecraftServer mcServer;
 

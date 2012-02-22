@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkitsplit.util;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -393,7 +392,7 @@ public class SpawnUtils {
 	}
 
 	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {
-		if (!FakePermissions.has(commandSender, "yiffbukkitsplit.mobspawn."+mobName.toLowerCase()))
+		if (!commandSender.hasPermission("yiffbukkit.mobspawn."+mobName.toLowerCase()))
 			throw new PermissionDeniedException();
 	}
 

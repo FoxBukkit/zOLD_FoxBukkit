@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 @Names("setjail")
 @Help("Defines a jail cell from the current WorldEdit selection or removes the cell whose center you're standing closest to.")
 @Usage("[remove]")
-@Permission("yiffbukkitsplit.jail.setjail")
+@Permission("yiffbukkit.jail.setjail")
 public class SetJailCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

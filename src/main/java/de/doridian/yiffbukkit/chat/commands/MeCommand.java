@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 @Names({"me", "emote"})
 @Help("Well, it's /me, durp")
 @Usage("<stuff here>")
-@Permission("yiffbukkitsplit.communication.emote")
+@Permission("yiffbukkit.communication.emote")
 public class MeCommand extends ICommand {
 	@Override
 	public void Run(Player commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

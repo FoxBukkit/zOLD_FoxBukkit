@@ -16,7 +16,7 @@ import java.util.Hashtable;
 @Help("Forces/fixes current time *serverside*.")
 @Usage("[normal|night|day|morning|afternoon|<0-23>]")
 @StringFlags("w")
-@Permission("yiffbukkitsplit.servertime")
+@Permission("yiffbukkit.servertime")
 public class ServerTimeCommand extends ICommand {
 	private static final Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
 	static {

@@ -16,7 +16,7 @@ import java.util.List;
 @Names("exec")
 @Help("Enters all non-empty lines that dont start with # from the given file into your chat. Files are taken from scripts/<filename>.txt")
 @Usage("<filename>")
-@Permission("yiffbukkitsplit.exec")
+@Permission("yiffbukkit.exec")
 public class ExecCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

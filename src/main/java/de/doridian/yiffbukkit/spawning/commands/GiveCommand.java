@@ -20,7 +20,7 @@ import java.util.Map;
 @Names({"give", "item", "i"})
 @Help("Gives resource (use _ for spaces in name!)")
 @Usage("<name or id> [amount] [player]")
-@Permission("yiffbukkitsplit.players.give")
+@Permission("yiffbukkit.players.give")
 public class GiveCommand extends ICommand {
 	private static final Map<String,Material> aliases = new HashMap<String,Material>();
 	private static final Map<String,Short> dataValues = new HashMap<String, Short>();

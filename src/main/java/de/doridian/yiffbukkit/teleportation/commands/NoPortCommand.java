@@ -12,7 +12,7 @@ import java.util.Set;
 @Names("noport")
 @Help("Prevents teleportation and summoning or grants/revokes exceptions.")
 @Usage("[on|off|allow <name>|deny <name>]")
-@Permission("yiffbukkitsplit.teleport.noport.noport")
+@Permission("yiffbukkit.teleport.noport.noport")
 public class NoPortCommand extends ICommand {
 	protected Set<String> tpPermissions;
 	protected Set<String> summonPermissions;

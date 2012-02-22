@@ -15,7 +15,7 @@ import org.bukkit.inventory.Inventory;
 @Help("Clears your inventory or another player's. Use -a to include the toolbar.")
 @Usage("[-a] [<name>]")
 @BooleanFlags("a")
-@Permission("yiffbukkitsplit.players.clear")
+@Permission("yiffbukkit.players.clear")
 public class ClearCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

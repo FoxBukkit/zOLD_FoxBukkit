@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 @Names({"irckick", "irck"})
 @Help("Kicks specified user from IRC Chat")
 @Usage("<full name>")
-@Permission("yiffbukkitsplit.irc.kick")
+@Permission("yiffbukkit.irc.kick")
 public class IRCKickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

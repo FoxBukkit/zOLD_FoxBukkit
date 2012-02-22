@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.fun.commands;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -25,7 +24,7 @@ import java.util.Map.Entry;
 		"or a full direction name, like north_east or northeast."
 )
 @Usage("[spawn|home|here|player <name>|warp <name>|<direction>]")
-@Permission("yiffbukkitsplit.compass")
+@Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
 	int taskId = -1;
 	protected Map<Player, Player> playerCompassTargets = new HashMap<Player, Player>();
@@ -42,7 +41,7 @@ public class CompassCommand extends ICommand {
 		}
 
 		if ("player".equals(args[0]) || "pl".equals(args[0])) {
-			if (!FakePermissions.has(ply, "yiffbukkitsplit.compass.player"))
+			if (!ply.hasPermission("yiffbukkit.compass.player"))
 				throw new PermissionDeniedException();
 
 			if (args.length < 2)

@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.chat.commands;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.AbstractPlayerStateCommand;
@@ -18,7 +17,7 @@ import java.util.Set;
 @Names("mute")
 @Help("Mutes or unmutes a player.")
 @Usage("<name> [on|off]")
-@Permission("yiffbukkitsplit.users.mute")
+@Permission("yiffbukkit.users.mute")
 public class MuteCommand extends AbstractPlayerStateCommand implements Listener {
 	private final Set<String> muted = states;
 
@@ -65,7 +64,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 		if (commandSenderLevel <= targetLevel)
 			throw new PermissionDeniedException();
 
-		if (!FakePermissions.has(commandSender, "yiffbukkitsplit.users.mute.nonguests") && targetLevel > 0)
+		if (!commandSender.hasPermission("yiffbukkit.users.mute.nonguests") && targetLevel > 0)
 			throw new PermissionDeniedException();
 
 		if (targetName.equals(commandSenderName)) {

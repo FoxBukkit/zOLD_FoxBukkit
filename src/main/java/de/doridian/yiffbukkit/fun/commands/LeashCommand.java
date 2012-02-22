@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @Names("leash")
 @Help("Leashes or unleashes a player.")
 @Usage("<name>")
-@Permission("yiffbukkitsplit.players.leash")
+@Permission("yiffbukkit.players.leash")
 public class LeashCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

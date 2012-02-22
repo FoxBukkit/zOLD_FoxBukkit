@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
@@ -20,7 +19,7 @@ import java.net.InetAddress;
 @Names({ "who", "list" })
 @Help("Prints user list if used without parameters or information about the specified user")
 @Usage("[name]")
-@Permission("yiffbukkitsplit.who")
+@Permission("yiffbukkit.who")
 public class WhoCommand extends ICommand {
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
@@ -39,15 +38,15 @@ public class WhoCommand extends ICommand {
 			playerHelper.sendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
 
 			final int playerLevel = playerHelper.getPlayerLevel(commandSender);
-			if (FakePermissions.has(commandSender, "yiffbukkitsplit.who.lastlogout")) {
+			if (commandSender.hasPermission("yiffbukkit.who.lastlogout")) {
 				playerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 			}
 
-			if (FakePermissions.has(commandSender, "yiffbukkitsplit.who.lastlogoutbackup")) {
+			if (commandSender.hasPermission("yiffbukkit.who.lastlogoutbackup")) {
 				playerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
 			}
 
-			if (FakePermissions.has(commandSender, "yiffbukkitsplit.who.position") && playerLevel >= playerHelper.getPlayerLevel(target)) {
+			if (commandSender.hasPermission("yiffbukkit.who.position") && playerLevel >= playerHelper.getPlayerLevel(target)) {
 				Vector targetPosition = target.getLocation().toVector();
 				playerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
 
@@ -69,7 +68,7 @@ public class WhoCommand extends ICommand {
 				playerHelper.sendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
 			}
 
-			if (FakePermissions.has(commandSender, "yiffbukkitsplit.who.address") && playerLevel >= playerHelper.getPlayerLevel(target) && target.isOnline()) {
+			if (commandSender.hasPermission("yiffbukkit.who.address") && playerLevel >= playerHelper.getPlayerLevel(target) && target.isOnline()) {
 				Thread thread = new Thread(new Runnable() {
 					public void run() {
 						InetAddress address = target.getAddress().getAddress();
@@ -83,7 +82,7 @@ public class WhoCommand extends ICommand {
 			Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: ";
 			if(players.length > 0) {
-				if (FakePermissions.has(commandSender, "yiffbukkitsplit.who.ranklevels")) {
+				if (commandSender.hasPermission("yiffbukkit.who.ranklevels")) {
 					str += playerHelper.formatPlayer(players[0]);
 					for(int i=1;i<players.length;i++) {
 						str += ", " + playerHelper.formatPlayer(players[i]);

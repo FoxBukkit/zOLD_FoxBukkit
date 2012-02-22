@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 @Names("warp")
 @Help("Teleports you to the specified warp point.")
 @Usage("<warp point name>|+ <command>[ <args>] - see /setwarp")
-@Permission("yiffbukkitsplit.warp.warp")
+@Permission("yiffbukkit.warp.warp")
 public class WarpCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

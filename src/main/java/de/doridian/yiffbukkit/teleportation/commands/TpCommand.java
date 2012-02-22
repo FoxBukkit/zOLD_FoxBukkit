@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -21,7 +20,7 @@ import org.bukkit.util.Vector;
 		"  -n teleports you near the player."
 )
 @Usage("[<flags>] <name>")
-@Permission("yiffbukkitsplit.teleport.tp")
+@Permission("yiffbukkit.teleport.tp")
 @BooleanFlags("sn")
 public class TpCommand extends ICommand {
 	@Override
@@ -35,11 +34,11 @@ public class TpCommand extends ICommand {
 		if (!playerHelper.canTp(ply, otherply))
 			throw new PermissionDeniedException();
 
-		if (booleanFlags.contains('s') && !FakePermissions.has(ply, "yiffbukkitsplit.vanish"))
+		if (booleanFlags.contains('s') && !ply.hasPermission("yiffbukkit.vanish"))
 			throw new PermissionDeniedException();
 
 		if (booleanFlags.contains('n')) {
-			if (!FakePermissions.has(ply, "yiffbukkitsplit.vanish"))
+			if (!ply.hasPermission("yiffbukkit.vanish"))
 				throw new PermissionDeniedException();
 
 			final Location location = otherply.getLocation();
@@ -55,7 +54,7 @@ public class TpCommand extends ICommand {
 		}
 
 		if (plugin.vanish.isVanished(ply) || booleanFlags.contains('s')) {
-			playerHelper.sendServerMessage(playerName + " silently teleported to " + otherName, "yiffbukkitsplit.vanish.see");
+			playerHelper.sendServerMessage(playerName + " silently teleported to " + otherName, "yiffbukkit.vanish.see");
 		}
 		else {
 			playerHelper.sendServerMessage(playerName + " teleported to " + otherName);

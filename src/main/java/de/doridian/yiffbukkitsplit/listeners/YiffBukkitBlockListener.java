@@ -3,7 +3,6 @@ package de.doridian.yiffbukkitsplit.listeners;
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
@@ -52,22 +51,22 @@ public class YiffBukkitBlockListener implements Listener {
 	private static final int TORCH_BREAK_TIMEOUT_MILLIS = 1000;
 
 	static {
-		blocklevels.put(Material.TNT, "yiffbukkitsplit.place.block.tnt");
-		blocklevels.put(Material.BEDROCK, "yiffbukkitsplit.place.block.bedrock");
+		blocklevels.put(Material.TNT, "yiffbukkit.place.block.tnt");
+		blocklevels.put(Material.BEDROCK, "yiffbukkit.place.block.bedrock");
 
-		blocklevels.put(Material.OBSIDIAN, "yiffbukkitsplit.place.block.obsidian");
+		blocklevels.put(Material.OBSIDIAN, "yiffbukkit.place.block.obsidian");
 
-		blocklevels.put(Material.WATER, "yiffbukkitsplit.place.block.water");
-		blocklevels.put(Material.WATER_BUCKET, "yiffbukkitsplit.place.block.water_bucket");
-		blocklevels.put(Material.LAVA, "yiffbukkitsplit.place.block.lava");
-		blocklevels.put(Material.LAVA_BUCKET, "yiffbukkitsplit.place.block.lava_bucket");
+		blocklevels.put(Material.WATER, "yiffbukkit.place.block.water");
+		blocklevels.put(Material.WATER_BUCKET, "yiffbukkit.place.block.water_bucket");
+		blocklevels.put(Material.LAVA, "yiffbukkit.place.block.lava");
+		blocklevels.put(Material.LAVA_BUCKET, "yiffbukkit.place.block.lava_bucket");
 
-		blocklevels.put(Material.FLINT_AND_STEEL, "yiffbukkitsplit.place.block.flint_and_steel");
-		blocklevels.put(Material.FIRE, "yiffbukkitsplit.place.block.fire");
-		//blocklevels.put(Material.PISTON_BASE, "yiffbukkitsplit.place.block.piston.base");
-		//blocklevels.put(Material.PISTON_EXTENSION, "yiffbukkitsplit.place.block.piston.extension");
-		//blocklevels.put(Material.PISTON_MOVING_PIECE, "yiffbukkitsplit.place.block.piston.moving_piece");
-		//blocklevels.put(Material.PISTON_STICKY_BASE, "yiffbukkitsplit.place.block.piston.sticky_base");
+		blocklevels.put(Material.FLINT_AND_STEEL, "yiffbukkit.place.block.flint_and_steel");
+		blocklevels.put(Material.FIRE, "yiffbukkit.place.block.fire");
+		//blocklevels.put(Material.PISTON_BASE, "yiffbukkit.place.block.piston.base");
+		//blocklevels.put(Material.PISTON_EXTENSION, "yiffbukkit.place.block.piston.extension");
+		//blocklevels.put(Material.PISTON_MOVING_PIECE, "yiffbukkit.place.block.piston.moving_piece");
+		//blocklevels.put(Material.PISTON_STICKY_BASE, "yiffbukkit.place.block.piston.sticky_base");
 
 		flammableBlocks.add(Material.LOG);
 		flammableBlocks.add(Material.WOOD);
@@ -97,7 +96,7 @@ public class YiffBukkitBlockListener implements Listener {
 
 		final Block block = event.getBlock();
 		Material material = block.getType();
-		if (!FakePermissions.has(ply, "yiffbukkitsplit.place")) {
+		if (!ply.hasPermission("yiffbukkit.place")) {
 			plugin.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			event.setBuild(false);
@@ -105,7 +104,7 @@ public class YiffBukkitBlockListener implements Listener {
 		}
 
 		final String permission = blocklevels.get(material);
-		if (permission != null && !FakePermissions.has(ply, permission)) {
+		if (permission != null && !ply.hasPermission(permission)) {
 			plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn illegal block " + material+".");
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material+".");
 			event.setBuild(false);
@@ -113,7 +112,7 @@ public class YiffBukkitBlockListener implements Listener {
 		}
 
 		if (flammableBlocks.contains(material)) {
-			if (!FakePermissions.has(ply, "yiffbukkitsplit.place.flammablenearfire")) {
+			if (!ply.hasPermission("yiffbukkit.place.flammablenearfire")) {
 				for (BlockFace face : flameSpreadDirections) {
 					Material neighborMaterial = block.getRelative(face).getType();
 					if (neighborMaterial == Material.FIRE) {
@@ -153,7 +152,7 @@ public class YiffBukkitBlockListener implements Listener {
 			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
-					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", "yiffbukkitsplit.opchat");
+					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", "yiffbukkit.opchat");
 					plugin.mcbans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.LOCAL, false);
 					event.setCancelled(true);
 					ply.kickPlayer("[YB AUTOMATED] Torchbreak");

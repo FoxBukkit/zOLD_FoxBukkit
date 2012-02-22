@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 		"Colors: \u00a70$0 \u00a71$1 \u00a72$2 \u00a73$3 \u00a74$4 \u00a75$5 \u00a76$6 \u00a77$7 \u00a78$8 \u00a79$9 \u00a7a$a \u00a7b$b \u00a7c$c \u00a7d$d \u00a7e$e \u00a7f$f"
 )
 @Usage("<name> <tag>|none")
-@Permission("yiffbukkitsplit.users.settag")
+@Permission("yiffbukkit.users.settag")
 public class SetTagCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {

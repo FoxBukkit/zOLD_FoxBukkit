@@ -15,7 +15,7 @@ import java.util.LinkedList;
 @Names("back")
 @Help("Teleports back specified number of steps")
 @Usage("[steps]")
-@Permission("yiffbukkitsplit.teleport.basic.back")
+@Permission("yiffbukkit.teleport.basic.back")
 @StringFlags("t")
 public class BackCommand extends ICommand {
 	@Override

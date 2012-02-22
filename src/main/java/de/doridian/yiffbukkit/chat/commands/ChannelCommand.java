@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 @Names({"channel", "channels", "c"})
 @Help("YiffBukkit chat system :3")
 @Usage("Read help...")
-@Permission("yiffbukkitsplit.channels.main")
+@Permission("yiffbukkit.channels.main")
 public class ChannelCommand extends ICommand {
 	private enum SubCommand {
 		JOIN, LIST, INFO, //everyone [or yiffbukkitsplit.channels.force.user for forcing join allowance]
@@ -47,7 +47,7 @@ public class ChannelCommand extends ICommand {
 
 		switch (cmd) {
 		case JOIN:
-			if (!ply.hasPermission("yiffbukkitsplit.channels.force.user")) {
+			if (!ply.hasPermission("yiffbukkit.channels.force.user")) {
 				if (args.length > 2) {
 					if (!chan.canJoin(ply, args[2])) {
 						throw new PermissionDeniedException();
@@ -97,7 +97,7 @@ public class ChannelCommand extends ICommand {
 			return; //prevents saving!
 
 		case CREATE:
-			if (!ply.hasPermission("yiffbukkitsplit.channels.create")) throw new PermissionDeniedException();
+			if (!ply.hasPermission("yiffbukkit.channels.create")) throw new PermissionDeniedException();
 
 			chan = helper.addChannel(ply, args[1]);
 			helper.joinChannel(ply, chan);

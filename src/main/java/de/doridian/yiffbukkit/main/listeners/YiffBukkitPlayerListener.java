@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.main.listeners;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -166,7 +165,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 			event.setCancelled(true);
 			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
 			message = "\u00a7e[#OP] \u00a7f" + ply.getDisplayName() + "\u00a7f: " + message.substring(1);
-			playerHelper.broadcastMessage(message, "yiffbukkitsplit.opchat");
+			playerHelper.broadcastMessage(message, "yiffbukkit.opchat");
 
 			event.setCancelled(true);
 		}
@@ -187,7 +186,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		}
 		else
 		{
-			if(!(FakePermissions.has(ply, "yiffbukkitsplit.ignoreworldeditlogging") && event.getMessage().startsWith("//")))
+			if(!(ply.hasPermission("yiffbukkit.ignoreworldeditlogging") && event.getMessage().startsWith("//")))
 				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +cmdString);
 			plugin.log("Other Command: "+ply.getName()+": "+cmdString);
 		}
@@ -208,7 +207,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				Material itemMaterial = event.getMaterial();
 				// This will not be logged by logblock so I only allowed it for ops+ for now.
 				// A fix would be to modify the event a bit to make BB log this. 
-				if (itemMaterial == Material.INK_SACK && FakePermissions.has(ply, "yiffbukkitsplit.dyepaint")) {
+				if (itemMaterial == Material.INK_SACK && ply.hasPermission("yiffbukkit.dyepaint")) {
 					if (clickedBlock != null && clickedBlock.getType() == Material.WOOL) {
 						ItemStack item = event.getItem();
 
@@ -244,7 +243,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 						playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
 					}
 					catch (Exception e) {
-						if (FakePermissions.has(ply, "yiffbukkitsplit.detailederrors")) {
+						if (ply.hasPermission("yiffbukkit.detailederrors")) {
 							playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 							e.printStackTrace();
 						}
@@ -280,7 +279,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
 				}
 				catch (Exception e) {
-					if (FakePermissions.has(ply, "yiffbukkitsplit.detailederrors")) {
+					if (ply.hasPermission("yiffbukkit.detailederrors")) {
 						playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 						e.printStackTrace();
 					}

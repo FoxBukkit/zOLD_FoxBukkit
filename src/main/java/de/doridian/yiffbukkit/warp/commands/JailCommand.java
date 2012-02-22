@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @Names("jail")
 @Help("Sends someone to a previously defined jail cell.")
 @Usage("<name> [release]")
-@Permission("yiffbukkitsplit.jail.jail")
+@Permission("yiffbukkit.jail.jail")
 public class JailCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, JailException {

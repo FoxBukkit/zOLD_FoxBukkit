@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 @Names("spawn")
 @Help("Teleports you to the spawn position")
-@Permission("yiffbukkitsplit.teleport.basic.spawn")
+@Permission("yiffbukkit.teleport.basic.spawn")
 public class SpawnCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {

@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.warp.portals;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -68,7 +67,7 @@ public class SignPortalPlayerListener implements Listener {
 			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(player, sign.getLine(1));
 			sign.setLine(0, "\u00a79[Portal]");
 			sign.setLine(1, warpDescriptor.name);
-			if (!FakePermissions.has(player, "yiffbukkitsplit.signportal.public"))
+			if (!player.hasPermission("yiffbukkit.signportal.public"))
 				sign.setLine(2, "private");
 			sign.setLine(3, player.getName());
 			sign.update(true);

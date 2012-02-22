@@ -12,7 +12,7 @@ import java.util.Map;
 @Names("help")
 @Help("Prints a list of available commands or information about the specified command.")
 @Usage("[<command>]")
-@Permission("yiffbukkitsplit.help")
+@Permission("yiffbukkit.help")
 public class HelpCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

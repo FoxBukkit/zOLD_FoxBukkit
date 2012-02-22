@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 import org.bukkit.command.CommandSender;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -182,7 +181,7 @@ public class CommandSystem {
 				plugin.playerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
-				if (FakePermissions.has(commandSender, "yiffbukkitsplit.detailederrors")) {
+				if (commandSender.hasPermission("yiffbukkit.detailederrors")) {
 					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
 					e.printStackTrace();
 				}

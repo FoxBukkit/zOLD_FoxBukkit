@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 @Help("Heals a player fully or by the given amount.")
 @Usage("[<name>] [<amount>]")
 @BooleanFlags("f")
-@Permission("yiffbukkitsplit.players.heal")
+@Permission("yiffbukkit.players.heal")
 public class HealCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

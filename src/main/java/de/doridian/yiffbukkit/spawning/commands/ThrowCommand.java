@@ -41,7 +41,7 @@ import java.util.Map;
 @BooleanFlags("p")
 @StringFlags("i")
 @NumericFlags("m")
-@Permission("yiffbukkitsplit.throw")
+@Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
@@ -139,7 +139,7 @@ public class ThrowCommand extends ICommand {
 			final int amount;
 			final float offset;
 			if (numericFlags.containsKey('m')) {
-				final int maxItems = ply.hasPermission("yiffbukkitsplit.throw.unlimited") ? 1000 : 10;
+				final int maxItems = ply.hasPermission("yiffbukkit.throw.unlimited") ? 1000 : 10;
 				amount = Math.max(0, Math.min(maxItems, (int) (double) numericFlags.get('m')));
 				offset = 360.0f / amount;
 			}

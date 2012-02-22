@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 @Names("banish")
 @Help("Banishes the specified user to the spawn and optionally resets their home location.")
 @Usage("<name> [resethome]")
-@Permission("yiffbukkitsplit.teleport.banish")
+@Permission("yiffbukkit.teleport.banish")
 public class BanishCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {

@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 @Names({"ircmute", "ircm"})
 @Help("Mutes specified user from IRC Chat")
 @Usage("<full name>")
-@Permission("yiffbukkitsplit.irc.mute")
+@Permission("yiffbukkit.irc.mute")
 public class IRCMuteCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

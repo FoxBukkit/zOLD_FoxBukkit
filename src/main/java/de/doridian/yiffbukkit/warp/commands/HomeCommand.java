@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 @Names("home")
 @Help("Teleports you to your home position (see /sethome)")
-@Permission("yiffbukkitsplit.teleport.basic.home")
+@Permission("yiffbukkit.teleport.basic.home")
 public class HomeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {

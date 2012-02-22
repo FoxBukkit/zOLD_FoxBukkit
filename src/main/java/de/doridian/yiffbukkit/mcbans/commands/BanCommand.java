@@ -29,7 +29,7 @@ import org.bukkit.entity.Player;
 @Usage("[<flags>] <name> [reason here]")
 @BooleanFlags("jrg")
 @StringFlags("t")
-@Permission("yiffbukkitsplit.users.ban")
+@Permission("yiffbukkit.users.ban")
 public class BanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -38,7 +38,7 @@ public class BanCommand extends ICommand {
 	}
 
 	public static void executeBan(CommandSender commandSender, String plyName, String reason, YiffBukkit plugin, boolean unjail, boolean rollback, boolean global, final String duration) throws YiffBukkitCommandException {
-		if(!commandSender.hasPermission("yiffbukkitsplit.users.ban")) throw new PermissionDeniedException();
+		if(!commandSender.hasPermission("yiffbukkit.users.ban")) throw new PermissionDeniedException();
 
 		final Player otherply = plugin.playerHelper.matchPlayerSingle(plyName, false);
 

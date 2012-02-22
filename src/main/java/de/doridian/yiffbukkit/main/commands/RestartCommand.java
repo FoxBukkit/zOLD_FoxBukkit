@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 @Names("restart")
-@Permission("yiffbukkitsplit.admin.restart")
+@Permission("yiffbukkit.admin.restart")
 public class RestartCommand extends ICommand {
 	int taskID = -1;
 	RestartRunnable restarter;

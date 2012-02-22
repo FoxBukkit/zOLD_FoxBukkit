@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 @Names("lockdown")
 @Help("Locks or unlocks the server for guests")
 @Usage("[on|off]")
-@Permission("yiffbukkitsplit.users.lockdown")
+@Permission("yiffbukkit.users.lockdown")
 public class LockdownCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

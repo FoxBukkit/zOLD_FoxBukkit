@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 		"The -l flag lists your current binds."
 )
 @Usage("-l|[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
-@Permission("yiffbukkitsplit.bind")
+@Permission("yiffbukkit.bind")
 @BooleanFlags("l")
 @StringFlags("i")
 public class BindCommand extends ICommand {

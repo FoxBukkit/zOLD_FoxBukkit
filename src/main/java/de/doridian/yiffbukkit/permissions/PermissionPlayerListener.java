@@ -25,7 +25,7 @@ public class PermissionPlayerListener implements Listener {
 			return;
 		}
 
-		if (!ply.hasPermission("yiffbukkitsplit.place")) {
+		if (!ply.hasPermission("yiffbukkit.place")) {
 			YiffBukkit.instance.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
 			YiffBukkit.instance.playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
 			item.setType(Material.GOLD_HOE);

@@ -26,7 +26,7 @@ import java.util.Map.Entry;
 
 @Names("pushup")
 @Help("Pushes the selected region up, if it's sand or gravel.")
-@Permission("yiffbukkitsplit.fun.pushup")
+@Permission("yiffbukkit.fun.pushup")
 public class PushUpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

@@ -39,7 +39,7 @@ import java.util.Set;
 )
 @Usage("[<flags>] [<level>]")
 @BooleanFlags("fs")
-@Permission("yiffbukkitsplit.experimental.light")
+@Permission("yiffbukkit.experimental.light")
 public class LightCommand extends ICommand {
 	private Set<ChunkCoordIntPair> dirtyChunks = new HashSet<ChunkCoordIntPair>();
 

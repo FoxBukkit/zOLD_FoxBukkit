@@ -23,7 +23,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 @Names("play")
 @Help("Plays notes (currently qbasic format)")
-@Permission("yiffbukkitsplit.experimental.play")
+@Permission("yiffbukkit.experimental.play")
 public class PlayCommand extends ICommand {
 	public class Packet53BlockChangeExpress extends Packet53BlockChange {
 		{

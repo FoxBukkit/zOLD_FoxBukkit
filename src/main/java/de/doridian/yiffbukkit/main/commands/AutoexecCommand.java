@@ -18,7 +18,7 @@ import java.util.List;
 @Names("autoexec")
 @Help("Schedules commands to be executed every time you connect.")
 @Usage("[<command>|-r <index>]")
-@Permission("yiffbukkitsplit.autoexec")
+@Permission("yiffbukkit.autoexec")
 @BooleanFlags("e")
 @NumericFlags("r")
 public class AutoexecCommand extends ICommand implements Listener {

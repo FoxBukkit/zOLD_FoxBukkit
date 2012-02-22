@@ -10,7 +10,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 @Names({"ooc", "o"})
 @Help("Uses the OOC channel")
 @Usage("[message]")
-@Permission("yiffbukkitsplit.channels.say.ooc")
+@Permission("yiffbukkit.channels.say.ooc")
 public class OOCCommand extends GenericChannelCommand {
 	@Override
 	protected ChatChannel getChannel() {

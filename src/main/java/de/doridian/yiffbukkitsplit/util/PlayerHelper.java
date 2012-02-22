@@ -1,11 +1,11 @@
 package de.doridian.yiffbukkitsplit.util;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -213,7 +213,7 @@ public class PlayerHelper extends StateContainer {
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
 		for (Player player : players) {
-			if (!FakePermissions.has(player, permission))
+			if (!player.hasPermission(permission))
 				continue;
 
 			player.sendMessage(msg);
@@ -261,13 +261,13 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerRank(ply.getName());
 	}
 	public String getPlayerRank(String name) {
-		name = FakePermissions.getGroup(name);
+		name = YiffBukkitPermissionHandler.instance.getGroup(name);
 		if(name == null) name = "guest";
 		return name;
 	}
 	public void setPlayerRank(String name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
-		FakePermissions.setGroup(name, rankname);
+		YiffBukkitPermissionHandler.instance.setGroup(name, rankname);
 
 		Player ply = plugin.getServer().getPlayerExact(name);
 		if (ply == null) return;

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 @Names("sendpacket")
 @Help("Sends a packet to the given player (requires technical knowledge).")
 @Usage("<name> <id>[ <parameter>=<value>]*")
-@Permission("yiffbukkitsplit.sendpacket")
+@Permission("yiffbukkit.sendpacket")
 public class SendPacketCommand extends ICommand {
 	private static final Pattern keyValuePattern = Pattern.compile("^([^=]+)=(.*)$");
 	@Override

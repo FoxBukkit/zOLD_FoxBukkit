@@ -33,7 +33,7 @@ import java.util.List;
 )
 @Usage("[<target>] [<radius>]")
 @BooleanFlags("nvl")
-@Permission("yiffbukkitsplit.butcher")
+@Permission("yiffbukkit.butcher")
 public class ButcherCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

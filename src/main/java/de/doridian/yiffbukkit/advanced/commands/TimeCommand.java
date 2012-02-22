@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 @Help("Forces/fixes current time *clientside*.")
 @Usage("[normal|night|day|morning|afternoon|<0-23>]")
 @StringFlags("w")
-@Permission("yiffbukkitsplit.time")
+@Permission("yiffbukkit.time")
 public class TimeCommand extends ServerTimeCommand {
 	@Override
 	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {

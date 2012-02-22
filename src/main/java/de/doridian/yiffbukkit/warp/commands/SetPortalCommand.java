@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 @Names("setportal")
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
-@Permission("yiffbukkitsplit.useless.setportal")
+@Permission("yiffbukkit.useless.setportal")
 public class SetPortalCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

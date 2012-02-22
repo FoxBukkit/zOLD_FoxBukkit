@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @Names("setwarp")
 @Help("Creates a warp point with the specified name.")
 @Usage("<warp point name>")
-@Permission("yiffbukkitsplit.warp.setwarp")
+@Permission("yiffbukkit.warp.setwarp")
 public class SetWarpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

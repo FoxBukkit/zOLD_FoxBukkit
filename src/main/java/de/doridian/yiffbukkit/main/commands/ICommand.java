@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.main.commands;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
@@ -232,7 +231,7 @@ public abstract class ICommand {
 	public boolean canPlayerUseCommand(CommandSender commandSender) {
 		Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
 		if (permissionAnnotation != null)
-			return FakePermissions.has(commandSender, permissionAnnotation.value());
+			return commandSender.hasPermission(permissionAnnotation.value());
 
 		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
 		int reqlvl = getMinLevel();

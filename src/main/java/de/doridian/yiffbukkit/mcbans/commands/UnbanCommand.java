@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 @Names({"unban", "pardon"})
 @Help("Unbans specified user")
 @Usage("<full name>")
-@Permission("yiffbukkitsplit.users.unban")
+@Permission("yiffbukkit.users.unban")
 public class UnbanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

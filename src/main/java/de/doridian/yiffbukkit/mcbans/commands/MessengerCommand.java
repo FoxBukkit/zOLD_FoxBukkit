@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
 @Names({"messenger","msngr"})
 @Help("Command for the MCBans messenger system")
 @Usage("<inbox/read/send/block/unblock> [parameter]")
-@Permission("yiffbukkitsplit.messenger")
+@Permission("yiffbukkit.messenger")
 public class MessengerCommand extends ICommand {
 	@Override
 	public void Run(final Player commandSender, final String[] args, String argStr) throws YiffBukkitCommandException {

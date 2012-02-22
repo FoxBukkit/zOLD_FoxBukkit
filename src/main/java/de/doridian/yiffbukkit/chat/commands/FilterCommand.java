@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 @Help("\u00a7cPermanently \u00a7ffilters out text from the chat log. Use the -a flag to affect all players. Google \"java api pattern\" for regex help.")
 @Usage("[-a] <regex>")
 @BooleanFlags("a")
-@Permission("yiffbukkitsplit.chatmanager.filter")
+@Permission("yiffbukkit.chatmanager.filter")
 public class FilterCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

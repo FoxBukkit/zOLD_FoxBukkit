@@ -4,7 +4,6 @@ import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.chat.ChatHelper;
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
@@ -14,7 +13,7 @@ import org.bukkit.command.CommandSender;
 @Names("setrank")
 @Help("Sets rank of specified user")
 @Usage("<full name> <rank>")
-@Permission("yiffbukkitsplit.users.setrank")
+@Permission("yiffbukkit.users.setrank")
 public class SetRankCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -47,10 +46,10 @@ public class SetRankCommand extends ICommand {
 		if(selflvl <= playerHelper.getRankLevel(newRank))
 			throw new PermissionDeniedException();
 		
-		if(playerHelper.getRankLevel(newRank) >= 4 && !FakePermissions.has(commandSender, "yiffbukkitsplit.users.makestaff"))
+		if(playerHelper.getRankLevel(newRank) >= 4 && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
 			throw new PermissionDeniedException();
 		
-		if(playerHelper.getPlayerLevel(otherName) >= 4 && !FakePermissions.has(commandSender, "yiffbukkitsplit.users.modifystaff"))
+		if(playerHelper.getPlayerLevel(otherName) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
 			throw new PermissionDeniedException();
 
 		playerHelper.setPlayerRank(otherName, newRank);

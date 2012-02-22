@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 @Names("kickall")
 @Help("Kicks everyone from the server except for yourself.")
 @Usage("[<reason>]")
-@Permission("yiffbukkitsplit.users.kickall")
+@Permission("yiffbukkit.users.kickall")
 public class KickAllCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

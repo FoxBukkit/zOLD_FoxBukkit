@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 @Names({"ircmuteall", "ircmall"})
 @Help("Mutes the IRC Chat")
-@Permission("yiffbukkitsplit.irc.muteall")
+@Permission("yiffbukkit.irc.muteall")
 public class IRCMuteAllCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

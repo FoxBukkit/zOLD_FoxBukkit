@@ -135,11 +135,11 @@ public class ChatChannel implements Serializable {
 	}
 	
 	public boolean isOwner(Player player) {
-		return player.getName().toLowerCase().equals(this.owner) || player.hasPermission("yiffbukkitsplit.channels.force.owner");
+		return player.getName().toLowerCase().equals(this.owner) || player.hasPermission("yiffbukkit.channels.force.owner");
 	}
 	
 	public boolean isModerator(Player player) {
-		return isOwner(player) || moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkitsplit.channels.force.moderator");
+		return isOwner(player) || moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkit.channels.force.moderator");
 	}
 	
 	public boolean isUser(Player player) {

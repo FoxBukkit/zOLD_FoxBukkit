@@ -7,7 +7,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import org.bukkit.entity.Player;
 
 @Names("rage")
-@Permission("yiffbukkitsplit.experimental.rage")
+@Permission("yiffbukkit.experimental.rage")
 public class RageCommand extends ICommand {
 	@Override
 	public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 @Names("reloadconf")
 @Help("Reloads a named config.")
 @Usage("")
-@Permission("yiffbukkitsplit.reload")
+@Permission("yiffbukkit.reload")
 public class ReloadConfigCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

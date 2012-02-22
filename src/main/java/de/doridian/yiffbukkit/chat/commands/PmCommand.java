@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 @Names({"pm", "msg"})
 @Help("Sends a private message to the specified user, that cannot be seen by anyone but the target and yourself.")
 @Usage("<name> <text>")
-@Permission("yiffbukkitsplit.communication.pm")
+@Permission("yiffbukkit.communication.pm")
 public class PmCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {

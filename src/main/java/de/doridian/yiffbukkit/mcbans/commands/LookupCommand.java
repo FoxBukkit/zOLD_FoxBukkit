@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
 @Names("lookup")
 @Help("Does an MCBans lookup on target player")
 @Usage("<name>")
-@Permission("yiffbukkitsplit.users.lookup")
+@Permission("yiffbukkit.users.lookup")
 public class LookupCommand extends ICommand {
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

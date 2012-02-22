@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 @Names("setspawn")
 @Help("Moves the world spawn point to your current location.")
-@Permission("yiffbukkitsplit.setspawn")
+@Permission("yiffbukkit.setspawn")
 public class SetSpawnCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {

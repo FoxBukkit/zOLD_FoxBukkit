@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 @Names({"ircban", "ircb"})
 @Help("Bans specified user from IRC Chat")
 @Usage("<full name>")
-@Permission("yiffbukkitsplit.irc.ban")
+@Permission("yiffbukkit.irc.ban")
 public class IRCBanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {

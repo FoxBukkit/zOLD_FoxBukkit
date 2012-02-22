@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.fun.commands;
 
-import de.doridian.yiffbukkit.delme.FakePermissions;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -14,7 +13,7 @@ import org.bukkit.entity.Player;
 @Names("gamemode")
 @Help("Sets the gamemode (creative / survival) for a player (default: you)")
 @Usage("<gamemode> [player]")
-@Permission("yiffbukkitsplit.gamemode.self")
+@Permission("yiffbukkit.gamemode.self")
 public class GamemodeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -22,7 +21,7 @@ public class GamemodeCommand extends ICommand {
 		if(args.length > 1)
 			target = plugin.playerHelper.matchPlayerSingle(args[1]);
 		
-		if(target != ply && !FakePermissions.has(ply, "yiffbukkitsplit.gamemode.others"))
+		if(target != ply && !ply.hasPermission("yiffbukkit.gamemode.others"))
 			throw new PermissionDeniedException();
 		
 		GameMode targetMode = null;

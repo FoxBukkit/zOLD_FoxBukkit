@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @Names({"summon", "tphere"})
 @Help("Teleports the specified user to you")
 @Usage("<name>")
-@Permission("yiffbukkitsplit.teleport.summon")
+@Permission("yiffbukkit.teleport.summon")
 public class SummonCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
