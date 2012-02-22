@@ -1,7 +1,5 @@
 package de.doridian.yiffbukkit.permissions;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -20,9 +18,7 @@ public class YiffBukkitPermissibleBase implements Permissible {
 	private CommandSender parentC = null;
 	private ServerOperator opable = null;
 
-	@SuppressWarnings("deprecation")
 	private YiffBukkitPermissionHandler handler;
-	@SuppressWarnings("deprecation")
 	private void __init() {
 		handler = YiffBukkitPermissionHandler.instance;
 	}
@@ -105,7 +101,6 @@ public class YiffBukkitPermissibleBase implements Permissible {
 		return new HashSet<PermissionAttachmentInfo>();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean hasPermission(String arg0) {
 		if(this.parentC instanceof Player) {
