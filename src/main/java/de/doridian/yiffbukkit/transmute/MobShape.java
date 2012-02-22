@@ -18,12 +18,6 @@ public class MobShape extends EntityShape {
 		super(transmute, entity, mobType);
 
 		switch (mobType) {
-		case 63: // EnderDragon
-			yawOffset = 180;
-			break;
-		}
-
-		switch (mobType) {
 		case 56: // Ghast
 		case 63: // EnderDragon
 		case 94: // Squid
