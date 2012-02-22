@@ -594,12 +594,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
-	public int getExperience() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int getFoodLevel() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -625,12 +619,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public void setExhaustion(float arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setExperience(int arg0) {
 		// TODO Auto-generated method stub
 		
 	}
