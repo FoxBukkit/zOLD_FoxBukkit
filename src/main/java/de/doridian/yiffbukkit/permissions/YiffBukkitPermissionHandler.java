@@ -62,8 +62,10 @@ public class YiffBukkitPermissionHandler {
 		groupPermissions.clear();
 		groupProhibitions.clear();
 		playerGroups.clear();
-		
-		File[] files = (new File(YiffBukkit.instance.getDataFolder() + "/permissions")).listFiles();
+
+		final File permissionsDirectory = new File(YiffBukkit.instance.getDataFolder() + "/permissions");
+		permissionsDirectory.mkdirs();
+		File[] files = permissionsDirectory.listFiles();
 
 		BufferedReader reader;
 		for(File file : files) {
