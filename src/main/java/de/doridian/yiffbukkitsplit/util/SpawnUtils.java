@@ -29,9 +29,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Boat;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
@@ -275,7 +275,7 @@ public class SpawnUtils {
 				entity = thisEnt;
 			}
 			else if (type.equalsIgnoreCase("CREEPER")) {
-				entity = world.spawnCreature(location, CreatureType.CREEPER);
+				entity = world.spawnCreature(location, EntityType.CREEPER);
 				if (entity == null) {
 					throw new YiffBukkitCommandException("Could not spawn a creeper here. Too bright?");
 				}
@@ -286,7 +286,7 @@ public class SpawnUtils {
 				}
 			}
 			else if (type.equalsIgnoreCase("SLIME")) {
-				entity = world.spawnCreature(location, CreatureType.SLIME);
+				entity = world.spawnCreature(location, EntityType.SLIME);
 				final Slime slime = (Slime)entity;
 
 				if (data != null) {
@@ -300,7 +300,7 @@ public class SpawnUtils {
 				}
 			}
 			else if (type.equalsIgnoreCase("WOLF")) {
-				entity = world.spawnCreature(location, CreatureType.WOLF);
+				entity = world.spawnCreature(location, EntityType.WOLF);
 				final Wolf wolf = (Wolf)entity;
 
 				if (data != null) { 
@@ -324,7 +324,7 @@ public class SpawnUtils {
 				}
 			}
 			else if (type.equalsIgnoreCase("SHEEP")) {
-				entity = world.spawnCreature(location, CreatureType.SHEEP);
+				entity = world.spawnCreature(location, EntityType.SHEEP);
 				final Sheep sheep = (Sheep)entity;
 
 				if ("CAMO".equalsIgnoreCase(data) || "CAMOUFLAGE".equalsIgnoreCase(data)) {
@@ -361,7 +361,7 @@ public class SpawnUtils {
 			}
 			else {
 				try {
-					CreatureType creatureType = CreatureType.valueOf(type.toUpperCase());
+					EntityType creatureType = EntityType.valueOf(type.toUpperCase());
 					entity = world.spawnCreature(location, creatureType);
 				}
 				catch (IllegalArgumentException e) {
