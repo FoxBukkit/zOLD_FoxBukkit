@@ -35,7 +35,19 @@ public class CommandSystem {
 
 	public void scanCommands() {
 		commands.clear();
-		scanCommands(ICommand.class.getPackage().getName());
+		scanCommands("de.doridian.yiffbukkit.advanced.commands");
+		scanCommands("de.doridian.yiffbukkit.chat.commands");
+		scanCommands("de.doridian.yiffbukkit.fun.commands");
+		scanCommands("de.doridian.yiffbukkit.irc.commands");
+		scanCommands("de.doridian.yiffbukkit.main.commands");
+		scanCommands("de.doridian.yiffbukkit.mcbans.commands");
+		scanCommands("de.doridian.yiffbukkit.permissions.commands");
+		scanCommands("de.doridian.yiffbukkit.remote.commands");
+		scanCommands("de.doridian.yiffbukkit.spawning.commands");
+		//scanCommands("de.doridian.yiffbukkit.ssl.commands");
+		scanCommands("de.doridian.yiffbukkit.teleportation.commands");
+		scanCommands("de.doridian.yiffbukkit.transmute.commands");
+		scanCommands("de.doridian.yiffbukkit.warp.commands");
 	}
 
 	public void scanCommands(String packageName) {
