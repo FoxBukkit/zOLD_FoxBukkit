@@ -11,9 +11,12 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -208,5 +211,54 @@ public abstract class FakeEntity implements Entity {
 	public boolean teleport(Location location, TeleportCause cause) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	public EntityType getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Entity getVehicle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isInsideVehicle() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean leaveVehicle() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<MetadataValue> getMetadata(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasMetadata(String arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void removeMetadata(String arg0, Plugin arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMetadata(String arg0, MetadataValue arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
