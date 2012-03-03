@@ -124,7 +124,7 @@ public class ThrowCommand extends ICommand {
 
 					final Vector direction = Utils.toWorldAxis(location, speed);
 
-					final Entity vehicle = Utils.getVehicle(player);
+					final Entity vehicle = player.getVehicle();
 					if (vehicle == null)
 						player.setVelocity(direction);
 					else

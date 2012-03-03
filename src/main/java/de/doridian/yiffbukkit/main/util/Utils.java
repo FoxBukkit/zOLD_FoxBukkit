@@ -3,8 +3,6 @@ package de.doridian.yiffbukkit.main.util;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.entity.CraftEntity;
-import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.Field;
@@ -187,13 +185,5 @@ public class Utils {
 			ago = weeks+"w "+ago;
 
 		return date+" ("+ago;
-	}
-
-	public static Entity getVehicle(Entity entity) {
-		final net.minecraft.server.Entity notchVehicle = ((CraftEntity)entity).getHandle().vehicle;
-		if (notchVehicle == null)
-			return null;
-
-		return notchVehicle.getBukkitEntity();
 	}
 }

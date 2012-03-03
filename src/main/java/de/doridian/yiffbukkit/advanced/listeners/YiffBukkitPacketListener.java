@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
-import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
@@ -144,7 +143,7 @@ public class YiffBukkitPacketListener extends PacketListener {
 			if (!ply.isInsideVehicle())
 				break;
 
-			final Entity vehicle = Utils.getVehicle(ply);
+			final Entity vehicle = ply.getVehicle();
 
 			final Packet10Flying p10 = (Packet10Flying) packet;
 
