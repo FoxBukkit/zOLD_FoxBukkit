@@ -64,7 +64,7 @@ public class GiveCommand extends ICommand {
 		aliases.put("lava_bukkit", Material.LAVA_BUCKET);
 		aliases.put("milk_bukkit", Material.MILK_BUCKET);
 		aliases.put("yiff_bukkit", Material.MILK_BUCKET);
-		aliases.put("yiffbukkitsplit", Material.MILK_BUCKET);
+		aliases.put("yiffbukkit", Material.MILK_BUCKET);
 		aliases.put("dye", Material.INK_SACK);
 		aliases.put("ink", Material.INK_SACK);
 		aliases.put("repeater", Material.DIODE);

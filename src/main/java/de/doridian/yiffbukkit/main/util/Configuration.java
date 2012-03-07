@@ -10,7 +10,7 @@ public class Configuration {
 	static {
 		configValues.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("yiffbukkitsplit-config.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("yiffbukkit-config.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
