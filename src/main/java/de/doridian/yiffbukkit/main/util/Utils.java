@@ -186,4 +186,15 @@ public class Utils {
 
 		return date+" ("+ago;
 	}
+
+	public static String getCaller(String excludePattern) {
+		StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[3];
+		if (stackTraceElement.getMethodName().matches(excludePattern)) {
+			stackTraceElement = Thread.currentThread().getStackTrace()[4];
+		}
+
+		final int lineNumber = stackTraceElement.getLineNumber();
+		final String fileName = stackTraceElement.getFileName();
+		return "("+fileName+":"+lineNumber+")";
+	}
 }
