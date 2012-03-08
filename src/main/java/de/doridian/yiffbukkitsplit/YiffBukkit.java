@@ -299,4 +299,8 @@ public class YiffBukkit extends JavaPlugin {
 		}*/
 		return getServer().getWorld(name);
 	}
+
+	public boolean hasSSL() {
+		return serverSSLSocket != null;
+	}
 }

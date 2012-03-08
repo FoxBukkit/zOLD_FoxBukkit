@@ -240,6 +240,9 @@ public abstract class ICommand {
 	}
 
 	protected void requireSSL(CommandSender commandSender) throws YiffBukkitCommandException {
+		if (!YiffBukkit.instance.hasSSL())
+			return;
+
 		if(commandSender instanceof Player && !SSLUtils.hasSSL(commandSender.getName()))
 			throw new YiffBukkitCommandException("This command can only be run over an SSL connection or from the console!");
 	}
