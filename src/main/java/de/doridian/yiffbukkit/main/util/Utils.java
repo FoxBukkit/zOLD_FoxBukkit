@@ -63,7 +63,9 @@ public class Utils {
 			f.setAccessible(true);
 			f.set(instance, value);
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {
+			System.err.println("Could not set field \"" + field + "\" of class \"" + instanceclass.getCanonicalName() + "\" because \"" + e.getMessage() + "\"");
+		}
 	}
 
 	static String[] directions = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
