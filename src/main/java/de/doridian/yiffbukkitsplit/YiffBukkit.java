@@ -14,6 +14,7 @@ import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.irc.Ircbot;
@@ -271,6 +272,8 @@ public class YiffBukkit extends JavaPlugin {
 				}
 			}
 		});
+
+		YiffBukkitPermissions.init();
 	}
 	
 	public void log(String msg) {

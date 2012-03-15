@@ -6,6 +6,7 @@ import org.bukkit.World.Environment;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Date;
 
 public class Utils {
@@ -53,15 +54,16 @@ public class Utils {
 			Field field_modifiers = Field.class.getDeclaredField("modifiers");
 			field_modifiers.setAccessible(true);
 
-
 			Field f = instanceclass.getDeclaredField(field);
 			int modifiers = field_modifiers.getInt(f);
-			if ((modifiers & 0x10) != 0)
-				field_modifiers.setInt(f, modifiers & 0xFFFFFFEF);
+
+			if ((modifiers & Modifier.FINAL) != 0)
+				field_modifiers.setInt(f, modifiers & ~Modifier.FINAL);
+
 			f.setAccessible(true);
 			f.set(instance, value);
 		}
-		catch (Exception e) { }
+		catch (Exception e) { e.printStackTrace(); }
 	}
 
 	static String[] directions = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };

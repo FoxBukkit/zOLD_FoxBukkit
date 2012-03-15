@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -13,7 +14,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.HashSet;
 import java.util.Set;
 
-public class YiffBukkitPermissibleBase implements Permissible {
+public class YiffBukkitPermissibleBase extends PermissibleBase {
 	private Permissible parent = this;
 	private CommandSender parentC = null;
 	private ServerOperator opable = null;
@@ -24,7 +25,7 @@ public class YiffBukkitPermissibleBase implements Permissible {
 	}
 	private void __init_end() {
 		if(this.parent == null) return;
-		
+
 		if(this.parent instanceof CommandSender) {
 			this.parentC = (CommandSender)parent;
 		}
@@ -33,6 +34,8 @@ public class YiffBukkitPermissibleBase implements Permissible {
 	}
 	
 	public YiffBukkitPermissibleBase(Permissible parent) {
+		super(parent);
+
 		__init();
 		
 		this.parent = parent;
@@ -41,6 +44,8 @@ public class YiffBukkitPermissibleBase implements Permissible {
 	}
 	
 	public YiffBukkitPermissibleBase(ServerOperator opable) {
+		super(opable);
+
 		__init();
 		
         this.opable = opable;

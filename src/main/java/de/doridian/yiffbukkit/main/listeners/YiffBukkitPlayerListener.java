@@ -56,13 +56,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
-		if (player instanceof SpoutCraftPlayer) {
-			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer)player;
-			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
-		} else {
-			final CraftPlayer craftPlayer = (CraftPlayer)player;
-			Utils.setPrivateValue(CraftPlayer.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
-		}
 
 		playerHelper.setYiffcraftState(player, false);
 		playerHelper.pushPlayerLocationOntoTeleportStack(player);

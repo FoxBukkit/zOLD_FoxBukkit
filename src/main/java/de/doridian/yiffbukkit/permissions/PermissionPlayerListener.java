@@ -1,14 +1,19 @@
 package de.doridian.yiffbukkit.permissions;
 
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.getspout.spout.player.SpoutCraftPlayer;
 
 public class PermissionPlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -42,6 +47,21 @@ public class PermissionPlayerListener implements Listener {
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
 			return;
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		final Player player = event.getPlayer();
+		
+		if (player instanceof SpoutCraftPlayer) {
+			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer)player;
+			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
+		} else if(player instanceof CraftHumanEntity) {
+			final CraftHumanEntity craftPlayer = (CraftHumanEntity)player;
+			Utils.setPrivateValue(CraftHumanEntity.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
+		} else {
+			System.out.println("Sorry, invalid stuff :(");
 		}
 	}
 }
