@@ -1,8 +1,6 @@
 package de.doridian.yiffbukkitsplit.listeners;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityLiving;
 import org.bukkit.craftbukkit.entity.CraftBlaze;
 import org.bukkit.craftbukkit.entity.CraftCaveSpider;
 import org.bukkit.craftbukkit.entity.CraftCreeper;
@@ -10,8 +8,6 @@ import org.bukkit.craftbukkit.entity.CraftEnderDragon;
 import org.bukkit.craftbukkit.entity.CraftEnderman;
 import org.bukkit.craftbukkit.entity.CraftGhast;
 import org.bukkit.craftbukkit.entity.CraftGiant;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftMagmaCube;
 import org.bukkit.craftbukkit.entity.CraftPigZombie;
 import org.bukkit.craftbukkit.entity.CraftSilverfish;
@@ -30,11 +26,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.util.Vector;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -171,55 +163,5 @@ public class YiffBukkitEntityListener implements Listener {
 		lastAttacker.remove(playerName);
 		plugin.ircbot.sendToChannel(playerName + " died.");
 		((PlayerDeathEvent) event).setDeathMessage(String.format(deathMessage, playerName));
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onEntityTarget(EntityTargetEvent event) {
-		final Entity entTarget = event.getTarget();
-
-		if (!(entTarget instanceof Player))
-			return;
-
-		final Player target = (Player)entTarget;
-
-		if (!plugin.vanish.isVanished(target))
-			return;
-
-		if (event.getReason() != TargetReason.CLOSEST_PLAYER) {
-			event.setCancelled(true);
-			return;
-		}
-		final Entity mob = event.getEntity();
-		final Vector mobPos = mob.getLocation().toVector();
-		Player newTarget = null;
-		double minDistanceSquared = 256.0D; // 16^2
-
-		for (Player player : plugin.getServer().getOnlinePlayers()) {
-			if (plugin.vanish.isVanished(player))
-				continue;
-
-			EntityLiving notchEntity = ((CraftLivingEntity)mob).getHandle();
-			EntityHuman notchPlayer = ((CraftHumanEntity)player).getHandle();
-
-			if (!notchEntity.g(notchPlayer))
-				continue;
-
-			final Vector playerPos = player.getLocation().toVector();
-
-			final double distanceSquared = mobPos.distanceSquared(playerPos);
-
-			if (distanceSquared >= minDistanceSquared)
-				continue;
-
-			minDistanceSquared = distanceSquared;
-			newTarget = player;
-		}
-
-		if (newTarget == null) {
-			event.setCancelled(true);
-			return;
-		}
-
-		event.setTarget(newTarget);
 	}
 }
