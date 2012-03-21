@@ -16,7 +16,6 @@ import de.doridian.yiffbukkit.transmute.Shape;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -60,9 +59,7 @@ public class TransmuteCommand extends ICommand {
 				playerHelper.sendDirectedMessage(ply, "Transmuted your last target back into its original shape.");
 			}
 
-			if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
-				effect(target, null);
-			}
+			effect(target, null);
 			return;
 		}
 
@@ -127,30 +124,33 @@ public class TransmuteCommand extends ICommand {
 			playerHelper.sendDirectedMessage(ply, "Transmuted your last target into "+mobType+".");
 		}
 
-		if (!(target instanceof Player) || !plugin.vanish.isVanished((Player) target)) {
-			effect(target, shape);
-		}
+		effect(target, shape);
 	}
 
 	private void effect(Entity target, Shape shape) {
-		final Location location;
+		Location location;
 		if (target instanceof LivingEntity) {
 			location = ((LivingEntity) target).getEyeLocation();
 		}
 		else {
 			location = target.getLocation();
 			if (shape instanceof EntityShape)
-				location.add(0, ((EntityShape) shape).getYOffset(), 0);
+				location = location.add(0, ((EntityShape) shape).getYOffset(), 0);
 		}
-		effect(location);
-	}
 
-	private static final void effect(Location location) {
-		final World world = location.getWorld();
+		final boolean isPlayer = target instanceof Player;
 
-		world.playEffect(location, Effect.EXTINGUISH, 0);
-		world.playEffect(location, Effect.SMOKE, 4);
-		world.playEffect(location, Effect.SMOKE, 4);
-		world.playEffect(location, Effect.SMOKE, 4);
+		for (Player player : location.getWorld().getPlayers()) {
+			if (player.getLocation().distanceSquared(location) > 64 * 64)
+				continue;
+
+			if (isPlayer && !player.canSee((Player) target))
+				continue;
+
+			player.playEffect(location, Effect.EXTINGUISH, 0);
+			player.playEffect(location, Effect.SMOKE, 4);
+			player.playEffect(location, Effect.SMOKE, 4);
+			player.playEffect(location, Effect.SMOKE, 4);
+		}
 	}
 }
