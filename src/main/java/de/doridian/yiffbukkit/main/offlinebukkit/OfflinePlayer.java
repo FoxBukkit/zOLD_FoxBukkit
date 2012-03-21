@@ -14,6 +14,7 @@ import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.craftbukkit.CraftOfflinePlayer;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Arrow;
@@ -892,6 +893,19 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public <T> void playEffect(Location arg0, Effect arg1, T arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isBlocking() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void abandonConversation(Conversation arg0,
+			ConversationAbandonedEvent arg1) {
 		// TODO Auto-generated method stub
 		
 	}
