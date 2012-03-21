@@ -53,7 +53,7 @@ public class PermissionPlayerListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		
-		if (player instanceof SpoutCraftPlayer) {
+		if (player.getClass().getName().equals("org.getspout.spout.player.SpoutCraftPlayer")) {
 			final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer)player;
 			Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
 		} else if(player instanceof CraftHumanEntity) {

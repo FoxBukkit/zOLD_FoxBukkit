@@ -139,17 +139,18 @@ public class CommandSystem {
 			// removes the .class extension
 			String classname = matcher.group(1);
 			try {
-				final Class<?> classObject = Class.forName(packageName+"."+classname.replace('/', '.'));
+				final String qualifiedName = packageName+"."+classname.replace('/', '.');
+				final Class<?> classObject = Class.forName(qualifiedName);
 				final Class<? extends T> classT = classObject.asSubclass(baseClass);
 
 				// Try to create an instance of the object
 				ret.add(classT);
 			}
-			catch (ClassNotFoundException e) {
-				System.err.println(e);
-			}
 			catch (ClassCastException e) {
 				continue;
+			}
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
