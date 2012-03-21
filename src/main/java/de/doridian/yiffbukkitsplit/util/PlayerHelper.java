@@ -1008,4 +1008,8 @@ public class PlayerHelper extends StateContainer {
 		pushPlayerLocationOntoTeleportStack(ply);
 		ply.teleport(to);
 	}
+
+	public void vanish(Player player) {
+		// TODO: send to vanish plugin.
+	}
 }
