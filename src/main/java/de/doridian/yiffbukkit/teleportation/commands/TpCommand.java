@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
@@ -8,6 +10,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -24,21 +27,21 @@ import org.bukkit.util.Vector;
 @BooleanFlags("sn")
 public class TpCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player sender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		String playerName = ply.getName();
+		String senderName = sender.getName();
 		String otherName = otherply.getName();
 
-		if (!playerHelper.canTp(ply, otherply))
+		if (!playerHelper.canTp(sender, otherply))
 			throw new PermissionDeniedException();
 
-		if (booleanFlags.contains('s') && !ply.hasPermission("yiffbukkit.vanish"))
+		if (booleanFlags.contains('s') && !sender.hasPermission("yiffbukkit.teleport.tp.silent"))
 			throw new PermissionDeniedException();
 
 		if (booleanFlags.contains('n')) {
-			if (!ply.hasPermission("yiffbukkit.vanish"))
+			if (!sender.hasPermission("yiffbukkit.teleport.tp.near"))
 				throw new PermissionDeniedException();
 
 			final Location location = otherply.getLocation();
@@ -47,17 +50,38 @@ public class TpCommand extends ICommand {
 			location.setX(vec.getX());
 			location.setY(vec.getY());
 			location.setZ(vec.getZ());
-			plugin.playerHelper.teleportWithHistory(ply, location);
+			plugin.playerHelper.teleportWithHistory(sender, location);
 		}
 		else {
-			plugin.playerHelper.teleportWithHistory(ply, otherply);
+			plugin.playerHelper.teleportWithHistory(sender, otherply);
 		}
 
-		if (plugin.vanish.isVanished(ply) || booleanFlags.contains('s')) {
-			playerHelper.sendServerMessage(playerName + " silently teleported to " + otherName, "yiffbukkit.vanish.see");
+		final List<Player> receivers = new ArrayList<Player>();
+
+		final boolean silentFlag = booleanFlags.contains('s');
+		boolean silent = silentFlag;
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+			if (!player.canSee(sender)) {
+				silent = true;
+				continue;
+			}
+
+			if (silentFlag && !sender.hasPermission("yiffbukkit.teleport.tp.silent.see"))
+				continue;
+
+			receivers.add(player);
+		}
+
+		final String message;
+		if (silent) {
+			message = senderName + " silently teleported to " + otherName;
 		}
 		else {
-			playerHelper.sendServerMessage(playerName + " teleported to " + otherName);
+			message = senderName + " teleported to " + otherName;
+		}
+
+		for (Player player : receivers) {
+			playerHelper.sendDirectedMessage(player, message);
 		}
 	}
 }
