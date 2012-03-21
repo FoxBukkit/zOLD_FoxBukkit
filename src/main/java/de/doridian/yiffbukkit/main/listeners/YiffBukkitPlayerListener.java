@@ -2,14 +2,11 @@ package de.doridian.yiffbukkit.main.listeners;
 
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
 import de.doridian.yiffbukkitsplit.util.IPGeolocation;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -26,8 +23,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.getspout.spout.player.SpoutCraftPlayer;
-
 import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
