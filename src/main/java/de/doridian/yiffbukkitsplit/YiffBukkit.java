@@ -80,17 +80,6 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitConsoleCommands consoleCommands;
 
-	// TEMP!
-	public class Vanish {
-		public boolean isVanished(Player player) {
-			return false;
-		}
-
-		public void vanish(Player player) {
-		}
-	}
-	public Vanish vanish = new Vanish();
-
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
 	public PlayerHelper playerHelper = null;
