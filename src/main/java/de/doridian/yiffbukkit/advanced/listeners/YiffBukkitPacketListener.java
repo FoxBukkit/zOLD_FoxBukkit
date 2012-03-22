@@ -5,11 +5,9 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.Packet10Flying;
-import net.minecraft.server.Packet1Login;
 import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet70Bed;
-import net.minecraft.server.Packet9Respawn;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -41,15 +39,6 @@ public class YiffBukkitPacketListener extends PacketListener {
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
-		case 1:
-			Packet1Login login = (Packet1Login)packet;
-			login.c = 1337;
-			return true;
-		case 9:
-			Packet9Respawn respawn = (Packet9Respawn)packet;
-			respawn.a = 1337;
-			return true;
-
 		case 3:
 			Packet3Chat p3 = (Packet3Chat) packet;
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))
