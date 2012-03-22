@@ -18,6 +18,8 @@ import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet70Bed;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -530,8 +532,8 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception e) { }
 	}
 
-	public Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
-	public Long frozenServerTime;
+	private Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
+	private Long frozenServerTime;
 
 	public static final void sendPacketToPlayer(final Player ply, final Packet packet) {
 		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket((net.minecraft.server.Packet) packet);
@@ -1011,5 +1013,46 @@ public class PlayerHelper extends StateContainer {
 
 	public void vanish(Player player) {
 		// TODO: send to vanish plugin.
+	}
+
+	public void setFrozenServerTime(long frozenServerTime) {
+		this.frozenServerTime = frozenServerTime;
+		applyTime();
+	}
+
+	public void resetFrozenServerTime() {
+		this.frozenServerTime = null;
+		applyTime();
+	}
+
+	public void setFrozenServerTime(Player player, long setTime) {
+		frozenTimes.put(player.getName(), setTime);
+		player.setPlayerTime(setTime, false);
+		applyTime(player);
+	}
+
+	public void resetFrozenServerTime(Player player) {
+		frozenTimes.remove(player.getName());
+		applyTime(player);
+	}
+
+	private void applyTime() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			applyTime(player);
+		}
+	}
+
+	public void applyTime(Player player) {
+		Long frozenTime = frozenTimes.get(player.getName());
+
+		if (frozenTime != null) {
+			player.setPlayerTime(frozenTime, false);
+		}
+		else if (frozenServerTime != null) {
+			player.setPlayerTime(frozenServerTime, false);
+		}
+		else {
+			player.resetPlayerTime();
+		}
 	}
 }

@@ -8,7 +8,6 @@ import net.minecraft.server.Packet10Flying;
 import net.minecraft.server.Packet1Login;
 import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
-import net.minecraft.server.Packet4UpdateTime;
 import net.minecraft.server.Packet70Bed;
 import net.minecraft.server.Packet9Respawn;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -55,19 +54,6 @@ public class YiffBukkitPacketListener extends PacketListener {
 			Packet3Chat p3 = (Packet3Chat) packet;
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))
 				return false;
-
-			return true;
-
-		case 4:
-			Packet4UpdateTime p4 = (Packet4UpdateTime) packet;
-			Long frozenTime = playerHelper.frozenTimes.get(ply.getName());
-
-			if (frozenTime != null) {
-				p4.a = frozenTime;
-			}
-			else if (playerHelper.frozenServerTime != null) {
-				p4.a = playerHelper.frozenServerTime;
-			}
 
 			return true;
 

@@ -70,11 +70,12 @@ public class ServerTimeCommand extends ICommand {
 	}
 
 	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {
-		playerHelper.frozenServerTime = setTime;
 		if (setTime == null) {
+			playerHelper.resetFrozenServerTime();
 			playerHelper.sendServerMessage(commandSender.getName() + " reset the server time back to normal!");
 		}
 		else {
+			playerHelper.setFrozenServerTime(setTime);
 			playerHelper.sendServerMessage(commandSender.getName() + " forced the server time to be: " + displayTime + ":00");
 		}
 

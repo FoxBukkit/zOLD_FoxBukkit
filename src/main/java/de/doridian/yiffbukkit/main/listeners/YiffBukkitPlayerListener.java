@@ -52,6 +52,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 
+		playerHelper.applyTime(player);
+
 		playerHelper.setYiffcraftState(player, false);
 		playerHelper.pushPlayerLocationOntoTeleportStack(player);
 
