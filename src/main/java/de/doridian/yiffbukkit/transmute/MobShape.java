@@ -42,7 +42,8 @@ public class MobShape extends EntityShape {
 		p24.e = MathHelper.floor(location.getZ() * 32.0D);
 		p24.f = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F));
 		p24.g = (byte) ((int) (location.getPitch() * 256.0F / 360.0F));
-		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "h", datawatcher);
+		p24.h = p24.g;
+		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "i", datawatcher);
 		return p24;
 	}
 
