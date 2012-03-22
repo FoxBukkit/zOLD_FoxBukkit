@@ -27,7 +27,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class PlayCommand extends ICommand {
 	public class Packet53BlockChangeExpress extends Packet53BlockChange {
 		{
-			Map<Class<? extends Packet>, Integer> classToId = Utils.getPrivateValue(Packet.class, null, "c");
+			Map<Class<? extends Packet>, Integer> classToId = Utils.getPrivateValue(Packet.class, null, "a");
 			classToId.put(Packet53BlockChangeExpress.class, 53);
 		}
 		public Packet53BlockChangeExpress() {
