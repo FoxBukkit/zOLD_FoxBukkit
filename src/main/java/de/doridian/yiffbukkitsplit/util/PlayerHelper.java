@@ -1015,6 +1015,7 @@ public class PlayerHelper extends StateContainer {
 		// TODO: send to vanish plugin.
 	}
 
+
 	public void setFrozenServerTime(long frozenServerTime) {
 		this.frozenServerTime = frozenServerTime;
 		applyTime();
