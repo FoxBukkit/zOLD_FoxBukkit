@@ -1,29 +1,13 @@
 package de.doridian.yiffbukkit.transmute;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.Block;
 import net.minecraft.server.DataWatcher;
-import net.minecraft.server.EntityArrow;
-import net.minecraft.server.EntityBoat;
-import net.minecraft.server.EntityEgg;
-import net.minecraft.server.EntityFallingBlock;
-import net.minecraft.server.EntityFireball;
-import net.minecraft.server.EntityFishingHook;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityItem;
 import net.minecraft.server.EntityLiving;
-import net.minecraft.server.EntityMinecart;
-import net.minecraft.server.EntityPainting;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.EntitySnowball;
-import net.minecraft.server.EntityTNTPrimed;
-import net.minecraft.server.IAnimal;
-import net.minecraft.server.Packet20NamedEntitySpawn;
-import net.minecraft.server.Packet21PickupSpawn;
-import net.minecraft.server.Packet23VehicleSpawn;
-import net.minecraft.server.Packet24MobSpawn;
-import net.minecraft.server.Packet25EntityPainting;
+import net.minecraft.server.EntityTrackerEntry;
 import net.minecraft.server.Packet29DestroyEntity;
 import net.minecraft.server.Packet39AttachEntity;
 import net.minecraft.server.Packet40EntityMetadata;
@@ -63,84 +47,32 @@ public abstract class Shape {
 		sendPacketToPlayersAround(transmute.ignorePacket(createOriginalSpawnPacket()));
 	}
 
+	private static final Method methodEntityTrackerEntry_b;
+	static {
+		try {
+			methodEntityTrackerEntry_b = EntityTrackerEntry.class.getDeclaredMethod("b");
+			methodEntityTrackerEntry_b.setAccessible(true);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private Packet createOriginalSpawnPacket() {
-		// TODO: update to 1.0.0
-		// TODO: update to 1.1
-		// TODO: update to 1.2.3
-		// TODO: update to 1.2.4
-
 		final net.minecraft.server.Entity notchEntity = ((CraftEntity)entity).getHandle();
+		EntityTrackerEntry ete = new EntityTrackerEntry(notchEntity, 0, 0, false);
 
-		if (notchEntity instanceof EntityItem) {
-			EntityItem entityitem = (EntityItem) notchEntity;
-			Packet21PickupSpawn packet21pickupspawn = new Packet21PickupSpawn(entityitem);
+		try {
+			return (Packet) methodEntityTrackerEntry_b.invoke(ete);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			Throwable cause = e.getCause();
+			if (cause instanceof RuntimeException)
+				throw (RuntimeException) cause;
+			if (cause instanceof Error)
+				throw (Error) cause;
 
-			/*entityitem.locX = (double) packet21pickupspawn.b / 32.0D;
-			entityitem.locY = (double) packet21pickupspawn.c / 32.0D;
-			entityitem.locZ = (double) packet21pickupspawn.d / 32.0D;*/
-			return packet21pickupspawn;
-		} else if (notchEntity instanceof EntityPlayer) {
-			return new Packet20NamedEntitySpawn((EntityHuman) notchEntity);
-		} else {
-			if (notchEntity instanceof EntityMinecart) {
-				EntityMinecart entityminecart = (EntityMinecart) notchEntity;
-
-				if (entityminecart.type == 0) {
-					return new Packet23VehicleSpawn(notchEntity, 10);
-				}
-
-				if (entityminecart.type == 1) {
-					return new Packet23VehicleSpawn(notchEntity, 11);
-				}
-
-				if (entityminecart.type == 2) {
-					return new Packet23VehicleSpawn(notchEntity, 12);
-				}
-			}
-
-			if (notchEntity instanceof EntityBoat) {
-				return new Packet23VehicleSpawn(notchEntity, 1);
-			} else if (notchEntity instanceof IAnimal) {
-				return new Packet24MobSpawn((EntityLiving) notchEntity);
-			} else if (notchEntity instanceof EntityFishingHook) {
-				return new Packet23VehicleSpawn(notchEntity, 90);
-			} else if (notchEntity instanceof EntityArrow) {
-				net.minecraft.server.Entity entityliving = ((EntityArrow) notchEntity).shooter;
-				if(!(entityliving instanceof EntityLiving)) entityliving = null;
-				return new Packet23VehicleSpawn(notchEntity, 60, entityliving != null ? entityliving.id : notchEntity.id);
-			} else if (notchEntity instanceof EntitySnowball) {
-				return new Packet23VehicleSpawn(notchEntity, 61);
-			} else if (notchEntity instanceof EntityFireball) {
-				EntityFireball entityfireball = (EntityFireball) notchEntity;
-				Packet23VehicleSpawn packet23vehiclespawn = new Packet23VehicleSpawn(notchEntity, 63, entityfireball.shooter.id);
-
-				packet23vehiclespawn.e = (int) (entityfireball.dirX * 8000.0D);
-				packet23vehiclespawn.f = (int) (entityfireball.dirY * 8000.0D);
-				packet23vehiclespawn.g = (int) (entityfireball.dirZ * 8000.0D);
-				return packet23vehiclespawn;
-			} else if (notchEntity instanceof EntityEgg) {
-				return new Packet23VehicleSpawn(notchEntity, 62);
-			} else if (notchEntity instanceof EntityTNTPrimed) {
-				return new Packet23VehicleSpawn(notchEntity, 50);
-			} else {
-				if (notchEntity instanceof EntityFallingBlock) {
-					EntityFallingBlock entityfallingsand = (EntityFallingBlock) notchEntity;
-
-					if (entityfallingsand.id == Block.SAND.id) {
-						return new Packet23VehicleSpawn(notchEntity, 70);
-					}
-
-					if (entityfallingsand.id == Block.GRAVEL.id) {
-						return new Packet23VehicleSpawn(notchEntity, 71);
-					}
-				}
-
-				if (notchEntity instanceof EntityPainting) {
-					return new Packet25EntityPainting((EntityPainting) notchEntity);
-				} else {
-					throw new IllegalArgumentException("Don\'t know how to add " + notchEntity.getClass() + "!");
-				}
-			}
+			throw new RuntimeException(cause);
 		}
 	}
 
