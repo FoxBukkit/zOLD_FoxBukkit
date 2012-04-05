@@ -83,8 +83,10 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public PlayerInventory getInventory() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 	@Override
 	public ItemStack getItemInHand() {
 		return getInventory().getItemInHand();
@@ -95,11 +97,12 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public int getHealth() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	@Override
 	public void setHealth(int health) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public double getEyeHeight() {
@@ -153,15 +156,18 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public Egg throwEgg() {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
 	public Snowball throwSnowball() {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
 	public Arrow shootArrow() {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
 	public boolean isInsideVehicle() {
@@ -169,7 +175,8 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public boolean leaveVehicle() {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
+		return false;
 	}
 	@Override
 	public Vehicle getVehicle() {
@@ -177,19 +184,21 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public int getRemainingAir() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	@Override
 	public void setRemainingAir(int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public int getMaximumAir() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	@Override
 	public void setMaximumAir(int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public Location getLocation() {
@@ -205,23 +214,25 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public int getFireTicks() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	@Override
 	public int getMaxFireTicks() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	@Override
 	public void setFireTicks(int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public void remove() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public void sendMessage(String message) {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public String getDisplayName() {
@@ -233,100 +244,109 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 	@Override
 	public void setCompassTarget(Location loc) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public InetSocketAddress getAddress() {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
 	public void kickPlayer(String message) {
-		//throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public void chat(String msg) {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public boolean performCommand(String command) {
-		throw new UnsupportedOperationException("Player is offline");
+		// TODO Auto-generated method stub
+		return false;
 	}
 	@Override
 	public boolean isSneaking() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 	@Override
 	public void setSneaking(boolean sneak) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 	@Override
 	public void updateInventory() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Location getEyeLocation() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void damage(int amount) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void damage(int amount, Entity source) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void setVelocity(Vector velocity) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Vector getVelocity() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public int getMaximumNoDamageTicks() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void setMaximumNoDamageTicks(int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public int getLastDamage() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void setLastDamage(int damage) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public int getNoDamageTicks() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void setNoDamageTicks(int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Player getKiller() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public boolean teleport(Location location) {
-		//throw new UnsupportedOperationException("Not yet implemented!");
+		//// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -337,238 +357,263 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public Entity getPassenger() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public boolean setPassenger(Entity passenger) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean eject() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public Location getCompassTarget() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void sendRawMessage(String message) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean isSleeping() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public int getSleepTicks() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public List<Entity> getNearbyEntities(double x, double y, double z) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public boolean isDead() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public float getFallDistance() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void setFallDistance(float distance) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void saveData() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void loadData() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void setSleepingIgnored(boolean isSleeping) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean isSleepingIgnored() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public void awardAchievement(Achievement achievement) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void incrementStatistic(Statistic statistic) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void incrementStatistic(Statistic statistic, int amount) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void incrementStatistic(Statistic statistic, Material material) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void incrementStatistic(Statistic statistic, Material material, int amount) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void setLastDamageCause(EntityDamageEvent event) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public EntityDamageEvent getLastDamageCause() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void playNote(Location loc, byte instrument, byte note) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void sendBlockChange(Location loc, Material material, byte data) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void sendBlockChange(Location loc, int material, byte data) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public UUID getUniqueId() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public long getPlayerTime() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public long getPlayerTimeOffset() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public boolean isPlayerTimeRelative() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public void playEffect(Location arg0, Effect arg1, int arg2) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void playNote(Location arg0, Instrument arg1, Note arg2) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void resetPlayerTime() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public boolean sendChunkChange(Location arg0, int arg1, int arg2, int arg3,
-			byte[] arg4) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+	public boolean sendChunkChange(Location arg0, int arg1, int arg2, int arg3, byte[] arg4) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public void setPlayerTime(long arg0, boolean arg1) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean isPermissionSet(String name) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean isPermissionSet(Permission perm) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean hasPermission(String name) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean hasPermission(Permission perm) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin plugin) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void removeAttachment(PermissionAttachment attachment) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void recalculatePermissions() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void sendMap(MapView map) {
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -580,7 +625,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setGameMode(GameMode arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -591,7 +635,7 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public void setBedSpawnLocation(Location location) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -627,31 +671,26 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setExhaustion(float arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setFoodLevel(int arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setLevel(int arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setSaturation(float arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setTotalExperience(int arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public void setSprinting(boolean arg0) {
@@ -671,7 +710,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setTicksLived(int value) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -683,7 +721,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setPlayerListName(String name) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -695,7 +732,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void giveExp(int amount) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -707,7 +743,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setExp(float exp) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -744,19 +779,27 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void hidePlayer(Player player) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void showPlayer(Player player) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean canSee(Player player) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean isFlying() {
+		return false;
+	}
+
+	@Override
+	public void setFlying(boolean b) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -786,7 +829,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void removePotionEffect(PotionEffectType type) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -798,7 +840,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void closeInventory() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -828,7 +869,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void openInventory(InventoryView arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -840,7 +880,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setItemOnCursor(ItemStack arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -864,13 +903,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void abandonConversation(Conversation arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void acceptConversationInput(String arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -888,13 +925,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void sendMessage(String[] arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public <T> void playEffect(Location arg0, Effect arg1, T arg2) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -904,9 +939,7 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
-	public void abandonConversation(Conversation arg0,
-			ConversationAbandonedEvent arg1) {
+	public void abandonConversation(Conversation arg0, ConversationAbandonedEvent arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 }
