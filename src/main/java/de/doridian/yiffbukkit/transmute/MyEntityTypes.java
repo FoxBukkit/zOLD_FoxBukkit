@@ -10,6 +10,7 @@ import net.minecraft.server.EntityExperienceOrb;
 import net.minecraft.server.EntityFallingBlock;
 import net.minecraft.server.EntityFishingHook;
 import net.minecraft.server.EntityMagmaCube;
+import net.minecraft.server.EntityOcelot;
 import net.minecraft.server.EntityPotion;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityTypes;
@@ -36,6 +37,7 @@ public class MyEntityTypes {
 		addAliases(EntityFallingBlock.class, "FallingBlock");
 		addAliases(EntityMagmaCube.class, "MagmaCube");
 		addAliases(EntityEnderDragon.class, "Dragon");
+		addAliases(EntityOcelot.class, "Ocelot", "Cat");
 
 		addType(EntityFishingHook.class, 1000, "FishingHook", "Fish", "Hook", "FishingPole");
 		addType(EntityPotion.class, 1001, "Potion", "ThrownPotion");

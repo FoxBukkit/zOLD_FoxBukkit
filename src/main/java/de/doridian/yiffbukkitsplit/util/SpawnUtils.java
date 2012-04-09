@@ -36,6 +36,7 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
@@ -358,6 +359,43 @@ public class SpawnUtils {
 			else if (type.equalsIgnoreCase("NPC")) {
 				final String name = data == null ? "" : data;
 				entity = makeNPC(name, location);
+			}
+			else if(type.equalsIgnoreCase("OCELOT") || type.equalsIgnoreCase("CAT")) {
+				entity = world.spawnCreature(location, EntityType.OCELOT);
+
+				final Ocelot ocelot = (Ocelot)entity;
+				if (data != null) {
+					Ocelot.Type oType = null;
+
+					for (String subData : data.toUpperCase().split(",")) {
+						if (subData.isEmpty())
+							continue;
+
+						if (subData.equals("SITTING") || subData.equals("SIT")) {
+							ocelot.setSitting(true);
+						} else {
+							Ocelot.Type tmpOType = null;
+							try {
+								String filteredData = subData.toUpperCase().replace(' ','_');
+								if(subData.endsWith("_CAT")) {
+									tmpOType = Ocelot.Type.valueOf(filteredData);
+								} else if(subData.equals("WILD") || subData.equals("OCELOT") || subData.equals("WILD_OCELOT")) {
+									tmpOType = Ocelot.Type.WILD_OCELOT;
+								} else {
+									tmpOType = Ocelot.Type.valueOf(filteredData + "_CAT");
+								}
+							} catch(Exception e) { }
+
+							if(tmpOType != null) {
+								oType = tmpOType;
+							}
+						}
+					}
+
+					if(oType != null) {
+						ocelot.setCatType(oType);
+					}
+				}
 			}
 			else {
 				try {
