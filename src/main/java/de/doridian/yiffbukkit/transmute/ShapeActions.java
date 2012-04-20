@@ -7,7 +7,6 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.EnumArt;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -118,6 +117,8 @@ final class ShapeActions {
 		//registerMobActions(13, // SmallFireball
 		//registerMobActions(14, // ThrownEnderpearl
 		//registerMobActions(15, // EyeOfEnderSignal
+		//registerMobActions(16, // ThrownPotion
+		//registerMobActions(17, // ThrownExpBottle
 		//registerMobActions(20, // PrimedTnt
 		//registerMobActions(21, // FallingSand
 
@@ -310,9 +311,10 @@ final class ShapeActions {
 		);
 
 		//registerMobActions(97, // SnowMan
+
 		registerMobActions(98, // Ozelot
 				"help",
-				new HelpMobAction("/sac sit [on|off]|type [black|red|siamese|wild]|baby|adult"),
+				new HelpMobAction("/sac sit [on|off]|type (black|red|siamese|wild)|baby|adult"),
 				"sit",
 				new MetadataBitMobAction(16, 0x1, "Getting up...", "Sitting down..."),
 				"baby",
