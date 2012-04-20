@@ -1,21 +1,6 @@
 package de.doridian.yiffbukkitsplit.listeners;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import org.bukkit.craftbukkit.entity.CraftBlaze;
-import org.bukkit.craftbukkit.entity.CraftCaveSpider;
-import org.bukkit.craftbukkit.entity.CraftCreeper;
-import org.bukkit.craftbukkit.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.entity.CraftEnderman;
-import org.bukkit.craftbukkit.entity.CraftGhast;
-import org.bukkit.craftbukkit.entity.CraftGiant;
-import org.bukkit.craftbukkit.entity.CraftMagmaCube;
-import org.bukkit.craftbukkit.entity.CraftPigZombie;
-import org.bukkit.craftbukkit.entity.CraftSilverfish;
-import org.bukkit.craftbukkit.entity.CraftSkeleton;
-import org.bukkit.craftbukkit.entity.CraftSlime;
-import org.bukkit.craftbukkit.entity.CraftSpider;
-import org.bukkit.craftbukkit.entity.CraftWolf;
-import org.bukkit.craftbukkit.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -27,6 +12,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,23 +28,24 @@ public class YiffBukkitEntityListener implements Listener {
 
 	Map<String, String> lastAttacker = new HashMap<String, String>();
 
-	Map<Class<? extends Entity>, String> monsterMap = new HashMap<Class<? extends Entity>, String>();
+	Map<EntityType, String> monsterMap = new EnumMap<EntityType, String>(EntityType.class);
 	{
-		monsterMap.put(CraftCreeper.class, "a \u00a79creeper\u00a7f");
-		monsterMap.put(CraftGiant.class, "a \u00a79giant\u00a7f");
-		monsterMap.put(CraftSkeleton.class, "a \u00a79skeleton\u00a7f");
-		monsterMap.put(CraftSpider.class, "a \u00a79spider\u00a7f");
-		monsterMap.put(CraftZombie.class, "a \u00a79zombie\u00a7f");
-		monsterMap.put(CraftPigZombie.class, "a \u00a79pig zombie\u00a7f");
-		monsterMap.put(CraftWolf.class, "a \u00a79wolf\u00a7f");
-		monsterMap.put(CraftSlime.class, "a \u00a79slime\u00a7f");
-		monsterMap.put(CraftGhast.class, "a \u00a79ghast\u00a7f");
-		monsterMap.put(CraftEnderman.class, "an \u00a79enderman\u00a7f");
-		monsterMap.put(CraftSilverfish.class, "a \u00a79silverfish\u00a7f");
-		monsterMap.put(CraftCaveSpider.class, "a \u00a79cave spider\u00a7f");
-		monsterMap.put(CraftEnderDragon.class, "an \u00a79ender dragon\u00a7f");
-		monsterMap.put(CraftBlaze.class, "a \u00a79blaze\u00a7f");
-		monsterMap.put(CraftMagmaCube.class, "a \u00a79lava slime\u00a7f");
+		monsterMap.put(EntityType.CREEPER, "a \u00a79creeper\u00a7f");
+		monsterMap.put(EntityType.GIANT, "a \u00a79giant\u00a7f");
+		monsterMap.put(EntityType.SKELETON, "a \u00a79skeleton\u00a7f");
+		monsterMap.put(EntityType.SPIDER, "a \u00a79spider\u00a7f");
+		monsterMap.put(EntityType.ZOMBIE, "a \u00a79zombie\u00a7f");
+		monsterMap.put(EntityType.PIG_ZOMBIE, "a \u00a79pig zombie\u00a7f");
+		monsterMap.put(EntityType.WOLF, "a \u00a79wolf\u00a7f");
+		monsterMap.put(EntityType.SLIME, "a \u00a79slime\u00a7f");
+		monsterMap.put(EntityType.GHAST, "a \u00a79ghast\u00a7f");
+		monsterMap.put(EntityType.ENDERMAN, "an \u00a79enderman\u00a7f");
+		monsterMap.put(EntityType.SILVERFISH, "a \u00a79silverfish\u00a7f");
+		monsterMap.put(EntityType.CAVE_SPIDER, "a \u00a79cave spider\u00a7f");
+		monsterMap.put(EntityType.ENDER_DRAGON, "an \u00a79ender dragon\u00a7f");
+		monsterMap.put(EntityType.BLAZE, "a \u00a79blaze\u00a7f");
+		monsterMap.put(EntityType.MAGMA_CUBE, "a \u00a79lava slime\u00a7f");
+		monsterMap.put(EntityType.IRON_GOLEM, "a \u00a79golem\u00a7f");
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -77,7 +65,7 @@ public class YiffBukkitEntityListener implements Listener {
 
 
 		final String playerName = ply.getName();
-		
+
 		EntityDamageEvent damageEvent = ent.getLastDamageCause();
 		final String deathMessage;
 		switch (damageEvent.getCause()) {
@@ -107,7 +95,7 @@ public class YiffBukkitEntityListener implements Listener {
 				break;
 			}
 
-			String damagerName = monsterMap.get(damager.getClass());
+			String damagerName = monsterMap.get(damager.getType());
 			if (damagerName == null) {
 				if (damager instanceof Player)
 					damagerName = ((Player) damager).getName();
