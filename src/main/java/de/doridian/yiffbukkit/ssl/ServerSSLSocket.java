@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -78,7 +79,7 @@ public class ServerSSLSocket extends Thread {
 
 								NetLoginHandler netloginhandler = new NetLoginHandlerSSL(plugin, server, socket, "SSL Connection #" + (connCount++), cert);
 
-								final ArrayList<NetLoginHandler> networkListenThreadG = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "g");
+								final Collection<NetLoginHandler> networkListenThreadG = Utils.getPrivateValue(NetworkListenThread.class, server.networkListenThread, "g");
 								networkListenThreadG.add(netloginhandler);
 							}
 						}
