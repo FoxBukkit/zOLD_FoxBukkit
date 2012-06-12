@@ -45,7 +45,6 @@ public class PermissionPlayerListener implements Listener {
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
-			return;
 		}
 	}
 
@@ -61,6 +60,10 @@ public class PermissionPlayerListener implements Listener {
 			Utils.setPrivateValue(CraftHumanEntity.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
 		} else {
 			System.out.println("Sorry, invalid stuff :(");
+		}
+
+		if(YiffBukkitPermissionHandler.instance.getGroup(player.getName()).equals("guest")) {
+			YiffBukkitPermissions.addCOPlayer(player);
 		}
 	}
 }
