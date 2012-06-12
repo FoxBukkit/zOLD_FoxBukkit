@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spout.player.SpoutCraftPlayer;
 
@@ -64,6 +65,14 @@ public class PermissionPlayerListener implements Listener {
 
 		if(YiffBukkitPermissionHandler.instance.getGroup(player.getName()).equals("guest")) {
 			YiffBukkitPermissions.addCOPlayer(player);
+		} else {
+			YiffBukkitPermissions.removeCOPlayer(player);
 		}
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerKick(PlayerKickEvent event) {
+		if(event.isCancelled()) return;
+		YiffBukkitPermissions.removeCOPlayer(event.getPlayer());
 	}
 }
