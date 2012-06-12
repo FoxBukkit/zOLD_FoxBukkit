@@ -22,7 +22,7 @@ public class YiffBukkitPermissions {
 			BufferedReader reader = new BufferedReader(new FileReader(new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt")));
 			String line;
 			while((line = reader.readLine()) != null) {
-				checkOffPlayers.add(line);
+				checkOffPlayers.add(line.toLowerCase());
 			}
 			reader.close();
 		} catch(Exception e) {
@@ -36,6 +36,7 @@ public class YiffBukkitPermissions {
 		addCOPlayer(player.getName());
 	}
 	public static void addCOPlayer(String player) {
+		player = player.toLowerCase();
 		if(!checkOffPlayers.contains(player)) {
 			checkOffPlayers.add(player);
 			saveCO();
@@ -45,6 +46,7 @@ public class YiffBukkitPermissions {
 		return removeCOPlayer(player.getName());
 	}
 	public static boolean removeCOPlayer(String player) {
+		player = player.toLowerCase();
 		if(checkOffPlayers.contains(player)) {
 			checkOffPlayers.remove(player);
 			saveCO();
@@ -58,7 +60,7 @@ public class YiffBukkitPermissions {
 			PrintWriter writer = new PrintWriter(new FileWriter(new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt")));
 			String[] plys = checkOffPlayers.toArray(new String[checkOffPlayers.size()]);
 			for(String ply : plys) {
-				writer.println(ply);
+				writer.println(ply.toLowerCase());
 			}
 			writer.close();
 		} catch(Exception e) {
