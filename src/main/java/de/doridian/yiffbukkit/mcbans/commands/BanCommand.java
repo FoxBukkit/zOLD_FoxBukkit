@@ -4,6 +4,7 @@ import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.main.commands.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
@@ -53,6 +54,8 @@ public class BanCommand extends ICommand {
 		}
 
         boolean saveEvidence = false;
+
+		YiffBukkitPermissions.removeCOPlayer(otherply);
 
 		if(global || rollback) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
