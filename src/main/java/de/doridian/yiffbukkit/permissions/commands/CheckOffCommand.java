@@ -17,12 +17,17 @@ public class CheckOffCommand extends ICommand {
 			StringBuilder reply = new StringBuilder();
 			reply.append("\u00a74CO: ");
 			for(int i=0;i<plys.length;i++) {
+				String plystr = plys[i];
 				if(i != 0) {
-					reply.append("\u00a7f, \u00a77");
-				} else {
-					reply.append("\u00a77");
+					reply.append("\u00a7f, ");
 				}
-				reply.append(plys[i]);
+				Player plyply = plugin.getServer().getPlayerExact(plystr);
+				if(plyply != null && plyply.isOnline()) {
+					reply.append("\u00a72");
+				} else {
+					reply.append("\u00a74");
+				}
+				reply.append(plystr);
 			}
 			plugin.playerHelper.sendDirectedMessage(ply, reply.toString());
 		} else {
