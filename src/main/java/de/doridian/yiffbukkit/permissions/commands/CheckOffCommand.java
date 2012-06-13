@@ -15,7 +15,7 @@ public class CheckOffCommand extends ICommand {
 		if(args.length < 1) {
 			String[] plys = YiffBukkitPermissions.checkOffPlayers.toArray(new String[YiffBukkitPermissions.checkOffPlayers.size()]);
 			StringBuilder reply = new StringBuilder();
-			reply.append("\u00a74CO: ");
+			reply.append("\u00a76CO: ");
 			for(int i=0;i<plys.length;i++) {
 				String plystr = plys[i];
 				if(i != 0) {
