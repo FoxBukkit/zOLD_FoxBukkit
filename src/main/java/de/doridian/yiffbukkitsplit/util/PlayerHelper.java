@@ -982,8 +982,12 @@ public class PlayerHelper extends StateContainer {
 		sendYiffcraftClientCommand(ply, command, sb);
 	}
 
+	public boolean hasYiffcraft(Player ply) {
+		return yiffcraftPlayers.contains(ply.getName().toLowerCase());
+	}
+
 	public void sendYiffcraftClientCommand(Player ply, char command, CharSequence args) {
-		if(!yiffcraftPlayers.contains(ply.getName().toLowerCase())) return;
+		if(!hasYiffcraft(ply)) return;
 		ply.sendPluginMessage(plugin, "yiffcraft", (command + args.toString()).getBytes());
 	}
 

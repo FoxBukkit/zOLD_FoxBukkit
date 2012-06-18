@@ -216,7 +216,7 @@ public class ChatHelper extends StateContainer {
 
 			if (chan.canHear(player, ply)) {
 				player.sendRawMessage(msg);
-				if (player != ply)
+				if (ply != null && player != ply && ply.canSee(player))
 					noOneHearsYou = false;
 			}
 		}

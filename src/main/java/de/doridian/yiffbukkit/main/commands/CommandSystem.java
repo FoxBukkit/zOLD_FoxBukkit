@@ -48,6 +48,7 @@ public class CommandSystem {
 		scanCommands("de.doridian.yiffbukkit.teleportation.commands");
 		scanCommands("de.doridian.yiffbukkit.transmute.commands");
 		scanCommands("de.doridian.yiffbukkit.warp.commands");
+		scanCommands("de.doridian.yiffbukkit.spectate.commands");
 	}
 
 	public void scanCommands(String packageName) {
