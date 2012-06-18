@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerPreLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.json.simple.JSONObject;
@@ -34,7 +34,7 @@ public class MCBansPlayerListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerPreLogin(PlayerPreLoginEvent event) {
+	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
 		if (plugin.serverClosed)
 			return;
 
