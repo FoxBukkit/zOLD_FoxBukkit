@@ -186,6 +186,14 @@ public class ChatHelper extends StateContainer {
 			throw new YiffBukkitCommandException("You cannot speak in this channel!");
 		}
 
+		if(ply != null && !ply.hasPermission("yiffbukkit.chatreplace.override")) {
+			String tmp;
+			for(ChatReplacer replacer : container.replacers) {
+				tmp = replacer.replace(msg);
+				if(tmp != null) msg = tmp;
+			}
+		}
+
 		if (format && ply != null) {
 			if (chan == OOC) {
 				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
