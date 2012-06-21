@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit.spectate;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;

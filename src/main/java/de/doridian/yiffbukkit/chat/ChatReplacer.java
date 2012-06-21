@@ -8,6 +8,8 @@ public interface ChatReplacer extends Serializable {
 	public String toString();
 
 	class PlainChatReplacer implements ChatReplacer {
+		private static final long serialVersionUID = 1L;
+
 		private final String from;
 		private final String to;
 
@@ -40,6 +42,8 @@ public interface ChatReplacer extends Serializable {
 	}
 
 	class RegexChatReplacer implements ChatReplacer {
+		private static final long serialVersionUID = 1L;
+
 		private final Pattern from;
 		private final String to;
 

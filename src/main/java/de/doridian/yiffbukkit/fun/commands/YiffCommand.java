@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.fun.commands;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.EntityHuman;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import org.bukkit.Location;

@@ -13,7 +13,6 @@ import javax.net.ssl.SSLSocket;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.security.cert.Certificate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;

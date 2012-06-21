@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.spectate;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,8 +9,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class SpectatePlayer {
-	private static final SpectatePlayerListener listener = new SpectatePlayerListener(YiffBukkit.instance);
-
 	protected static final HashMap<Player, SpectatePlayer> wrappedPlayers = new HashMap<Player, SpectatePlayer>();
 
 	private final Player player;
