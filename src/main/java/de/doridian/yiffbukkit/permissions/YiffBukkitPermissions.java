@@ -17,8 +17,12 @@ public class YiffBukkitPermissions {
 		Bukkit.getPluginManager().registerEvents(listener, YiffBukkit.instance);
 
 		try {
+			final File file = new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt");
+			if (!file.exists())
+				return;
+
 			checkOffPlayers.clear();
-			BufferedReader reader = new BufferedReader(new FileReader(new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt")));
+			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line;
 			while((line = reader.readLine()) != null) {
 				checkOffPlayers.add(line.toLowerCase());
