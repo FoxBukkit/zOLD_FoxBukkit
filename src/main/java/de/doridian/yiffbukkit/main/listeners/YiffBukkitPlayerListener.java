@@ -24,6 +24,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -69,14 +71,44 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		if (playerFile != null && playerFile.exists()) {
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
-			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined from " + IPGeolocation.getCountry(player.getAddress()) + "!");
+			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
 		} else {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
-			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined from " + IPGeolocation.getCountry(player.getAddress()) + " for the first time!");
+			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
 		}
+
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					HttpURLConnection conn = (HttpURLConnection)(new URL("https://dl.dropbox.com/u/44740336/Nodus/capes/"+player.getName().toLowerCase()+".png").openConnection());
+					conn.setRequestMethod("HEAD");
+					System.setProperty("http.agent", "");
+					conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30");
+					conn.setConnectTimeout(10000);
+					conn.setReadTimeout(20000);
+
+					int responseCode = conn.getResponseCode();
+					if(responseCode == 403 || responseCode == 404) {
+						return; //No nodus (donator)
+					} else if(responseCode >= 500 && responseCode <= 599) {
+						throw new Exception("Error from fetching Nodus details from DropBox: " + responseCode);
+					}
+
+					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						@Override
+						public void run() {
+							plugin.playerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + player.getName() + " is a Nodus Donator! Watch out :3", "yiffbukkit.opchat");
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
 
 		playerHelper.updateToolMappings(player);
 		plugin.chatManager.popCurrentOrigin();
