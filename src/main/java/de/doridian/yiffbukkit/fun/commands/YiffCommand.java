@@ -29,7 +29,7 @@ public class YiffCommand extends ICommand {
 
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		parseFlags(args);
+		args = parseFlags(args);
 
 		Player target = null;
 		try {
