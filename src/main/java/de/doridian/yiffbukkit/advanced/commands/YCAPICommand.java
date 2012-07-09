@@ -84,7 +84,7 @@ public class YCAPICommand extends ICommand {
 				getChangesQuery.silent = true;
 				getChangesQuery.needType = false;
 				getChangesQuery.needData = false;
-				getChangesQuery.needDate = false;
+				getChangesQuery.needDate = true;
 				getChangesQuery.needId = false;
 				getChangesQuery.needPlayer = false;
 				getChangesQuery.needSignText = false;
@@ -101,6 +101,8 @@ public class YCAPICommand extends ICommand {
 					replyPacket.append(res.getInt("itemamount"));
 					replyPacket.append(';');
 					replyPacket.append(res.getInt("itemdata"));
+					replyPacket.append(';');
+					replyPacket.append(res.getInt("date"));
 				}
 
 				playerHelper.sendYiffcraftClientCommand(ply, 'a', replyPacket.toString());
