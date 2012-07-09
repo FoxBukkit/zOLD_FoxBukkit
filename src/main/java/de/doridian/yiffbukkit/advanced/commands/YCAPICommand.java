@@ -102,7 +102,7 @@ public class YCAPICommand extends ICommand {
 					replyPacket.append(';');
 					replyPacket.append(res.getInt("itemdata"));
 					replyPacket.append(';');
-					replyPacket.append(res.getInt("date"));
+					replyPacket.append(res.getString("date"));
 				}
 
 				playerHelper.sendYiffcraftClientCommand(ply, 'a', replyPacket.toString());
