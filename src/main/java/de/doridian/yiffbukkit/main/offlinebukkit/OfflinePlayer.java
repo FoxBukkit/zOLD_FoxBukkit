@@ -838,6 +838,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
+	public boolean hasLineOfSight(Entity entity) {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
 	public void closeInventory() {
 		// TODO Auto-generated method stub
 	}

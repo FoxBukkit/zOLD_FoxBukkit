@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit.main.listeners;
 
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.util.IPGeolocation;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,6 +22,9 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.getspout.spoutapi.event.spout.SpoutcraftBuildSetEvent;
+import org.getspout.spoutapi.player.SpoutPlayer;
+
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -113,6 +115,16 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.updateToolMappings(player);
 		plugin.chatManager.popCurrentOrigin();
 		playerHelper.pushWeather(player);
+	}
+
+	public void onSpoutcraftAuth(SpoutcraftBuildSetEvent event) {
+		SpoutPlayer player = event.getPlayer();
+
+		for(Player ply : plugin.getServer().getOnlinePlayers()) {
+			((SpoutPlayer)ply).setTitleFor(((SpoutPlayer)player), plugin.playerHelper.getPlayerTag(ply) + "\n" + ply.getDisplayName());
+		}
+
+		player.setTitle(plugin.playerHelper.getPlayerTag(player) + "\n" + player.getDisplayName());
 	}
 
 	public Hashtable<String,String> offlinePlayers = new Hashtable<String, String>();
