@@ -46,7 +46,7 @@ public class YCAPICommand extends ICommand {
 				getChangesQuery.bct = QueryParams.BlockChangeType.BOTH;
 				getChangesQuery.silent = true;
 				getChangesQuery.needType = true;
-				getChangesQuery.needData = true;
+				getChangesQuery.needData = false;
 				getChangesQuery.needDate = false;
 				getChangesQuery.needId = false;
 				getChangesQuery.needPlayer = false;
@@ -65,8 +65,6 @@ public class YCAPICommand extends ICommand {
 					replyPacket.append(res.getInt("destroyed"));
 					replyPacket.append(';');
 					replyPacket.append(res.getInt("type"));
-					replyPacket.append(';');
-					replyPacket.append(res.getInt("data"));
 				}
 
 				playerHelper.sendYiffcraftClientCommand(ply, 's', replyPacket.toString());
