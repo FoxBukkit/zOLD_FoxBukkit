@@ -73,7 +73,7 @@ public class YCAPICommand extends ICommand {
 			} catch(Exception e) {
 				throw new YiffBukkitCommandException(e.getMessage());
 			}
-		} else if(arg0.equals("lbsb")) { //LogBlock ChestAccess
+		} else if(arg0.equals("lbca")) { //LogBlock ChestAccess
 			try {
 				StringBuilder replyPacket = new StringBuilder();
 				replyPacket.append(args[1]);
