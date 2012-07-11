@@ -53,6 +53,8 @@ public class MCBansBlockLoggerLogBlock extends MCBansBlockLogger {
 				tmp.date = res.getDate("date");
 				ret.add(tmp);
 			}
+
+			conn.close();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -67,6 +67,8 @@ public class YCAPICommand extends ICommand {
 					replyPacket.append(res.getInt("type"));
 				}
 
+				conn.close();
+
 				playerHelper.sendYiffcraftClientCommand(ply, 's', replyPacket.toString());
 			} catch(Exception e) {
 				throw new YiffBukkitCommandException(e.getMessage());
@@ -104,6 +106,8 @@ public class YCAPICommand extends ICommand {
 					replyPacket.append(';');
 					replyPacket.append(res.getString("date"));
 				}
+
+				conn.close();
 
 				playerHelper.sendYiffcraftClientCommand(ply, 'a', replyPacket.toString());
 			} catch(Exception e) { }
