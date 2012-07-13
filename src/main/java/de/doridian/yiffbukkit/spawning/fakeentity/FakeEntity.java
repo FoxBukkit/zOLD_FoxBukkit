@@ -261,4 +261,9 @@ public abstract class FakeEntity implements Entity {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean isValid() {
+		return !isDead();
+	}
 }

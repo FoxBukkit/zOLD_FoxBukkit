@@ -947,4 +947,15 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public void abandonConversation(Conversation arg0, ConversationAbandonedEvent arg1) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public int getExpToLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isValid() {
+		return !isDead();
+	}
 }

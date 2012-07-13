@@ -71,7 +71,7 @@
 			<version>5.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.afforess</groupId>
+			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>1.2.5-R4.1-SNAPSHOT</version>
 		</dependency>
@@ -98,18 +98,10 @@
 	</dependencies>
 	<repositories>
 		<repository>
-			<releases>
-			</releases>
-			<snapshots>
-			</snapshots>
 			<id>spout-repo</id>
 			<url>http://repo.spout.org</url>
 		</repository>
 		<repository>
-			<releases>
-			</releases>
-			<snapshots>
-			</snapshots>
 			<id>sk89q-repo</id>
 			<url>http://mvn2.sk89q.com/repo</url>
 		</repository>

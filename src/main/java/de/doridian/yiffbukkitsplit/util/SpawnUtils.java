@@ -276,7 +276,7 @@ public class SpawnUtils {
 				entity = thisEnt;
 			}
 			else if (type.equalsIgnoreCase("CREEPER")) {
-				entity = world.spawnCreature(location, EntityType.CREEPER);
+				entity = world.spawnEntity(location, EntityType.CREEPER);
 				if (entity == null) {
 					throw new YiffBukkitCommandException("Could not spawn a creeper here. Too bright?");
 				}
@@ -287,7 +287,7 @@ public class SpawnUtils {
 				}
 			}
 			else if (type.equalsIgnoreCase("SLIME")) {
-				entity = world.spawnCreature(location, EntityType.SLIME);
+				entity = world.spawnEntity(location, EntityType.SLIME);
 				final Slime slime = (Slime)entity;
 
 				if (data != null) {
@@ -301,7 +301,7 @@ public class SpawnUtils {
 				}
 			}
 			else if (type.equalsIgnoreCase("WOLF")) {
-				entity = world.spawnCreature(location, EntityType.WOLF);
+				entity = world.spawnEntity(location, EntityType.WOLF);
 				final Wolf wolf = (Wolf)entity;
 
 				if (data != null) { 
@@ -325,7 +325,7 @@ public class SpawnUtils {
 				}
 			}
 			else if (type.equalsIgnoreCase("SHEEP")) {
-				entity = world.spawnCreature(location, EntityType.SHEEP);
+				entity = world.spawnEntity(location, EntityType.SHEEP);
 				final Sheep sheep = (Sheep)entity;
 
 				if ("CAMO".equalsIgnoreCase(data) || "CAMOUFLAGE".equalsIgnoreCase(data)) {
@@ -361,7 +361,7 @@ public class SpawnUtils {
 				entity = makeNPC(name, location);
 			}
 			else if(type.equalsIgnoreCase("OCELOT") || type.equalsIgnoreCase("CAT")) {
-				entity = world.spawnCreature(location, EntityType.OCELOT);
+				entity = world.spawnEntity(location, EntityType.OCELOT);
 
 				final Ocelot ocelot = (Ocelot)entity;
 				if (data != null) {
@@ -400,7 +400,7 @@ public class SpawnUtils {
 			else {
 				try {
 					EntityType creatureType = EntityType.valueOf(type.toUpperCase());
-					entity = world.spawnCreature(location, creatureType);
+					entity = world.spawnEntity(location, creatureType);
 				}
 				catch (IllegalArgumentException e) {
 					throw new YiffBukkitCommandException("Creature type "+type+" not found", e);

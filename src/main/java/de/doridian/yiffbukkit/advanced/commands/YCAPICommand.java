@@ -5,9 +5,7 @@ import de.diddiz.LogBlock.QueryParams;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.mcbans.MCBansBlockChange;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 

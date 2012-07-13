@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TCharObjectMap;
 import gnu.trove.map.hash.TCharObjectHashMap;
@@ -240,12 +239,12 @@ public abstract class ICommand {
 	}
 
 	protected void requireSSL(CommandSender commandSender) throws YiffBukkitCommandException {
+		/* SSL is fucked!
 		if (!YiffBukkit.instance.hasSSL())
 			return;
 
-		if(true) return; //SSL is fucked!
-
 		if(commandSender instanceof Player && !SSLUtils.hasSSL(commandSender.getName()))
 			throw new YiffBukkitCommandException("This command can only be run over an SSL connection or from the console!");
+		*/
 	}
 }

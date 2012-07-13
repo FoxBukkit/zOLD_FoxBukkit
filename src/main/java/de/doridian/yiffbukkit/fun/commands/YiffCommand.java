@@ -6,14 +6,10 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet29DestroyEntity;
-import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.getspout.spoutapi.packet.PacketMovementModifiers;
-
 import java.util.HashMap;
 import java.util.Random;
 
