@@ -190,34 +190,21 @@ public class SpawnUtils {
 
 				final net.minecraft.server.Entity notchEntity;
 				if ("RAGE".equalsIgnoreCase(data)) {
-					notchEntity = new CustomPotion(location, 12, notchPlayer) {
+					notchEntity = new AreaCustomPotion(location, 12, notchPlayer, 3) {
 						@Override
-						protected boolean hit(MovingObjectPosition movingobjectposition) {
-							final Entity thisBukkitEntity = getBukkitEntity();
-							final World world = thisBukkitEntity.getWorld();
-							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+						protected void directHit(Entity entity) {
+							if (!(entity instanceof LivingEntity))
+								return;
 
-							if (movingobjectposition.entity != null) {
-								final Entity hitBukkitEntity = movingobjectposition.entity.getBukkitEntity();
-								if (hitBukkitEntity instanceof LivingEntity) {
-									plugin.playerHelper.rage((LivingEntity) hitBukkitEntity, 100);
-								}
-							}
+							plugin.playerHelper.rage((LivingEntity) entity, 100);
+						}
 
-							final Location thisLocation = thisBukkitEntity.getLocation();
-							for (Entity entity: thisBukkitEntity.getNearbyEntities(3, 3, 3)) {
-								if (!(entity instanceof LivingEntity))
-									continue;
+						@Override
+						protected void areaHit(Entity entity) {
+							if (!(entity instanceof LivingEntity))
+								return;
 
-								if (entity.getLocation().distanceSquared(thisLocation) > 9)
-									continue;
-
-								if (entity.equals(thrower))
-									continue;
-
-								plugin.playerHelper.rage((LivingEntity) entity, 75);
-							}
-							return true;
+							plugin.playerHelper.rage((LivingEntity) entity, 75);
 						}
 					};
 				}
@@ -465,6 +452,46 @@ public class SpawnUtils {
 
 		// and return it
 		return bukkitEntity;
+	}
+
+	private abstract class AreaCustomPotion extends CustomPotion {
+		private double radius;
+
+		public AreaCustomPotion(Location location, int potionId, EntityPlayer thrower, double radius) {
+			super(location, potionId, thrower);
+			this.radius = radius;
+		}
+
+		protected abstract void areaHit(Entity entity) throws YiffBukkitCommandException;
+		protected abstract void directHit(Entity entity) throws YiffBukkitCommandException;
+
+		@Override
+		protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
+			final Entity thisBukkitEntity = getBukkitEntity();
+			final World world = thisBukkitEntity.getWorld();
+			world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+
+			if (movingobjectposition.entity != null) {
+				directHit(movingobjectposition.entity.getBukkitEntity());
+			}
+
+			final Location thisLocation = thisBukkitEntity.getLocation();
+
+			for (Entity entity: thisBukkitEntity.getNearbyEntities(radius, radius, radius)) {
+				if (entity.getLocation().distanceSquared(thisLocation) > radius*radius)
+					continue;
+
+				if (entity.equals(thrower))
+					continue;
+
+				if (entity.equals(movingobjectposition.entity))
+					continue;
+
+				areaHit(entity);
+			}
+
+			return true;
+		}
 	}
 
 	private abstract class CustomPotion extends EntityPotion {
