@@ -329,22 +329,12 @@ public class SpawnUtils {
 									if (i == 100 || currentLocation.getY() >= maxHeight) {
 										i = 101;
 										entity.remove();
-										final Vector currentPosition = currentLocation.toVector();
 										for (Player player : currentWorld.getPlayers()) {
-											final Vector playerPosition = player.getLocation().toVector();
-											Vector diff = currentPosition.clone().subtract(playerPosition);
-
-											final double lengthSquared = diff.lengthSquared();
-											if (lengthSquared > 128*128)
+											final Location playerLocation = player.getLocation();
+											if (currentLocation.distanceSquared(playerLocation) > 64*64)
 												continue;
 
-											final Location modifiedLocation;
-											if (lengthSquared > 24*24) {
-												modifiedLocation = diff.normalize().multiply(24).add(playerPosition).toLocation(currentWorld);
-											}
-											else {
-												modifiedLocation = currentPosition.toLocation(currentWorld);
-											}
+											final Location modifiedLocation = playerLocation.add(currentLocation).multiply(0.5);
 											player.playEffect(modifiedLocation, Effect.ZOMBIE_DESTROY_DOOR, 0);
 										}
 										cancel();
