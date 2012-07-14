@@ -201,4 +201,32 @@ public class Utils {
 		final String fileName = stackTraceElement.getFileName();
 		return "("+fileName+":"+lineNumber+")";
 	}
+
+	/**
+	 * Returns a uniformly distributed, random, normalized direction vector.
+	 *
+	 * @return
+	 */
+	public static Vector randvec() {
+		double s, x,y;
+
+		/*
+		 * This is a variant of the algorithm for computing a random point
+		 * on the unit sphere; the algorithm is suggested in Knuth, v2,
+		 * 3rd ed, p136; and attributed to Robert E Knop, CACM, 13 (1970),
+		 * 326.
+		 */
+		// translated to lua and then to java from http://mhda.asiaa.sinica.edu.tw/mhda/apps/gsl-1.6/randist/sphere.c
+
+		// Begin with the polar method for getting x,y inside a unit circle
+		do {
+			x = Math.random() * 2 - 1;
+			y = Math.random() * 2 - 1;
+			s = x*x + y*y;
+		}
+		while (s > 1.0);
+
+		double a = 2 * Math.sqrt(1 - s); // factor to adjust x,y so that x^2+y^2 is equal to 1-z^2
+		return new Vector(x*a, y*a, s * 2 - 1); // z uniformly distributed from -1 to 1
+	}
 }

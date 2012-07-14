@@ -3,6 +3,8 @@ package de.doridian.yiffbukkitsplit.util;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
+import de.doridian.yiffbukkit.main.util.ScheduledTask;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
@@ -49,9 +51,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SpawnUtils {
 	private YiffBukkit plugin;
+	private Set<Entity> rocketed = new HashSet<Entity>();
+
 	public SpawnUtils(YiffBukkit iface) {
 		plugin = iface;
 	}
@@ -205,6 +213,77 @@ public class SpawnUtils {
 								return;
 
 							plugin.playerHelper.rage((LivingEntity) entity, 75);
+						}
+					};
+				}
+				else if ("ROCKET".equalsIgnoreCase(data)) {
+					// TODO: pick a new color
+					notchEntity = new AreaCustomPotion(location, 12, notchPlayer, 3) {
+						@Override
+						protected void areaHit(final Entity entity) {
+							if (!(entity instanceof LivingEntity))
+								return;
+
+							if (entity instanceof Player)
+								return;
+
+							if (!rocketed.add(entity))
+								return;
+
+							final double maxHeight = entity.getLocation().getY()+32;
+							new ScheduledTask(plugin) {
+								int i = 0;
+								List<Entity> toRemove = new ArrayList<Entity>();
+								Vector up = entity.getVelocity();
+								@Override
+								public void run() {
+									if (i == 101) {
+										for (Entity e : toRemove) {
+											e.remove();
+										}
+										rocketed.remove(entity);
+										return;
+									}
+
+									up = up.add(new Vector(0,0.1,0));
+									entity.setVelocity(up);
+									final Location currentLocation = entity.getLocation();
+									//for (int data = 0; data < 16; ++data)
+									final World currentWorld = currentLocation.getWorld();
+									currentWorld.playEffect(currentLocation, Effect.SMOKE, 4);
+									currentWorld.playEffect(currentLocation, Effect.EXTINGUISH, 0);
+
+									++i;
+									if (i == 100 || currentLocation.getY() >= maxHeight) {
+										i = 101;
+										entity.remove();
+										final Vector currentPosition = currentLocation.toVector();
+										for (Player player : currentWorld.getPlayers()) {
+											final Vector playerPosition = player.getLocation().toVector();
+											final Location modifiedLocation;
+											Vector diff = currentPosition.clone().subtract(playerPosition);
+											if (diff.lengthSquared() > 24*24) {
+												modifiedLocation = diff.normalize().multiply(24).add(playerPosition).toLocation(currentWorld);
+											}
+											else {
+												modifiedLocation = currentPosition.toLocation(currentWorld);
+											}
+											player.playEffect(modifiedLocation, Effect.ZOMBIE_DESTROY_DOOR, 0);
+										}
+										cancel();
+
+										for (int i = 0; i < 100; ++i) {
+											final FakeEntity fakeEntity = new FakeExperienceOrb(currentLocation, 1);
+											fakeEntity.send();
+											fakeEntity.teleport(currentLocation);
+											fakeEntity.setVelocity(Utils.randvec());
+											toRemove.add(fakeEntity);
+										}
+
+										scheduleSyncDelayed(60);
+									}
+								}
+							}.scheduleSyncRepeating(0, 1);
 						}
 					};
 				}
@@ -463,7 +542,9 @@ public class SpawnUtils {
 		}
 
 		protected abstract void areaHit(Entity entity) throws YiffBukkitCommandException;
-		protected abstract void directHit(Entity entity) throws YiffBukkitCommandException;
+		protected void directHit(Entity entity) throws YiffBukkitCommandException {
+			areaHit(entity);
+		}
 
 		@Override
 		protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
