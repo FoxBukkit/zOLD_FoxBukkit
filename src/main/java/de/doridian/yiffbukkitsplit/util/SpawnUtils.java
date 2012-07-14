@@ -260,9 +260,14 @@ public class SpawnUtils {
 										final Vector currentPosition = currentLocation.toVector();
 										for (Player player : currentWorld.getPlayers()) {
 											final Vector playerPosition = player.getLocation().toVector();
-											final Location modifiedLocation;
 											Vector diff = currentPosition.clone().subtract(playerPosition);
-											if (diff.lengthSquared() > 24*24) {
+
+											final double lengthSquared = diff.lengthSquared();
+											if (lengthSquared > 128*128)
+												continue;
+
+											final Location modifiedLocation;
+											if (lengthSquared > 24*24) {
 												modifiedLocation = diff.normalize().multiply(24).add(playerPosition).toLocation(currentWorld);
 											}
 											else {
