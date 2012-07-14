@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
+import de.doridian.yiffbukkit.spawning.fakeentity.FakeVehicle;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
@@ -54,11 +55,28 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.LinkedList;
 
 public class SpawnUtils {
 	private YiffBukkit plugin;
-	private Set<Entity> rocketed = new HashSet<Entity>();
+	/**
+	 * Entities that already have an effect attached to them.
+	 */
+	private Set<Entity> hasEffect = new HashSet<Entity>();
+
+	private static final int[] randomCrap = {
+		60,
+		61,
+		62,
+		63,
+		64,
+		65,
+		72,
+		73,
+		90,
+	};
 
 	public SpawnUtils(YiffBukkit iface) {
 		plugin = iface;
@@ -216,6 +234,60 @@ public class SpawnUtils {
 						}
 					};
 				}
+				else if ("LSD".equalsIgnoreCase(data)) {
+					// TODO: pick a new color
+					notchEntity = new AreaCustomPotion(location, 3, notchPlayer, 3) {
+						@Override
+						protected void areaHit(final Entity entity) {
+							if (!(entity instanceof Player))
+								return;
+
+							final Player player = (Player) entity;
+
+							if (!hasEffect.add(player))
+								return;
+
+							new ScheduledTask(plugin) {
+								int i = 0;
+								Queue<Entity> toRemove = new LinkedList<Entity>();
+								@Override
+								public void run() {
+									if (i == 500) {
+										for (Entity e : toRemove) {
+											e.remove();
+										}
+										hasEffect.remove(entity);
+										cancel();
+										return;
+									}
+
+									for (int j = 0; j < 5; ++j) {
+										final Location currentLocation = player.getLocation().clone().add(Math.random()*10-5, -1, Math.random()*10-5);
+										final FakeEntity fakeEntity = new FakeVehicle(currentLocation, randomCrap[(int) Math.floor(Math.random()*randomCrap.length)]);
+										fakeEntity.send(player);
+										fakeEntity.teleport(currentLocation);
+										fakeEntity.setVelocity(new Vector(0,.3+Math.random(),0));
+										toRemove.add(fakeEntity);
+									}
+									for (int j = 0; j < 3; ++j) {
+										final Vector velocity = Utils.randvec().multiply(1+Math.random());
+										final Location currentLocation = player.getEyeLocation().subtract(velocity.clone().multiply(20));
+										final FakeEntity fakeEntity = new FakeVehicle(currentLocation, 72);
+										fakeEntity.send(player);
+										fakeEntity.teleport(currentLocation);
+										fakeEntity.setVelocity(velocity);
+										toRemove.add(fakeEntity);
+									}
+									while (toRemove.size() > 240) {
+										toRemove.poll().remove();
+									}
+
+									++i;
+								}
+							}.scheduleSyncRepeating(0, 1);
+						}
+					};
+				}
 				else if ("ROCKET".equalsIgnoreCase(data)) {
 					// TODO: pick a new color
 					notchEntity = new AreaCustomPotion(location, 12, notchPlayer, 3) {
@@ -227,7 +299,7 @@ public class SpawnUtils {
 							if (entity instanceof Player)
 								return;
 
-							if (!rocketed.add(entity))
+							if (!hasEffect.add(entity))
 								return;
 
 							final double maxHeight = entity.getLocation().getY()+32;
@@ -241,7 +313,7 @@ public class SpawnUtils {
 										for (Entity e : toRemove) {
 											e.remove();
 										}
-										rocketed.remove(entity);
+										hasEffect.remove(entity);
 										return;
 									}
 
