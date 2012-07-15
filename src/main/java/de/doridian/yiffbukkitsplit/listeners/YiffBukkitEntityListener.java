@@ -67,8 +67,10 @@ public class YiffBukkitEntityListener implements Listener {
 		final String playerName = ply.getName();
 
 		EntityDamageEvent damageEvent = ent.getLastDamageCause();
+		EntityDamageEvent.DamageCause damageCause = null;
+		if(damageEvent != null) damageCause = damageEvent.getCause();
 		final String deathMessage;
-		switch (damageEvent.getCause()) {
+		switch (damageCause) {
 		case BLOCK_EXPLOSION:
 			deathMessage = "\u00a7c%s\u00a7f exploded.";
 			break;

@@ -3,6 +3,7 @@ package de.doridian.yiffbukkitsplit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
+import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitHeadChopOffListener;
 import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.chat.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
@@ -79,6 +80,7 @@ public class YiffBukkit extends JavaPlugin {
 	private ChatListener chatListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitConsoleCommands consoleCommands;
+	private YiffBukkitHeadChopOffListener headChopOffListener;
 
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
@@ -191,6 +193,7 @@ public class YiffBukkit extends JavaPlugin {
 		transmute = new Transmute(this);
 		chatListener = new ChatListener(this);
 		consoleCommands = new YiffBukkitConsoleCommands(this);
+		headChopOffListener = new YiffBukkitHeadChopOffListener(this);
 
 		log("Core components loaded.");
 		mcbans = new MCBans(this);
