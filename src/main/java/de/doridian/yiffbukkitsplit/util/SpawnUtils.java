@@ -96,8 +96,8 @@ public class SpawnUtils {
 
 		Entity thisEnt = null;
 		if (hasThis) {
-			Vector eyeVector = location.getDirection().clone();
-			Vector eyeOrigin = location.toVector().clone();
+			Vector eyeVector = location.getDirection();
+			Vector eyeOrigin = location.toVector();
 
 			for (Entity currentEntity : world.getEntities()) {
 				Location eyeLocation;
@@ -111,7 +111,7 @@ public class SpawnUtils {
 					continue;
 				}
 
-				Vector pos = eyeLocation.toVector().clone();
+				Vector pos = eyeLocation.toVector();
 				pos.add(new Vector(0, 0.6, 0));
 
 				pos.subtract(eyeOrigin);
