@@ -11,6 +11,7 @@ public abstract class ScheduledTask implements Runnable {
 		this.plugin = plugin;
 	}
 
+
 	public void scheduleSyncDelayed(long delay) {
 		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this, delay);
 	}
@@ -38,6 +39,7 @@ public abstract class ScheduledTask implements Runnable {
 	public void scheduleAsyncRepeating(long delay, long period) {
 		taskId = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, delay, period);
 	}
+
 
 	public void cancel() {
 		Bukkit.getScheduler().cancelTask(taskId);
