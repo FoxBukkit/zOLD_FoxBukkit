@@ -222,7 +222,7 @@ public class SpawnUtils {
 							@Override
 							protected void areaHit(final Entity entity) {
 								try {
-									YBEffect.create(data.toLowerCase(), entity);
+									YBEffect.create(data.toLowerCase(), entity).start();
 								} catch (YiffBukkitCommandException e) {
 									e.printStackTrace(); // TEMP!!!
 								}

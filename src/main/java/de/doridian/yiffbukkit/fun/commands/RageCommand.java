@@ -13,6 +13,6 @@ import org.bukkit.entity.Player;
 public class RageCommand extends ICommand {
 	@Override
 	public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		YBEffect.create("rage", ply);
+		YBEffect.create("rage", ply).start();
 	}
 }

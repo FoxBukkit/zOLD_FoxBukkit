@@ -38,7 +38,7 @@ public abstract class YBEffect extends ScheduledTask {
 		done();
 	}
 
-	protected void done() {
+	protected final void done() {
 		effects.remove(entity);
 	}
 
@@ -47,21 +47,21 @@ public abstract class YBEffect extends ScheduledTask {
 
 		return effectClass.getAnnotation(EffectProperties.class);
 	}
-	public static void create(String effect, Entity entity) throws YiffBukkitCommandException {
+	public static YBEffect create(String effect, Entity entity) throws YiffBukkitCommandException {
 		if (!effectClasses.containsKey(effect))
 			throw new YiffBukkitCommandException("Effect '"+effect+"' not found.");
 
-		create(effectClasses.get(effect), entity);
+		return create(effectClasses.get(effect), entity);
 	}
 
-	public static void create(Class<? extends YBEffect> effectClass, Entity entity) throws YiffBukkitCommandException {
+	public static YBEffect create(Class<? extends YBEffect> effectClass, Entity entity) throws YiffBukkitCommandException {
 		if (effects.containsKey(entity))
 			throw new YiffBukkitCommandException("Entity already has an effect.");
 
 		try {
 			final YBEffect effect = effectClass.getConstructor(Entity.class).newInstance(entity);
 			effects.put(entity, effect);
-			effect.start();
+			return effect;
 		} catch (InstantiationException e) {
 			throw new YiffBukkitCommandException("Effect cannot be instantiated.", e);
 		} catch (IllegalAccessException e) {
