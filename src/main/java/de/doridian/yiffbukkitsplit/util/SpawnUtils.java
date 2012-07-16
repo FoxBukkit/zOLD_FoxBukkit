@@ -500,8 +500,10 @@ public class SpawnUtils {
 			final World world = thisBukkitEntity.getWorld();
 			world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
 
+			Entity directHitEntity = null;
 			if (movingobjectposition.entity != null) {
-				directHit(movingobjectposition.entity.getBukkitEntity());
+				directHitEntity = movingobjectposition.entity.getBukkitEntity();
+				directHit(directHitEntity);
 			}
 
 			final Location thisLocation = thisBukkitEntity.getLocation();
@@ -513,7 +515,7 @@ public class SpawnUtils {
 				if (entity.equals(thrower))
 					continue;
 
-				if (entity.equals(movingobjectposition.entity))
+				if (entity.equals(directHitEntity))
 					continue;
 
 				areaHit(entity);
