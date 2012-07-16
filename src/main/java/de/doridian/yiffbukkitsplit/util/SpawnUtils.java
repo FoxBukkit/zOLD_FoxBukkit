@@ -268,7 +268,11 @@ public class SpawnUtils {
 					};
 
 					notchWorld.addEntity(notchEntity);
-					return notchEntity.getBukkitEntity();
+					final Entity entity = notchEntity.getBukkitEntity();
+
+					YBEffect.createTrail(data.toLowerCase(), entity).start();
+
+					return entity;
 				}
 				else {
 					final net.minecraft.server.Entity notchEntity = new CustomPotion(location, potionId, notchPlayer) {

@@ -39,7 +39,7 @@ public class Rage extends YBEffect {
 	}
 
 	@Override
-	public void run() {
+	public void runEffect() {
 		final EntityLiving notchEntity = ((CraftLivingEntity) entity).getHandle();
 		Location location = entity.getLocation();
 

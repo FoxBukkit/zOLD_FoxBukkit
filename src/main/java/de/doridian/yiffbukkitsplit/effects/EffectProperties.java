@@ -11,4 +11,6 @@ public @interface EffectProperties {
 	String name();
 	int potionColor() default 0;
 	double radius() default 3;
+	boolean persistent() default true;
+	boolean potionTrail() default false;
 }

@@ -4,19 +4,31 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 
 public abstract class YBEffect extends ScheduledTask {
+	static final class DeathListener implements Listener {
+		@EventHandler
+		public void onEntityDeath(EntityDeathEvent event) {
+			effects.remove(event.getEntity());
+		}
+	}
+
 	private static final Map<Entity, YBEffect> effects = new HashMap<Entity, YBEffect>();
 	private static final Map<String, Class<? extends YBEffect>> effectClasses = new HashMap<String, Class<? extends YBEffect>>();
 	static {
 		addEffectClass(Rocket.class);
 		addEffectClass(LSD.class);
 		addEffectClass(Rage.class);
+		Bukkit.getPluginManager().registerEvents(new DeathListener(), YiffBukkit.instance);
 	}
 
 	private static void addEffectClass(Class<? extends YBEffect> effectClass) {
@@ -42,6 +54,17 @@ public abstract class YBEffect extends ScheduledTask {
 		effects.remove(entity);
 	}
 
+	public final void run() {
+		if (!entity.isValid()) {
+			stop();
+			return;
+		}
+
+		runEffect();
+	}
+
+	protected abstract void runEffect();
+
 	public static EffectProperties getEffectProperties(String effect) {
 		Class<? extends YBEffect> effectClass = effectClasses.get(effect);
 
@@ -52,6 +75,27 @@ public abstract class YBEffect extends ScheduledTask {
 			throw new YiffBukkitCommandException("Effect '"+effect+"' not found.");
 
 		return create(effectClasses.get(effect), entity);
+	}
+
+	public static YBEffect createTrail(String effect, Entity entity) throws YiffBukkitCommandException {
+		if (!effectClasses.containsKey(effect))
+			throw new YiffBukkitCommandException("Effect '"+effect+"' not found.");
+
+		return createTrail(effectClasses.get(effect), entity);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static YBEffect createTrail(Class<? extends YBEffect> effectClass, Entity entity) throws YiffBukkitCommandException {
+		if (!effectClass.getAnnotation(EffectProperties.class).potionTrail())
+			return null;
+
+		//Class.forName(effectClass.getCanonicalName()+".PotionTrail");
+		for (Class<?> enclosedClass : effectClass.getDeclaredClasses()) {
+			if (enclosedClass.getSimpleName().equals("PotionTrail"))
+				return create((Class<? extends YBEffect>) enclosedClass, entity);
+		}
+
+		return null;
 	}
 
 	public static YBEffect create(Class<? extends YBEffect> effectClass, Entity entity) throws YiffBukkitCommandException {

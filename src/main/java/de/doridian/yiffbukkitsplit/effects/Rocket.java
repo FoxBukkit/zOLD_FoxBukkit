@@ -45,7 +45,7 @@ public class Rocket extends YBEffect {
 	}
 
 	@Override
-	public void run() {
+	public void runEffect() {
 		if (i == 101) {
 			for (Entity e : toRemove) {
 				e.remove();
