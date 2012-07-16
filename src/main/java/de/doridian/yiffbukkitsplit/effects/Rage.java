@@ -7,6 +7,7 @@ import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet35EntityHeadRotation;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
@@ -17,7 +18,7 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 @EffectProperties(
 		name = "rage",
 		potionColor = 12,
-		radius = 3
+		potionTrail = true
 )
 public class Rage extends YBEffect {
 	// TODO: area/direct hit with different lengths
@@ -63,6 +64,17 @@ public class Rage extends YBEffect {
 		if (++i > ticks) {
 			done();
 			cancel();
+		}
+	}
+
+	public static class PotionTrail extends YBEffect.PotionTrail {
+		public PotionTrail(Entity entity) {
+			super(entity);
+		}
+
+		@Override
+		protected void renderEffect(Location location) {
+			location.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES, 0);
 		}
 	}
 }

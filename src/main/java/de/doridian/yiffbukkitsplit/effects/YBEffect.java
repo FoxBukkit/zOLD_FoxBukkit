@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -133,6 +134,38 @@ public abstract class YBEffect extends ScheduledTask {
 			throw new YiffBukkitCommandException("Exception caught in effect constructor.", cause);
 		} catch (NoSuchMethodException e) {
 			throw new YiffBukkitCommandException("Effect has no suitable constructor.", e);
+		}
+	}
+
+	public static abstract class PotionTrail extends YBEffect {
+		Location lastLocation = null;
+		public PotionTrail(Entity entity) {
+			super(entity);
+		}
+
+		@Override
+		public void runEffect() {
+			final Location currentLocation = entity.getLocation();
+
+			if (lastLocation != null) {
+				Location location = currentLocation.clone();
+				Location diff = lastLocation.subtract(currentLocation);
+				diff.multiply(1.0/5);
+
+				for (int i = 0; i < 5; ++i) {
+					renderEffect(location);
+					location.add(diff);
+				}
+			}
+
+			lastLocation = currentLocation;
+		}
+
+		protected abstract void renderEffect(Location location);
+
+		@Override
+		public void start() {
+			scheduleSyncRepeating(0, 1);
 		}
 	}
 }

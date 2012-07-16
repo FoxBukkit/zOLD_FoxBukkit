@@ -96,34 +96,14 @@ public class Rocket extends YBEffect {
 		}.scheduleSyncDelayed(60);
 	}
 
-	public static class PotionTrail extends YBEffect {
-		Location lastLocation = null;
+	public static class PotionTrail extends YBEffect.PotionTrail {
 		public PotionTrail(Entity entity) {
 			super(entity);
 		}
 
 		@Override
-		public void runEffect() {
-			final Location currentLocation = entity.getLocation();
-			final World currentWorld = currentLocation.getWorld();
-
-			if (lastLocation != null) {
-				Location location = currentLocation.clone();
-				Location diff = lastLocation.subtract(currentLocation);
-				diff.multiply(0.2);
-
-				for (int i = 0; i < 5; ++i) {
-					currentWorld.playEffect(location, Effect.SMOKE, 4);
-					location.add(diff);
-				}
-			}
-
-			lastLocation = currentLocation;
-		}
-
-		@Override
-		public void start() {
-			scheduleSyncRepeating(0, 1);
+		protected void renderEffect(Location location) {
+			location.getWorld().playEffect(location, Effect.SMOKE, 4);
 		}
 	}
 }
