@@ -97,6 +97,7 @@ public class Rocket extends YBEffect {
 	}
 
 	public static class PotionTrail extends YBEffect {
+		Location lastLocation = null;
 		public PotionTrail(Entity entity) {
 			super(entity);
 		}
@@ -105,7 +106,19 @@ public class Rocket extends YBEffect {
 		public void runEffect() {
 			final Location currentLocation = entity.getLocation();
 			final World currentWorld = currentLocation.getWorld();
-			currentWorld.playEffect(currentLocation, Effect.SMOKE, 4);
+
+			if (lastLocation != null) {
+				Location location = currentLocation.clone();
+				Location diff = lastLocation.subtract(currentLocation);
+				diff.multiply(0.2);
+
+				for (int i = 0; i < 5; ++i) {
+					currentWorld.playEffect(location, Effect.SMOKE, 4);
+					location.add(diff);
+				}
+			}
+
+			lastLocation = currentLocation;
 		}
 
 		@Override
