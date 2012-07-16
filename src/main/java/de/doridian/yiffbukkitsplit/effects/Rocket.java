@@ -38,6 +38,7 @@ public class Rocket extends YBEffect {
 		if (entity instanceof Player)
 			return;
 
+		// TODO: area/direct hit with different heights
 		maxHeight = entity.getLocation().getY()+32;
 
 		scheduleSyncRepeating(0, 1);

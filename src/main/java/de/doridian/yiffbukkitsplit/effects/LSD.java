@@ -37,6 +37,7 @@ public class LSD extends YBEffect {
 	@Override
 	public void run() {
 		final Player player = (Player) entity;
+		// TODO: area/direct hit with different lengths
 		if (i == 500) {
 			for (Entity e : toRemove) {
 				e.remove();
