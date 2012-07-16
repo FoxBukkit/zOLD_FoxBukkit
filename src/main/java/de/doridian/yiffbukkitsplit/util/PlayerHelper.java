@@ -13,10 +13,7 @@ import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
-import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.Packet18ArmAnimation;
-import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet70Bed;
 
 import org.bukkit.Bukkit;
@@ -25,10 +22,8 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
@@ -38,7 +33,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -49,7 +43,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -906,51 +899,6 @@ public class PlayerHelper extends StateContainer {
 		default:
 			return "\u00a75"+playerName;
 		}
-	}
-
-	private final Set<Entity> raging = Collections.synchronizedSet(new HashSet<Entity>());
-
-	public boolean rage(final LivingEntity entity, final int ticks) {
-		synchronized (raging) {
-			if (raging.contains(entity))
-				return false;
-
-			raging.add(entity);
-		}
-
-		final EntityLiving notchEntity = ((CraftLivingEntity) entity).getHandle();
-		final ArrayList<Integer> taskIdContainer = new ArrayList<Integer>(1);
-		final Random random = new Random();
-		taskIdContainer.add(plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-			int i = 0;
-			public void run() {
-				Location location = entity.getLocation();
-
-				// damage animation
-				sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchEntity, 2));
-
-				byte yaw = (byte)(random.nextInt(255)-128);
-				byte pitch = (byte)(random.nextInt(255)-128);
-				if (entity instanceof Player) {
-					// arm animation
-					sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchEntity, 1));
-					// random looking
-					sendPacketToPlayersAround(location, 32, new Packet32EntityLook(entity.getEntityId(), yaw, pitch), (Player) entity);
-				}
-				else {
-					sendPacketToPlayersAround(location, 32, new Packet32EntityLook(entity.getEntityId(), yaw, pitch), null);
-				}
-
-				if (++i > ticks && !taskIdContainer.isEmpty()) {
-					plugin.getServer().getScheduler().cancelTask(taskIdContainer.get(0));
-					synchronized (raging) {
-						raging.remove(entity);
-					}
-				}
-			}
-		}, 0, 1));
-
-		return true;
 	}
 
 	public HashSet<String> yiffcraftPlayers = new HashSet<String>();
