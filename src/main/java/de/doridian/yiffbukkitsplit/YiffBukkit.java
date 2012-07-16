@@ -80,6 +80,7 @@ public class YiffBukkit extends JavaPlugin {
 	private ChatListener chatListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitConsoleCommands consoleCommands;
+	@SuppressWarnings("unused")
 	private YiffBukkitHeadChopOffListener headChopOffListener;
 
 	public Transmute transmute;

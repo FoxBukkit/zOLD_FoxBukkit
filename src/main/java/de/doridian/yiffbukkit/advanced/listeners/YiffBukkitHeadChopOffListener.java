@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.Packet30Entity;
@@ -21,7 +20,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class YiffBukkitHeadChopOffListener extends PacketListener implements Listener {
