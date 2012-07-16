@@ -18,7 +18,7 @@ import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 @EffectProperties(
 		name = "rocket",
 		potionColor = 12,
-		radius = 3
+		potionTrail = true
 )
 public class Rocket extends YBEffect {
 	private int i = 0;
@@ -85,6 +85,24 @@ public class Rocket extends YBEffect {
 			}
 
 			scheduleSyncDelayed(60);
+		}
+	}
+
+	public static class PotionTrail extends YBEffect {
+		public PotionTrail(Entity entity) {
+			super(entity);
+		}
+
+		@Override
+		public void runEffect() {
+			final Location currentLocation = entity.getLocation();
+			final World currentWorld = currentLocation.getWorld();
+			currentWorld.playEffect(currentLocation, Effect.SMOKE, 4);
+		}
+
+		@Override
+		public void start() {
+			scheduleSyncRepeating(0, 1);
 		}
 	}
 }
