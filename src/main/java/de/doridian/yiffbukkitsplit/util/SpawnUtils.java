@@ -262,7 +262,6 @@ public class SpawnUtils {
 							try {
 								YBEffect.create(data.toLowerCase(), entity).start();
 							} catch (YiffBukkitCommandException e) {
-								e.printStackTrace(); // TEMP!!!
 							}
 						}
 					};
