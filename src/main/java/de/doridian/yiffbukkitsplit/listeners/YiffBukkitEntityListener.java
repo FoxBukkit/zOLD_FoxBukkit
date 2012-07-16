@@ -69,6 +69,7 @@ public class YiffBukkitEntityListener implements Listener {
 		EntityDamageEvent damageEvent = ent.getLastDamageCause();
 		EntityDamageEvent.DamageCause damageCause = null;
 		if(damageEvent != null) damageCause = damageEvent.getCause();
+		if(damageCause == null) damageCause = EntityDamageEvent.DamageCause.CUSTOM;
 		final String deathMessage;
 		switch (damageCause) {
 		case BLOCK_EXPLOSION:
