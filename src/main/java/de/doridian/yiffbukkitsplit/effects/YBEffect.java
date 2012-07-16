@@ -16,6 +16,7 @@ public abstract class YBEffect extends ScheduledTask {
 	static {
 		addEffectClass(Rocket.class);
 		addEffectClass(LSD.class);
+		addEffectClass(Rage.class);
 	}
 
 	private static void addEffectClass(Class<? extends YBEffect> effectClass) {

@@ -192,26 +192,7 @@ public class SpawnUtils {
 				final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
 
 				final net.minecraft.server.Entity notchEntity;
-				if ("RAGE".equalsIgnoreCase(data)) {
-					notchEntity = new AreaCustomPotion(location, 12, notchPlayer, 3) {
-						@Override
-						protected void directHit(Entity entity) {
-							if (!(entity instanceof LivingEntity))
-								return;
-
-							plugin.playerHelper.rage((LivingEntity) entity, 100);
-						}
-
-						@Override
-						protected void areaHit(Entity entity) {
-							if (!(entity instanceof LivingEntity))
-								return;
-
-							plugin.playerHelper.rage((LivingEntity) entity, 75);
-						}
-					};
-				}
-				else if ("NINJA".equalsIgnoreCase(data)) {
+				if ("NINJA".equalsIgnoreCase(data)) {
 					notchEntity = new CustomPotion(location, 8, notchPlayer) {
 						@Override
 						protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
