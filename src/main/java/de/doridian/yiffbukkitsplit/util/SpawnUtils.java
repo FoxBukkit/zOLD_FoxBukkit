@@ -3,12 +3,11 @@ package de.doridian.yiffbukkitsplit.util;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.main.util.ScheduledTask;
-import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.effects.EffectProperties;
+import de.doridian.yiffbukkitsplit.effects.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
-import de.doridian.yiffbukkit.spawning.fakeentity.FakeVehicle;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
@@ -52,31 +51,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-import java.util.LinkedList;
 
 public class SpawnUtils {
 	private YiffBukkit plugin;
-	/**
-	 * Entities that already have an effect attached to them.
-	 */
-	private Set<Entity> hasEffect = new HashSet<Entity>();
-
-	private static final int[] randomCrap = {
-		60,
-		61,
-		62,
-		63,
-		64,
-		65,
-		72,
-		73,
-		90,
-	};
 
 	public SpawnUtils(YiffBukkit iface) {
 		plugin = iface;
@@ -142,7 +119,7 @@ public class SpawnUtils {
 			String[] partparts = part.split(":");
 
 			String type = partparts[0];
-			String data = partparts.length >= 2 ? partparts[1] : null;
+			final String data = partparts.length >= 2 ? partparts[1] : null;
 
 			checkMobSpawn(commandSender, type);
 
@@ -234,126 +211,6 @@ public class SpawnUtils {
 						}
 					};
 				}
-				else if ("LSD".equalsIgnoreCase(data)) {
-					// TODO: pick a new color
-					notchEntity = new AreaCustomPotion(location, 3, notchPlayer, 3) {
-						@Override
-						protected void areaHit(final Entity entity) {
-							if (!(entity instanceof Player))
-								return;
-
-							final Player player = (Player) entity;
-
-							if (!hasEffect.add(player))
-								return;
-
-							new ScheduledTask(plugin) {
-								int i = 0;
-								Queue<Entity> toRemove = new LinkedList<Entity>();
-								@Override
-								public void run() {
-									if (i == 500) {
-										for (Entity e : toRemove) {
-											e.remove();
-										}
-										hasEffect.remove(entity);
-										cancel();
-										return;
-									}
-
-									for (int j = 0; j < 5; ++j) {
-										final Location currentLocation = player.getLocation().clone().add(Math.random()*10-5, -1, Math.random()*10-5);
-										final FakeEntity fakeEntity = new FakeVehicle(currentLocation, randomCrap[(int) Math.floor(Math.random()*randomCrap.length)]);
-										fakeEntity.send(player);
-										fakeEntity.teleport(currentLocation);
-										fakeEntity.setVelocity(new Vector(0,.3+Math.random(),0));
-										toRemove.add(fakeEntity);
-									}
-									for (int j = 0; j < 3; ++j) {
-										final Vector velocity = Utils.randvec().multiply(1+Math.random());
-										final Location currentLocation = player.getEyeLocation().subtract(velocity.clone().multiply(20));
-										final FakeEntity fakeEntity = new FakeVehicle(currentLocation, 72);
-										fakeEntity.send(player);
-										fakeEntity.teleport(currentLocation);
-										fakeEntity.setVelocity(velocity);
-										toRemove.add(fakeEntity);
-									}
-									while (toRemove.size() > 240) {
-										toRemove.poll().remove();
-									}
-
-									++i;
-								}
-							}.scheduleSyncRepeating(0, 1);
-						}
-					};
-				}
-				else if ("ROCKET".equalsIgnoreCase(data)) {
-					// TODO: pick a new color
-					notchEntity = new AreaCustomPotion(location, 12, notchPlayer, 3) {
-						@Override
-						protected void areaHit(final Entity entity) {
-							if (!(entity instanceof LivingEntity))
-								return;
-
-							if (entity instanceof Player)
-								return;
-
-							if (!hasEffect.add(entity))
-								return;
-
-							final double maxHeight = entity.getLocation().getY()+32;
-							new ScheduledTask(plugin) {
-								int i = 0;
-								List<Entity> toRemove = new ArrayList<Entity>();
-								Vector up = entity.getVelocity();
-								@Override
-								public void run() {
-									if (i == 101) {
-										for (Entity e : toRemove) {
-											e.remove();
-										}
-										hasEffect.remove(entity);
-										return;
-									}
-
-									up = up.add(new Vector(0,0.1,0));
-									entity.setVelocity(up);
-									final Location currentLocation = entity.getLocation();
-									//for (int data = 0; data < 16; ++data)
-									final World currentWorld = currentLocation.getWorld();
-									currentWorld.playEffect(currentLocation, Effect.SMOKE, 4);
-									currentWorld.playEffect(currentLocation, Effect.EXTINGUISH, 0);
-
-									++i;
-									if (i == 100 || currentLocation.getY() >= maxHeight) {
-										i = 101;
-										entity.remove();
-										for (Player player : currentWorld.getPlayers()) {
-											final Location playerLocation = player.getLocation();
-											if (currentLocation.distanceSquared(playerLocation) > 64*64)
-												continue;
-
-											final Location modifiedLocation = playerLocation.add(currentLocation).multiply(0.5);
-											player.playEffect(modifiedLocation, Effect.ZOMBIE_DESTROY_DOOR, 0);
-										}
-										cancel();
-
-										for (int i = 0; i < 100; ++i) {
-											final FakeEntity fakeEntity = new FakeExperienceOrb(currentLocation, 1);
-											fakeEntity.send();
-											fakeEntity.teleport(currentLocation);
-											fakeEntity.setVelocity(Utils.randvec());
-											toRemove.add(fakeEntity);
-										}
-
-										scheduleSyncDelayed(60);
-									}
-								}
-							}.scheduleSyncRepeating(0, 1);
-						}
-					};
-				}
 				else if ("NINJA".equalsIgnoreCase(data)) {
 					notchEntity = new CustomPotion(location, 8, notchPlayer) {
 						@Override
@@ -369,15 +226,39 @@ public class SpawnUtils {
 					};
 				}
 				else {
-					final int potionId = Integer.parseInt(data);
-					notchEntity = new CustomPotion(location, potionId, notchPlayer) {
-						@Override
-						protected boolean hit(MovingObjectPosition movingobjectposition) {
-							org.bukkit.World world = getBukkitEntity().getWorld();
-							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
-							return true;
-						}
-					};
+					int potionId = -1;
+					try {
+						potionId = Integer.parseInt(data);
+					}
+					catch (NumberFormatException e) { }
+
+					if (potionId == -1) {
+						final EffectProperties effectProperties = YBEffect.getEffectProperties(data.toLowerCase());
+						if (effectProperties == null)
+							throw new YiffBukkitCommandException("Effect '"+data+"' does not exist");
+
+						notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
+							@Override
+							protected void areaHit(final Entity entity) {
+								try {
+									YBEffect.create(data.toLowerCase(), entity);
+								} catch (YiffBukkitCommandException e) {
+									e.printStackTrace(); // TEMP!!!
+								}
+							}
+						};
+					}
+					else {
+
+						notchEntity = new CustomPotion(location, potionId, notchPlayer) {
+							@Override
+							protected boolean hit(MovingObjectPosition movingobjectposition) {
+								org.bukkit.World world = getBukkitEntity().getWorld();
+								world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+								return true;
+							}
+						};
+					}
 				}
 				notchWorld.addEntity(notchEntity);
 
