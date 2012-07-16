@@ -55,8 +55,8 @@ import java.net.Socket;
 public class SpawnUtils {
 	private YiffBukkit plugin;
 
-	public SpawnUtils(YiffBukkit iface) {
-		plugin = iface;
+	public SpawnUtils(YiffBukkit plugin) {
+		this.plugin = plugin;
 	}
 
 	public Entity buildMob(final String[] types, final CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
