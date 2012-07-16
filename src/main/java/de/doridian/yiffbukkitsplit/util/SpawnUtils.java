@@ -68,15 +68,12 @@ public class SpawnUtils {
 			}
 		}
 
-		final World world = location.getWorld();
-		final WorldServer notchWorld = ((CraftWorld)world).getHandle();
-
 		Entity thisEnt = null;
 		if (hasThis) {
 			Vector eyeVector = location.getDirection();
 			Vector eyeOrigin = location.toVector();
 
-			for (Entity currentEntity : world.getEntities()) {
+			for (Entity currentEntity : location.getWorld().getEntities()) {
 				Location eyeLocation;
 				if (currentEntity instanceof LivingEntity) {
 					eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
@@ -116,290 +113,19 @@ public class SpawnUtils {
 		Entity previous = null;
 		Entity first = null;
 		for (String part : types) {
-			String[] partparts = part.split(":");
+			final String[] partparts = part.split(":");
 
-			String type = partparts[0];
+			final String type = partparts[0];
 			final String data = partparts.length >= 2 ? partparts[1] : null;
 
 			checkMobSpawn(commandSender, type);
 
-			Entity entity;
-			if (type.equalsIgnoreCase("ME")) {
-				entity = ICommand.asPlayer(commandSender);
-			}
-			else if (type.equalsIgnoreCase("THEM")) {
-				entity = them;
-			}
-			else if (type.equalsIgnoreCase("FIREBALL")) {
-				final EntityPlayer playerEntity;
-				if (them instanceof CraftPlayer)
-					playerEntity = ((CraftPlayer)them).getHandle();
-				else if (commandSender instanceof CraftPlayer)
-					playerEntity = ((CraftPlayer)commandSender).getHandle();
-				else
-					playerEntity = null;
-
-				final Vector dir = playerEntity.getBukkitEntity().getLocation().getDirection();
-				double dx = dir.getX();
-				double dy = dir.getY();
-				double dz = dir.getZ();
-
-				final EntityFireball notchEntity = new EntityFireball(notchWorld, playerEntity, dx, dy, dz);
-				notchEntity.locX = location.getX();
-				notchEntity.locY = location.getY();
-				notchEntity.locZ = location.getZ();
-
-				double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-				notchEntity.dirX = dx * d3;
-				notchEntity.dirY = dy * d3;
-				notchEntity.dirZ = dz * d3;
-
-				notchWorld.addEntity(notchEntity);
-
-				entity = null;//notchEntity.getBukkitEntity();
-			}
-			else if (type.equalsIgnoreCase("TNT")) {
-				EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, 0, 1, 0);
-				notchWorld.addEntity(notchEntity);
-
-				entity = notchEntity.getBukkitEntity();
-				entity.teleport(location);
-			}
-			else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
-				int material = Material.valueOf(type.toUpperCase()).getId();
-				EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
-				notchWorld.addEntity(notchEntity);
-
-				entity = notchEntity.getBukkitEntity();
-			}
-			else if (type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
-				final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
-
-				net.minecraft.server.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
-					@Override
-					protected boolean hit(MovingObjectPosition movingobjectposition) {
-						org.bukkit.World world = getBukkitEntity().getWorld();
-						world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
-						return true;
-					}
-				};
-				notchWorld.addEntity(notchEntity);
-
-				entity = notchEntity.getBukkitEntity();
-			}
-			else if (type.equalsIgnoreCase("POTION")) {
-				final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
-
-				final net.minecraft.server.Entity notchEntity;
-				if ("NINJA".equalsIgnoreCase(data)) {
-					notchEntity = new CustomPotion(location, 8, notchPlayer) {
-						@Override
-						protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
-							final Entity thisBukkitEntity = getBukkitEntity();
-							final World world = thisBukkitEntity.getWorld();
-							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
-
-							plugin.playerHelper.vanish(ICommand.asPlayer(commandSender));
-
-							return true;
-						}
-					};
-				}
-				else {
-					int potionId = -1;
-					try {
-						potionId = Integer.parseInt(data);
-					}
-					catch (NumberFormatException e) { }
-
-					if (potionId == -1) {
-						final EffectProperties effectProperties = YBEffect.getEffectProperties(data.toLowerCase());
-						if (effectProperties == null)
-							throw new YiffBukkitCommandException("Effect '"+data+"' does not exist");
-
-						notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
-							@Override
-							protected void areaHit(final Entity entity) {
-								try {
-									YBEffect.create(data.toLowerCase(), entity).start();
-								} catch (YiffBukkitCommandException e) {
-									e.printStackTrace(); // TEMP!!!
-								}
-							}
-						};
-					}
-					else {
-
-						notchEntity = new CustomPotion(location, potionId, notchPlayer) {
-							@Override
-							protected boolean hit(MovingObjectPosition movingobjectposition) {
-								org.bukkit.World world = getBukkitEntity().getWorld();
-								world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
-								return true;
-							}
-						};
-					}
-				}
-				notchWorld.addEntity(notchEntity);
-
-				entity = notchEntity.getBukkitEntity();
-			}
-			else if (type.equalsIgnoreCase("ARROW")) {
-				entity = world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
-			}
-			else if (type.equalsIgnoreCase("MINECART") || type.equalsIgnoreCase("CART")) {
-				entity = world.spawn(location, Minecart.class);
-			}
-			else if (type.equalsIgnoreCase("XP") || type.equalsIgnoreCase("XPBALL")) {
-				entity = world.spawn(location, ExperienceOrb.class);
-			}
-			else if (type.equalsIgnoreCase("FAKEXP") || type.equalsIgnoreCase("FAKEBALL")) {
-				final FakeEntity a = new FakeExperienceOrb(location, 1);
-				a.send();
-				a.teleport(location);
-
-				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
-					a.remove();
-				}}, 1000);
-				entity = a;
-			}
-			else if (type.equalsIgnoreCase("BOAT")) {
-				entity = world.spawn(location, Boat.class);
-			}
-			else if (type.equalsIgnoreCase("THIS")) {
+			final Entity entity;
+			if (type.equalsIgnoreCase("THIS")) {
 				entity = thisEnt;
 			}
-			else if (type.equalsIgnoreCase("CREEPER")) {
-				entity = world.spawnEntity(location, EntityType.CREEPER);
-				if (entity == null) {
-					throw new YiffBukkitCommandException("Could not spawn a creeper here. Too bright?");
-				}
-				final Creeper creeper = (Creeper)entity;
-
-				if ("ELECTRIFIED".equalsIgnoreCase(data) || "CHARGED".equalsIgnoreCase(data) || "POWERED".equalsIgnoreCase(data)) {
-					creeper.setPowered(true);
-				}
-			}
-			else if (type.equalsIgnoreCase("SLIME")) {
-				entity = world.spawnEntity(location, EntityType.SLIME);
-				final Slime slime = (Slime)entity;
-
-				if (data != null) {
-
-					try {
-						int size = Integer.parseInt(data);
-						slime.setSize(size);
-					}
-					catch (NumberFormatException e) { }
-
-				}
-			}
-			else if (type.equalsIgnoreCase("WOLF")) {
-				entity = world.spawnEntity(location, EntityType.WOLF);
-				final Wolf wolf = (Wolf)entity;
-
-				if (data != null) { 
-					for (String subData : data.toUpperCase().split(",")) {
-						if (subData.isEmpty())
-							continue;
-
-						if (subData.equals("ANGRY")) {
-							wolf.setAngry(true);
-						}
-						else if (subData.equals("SITTING") || subData.equals("SIT")) {
-							wolf.setSitting(true);
-						}
-						else if (subData.equals("TAME") || subData.equals("TAMED")) {
-							if (them == null)
-								wolf.setOwner(ICommand.asPlayer(commandSender));
-							else
-								wolf.setOwner(them);
-						}
-					}
-				}
-			}
-			else if (type.equalsIgnoreCase("SHEEP")) {
-				entity = world.spawnEntity(location, EntityType.SHEEP);
-				final Sheep sheep = (Sheep)entity;
-
-				if ("CAMO".equalsIgnoreCase(data) || "CAMOUFLAGE".equalsIgnoreCase(data)) {
-					new CamoSheep(plugin, sheep);
-				}
-				else if ("PARTY".equalsIgnoreCase(data)) {
-					new PartySheep(plugin, sheep);
-				}
-				else if ("TRAP".equalsIgnoreCase(data)) {
-					new TrapSheep(plugin, sheep);
-				}
-				else if ("SHEARED".equalsIgnoreCase(data) || "SHORN".equalsIgnoreCase(data) || "NUDE".equalsIgnoreCase(data) || "NAKED".equalsIgnoreCase(data)) {
-					sheep.setSheared(true);
-				}
-				else {
-					DyeColor dyeColor = DyeColor.WHITE;
-					try {
-						if ("RAINBOW".equalsIgnoreCase(data) || "RAINBOWS".equalsIgnoreCase(data) || "RANDOM".equalsIgnoreCase(data)) {
-							DyeColor[] dyes = DyeColor.values();
-							dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
-						}
-						else {
-							dyeColor = DyeColor.valueOf(data.toUpperCase());
-						}
-					}
-					catch (Exception e) { }
-
-					sheep.setColor(dyeColor);
-				}
-			}
-			else if (type.equalsIgnoreCase("NPC")) {
-				final String name = data == null ? "" : data;
-				entity = makeNPC(name, location);
-			}
-			else if(type.equalsIgnoreCase("OCELOT") || type.equalsIgnoreCase("CAT")) {
-				entity = world.spawnEntity(location, EntityType.OCELOT);
-
-				final Ocelot ocelot = (Ocelot)entity;
-				if (data != null) {
-					Ocelot.Type oType = null;
-
-					for (String subData : data.toUpperCase().split(",")) {
-						if (subData.isEmpty())
-							continue;
-
-						if (subData.equals("SITTING") || subData.equals("SIT")) {
-							ocelot.setSitting(true);
-						} else {
-							Ocelot.Type tmpOType = null;
-							try {
-								String filteredData = subData.toUpperCase().replace(' ','_');
-								if(subData.endsWith("_CAT")) {
-									tmpOType = Ocelot.Type.valueOf(filteredData);
-								} else if(subData.equals("WILD") || subData.equals("OCELOT") || subData.equals("WILD_OCELOT")) {
-									tmpOType = Ocelot.Type.WILD_OCELOT;
-								} else {
-									tmpOType = Ocelot.Type.valueOf(filteredData + "_CAT");
-								}
-							} catch(Exception e) { }
-
-							if(tmpOType != null) {
-								oType = tmpOType;
-							}
-						}
-					}
-
-					if(oType != null) {
-						ocelot.setCatType(oType);
-					}
-				}
-			}
 			else {
-				try {
-					EntityType creatureType = EntityType.valueOf(type.toUpperCase());
-					entity = world.spawnEntity(location, creatureType);
-				}
-				catch (IllegalArgumentException e) {
-					throw new YiffBukkitCommandException("Creature type "+type+" not found", e);
-				}
+				entity = spawnSingleMob(commandSender, them, location, type, data);
 			}
 
 			if (entity == null)
@@ -422,6 +148,298 @@ public class SpawnUtils {
 			throw new YiffBukkitCommandException("Unknown error occured while spawning entity.");
 		}
 		return first;
+	}
+
+	private Entity spawnSingleMob(final CommandSender commandSender,
+			Player them, Location location, final String type,
+			final String data)
+			throws YiffBukkitCommandException {
+		
+		final World world = location.getWorld();
+		final WorldServer notchWorld = ((CraftWorld)world).getHandle();
+
+		if (type.equalsIgnoreCase("ME")) {
+			return ICommand.asPlayer(commandSender);
+		}
+		else if (type.equalsIgnoreCase("THEM")) {
+			return them;
+		}
+		else if (type.equalsIgnoreCase("FIREBALL")) {
+			final EntityPlayer playerEntity;
+			if (them instanceof CraftPlayer)
+				playerEntity = ((CraftPlayer)them).getHandle();
+			else if (commandSender instanceof CraftPlayer)
+				playerEntity = ((CraftPlayer)commandSender).getHandle();
+			else
+				playerEntity = null;
+
+			final Vector dir = playerEntity.getBukkitEntity().getLocation().getDirection();
+			double dx = dir.getX();
+			double dy = dir.getY();
+			double dz = dir.getZ();
+
+			final EntityFireball notchEntity = new EntityFireball(notchWorld, playerEntity, dx, dy, dz);
+			notchEntity.locX = location.getX();
+			notchEntity.locY = location.getY();
+			notchEntity.locZ = location.getZ();
+
+			double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+			notchEntity.dirX = dx * d3;
+			notchEntity.dirY = dy * d3;
+			notchEntity.dirZ = dz * d3;
+
+			notchWorld.addEntity(notchEntity);
+			return null;//notchEntity.getBukkitEntity();
+		}
+		else if (type.equalsIgnoreCase("TNT")) {
+			EntityTNTPrimed notchEntity = new EntityTNTPrimed(notchWorld, 0, 1, 0);
+
+			notchWorld.addEntity(notchEntity);
+			final Entity entity = notchEntity.getBukkitEntity();
+
+			entity.teleport(location);
+
+			return entity;
+		}
+		else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
+			int material = Material.valueOf(type.toUpperCase()).getId();
+			EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
+
+			notchWorld.addEntity(notchEntity);
+			return notchEntity.getBukkitEntity();
+		}
+		else if (type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
+			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
+
+			net.minecraft.server.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+				@Override
+				protected boolean hit(MovingObjectPosition movingobjectposition) {
+					org.bukkit.World world = getBukkitEntity().getWorld();
+					world.strikeLightning(new Location(world, this.locX, this.locY, this.locZ));
+					return true;
+				}
+			};
+
+			notchWorld.addEntity(notchEntity);
+			return notchEntity.getBukkitEntity();
+		}
+		else if (type.equalsIgnoreCase("POTION")) {
+			final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
+
+			if ("NINJA".equalsIgnoreCase(data)) {
+				final net.minecraft.server.Entity notchEntity = new CustomPotion(location, 8, notchPlayer) {
+					@Override
+					protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
+						final Entity thisBukkitEntity = getBukkitEntity();
+						final World world = thisBukkitEntity.getWorld();
+						world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+
+						plugin.playerHelper.vanish(ICommand.asPlayer(commandSender));
+
+						return true;
+					}
+				};
+
+				notchWorld.addEntity(notchEntity);
+				return notchEntity.getBukkitEntity();
+			}
+			else {
+				int potionId = -1;
+				try {
+					potionId = Integer.parseInt(data);
+				}
+				catch (NumberFormatException e) { }
+
+				if (potionId == -1) {
+					final EffectProperties effectProperties = YBEffect.getEffectProperties(data.toLowerCase());
+					if (effectProperties == null)
+						throw new YiffBukkitCommandException("Effect '"+data+"' does not exist");
+
+					final net.minecraft.server.Entity notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
+						@Override
+						protected void areaHit(final Entity entity) {
+							try {
+								YBEffect.create(data.toLowerCase(), entity).start();
+							} catch (YiffBukkitCommandException e) {
+								e.printStackTrace(); // TEMP!!!
+							}
+						}
+					};
+
+					notchWorld.addEntity(notchEntity);
+					return notchEntity.getBukkitEntity();
+				}
+				else {
+					final net.minecraft.server.Entity notchEntity = new CustomPotion(location, potionId, notchPlayer) {
+						@Override
+						protected boolean hit(MovingObjectPosition movingobjectposition) {
+							org.bukkit.World world = getBukkitEntity().getWorld();
+							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
+							return true;
+						}
+					};
+
+					notchWorld.addEntity(notchEntity);
+					return notchEntity.getBukkitEntity();
+				}
+			}
+		}
+		else if (type.equalsIgnoreCase("ARROW")) {
+			return world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
+		}
+		else if (type.equalsIgnoreCase("MINECART") || type.equalsIgnoreCase("CART")) {
+			return world.spawn(location, Minecart.class);
+		}
+		else if (type.equalsIgnoreCase("XP") || type.equalsIgnoreCase("XPBALL")) {
+			return world.spawn(location, ExperienceOrb.class);
+		}
+		else if (type.equalsIgnoreCase("FAKEXP") || type.equalsIgnoreCase("FAKEBALL")) {
+			final FakeEntity a = new FakeExperienceOrb(location, 1);
+			a.send();
+			a.teleport(location);
+
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+				a.remove();
+			}}, 1000);
+			return a;
+		}
+		else if (type.equalsIgnoreCase("BOAT")) {
+			return world.spawn(location, Boat.class);
+		}
+		else if (type.equalsIgnoreCase("CREEPER")) {
+			final Entity entity = world.spawnEntity(location, EntityType.CREEPER);
+			if (entity == null) {
+				throw new YiffBukkitCommandException("Could not spawn a creeper here. Too bright?");
+			}
+			final Creeper creeper = (Creeper)entity;
+
+			if ("ELECTRIFIED".equalsIgnoreCase(data) || "CHARGED".equalsIgnoreCase(data) || "POWERED".equalsIgnoreCase(data)) {
+				creeper.setPowered(true);
+			}
+			return entity;
+		}
+		else if (type.equalsIgnoreCase("SLIME")) {
+			final Slime slime = (Slime) world.spawnEntity(location, EntityType.SLIME);
+
+			if (data != null) {
+				try {
+					int size = Integer.parseInt(data);
+					slime.setSize(size);
+				}
+				catch (NumberFormatException e) { }
+			}
+
+			return slime;
+		}
+		else if (type.equalsIgnoreCase("WOLF")) {
+			final Wolf wolf = (Wolf) world.spawnEntity(location, EntityType.WOLF);
+
+			if (data != null) { 
+				for (String subData : data.toUpperCase().split(",")) {
+					if (subData.isEmpty())
+						continue;
+
+					if (subData.equals("ANGRY")) {
+						wolf.setAngry(true);
+					}
+					else if (subData.equals("SITTING") || subData.equals("SIT")) {
+						wolf.setSitting(true);
+					}
+					else if (subData.equals("TAME") || subData.equals("TAMED")) {
+						if (them == null)
+							wolf.setOwner(ICommand.asPlayer(commandSender));
+						else
+							wolf.setOwner(them);
+					}
+				}
+			}
+
+			return wolf;
+		}
+		else if (type.equalsIgnoreCase("SHEEP")) {
+			final Sheep sheep = (Sheep) world.spawnEntity(location, EntityType.SHEEP);
+
+			if ("CAMO".equalsIgnoreCase(data) || "CAMOUFLAGE".equalsIgnoreCase(data)) {
+				new CamoSheep(plugin, sheep);
+			}
+			else if ("PARTY".equalsIgnoreCase(data)) {
+				new PartySheep(plugin, sheep);
+			}
+			else if ("TRAP".equalsIgnoreCase(data)) {
+				new TrapSheep(plugin, sheep);
+			}
+			else if ("SHEARED".equalsIgnoreCase(data) || "SHORN".equalsIgnoreCase(data) || "NUDE".equalsIgnoreCase(data) || "NAKED".equalsIgnoreCase(data)) {
+				sheep.setSheared(true);
+			}
+			else {
+				DyeColor dyeColor = DyeColor.WHITE;
+				try {
+					if ("RAINBOW".equalsIgnoreCase(data) || "RAINBOWS".equalsIgnoreCase(data) || "RANDOM".equalsIgnoreCase(data)) {
+						DyeColor[] dyes = DyeColor.values();
+						dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
+					}
+					else {
+						dyeColor = DyeColor.valueOf(data.toUpperCase());
+					}
+				}
+				catch (Exception e) { }
+
+				sheep.setColor(dyeColor);
+			}
+
+			return sheep;
+		}
+		else if (type.equalsIgnoreCase("NPC")) {
+			final String name = data == null ? "" : data;
+			return makeNPC(name, location);
+		}
+		else if(type.equalsIgnoreCase("OCELOT") || type.equalsIgnoreCase("CAT")) {
+			final Ocelot ocelot = (Ocelot) world.spawnEntity(location, EntityType.OCELOT);
+			if (data != null) {
+				Ocelot.Type oType = null;
+
+				for (String subData : data.toUpperCase().split(",")) {
+					if (subData.isEmpty())
+						continue;
+
+					if (subData.equals("SITTING") || subData.equals("SIT")) {
+						ocelot.setSitting(true);
+					} else {
+						Ocelot.Type tmpOType = null;
+						try {
+							String filteredData = subData.toUpperCase().replace(' ','_');
+							if(subData.endsWith("_CAT")) {
+								tmpOType = Ocelot.Type.valueOf(filteredData);
+							} else if(subData.equals("WILD") || subData.equals("OCELOT") || subData.equals("WILD_OCELOT")) {
+								tmpOType = Ocelot.Type.WILD_OCELOT;
+							} else {
+								tmpOType = Ocelot.Type.valueOf(filteredData + "_CAT");
+							}
+						} catch(Exception e) { }
+
+						if(tmpOType != null) {
+							oType = tmpOType;
+						}
+					}
+				}
+
+				if(oType != null) {
+					ocelot.setCatType(oType);
+				}
+			}
+
+			return ocelot;
+		}
+		else {
+			try {
+				EntityType creatureType = EntityType.valueOf(type.toUpperCase());
+				return world.spawnEntity(location, creatureType);
+			}
+			catch (IllegalArgumentException e) {
+				throw new YiffBukkitCommandException("Creature type "+type+" not found", e);
+			}
+		}
 	}
 
 	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {
