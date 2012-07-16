@@ -141,7 +141,8 @@ public class MCBans {
 	}
 
 	public long evidence(final CommandSender from, final String ply, World world) {
-		if (world == null || logger == null) return 0;
+		return 0;
+		/*if (world == null || logger == null) return 0;
 		String tmp = logger.getFormattedBlockChangesBy(ply, world, false, false);
 		JSONObject ret = MCBansUtil.apiQuery("exec=evidence&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply)+"&changes="+MCBansUtil.URLEncode(tmp));
 		long proofID = (Long)ret.get("value");
@@ -149,6 +150,6 @@ public class MCBans {
 		tmp = "Saved evidence for " + ply + " in world " + world.getName() + " as ID: " + proofID;
 		plugin.log(tmp);
 		plugin.playerHelper.sendDirectedMessage(from, tmp);
-		return proofID;
+		return proofID;*/
 	}
 }
