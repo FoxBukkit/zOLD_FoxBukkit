@@ -11,9 +11,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 
 @EffectProperties(
 		name = "rocket",
@@ -46,13 +48,6 @@ public class Rocket extends YBEffect {
 
 	@Override
 	public void runEffect() {
-		if (i == 101) {
-			for (Entity e : toRemove) {
-				e.remove();
-			}
-			done();
-			return;
-		}
 
 		velocity = velocity.add(new Vector(0,0.1,0));
 		entity.setVelocity(velocity);
@@ -64,7 +59,8 @@ public class Rocket extends YBEffect {
 
 		++i;
 		if (i == 100 || currentLocation.getY() >= maxHeight) {
-			i = 101;
+			done();
+			cancel();
 			entity.remove();
 			for (Player player : currentWorld.getPlayers()) {
 				final Location playerLocation = player.getLocation();
@@ -74,7 +70,6 @@ public class Rocket extends YBEffect {
 				final Location modifiedLocation = playerLocation.add(currentLocation).multiply(0.5);
 				player.playEffect(modifiedLocation, Effect.ZOMBIE_DESTROY_DOOR, 0);
 			}
-			cancel();
 
 			for (int i = 0; i < 100; ++i) {
 				final FakeEntity fakeEntity = new FakeExperienceOrb(currentLocation, 1);
@@ -84,8 +79,21 @@ public class Rocket extends YBEffect {
 				toRemove.add(fakeEntity);
 			}
 
-			scheduleSyncDelayed(60);
+			cleanup();
 		}
+	}
+
+	@Override
+	protected void cleanup() {
+		new ScheduledTask(YiffBukkit.instance) {
+			@Override
+			public void run() {
+				for (Entity e : toRemove) {
+					e.remove();
+				}
+				return;
+			}
+		}.scheduleSyncDelayed(60);
 	}
 
 	public static class PotionTrail extends YBEffect {

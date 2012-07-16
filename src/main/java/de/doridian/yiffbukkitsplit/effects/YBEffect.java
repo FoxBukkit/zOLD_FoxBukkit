@@ -18,7 +18,11 @@ public abstract class YBEffect extends ScheduledTask {
 	static final class DeathListener implements Listener {
 		@EventHandler
 		public void onEntityDeath(EntityDeathEvent event) {
-			effects.remove(event.getEntity());
+			final YBEffect effect = effects.remove(event.getEntity());
+			if (effect == null)
+				return;
+
+			effect.stop();
 		}
 	}
 
@@ -45,10 +49,14 @@ public abstract class YBEffect extends ScheduledTask {
 
 	public abstract void start();
 
-	public void stop() {
+	public final void stop() {
 		cancel();
 		done();
+		cleanup();
 	}
+
+	protected void cleanup() { }
+
 
 	protected final void done() {
 		effects.remove(entity);
@@ -87,7 +95,7 @@ public abstract class YBEffect extends ScheduledTask {
 	@SuppressWarnings("unchecked")
 	public static YBEffect createTrail(Class<? extends YBEffect> effectClass, Entity entity) throws YiffBukkitCommandException {
 		if (!effectClass.getAnnotation(EffectProperties.class).potionTrail())
-			return null;
+			return new NullEffect();
 
 		//Class.forName(effectClass.getCanonicalName()+".PotionTrail");
 		for (Class<?> enclosedClass : effectClass.getDeclaredClasses()) {
@@ -95,7 +103,7 @@ public abstract class YBEffect extends ScheduledTask {
 				return create((Class<? extends YBEffect>) enclosedClass, entity);
 		}
 
-		return null;
+		throw new YiffBukkitCommandException("Effect doesn't have a PotionTrail enclosed class but is flagged as having one.");
 	}
 
 	public static YBEffect create(Class<? extends YBEffect> effectClass, Entity entity) throws YiffBukkitCommandException {
