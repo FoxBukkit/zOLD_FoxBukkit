@@ -24,7 +24,7 @@ public class SetPortalCommand extends ICommand {
 		final Material toolType = ply.getItemInHand().getType();
 
 		if (argStr.isEmpty()) {
-			playerHelper.addToolMapping(ply, toolType, null);
+			ToolBind.remove(ply, toolType);
 
 			PlayerHelper.sendDirectedMessage(ply, "Unbound your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
@@ -68,7 +68,7 @@ public class SetPortalCommand extends ICommand {
 			}
 		};
 
-		playerHelper.addToolMapping(ply, toolType, runnable);
+		ToolBind.add(ply, toolType, runnable);
 
 		PlayerHelper.sendDirectedMessage(ply, "right-click the in and out portals for \u00a79"+portalName+"\u00a7f with your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 	}

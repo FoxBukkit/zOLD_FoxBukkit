@@ -53,13 +53,11 @@ public class BindCommand extends ICommand {
 
 		if (booleanFlags.contains('l')) {
 			String playerName = ply.getName();
-			for (Entry<String, ToolBind> entry : playerHelper.toolMappings.entrySet()) {
+			for (Entry<String, ToolBind> entry : ToolBind.list(playerName).entrySet()) {
 				ToolBind toolBind = entry.getValue();
-				if (playerName.equals(toolBind.playerName)) {
-					String toolName = entry.getKey();
-					toolName = toolName.substring(toolName.indexOf(' ')+1);
-					PlayerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
-				}
+				String toolName = entry.getKey();
+
+				PlayerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
 			}
 		}
 
@@ -79,7 +77,7 @@ public class BindCommand extends ICommand {
 		}
 
 		if (argStr.isEmpty()) {
-			playerHelper.addToolMapping(ply, toolType, null);
+			ToolBind.remove(ply, toolType);
 
 			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
@@ -113,7 +111,7 @@ public class BindCommand extends ICommand {
 		}
 		final String commandString = sb.toString();
 
-		ToolBind runnable = new ToolBind(commandString, ply) {
+		ToolBind toolBind = new ToolBind(commandString, ply) {
 			@Override
 			public void run(PlayerInteractEvent event) {
 				Player player = event.getPlayer();
@@ -124,7 +122,7 @@ public class BindCommand extends ICommand {
 			}
 		};
 
-		playerHelper.addToolMapping(ply, toolType, runnable);
+		ToolBind.add(ply, toolType, toolBind);
 
 		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+commandString+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}

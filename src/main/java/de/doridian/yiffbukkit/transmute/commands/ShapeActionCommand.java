@@ -49,7 +49,7 @@ public class ShapeActionCommand extends ICommand {
 				toolType = ply.getItemInHand().getType();
 			}
 
-			playerHelper.addToolMapping(ply, toolType, new ToolBind(shapeAction, ply) {
+			ToolBind.add(ply, toolType, new ToolBind(shapeAction, ply) {
 				@Override
 				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();

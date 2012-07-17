@@ -79,7 +79,7 @@ public class TransmuteCommand extends ICommand {
 				toolType = ply.getItemInHand().getType();
 			}
 
-			playerHelper.addToolMapping(ply, toolType, new ToolBind(mobType, ply) {
+			ToolBind.add(ply, toolType, new ToolBind(mobType, ply) {
 				@Override
 				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();

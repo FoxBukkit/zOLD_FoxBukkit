@@ -80,7 +80,7 @@ public class ThrowCommand extends ICommand {
 		}
 
 		if (args.length == 0) {
-			playerHelper.addToolMapping(ply, toolType, null);
+			ToolBind.remove(ply, toolType);
 
 			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
@@ -183,7 +183,7 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 
-		playerHelper.addToolMapping(ply, toolType, runnable);
+		ToolBind.add(ply, toolType, runnable);
 
 		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+typeName+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}

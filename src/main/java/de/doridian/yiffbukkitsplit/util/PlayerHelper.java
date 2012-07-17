@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkitsplit.util;
 
 import de.doridian.yiffbukkit.main.StateContainer;
-import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -18,7 +17,6 @@ import net.minecraft.server.Packet70Bed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -558,29 +556,6 @@ public class PlayerHelper extends StateContainer {
 
 	public boolean isPlayerDisabled(Player ply) {
 		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
-	}
-
-	public Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
-
-	public void addToolMapping(Player ply, Material toolType, ToolBind runnable) {
-		String key = ply.getName()+" "+toolType.name();
-
-		if (runnable == null)
-			toolMappings.remove(key);
-		else
-			toolMappings.put(key, runnable);
-	}
-
-	public void updateToolMappings(Player player) {
-		String playerName = player.getName();
-		for (Entry<String, ToolBind> entry : toolMappings.entrySet()) {
-			ToolBind toolBind = entry.getValue();
-			if (playerName.equals(toolBind.playerName)) {
-				String toolName = entry.getKey();
-				toolName = toolName.substring(toolName.indexOf(' ')+1);
-				sendDirectedMessage(player, "Restored bind \u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
-			}
-		}
 	}
 
 	Map<String, String> leashMasters = new HashMap<String, String>();

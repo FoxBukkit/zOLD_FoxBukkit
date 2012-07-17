@@ -112,7 +112,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 			}
 		}.start();
 
-		playerHelper.updateToolMappings(player);
+		ToolBind.updateToolMappings(player);
 		plugin.chatManager.popCurrentOrigin();
 		playerHelper.pushWeather(player);
 	}
@@ -266,8 +266,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 			try {
 				Material itemMaterial = event.getMaterial();
 
-				String key = ply.getName()+" "+itemMaterial.name();
-				ToolBind toolBind = playerHelper.toolMappings.get(key);
+				ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
 				if (toolBind != null) {
 					event.setCancelled(true);
 					try {
@@ -302,8 +301,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		try {
 			Material itemMaterial = ply.getItemInHand().getType();
 
-			String key = ply.getName()+" "+itemMaterial.name();
-			ToolBind toolBind = playerHelper.toolMappings.get(key);
+			ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
 			if (toolBind != null) {
 				event.setCancelled(true);
 				try {
