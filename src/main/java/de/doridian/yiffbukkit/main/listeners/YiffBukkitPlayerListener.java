@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.main.listeners;
 
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkitsplit.effects.YBEffect;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -250,6 +251,22 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				if (plugin.logBlockConsumer != null)
 					plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), event.getClickedBlock().getState(), 35, newData);
 				clickedBlock.setData(newData);
+
+				int newAmount = item.getAmount()-1;
+				if (newAmount > 0)
+					item.setAmount(newAmount);
+				else
+					player.setItemInHand(null);
+			}
+		});
+
+		ToolBind.addGlobal(Material.RED_MUSHROOM, new ToolBind("red shroom", null) {
+			@Override
+			public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+				final Player player = event.getPlayer();
+				YBEffect.create("lsd", player).start();
+
+				ItemStack item = event.getItem();
 
 				int newAmount = item.getAmount()-1;
 				if (newAmount > 0)
