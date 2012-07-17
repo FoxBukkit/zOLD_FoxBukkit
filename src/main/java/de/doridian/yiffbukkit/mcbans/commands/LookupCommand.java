@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,21 +35,21 @@ public class LookupCommand extends ICommand {
 				 * }
 				 */
 
-				playerHelper.sendDirectedMessage(commandSender, "Player \u00a73" + otherName + "\u00a7f has \u00a74" + lookupret.get("total").toString() + " ban(s)\u00a7f and \u00a79"+lookupret.get("reputation").toString()+" REP\u00a7f.");
+				PlayerHelper.sendDirectedMessage(commandSender, "Player \u00a73" + otherName + "\u00a7f has \u00a74" + lookupret.get("total").toString() + " ban(s)\u00a7f and \u00a79"+lookupret.get("reputation").toString()+" REP\u00a7f.");
 
 				final JSONArray banReasonsGlobal = (JSONArray)lookupret.get("global");
 				if (!banReasonsGlobal.isEmpty()) {
-					playerHelper.sendDirectedMessage(commandSender, "\u00a74Global bans");
+					PlayerHelper.sendDirectedMessage(commandSender, "\u00a74Global bans");
 					for(Object obj : banReasonsGlobal) {
-						playerHelper.sendDirectedMessage(commandSender, (String)obj);
+						PlayerHelper.sendDirectedMessage(commandSender, (String)obj);
 					}
 				}
 
 				final JSONArray banReasonsLocal = (JSONArray)lookupret.get("local");
 				if (!banReasonsLocal.isEmpty()) {
-					playerHelper.sendDirectedMessage(commandSender, "\u00a76Local bans");
+					PlayerHelper.sendDirectedMessage(commandSender, "\u00a76Local bans");
 					for(Object obj : banReasonsLocal) {
-						playerHelper.sendDirectedMessage(commandSender, (String)obj);
+						PlayerHelper.sendDirectedMessage(commandSender, (String)obj);
 					}
 				}
 			}

@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -149,12 +151,12 @@ public class GiveCommand extends ICommand {
 					throw new YiffBukkitCommandException("Material "+materialName+" not found");
 				}
 				catch (YiffBukkitCommandException e) {
-					playerHelper.sendDirectedMessage(commandSender, "Material "+materialName+" not found");
+					PlayerHelper.sendDirectedMessage(commandSender, "Material "+materialName+" not found");
 					throw e;
 				}
 			}
 
-			playerHelper.sendDirectedMessage(commandSender, "Created "+count+" creatures.");
+			PlayerHelper.sendDirectedMessage(commandSender, "Created "+count+" creatures.");
 			return;
 		}
 
@@ -192,8 +194,8 @@ public class GiveCommand extends ICommand {
 		inv.setItem(empty, stack);
 
 		if (target == commandSender)
-			playerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
+			PlayerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
 		else
-			playerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
+			PlayerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
 	}
 }

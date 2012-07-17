@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.warp.portals;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -72,11 +74,11 @@ public class SignPortalPlayerListener implements Listener {
 			sign.setLine(3, player.getName());
 			sign.update(true);
 		} catch (WarpException e) {
-			plugin.playerHelper.sendDirectedMessage(player, e.getMessage(), e.getColor());
+			PlayerHelper.sendDirectedMessage(player, e.getMessage(), e.getColor());
 			return;
 		}
 
-		plugin.playerHelper.sendDirectedMessage(player, "Portal sign activated.");
+		PlayerHelper.sendDirectedMessage(player, "Portal sign activated.");
 	}
 
 	Map<Player, Integer> timerIds = new HashMap<Player, Integer>();

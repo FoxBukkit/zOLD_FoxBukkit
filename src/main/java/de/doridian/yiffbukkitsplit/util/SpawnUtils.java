@@ -547,7 +547,7 @@ public class SpawnUtils {
 					die();
 			}
 			catch (YiffBukkitCommandException e) {
-				plugin.playerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
+				PlayerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
 				die();
 			}
 			catch (Throwable e) {

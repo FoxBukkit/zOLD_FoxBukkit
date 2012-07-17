@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.warp.portals.PortalEngine;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,7 +26,7 @@ public class SetPortalCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.sendDirectedMessage(ply, "Unbound your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
+			PlayerHelper.sendDirectedMessage(ply, "Unbound your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
 			return;
 		}
@@ -44,7 +46,7 @@ public class SetPortalCommand extends ICommand {
 					PortalEngine.PortalPair portalPair = plugin.portalEngine.portals.get(portalName);
 					portalPair.moveThroughPortal(event.getPlayer());
 
-					playerHelper.sendDirectedMessage(player, "Moved through portal");
+					PlayerHelper.sendDirectedMessage(player, "Moved through portal");
 					return;
 				}
 
@@ -52,7 +54,7 @@ public class SetPortalCommand extends ICommand {
 					blockIn = event.getClickedBlock();
 					blockFaceIn = event.getBlockFace();
 
-					playerHelper.sendDirectedMessage(player, "Stored position for in portal");
+					PlayerHelper.sendDirectedMessage(player, "Stored position for in portal");
 				}
 				else {
 					Block blockOut = event.getClickedBlock();
@@ -60,7 +62,7 @@ public class SetPortalCommand extends ICommand {
 
 					plugin.portalEngine.addPortal(portalName, blockIn, blockFaceIn, blockOut, blockFaceOut);
 
-					playerHelper.sendDirectedMessage(player, "Created portal "+portalName);
+					PlayerHelper.sendDirectedMessage(player, "Created portal "+portalName);
 					done = true;
 				}
 			}
@@ -68,6 +70,6 @@ public class SetPortalCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.sendDirectedMessage(ply, "right-click the in and out portals for \u00a79"+portalName+"\u00a7f with your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
+		PlayerHelper.sendDirectedMessage(ply, "right-click the in and out portals for \u00a79"+portalName+"\u00a7f with your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 	}
 }

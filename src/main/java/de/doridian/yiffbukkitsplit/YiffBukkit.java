@@ -261,7 +261,7 @@ public class YiffBukkit extends JavaPlugin {
 
 						writer.close();
 					}
-					catch(Exception e) { playerHelper.sendDirectedMessage(ply, "Error: " + e.getMessage()); }
+					catch(Exception e) { PlayerHelper.sendDirectedMessage(ply, "Error: " + e.getMessage()); }
 				}
 			}
 		});

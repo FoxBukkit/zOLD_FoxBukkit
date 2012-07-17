@@ -4,6 +4,8 @@ import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 import org.dynmap.Client;
 
@@ -172,8 +174,8 @@ public class ChatHelper extends StateContainer {
 		if (needsSave)
 			saveChannels();
 
-		plugin.playerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
-		plugin.playerHelper.sendDirectedMessage(ply, "To talk to everyone, you do /ooc MESSAGE");
+		PlayerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
+		PlayerHelper.sendDirectedMessage(ply, "To talk to everyone, you do /ooc MESSAGE");
 	}
 
 	public void sendChat(Player ply, String msg, boolean format) throws YiffBukkitCommandException {
@@ -230,7 +232,7 @@ public class ChatHelper extends StateContainer {
 		}
 
 		if (noOneHearsYou && chan.range > 0) {
-			plugin.playerHelper.sendDirectedMessage(ply, "No one can hear you (forgot /ooc?)");
+			PlayerHelper.sendDirectedMessage(ply, "No one can hear you (forgot /ooc?)");
 		}
 	}
 

@@ -131,6 +131,6 @@ public class SendPacketCommand extends ICommand {
 		}
 
 		PlayerHelper.sendPacketToPlayer(otherply, packet);
-		playerHelper.sendDirectedMessage(commandSender, "Sent packet to "+otherply.getName()+".");
+		PlayerHelper.sendDirectedMessage(commandSender, "Sent packet to "+otherply.getName()+".");
 	}
 }

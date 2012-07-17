@@ -1,6 +1,8 @@
 package de.doridian.yiffbukkit.chat;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,7 +37,7 @@ public class ChatListener implements Listener {
 			helper.sendChat(event.getPlayer(), msg, true);
 		}
 		catch (Exception e) {
-			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), e.getMessage());
+			PlayerHelper.sendDirectedMessage(event.getPlayer(), e.getMessage());
 		}
 
 		event.setCancelled(true);

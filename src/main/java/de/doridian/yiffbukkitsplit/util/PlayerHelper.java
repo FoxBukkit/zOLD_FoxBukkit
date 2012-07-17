@@ -243,10 +243,10 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
-	public void sendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
+	public static void sendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
 		commandSender.sendMessage("\u00a7"+colorCode+"[YB]\u00a7f " + msg);
 	}
-	public void sendDirectedMessage(CommandSender commandSender, String msg) {
+	public static void sendDirectedMessage(CommandSender commandSender, String msg) {
 		sendDirectedMessage(commandSender, msg, '5');
 	}
 

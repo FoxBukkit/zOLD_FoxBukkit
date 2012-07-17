@@ -6,6 +6,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,41 +58,41 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 		if (targetName.equals(commandSenderName)) {
 			if (newState) {
 				if (prevState)
-					playerHelper.sendDirectedMessage(commandSender, "You are already invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are already invincible.");
 				else {
 					playerHelper.sendServerMessage(commandSenderName+" made themselves invincible.", commandSender);
-					playerHelper.sendDirectedMessage(commandSender, "You are now invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are now invincible.");
 				}
 			}
 			else {
 				if (prevState) {
 					playerHelper.sendServerMessage(commandSenderName+" made themselves no longer invincible.", commandSender);
-					playerHelper.sendDirectedMessage(commandSender, "You are no longer invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are no longer invincible.");
 				}
 				else
-					playerHelper.sendDirectedMessage(commandSender, "You are not invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are not invincible.");
 			}
 		}
 		else {
 			if (newState) {
 				if (prevState)
-					playerHelper.sendDirectedMessage(commandSender, targetName+" is already invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, targetName+" is already invincible.");
 				else {
 					playerHelper.sendServerMessage(commandSenderName+" made "+targetName+" invincible.", commandSender, target);
-					playerHelper.sendDirectedMessage(commandSender, "You made "+targetName+" invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You made "+targetName+" invincible.");
 					if (target != null)
-						playerHelper.sendDirectedMessage(target, commandSenderName+" made you invincible.");
+						PlayerHelper.sendDirectedMessage(target, commandSenderName+" made you invincible.");
 				}
 			}
 			else {
 				if (prevState) {
 					playerHelper.sendServerMessage(commandSenderName+" made "+targetName+" no longer invincible.", commandSender, target);
-					playerHelper.sendDirectedMessage(commandSender, "You made "+targetName+" no longer invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You made "+targetName+" no longer invincible.");
 					if (target != null)
-						playerHelper.sendDirectedMessage(target, commandSenderName+" made you no longer invincible.");
+						PlayerHelper.sendDirectedMessage(target, commandSenderName+" made you no longer invincible.");
 				}
 				else
-					playerHelper.sendDirectedMessage(commandSender, targetName+" is not invincible.");
+					PlayerHelper.sendDirectedMessage(commandSender, targetName+" is not invincible.");
 			}
 		}
 	}

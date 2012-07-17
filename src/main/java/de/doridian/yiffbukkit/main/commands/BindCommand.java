@@ -9,6 +9,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -56,7 +58,7 @@ public class BindCommand extends ICommand {
 				if (playerName.equals(toolBind.playerName)) {
 					String toolName = entry.getKey();
 					toolName = toolName.substring(toolName.indexOf(' ')+1);
-					playerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
+					PlayerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
 				}
 			}
 		}
@@ -79,7 +81,7 @@ public class BindCommand extends ICommand {
 		if (argStr.isEmpty()) {
 			playerHelper.addToolMapping(ply, toolType, null);
 
-			playerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
+			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
 
 			return;
 		}
@@ -124,6 +126,6 @@ public class BindCommand extends ICommand {
 
 		playerHelper.addToolMapping(ply, toolType, runnable);
 
-		playerHelper.sendDirectedMessage(ply, "Bound \u00a79"+commandString+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
+		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+commandString+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}
 }

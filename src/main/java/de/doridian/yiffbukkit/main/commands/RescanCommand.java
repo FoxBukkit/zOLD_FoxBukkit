@@ -4,6 +4,8 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 
 @Names("rescan")
@@ -14,6 +16,6 @@ public class RescanCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		plugin.commandSystem.scanCommands();
 
-		playerHelper.sendDirectedMessage(commandSender, "Rescanned YiffBukkit commands.");
+		PlayerHelper.sendDirectedMessage(commandSender, "Rescanned YiffBukkit commands.");
 	}
 }

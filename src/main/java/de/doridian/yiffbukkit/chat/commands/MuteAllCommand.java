@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.chat.commands;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.*;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +26,7 @@ public class MuteAllCommand extends ICommand implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (muteall && !event.getPlayer().hasPermission("yiffbukkit.users.muteall")) {
-			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "Server chat is disabled at this time for all users.");
+			PlayerHelper.sendDirectedMessage(event.getPlayer(), "Server chat is disabled at this time for all users.");
 			event.setCancelled(true);
 			return;
 		}
@@ -37,7 +39,7 @@ public class MuteAllCommand extends ICommand implements Listener {
 			String cmd = fullCmd.substring(0, fullCmd.indexOf(' ')).trim();
 			if(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation") || cmd.equals("kick") || cmd.equals("irckick") || cmd.equals("settag") || cmd.equals("setnick") || cmd.equals("setrank") || cmd.equals("jail"))
 			{
-				plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "Some server commands have been disabled for all users.");
+				PlayerHelper.sendDirectedMessage(event.getPlayer(), "Some server commands have been disabled for all users.");
 				event.setCancelled(true);
 				return;
 			}

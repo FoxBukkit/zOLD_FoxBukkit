@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 
 @Names("setwarp")
@@ -20,6 +22,6 @@ public class SetWarpCommand extends ICommand {
 			throw new YiffBukkitCommandException("Not enough arguments");
 
 		WarpDescriptor warp = plugin.warpEngine.setWarp(ply.getName(), argStr, ply.getLocation());
-		playerHelper.sendDirectedMessage(ply, "Created warp \u00a79" + warp.name + "\u00a7f here. Use '/warp help' to see how to modify it.");
+		PlayerHelper.sendDirectedMessage(ply, "Created warp \u00a79" + warp.name + "\u00a7f here. Use '/warp help' to see how to modify it.");
 	}
 }

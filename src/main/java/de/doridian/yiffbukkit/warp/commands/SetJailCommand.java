@@ -10,6 +10,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -22,7 +24,7 @@ public class SetJailCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (argStr.equals("remove")) {
 			plugin.jailEngine.removeJail(ply.getLocation());
-			playerHelper.sendDirectedMessage(ply, "Removed the jail cell closest to you.");
+			PlayerHelper.sendDirectedMessage(ply, "Removed the jail cell closest to you.");
 			return;
 		}
 
@@ -34,7 +36,7 @@ public class SetJailCommand extends ICommand {
 			com.sk89q.worldedit.Vector pos2 = selected.getMinimumPoint();
 			double y = Math.min(pos1.getY(), pos2.getY())+1;
 			plugin.jailEngine.setJail(ply.getWorld(), new Vector(pos1.getX(), y, pos1.getZ()), new Vector(pos2.getX(), y, pos2.getZ()));
-			playerHelper.sendDirectedMessage(ply, "Made a jail here.");
+			PlayerHelper.sendDirectedMessage(ply, "Made a jail here.");
 		}
 		catch (IncompleteRegionException e) {
 			throw new YiffBukkitCommandException("Please select a region.", e);

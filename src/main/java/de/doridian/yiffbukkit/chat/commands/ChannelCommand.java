@@ -10,6 +10,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 
 @Names({"channel", "channels", "c"})
@@ -81,19 +83,19 @@ public class ChannelCommand extends ICommand {
 				}
 				sb.setLength(sb.length() - 4);
 
-				plugin.playerHelper.sendDirectedMessage(ply, "Current channels: " + sb.toString());
+				PlayerHelper.sendDirectedMessage(ply, "Current channels: " + sb.toString());
 			}
 			else {
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.players.keySet().toArray(new String[chan.players.size()]), 0, "No users"));
+				PlayerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.players.keySet().toArray(new String[chan.players.size()]), 0, "No users"));
 			}
 			return; //prevents saving!
 
 		case INFO:
-			plugin.playerHelper.sendDirectedMessage(ply, "Channel info");
-			plugin.playerHelper.sendDirectedMessage(ply, "Name: " + chan.name);
-			plugin.playerHelper.sendDirectedMessage(ply, "Owner: " + chan.owner);
-			plugin.playerHelper.sendDirectedMessage(ply, "Mode: " + chan.mode.toString());
-			plugin.playerHelper.sendDirectedMessage(ply, "Range: " + chan.range);
+			PlayerHelper.sendDirectedMessage(ply, "Channel info");
+			PlayerHelper.sendDirectedMessage(ply, "Name: " + chan.name);
+			PlayerHelper.sendDirectedMessage(ply, "Owner: " + chan.owner);
+			PlayerHelper.sendDirectedMessage(ply, "Mode: " + chan.mode.toString());
+			PlayerHelper.sendDirectedMessage(ply, "Range: " + chan.range);
 			return; //prevents saving!
 
 		case CREATE:
@@ -102,7 +104,7 @@ public class ChannelCommand extends ICommand {
 			chan = helper.addChannel(ply, args[1]);
 			helper.joinChannel(ply, chan);
 
-			plugin.playerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " has been created!");
+			PlayerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " has been created!");
 			break;
 
 		case PASSWORD:
@@ -111,7 +113,7 @@ public class ChannelCommand extends ICommand {
 			}
 
 			chan.password = args[2];
-			plugin.playerHelper.sendDirectedMessage(ply, "Set password for channel " + chan.name);
+			PlayerHelper.sendDirectedMessage(ply, "Set password for channel " + chan.name);
 			break;
 
 		case MODERATOR:
@@ -124,18 +126,18 @@ public class ChannelCommand extends ICommand {
 			case 'a':
 				Player plya = plugin.playerHelper.matchPlayerSingle(args[3]);
 				chan.addModerator(plya);
-				plugin.playerHelper.sendDirectedMessage(ply, "Added moderator " + plya.getName() + " to channel " + chan.name);
+				PlayerHelper.sendDirectedMessage(ply, "Added moderator " + plya.getName() + " to channel " + chan.name);
 				break;
 
 			case 'd':
 			case 'r':
 				Player plyb = plugin.playerHelper.matchPlayerSingle(args[3]);
 				chan.removeModerator(plyb);
-				plugin.playerHelper.sendDirectedMessage(ply, "Removed moderator " + plyb.getName() + " from channel " + chan.name);
+				PlayerHelper.sendDirectedMessage(ply, "Removed moderator " + plyb.getName() + " from channel " + chan.name);
 				break;
 
 			case 'l':
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concatArray(chan.moderators.toArray(new String[chan.moderators.size()]), 0, "No moderators"));
+				PlayerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concatArray(chan.moderators.toArray(new String[chan.moderators.size()]), 0, "No moderators"));
 				return; //prevents saving!
 
 			default:
@@ -149,7 +151,7 @@ public class ChannelCommand extends ICommand {
 			}
 
 			helper.removeChannel(chan);
-			plugin.playerHelper.sendDirectedMessage(ply, "Dropped channel " + chan.name);
+			PlayerHelper.sendDirectedMessage(ply, "Dropped channel " + chan.name);
 			break;
 
 		case MODE:
@@ -158,7 +160,7 @@ public class ChannelCommand extends ICommand {
 			}
 
 			chan.mode = ChatChannel.ChatChannelMode.valueOf(args[2].toUpperCase());
-			plugin.playerHelper.sendDirectedMessage(ply, "Set mode of channel " + chan.name  + " to " + chan.mode.toString());
+			PlayerHelper.sendDirectedMessage(ply, "Set mode of channel " + chan.name  + " to " + chan.mode.toString());
 			break;
 
 		case RANGE:
@@ -176,7 +178,7 @@ public class ChannelCommand extends ICommand {
 				rangeStr = "" + chan.range;
 			}
 
-			plugin.playerHelper.sendDirectedMessage(ply, "Set range of channel " + chan.name  + " to " + rangeStr);
+			PlayerHelper.sendDirectedMessage(ply, "Set range of channel " + chan.name  + " to " + rangeStr);
 			break;
 
 		case KICK:
@@ -186,8 +188,8 @@ public class ChannelCommand extends ICommand {
 
 			Player plyx = plugin.playerHelper.matchPlayerSingle(args[2]);
 			helper.leaveChannel(plyx, chan);
-			plugin.playerHelper.sendDirectedMessage(ply, "Kicked " + plyx.getDisplayName() + " out of " + chan.name);
-			plugin.playerHelper.sendDirectedMessage(plyx, "You got kicked out of " + chan.name);
+			PlayerHelper.sendDirectedMessage(ply, "Kicked " + plyx.getDisplayName() + " out of " + chan.name);
+			PlayerHelper.sendDirectedMessage(plyx, "You got kicked out of " + chan.name);
 			helper.sendChat(null, plyx.getDisplayName() + "\u00a7f got kicked out of this channel", false, chan);
 			break;
 
@@ -201,18 +203,18 @@ public class ChannelCommand extends ICommand {
 			case 'a':
 				Player plya = plugin.playerHelper.matchPlayerSingle(args[3]);
 				chan.addUser(plya);
-				plugin.playerHelper.sendDirectedMessage(ply, "Added user " + plya.getDisplayName() + "\u00a7f to channel " + chan.name);
+				PlayerHelper.sendDirectedMessage(ply, "Added user " + plya.getDisplayName() + "\u00a7f to channel " + chan.name);
 				break;
 
 			case 'd':
 			case 'r':
 				Player plyb = plugin.playerHelper.matchPlayerSingle(args[3]);
 				chan.removeUser(plyb);
-				plugin.playerHelper.sendDirectedMessage(ply, "Removed user " + plyb.getDisplayName() + "\u00a7f from channel " + chan.name);
+				PlayerHelper.sendDirectedMessage(ply, "Removed user " + plyb.getDisplayName() + "\u00a7f from channel " + chan.name);
 				break;
 
 			case 'l':
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.users.toArray(new String[chan.users.size()]), 0, "No users"));
+				PlayerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concatArray(chan.users.toArray(new String[chan.users.size()]), 0, "No users"));
 				return; //prevents saving!
 
 			default:
@@ -222,7 +224,7 @@ public class ChannelCommand extends ICommand {
 
 		case SWITCH:
 			helper.setActiveChannel(ply, chan);
-			plugin.playerHelper.sendDirectedMessage(ply, "You switched to channel " + chan.name);
+			PlayerHelper.sendDirectedMessage(ply, "You switched to channel " + chan.name);
 			break;
 
 		case SAY:
@@ -247,10 +249,10 @@ public class ChannelCommand extends ICommand {
 			chan.players.put(plyname, state);
 
 			if (state) {
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " UNMUTED");
+				PlayerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " UNMUTED");
 			}
 			else {
-				plugin.playerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " MUTED");
+				PlayerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " MUTED");
 			}
 			break;
 
@@ -266,7 +268,7 @@ public class ChannelCommand extends ICommand {
 				otherchan.players.put(plyname, false);
 			}
 
-			plugin.playerHelper.sendDirectedMessage(ply, "Muted all channels except " + chan.name);
+			PlayerHelper.sendDirectedMessage(ply, "Muted all channels except " + chan.name);
 			break;
 
 		case LEAVE:

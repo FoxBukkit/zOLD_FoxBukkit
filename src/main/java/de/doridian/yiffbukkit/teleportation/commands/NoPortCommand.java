@@ -5,6 +5,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 
 import java.util.Set;
@@ -37,33 +39,33 @@ public class NoPortCommand extends ICommand {
 		}
 		else if (arg0.equals("allow") || arg0.equals("accept")) {
 			if (args.length < 2) {
-				playerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
+				PlayerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
 				return;
 			}
 
 			String otherName = playerHelper.completePlayerName(args[1], true);
 			if (otherName == null) {
-				playerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
+				PlayerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
 			else {
 				setException(playerName, otherName, true);
-				playerHelper.sendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
+				PlayerHelper.sendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
 			}
 			return;
 		}
 		else if (arg0.equals("deny") || arg0.equals("reject") || arg0.equals("revoke") || arg0.equals("forbid")) {
 			if (args.length < 2) {
-				playerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
+				PlayerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
 				return;
 			}
 
 			String otherName = playerHelper.completePlayerName(args[1], true);
 			if (otherName == null) {
-				playerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
+				PlayerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
 			}
 			else {
 				setException(playerName, otherName, false);
-				playerHelper.sendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
+				PlayerHelper.sendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
 			}
 			return;
 		}
@@ -76,12 +78,12 @@ public class NoPortCommand extends ICommand {
 				newState = !tpPermissions.contains(playerName);
 			}
 			else {
-				playerHelper.sendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
+				PlayerHelper.sendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
 				return;
 			}
 		}
 		else {
-			playerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
+			PlayerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
 			return;
 		}
 
@@ -100,7 +102,7 @@ public class NoPortCommand extends ICommand {
 		}
 		playerHelper.savePortPermissions();
 
-		playerHelper.sendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
+		PlayerHelper.sendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
 	}
 
 	private void setException(String playerName, String otherName, boolean newState) {

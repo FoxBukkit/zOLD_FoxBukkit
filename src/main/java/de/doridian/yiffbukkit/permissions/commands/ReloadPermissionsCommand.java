@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 
 @Names("reloadpermissions")
@@ -17,6 +19,6 @@ public class ReloadPermissionsCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		YiffBukkitPermissionHandler.instance.reload();
-		plugin.playerHelper.sendDirectedMessage(commandSender, "Permissions system reloaded!");
+		PlayerHelper.sendDirectedMessage(commandSender, "Permissions system reloaded!");
 	}
 }

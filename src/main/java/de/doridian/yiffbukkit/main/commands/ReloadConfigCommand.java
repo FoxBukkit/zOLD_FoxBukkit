@@ -6,6 +6,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 
 @Names("reloadconf")
@@ -27,6 +29,6 @@ public class ReloadConfigCommand extends ICommand {
 		if (!success)
 			throw new YiffBukkitCommandException("Config not found");
 
-		playerHelper.sendDirectedMessage(commandSender, "Reloaded "+argStr+" config.");
+		PlayerHelper.sendDirectedMessage(commandSender, "Reloaded "+argStr+" config.");
 	}
 }

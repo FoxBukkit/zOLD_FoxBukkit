@@ -6,6 +6,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -24,7 +26,7 @@ public class ConversationCommand extends ICommand {
 
 			playerHelper.conversations.remove(playerName);
 
-			playerHelper.sendDirectedMessage(commandSender, "Closed conversation with "+otherName+".");
+			PlayerHelper.sendDirectedMessage(commandSender, "Closed conversation with "+otherName+".");
 			return;
 		}
 
@@ -32,6 +34,6 @@ public class ConversationCommand extends ICommand {
 		final String otherName = otherply.getName();
 		playerHelper.conversations.put(playerName, otherName);
 
-		playerHelper.sendDirectedMessage(commandSender, "Opened conversation with "+otherName+".");
+		PlayerHelper.sendDirectedMessage(commandSender, "Opened conversation with "+otherName+".");
 	}
 }

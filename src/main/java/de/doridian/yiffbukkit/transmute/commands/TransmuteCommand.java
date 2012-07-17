@@ -13,6 +13,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.transmute.EntityShape;
 import de.doridian.yiffbukkit.transmute.Shape;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,10 +55,10 @@ public class TransmuteCommand extends ICommand {
 			plugin.transmute.resetShape(ply, target);
 
 			if (ply == target) {
-				playerHelper.sendDirectedMessage(ply, "Transmuted you back into your original shape.");
+				PlayerHelper.sendDirectedMessage(ply, "Transmuted you back into your original shape.");
 			}
 			else {
-				playerHelper.sendDirectedMessage(ply, "Transmuted your last target back into its original shape.");
+				PlayerHelper.sendDirectedMessage(ply, "Transmuted your last target back into its original shape.");
 			}
 
 			effect(target, null);
@@ -91,19 +93,19 @@ public class TransmuteCommand extends ICommand {
 						shape = null;
 						plugin.transmute.resetShape(player, entity);
 
-						playerHelper.sendDirectedMessage(player, "Transmuted your target back into its original shape.");
+						PlayerHelper.sendDirectedMessage(player, "Transmuted your target back into its original shape.");
 					}
 					else {
 						shape = plugin.transmute.setShape(player, entity , mobType);
 
-						playerHelper.sendDirectedMessage(player, "Transmuted your target into a "+mobType+".");
+						PlayerHelper.sendDirectedMessage(player, "Transmuted your target into a "+mobType+".");
 					}
 
 					effect(entity, shape);
 				}
 			});
 
-			playerHelper.sendDirectedMessage(ply, "Bound \u00a79"+mobType+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click an entity to use.");
+			PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+mobType+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click an entity to use.");
 			return;
 		}
 
@@ -118,10 +120,10 @@ public class TransmuteCommand extends ICommand {
 		final Shape shape = plugin.transmute.setShape(ply, target, mobType);
 
 		if (ply == target) {
-			playerHelper.sendDirectedMessage(ply, "Transmuted you into "+mobType+".");
+			PlayerHelper.sendDirectedMessage(ply, "Transmuted you into "+mobType+".");
 		}
 		else {
-			playerHelper.sendDirectedMessage(ply, "Transmuted your last target into "+mobType+".");
+			PlayerHelper.sendDirectedMessage(ply, "Transmuted your last target into "+mobType+".");
 		}
 
 		effect(target, shape);

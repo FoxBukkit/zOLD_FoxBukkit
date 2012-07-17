@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -69,7 +71,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 
 			playerHelper.saveAutoexecs();
 
-			playerHelper.sendDirectedMessage(ply, "Removed command "+id+": \u00a79"+removedCommand+"\u00a7f.");
+			PlayerHelper.sendDirectedMessage(ply, "Removed command "+id+": \u00a79"+removedCommand+"\u00a7f.");
 			listAutoexec(ply);
 
 			return;
@@ -82,7 +84,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 		commands.add(argStr);
 		playerHelper.saveAutoexecs();
 
-		playerHelper.sendDirectedMessage(ply, "Added command "+(commands.size()-1)+": \u00a79"+argStr+"\u00a7f.");
+		PlayerHelper.sendDirectedMessage(ply, "Added command "+(commands.size()-1)+": \u00a79"+argStr+"\u00a7f.");
 		listAutoexec(ply);
 	}
 
@@ -94,17 +96,17 @@ public class AutoexecCommand extends ICommand implements Listener {
 	}
 
 	private void listAutoexec(Player player) {
-		playerHelper.sendDirectedMessage(player, "Current autoexec:");
+		PlayerHelper.sendDirectedMessage(player, "Current autoexec:");
 
 		List<String> commands = playerHelper.autoexecs.get(player.getName());
 		if (commands == null || commands.isEmpty()) {
-			playerHelper.sendDirectedMessage(player, "<empty>");
+			PlayerHelper.sendDirectedMessage(player, "<empty>");
 			return;
 		}
 
 		for (int i = 0; i < commands.size(); ++i) {
 			String command = commands.get(i);
-			playerHelper.sendDirectedMessage(player, i+": \u00a79"+command);
+			PlayerHelper.sendDirectedMessage(player, i+": \u00a79"+command);
 		}
 	}
 

@@ -9,6 +9,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -36,7 +38,7 @@ public class CompassCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (args.length == 0) {
 			final float yaw = ply.getLocation().getYaw();
-			playerHelper.sendDirectedMessage(ply, "Direction: "+ Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
+			PlayerHelper.sendDirectedMessage(ply, "Direction: "+ Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");
 			return;
 		}
 
@@ -62,7 +64,7 @@ public class CompassCommand extends ICommand {
 				}}, 0, 1);
 			}
 
-			playerHelper.sendDirectedMessage(ply, "Set your compass to follow "+target.getName()+".");
+			PlayerHelper.sendDirectedMessage(ply, "Set your compass to follow "+target.getName()+".");
 			return;
 		}
 
@@ -180,6 +182,6 @@ public class CompassCommand extends ICommand {
 
 		ply.setCompassTarget(location);
 
-		playerHelper.sendDirectedMessage(ply, String.format("Set your compass target to %d/%d/%d", location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+		PlayerHelper.sendDirectedMessage(ply, String.format("Set your compass target to %d/%d/%d", location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 	}
 }

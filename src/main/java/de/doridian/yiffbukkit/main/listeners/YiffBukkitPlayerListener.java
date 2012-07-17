@@ -274,15 +274,15 @@ public class YiffBukkitPlayerListener extends BaseListener {
 						toolBind.run(event);
 					}
 					catch (YiffBukkitCommandException e) {
-						playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
+						PlayerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
 					}
 					catch (Exception e) {
 						if (ply.hasPermission("yiffbukkit.detailederrors")) {
-							playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+							PlayerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 							e.printStackTrace();
 						}
 						else {
-							playerHelper.sendDirectedMessage(ply,"Command error!");
+							PlayerHelper.sendDirectedMessage(ply,"Command error!");
 						}
 					}
 				}
@@ -310,15 +310,15 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					toolBind.run(event);
 				}
 				catch (YiffBukkitCommandException e) {
-					playerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
+					PlayerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
 				}
 				catch (Exception e) {
 					if (ply.hasPermission("yiffbukkit.detailederrors")) {
-						playerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
+						PlayerHelper.sendDirectedMessage(ply,"Command error: "+e+" in "+e.getStackTrace()[0]);
 						e.printStackTrace();
 					}
 					else {
-						playerHelper.sendDirectedMessage(ply,"Command error!");
+						PlayerHelper.sendDirectedMessage(ply,"Command error!");
 					}
 				}
 			}

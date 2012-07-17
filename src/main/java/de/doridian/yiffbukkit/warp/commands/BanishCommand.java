@@ -8,6 +8,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.PlayerFindException;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,7 +50,7 @@ public class BanishCommand extends ICommand {
 			} catch (YiffBukkitCommandException e) { }
 			final long unitsFromSpawn = Math.round(homePos.distance(teleportTarget.toVector()));
 
-			playerHelper.sendDirectedMessage(
+			PlayerHelper.sendDirectedMessage(
 					commandSender, otherply.getName() + "'s home is " +
 					unitsFromPrevious + "m from the previous location, " +
 					unitsFromYou +

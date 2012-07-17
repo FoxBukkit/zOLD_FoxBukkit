@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit.warp.portals;
 
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PortalEngine {
+	@SuppressWarnings("unused")
 	private YiffBukkit plugin;
 	public Map<String, PortalPair> portals = new HashMap<String, PortalPair>();
 
@@ -128,7 +131,7 @@ public class PortalEngine {
 			return;
 
 		portalPair.moveThroughPortal(event.getPlayer());
-		plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "woosh");
+		PlayerHelper.sendDirectedMessage(event.getPlayer(), "woosh");
 		//plugin.sendConsoleMsg("woosh");
 	}
 }

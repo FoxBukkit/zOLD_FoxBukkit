@@ -22,6 +22,7 @@ import org.bukkit.command.CommandSender;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 public class CommandSystem {
 	private final YiffBukkit plugin;
@@ -192,15 +193,15 @@ public class CommandSystem {
 				icmd.run(commandSender, args, argStr);
 			}
 			catch (YiffBukkitCommandException e) {
-				plugin.playerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
+				PlayerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
 				if (commandSender.hasPermission("yiffbukkit.detailederrors")) {
-					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
+					PlayerHelper.sendDirectedMessage(commandSender,"Command error: "+e+" in "+e.getStackTrace()[0]);
 					e.printStackTrace();
 				}
 				else {
-					plugin.playerHelper.sendDirectedMessage(commandSender,"Command error!");
+					PlayerHelper.sendDirectedMessage(commandSender,"Command error!");
 				}
 			}
 			return true;

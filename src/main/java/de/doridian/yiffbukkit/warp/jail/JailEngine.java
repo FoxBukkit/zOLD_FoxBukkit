@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.warp.jail;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.util.Ini;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -156,7 +158,7 @@ public class JailEngine extends StateContainer {
 		try {
 			jailPlayer(ply, false);
 			jailPlayer(ply, true);
-			plugin.playerHelper.sendDirectedMessage(ply, "You are still jailed!");
+			PlayerHelper.sendDirectedMessage(ply, "You are still jailed!");
 		}
 		catch (JailException e) { }
 	}

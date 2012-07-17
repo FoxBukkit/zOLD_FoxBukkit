@@ -89,7 +89,7 @@ public class YiffBukkitBlockListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player ply = event.getPlayer();
 		if (playerHelper.isPlayerDisabled(ply)) {
-			playerHelper.sendDirectedMessage(ply, "You are not allowed to build right now.");
+			PlayerHelper.sendDirectedMessage(ply, "You are not allowed to build right now.");
 			event.setBuild(false);
 			return;
 		}

@@ -32,23 +32,23 @@ public class WhoCommand extends ICommand {
 
 			final Player target = playerHelper.matchPlayerSingle(args[0], false);
 
-			playerHelper.sendDirectedMessage(commandSender, "Name: " + target.getName());
-			playerHelper.sendDirectedMessage(commandSender, "Rank: " + playerHelper.getPlayerRank(target));
-			playerHelper.sendDirectedMessage(commandSender, "NameTag: " + playerHelper.GetFullPlayerName(target));
-			playerHelper.sendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
+			PlayerHelper.sendDirectedMessage(commandSender, "Name: " + target.getName());
+			PlayerHelper.sendDirectedMessage(commandSender, "Rank: " + playerHelper.getPlayerRank(target));
+			PlayerHelper.sendDirectedMessage(commandSender, "NameTag: " + playerHelper.GetFullPlayerName(target));
+			PlayerHelper.sendDirectedMessage(commandSender, "World: " + target.getWorld().getName());
 
 			final int playerLevel = playerHelper.getPlayerLevel(commandSender);
 			if (commandSender.hasPermission("yiffbukkit.who.lastlogout")) {
-				playerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
+				PlayerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 			}
 
 			if (commandSender.hasPermission("yiffbukkit.who.lastlogoutbackup")) {
-				playerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
+				PlayerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
 			}
 
 			if (commandSender.hasPermission("yiffbukkit.who.position") && playerLevel >= playerHelper.getPlayerLevel(target)) {
 				Vector targetPosition = target.getLocation().toVector();
-				playerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
+				PlayerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
 
 				Vector offsetFromSpawn = targetPosition.clone().subtract(world.getSpawnLocation().toVector());
 				long unitsFromSpawn = Math.round(offsetFromSpawn.length());
@@ -65,14 +65,14 @@ public class WhoCommand extends ICommand {
 					fromYou = "";
 				}
 
-				playerHelper.sendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
+				PlayerHelper.sendDirectedMessage(commandSender, "That's "+unitsFromSpawn+"m "+directionFromSpawn+" from the spawn"+fromYou+"." );
 			}
 
 			if (commandSender.hasPermission("yiffbukkit.who.address") && playerLevel >= playerHelper.getPlayerLevel(target) && target.isOnline()) {
 				Thread thread = new Thread(new Runnable() {
 					public void run() {
 						InetAddress address = target.getAddress().getAddress();
-						playerHelper.sendDirectedMessage(commandSender, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
+						PlayerHelper.sendDirectedMessage(commandSender, "IP: " + address.getHostAddress() + "(" + address.getCanonicalHostName() + ")");
 					}
 				});
 				thread.start();
@@ -95,7 +95,7 @@ public class WhoCommand extends ICommand {
 					}
 				}
 			}
-			playerHelper.sendDirectedMessage(commandSender, str);
+			PlayerHelper.sendDirectedMessage(commandSender, str);
 		}
 	}
 }

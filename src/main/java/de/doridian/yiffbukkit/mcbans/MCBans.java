@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.mcbans;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -38,14 +39,14 @@ public class MCBans {
 						plugin.playerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
 						break;
 					case 'n':
-						plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was not banned!");
+						PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was not banned!");
 						break;
 					case 's':
-						plugin.playerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in a group this server is part of!");
+						PlayerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in a group this server is part of!");
 						break;
 					case 'e':
 					default:
-						plugin.playerHelper.sendDirectedMessage(from, "Error while unbanning player " + ply + "!");
+						PlayerHelper.sendDirectedMessage(from, "Error while unbanning player " + ply + "!");
 						break;
 				}
 			}
@@ -115,20 +116,20 @@ public class MCBans {
 				char result = ((String)banret.get("result")).charAt(0);
 				switch (result) {
 					case 'a':
-						plugin.playerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
+						PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
 						break;
 					case 's':
-						plugin.playerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in our servergroup(s)!");
+						PlayerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in our servergroup(s)!");
 						break;
 					case 'y':
 						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
 						break;
 					case 'w':
-						plugin.playerHelper.sendDirectedMessage(from, "Could not ban " + ply + " because ban contained badword: " + (String)banret.get("word"));
+						PlayerHelper.sendDirectedMessage(from, "Could not ban " + ply + " because ban contained badword: " + (String)banret.get("word"));
 						break;
 					default:
 					case 'e':
-						plugin.playerHelper.sendDirectedMessage(from, "Error while banning player " + ply + "!");
+						PlayerHelper.sendDirectedMessage(from, "Error while banning player " + ply + "!");
 						break;
 				}
 			}

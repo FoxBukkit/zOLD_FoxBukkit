@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.EnumArt;
@@ -103,7 +104,7 @@ final class ShapeActions {
 							continue;
 
 						((PaintingShape) shape).setPaintingName(currentName);
-						shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Set painting to "+currentName);
+						PlayerHelper.sendDirectedMessage(player, "Set painting to "+currentName);
 						return;
 					}
 
@@ -129,19 +130,19 @@ final class ShapeActions {
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(10);
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now a regular minecart...");
+					PlayerHelper.sendDirectedMessage(player, "Now a regular minecart...");
 				}},
 				"chest",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(11);
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now a storage minecart...");
+					PlayerHelper.sendDirectedMessage(player, "Now a storage minecart...");
 				}},
 				"furnace",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(12);
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now a powered minecart...");
+					PlayerHelper.sendDirectedMessage(player, "Now a powered minecart...");
 				}},
 				"bob",
 				new VehicleBobAction(),
@@ -173,7 +174,7 @@ final class ShapeActions {
 					shape.setData(16, (byte) 0);
 					shape.setData(16, (byte) 1);
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Hissing...");
+					PlayerHelper.sendDirectedMessage(player, "Hissing...");
 				}},
 				"charge",
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
@@ -257,7 +258,7 @@ final class ShapeActions {
 
 					shape.setData(16, dyeColor.getData());
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
+					PlayerHelper.sendDirectedMessage(player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
 				}},
 				"shorn",
 				new MetadataMobAction(16, (byte) 16, "You are now shorn."),
@@ -337,7 +338,7 @@ final class ShapeActions {
 						throw new YiffBukkitCommandException("Invalid ocelot type");
 					}
 					shape.setData(18, data);
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Changed ocelot type!");
+					PlayerHelper.sendDirectedMessage(player, "Changed ocelot type!");
 				}}
 		);
 
@@ -358,7 +359,7 @@ final class ShapeActions {
 						throw new YiffBukkitCommandException("Number expected.", e);
 					}
 
-					shape.transmute.plugin.playerHelper.sendDirectedMessage(player, "Now potion type "+argStr+"...");
+					PlayerHelper.sendDirectedMessage(player, "Now potion type "+argStr+"...");
 				}}
 		);
 
@@ -437,7 +438,7 @@ final class ShapeActions {
 				final Number value = constructor.newInstance(argStr);
 				shape.setData(index, value);
 
-				shape.transmute.plugin.playerHelper.sendDirectedMessage(player, String.format(message, value.toString()));
+				PlayerHelper.sendDirectedMessage(player, String.format(message, value.toString()));
 			} catch (IllegalAccessException e) {
 				throw new RuntimeException(e);
 			} catch (InstantiationException e) {
@@ -461,7 +462,7 @@ final class ShapeActions {
 
 		@Override
 		public void run(EntityShape shape, Player player, String[] args, String argStr) {
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
+			PlayerHelper.sendDirectedMessage(player, message);
 		}
 
 	}
@@ -488,13 +489,13 @@ final class ShapeActions {
 					throw new YiffBukkitCommandException("Already on");
 
 				shape.setData(index, (byte)(oldData & ~bit));
-				shape.transmute.plugin.playerHelper.sendDirectedMessage(player, unsetMessage);
+				PlayerHelper.sendDirectedMessage(player, unsetMessage);
 			}
 			else {
 				if ("off".equalsIgnoreCase(argStr))
 					throw new YiffBukkitCommandException("Already off");
 				shape.setData(index, (byte)(oldData | bit));
-				shape.transmute.plugin.playerHelper.sendDirectedMessage(player, setMessage);
+				PlayerHelper.sendDirectedMessage(player, setMessage);
 			}
 		}
 	}
@@ -511,7 +512,7 @@ final class ShapeActions {
 		@Override
 		public void run(EntityShape shape, Player player, String[] args, String argStr) {
 			shape.sendEntityStatus(status);
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
+			PlayerHelper.sendDirectedMessage(player, message);
 		}
 	}
 
@@ -530,7 +531,7 @@ final class ShapeActions {
 		public void run(EntityShape shape, Player player, String[] args, String argStr) {
 			shape.setData(index, value);
 
-			shape.transmute.plugin.playerHelper.sendDirectedMessage(player, message);
+			PlayerHelper.sendDirectedMessage(player, message);
 		}
 	}
 }

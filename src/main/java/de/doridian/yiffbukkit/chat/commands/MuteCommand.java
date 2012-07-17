@@ -4,6 +4,8 @@ import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.AbstractPlayerStateCommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.*;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +30,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (muted.contains(event.getPlayer().getName())) {
-			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
+			PlayerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
 			event.setCancelled(true);
 			return;
 		}
@@ -37,7 +39,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		if (muted.contains(event.getPlayer().getName())) {
-			plugin.playerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
+			PlayerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
 			event.setCancelled(true);
 			return;
 		}
@@ -70,41 +72,41 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 		if (targetName.equals(commandSenderName)) {
 			if (newState) {
 				if (prevState)
-					playerHelper.sendDirectedMessage(commandSender, "You are already muted.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are already muted.");
 				else {
 					playerHelper.sendServerMessage(commandSenderName+" muted themselves.", commandSender);
-					playerHelper.sendDirectedMessage(commandSender, "You are now muted.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are now muted.");
 				}
 			}
 			else {
 				if (prevState) {
 					playerHelper.sendServerMessage(commandSenderName+" unmuted themselves.", commandSender);
-					playerHelper.sendDirectedMessage(commandSender, "You are no longer muted.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are no longer muted.");
 				}
 				else
-					playerHelper.sendDirectedMessage(commandSender, "You are not muted.");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are not muted.");
 			}
 		}
 		else {
 			if (newState) {
 				if (prevState)
-					playerHelper.sendDirectedMessage(commandSender, targetName+" is already muted.");
+					PlayerHelper.sendDirectedMessage(commandSender, targetName+" is already muted.");
 				else {
 					playerHelper.sendServerMessage(commandSenderName+" muted "+targetName+".", commandSender, target);
-					playerHelper.sendDirectedMessage(commandSender, "You muted "+targetName+".");
+					PlayerHelper.sendDirectedMessage(commandSender, "You muted "+targetName+".");
 					if (target != null)
-						playerHelper.sendDirectedMessage(target, commandSenderName+" muted you.");
+						PlayerHelper.sendDirectedMessage(target, commandSenderName+" muted you.");
 				}
 			}
 			else {
 				if (prevState) {
 					playerHelper.sendServerMessage(commandSenderName+" unmuted "+targetName+".", commandSender, target);
-					playerHelper.sendDirectedMessage(commandSender, "You unmuted "+targetName+".");
+					PlayerHelper.sendDirectedMessage(commandSender, "You unmuted "+targetName+".");
 					if (target != null)
-						playerHelper.sendDirectedMessage(target, commandSenderName+" unmuted you.");
+						PlayerHelper.sendDirectedMessage(target, commandSenderName+" unmuted you.");
 				}
 				else
-					playerHelper.sendDirectedMessage(commandSender, targetName+" is not muted.");
+					PlayerHelper.sendDirectedMessage(commandSender, targetName+" is not muted.");
 			}
 		}
 	}

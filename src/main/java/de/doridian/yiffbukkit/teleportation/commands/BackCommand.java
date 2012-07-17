@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -21,7 +23,7 @@ public class BackCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if(plugin.jailEngine.isJailed(ply)) {
-			playerHelper.sendDirectedMessage(ply, "You are jailed!");
+			PlayerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;
 		}
 
@@ -32,7 +34,7 @@ public class BackCommand extends ICommand {
 
         LinkedList<Location> teleports = plugin.playerHelper.teleportHistory.get(ply.getName().toLowerCase());
         if(teleports == null) {
-            playerHelper.sendDirectedMessage(ply, "No teleport history found!");
+            PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
             return;
         }
 
@@ -44,12 +46,12 @@ public class BackCommand extends ICommand {
         }
 
         if(goTo == null) {
-            playerHelper.sendDirectedMessage(ply, "No teleport history found!");
+            PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
             return;
         }
 
         ply.teleport(goTo);
 
-		playerHelper.sendDirectedMessage(ply, "Teleported back \u00a79"+curStep+"\u00a7f step(s).");
+		PlayerHelper.sendDirectedMessage(ply, "Teleported back \u00a79"+curStep+"\u00a7f step(s).");
 	}
 }

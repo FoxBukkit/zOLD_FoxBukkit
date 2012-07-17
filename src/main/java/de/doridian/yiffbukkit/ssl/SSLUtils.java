@@ -34,8 +34,8 @@ public class SSLUtils {
 	
 	public static void nagIfNoSSL(PlayerHelper plyHelper, Player ply) {
 		if(!hasSSL(ply)) {
-			plyHelper.sendDirectedMessage(ply, "Please connect using +mc.doridian.de for SSL!");
-			plyHelper.sendDirectedMessage(ply, "Please note that this is *required* for /setrank and /rcon!");
+			PlayerHelper.sendDirectedMessage(ply, "Please connect using +mc.doridian.de for SSL!");
+			PlayerHelper.sendDirectedMessage(ply, "Please note that this is *required* for /setrank and /rcon!");
 		}
 	}
 }

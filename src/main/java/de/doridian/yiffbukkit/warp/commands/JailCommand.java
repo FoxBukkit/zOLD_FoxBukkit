@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import de.doridian.yiffbukkit.warp.jail.JailException;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 
 @Names("jail")
@@ -17,7 +19,7 @@ public class JailCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, JailException {
 		if (args.length == 0) {
-			playerHelper.sendDirectedMessage(ply, "Not enough arguments.");
+			PlayerHelper.sendDirectedMessage(ply, "Not enough arguments.");
 			return;
 		}
 
@@ -32,7 +34,7 @@ public class JailCommand extends ICommand {
 			playerHelper.sendServerMessage(ply.getName()+" released "+otherply.getName()+" from jail.");
 		}
 		else {
-			playerHelper.sendDirectedMessage(ply, "Invalid argument.");
+			PlayerHelper.sendDirectedMessage(ply, "Invalid argument.");
 		}
 	}
 }

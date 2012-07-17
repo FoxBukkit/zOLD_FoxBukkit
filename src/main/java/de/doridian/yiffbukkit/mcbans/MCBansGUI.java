@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.mcbans;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.mcbans.commands.BanCommand;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.gui.GenericButton;
@@ -159,7 +161,7 @@ public class MCBansGUI extends GenericPopup {
 			reason.append(customReason.getText());
 			BanCommand.executeBan(player, "\"" + playerList.getSelectedItem().getTitle() + "\"", reason.toString().trim(), plugin, unjail.isChecked(), rollback.isChecked(), global.isChecked(), null);
 		} catch(YiffBukkitCommandException e) {
-			plugin.playerHelper.sendDirectedMessage(player, "Error: " + e.getMessage());
+			PlayerHelper.sendDirectedMessage(player, "Error: " + e.getMessage());
 		}
 		close();
 	}

@@ -8,6 +8,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 
@@ -27,13 +29,13 @@ public class MessengerCommand extends ICommand {
 				if(cmd.equals("inbox")) {
 					final JSONObject connret = MCBansUtil.apiQuery("exec=getInbox&player="+MCBansUtil.URLEncode(commandSender.getName()));
 					if(MCBansUtil.isKeyYesOrNo(connret, "result")) {
-						playerHelper.sendDirectedMessage(commandSender, "You have the following new messages:");
+						PlayerHelper.sendDirectedMessage(commandSender, "You have the following new messages:");
 						String[] msgs = ((String)connret.get("messages")).split(";");
 						for(String msg : msgs) {
-							playerHelper.sendDirectedMessage(commandSender, "\u00a72"+msg);
+							PlayerHelper.sendDirectedMessage(commandSender, "\u00a72"+msg);
 						}
 					} else {
-						playerHelper.sendDirectedMessage(commandSender, "You have no new messages");
+						PlayerHelper.sendDirectedMessage(commandSender, "You have no new messages");
 					}
 				} else if(cmd.equals("read")) {
 					final JSONObject connret;
@@ -43,74 +45,74 @@ public class MessengerCommand extends ICommand {
 						connret = MCBansUtil.apiQuery("exec=getNewMessage&player="+MCBansUtil.URLEncode(commandSender.getName()));
 					
 					if(MCBansUtil.isKeyYesOrNo(connret, "result")) {
-						playerHelper.sendDirectedMessage(commandSender, "\u00a73From:\u00a72 " + ((String)connret.get("sender")));
-						playerHelper.sendDirectedMessage(commandSender, "\u00a73Date:\u00a72 " + ((String)connret.get("date")));
-						playerHelper.sendDirectedMessage(commandSender, "\u00a73Message");
-						playerHelper.sendDirectedMessage(commandSender, ((String)connret.get("message")));
+						PlayerHelper.sendDirectedMessage(commandSender, "\u00a73From:\u00a72 " + ((String)connret.get("sender")));
+						PlayerHelper.sendDirectedMessage(commandSender, "\u00a73Date:\u00a72 " + ((String)connret.get("date")));
+						PlayerHelper.sendDirectedMessage(commandSender, "\u00a73Message");
+						PlayerHelper.sendDirectedMessage(commandSender, ((String)connret.get("message")));
 					} else {
-						playerHelper.sendDirectedMessage(commandSender, "No message found or invalid message specified!");
+						PlayerHelper.sendDirectedMessage(commandSender, "No message found or invalid message specified!");
 					}
 				} else if(cmd.equals("send")) {
 					if(args.length < 3) {
-						playerHelper.sendDirectedMessage(commandSender, "Not enough arguments!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Not enough arguments!");
 						return;
 					}
 					
 					final String recipient = playerHelper.completePlayerName(args[1], true);
 					if(recipient == null) {
-						playerHelper.sendDirectedMessage(commandSender, "Sorry, I need a valid recipient!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Sorry, I need a valid recipient!");
 						return;
 					}
 					final String message = Utils.concatArray(args, 2, null).trim();
 					if(message == null || message.length() < 1) {
-						playerHelper.sendDirectedMessage(commandSender, "Sorry, I need a message!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Sorry, I need a message!");
 						return;
 					}
 						
 					final JSONObject connret = MCBansUtil.apiQuery("exec=sendMessage&player="+MCBansUtil.URLEncode(commandSender.getName())+"&target="+MCBansUtil.URLEncode(recipient)+"&message="+MCBansUtil.URLEncode(message));
 					if(MCBansUtil.isKeyYesOrNo(connret, "result")) {
-						playerHelper.sendDirectedMessage(commandSender, "Message sent successfully!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Message sent successfully!");
 					} else {
-						playerHelper.sendDirectedMessage(commandSender, "Message could not be sent!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Message could not be sent!");
 					}
 				} else if(cmd.equals("block")) {
 					if(args.length < 2) {
-						playerHelper.sendDirectedMessage(commandSender, "Not enough arguments!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Not enough arguments!");
 						return;
 					}
 					
 					final String target = playerHelper.completePlayerName(args[1], true);
 					if(target == null) {
-						playerHelper.sendDirectedMessage(commandSender, "Sorry, I need a valid target!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Sorry, I need a valid target!");
 						return;
 					}
 					
 					final JSONObject connret = MCBansUtil.apiQuery("exec=playerBlock&player="+MCBansUtil.URLEncode(commandSender.getName())+"&target="+MCBansUtil.URLEncode(target));
 					if(MCBansUtil.isKeyYesOrNo(connret, "result")) {
-						playerHelper.sendDirectedMessage(commandSender, "Player blocked!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Player blocked!");
 					} else {
-						playerHelper.sendDirectedMessage(commandSender, "Player was already blocked!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Player was already blocked!");
 					}
 				} else if(cmd.equals("unblock")) {
 					if(args.length < 2) {
-						playerHelper.sendDirectedMessage(commandSender, "Not enough arguments!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Not enough arguments!");
 						return;
 					}
 					
 					final String target = playerHelper.completePlayerName(args[1], true);
 					if(target == null) {
-						playerHelper.sendDirectedMessage(commandSender, "Sorry, I need a valid target!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Sorry, I need a valid target!");
 						return;
 					}
 					
 					final JSONObject connret = MCBansUtil.apiQuery("exec=playerUnBlock&player="+MCBansUtil.URLEncode(commandSender.getName())+"&target="+MCBansUtil.URLEncode(target));
 					if(MCBansUtil.isKeyYesOrNo(connret, "result")) {
-						playerHelper.sendDirectedMessage(commandSender, "Player unblocked!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Player unblocked!");
 					} else {
-						playerHelper.sendDirectedMessage(commandSender, "Player was not blocked!");
+						PlayerHelper.sendDirectedMessage(commandSender, "Player was not blocked!");
 					}
 				} else {
-					playerHelper.sendDirectedMessage(commandSender, "Invalid subcommand!");
+					PlayerHelper.sendDirectedMessage(commandSender, "Invalid subcommand!");
 				}
 			}
 		}.start();

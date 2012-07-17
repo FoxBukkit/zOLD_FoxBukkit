@@ -10,6 +10,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -81,7 +83,7 @@ public class TpCommand extends ICommand {
 		}
 
 		for (Player player : receivers) {
-			playerHelper.sendDirectedMessage(player, message);
+			PlayerHelper.sendDirectedMessage(player, message);
 		}
 	}
 }

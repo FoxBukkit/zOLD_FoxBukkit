@@ -5,6 +5,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
@@ -24,9 +26,9 @@ public class HelpCommand extends ICommand {
 				throw new YiffBukkitCommandException("Command not found!");
 
 			for (String line : val.getHelp().split("\n")) {
-				playerHelper.sendDirectedMessage(commandSender, line);
+				PlayerHelper.sendDirectedMessage(commandSender, line);
 			}
-			playerHelper.sendDirectedMessage(commandSender, "Usage: /" + args[0] + " " + val.getUsage());
+			PlayerHelper.sendDirectedMessage(commandSender, "Usage: /" + args[0] + " " + val.getUsage());
 		}
 		else {
 			String ret = "Available commands: /";
@@ -41,7 +43,7 @@ public class HelpCommand extends ICommand {
 				ret += key + ", /";
 			}
 			ret = ret.substring(0,ret.length() - 3);
-			playerHelper.sendDirectedMessage(commandSender, ret);
+			PlayerHelper.sendDirectedMessage(commandSender, ret);
 		}
 	}
 }
