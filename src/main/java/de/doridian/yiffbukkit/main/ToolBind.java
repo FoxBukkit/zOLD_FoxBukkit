@@ -17,7 +17,7 @@ public abstract class ToolBind {
 
 	public ToolBind(String name, Player ply) {
 		this.name = name;
-		playerName = ply.getName();
+		playerName = ply == null ? null : ply.getName();
 	}
 
 	public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {};

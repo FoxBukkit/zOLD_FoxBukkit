@@ -227,42 +227,48 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		plugin.chatManager.popCurrentOrigin();
 	}
 
+	{
+		ToolBind.addGlobal(Material.INK_SACK, new ToolBind("dye", null) {
+			@Override
+			public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+				Player player = event.getPlayer();
+				// This will not be logged by logblock so I only allowed it for ops+ for now.
+				// A fix would be to modify the event a bit to make BB log this. 
+				if (!player.hasPermission("yiffbukkit.dyepaint"))
+					return;
+
+				Block clickedBlock = event.getClickedBlock();
+				if (clickedBlock == null)
+					return;
+				if (clickedBlock.getType() != Material.WOOL)
+					return;
+
+				ItemStack item = event.getItem();
+
+				final byte newData = (byte)(15 - item.getDurability());
+
+				if (plugin.logBlockConsumer != null)
+					plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), event.getClickedBlock().getState(), 35, newData);
+				clickedBlock.setData(newData);
+
+				int newAmount = item.getAmount()-1;
+				if (newAmount > 0)
+					item.setAmount(newAmount);
+				else
+					player.setItemInHand(null);
+			}
+		});
+	}
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		/*if (event.isCancelled())
 			return;*/
 
 		Player ply = event.getPlayer();
-		Block clickedBlock = event.getClickedBlock();
 		switch (event.getAction()) {
 		case RIGHT_CLICK_AIR:
 		case RIGHT_CLICK_BLOCK:
-			try {
-				Material itemMaterial = event.getMaterial();
-				// This will not be logged by logblock so I only allowed it for ops+ for now.
-				// A fix would be to modify the event a bit to make BB log this. 
-				if (itemMaterial == Material.INK_SACK && ply.hasPermission("yiffbukkit.dyepaint")) {
-					if (clickedBlock != null && clickedBlock.getType() == Material.WOOL) {
-						ItemStack item = event.getItem();
-
-						final byte newData = (byte)(15 - item.getDurability());
-
-						if (plugin.logBlockConsumer != null)
-							plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), event.getClickedBlock().getState(), 35, newData);
-						clickedBlock.setData(newData);
-
-						int newAmount = item.getAmount()-1;
-						if (newAmount > 0)
-							item.setAmount(newAmount);
-						else
-							ply.setItemInHand(null);
-					}
-				}
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-
 			try {
 				Material itemMaterial = event.getMaterial();
 
