@@ -110,7 +110,7 @@ public class GiveCommand extends ICommand {
 		return Material.matchMaterial(materialName);
 	}
 
-	public static short getDataValue(final Material material, String dataName) {
+	public static Short getDataValue(final Material material, String dataName) {
 		return dataValues.get(material.getId()+":"+dataName);
 	}
 
