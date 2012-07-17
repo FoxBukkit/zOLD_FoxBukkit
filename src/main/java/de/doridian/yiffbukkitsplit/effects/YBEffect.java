@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
@@ -20,6 +21,15 @@ public abstract class YBEffect extends ScheduledTask {
 		@EventHandler
 		public void onEntityDeath(EntityDeathEvent event) {
 			final YBEffect effect = effects.remove(event.getEntity());
+			if (effect == null)
+				return;
+
+			effect.stop();
+		}
+
+		@EventHandler
+		public void onPlayerQuit(PlayerQuitEvent event) {
+			final YBEffect effect = effects.remove(event.getPlayer());
 			if (effect == null)
 				return;
 
