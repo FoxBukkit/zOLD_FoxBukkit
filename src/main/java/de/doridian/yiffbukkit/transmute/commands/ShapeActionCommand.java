@@ -51,7 +51,7 @@ public class ShapeActionCommand extends ICommand {
 
 			ToolBind.add(ply, toolType, new ToolBind(shapeAction, ply) {
 				@Override
-				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
+				public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();
 					if (!player.hasPermission("yiffbukkit.transmute.shapeaction.others"))
 						throw new PermissionDeniedException();
@@ -63,6 +63,8 @@ public class ShapeActionCommand extends ICommand {
 						throw new YiffBukkitCommandException("Your target is not currently transmuted.");
 
 					shape.runAction(player, shapeAction);
+
+					return true;
 				}
 			});
 

@@ -81,7 +81,7 @@ public class TransmuteCommand extends ICommand {
 
 			ToolBind.add(ply, toolType, new ToolBind(mobType, ply) {
 				@Override
-				public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
+				public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();
 					if (!player.hasPermission("yiffbukkit.transmute.others"))
 						throw new PermissionDeniedException();
@@ -102,6 +102,7 @@ public class TransmuteCommand extends ICommand {
 					}
 
 					effect(entity, shape);
+					return true;
 				}
 			});
 

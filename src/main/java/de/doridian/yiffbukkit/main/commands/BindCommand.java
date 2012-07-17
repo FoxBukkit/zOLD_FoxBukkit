@@ -113,12 +113,13 @@ public class BindCommand extends ICommand {
 
 		ToolBind toolBind = new ToolBind(commandString, ply) {
 			@Override
-			public void run(PlayerInteractEvent event) {
+			public boolean run(PlayerInteractEvent event) {
 				Player player = event.getPlayer();
 
 				for (String command : commands) {
 					player.chat(command);
 				}
+				return true;
 			}
 		};
 

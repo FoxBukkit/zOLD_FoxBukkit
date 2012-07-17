@@ -112,7 +112,7 @@ public class ThrowCommand extends ICommand {
 			plugin.spawnUtils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
-				public void run(PlayerInteractEvent event) {
+				public boolean run(PlayerInteractEvent event) {
 					final Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
@@ -130,6 +130,8 @@ public class ThrowCommand extends ICommand {
 						player.setVelocity(direction);
 					else
 						vehicle.setVelocity(direction);
+
+					return true;
 				}
 			};
 		}
@@ -151,7 +153,7 @@ public class ThrowCommand extends ICommand {
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
 				@Override
-				public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+				public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 
@@ -179,6 +181,8 @@ public class ThrowCommand extends ICommand {
 
 						yaw += offset;
 					}
+
+					return true;
 				}
 			};
 		}

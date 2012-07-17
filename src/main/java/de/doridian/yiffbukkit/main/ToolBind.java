@@ -20,8 +20,8 @@ public abstract class ToolBind {
 		playerName = ply == null ? null : ply.getName();
 	}
 
-	public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {};
-	public void run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {};
+	public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException { return false; };
+	public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException { return false; };
 
 	public static Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
 

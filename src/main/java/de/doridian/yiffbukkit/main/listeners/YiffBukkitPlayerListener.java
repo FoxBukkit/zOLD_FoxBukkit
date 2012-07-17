@@ -231,18 +231,18 @@ public class YiffBukkitPlayerListener extends BaseListener {
 	{
 		ToolBind.addGlobal(Material.INK_SACK, new ToolBind("dye", null) {
 			@Override
-			public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+			public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 				Player player = event.getPlayer();
 				// This will not be logged by logblock so I only allowed it for ops+ for now.
 				// A fix would be to modify the event a bit to make BB log this. 
 				if (!player.hasPermission("yiffbukkit.dyepaint"))
-					return;
+					return false;
 
 				Block clickedBlock = event.getClickedBlock();
 				if (clickedBlock == null)
-					return;
+					return false;
 				if (clickedBlock.getType() != Material.WOOL)
-					return;
+					return false;
 
 				ItemStack item = event.getItem();
 
@@ -257,12 +257,17 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					item.setAmount(newAmount);
 				else
 					player.setItemInHand(null);
+
+				return true;
 			}
 		});
 
 		ToolBind.addGlobal(Material.RED_MUSHROOM, new ToolBind("red shroom", null) {
 			@Override
-			public void run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+			public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+				if (event.hasBlock())
+					return false;
+
 				final Player player = event.getPlayer();
 				YBEffect.create("lsd", player).start();
 
@@ -273,6 +278,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					item.setAmount(newAmount);
 				else
 					player.setItemInHand(null);
+
+				return true;
 			}
 		});
 	}
@@ -282,18 +289,18 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		/*if (event.isCancelled())
 			return;*/
 
-		Player ply = event.getPlayer();
+		final Player ply = event.getPlayer();
 		switch (event.getAction()) {
 		case RIGHT_CLICK_AIR:
 		case RIGHT_CLICK_BLOCK:
 			try {
-				Material itemMaterial = event.getMaterial();
+				final Material itemMaterial = event.getMaterial();
 
-				ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
+				final ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
 				if (toolBind != null) {
-					event.setCancelled(true);
+					boolean success = true;
 					try {
-						toolBind.run(event);
+						success = toolBind.run(event);
 					}
 					catch (YiffBukkitCommandException e) {
 						PlayerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
@@ -306,6 +313,10 @@ public class YiffBukkitPlayerListener extends BaseListener {
 						else {
 							PlayerHelper.sendDirectedMessage(ply,"Command error!");
 						}
+					}
+					finally {
+						if (success)
+							event.setCancelled(true);
 					}
 				}
 			}

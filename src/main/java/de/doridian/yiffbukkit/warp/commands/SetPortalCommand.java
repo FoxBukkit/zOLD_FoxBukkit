@@ -39,7 +39,7 @@ public class SetPortalCommand extends ICommand {
 			boolean done; // temp
 
 			@Override
-			public void run(PlayerInteractEvent event) {
+			public boolean run(PlayerInteractEvent event) {
 				Player player = event.getPlayer();
 
 				if (done) { // temp
@@ -47,7 +47,7 @@ public class SetPortalCommand extends ICommand {
 					portalPair.moveThroughPortal(event.getPlayer());
 
 					PlayerHelper.sendDirectedMessage(player, "Moved through portal");
-					return;
+					return true;
 				}
 
 				if (blockIn == null) {
@@ -65,6 +65,7 @@ public class SetPortalCommand extends ICommand {
 					PlayerHelper.sendDirectedMessage(player, "Created portal "+portalName);
 					done = true;
 				}
+				return true;
 			}
 		};
 
