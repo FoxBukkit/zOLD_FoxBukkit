@@ -34,11 +34,15 @@ public class Rocket extends YBEffect {
 
 	@Override
 	public void start() {
-		if (!(entity instanceof LivingEntity))
+		if (!(entity instanceof LivingEntity)) {
+			done();
 			return;
+		}
 
-		if (entity instanceof Player)
+		if (entity instanceof Player) {
+			done();
 			return;
+		}
 
 		// TODO: area/direct hit with different heights
 		maxHeight = entity.getLocation().getY()+32;

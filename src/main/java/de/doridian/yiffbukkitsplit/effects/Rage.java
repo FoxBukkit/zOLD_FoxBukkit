@@ -33,8 +33,10 @@ public class Rage extends YBEffect {
 
 	@Override
 	public void start() {
-		if (!(entity instanceof CraftLivingEntity))
+		if (!(entity instanceof CraftLivingEntity)) {
+			done();
 			return;
+		}
 
 		scheduleSyncRepeating(0, 1);
 	}

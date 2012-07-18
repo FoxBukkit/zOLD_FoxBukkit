@@ -28,8 +28,10 @@ public class LSD extends YBEffect {
 
 	@Override
 	public void start() {
-		if (!(entity instanceof Player))
+		if (!(entity instanceof Player)) {
+			done();
 			return;
+		}
 
 		scheduleSyncRepeating(0, 1);
 	}
