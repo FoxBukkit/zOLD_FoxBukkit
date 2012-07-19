@@ -13,7 +13,6 @@ import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
-import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
 import net.minecraft.server.EntityPlayer;
