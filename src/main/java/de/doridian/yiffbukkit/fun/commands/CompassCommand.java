@@ -79,7 +79,7 @@ public class CompassCommand extends ICommand {
 			location = ply.getWorld().getSpawnLocation();
 		}
 		else if ("home".equals(args[0])) {
-			location = playerHelper.getPlayerHomePosition(ply);
+			location = playerHelper.getPlayerHomePosition(ply, "default");
 		}
 		else if ("here".equals(args[0])) {
 			location = ply.getLocation();

@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkitsplit.util;
 
 import de.doridian.yiffbukkit.main.StateContainer;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -12,6 +13,9 @@ import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.procedure.TObjectIntProcedure;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet70Bed;
 
@@ -110,17 +114,77 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Home position stuff
-	private Hashtable<String,Location> playerhomepos = new Hashtable<String,Location>();
-	public Location getPlayerHomePosition(Player ply) {
+	private TObjectIntHashMap<String> playerHomePosLimits = new TObjectIntHashMap<String>();
+	private HashMap<String,HashMap<String,Location>> playerhomepos = new HashMap<String,HashMap<String,Location>>();
+	public Location getPlayerHomePosition(Player ply, String posName) throws YiffBukkitCommandException {
 		String name = ply.getName().toLowerCase();
-		if(playerhomepos.containsKey(name))
-			return playerhomepos.get(name);
-		else
+		posName = posName.toLowerCase();
+		if(playerhomepos.containsKey(name)) {
+			HashMap<String, Location> playersPositions = playerhomepos.get(name);
+			if(playersPositions.containsKey(posName)) {
+				return playersPositions.get(posName);
+			} else {
+				throw new YiffBukkitCommandException("Home position with that name was not found");
+			}
+		} else {
 			return getPlayerSpawnPosition(ply);
+		}
 	}
-	public void setPlayerHomePosition(Player ply, Location pos) {
+	public void setPlayerHomePosition(Player ply, String posName, Location pos) throws YiffBukkitCommandException {
 		String name = ply.getName().toLowerCase();
-		playerhomepos.put(name, pos);
+		posName = posName.toLowerCase();
+		HashMap<String, Location> playerHomePositions = getPlayersHomePositions(name);
+		if(pos == null) {
+			if(playerHomePositions.containsKey(posName)) {
+				playerHomePositions.remove(posName);
+			} else {
+				throw new YiffBukkitCommandException("Home position with that name was not found");
+			}
+		} else if(playerHomePositions.containsKey(posName) || posName.equals("default") || playerHomePositions.size() <= getPlayerHomePositionLimit(name)) {
+			playerHomePositions.put(posName, pos);
+		} else {
+			throw new YiffBukkitCommandException("You cannot set more home positions");
+		}
+		savePlayerHomePositions();
+	}
+
+	public Set<String> getPlayerHomePositionNames(Player ply) {
+		String name = ply.getName().toLowerCase();
+		return getPlayersHomePositions(name).keySet();
+	}
+
+	public int getPlayerHomePositionLimit(String name) {
+		name = name.toLowerCase();
+		if(playerHomePosLimits.containsKey(name)) {
+			return playerHomePosLimits.get(name);
+		} else {
+			return 0;
+		}
+	}
+
+	public void setPlayerHomePositionLimit(String name, int value) {
+		name = name.toLowerCase();
+		playerHomePosLimits.put(name, value);
+		savePlayerHomePositions();
+	}
+
+	private HashMap<String, Location> getPlayersHomePositions(String name) {
+		name = name.toLowerCase();
+		HashMap<String, Location> playersPositions;
+		if(playerhomepos.containsKey(name)) {
+			playersPositions = playerhomepos.get(name);
+		} else {
+			playersPositions = new HashMap<String, Location>();
+			playerhomepos.put(name, playersPositions);
+		}
+		return playersPositions;
+	}
+
+	public void clearPlayerHomePositions(Player ply) {
+		String name = ply.getName().toLowerCase();
+		if(playerhomepos.containsKey(name)) {
+			playerhomepos.remove(name);
+		}
 		savePlayerHomePositions();
 	}
 
@@ -129,10 +193,18 @@ public class PlayerHelper extends StateContainer {
 		playerhomepos.clear();
 		try {
 			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-homepositions.txt"));
-			String line; int lpos;
+			String line; String[] lineSplit;
 			while((line = stream.readLine()) != null) {
-				lpos = line.lastIndexOf('=');
-				playerhomepos.put(line.substring(0,lpos), plugin.utils.unserializeLocation(line.substring(lpos+1)));
+				lineSplit = line.split("=");
+				String locName = "default";
+				if(lineSplit.length == 3) {
+					locName = lineSplit[2];
+				}
+				if(locName.equals("LIMIT")) {
+					playerHomePosLimits.put(lineSplit[0], Integer.parseInt(lineSplit[1]));
+				} else {
+					getPlayersHomePositions(lineSplit[0]).put(locName, plugin.utils.unserializeLocation(lineSplit[1]));
+				}
 			}
 			stream.close();
 		}
@@ -141,13 +213,25 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "homepositions", "home_positions", "homes", "home" })
 	public void savePlayerHomePositions() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-homepositions.txt"));
-			Enumeration<String> e = playerhomepos.keys();
-			while(e.hasMoreElements()) {
-				String key = e.nextElement();
-				stream.write(key + "=" + Utils.serializeLocation(playerhomepos.get(key)));
-				stream.newLine();
+			final BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-homepositions.txt"));
+			for(Entry<String, HashMap<String, Location>> entry : playerhomepos.entrySet()) {
+				for(Entry<String, Location> homepos : entry.getValue().entrySet()) {
+					stream.write(entry.getKey() + "=" + Utils.serializeLocation(homepos.getValue()) + "=" + homepos.getKey());
+					stream.newLine();
+				}
 			}
+			playerHomePosLimits.forEachEntry(new TObjectIntProcedure<String>() {
+				@Override
+				public boolean execute(String name, int limit) {
+					try {
+						stream.write(name + "=" + limit + "=LIMIT");
+						stream.newLine();
+					} catch(Exception e) {
+						return false;
+					}
+					return true;
+				}
+			});
 			stream.close();
 		}
 		catch(Exception e) { }

@@ -21,7 +21,7 @@ import org.bukkit.util.Vector;
 @Permission("yiffbukkit.teleport.banish")
 public class BanishCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		boolean resetHome = args.length >= 2 && (args[1].equals("resethome") || args[1].equals("sethome") || args[1].equals("withhome"));
 
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
@@ -38,10 +38,10 @@ public class BanishCommand extends ICommand {
 		otherply.teleport(teleportTarget);
 
 		if (resetHome) {
-			playerHelper.setPlayerHomePosition(otherply, teleportTarget);
+			playerHelper.clearPlayerHomePositions(otherply);
 		}
 		else {
-			Vector homePos = playerHelper.getPlayerHomePosition(otherply).toVector();
+			Vector homePos = playerHelper.getPlayerHomePosition(otherply, "default").toVector();
 
 			final long unitsFromPrevious = Math.round(homePos.distance(previousPos));
 			String unitsFromYou = "";

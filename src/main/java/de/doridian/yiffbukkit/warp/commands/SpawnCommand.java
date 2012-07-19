@@ -22,6 +22,6 @@ public class SpawnCommand extends ICommand {
 
 		Location location = playerHelper.getPlayerSpawnPosition(ply);
 		plugin.playerHelper.teleportWithHistory(ply, location);
-		playerHelper.sendServerMessage(ply.getName() + " returned to the spawn!");
+		PlayerHelper.sendDirectedMessage(ply, "Returned to the spawn!");
 	}
 }
