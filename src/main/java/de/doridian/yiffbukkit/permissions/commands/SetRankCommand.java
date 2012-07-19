@@ -14,11 +14,14 @@ import org.bukkit.command.CommandSender;
 @Names("setrank")
 @Help("Sets rank of specified user")
 @Usage("<full name> <rank>")
+@ICommand.BooleanFlags("p")
 @Permission("yiffbukkit.users.setrank")
 public class SetRankCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		requireSSL(commandSender);
+
+		args = parseFlags(args);
 
 		String otherName = args[0];
 		String newRank = args[1];
@@ -40,17 +43,22 @@ public class SetRankCommand extends ICommand {
 		}
 
 		int selflvl = playerHelper.getPlayerLevel(commandSender);
+		int oldlvl = playerHelper.getPlayerLevel(otherName);
+		int newlvl = playerHelper.getRankLevel(newRank);
 
-		if(selflvl <= playerHelper.getPlayerLevel(otherName))
+		if(selflvl <= oldlvl)
 			throw new PermissionDeniedException();
 
-		if(selflvl <= playerHelper.getRankLevel(newRank))
+		if(selflvl <= newlvl)
 			throw new PermissionDeniedException();
 		
 		if(playerHelper.getRankLevel(newRank) >= 4 && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
 			throw new PermissionDeniedException();
 		
 		if(playerHelper.getPlayerLevel(otherName) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
+			throw new PermissionDeniedException();
+
+		if(booleanFlags.contains('p') && newlvl < oldlvl)
 			throw new PermissionDeniedException();
 
 		if(newRank.equals("guest")) {
