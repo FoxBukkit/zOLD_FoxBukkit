@@ -5,7 +5,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand;
 import org.bukkit.command.CommandSender;
 
 @ICommand.Names("sethomelimit")
-@ICommand.Usage("a")
+@ICommand.BooleanFlags("a")
 @ICommand.Help("Sets home location limit for a player")
 @ICommand.Permission("yiffbukkit.teleport.admin.sethomelocationlimit")
 public class SetHomeLocationLimit extends ICommand {
