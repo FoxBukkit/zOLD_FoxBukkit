@@ -50,6 +50,7 @@ public class CommandSystem {
 		scanCommands("de.doridian.yiffbukkit.transmute.commands");
 		scanCommands("de.doridian.yiffbukkit.warp.commands");
 		scanCommands("de.doridian.yiffbukkit.spectate.commands");
+		scanCommands("de.doridian.yiffbukkit.yiffpoints.commands");
 	}
 
 	public void scanCommands(String packageName) {
