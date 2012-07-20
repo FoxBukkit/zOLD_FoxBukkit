@@ -25,6 +25,7 @@ import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.warp.portals.PortalEngine;
+import de.doridian.yiffbukkit.yiffpoints.YBBank;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.ssl.SSLUtils;
@@ -103,6 +104,7 @@ public class YiffBukkit extends JavaPlugin {
 
 	public boolean serverClosed = false;
 	public CommandSystem commandSystem;
+	public YBBank bank = new YBBank();
 
 	public YiffBukkit() {
 		instance = this;
