@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.effects;
+package de.doridian.yiffbukkit.spawning.effects;
 
 import java.util.ArrayList;
 import java.util.List;

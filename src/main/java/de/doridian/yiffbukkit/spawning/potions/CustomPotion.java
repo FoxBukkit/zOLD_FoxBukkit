@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.spawning.potions;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityPotion;
@@ -9,12 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
-abstract class CustomPotion extends EntityPotion {
+public abstract class CustomPotion extends EntityPotion {
 	protected final int potionId;
 	protected final EntityPlayer thrower;
 
-	CustomPotion(Location location, int potionId, EntityPlayer thrower) {
+	public CustomPotion(Location location, int potionId, EntityPlayer thrower) {
 		super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), potionId);
 		this.potionId = potionId;
 		this.thrower = thrower;

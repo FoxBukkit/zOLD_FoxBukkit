@@ -1,13 +1,15 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.spawning;
 
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.effects.EffectProperties;
-import de.doridian.yiffbukkitsplit.effects.YBEffect;
+import de.doridian.yiffbukkit.spawning.effects.EffectProperties;
+import de.doridian.yiffbukkit.spawning.effects.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
+import de.doridian.yiffbukkit.spawning.potions.AreaCustomPotion;
+import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;

@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.effects;
+package de.doridian.yiffbukkit.spawning.effects;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

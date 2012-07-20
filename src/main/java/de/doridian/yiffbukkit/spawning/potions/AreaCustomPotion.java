@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.spawning.potions;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MovingObjectPosition;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 
-abstract class AreaCustomPotion extends CustomPotion {
+public abstract class AreaCustomPotion extends CustomPotion {
 	private double radius;
 
 	public AreaCustomPotion(Location location, int potionId, EntityPlayer thrower, double radius) {
