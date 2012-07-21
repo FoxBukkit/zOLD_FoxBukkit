@@ -181,19 +181,23 @@ public class CommandSystem {
 
 	public boolean runCommand(CommandSender commandSender, String cmd, String[] args, String argStr) {
 		if (commands.containsKey(cmd)) {
-			ICommand icmd = commands.get(cmd);
+			final String playerName = commandSender.getName();
+			final ICommand icmd = commands.get(cmd);
 			try {
 				if(!icmd.canPlayerUseCommand(commandSender)) {
 					Cost costAnnotation = icmd.getClass().getAnnotation(Cost.class);
 					if (costAnnotation == null)
 						throw new PermissionDeniedException();
 
-					plugin.bank.useFunds(commandSender.getName(), costAnnotation.value());
+					final double price = costAnnotation.value();
+					plugin.bank.useFunds(playerName, price);
+					final double total = plugin.bank.getBalance(playerName);
+					PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
 				}
 
 				if(!(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation")))
 				{
-					String logmsg = "YB Command: " + commandSender.getName() + ": "  + cmd + " " + argStr;
+					String logmsg = "YB Command: " + playerName + ": "  + cmd + " " + argStr;
 					plugin.ircbot.sendToStaffChannel(logmsg);
 					plugin.log(logmsg);
 				}
