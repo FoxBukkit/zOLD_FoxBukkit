@@ -25,7 +25,7 @@ public class YBBank extends StateContainer {
 		return account;
 	}
 
-	
+
 	public double getBalance(String playerName) {
 		return getAccount(playerName).getBalance();
 	}
@@ -34,20 +34,22 @@ public class YBBank extends StateContainer {
 		getAccount(playerName).setBalance(balance);
 	}
 
-	
+
 	public void addFunds(String playerName, double cents) {
 		getAccount(playerName).addFunds(cents);
 	}
 
-	public void useFunds(String playerName, double cents) throws NotEnoughFundsException {
+	public void useFunds(String playerName, double cents, String purpose) throws NotEnoughFundsException {
+		System.out.println(String.format("Player %s is trying to use %.0f YP on '%s'.", playerName, cents, purpose));
 		getAccount(playerName).useFunds(cents);
+		System.out.println(String.format("Player %s used %.0f YP on '%s'.", playerName, cents, purpose));
 	}
 
-	public void checkPermissionsOrUseFunds(CommandSender commandSender, String permission, double cents) throws NotEnoughFundsException {
+	public void checkPermissionsOrUseFunds(CommandSender commandSender, String permission, double cents, String purpose) throws NotEnoughFundsException {
 		if (commandSender.hasPermission(permission))
 			return;
 
-		useFunds(commandSender.getName(), cents);
+		useFunds(commandSender.getName(), cents, purpose);
 	}
 
 	@Loader("bank")
