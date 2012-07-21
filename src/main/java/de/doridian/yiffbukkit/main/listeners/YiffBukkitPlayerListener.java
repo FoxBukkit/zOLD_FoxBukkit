@@ -337,9 +337,9 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 			ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
 			if (toolBind != null) {
-				event.setCancelled(true);
+				boolean success = true;
 				try {
-					toolBind.run(event);
+					success = toolBind.run(event);
 				}
 				catch (YiffBukkitCommandException e) {
 					PlayerHelper.sendDirectedMessage(ply,e.getMessage(), e.getColor());
@@ -352,6 +352,10 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					else {
 						PlayerHelper.sendDirectedMessage(ply,"Command error!");
 					}
+				}
+				finally {
+					if (success)
+						event.setCancelled(true);
 				}
 			}
 		}
