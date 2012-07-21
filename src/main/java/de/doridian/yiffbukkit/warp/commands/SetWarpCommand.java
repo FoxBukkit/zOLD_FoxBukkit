@@ -4,10 +4,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
-import de.doridian.yiffbukkit.main.commands.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
-import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.main.commands.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.Location;
@@ -18,6 +15,7 @@ import org.bukkit.entity.Player;
 @Help("Creates a warp point with the specified name, for the specified player or yourself. When run from the console, the warp is created at the guest spawn.")
 @Usage("<warp point name> [<exact owner name>]")
 @Permission("yiffbukkit.warp.setwarp")
+@Cost(300)
 public class SetWarpCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

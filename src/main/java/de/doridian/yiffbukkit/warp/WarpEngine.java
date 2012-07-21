@@ -58,7 +58,7 @@ public class WarpEngine extends StateContainer {
 	}
 
 	public WarpDescriptor setWarp(String ownerName, String name, Location location) throws WarpException {
-		if (!Pattern.matches("^[A-Za-z0-9_]+$", name))
+		if (!Pattern.matches("^[-A-Za-z0-9_]+$", name))
 			throw new WarpException("Warp name invalid.");
 
 		if (warps.containsKey(name.toLowerCase()))
