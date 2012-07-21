@@ -21,6 +21,7 @@ public abstract class ICommand {
 	@Retention(RetentionPolicy.RUNTIME) public @interface Usage { String value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Level { int value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Permission { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) public @interface Cost { double value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Disabled { }
 	@Retention(RetentionPolicy.RUNTIME) public @interface BooleanFlags { String value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface StringFlags { String value(); }

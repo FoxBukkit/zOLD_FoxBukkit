@@ -21,6 +21,7 @@ import org.bukkit.command.CommandSender;
 
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.commands.ICommand.Cost;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
@@ -183,8 +184,13 @@ public class CommandSystem {
 			ICommand icmd = commands.get(cmd);
 			try {
 				if(!icmd.canPlayerUseCommand(commandSender)) {
-					throw new PermissionDeniedException();
+					Cost costAnnotation = icmd.getClass().getAnnotation(Cost.class);
+					if (costAnnotation == null)
+						throw new PermissionDeniedException();
+
+					plugin.bank.useFunds(commandSender.getName(), costAnnotation.value());
 				}
+
 				if(!(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation")))
 				{
 					String logmsg = "YB Command: " + commandSender.getName() + ": "  + cmd + " " + argStr;
