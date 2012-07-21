@@ -93,12 +93,28 @@ public class GiveCommand extends ICommand {
 			dataValues.put("44:"+i, i);
 		}
 
+		dataValues.put("5:REDWOOD", (short) 1);
+		dataValues.put("5:DARK", (short) 1);
+		dataValues.put("5:PINE", (short) 1);
+		dataValues.put("5:SPRUCE", (short) 1);
+		dataValues.put("5:BIRCH", (short) 2);
+		dataValues.put("5:LIGHT", (short) 2);
+		dataValues.put("5:JUNGLE", (short) 3);
+		dataValues.put("5:TROPIC", (short) 3);
+
 		dataValues.put("17:REDWOOD", (short) 1);
 		dataValues.put("17:DARK", (short) 1);
 		dataValues.put("17:PINE", (short) 1);
 		dataValues.put("17:SPRUCE", (short) 1);
 		dataValues.put("17:BIRCH", (short) 2);
 		dataValues.put("17:LIGHT", (short) 2);
+		dataValues.put("17:JUNGLE", (short) 3);
+		dataValues.put("17:TROPIC", (short) 3);
+
+		for (short i = 1; i <= 3; ++i) {
+			dataValues.put("5:"+i, i);
+			dataValues.put("17:"+i, i);
+		}
 
 		prices.put(Material.BEDROCK, 1000.0);
 
