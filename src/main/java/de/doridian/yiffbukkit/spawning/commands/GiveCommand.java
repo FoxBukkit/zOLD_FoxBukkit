@@ -3,10 +3,7 @@ package de.doridian.yiffbukkit.spawning.commands;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.main.commands.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
-import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.main.commands.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.DyeColor;
@@ -16,16 +13,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
 @Names({"give", "item", "i"})
 @Help("Gives resource (use _ for spaces in name!)")
 @Usage("<name or id> [amount] [player]")
-@Permission("yiffbukkit.players.give")
+@Level(0)
 public class GiveCommand extends ICommand {
 	private static final Map<String,Material> aliases = new HashMap<String,Material>();
 	private static final Map<String,Short> dataValues = new HashMap<String, Short>();
+	private static final Map<Material,Double> prices = new EnumMap<Material,Double>(Material.class);
 	static {
 		aliases.put("wood_shovel", Material.WOOD_SPADE);
 		aliases.put("wooden_spade", Material.WOOD_SPADE);
@@ -100,7 +99,23 @@ public class GiveCommand extends ICommand {
 		dataValues.put("17:SPRUCE", (short) 1);
 		dataValues.put("17:BIRCH", (short) 2);
 		dataValues.put("17:LIGHT", (short) 2);
+
+		prices.put(Material.BEDROCK, 1000.0);
+
+		prices.put(Material.PORTAL, 100000000.0);
+		prices.put(Material.ENDER_PORTAL, 100000000.0);
+		prices.put(Material.ENDER_PORTAL_FRAME, 100000000.0);
+
+		prices.put(Material.DIAMOND_AXE, 150.0);
+		prices.put(Material.DIAMOND_HOE, 100.0);
+		prices.put(Material.DIAMOND_PICKAXE, 150.0);
+		prices.put(Material.DIAMOND_SPADE, 50.0);
+		prices.put(Material.DIAMOND_SWORD, 100.0);
+
+		prices.put(Material.SLIME_BALL, 1.0);
 	};
+
+	private static final double DEFAULT_PRICE = 1000.0;
 
 	public static Material matchMaterial(String materialName) {
 		Material material = aliases.get(materialName.toLowerCase());
@@ -112,6 +127,14 @@ public class GiveCommand extends ICommand {
 
 	public static Short getDataValue(final Material material, String dataName) {
 		return dataValues.get(material.getId()+":"+dataName);
+	}
+
+	public static double getPrice(final Material material) {
+		Double price = prices.get(material);
+		if (price == null)
+			return DEFAULT_PRICE;
+
+		return price;
 	}
 
 	@Override
@@ -188,6 +211,9 @@ public class GiveCommand extends ICommand {
 				throw new YiffBukkitCommandException("Material "+materialName+" cannot have a data value.");
 			}
 		}
+
+		final double price = getPrice(material);
+		plugin.bank.checkPermissionsOrUseFunds(commandSender, "yiffbukkit.players.give", price);
 
 		PlayerInventory inv = target.getInventory();
 		int empty = inv.firstEmpty();
