@@ -215,6 +215,9 @@ public class GiveCommand extends ICommand {
 		final double price = getPrice(material);
 		plugin.bank.checkPermissionsOrUseFunds(commandSender, "yiffbukkit.players.give", price);
 
+		final double total = plugin.bank.getBalance(commandSender.getName());
+		PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
+
 		PlayerInventory inv = target.getInventory();
 		int empty = inv.firstEmpty();
 		inv.setItem(empty, stack);
