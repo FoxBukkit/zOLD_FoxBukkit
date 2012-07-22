@@ -46,6 +46,9 @@ public class YBAccount {
 
 
 	public Map<String, List<String>> save() {
+		if (balance == 0.0)
+			return null;
+
 		Map<String, List<String>> section = new HashMap<String, List<String>>();
 		section.put("balance", Arrays.asList(""+balance));
 		return section;

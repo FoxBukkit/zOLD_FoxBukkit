@@ -77,8 +77,12 @@ public class YBBank extends StateContainer {
 		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
 		for (Entry<String, YBAccount> entry : accounts.entrySet()) {
 			YBAccount account = entry.getValue();
+			final Map<String, List<String>> section = account.save();
+			if (section == null)
+				continue;
+
 			@SuppressWarnings("unchecked")
-			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(account.save());
+			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(section);
 			sections.put(entry.getKey(), wrappedSection);
 		}
 
