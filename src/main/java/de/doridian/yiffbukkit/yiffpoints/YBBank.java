@@ -45,11 +45,23 @@ public class YBBank extends StateContainer {
 		System.out.println(String.format("Player %s used %.0f YP on '%s'.", playerName, cents, purpose));
 	}
 
-	public void checkPermissionsOrUseFunds(CommandSender commandSender, String permission, double cents, String purpose) throws NotEnoughFundsException {
+	/**
+	 * Checks if the {@code commandSender} has the given {@code permission}.
+	 * If not, use the given amount of {@code cents} for the given {@code purpose}.
+	 *
+	 * @param commandSender the user to be checked
+	 * @param permission the permission to be checked
+	 * @param cents the amount of YP to use
+	 * @param purpose the purpose to log
+	 * @return true if funds were used, false if no funds were needed
+	 * @throws NotEnoughFundsException if there were not enough funds
+	 */
+	public boolean checkPermissionsOrUseFunds(CommandSender commandSender, String permission, double cents, String purpose) throws NotEnoughFundsException {
 		if (commandSender.hasPermission(permission))
-			return;
+			return false;
 
 		useFunds(commandSender.getName(), cents, purpose);
+		return true;
 	}
 
 	@Loader("bank")

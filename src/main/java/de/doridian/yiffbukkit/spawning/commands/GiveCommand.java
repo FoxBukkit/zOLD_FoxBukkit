@@ -229,10 +229,12 @@ public class GiveCommand extends ICommand {
 		}
 
 		final double price = getPrice(material)*count;
-		plugin.bank.checkPermissionsOrUseFunds(commandSender, "yiffbukkit.players.give", price, "/give "+argStr);
+		final boolean usedFunds = plugin.bank.checkPermissionsOrUseFunds(commandSender, "yiffbukkit.players.give", price, "/give "+argStr);
 
-		final double total = plugin.bank.getBalance(commandSender.getName());
-		PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
+		if (usedFunds) {
+			final double total = plugin.bank.getBalance(commandSender.getName());
+			PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
+		}
 
 		PlayerInventory inv = target.getInventory();
 		int empty = inv.firstEmpty();
