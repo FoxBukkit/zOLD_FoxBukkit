@@ -19,7 +19,7 @@ public class YBBank extends StateContainer {
 		YBAccount account = accounts.get(playerName.toLowerCase());
 
 		if (account == null) {
-			accounts.put(playerName, account = new YBAccount(this));
+			accounts.put(playerName.toLowerCase(), account = new YBAccount(this));
 		}
 
 		return account;
