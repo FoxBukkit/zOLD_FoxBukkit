@@ -13,6 +13,8 @@ import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
+import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 
 @EffectProperties(

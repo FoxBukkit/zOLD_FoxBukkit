@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.spawning.effects;
+package de.doridian.yiffbukkit.spawning.effects.system;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

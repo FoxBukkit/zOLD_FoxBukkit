@@ -4,7 +4,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
-import de.doridian.yiffbukkit.spawning.effects.YBEffect;
+import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 
 import org.bukkit.entity.Player;
 

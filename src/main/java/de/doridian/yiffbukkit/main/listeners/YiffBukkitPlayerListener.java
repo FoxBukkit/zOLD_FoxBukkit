@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.main.listeners;
 
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.spawning.effects.YBEffect;
+import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;

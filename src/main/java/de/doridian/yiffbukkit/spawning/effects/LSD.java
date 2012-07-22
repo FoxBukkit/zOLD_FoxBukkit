@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
+import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeVehicle;
 

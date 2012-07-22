@@ -13,6 +13,8 @@ import org.bukkit.util.Vector;
 
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
+import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkitsplit.YiffBukkit;

@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.spawning.effects;
+package de.doridian.yiffbukkit.spawning.effects.system;
 
 public class NullEffect extends YBEffect {
 	public NullEffect() {

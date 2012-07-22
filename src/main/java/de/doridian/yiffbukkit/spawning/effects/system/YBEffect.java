@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.spawning.effects;
+package de.doridian.yiffbukkit.spawning.effects.system;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -14,6 +14,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
+import de.doridian.yiffbukkit.spawning.effects.LSD;
+import de.doridian.yiffbukkit.spawning.effects.Rage;
+import de.doridian.yiffbukkit.spawning.effects.Rocket;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 
 public abstract class YBEffect extends ScheduledTask {
