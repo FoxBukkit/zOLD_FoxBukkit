@@ -16,6 +16,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.spawning.effects.LSD;
 import de.doridian.yiffbukkit.spawning.effects.Rage;
+import de.doridian.yiffbukkit.spawning.effects.Redrum;
 import de.doridian.yiffbukkit.spawning.effects.Rocket;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 
@@ -46,6 +47,7 @@ public abstract class YBEffect extends ScheduledTask {
 		addEffectClass(Rocket.class);
 		addEffectClass(LSD.class);
 		addEffectClass(Rage.class);
+		addEffectClass(Redrum.class);
 		Bukkit.getPluginManager().registerEvents(new DeathListener(), YiffBukkit.instance);
 	}
 
