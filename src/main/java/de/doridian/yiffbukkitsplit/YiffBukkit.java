@@ -13,6 +13,7 @@ import de.doridian.yiffbukkit.main.commands.CommandSystem;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkit.main.util.PersistentScheduler;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
@@ -93,6 +94,7 @@ public class YiffBukkit extends JavaPlugin {
 	public JailEngine jailEngine;
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
+	public PersistentScheduler persistentScheduler;
 
 	public MCBans mcbans;
 	public Ircbot ircbot;
@@ -180,6 +182,7 @@ public class YiffBukkit extends JavaPlugin {
 		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
+		persistentScheduler = new PersistentScheduler();
 		//portalEngine = new PortalEngine(this);
 		log("State components loaded.");
 		StateContainer.loadAll();

@@ -15,10 +15,31 @@ public class RunString {
 	private static final Pattern commandPattern = Pattern.compile("^([^ ]+).*$");
 	private final List<String> commands;
 	private final String cleanString;
-	public RunString(String commandString, Set<String> filter) throws YiffBukkitCommandException {
-		commands = new ArrayList<String>();
+
+	public RunString(List<String> commands) {
+		this.commands = commands;
+
 		boolean first = true;
 		StringBuilder sb = new StringBuilder();
+		for (String command : commands) {
+
+			if (!first)
+				sb.append("\u00a7c; \u00a79");
+			first = false;
+
+			sb.append(command);
+		}
+
+		cleanString = sb.toString();
+	}
+
+	public RunString(String commandString, Set<String> filter) throws YiffBukkitCommandException {
+		this(parseCommandString(commandString, filter));
+	}
+
+	private static List<String> parseCommandString(String commandString, Set<String> filter) throws YiffBukkitCommandException {
+		List<String> commands = new ArrayList<String>();
+
 		for (String command : commandString.split(";")) {
 			command = command.trim();
 			if (command.charAt(0) == '/')
@@ -32,15 +53,9 @@ public class RunString {
 			if (filter.contains(commandMatcher.group(1)))
 				throw new YiffBukkitCommandException("Command \u00a79"+commandMatcher.group(1)+"\u00a7f cannot be bound.");
 
-			getCommands().add(command);
-
-			if (!first)
-				sb.append("\u00a7c; \u00a79");
-			first = false;
-
-			sb.append(command);
+			commands.add(command);
 		}
-		cleanString = sb.toString();
+		return commands;
 	}
 
 	public String getCleanString() {
