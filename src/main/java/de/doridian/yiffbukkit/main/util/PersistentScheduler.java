@@ -123,8 +123,12 @@ public class PersistentScheduler extends StateContainer {
 	public void load() {
 		queue.clear();
 		Map<String, List<Map<String, List<String>>>> sections = Ini.load("scheduler.txt");
-		for (Map<String, List<String>> section : sections.get("entry")) {
-			queue.add(new Entry(section));
+
+		final List<Map<String, List<String>>> namesakes = sections.get("entry");
+		if (namesakes != null) {
+			for (Map<String, List<String>> section : namesakes) {
+				queue.add(new Entry(section));
+			}
 		}
 		refresh();
 	}
