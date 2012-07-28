@@ -6,6 +6,9 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
@@ -19,7 +22,7 @@ import java.util.List;
 @Permission("yiffbukkit.exec")
 public class ExecCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (argStr.isEmpty())
 			throw new YiffBukkitCommandException("Expected file name.");
 
@@ -49,7 +52,17 @@ public class ExecCommand extends ICommand {
 		}
 
 		for (String line : list) {
-			ply.chat(line);
+			chat(commandSender, line);
 		}
+	}
+
+	private void chat(CommandSender commandSender, String line) {
+		if (line.startsWith("/"))
+			Bukkit.getServer().dispatchCommand(commandSender, line.substring(1));
+
+		if (commandSender instanceof Player)
+			((Player) commandSender).chat(line);
+
+		Bukkit.getServer().dispatchCommand(commandSender, "say "+line);
 	}
 }
