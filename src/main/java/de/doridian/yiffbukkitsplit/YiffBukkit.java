@@ -104,7 +104,7 @@ public class YiffBukkit extends JavaPlugin {
 
 	public boolean serverClosed = false;
 	public CommandSystem commandSystem;
-	public YBBank bank = new YBBank();
+	public final YBBank bank = new YBBank();
 
 	public YiffBukkit() {
 		instance = this;
