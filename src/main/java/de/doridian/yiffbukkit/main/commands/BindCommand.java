@@ -9,19 +9,16 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.main.util.RunString;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Names("bind")
 @Help(
@@ -84,47 +81,19 @@ public class BindCommand extends ICommand {
 			return;
 		}
 
-		final Pattern commandPattern = Pattern.compile("^([^ ]+).*$");
-		final List<String> commands = new ArrayList<String>();
-		boolean first = true;
-		StringBuilder sb = new StringBuilder();
-		for (String command : argStr.split(";")) {
-			command = command.trim();
-			if (command.charAt(0) != '/')
-				command = '/' + command;
+		final RunString parsedCommands = new RunString(argStr, filter);
 
-			Matcher commandMatcher = commandPattern.matcher(command);
-
-			if (!commandMatcher.matches())
-				continue;
-
-			if (filter.contains(commandMatcher.group(1)))
-				throw new YiffBukkitCommandException("Command \u00a79"+commandMatcher.group(1)+"\u00a7f cannot be bound.");
-
-			commands.add(command);
-
-			if (!first)
-				sb.append("\u00a7c; \u00a79");
-			first = false;
-
-			sb.append(command);
-		}
-		final String commandString = sb.toString();
-
-		ToolBind toolBind = new ToolBind(commandString, ply) {
+		final ToolBind toolBind = new ToolBind(parsedCommands.getCleanString(), ply) {
 			@Override
 			public boolean run(PlayerInteractEvent event) {
-				Player player = event.getPlayer();
+				parsedCommands.run(event.getPlayer());
 
-				for (String command : commands) {
-					player.chat(command);
-				}
 				return true;
 			}
 		};
 
 		ToolBind.add(ply, toolType, toolBind);
 
-		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+commandString+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
+		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+parsedCommands.getCleanString()+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}
 }
