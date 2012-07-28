@@ -1,8 +1,10 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.server.Packet60Explosion;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -65,17 +67,10 @@ public class Rocket extends YBEffect {
 
 		++i;
 		if (i == 100 || currentLocation.getY() >= maxHeight) {
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new Packet60Explosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptySet()));
 			done();
 			cancel();
 			entity.remove();
-			for (Player player : currentWorld.getPlayers()) {
-				final Location playerLocation = player.getLocation();
-				if (currentLocation.distanceSquared(playerLocation) > 64*64)
-					continue;
-
-				final Location modifiedLocation = playerLocation.add(currentLocation).multiply(0.5);
-				player.playEffect(modifiedLocation, Effect.ZOMBIE_DESTROY_DOOR, 0);
-			}
 
 			for (int i = 0; i < 100; ++i) {
 				final FakeEntity fakeEntity = new FakeExperienceOrb(currentLocation, 1);
