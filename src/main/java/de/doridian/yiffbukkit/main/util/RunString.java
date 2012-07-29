@@ -46,13 +46,14 @@ public class RunString {
 			if (command.charAt(0) == '/')
 				command = command.substring(1);
 
-			Matcher commandMatcher = commandPattern.matcher(command);
+			final Matcher commandMatcher = commandPattern.matcher(command);
 
 			if (!commandMatcher.matches())
 				continue;
 
-			if (filter.contains(commandMatcher.group(1)))
-				throw new YiffBukkitCommandException("Command \u00a79"+commandMatcher.group(1)+"\u00a7f cannot be bound.");
+			final String commandName = commandMatcher.group(1);
+			if (filter.contains(commandName))
+				throw new YiffBukkitCommandException("Command \u00a79"+commandName+"\u00a7f cannot be bound.");
 
 			commands.add(command);
 		}

@@ -49,15 +49,14 @@ public class Rocket extends YBEffect {
 		}
 
 		// TODO: area/direct hit with different heights
-		maxHeight = entity.getLocation().getY()+32;
+		maxHeight = entity.getLocation().getY() + 32;
 
 		scheduleSyncRepeating(0, 1);
 	}
 
 	@Override
 	public void runEffect() {
-
-		velocity = velocity.add(new Vector(0,0.1,0));
+		velocity = velocity.add(new Vector(0, 0.1, 0));
 		entity.setVelocity(velocity);
 		final Location currentLocation = entity.getLocation();
 		//for (int data = 0; data < 16; ++data)
