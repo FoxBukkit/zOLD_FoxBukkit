@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 
@@ -67,6 +68,13 @@ public class RunString {
 	}
 
 	public void run(CommandSender commandSender) {
+		if (commandSender instanceof Player) {
+			for (String command : commands) {
+				((Player) commandSender).chat("/"+command);
+			}
+			return;
+		}
+
 		for (String command : commands) {
 			Bukkit.getServer().dispatchCommand(commandSender, command);
 		}
