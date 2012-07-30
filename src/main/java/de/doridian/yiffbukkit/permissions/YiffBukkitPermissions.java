@@ -49,24 +49,59 @@ public class YiffBukkitPermissions {
 
 				Packet29DestroyEntity packet29DestroyEntity = new Packet29DestroyEntity();
 
-				packet20NamedEntitySpawn.a = -1337;
-				packet29DestroyEntity.a = -1337;
+				packet20NamedEntitySpawn.a = -1400;
 
 				while(true) {
-					for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
-						if(YiffBukkit.instance.playerHelper.getPlayerLevel(ply) <= 0) {
-							Location pos = ply.getLocation();
-							packet20NamedEntitySpawn.c = MathHelper.floor((pos.getX() + 1024D) * 32.0D);
-							packet20NamedEntitySpawn.d = MathHelper.floor(pos.getY() * 32.0D);
-							packet20NamedEntitySpawn.e = MathHelper.floor((pos.getZ() + 1024D) * 32.0D);
+					for(int i=-1337;i<-337;i++) {
+						packet20NamedEntitySpawn.a = i;
+						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
+							if(YiffBukkit.instance.playerHelper.getPlayerLevel(ply) <= 0) {
+								Location pos = ply.getLocation();
+								packet20NamedEntitySpawn.c = MathHelper.floor((pos.getX() + 1024D) * 32.0D);
+								packet20NamedEntitySpawn.d = MathHelper.floor((pos.getY() + 1024D) * 32.0D);
+								packet20NamedEntitySpawn.e = MathHelper.floor((pos.getZ() + 1024D) * 32.0D);
 
-							PlayerHelper.sendPacketToPlayer(ply, packet20NamedEntitySpawn);
+								PlayerHelper.sendPacketToPlayer(ply, packet20NamedEntitySpawn);
+							}
+						}
+						try {
+							Thread.sleep(10);
+						} catch(Exception e) { }
+					}
+					for(int i=-2666;i<-2333;i++) {
+						packet29DestroyEntity.a = i;
+						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
 							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
 						}
+						try {
+							Thread.sleep(10);
+						} catch(Exception e) { }
 					}
-					try {
-						Thread.sleep(100);
-					} catch(Exception e) { }
+					for(int i=-2666;i<-2333;i++) {
+						packet20NamedEntitySpawn.a = i;
+						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
+							if(YiffBukkit.instance.playerHelper.getPlayerLevel(ply) <= 0) {
+								Location pos = ply.getLocation();
+								packet20NamedEntitySpawn.c = MathHelper.floor((pos.getX() + 1024D) * 32.0D);
+								packet20NamedEntitySpawn.d = MathHelper.floor((pos.getY() + 1024D) * 32.0D);
+								packet20NamedEntitySpawn.e = MathHelper.floor((pos.getZ() + 1024D) * 32.0D);
+
+								PlayerHelper.sendPacketToPlayer(ply, packet20NamedEntitySpawn);
+							}
+						}
+						try {
+							Thread.sleep(10);
+						} catch(Exception e) { }
+					}
+					for(int i=-1337;i<-337;i++) {
+						packet29DestroyEntity.a = i;
+						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
+							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
+						}
+						try {
+							Thread.sleep(10);
+						} catch(Exception e) { }
+					}
 				}
 			}
 		}.start();
