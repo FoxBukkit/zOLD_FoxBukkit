@@ -29,7 +29,6 @@ import de.doridian.yiffbukkit.warp.portals.PortalEngine;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
-import de.doridian.yiffbukkit.ssl.SSLUtils;
 import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -245,7 +244,7 @@ public class YiffBukkit extends JavaPlugin {
 				String argStr = new String(bytes);
 
 				playerHelper.setYiffcraftState(ply, true);
-				SSLUtils.nagIfNoSSL(playerHelper, ply);
+				//SSLUtils.nagIfNoSSL(playerHelper, ply);
 
 				if(argStr.equalsIgnoreCase("getcommands")) {
 					playerHelper.sendYiffcraftClientCommand(ply, 'c', Configuration.getValue("yiffcraft-command-url", "http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
