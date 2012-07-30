@@ -238,6 +238,7 @@ public class YiffBukkit extends JavaPlugin {
 		log( "Plugin enabled!" );
 
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraft");
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraftp");
 		Bukkit.getMessenger().registerIncomingPluginChannel(this, "yiffcraft", new PluginMessageListener() {
 			@Override
 			public void onPluginMessageReceived(String s, Player ply, byte[] bytes) {

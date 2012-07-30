@@ -27,7 +27,6 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
-import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
@@ -35,6 +34,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -993,14 +993,23 @@ public class PlayerHelper extends StateContainer {
 		return yiffcraftPlayers.contains(ply.getName().toLowerCase());
 	}
 
+	private static final int MAX_MESSAGE_SIZE = 4000;//Messenger.MAX_MESSAGE_SIZE;
 	public void sendYiffcraftClientCommand(Player ply, char command, CharSequence args) {
 		if(!hasYiffcraft(ply))
 			return;
 
-		final byte[] bytes = (command + args.toString()).getBytes();
-		if (bytes.length > Messenger.MAX_MESSAGE_SIZE) {
-			sendDirectedMessage(ply, "YiffCraft Message too long!");
-			return;
+		byte[] bytes = (command + args.toString()).getBytes();
+		final int length = bytes.length;
+		if (length > MAX_MESSAGE_SIZE) {
+			int numChunks = (int) (Math.ceil(length / (double)MAX_MESSAGE_SIZE)) - 1;
+			for (int i = 0; i < numChunks; ++i) {
+				final int from = i * MAX_MESSAGE_SIZE;
+				byte[] buf = Arrays.copyOfRange(bytes, from, from + MAX_MESSAGE_SIZE);
+				ply.sendPluginMessage(plugin, "yiffcraftp", buf);
+			}
+
+			final int from = numChunks * MAX_MESSAGE_SIZE;
+			bytes = Arrays.copyOfRange(bytes, from, bytes.length);
 		}
 
 		ply.sendPluginMessage(plugin, "yiffcraft", bytes);
