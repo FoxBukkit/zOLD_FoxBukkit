@@ -27,6 +27,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
+import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
@@ -993,8 +994,16 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void sendYiffcraftClientCommand(Player ply, char command, CharSequence args) {
-		if(!hasYiffcraft(ply)) return;
-		ply.sendPluginMessage(plugin, "yiffcraft", (command + args.toString()).getBytes());
+		if(!hasYiffcraft(ply))
+			return;
+
+		final byte[] bytes = (command + args.toString()).getBytes();
+		if (bytes.length > Messenger.MAX_MESSAGE_SIZE) {
+			sendDirectedMessage(ply, "YiffCraft Message too long!");
+			return;
+		}
+
+		ply.sendPluginMessage(plugin, "yiffcraft", bytes);
 	}
 
 	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
