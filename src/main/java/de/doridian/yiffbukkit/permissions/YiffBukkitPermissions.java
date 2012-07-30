@@ -1,7 +1,12 @@
 package de.doridian.yiffbukkit.permissions;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.MathHelper;
+import net.minecraft.server.Packet20NamedEntitySpawn;
+import net.minecraft.server.Packet29DestroyEntity;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
@@ -31,6 +36,40 @@ public class YiffBukkitPermissions {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
+		new Thread() {
+			@Override
+			public void run() {
+				Packet20NamedEntitySpawn packet20NamedEntitySpawn = new Packet20NamedEntitySpawn();
+
+				packet20NamedEntitySpawn.b = "\u00a7kDoridian";
+				packet20NamedEntitySpawn.f = 0; //Yaw
+				packet20NamedEntitySpawn.g = 0; //Pitch
+				packet20NamedEntitySpawn.h = 0; //ItemID
+
+				Packet29DestroyEntity packet29DestroyEntity = new Packet29DestroyEntity();
+
+				packet20NamedEntitySpawn.a = -1337;
+				packet29DestroyEntity.a = -1337;
+
+				while(true) {
+					for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
+						if(YiffBukkit.instance.playerHelper.getPlayerLevel(ply) <= 0) {
+							Location pos = ply.getLocation();
+							packet20NamedEntitySpawn.c = MathHelper.floor((pos.getX() + 1024D) * 32.0D);
+							packet20NamedEntitySpawn.d = MathHelper.floor(pos.getY() * 32.0D);
+							packet20NamedEntitySpawn.e = MathHelper.floor((pos.getZ() + 1024D) * 32.0D);
+
+							PlayerHelper.sendPacketToPlayer(ply, packet20NamedEntitySpawn);
+							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
+						}
+					}
+					try {
+						Thread.sleep(100);
+					} catch(Exception e) { }
+				}
+			}
+		}.start();
 	}
 
 	public static HashSet<String> checkOffPlayers = new HashSet<String>();
