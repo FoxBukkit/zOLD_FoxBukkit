@@ -17,6 +17,6 @@ public class IRCMuteCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) {
 		plugin.ircbot.sendToPublicChannel(commandSender.getName() + " muted " + args[0]);
 		playerHelper.sendServerMessage(commandSender.getName() + " muted " + args[0] + "@IRC");
-		plugin.ircbot.setMode(Ircbot.PUBLICCHANNEL, "+q " + args[0] + "!*@*");
+		plugin.ircbot.setMode(Ircbot.PUBLICCHANNEL, "+q " + args[0]);
 	}
 }

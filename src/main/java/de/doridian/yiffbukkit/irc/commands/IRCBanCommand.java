@@ -17,7 +17,7 @@ public class IRCBanCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) {
 		plugin.ircbot.sendToPublicChannel(commandSender.getName() + " banned " + args[0]);
 		playerHelper.sendServerMessage(commandSender.getName() + " banned " + args[0] + "@IRC");
-		plugin.ircbot.setMode(Ircbot.PUBLICCHANNEL, "+b " + args[0] + "!*@*");
+		plugin.ircbot.setMode(Ircbot.PUBLICCHANNEL, "+b " + args[0]);
 		plugin.ircbot.kick(Ircbot.PUBLICCHANNEL, args[0]);
 	}
 }
