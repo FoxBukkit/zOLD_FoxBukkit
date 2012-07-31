@@ -57,11 +57,15 @@ public class ExecCommand extends ICommand {
 	}
 
 	private void chat(CommandSender commandSender, String line) {
-		if (line.startsWith("/"))
-			Bukkit.getServer().dispatchCommand(commandSender, line.substring(1));
-
-		if (commandSender instanceof Player)
+		if (commandSender instanceof Player) {
 			((Player) commandSender).chat(line);
+			return;
+		}
+
+		if (line.startsWith("/")) {
+			Bukkit.getServer().dispatchCommand(commandSender, line.substring(1));
+			return;
+		}
 
 		Bukkit.getServer().dispatchCommand(commandSender, "say "+line);
 	}
