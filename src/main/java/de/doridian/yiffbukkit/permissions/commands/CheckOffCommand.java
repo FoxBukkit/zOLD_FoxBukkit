@@ -34,9 +34,9 @@ public class CheckOffCommand extends ICommand {
 			PlayerHelper.sendDirectedMessage(ply, reply.toString());
 		} else {
 			if(YiffBukkitPermissions.removeCOPlayer(args[0])) {
-				PlayerHelper.sendDirectedMessage(ply, "Removed player from CO");
+				PlayerHelper.sendDirectedMessage(ply, "Removed player "+args[0]+" from CO");
 			} else {
-				PlayerHelper.sendDirectedMessage(ply, "Player not found on CO");
+				PlayerHelper.sendDirectedMessage(ply, "Player "+args[0]+" not found on CO");
 			}
 		}
 	}
