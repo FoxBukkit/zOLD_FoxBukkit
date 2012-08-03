@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.main.util;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.Field;
@@ -228,5 +229,9 @@ public class Utils {
 
 		double a = 2 * Math.sqrt(1 - s); // factor to adjust x,y so that x^2+y^2 is equal to 1-z^2
 		return new Vector(x*a, y*a, s * 2 - 1); // z uniformly distributed from -1 to 1
+	}
+
+	public static void makeSound(Location location, String soundName, float volume, float pitch) {
+		((CraftWorld) location.getWorld()).getHandle().makeSound(location.getX(), location.getY(), location.getZ(), soundName, volume, pitch);
 	}
 }
