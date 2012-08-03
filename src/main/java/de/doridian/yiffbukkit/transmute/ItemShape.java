@@ -51,7 +51,7 @@ public class ItemShape extends EntityShape {
 
 		p21.h = type;
 		p21.i = count;
-		p21.q = data;
+		p21.j = data;
 
 		return p21;
 	}
