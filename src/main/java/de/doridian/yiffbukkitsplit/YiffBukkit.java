@@ -29,7 +29,6 @@ import de.doridian.yiffbukkit.warp.portals.PortalEngine;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
-import de.doridian.yiffbukkit.ssl.ServerSSLSocket;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
@@ -51,7 +50,6 @@ import org.dynmap.Event.Listener;
 import org.dynmap.SimpleWebChatComponent;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -101,8 +99,6 @@ public class YiffBukkit extends JavaPlugin {
 	public DynmapPlugin dynmap;
 	public Consumer logBlockConsumer;
 
-	public ServerSSLSocket serverSSLSocket;
-
 	public boolean serverClosed = false;
 	public CommandSystem commandSystem;
 	public final YBBank bank = new YBBank();
@@ -112,8 +108,6 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		if (serverSSLSocket != null)
-			serverSSLSocket.stopme();
 		remote.stopme();
 		log("Plugin disabled!" ) ;
 	}
@@ -210,13 +204,6 @@ public class YiffBukkit extends JavaPlugin {
 		remote.start();
 		log("Remote loaded.");
 
-		try {
-			serverSSLSocket = new ServerSSLSocket(this);
-			serverSSLSocket.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 			public void run() {
@@ -299,9 +286,5 @@ public class YiffBukkit extends JavaPlugin {
 			if (world.getName().equals(name)) return world;
 		}*/
 		return getServer().getWorld(name);
-	}
-
-	public boolean hasSSL() {
-		return serverSSLSocket != null;
 	}
 }
