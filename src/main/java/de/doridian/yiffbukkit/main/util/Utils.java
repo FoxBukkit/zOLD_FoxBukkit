@@ -9,6 +9,7 @@ import org.bukkit.util.Vector;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class Utils {
 	private YiffBukkit plugin;
@@ -233,5 +234,25 @@ public class Utils {
 
 	public static void makeSound(Location location, String soundName, float volume, float pitch) {
 		((CraftWorld) location.getWorld()).getHandle().makeSound(location.getX(), location.getY(), location.getZ(), soundName, volume, pitch);
+	}
+
+	public static Pattern compileWildcard(String wildcard) {
+		final StringBuilder pattern = new StringBuilder("^");
+
+		boolean first = true;
+		for (String part : wildcard.split("\\*")) {
+			if (!first)
+				pattern.append(".*");
+
+			first = false;
+			if (part.isEmpty())
+				continue;
+
+			pattern.append(Pattern.quote(part));
+		}
+
+		pattern.append("$");
+		
+		return Pattern.compile(pattern.toString());
 	}
 }
