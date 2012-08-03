@@ -23,9 +23,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.getspout.spoutapi.event.spout.SpoutcraftBuildSetEvent;
-import org.getspout.spoutapi.player.SpoutPlayer;
-
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -118,7 +115,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.pushWeather(player);
 	}
 
-	public void onSpoutcraftAuth(SpoutcraftBuildSetEvent event) {
+	/*public void onSpoutcraftAuth(SpoutcraftBuildSetEvent event) {
 		SpoutPlayer player = event.getPlayer();
 
 		for(Player ply : plugin.getServer().getOnlinePlayers()) {
@@ -126,7 +123,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		}
 
 		player.setTitle(plugin.playerHelper.getPlayerTag(player) + "\n" + player.getDisplayName());
-	}
+	}*/
 
 	public Hashtable<String,String> offlinePlayers = new Hashtable<String, String>();
 	@EventHandler(priority = EventPriority.HIGHEST)
