@@ -6,6 +6,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import net.minecraft.server.MinecraftServer;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftServer;
@@ -17,15 +19,11 @@ import java.util.logging.Logger;
 @Usage("<command>")
 @Permission("yiffbukkit.rcon")
 public class ConsoleCommand extends ICommand {
-	private final MinecraftServer mcServer;
+	private static final MinecraftServer mcServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 
-	public ConsoleCommand() {
-		mcServer = ((CraftServer) plugin.getServer()).getHandle().server;
-	}
-
-	private final void sendServerCmd(String cmd, CommandSender sender) {
-		if (mcServer != null && !mcServer.isStopped && MinecraftServer.isRunning(mcServer)) {
-			mcServer.issueCommand(cmd, mcServer);
+	private static final void sendServerCmd(String cmd, CommandSender sender) {
+		if (mcServer != null && !mcServer.isStopped() && mcServer.isRunning()) {
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 		}
 		else {
 			if (sender != null) {

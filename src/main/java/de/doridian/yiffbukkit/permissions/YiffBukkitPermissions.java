@@ -69,7 +69,7 @@ public class YiffBukkitPermissions {
 						} catch(Exception e) { }
 					}
 					for(int i=-2666;i<-2333;i++) {
-						packet29DestroyEntity.a = i;
+						packet29DestroyEntity.a = new int[] { i };
 						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
 							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
 						}
@@ -94,7 +94,7 @@ public class YiffBukkitPermissions {
 						} catch(Exception e) { }
 					}
 					for(int i=-1337;i<-337;i++) {
-						packet29DestroyEntity.a = i;
+						packet29DestroyEntity.a = new int[] { i };
 						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
 							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
 						}

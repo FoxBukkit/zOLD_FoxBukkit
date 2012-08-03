@@ -10,6 +10,8 @@ import net.minecraft.server.Packet;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet54PlayNoteBlock;
 import net.minecraft.server.World;
+
+import org.bukkit.Instrument;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -266,7 +268,7 @@ public class PlayCommand extends ICommand {
 
 					final int noteValue = note.number-4*12+5;
 					//System.out.println(String.format("%d/%d/%d i=%d n=%d", x, y, z, 0, noteValue));
-					playerHelper.sendPacketToPlayersAround(loc, 64, new Packet54PlayNoteBlock(x, y, z, 0, noteValue));
+					playerHelper.sendPacketToPlayersAround(loc, 64, new Packet54PlayNoteBlock(x, y, z, Instrument.PIANO.getType(), noteValue, Material.NOTE_BLOCK.getId()));
 				}
 			}
 		};

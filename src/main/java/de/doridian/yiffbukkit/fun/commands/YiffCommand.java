@@ -108,7 +108,7 @@ public class YiffCommand extends ICommand {
 				PlayerHelper.sendPacketToPlayer(target, packet20NamedEntitySpawn);
 
 				if(mode == 1) {
-					packet29DestroyEntity.a = lastEntID;
+					packet29DestroyEntity.a = new int[] { lastEntID };
 
 					packet34EntityTeleport.a = lastEntID;
 					packet34EntityTeleport.b = packet20NamedEntitySpawn.c;

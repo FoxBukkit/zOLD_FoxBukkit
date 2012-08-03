@@ -23,12 +23,15 @@ import net.minecraft.server.MovingObjectPosition;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.WorldServer;
+
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Boat;
@@ -454,13 +457,13 @@ public class SpawnUtils {
 	public static HumanEntity makeNPC(String name, Location location) {
 		// Get some notch-type references
 		final WorldServer worldServer = ((CraftWorld)location.getWorld()).getHandle();
-		final MinecraftServer minecraftServer = worldServer.server;
+		final MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 
 		// Create the new player
 		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, name, new ItemInWorldManager(worldServer));
 
 		// Create network manager for the player
-		final NetworkManager networkManager = new NetworkManager(new NPCSocket(), eply.name, null);
+		final NetworkManager networkManager = new NetworkManager(new NPCSocket(), eply.name, null, null);
 		// Create NetServerHandler. This will automatically write itself to the player and networkmanager
 		new NetServerHandler(minecraftServer, networkManager, eply);
 
@@ -475,7 +478,7 @@ public class SpawnUtils {
 		worldServer.players.remove(eply);
 
 		// ...nor in the server player list (i.e. /list /who and the likes)
-		minecraftServer.serverConfigurationManager.players.remove(eply);
+		minecraftServer.getServerConfigurationManager().players.remove(eply);
 
 		// finally obtain a bukkit entity,
 		final HumanEntity bukkitEntity = (HumanEntity) eply.getBukkitEntity();

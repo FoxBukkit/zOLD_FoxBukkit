@@ -66,7 +66,7 @@ public class Rocket extends YBEffect {
 
 		++i;
 		if (i == 100 || currentLocation.getY() >= maxHeight) {
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new Packet60Explosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptySet()));
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new Packet60Explosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptyList(), null));
 			done();
 			cancel();
 			entity.remove();
