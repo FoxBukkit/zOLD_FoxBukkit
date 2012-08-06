@@ -56,6 +56,7 @@ public class BindCommand extends ICommand {
 
 				PlayerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
 			}
+			return;
 		}
 
 		Material toolType;
