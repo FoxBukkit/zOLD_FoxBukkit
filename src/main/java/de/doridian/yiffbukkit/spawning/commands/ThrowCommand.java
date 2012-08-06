@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.spawning.commands;
 
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.commands.BindCommand;
 import de.doridian.yiffbukkit.main.commands.ICommand;
 import de.doridian.yiffbukkit.main.commands.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.ICommand.Help;
@@ -80,10 +81,7 @@ public class ThrowCommand extends ICommand {
 		}
 
 		if (args.length == 0) {
-			ToolBind.remove(ply, toolType);
-
-			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
-
+			BindCommand.unbind(ply, toolType);
 			return;
 		}
 

@@ -75,10 +75,7 @@ public class BindCommand extends ICommand {
 		}
 
 		if (argStr.isEmpty()) {
-			ToolBind.remove(ply, toolType);
-
-			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
-
+			unbind(ply, toolType);
 			return;
 		}
 
@@ -96,5 +93,14 @@ public class BindCommand extends ICommand {
 		ToolBind.add(ply, toolType, toolBind);
 
 		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+parsedCommands.getCleanString()+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
+	}
+
+	public static void unbind(Player ply, Material toolType) {
+		if (ToolBind.remove(ply, toolType)) {
+			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
+		}
+		else {
+			PlayerHelper.sendDirectedMessage(ply, "Your tool (\u00a7e"+toolType.name()+"\u00a7f) was not bound.");
+		}
 	}
 }

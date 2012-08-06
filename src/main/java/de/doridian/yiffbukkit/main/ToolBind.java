@@ -37,10 +37,17 @@ public abstract class ToolBind {
 		toolMappings.put(key, toolBind);
 	}
 
-	public static void remove(Player ply, Material toolType) {
+	/**
+	 * Removes a tool mapping for the given player/tool pair.
+	 *
+	 * @param ply the player the mapping is associated with.
+	 * @param toolType the tool the mapping is associated with.
+	 * @return true if there was a previous mapping
+	 */
+	public static boolean remove(Player ply, Material toolType) {
 		String key = ply.getName()+" "+toolType.name();
 
-		toolMappings.remove(key);
+		return toolMappings.remove(key) != null;
 	}
 
 	public static void removeGlobal(Material toolType) {
