@@ -45,6 +45,24 @@ import java.util.Map;
 @NumericFlags("m")
 @Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
+	public interface ThrowShape {
+		Vector getDirection(int i, int amount, Location baseLocation, Vector speed);
+	}
+
+	private static final Map<String, ThrowShape> throwShapes = new HashMap<String, ThrowCommand.ThrowShape>();
+	static {
+		throwShapes.put("circle", new ThrowShape() {
+			@Override
+			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+				final Location location = baseLocation.clone();
+
+				location.setYaw(location.getYaw() + i * 360.0f / amount);
+
+				return Utils.toWorldAxis(location, speed);
+			}
+		});
+	}
+
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
 
@@ -102,6 +120,8 @@ public class ThrowCommand extends ICommand {
 		}
 
 		final boolean usePitch = !booleanFlags.contains('p');
+		final String shapeName = "circle";
+		final ThrowShape shape = throwShapes.get(shapeName);
 
 		final String typeName = args[0];
 
@@ -138,15 +158,12 @@ public class ThrowCommand extends ICommand {
 			final double scale = 1/speed.length();
 
 			final int amount;
-			final float offset;
 			if (numericFlags.containsKey('m')) {
 				final int maxItems = ply.hasPermission("yiffbukkit.throw.unlimited") ? 1000 : 10;
-				amount = Math.max(0, Math.min(maxItems, (int) (double) numericFlags.get('m')));
-				offset = 360.0f / amount;
+				amount = Math.max(1, Math.min(maxItems, (int) (double) numericFlags.get('m')));
 			}
 			else {
 				amount = 1;
-				offset = 0;
 			}
 
 			runnable = new ToolBind("/throw "+typeName, ply) {
@@ -155,10 +172,8 @@ public class ThrowCommand extends ICommand {
 					Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 
-					float yaw = location.getYaw();
-
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
-						yaw = lastYaws.get(player);
+						location.setYaw(lastYaws.get(player));
 						location.setPitch(lastPitches.get(player));
 					}
 
@@ -166,8 +181,7 @@ public class ThrowCommand extends ICommand {
 						location.setPitch(0);
 
 					for (int i = 0; i < amount; ++i) {
-						location.setYaw(yaw);
-						final Vector direction = Utils.toWorldAxis(location, speed);
+						final Vector direction = shape.getDirection(i, amount, location, speed);
 
 						final Location finalLocation = location.clone();
 						finalLocation.setX(location.getX()+direction.getX()*scale);
@@ -176,8 +190,6 @@ public class ThrowCommand extends ICommand {
 
 						final Entity entity = plugin.spawnUtils.buildMob(types, player, null, finalLocation);
 						entity.setVelocity(direction);
-
-						yaw += offset;
 					}
 
 					return true;
