@@ -39,9 +39,9 @@ import java.util.Map;
 		"  wolf:angry|tame|sit - can be combined with a comma (,)\n"+
 		"  creeper:charged"
 )
-@Usage("[-i <item name or id> ][-m <amount> ][<type>[ <forward>[ <up>[ <left>]]]]")
+@Usage("[-i <item name or id> ][-m <amount> [-s <shape> ]][<type>[ <forward>[ <up>[ <left>]]]]")
 @BooleanFlags("p")
-@StringFlags("i")
+@StringFlags("is")
 @NumericFlags("m")
 @Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
@@ -120,7 +120,12 @@ public class ThrowCommand extends ICommand {
 		}
 
 		final boolean usePitch = !booleanFlags.contains('p');
-		final String shapeName = "circle";
+		final String shapeName;
+		if (stringFlags.containsKey('s'))
+			shapeName = stringFlags.get('s');
+		else
+			shapeName = "circle";
+
 		final ThrowShape shape = throwShapes.get(shapeName);
 
 		final String typeName = args[0];
