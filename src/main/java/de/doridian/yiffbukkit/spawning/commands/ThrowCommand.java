@@ -74,6 +74,31 @@ public class ThrowCommand extends ICommand {
 				return Utils.toWorldAxis(location, pointingDown);
 			}
 		});
+
+		throwShapes.put("random", new ThrowShape() {
+			@Override
+			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+				return Utils.randvec().multiply(speed.length());
+			}
+		});
+
+		throwShapes.put("randomup", new ThrowShape() {
+			@Override
+			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+				final Vector direction = Utils.randvec().multiply(speed.length());
+				direction.setY(Math.abs(direction.getY()));
+				return direction;
+			}
+		});
+
+		throwShapes.put("randomdown", new ThrowShape() {
+			@Override
+			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+				final Vector direction = Utils.randvec().multiply(speed.length());
+				direction.setY(-Math.abs(direction.getY()));
+				return direction;
+			}
+		});
 	}
 
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
