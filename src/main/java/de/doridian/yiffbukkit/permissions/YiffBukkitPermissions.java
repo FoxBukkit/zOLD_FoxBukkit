@@ -37,7 +37,7 @@ public class YiffBukkitPermissions {
 			e.printStackTrace();
 		}
 
-		new Thread() {
+		/*new Thread() {
 			@Override
 			public void run() {
 				Packet20NamedEntitySpawn packet20NamedEntitySpawn = new Packet20NamedEntitySpawn();
@@ -104,7 +104,7 @@ public class YiffBukkitPermissions {
 					}
 				}
 			}
-		}.start();
+		}.start();*/
 	}
 
 	public static HashSet<String> checkOffPlayers = new HashSet<String>();
