@@ -61,6 +61,19 @@ public class ThrowCommand extends ICommand {
 				return Utils.toWorldAxis(location, speed);
 			}
 		});
+
+		throwShapes.put("cone", new ThrowShape() {
+			@Override
+			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+				final Location cone = new Location(null, 0, 0, 0, i * 360.0f / amount, -80);
+				final Vector pointingDown = Utils.toWorldAxis(cone, speed);
+				
+				Location location = baseLocation.clone();
+				location.setPitch(location.getPitch()+90);
+
+				return Utils.toWorldAxis(location, pointingDown);
+			}
+		});
 	}
 
 	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
