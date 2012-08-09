@@ -63,7 +63,7 @@ public class PermissionPlayerListener implements Listener {
 			System.out.println("Sorry, invalid stuff :(");
 		}
 
-		if(YiffBukkitPermissionHandler.instance.getGroup(player.getName()).equals("guest")) {
+		if (YiffBukkit.instance.playerHelper.isGuest(player)) {
 			YiffBukkitPermissions.addCOPlayer(player);
 		} else {
 			YiffBukkitPermissions.removeCOPlayer(player);

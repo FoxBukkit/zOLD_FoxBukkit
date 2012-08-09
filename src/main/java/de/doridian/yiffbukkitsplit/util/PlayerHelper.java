@@ -1086,4 +1086,13 @@ public class PlayerHelper extends StateContainer {
 			player.resetPlayerTime();
 		}
 	}
+
+	private static final Set<String> guestRanks = new HashSet<String>(Arrays.asList("guest", "pohr"));
+	public boolean isGuest(final Player player) {
+		return isGuestRank(getPlayerRank(player));
+	}
+
+	public static boolean isGuestRank(final String rank) {
+		return guestRanks.contains(rank);
+	}
 }

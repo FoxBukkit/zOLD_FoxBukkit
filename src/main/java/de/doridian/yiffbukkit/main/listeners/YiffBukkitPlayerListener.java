@@ -26,6 +26,8 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +40,14 @@ import java.util.Set;
 public class YiffBukkitPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerLogin(PlayerLoginEvent event) {
-		final String playerName = event.getPlayer().getName();
+		final Player player = event.getPlayer();
+		final String playerName = player.getName();
 		if (!playerName.matches("^.*[A-Za-z].*$")) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, get some letters into your name.");
 			return;
 		}
 
-		if (plugin.serverClosed && playerHelper.getPlayerRank(event.getPlayer()).equals("guest")) {
+		if (plugin.serverClosed && playerHelper.isGuest(player)) {
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
 			return;
 		}

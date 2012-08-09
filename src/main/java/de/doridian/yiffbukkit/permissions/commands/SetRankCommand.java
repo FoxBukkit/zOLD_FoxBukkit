@@ -9,6 +9,8 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
 import org.bukkit.command.CommandSender;
 
 @Names("setrank")
@@ -61,7 +63,7 @@ public class SetRankCommand extends ICommand {
 		if(booleanFlags.contains('p') && newlvl < oldlvl)
 			throw new PermissionDeniedException();
 
-		if(newRank.equals("guest")) {
+		if (PlayerHelper.isGuestRank(newRank)) {
 			YiffBukkitPermissions.addCOPlayer(otherName);
 		} else {
 			YiffBukkitPermissions.removeCOPlayer(otherName);
