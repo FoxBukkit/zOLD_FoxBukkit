@@ -338,9 +338,11 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerRank(ply.getName());
 	}
 	public String getPlayerRank(String name) {
-		name = YiffBukkitPermissionHandler.instance.getGroup(name);
-		if(name == null) name = "guest";
-		return name;
+		final String rank = YiffBukkitPermissionHandler.instance.getGroup(name);
+		if (rank == null)
+			return "guest";
+
+		return rank;
 	}
 	public void setPlayerRank(String name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
