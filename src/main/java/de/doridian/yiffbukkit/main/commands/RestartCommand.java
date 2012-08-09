@@ -55,6 +55,7 @@ public class RestartCommand extends ICommand {
 		void refreshGUI(long timeleft) {
 			final String formattedTime = "Server restarting in " + (timeleft / 60) + ":" + String.format("%02d", timeleft % 60);
 
+			try { // TEMP!
 			SpoutPlayer[] players = SpoutManager.getOnlinePlayers();
 			for(SpoutPlayer ply : players) {
 				try {
@@ -73,7 +74,6 @@ public class RestartCommand extends ICommand {
 				} catch(Exception e) { }
 			}
 
-			try {
 				HashSet<SpoutPlayer> plys = new HashSet<SpoutPlayer>(Arrays.asList(players));
 				for(SpoutPlayer ply : new ArrayList<SpoutPlayer>(labels.keySet())) {
 					if(!plys.contains(ply)) {
