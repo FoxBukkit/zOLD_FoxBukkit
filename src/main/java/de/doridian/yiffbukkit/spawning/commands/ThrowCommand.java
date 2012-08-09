@@ -225,6 +225,7 @@ public class ThrowCommand extends ICommand {
 
 					for (int i = 0; i < amount; ++i) {
 						final Vector direction = shape.getDirection(i, amount, location, speed);
+						// TODO: orientation
 
 						final Location finalLocation = location.clone();
 						finalLocation.setX(location.getX()+direction.getX()*scale);
