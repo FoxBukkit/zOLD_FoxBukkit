@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitHeadChopOffListener;
 import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.chat.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
+import de.doridian.yiffbukkit.fun.listeners.ChatSoundListener;
 import de.doridian.yiffbukkit.fun.listeners.MinecartCollisionListener;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.CommandSystem;
@@ -72,6 +73,8 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitPacketListener yiffBukkitPacketListener;
 	@SuppressWarnings("unused")
 	private SoundPacketListener soundPacketListener;
+	@SuppressWarnings("unused")
+	private ChatSoundListener chatSoundListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
 	@SuppressWarnings("unused")
@@ -190,6 +193,7 @@ public class YiffBukkit extends JavaPlugin {
 		blockListener = new YiffBukkitBlockListener(this);
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		soundPacketListener = new SoundPacketListener(this);
+		chatSoundListener = new ChatSoundListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
 		minecartCollisionListener = new MinecartCollisionListener(this);
 		signPortalPlayerListener = new SignPortalPlayerListener(this);
