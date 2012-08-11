@@ -1,12 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.MathHelper;
-import net.minecraft.server.Packet20NamedEntitySpawn;
-import net.minecraft.server.Packet29DestroyEntity;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;

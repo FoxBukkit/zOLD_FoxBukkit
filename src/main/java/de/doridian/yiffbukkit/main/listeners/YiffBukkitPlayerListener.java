@@ -26,8 +26,6 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
