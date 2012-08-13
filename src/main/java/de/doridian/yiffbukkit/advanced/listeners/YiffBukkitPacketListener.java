@@ -4,6 +4,8 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
+import net.minecraft.server.ControllerMove;
+import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet10Flying;
@@ -12,6 +14,7 @@ import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet62NamedSoundEffect;
 import net.minecraft.server.Packet70Bed;
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
@@ -155,10 +158,43 @@ public class YiffBukkitPacketListener extends PacketListener {
 			if (vel > 1) factor *= 1 / vel;
 			passengerXZVel = passengerXZVel.multiply(factor);
 			vehicle.setVelocity(vehicle.getVelocity().add(passengerXZVel));
+			if (vehicle instanceof CraftLivingEntity) {
+				final EntityLiving notchEntity = ((CraftLivingEntity) vehicle).getHandle();
+
+				final ControllerMove oldController = Utils.getPrivateValue(EntityLiving.class, notchEntity, "moveController");
+				if (!(oldController instanceof IdleControllerMove)) {
+					Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", new IdleControllerMove(notchEntity, oldController));
+				}
+			}
 			//System.out.println(passengerXZVel);
 			break;
 		}
 
 		return true;
+	}
+
+	public static class IdleControllerMove extends ControllerMove {
+		private final EntityLiving notchEntity;
+		private final ControllerMove oldController;
+
+		private IdleControllerMove(EntityLiving notchEntity, ControllerMove oldController) {
+			super(notchEntity);
+			this.notchEntity = notchEntity;
+			this.oldController = oldController;
+		}
+
+		@Override public boolean a() { return oldController.a(); }
+
+		@Override public void a(double arg0, double arg1, double arg2, float arg3) { oldController.a(arg0, arg1, arg2, arg3); }
+
+		@Override public float b() { return oldController.b(); }
+
+		@Override
+		public void c() {
+			if (notchEntity.passenger == null) {
+				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", oldController);
+				oldController.c();
+			}
+		}
 	}
 }
