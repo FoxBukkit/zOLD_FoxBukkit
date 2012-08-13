@@ -18,6 +18,7 @@ import net.minecraft.server.Packet70Bed;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
@@ -144,6 +145,8 @@ public class YiffBukkitPacketListener extends PacketListener {
 				break;
 
 			final Entity vehicle = ply.getVehicle();
+			if (vehicle instanceof Boat)
+				break;
 
 			final Packet10Flying p10 = (Packet10Flying) packet;
 
