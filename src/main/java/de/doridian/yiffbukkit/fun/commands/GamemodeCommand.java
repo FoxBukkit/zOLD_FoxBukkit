@@ -20,10 +20,10 @@ public class GamemodeCommand extends ICommand {
 		Player target = ply;
 		if(args.length > 1)
 			target = plugin.playerHelper.matchPlayerSingle(args[1]);
-		
+
 		if(target != ply && !ply.hasPermission("yiffbukkit.gamemode.others"))
 			throw new PermissionDeniedException();
-		
+
 		GameMode targetMode = null;
 		try {
 			String arg = args[0].toLowerCase();
@@ -36,6 +36,9 @@ public class GamemodeCommand extends ICommand {
 				case 's':
 					targetMode = GameMode.SURVIVAL;
 					break;
+				case 'a':
+					targetMode = GameMode.ADVENTURE;
+					break;
 				default:
 					switch(Integer.parseInt(arg)) {
 						case 0:
@@ -43,15 +46,17 @@ public class GamemodeCommand extends ICommand {
 							break;
 						case 1:
 							targetMode = GameMode.CREATIVE;
+						case 2:
+							targetMode = GameMode.ADVENTURE;
 							break;
 					}
 			}
 		}
 		catch(Exception e) { }
-		
+
 		if(targetMode == null)
 			throw new YiffBukkitCommandException("Invalid gamemode specified");
-		
+
 		target.setGameMode(targetMode);
 		if(target == ply) {
 			plugin.playerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + targetMode.toString());
