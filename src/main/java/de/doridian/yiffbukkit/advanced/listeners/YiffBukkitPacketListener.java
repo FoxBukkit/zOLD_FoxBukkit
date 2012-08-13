@@ -5,6 +5,7 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
 import net.minecraft.server.ControllerMove;
+import net.minecraft.server.EntityCreature;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityWolf;
 import net.minecraft.server.MathHelper;
@@ -13,6 +14,8 @@ import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet62NamedSoundEffect;
 import net.minecraft.server.Packet70Bed;
+
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
@@ -21,7 +24,10 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
+import com.sk89q.worldedit.blocks.BlockType;
+
 public class YiffBukkitPacketListener extends PacketListener {
+	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
 	private final YiffBukkit plugin;
 	private PlayerHelper playerHelper;
 
@@ -152,21 +158,46 @@ public class YiffBukkitPacketListener extends PacketListener {
 
 			double factor = 5D;
 
-			//System.out.println(p10.y);
 			Vector passengerXZVel = new Vector(p10.x, 0, p10.z);
 			double vel = passengerXZVel.length();
-			if (vel > 1) factor *= 1 / vel;
-			passengerXZVel = passengerXZVel.multiply(factor);
-			vehicle.setVelocity(vehicle.getVelocity().add(passengerXZVel));
-			if (vehicle instanceof CraftLivingEntity) {
-				final EntityLiving notchEntity = ((CraftLivingEntity) vehicle).getHandle();
+			if (vel < 0.01)
+				break;
 
-				final ControllerMove oldController = Utils.getPrivateValue(EntityLiving.class, notchEntity, "moveController");
-				if (!(oldController instanceof IdleControllerMove)) {
-					Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", new IdleControllerMove(notchEntity, oldController));
-				}
+			if (vel > 1) factor *= 1 / vel;
+
+			passengerXZVel = passengerXZVel.multiply(factor);
+
+			vehicle.setVelocity(vehicle.getVelocity().add(passengerXZVel));
+			if (!(vehicle instanceof CraftLivingEntity))
+				break;
+
+			final EntityLiving notchEntity = ((CraftLivingEntity) vehicle).getHandle();
+
+			final ControllerMove oldController = Utils.getPrivateValue(EntityLiving.class, notchEntity, "moveController");
+			final IdleControllerMove controller;
+			if (oldController instanceof IdleControllerMove) {
+				controller = (IdleControllerMove) oldController;
 			}
-			//System.out.println(passengerXZVel);
+			else {
+				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", controller = new IdleControllerMove(notchEntity, oldController));
+			}
+
+			if (notchEntity instanceof EntityCreature) {
+				Utils.setPrivateValue(EntityCreature.class, (EntityCreature) notchEntity, "target", null);
+				Utils.setPrivateValue(EntityCreature.class, (EntityCreature) notchEntity, "pathEntity", null);
+			}
+
+			final double yaw = Math.round(Math.atan2(p10.z, p10.x)/QUARTER_CIRCLE)*QUARTER_CIRCLE;
+			final Vector normalizedVel = new Vector(Math.cos(yaw), 0, Math.sin(yaw));
+
+			final Block targetBlock = ply.getVehicle().getLocation().add(normalizedVel).getBlock();
+			if (BlockType.canPassThrough(targetBlock.getTypeId()))
+				break;
+
+			if (!BlockType.canPassThrough(targetBlock.getRelative(0, 1, 0).getTypeId()))
+				break;
+
+			controller.jump();
 			break;
 		}
 
@@ -195,6 +226,10 @@ public class YiffBukkitPacketListener extends PacketListener {
 				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", oldController);
 				oldController.c();
 			}
+		}
+
+		public void jump() {
+			notchEntity.getControllerJump().a();
 		}
 	}
 }
