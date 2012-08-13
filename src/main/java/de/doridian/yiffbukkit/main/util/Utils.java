@@ -255,4 +255,14 @@ public class Utils {
 		
 		return Pattern.compile(pattern.toString());
 	}
+
+	public static double fuzzySignum(final double a) {
+		if (a > 0.0001)
+			return 1;
+
+		if (a < -0.0001)
+			return -1;
+
+		return 0;
+	}
 }
