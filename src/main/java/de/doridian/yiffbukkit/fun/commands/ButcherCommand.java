@@ -23,7 +23,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-@Names("butcher")
+@Names("ybutcher")
 @Help(
 		"Kills living entities around yourself or a specified target.\n"+
 		"The default radius is 20. To kill everything, use a radius\n"+
