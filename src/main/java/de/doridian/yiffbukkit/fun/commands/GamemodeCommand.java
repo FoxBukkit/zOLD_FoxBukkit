@@ -10,7 +10,7 @@ import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-@Names("gamemode")
+@Names({"gamemode", "gm"})
 @Help("Sets the gamemode (creative / survival) for a player (default: you)")
 @Usage("<gamemode> [player]")
 @Permission("yiffbukkit.gamemode.self")
