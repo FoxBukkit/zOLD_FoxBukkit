@@ -1,20 +1,20 @@
-package de.doridian.yiffbukkit.transmute;
+package de.doridian.yiffbukkit.transmute.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class TransmutePlayerListener implements Listener {
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
+import de.doridian.yiffbukkit.transmute.Shape;
+import de.doridian.yiffbukkit.transmute.Transmute;
+
+public class TransmutePlayerListener extends BaseListener {
 	final Transmute transmute;
 
 	public TransmutePlayerListener(Transmute transmute) {
 		this.transmute = transmute;
-
-		transmute.plugin.getServer().getPluginManager().registerEvents(this, transmute.plugin);
-
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)

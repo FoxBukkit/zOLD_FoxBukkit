@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.transmute;
+package de.doridian.yiffbukkit.transmute.listeners;
 
 import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
@@ -14,16 +14,21 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.plugin.Plugin;
 
+import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.transmute.Shape;
+import de.doridian.yiffbukkit.transmute.Transmute;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class TransmutePacketListener extends PacketListener {
+public class TransmutePacketListener extends PacketListener implements YBListener {
 	private final Transmute transmute;
-	final Set<Packet> ignoredPackets = new HashSet<Packet>();
+	public final Set<Packet> ignoredPackets = new HashSet<Packet>();
 
 	public TransmutePacketListener(Transmute transmute) {
 		this.transmute = transmute;
-		Plugin plugin = transmute.plugin;
+		Plugin plugin = YiffBukkit.instance;
 
 		PacketListener.addPacketListener(true, 17, this, plugin);
 		PacketListener.addPacketListener(true, 18, this, plugin);

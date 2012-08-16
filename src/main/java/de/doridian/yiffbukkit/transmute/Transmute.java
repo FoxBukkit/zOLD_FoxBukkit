@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.transmute.listeners.TransmutePacketListener;
+import de.doridian.yiffbukkit.transmute.listeners.TransmutePlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
