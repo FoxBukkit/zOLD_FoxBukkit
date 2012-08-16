@@ -27,30 +27,30 @@ public class BackCommand extends ICommand {
 			return;
 		}
 
-        int numSteps = 1;
-        if(args.length > 0) {
-            numSteps = Integer.parseInt(args[0]);
-        }
+		int numSteps = 1;
+		if(args.length > 0) {
+			numSteps = Integer.parseInt(args[0]);
+		}
 
-        LinkedList<Location> teleports = plugin.playerHelper.teleportHistory.get(ply.getName().toLowerCase());
-        if(teleports == null) {
-            PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
-            return;
-        }
+		LinkedList<Location> teleports = plugin.playerHelper.teleportHistory.get(ply.getName().toLowerCase());
+		if(teleports == null) {
+			PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
+			return;
+		}
 
-        Location goTo = null;
-        int curStep = 0;
-        for(; curStep < numSteps; curStep++) {
-            if(teleports.size() == 0) break;
-            goTo = teleports.pollFirst();
-        }
+		Location goTo = null;
+		int curStep = 0;
+		for(; curStep < numSteps; curStep++) {
+			if(teleports.size() == 0) break;
+			goTo = teleports.pollFirst();
+		}
 
-        if(goTo == null) {
-            PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
-            return;
-        }
+		if(goTo == null) {
+			PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
+			return;
+		}
 
-        ply.teleport(goTo);
+		ply.teleport(goTo);
 
 		PlayerHelper.sendDirectedMessage(ply, "Teleported back \u00a79"+curStep+"\u00a7f step(s).");
 	}
