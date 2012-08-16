@@ -1,13 +1,12 @@
 package de.doridian.yiffbukkit.spectate.listeners;
 
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.spectate.SpectatePlayer;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -19,10 +18,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class SpectatePlayerListener implements Listener {
-	public SpectatePlayerListener(YiffBukkit plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
+public class SpectatePlayerListener extends BaseListener {
+	public SpectatePlayerListener() {
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
