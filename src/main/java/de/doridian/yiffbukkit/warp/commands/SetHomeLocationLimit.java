@@ -1,7 +1,8 @@
 package de.doridian.yiffbukkit.warp.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
+
 import org.bukkit.command.CommandSender;
 
 @ICommand.Names("sethomelimit")

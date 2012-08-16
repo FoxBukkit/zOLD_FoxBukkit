@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.remote.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.main.commands.ICommand.Level;
-import de.doridian.yiffbukkit.main.commands.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Level;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.remote.RemotePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.chat.commands;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.AbstractPlayerStateCommand;
-import de.doridian.yiffbukkit.main.commands.ICommand.*;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.command.CommandSender;

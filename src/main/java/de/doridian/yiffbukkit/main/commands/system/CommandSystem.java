@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.main.commands;
+package de.doridian.yiffbukkit.main.commands.system;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
 
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.ICommand.Cost;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Cost;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 

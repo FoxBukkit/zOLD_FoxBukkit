@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 

@@ -1,12 +1,13 @@
 package de.doridian.yiffbukkit.chat.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.main.commands.ICommand.BooleanFlags;
-import de.doridian.yiffbukkit.main.commands.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
-import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+
 import org.bukkit.command.CommandSender;
 
 @Names("filter")

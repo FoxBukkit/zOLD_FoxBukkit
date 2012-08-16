@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.main.commands;
+package de.doridian.yiffbukkit.main.commands.system;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;

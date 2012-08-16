@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.main.commands.ICommand.*;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 @Names("addfunds")

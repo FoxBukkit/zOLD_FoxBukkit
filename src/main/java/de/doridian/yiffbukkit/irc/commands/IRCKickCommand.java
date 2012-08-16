@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.irc.commands;
 
-import de.doridian.yiffbukkit.main.commands.ICommand;
-import de.doridian.yiffbukkit.main.commands.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.ICommand.Permission;
-import de.doridian.yiffbukkit.main.commands.ICommand.Usage;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
