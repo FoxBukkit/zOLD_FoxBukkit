@@ -18,50 +18,35 @@ public class GamemodeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		Player target = ply;
-		if(args.length > 1)
+		if (args.length > 1)
 			target = plugin.playerHelper.matchPlayerSingle(args[1]);
 
-		if(target != ply && !ply.hasPermission("yiffbukkit.gamemode.others"))
+		if (target != ply && !ply.hasPermission("yiffbukkit.gamemode.others"))
 			throw new PermissionDeniedException();
 
-		GameMode targetMode = null;
+		final String arg = args[0].toUpperCase();
+		final char firstChar = arg.charAt(0);
+		int numeric = -1;
 		try {
-			String arg = args[0].toLowerCase();
-			char firstChar = arg.charAt(0);
-			
-			switch(firstChar) {
-				case 'c':
-					targetMode = GameMode.CREATIVE;
-					break;
-				case 's':
-					targetMode = GameMode.SURVIVAL;
-					break;
-				case 'a':
-					targetMode = GameMode.ADVENTURE;
-					break;
-				default:
-					switch(Integer.parseInt(arg)) {
-						case 0:
-							targetMode = GameMode.SURVIVAL;
-							break;
-						case 1:
-							targetMode = GameMode.CREATIVE;
-						case 2:
-							targetMode = GameMode.ADVENTURE;
-							break;
-					}
+			numeric = Integer.parseInt(arg);
+		}
+		catch (NumberFormatException e) { }
+
+		for (GameMode gameMode : GameMode.values()) {
+			if (gameMode.name().charAt(0) == firstChar || gameMode.getValue() == numeric) {
+				target.setGameMode(gameMode);
+
+				if (target == ply) {
+					plugin.playerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + gameMode.toString());
+				}
+				else {
+					plugin.playerHelper.sendServerMessage(ply.getName() + " changed the gamemode of " + target.getName() + " to " + gameMode.toString());
+				}
+
+				return;
 			}
 		}
-		catch(Exception e) { }
 
-		if(targetMode == null)
-			throw new YiffBukkitCommandException("Invalid gamemode specified");
-
-		target.setGameMode(targetMode);
-		if(target == ply) {
-			plugin.playerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + targetMode.toString());
-		} else {
-			plugin.playerHelper.sendServerMessage(ply.getName() + " changed the gamemode of " + target.getName() + " to " + targetMode.toString());
-		}
+		throw new YiffBukkitCommandException("Invalid gamemode specified");
 	}
 }
