@@ -1,6 +1,8 @@
 package de.doridian.yiffbukkit.fun.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
@@ -37,18 +39,28 @@ public class MinecartCollisionListener extends BaseListener {
 
 		final Entity emptyMinecart = entityFull ? vehicle : entity;
 
-		emptyMinecart.remove();
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				emptyMinecart.remove();
+			}
+		});
 		event.setCancelled(true);
 	}
 
-	private boolean checkLiving(Vehicle vehicle, LivingEntity entity) {
+	private boolean checkLiving(Vehicle vehicle, final LivingEntity entity) {
 		if (entity instanceof Player)
 			return false;
 
 		if (vehicle.getPassenger() == null)
 			return false;
 
-		entity.damage(entity.getHealth());
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				entity.damage(entity.getHealth());
+			}
+		});
 		return true;
 	}
 }
