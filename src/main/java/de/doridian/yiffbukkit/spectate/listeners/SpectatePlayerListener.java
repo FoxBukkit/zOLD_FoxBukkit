@@ -1,5 +1,6 @@
-package de.doridian.yiffbukkit.spectate;
+package de.doridian.yiffbukkit.spectate.listeners;
 
+import de.doridian.yiffbukkit.spectate.SpectatePlayer;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -25,9 +26,7 @@ public class SpectatePlayerListener implements Listener {
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
-				for(SpectatePlayer player : SpectatePlayer.wrappedPlayers.values()) {
-					player.refresh(true, true, true, true, true);
-				}
+				SpectatePlayer.refreshAll(true, true, true, true, true);
 			}
 		}, 100, 0);
 	}
@@ -40,20 +39,19 @@ public class SpectatePlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		SpectatePlayer.wrapPlayer(event.getPlayer()).unspectate();
-		SpectatePlayer.wrappedPlayers.remove(event.getPlayer());
+		SpectatePlayer.removeWrappedPlayer(event.getPlayer());
 		SpectatePlayer.refreshSpectatingCurAll();
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		SpectatePlayer player = SpectatePlayer.wrapPlayer(event.getPlayer());
-		if(player.isSpectating()) {
+		if (player.isSpectating()) {
 			event.setCancelled(true);
 			return;
 		}
-		for(SpectatePlayer spectated : player.spectatedBy) {
-			spectated.refresh(false, false, true, false, false);
-		}
+
+		player.refreshSpectators(false, false, true, false, false);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -87,9 +85,7 @@ public class SpectatePlayerListener implements Listener {
 			event.setAmount(0);
 			return;
 		}
-		for(SpectatePlayer spectated : player.spectatedBy) {
-			spectated.refresh(false, true, false, false, false);
-		}
+		player.refreshSpectators(false, true, false, false, false);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -103,29 +99,37 @@ public class SpectatePlayerListener implements Listener {
 	}
 
 	private void playerHealthChanged(Entity ent, Cancellable event) {
-		if(ent == null || !(ent instanceof Player)) return;
+		if (ent == null)
+			return;
+
+		if (!(ent instanceof Player))
+			return;
+
 		SpectatePlayer player = SpectatePlayer.wrapPlayer((Player) ent);
 		if(player.isSpectating()) {
 			event.setCancelled(true);
 			return;
 		}
-		for(SpectatePlayer spectated : player.spectatedBy) {
-			spectated.refresh(false, false, false, true, false);
-		}
+
+		player.refreshSpectators(false, false, false, true, false);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerFoodChanged(FoodLevelChangeEvent event) {
 		Entity ent = event.getEntity();
-		if(ent == null || !(ent instanceof Player)) return;
+		if (ent == null)
+			return;
+
+		if (!(ent instanceof Player))
+			return;
+
 		SpectatePlayer player = SpectatePlayer.wrapPlayer((Player) ent);
 		if(player.isSpectating()) {
 			event.setCancelled(true);
 			return;
 		}
-		for(SpectatePlayer spectated : player.spectatedBy) {
-			spectated.refresh(false, false, false, false, true);
-		}
+
+		player.refreshSpectators(false, false, false, false, true);
 	}
 
 	/*@EventHandler(priority = EventPriority.MONITOR)

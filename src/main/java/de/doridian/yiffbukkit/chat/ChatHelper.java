@@ -236,7 +236,7 @@ public class ChatHelper extends StateContainer {
 		}
 	}
 
-	ChatHelper(YiffBukkit plug) {
+	public ChatHelper(YiffBukkit plug) {
 		plugin = plug;
 		instance = this;
 

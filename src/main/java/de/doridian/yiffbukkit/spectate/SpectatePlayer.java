@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class SpectatePlayer {
-	protected static final HashMap<Player, SpectatePlayer> wrappedPlayers = new HashMap<Player, SpectatePlayer>();
+	private static final HashMap<Player, SpectatePlayer> wrappedPlayers = new HashMap<Player, SpectatePlayer>();
 
 	private final Player player;
 
 	private SpectatePlayer isSpectating = null;
 	private SpectatePlayer isSpectatingCur = null;
-	protected HashSet<SpectatePlayer> spectatedBy = new HashSet<SpectatePlayer>();
+	private HashSet<SpectatePlayer> spectatedBy = new HashSet<SpectatePlayer>();
 
 	private ItemStack[] originalInventory = null;
 	private ItemStack[] originalArmor = null;
@@ -37,6 +37,10 @@ public class SpectatePlayer {
 		}
 
 		return new SpectatePlayer(player);
+	}
+	
+	public static SpectatePlayer removeWrappedPlayer(Player player) {
+		return wrappedPlayers.remove(player);
 	}
 
 	public void spectatePlayer(SpectatePlayer other) {
@@ -163,6 +167,18 @@ public class SpectatePlayer {
 		}
 		if(location) {
 			player.teleport(isSpectatingCur.player);
+		}
+	}
+
+	public void refreshSpectators(boolean inventory, boolean exp, boolean location, boolean health, boolean food) {
+		for(SpectatePlayer spectated : spectatedBy) {
+			spectated.refresh(inventory, exp, location, health, food);
+		}
+	}
+
+	public static void refreshAll(boolean inventory, boolean exp, boolean location, boolean health, boolean food) {
+		for (SpectatePlayer player : SpectatePlayer.wrappedPlayers.values()) {
+			player.refresh(inventory, exp, location, health, food);
 		}
 	}
 }

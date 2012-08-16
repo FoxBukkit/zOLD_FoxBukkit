@@ -1,6 +1,9 @@
-package de.doridian.yiffbukkit.permissions;
+package de.doridian.yiffbukkit.permissions.listeners;
 
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import org.bukkit.Material;
@@ -8,14 +11,13 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spout.player.SpoutCraftPlayer;
 
-public class PermissionPlayerListener implements Listener {
+public class PermissionPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		ItemStack item = event.getItemStack();

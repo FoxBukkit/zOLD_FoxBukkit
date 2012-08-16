@@ -6,10 +6,9 @@ import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.advanced.listeners.SoundPacketListener;
 import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitHeadChopOffListener;
 import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitPacketListener;
-import de.doridian.yiffbukkit.chat.ChatListener;
+import de.doridian.yiffbukkit.chat.listeners.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
-import de.doridian.yiffbukkit.fun.listeners.ChatSoundListener;
-import de.doridian.yiffbukkit.fun.listeners.MinecartCollisionListener;
+import de.doridian.yiffbukkit.componentsystem.ComponentSystem;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.system.CommandSystem;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -19,15 +18,15 @@ import de.doridian.yiffbukkit.main.util.PersistentScheduler;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
+import de.doridian.yiffbukkit.portal.PortalEngine;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.irc.Ircbot;
-import de.doridian.yiffbukkit.warp.jail.JailEngine;
-import de.doridian.yiffbukkit.warp.portals.SignPortalPlayerListener;
+import de.doridian.yiffbukkit.jail.JailEngine;
+import de.doridian.yiffbukkit.warp.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkit.mcbans.MCBans;
-import de.doridian.yiffbukkit.warp.portals.PortalEngine;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
@@ -65,6 +64,7 @@ import java.util.logging.Level;
  */
 public class YiffBukkit extends JavaPlugin {
 	public static YiffBukkit instance;
+	public ComponentSystem componentSystem = new ComponentSystem();
 	@SuppressWarnings("unused")
 	private YiffBukkitPlayerListener playerListener;
 	@SuppressWarnings("unused")
@@ -74,11 +74,7 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private SoundPacketListener soundPacketListener;
 	@SuppressWarnings("unused")
-	private ChatSoundListener chatSoundListener;
-	@SuppressWarnings("unused")
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
-	@SuppressWarnings("unused")
-	private MinecartCollisionListener minecartCollisionListener;
 	@SuppressWarnings("unused")
 	private SignPortalPlayerListener signPortalPlayerListener;
 	@SuppressWarnings("unused")
@@ -90,7 +86,7 @@ public class YiffBukkit extends JavaPlugin {
 
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
-	public PlayerHelper playerHelper = null;
+	public final PlayerHelper playerHelper = new PlayerHelper(this);
 	public final Utils utils = new Utils(this);
 	public final SpawnUtils spawnUtils = new SpawnUtils(this);
 	public WarpEngine warpEngine;
@@ -111,6 +107,7 @@ public class YiffBukkit extends JavaPlugin {
 
 	public YiffBukkit() {
 		instance = this;
+		componentSystem.registerComponents();
 	}
 
 	public void onDisable() {
@@ -178,7 +175,6 @@ public class YiffBukkit extends JavaPlugin {
 
 		YiffBukkitPermissionHandler.instance.load();
 
-		playerHelper = new PlayerHelper(this);
 		warpEngine = new WarpEngine(this);
 		jailEngine = new JailEngine(this);
 		persistentScheduler = new PersistentScheduler();
@@ -189,18 +185,18 @@ public class YiffBukkit extends JavaPlugin {
 		chatManager = new ChatManager(this);
 
 		commandSystem = new CommandSystem(this);
+		componentSystem.registerCommands();
 		playerListener = new YiffBukkitPlayerListener();
 		blockListener = new YiffBukkitBlockListener();
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		soundPacketListener = new SoundPacketListener(this);
-		chatSoundListener = new ChatSoundListener();
 		yiffBukkitEntityListener = new YiffBukkitEntityListener();
-		minecartCollisionListener = new MinecartCollisionListener();
 		signPortalPlayerListener = new SignPortalPlayerListener();
 		transmute = new Transmute(this);
 		chatListener = new ChatListener();
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 		headChopOffListener = new YiffBukkitHeadChopOffListener(this);
+		componentSystem.registerListeners();
 
 		log("Core components loaded.");
 		mcbans = new MCBans(this);

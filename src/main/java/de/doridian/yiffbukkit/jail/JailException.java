@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.warp.jail;
+package de.doridian.yiffbukkit.jail;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 

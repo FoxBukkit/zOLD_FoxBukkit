@@ -1,5 +1,6 @@
-package de.doridian.yiffbukkit.warp.jail;
+package de.doridian.yiffbukkit.jail;
 
+import de.doridian.yiffbukkit.jail.listeners.JailPlayerListener;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.util.Ini;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -66,7 +67,7 @@ public class JailEngine extends StateContainer {
 
 	private List<JailDescriptor> jails = new ArrayList<JailDescriptor>();
 	private Map<String, Location> inmates = new HashMap<String, Location>();
-	YiffBukkit plugin;
+	public YiffBukkit plugin;
 
 	public JailEngine(YiffBukkit plugin) {
 		this.plugin = plugin;

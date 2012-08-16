@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
+import de.doridian.yiffbukkit.permissions.listeners.PermissionPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
@@ -12,9 +12,11 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 
 public class YiffBukkitPermissions {
+	@SuppressWarnings("unused")
+	private static PermissionPlayerListener playerListener;
+
 	public static void init() {
-		PermissionPlayerListener listener = new PermissionPlayerListener();
-		Bukkit.getPluginManager().registerEvents(listener, YiffBukkit.instance);
+		playerListener = new PermissionPlayerListener();
 
 		try {
 			final File file = new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt");

@@ -3,6 +3,9 @@ package de.doridian.yiffbukkit.mcbans;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
+import de.doridian.yiffbukkit.mcbans.listeners.MCBansKeyListener;
+import de.doridian.yiffbukkit.mcbans.listeners.MCBansPlayerListener;
+
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,8 +22,8 @@ public class MCBans {
 
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
-		playerListener = new MCBansPlayerListener(plug);
-		keyListener = new MCBansKeyListener(plug);
+		playerListener = new MCBansPlayerListener();
+		keyListener = new MCBansKeyListener();
 		clientBlacklist = new ClientBlacklist(plug);
 	}
 

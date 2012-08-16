@@ -285,6 +285,9 @@ public class Utils {
 		try {
 			final ProtectionDomain protectionDomain = baseClass.getProtectionDomain();
 			final CodeSource codeSource = protectionDomain.getCodeSource();
+			if (codeSource == null)
+				return ret;
+
 			final URL location = codeSource.getLocation();
 			final URI uri = location.toURI();
 			file = new File(uri);

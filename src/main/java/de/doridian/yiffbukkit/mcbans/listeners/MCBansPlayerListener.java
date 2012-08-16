@@ -1,36 +1,28 @@
-package de.doridian.yiffbukkit.mcbans;
+package de.doridian.yiffbukkit.mcbans.listeners;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
+import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.json.simple.JSONObject;
 
-public class MCBansPlayerListener implements Listener {
-	protected YiffBukkit plugin;
-
-	public MCBansPlayerListener(YiffBukkit plug) {
-		plugin = plug;
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class MCBansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		if (plugin.serverClosed)
 			return;
 
-        final String ply = event.getPlayer().getName();
+		final String ply = event.getPlayer().getName();
 
 		new Thread() {
-            public void run() {
-                MCBansUtil.apiQuery("exec=playerDisconnect&player="+MCBansUtil.URLEncode(ply));
-            }
-        }.start();
+			public void run() {
+				MCBansUtil.apiQuery("exec=playerDisconnect&player="+MCBansUtil.URLEncode(ply));
+			}
+		}.start();
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)

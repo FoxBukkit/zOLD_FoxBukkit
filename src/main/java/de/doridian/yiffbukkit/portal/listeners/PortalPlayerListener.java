@@ -1,25 +1,16 @@
-package de.doridian.yiffbukkit.warp.portals;
+package de.doridian.yiffbukkit.portal.listeners;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-public class PortalPlayerListener implements Listener {
-	final YiffBukkit plugin;
-
-	public PortalPlayerListener(YiffBukkit plugin) {
-		this.plugin = plugin;
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class PortalPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Location from = event.getFrom();

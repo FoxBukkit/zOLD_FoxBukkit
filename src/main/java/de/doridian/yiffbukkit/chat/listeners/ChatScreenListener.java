@@ -1,5 +1,6 @@
-package de.doridian.yiffbukkit.chat;
+package de.doridian.yiffbukkit.chat.listeners;
 
+import de.doridian.yiffbukkit.chat.ChatPopup;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,7 +12,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.HashMap;
 
-public class ChatScreenListener implements Listener {
+public class ChatScreenListener implements Listener { // not YBListener and not BaseListener, cause that'd autoregister this class
 	YiffBukkit plugin;
 	HashMap<String, ChatPopup> popups = new HashMap<String, ChatPopup>();
 

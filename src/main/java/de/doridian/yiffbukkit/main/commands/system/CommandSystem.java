@@ -25,7 +25,6 @@ public class CommandSystem {
 		commands.clear();
 		scanCommands("de.doridian.yiffbukkit.advanced.commands");
 		scanCommands("de.doridian.yiffbukkit.chat.commands");
-		scanCommands("de.doridian.yiffbukkit.fun.commands");
 		scanCommands("de.doridian.yiffbukkit.irc.commands");
 		scanCommands("de.doridian.yiffbukkit.main.commands");
 		scanCommands("de.doridian.yiffbukkit.mcbans.commands");

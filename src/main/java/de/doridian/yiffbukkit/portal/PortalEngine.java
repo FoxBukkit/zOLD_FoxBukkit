@@ -1,6 +1,7 @@
-package de.doridian.yiffbukkit.warp.portals;
+package de.doridian.yiffbukkit.portal;
 
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.portal.listeners.PortalPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
@@ -21,7 +22,7 @@ public class PortalEngine {
 
 	public PortalEngine(YiffBukkit plugin) {
 		this.plugin = plugin;
-		new PortalPlayerListener(plugin);
+		new PortalPlayerListener();
 	}
 
 	class Portal {

@@ -1,5 +1,6 @@
-package de.doridian.yiffbukkit.chat;
+package de.doridian.yiffbukkit.chat.listeners;
 
+import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 

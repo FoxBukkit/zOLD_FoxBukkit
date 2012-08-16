@@ -64,7 +64,7 @@ public class ChatSoundListener extends BaseListener {
 		chatSounds.put("fapfapfap", "mob.wolf.shake/0.5/0.5/0.5");
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
 	public void onPlayerChat(PlayerChatEvent event) {
 		for (String part : event.getMessage().split(" ")) {
 			String soundName = chatSounds.get(part.replaceAll("[-,.!?/]","").toLowerCase());

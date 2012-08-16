@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.warp.portals;
+package de.doridian.yiffbukkit.warp.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;

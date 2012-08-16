@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.mcbans.commands;
 
+import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -12,7 +13,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkit.warp.jail.JailException;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.warp.commands;
+package de.doridian.yiffbukkit.jail.commands;
 
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
