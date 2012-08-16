@@ -27,6 +27,7 @@ public abstract class Shape {
 		this.entity = entity;
 		entityId = entity.getEntityId();
 		datawatcher = new DataWatcher();
+		datawatcher.a(31, 123);
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {
