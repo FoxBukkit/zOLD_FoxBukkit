@@ -190,15 +190,15 @@ public class YiffBukkit extends JavaPlugin {
 
 		commandSystem = new CommandSystem(this);
 		playerListener = new YiffBukkitPlayerListener();
-		blockListener = new YiffBukkitBlockListener(this);
+		blockListener = new YiffBukkitBlockListener();
 		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
 		soundPacketListener = new SoundPacketListener(this);
-		chatSoundListener = new ChatSoundListener(this);
-		yiffBukkitEntityListener = new YiffBukkitEntityListener(this);
-		minecartCollisionListener = new MinecartCollisionListener(this);
-		signPortalPlayerListener = new SignPortalPlayerListener(this);
+		chatSoundListener = new ChatSoundListener();
+		yiffBukkitEntityListener = new YiffBukkitEntityListener();
+		minecartCollisionListener = new MinecartCollisionListener();
+		signPortalPlayerListener = new SignPortalPlayerListener();
 		transmute = new Transmute(this);
-		chatListener = new ChatListener(this);
+		chatListener = new ChatListener();
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 		headChopOffListener = new YiffBukkitHeadChopOffListener(this);
 

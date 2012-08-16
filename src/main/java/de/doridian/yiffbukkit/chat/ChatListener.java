@@ -1,27 +1,22 @@
 package de.doridian.yiffbukkit.chat;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class ChatListener implements Listener {
-	ChatHelper helper;
-	YiffBukkit plugin;
+public class ChatListener extends BaseListener {
+	private final ChatHelper helper;
 	//ChatScreenListener screen;
 
-	public ChatListener(YiffBukkit plug) {
-		plugin = plug;
+	public ChatListener() {
 		helper = new ChatHelper(plugin);
 		//screen = new ChatScreenListener(plugin);
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

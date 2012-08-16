@@ -3,8 +3,8 @@ package de.doridian.yiffbukkitsplit.listeners;
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
 
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
@@ -17,7 +17,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
@@ -41,8 +40,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Handle events for all Block related events
  * @author Doridian
  */
-public class YiffBukkitBlockListener implements Listener {
-	private final YiffBukkit plugin;
+public class YiffBukkitBlockListener extends BaseListener {
 	public static final Map<Material,String> blocklevels = new EnumMap<Material,String>(Material.class);
 	public static final Set<Material> flammableBlocks = EnumSet.noneOf(Material.class);
 	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
@@ -74,15 +72,9 @@ public class YiffBukkitBlockListener implements Listener {
 		flammableBlocks.add(Material.BOOKSHELF);
 		flammableBlocks.add(Material.LEAVES);
 	}
-	private PlayerHelper playerHelper;
 
-	public YiffBukkitBlockListener(YiffBukkit instance) {
-		plugin = instance;
-		playerHelper = plugin.playerHelper;
-
+	public YiffBukkitBlockListener() {
 		playerHelper.registerMap(torchQueues);
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)

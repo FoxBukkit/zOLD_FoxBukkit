@@ -3,16 +3,14 @@ package de.doridian.yiffbukkit.fun.listeners;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 
-public class ChatSoundListener implements Listener {
+public class ChatSoundListener extends BaseListener {
 	private static final Map<String, String> chatSounds = new HashMap<String, String>();
 	static {
 		chatSounds.put("meow", "mob.cat.meow");
@@ -64,10 +62,6 @@ public class ChatSoundListener implements Listener {
 		chatSounds.put("fap", "mob.wolf.shake/0.5/0.5/0.5");
 		chatSounds.put("fapfap", "mob.wolf.shake/0.5/0.5/0.5");
 		chatSounds.put("fapfapfap", "mob.wolf.shake/0.5/0.5/0.5");
-	}
-
-	public ChatSoundListener(YiffBukkit plugin) {
-		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

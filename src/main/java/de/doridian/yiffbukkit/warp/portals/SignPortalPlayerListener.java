@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.warp.portals;
 
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.Location;
@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -27,17 +26,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-public class SignPortalPlayerListener implements Listener {
-	final YiffBukkit plugin;
-
-	public SignPortalPlayerListener(final YiffBukkit plugin) {
-		this.plugin = plugin;
-
+public class SignPortalPlayerListener extends BaseListener {
+	public SignPortalPlayerListener() {
 		plugin.playerHelper.registerMap(timerIds);
 		plugin.playerHelper.registerSet(portalStates);
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
 	}
 
 	private static final BlockFace[] faces = { BlockFace.NORTH,BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };

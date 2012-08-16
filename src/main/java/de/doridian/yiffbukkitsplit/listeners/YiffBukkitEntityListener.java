@@ -1,12 +1,11 @@
 package de.doridian.yiffbukkitsplit.listeners;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -17,15 +16,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public class YiffBukkitEntityListener implements Listener {
-	private final YiffBukkit plugin;
-
-	public YiffBukkitEntityListener(YiffBukkit instance) {
-		plugin = instance;
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class YiffBukkitEntityListener extends BaseListener {
 	Map<String, String> lastAttacker = new HashMap<String, String>();
 
 	Map<EntityType, String> monsterMap = new EnumMap<EntityType, String>(EntityType.class);

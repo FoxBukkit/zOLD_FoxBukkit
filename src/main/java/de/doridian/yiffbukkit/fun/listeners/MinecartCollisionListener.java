@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.fun.listeners;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
@@ -8,18 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
-public class MinecartCollisionListener implements Listener {
-	private YiffBukkit plugin;
-
-	public MinecartCollisionListener(YiffBukkit instance) {
-		plugin = instance;
-
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class MinecartCollisionListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onVehicleEntityCollision(VehicleEntityCollisionEvent event) {
 		if (event.isCancelled())
