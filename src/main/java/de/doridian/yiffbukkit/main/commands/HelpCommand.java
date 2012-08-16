@@ -11,6 +11,7 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
+import java.util.PriorityQueue;
 
 @Names("help")
 @Help("Prints a list of available commands or information about the specified command.")
@@ -33,7 +34,7 @@ public class HelpCommand extends ICommand {
 		}
 		else {
 			String ret = "Available commands: /";
-			for (String key : commands.keySet()) {
+			for (String key : new PriorityQueue<String>(commands.keySet())) {
 				if (key == "\u00a7")
 					continue;
 
