@@ -3,9 +3,6 @@ package de.doridian.yiffbukkitsplit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
-import de.doridian.yiffbukkit.advanced.listeners.SoundPacketListener;
-import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitHeadChopOffListener;
-import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitPacketListener;
 import de.doridian.yiffbukkit.chat.listeners.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.componentsystem.ComponentSystem;
@@ -70,10 +67,6 @@ public class YiffBukkit extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private YiffBukkitBlockListener blockListener;
 	@SuppressWarnings("unused")
-	private YiffBukkitPacketListener yiffBukkitPacketListener;
-	@SuppressWarnings("unused")
-	private SoundPacketListener soundPacketListener;
-	@SuppressWarnings("unused")
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
 	@SuppressWarnings("unused")
 	private SignPortalPlayerListener signPortalPlayerListener;
@@ -81,8 +74,6 @@ public class YiffBukkit extends JavaPlugin {
 	private ChatListener chatListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitConsoleCommands consoleCommands;
-	@SuppressWarnings("unused")
-	private YiffBukkitHeadChopOffListener headChopOffListener;
 
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
@@ -188,14 +179,11 @@ public class YiffBukkit extends JavaPlugin {
 		componentSystem.registerCommands();
 		playerListener = new YiffBukkitPlayerListener();
 		blockListener = new YiffBukkitBlockListener();
-		yiffBukkitPacketListener = new YiffBukkitPacketListener(this);
-		soundPacketListener = new SoundPacketListener(this);
 		yiffBukkitEntityListener = new YiffBukkitEntityListener();
 		signPortalPlayerListener = new SignPortalPlayerListener();
 		transmute = new Transmute(this);
 		chatListener = new ChatListener();
 		consoleCommands = new YiffBukkitConsoleCommands(this);
-		headChopOffListener = new YiffBukkitHeadChopOffListener(this);
 		componentSystem.registerListeners();
 
 		log("Core components loaded.");

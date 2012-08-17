@@ -23,7 +23,6 @@ public class CommandSystem {
 
 	public void scanCommands() {
 		commands.clear();
-		scanCommands("de.doridian.yiffbukkit.advanced.commands");
 		scanCommands("de.doridian.yiffbukkit.chat.commands");
 		scanCommands("de.doridian.yiffbukkit.irc.commands");
 		scanCommands("de.doridian.yiffbukkit.jail.commands");

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -27,7 +28,7 @@ import org.bukkit.util.Vector;
 
 import com.sk89q.worldedit.blocks.BlockType;
 
-public class YiffBukkitPacketListener extends PacketListener {
+public class YiffBukkitPacketListener extends PacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
 	private final YiffBukkit plugin;
 	private PlayerHelper playerHelper;

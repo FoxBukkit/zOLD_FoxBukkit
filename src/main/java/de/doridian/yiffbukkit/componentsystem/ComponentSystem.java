@@ -8,6 +8,7 @@ public class ComponentSystem {
 	Map<String, Component> loadedComponents = new LinkedHashMap<String, Component>();
 
 	public void registerComponents() {
+		loadedComponents.put("advanced", new de.doridian.yiffbukkit.advanced.Main());
 		loadedComponents.put("fun", new de.doridian.yiffbukkit.fun.Main());
 	}
 

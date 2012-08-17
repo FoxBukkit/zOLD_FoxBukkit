@@ -7,10 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 
+import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 
-public class SoundPacketListener extends PacketListener {
+public class SoundPacketListener extends PacketListener implements YBListener {
 	public SoundPacketListener(YiffBukkit plugin) {
 		addPacketListener(true, 62, this, plugin);
 	}

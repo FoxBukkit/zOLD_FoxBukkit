@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.Packet30Entity;
@@ -20,7 +21,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 
-public class YiffBukkitHeadChopOffListener extends PacketListener implements Listener {
+public class YiffBukkitHeadChopOffListener extends PacketListener implements Listener, YBListener {
 	private final static byte CHOPPED_PITCH = (byte)128;
 
 	final YiffBukkit plugin;
