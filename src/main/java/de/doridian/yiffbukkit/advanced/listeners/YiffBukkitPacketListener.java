@@ -9,11 +9,9 @@ import net.minecraft.server.ControllerMove;
 import net.minecraft.server.EntityCreature;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityWolf;
-import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet10Flying;
 import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
-import net.minecraft.server.Packet62NamedSoundEffect;
 import net.minecraft.server.Packet70Bed;
 
 import org.bukkit.block.Block;
@@ -40,7 +38,6 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 		PacketListener.addPacketListener(true, 3, this, plugin);
 		PacketListener.addPacketListener(true, 4, this, plugin);
 		PacketListener.addPacketListener(true, 70, this, plugin);
-		PacketListener.addPacketListener(true, 62, this, plugin);
 
 		//PacketListener.addPacketListener(false, 10, this, plugin);
 		PacketListener.addPacketListener(false, 11, this, plugin);
@@ -118,18 +115,6 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 
 			return true;
 		}
-
-		case 62:
-			Packet62NamedSoundEffect p62 = (Packet62NamedSoundEffect) packet;
-			final int x = Utils.getPrivateValue(Packet62NamedSoundEffect.class, p62, "b");
-			if (Math.abs(MathHelper.floor(ply.getLocation().getX() * 8.0D) - x) > 512*8)
-				return false;
-
-			final int z = Utils.getPrivateValue(Packet62NamedSoundEffect.class, p62, "d");
-			if (Math.abs(MathHelper.floor(ply.getLocation().getZ() * 8.0D) - z) > 512*8)
-				return false;
-
-			return true;
 		}
 
 		return true;
