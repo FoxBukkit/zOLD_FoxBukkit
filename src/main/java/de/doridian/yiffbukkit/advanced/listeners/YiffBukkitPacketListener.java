@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.fun.commands.PlayCommand.Packet53BlockChangeExpress;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -8,10 +9,14 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
 import net.minecraft.server.ControllerMove;
 import net.minecraft.server.EntityCreature;
 import net.minecraft.server.EntityLiving;
+import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet10Flying;
+import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet70Bed;
+import net.minecraft.server.WorldServer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
@@ -34,6 +39,7 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 		playerHelper = plugin.playerHelper;
 
 		PacketListener.addPacketListener(true, 3, this, plugin);
+		PacketListener.addPacketListener(true, 34, this, plugin);
 		PacketListener.addPacketListener(true, 70, this, plugin);
 
 		//PacketListener.addPacketListener(false, 10, this, plugin);
@@ -43,12 +49,29 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 	}
 
 	@Override
-	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+	public boolean onOutgoingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 3:
 			final Packet3Chat p3 = (Packet3Chat) packet;
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))
 				return false;
+
+			return true;
+
+		case 34:
+			final Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			if (p34.a != 0 && p34.a != ply.getEntityId())
+				return true;
+
+			final int x = MathHelper.floor(p34.b / 32.0D);
+			final int y = MathHelper.floor(p34.c / 32.0D);
+			final int z = MathHelper.floor(p34.d / 32.0D);
+
+			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { @Override public void run() {
+				final WorldServer notchWorld = ((CraftWorld) ply.getWorld()).getHandle();
+				final Packet53BlockChangeExpress p53 = new Packet53BlockChangeExpress(x, y-1, z, notchWorld);
+				PlayerHelper.sendPacketToPlayer(ply, p53);
+			}});
 
 			return true;
 
