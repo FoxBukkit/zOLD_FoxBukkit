@@ -8,9 +8,7 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
 import net.minecraft.server.ControllerMove;
 import net.minecraft.server.EntityCreature;
 import net.minecraft.server.EntityLiving;
-import net.minecraft.server.EntityWolf;
 import net.minecraft.server.Packet10Flying;
-import net.minecraft.server.Packet38EntityStatus;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet70Bed;
 
@@ -36,59 +34,26 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 		playerHelper = plugin.playerHelper;
 
 		PacketListener.addPacketListener(true, 3, this, plugin);
-		PacketListener.addPacketListener(true, 4, this, plugin);
 		PacketListener.addPacketListener(true, 70, this, plugin);
 
 		//PacketListener.addPacketListener(false, 10, this, plugin);
 		PacketListener.addPacketListener(false, 11, this, plugin);
 		//PacketListener.addPacketListener(false, 12, this, plugin);
 		PacketListener.addPacketListener(false, 13, this, plugin);
-
-		PacketListener.addPacketListener(true, 1, this, plugin);
-		PacketListener.addPacketListener(true, 9, this, plugin);
 	}
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 3:
-			Packet3Chat p3 = (Packet3Chat) packet;
+			final Packet3Chat p3 = (Packet3Chat) packet;
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))
 				return false;
 
 			return true;
 
-		case 38: {
-			if (!ply.getWorld().hasStorm())
-				return true;
-
-			WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
-
-			if (frozenWeather != null) {
-				if (frozenWeather != WeatherType.CLEAR) {
-					return true;
-				}
-			}
-			else if (playerHelper.frozenServerWeather != null) {
-				if (playerHelper.frozenServerWeather != WeatherType.CLEAR) {
-					return true;
-				}
-			}
-
-			Packet38EntityStatus p38 = (Packet38EntityStatus) packet;
-			if (p38.b != 8) // shaking
-				return true;
-
-			final int entityId = p38.a;
-			net.minecraft.server.Entity notchEntity = ((CraftWorld)ply.getWorld()).getHandle().getEntity(entityId);
-			if (notchEntity instanceof EntityWolf)
-				return false;
-
-			return true;
-		}
-
 		case 70: {
-			Packet70Bed p70 = (Packet70Bed) packet;
+			final Packet70Bed p70 = (Packet70Bed) packet;
 			int reason = p70.b;
 			final boolean rainState;
 			if (reason == 1)
@@ -98,7 +63,7 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 			else
 				return true;
 
-			WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
+			final WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
 
 			if (frozenWeather != null) {
 				final boolean frozenRainState = frozenWeather != WeatherType.CLEAR;
@@ -148,7 +113,7 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 			double factor = 5D;
 
 			Vector passengerXZVel = new Vector(p10.x, 0, p10.z);
-			double vel = passengerXZVel.length();
+			final double vel = passengerXZVel.length();
 			if (vel < 0.01)
 				break;
 
