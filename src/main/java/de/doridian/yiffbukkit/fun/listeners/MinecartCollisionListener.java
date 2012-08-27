@@ -7,6 +7,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.PoweredMinecart;
+import org.bukkit.entity.StorageMinecart;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,6 +40,12 @@ public class MinecartCollisionListener extends BaseListener {
 			return;
 
 		final Entity emptyMinecart = entityFull ? vehicle : entity;
+
+		if (emptyMinecart instanceof PoweredMinecart)
+			return;
+
+		if (emptyMinecart instanceof StorageMinecart)
+			return;
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			@Override
