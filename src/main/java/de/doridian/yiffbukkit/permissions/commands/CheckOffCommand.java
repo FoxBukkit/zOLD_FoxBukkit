@@ -2,42 +2,52 @@ package de.doridian.yiffbukkit.permissions.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.entity.Player;
 
-@ICommand.Names({"checkoff","co"})
-@ICommand.Help("Check-Off list and system for YB")
-@ICommand.Usage("[name]")
-@ICommand.Permission("yiffbukkit.checkoff")
+@Names({"checkoff","co"})
+@Help("Check-Off list and system for YB")
+@Usage("[[-f] name]")
+@BooleanFlags("f")
+@Permission("yiffbukkit.checkoff")
 public class CheckOffCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		if(args.length < 1) {
-			String[] plys = YiffBukkitPermissions.checkOffPlayers.toArray(new String[YiffBukkitPermissions.checkOffPlayers.size()]);
-			StringBuilder reply = new StringBuilder();
-			reply.append("\u00a76CO: ");
-			for(int i=0;i<plys.length;i++) {
-				String plystr = plys[i];
-				if(i != 0) {
+		args = parseFlags(args);
+		if (args.length < 1) {
+			final StringBuilder reply = new StringBuilder("\u00a76CO: ");
+			boolean first = true;
+			for (String plystr : YiffBukkitPermissions.checkOffPlayers) {
+				if (!first) {
 					reply.append("\u00a7f, ");
 				}
-				Player plyply = plugin.getServer().getPlayerExact(plystr);
-				if(plyply != null && plyply.isOnline()) {
+				if (isOnline(plystr)) {
 					reply.append("\u00a72");
 				} else {
 					reply.append("\u00a74");
 				}
 				reply.append(plystr);
+				first = false;
 			}
 			PlayerHelper.sendDirectedMessage(ply, reply.toString());
 		} else {
-			if(YiffBukkitPermissions.removeCOPlayer(args[0])) {
-				PlayerHelper.sendDirectedMessage(ply, "Removed player "+args[0]+" from CO");
+			final String playerName = args[0];
+			if (!booleanFlags.contains('f') && isOnline(playerName))
+				throw new YiffBukkitCommandException("Cannot check off online player without -f flag.");
+
+			if (YiffBukkitPermissions.removeCOPlayer(playerName)) {
+				PlayerHelper.sendDirectedMessage(ply, "Removed player "+playerName+" from CO");
 			} else {
-				PlayerHelper.sendDirectedMessage(ply, "Player "+args[0]+" not found on CO");
+				PlayerHelper.sendDirectedMessage(ply, "Player "+playerName+" not found on CO");
 			}
 		}
+	}
+
+	public boolean isOnline(String playerName) {
+		Player plyply = plugin.getServer().getPlayerExact(playerName);
+		return plyply != null && plyply.isOnline();
 	}
 }
