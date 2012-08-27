@@ -9,7 +9,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class YiffBukkitPermissions {
 	@SuppressWarnings("unused")
@@ -104,7 +105,7 @@ public class YiffBukkitPermissions {
 		}.start();*/
 	}
 
-	public static HashSet<String> checkOffPlayers = new HashSet<String>();
+	public static Set<String> checkOffPlayers = new LinkedHashSet<String>();
 
 	public static void addCOPlayer(Player player) {
 		addCOPlayer(player.getName());
