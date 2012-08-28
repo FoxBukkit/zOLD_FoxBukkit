@@ -20,16 +20,16 @@ public class CheckOffCommand extends ICommand {
 		if (args.length < 1) {
 			final StringBuilder reply = new StringBuilder("\u00a76CO: ");
 			boolean first = true;
-			for (String plystr : YiffBukkitPermissions.checkOffPlayers) {
+			for (String playerName : YiffBukkitPermissions.checkOffPlayers) {
 				if (!first) {
 					reply.append("\u00a7f, ");
 				}
-				if (isOnline(plystr)) {
+				if (isOnline(playerName)) {
 					reply.append("\u00a72");
 				} else {
 					reply.append("\u00a74");
 				}
-				reply.append(plystr);
+				reply.append(playerName);
 				first = false;
 			}
 			PlayerHelper.sendDirectedMessage(ply, reply.toString());

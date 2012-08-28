@@ -4,6 +4,7 @@ import de.diddiz.LogBlock.LogBlock;
 import de.diddiz.LogBlock.QueryParams;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import org.bukkit.entity.Player;
@@ -13,26 +14,26 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-@ICommand.Names({"_ycapi_"})
-@ICommand.Help("YC API Command")
-@ICommand.Usage("SECRET")
-@ICommand.Permission("yiffbukkit.ycapi")
+@Names("_ycapi_")
+@Help("YC API Command")
+@Usage("SECRET")
+@Permission("yiffbukkit.ycapi")
 public class YCAPICommand extends ICommand {
 	private LogBlock getLogBlock() throws YiffBukkitCommandException {
 		Plugin tmp = plugin.getServer().getPluginManager().getPlugin("LogBlock");
-		if(tmp == null) {
+		if (tmp == null) {
 			throw new YiffBukkitCommandException("LogBlock not found!");
 		}
-		return (LogBlock)tmp;
+		return (LogBlock) tmp;
 	}
 
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		String arg0 = args[0].toLowerCase();
-		if(arg0.equals("co")) { //CheckOff
+		if (arg0.equals("co")) { // CheckOff
 			String[] plys = YiffBukkitPermissions.checkOffPlayers.toArray(new String[YiffBukkitPermissions.checkOffPlayers.size()]);
 			playerHelper.sendYiffcraftClientCommand(ply, 'g', Utils.concatArray(plys, 0, ""));
-		} else if(arg0.equals("lbsb")) { //LogBlock Sum Blocks
+		} else if (arg0.equals("lbsb")) { // LogBlock Sum Blocks
 			try {
 				StringBuilder replyPacket = new StringBuilder();
 				replyPacket.append(args[1]);
@@ -56,7 +57,7 @@ public class YCAPICommand extends ICommand {
 				Statement stmt = conn.createStatement();
 
 				ResultSet res = stmt.executeQuery(getChangesQuery.getQuery());
-				while(res.next()) {
+				while (res.next()) {
 					replyPacket.append('|');
 					replyPacket.append(res.getInt("created"));
 					replyPacket.append(';');
@@ -68,10 +69,10 @@ public class YCAPICommand extends ICommand {
 				conn.close();
 
 				playerHelper.sendYiffcraftClientCommand(ply, 's', replyPacket.toString());
-			} catch(Exception e) {
+			} catch (Exception e) {
 				throw new YiffBukkitCommandException(e.getMessage());
 			}
-		} else if(arg0.equals("lbca")) { //LogBlock ChestAccess
+		} else if (arg0.equals("lbca")) { // LogBlock ChestAccess
 			try {
 				StringBuilder replyPacket = new StringBuilder();
 				replyPacket.append(args[1]);
@@ -94,7 +95,7 @@ public class YCAPICommand extends ICommand {
 				Statement stmt = conn.createStatement();
 
 				ResultSet res = stmt.executeQuery(getChangesQuery.getQuery());
-				while(res.next()) {
+				while (res.next()) {
 					replyPacket.append('|');
 					replyPacket.append(res.getInt("itemtype"));
 					replyPacket.append(';');
@@ -108,7 +109,7 @@ public class YCAPICommand extends ICommand {
 				conn.close();
 
 				playerHelper.sendYiffcraftClientCommand(ply, 'a', replyPacket.toString());
-			} catch(Exception e) { }
+			} catch (Exception e) { }
 		}
 	}
 }
