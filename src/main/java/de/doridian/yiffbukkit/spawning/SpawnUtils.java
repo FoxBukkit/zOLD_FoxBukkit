@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
+import de.doridian.yiffbukkit.spawning.fakeentity.FakeShapeBasedEntity;
 import de.doridian.yiffbukkit.spawning.potions.AreaCustomPotion;
 import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
@@ -291,6 +292,19 @@ public class SpawnUtils {
 					return notchEntity.getBukkitEntity();
 				}
 			}
+		}
+		else if (type.equalsIgnoreCase("FAKEITEM")) {
+			final FakeShapeBasedEntity entity = new FakeShapeBasedEntity(location, "item");
+			entity.send();
+			if (data != null) {
+				entity.runAction(them, "type "+data.replace("*", " "));
+			}
+
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
+				entity.remove();
+			}}, 200);
+
+			return entity;
 		}
 		else if (type.equalsIgnoreCase("ARROW")) {
 			return world.spawnArrow(location, new Vector(0, 1, 0), 2, 0);
