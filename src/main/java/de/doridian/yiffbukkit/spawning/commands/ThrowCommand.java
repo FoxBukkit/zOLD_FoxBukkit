@@ -232,7 +232,7 @@ public class ThrowCommand extends ICommand {
 						finalLocation.setY(location.getY()+direction.getY()*scale);
 						finalLocation.setZ(location.getZ()+direction.getZ()*scale);
 
-						final Entity entity = plugin.spawnUtils.buildMob(types, player, null, finalLocation);
+						final Entity entity = plugin.spawnUtils.buildMob(types, player, player, finalLocation);
 						entity.setVelocity(direction);
 					}
 
