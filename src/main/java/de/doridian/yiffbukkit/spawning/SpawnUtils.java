@@ -117,7 +117,7 @@ public class SpawnUtils {
 		Entity previous = null;
 		Entity first = null;
 		for (String part : types) {
-			final String[] partparts = part.split(":");
+			final String[] partparts = part.split(":", 2);
 
 			final String type = partparts[0];
 			final String data = partparts.length >= 2 ? partparts[1] : null;
