@@ -42,6 +42,9 @@ public abstract class EntityShape extends Shape {
 		yOffset = yOffsets[mobType];
 		yawOffset = yawOffsets[mobType];
 
+		if (!(entity instanceof CraftEntity))
+			return;
+
 		try {
 			Class<? extends net.minecraft.server.Entity> entityClass = ((CraftEntity) entity).getHandle().getClass();
 			int entityMobType = MyEntityTypes.classToId(entityClass);
