@@ -2,8 +2,9 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
@@ -118,8 +119,8 @@ public abstract class Ini {
 	}
 
 
-	public static World loadWorld(Map<String, List<String>> section, String format, Server server) {
-		return server.getWorld(section.get(String.format(format, "world")).get(0));
+	public static World loadWorld(Map<String, List<String>> section, String format) {
+		return Bukkit.getServer().getWorld(section.get(String.format(format, "world")).get(0));
 	}
 
 	public static Vector loadVector(Map<String, List<String>> section, String format) {
@@ -130,10 +131,10 @@ public abstract class Ini {
 		);
 	}
 
-	public static Location loadLocation(Map<String, List<String>> section, String format, Server server) {
+	public static Location loadLocation(Map<String, List<String>> section, String format) {
 		try {
 			return loadVector(section, format).toLocation(
-					loadWorld(section, format, server),
+					loadWorld(section, format),
 					Float.valueOf(section.get(String.format(format, "yaw")).get(0)),
 					Float.valueOf(section.get(String.format(format, "pitch")).get(0))
 			);

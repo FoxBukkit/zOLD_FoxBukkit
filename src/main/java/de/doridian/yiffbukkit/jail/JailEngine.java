@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class JailEngine extends StateContainer {
-	public class JailDescriptor {
+	public static class JailDescriptor {
 		World world;
 		Vector position;
 		double sizeX, sizeZ;
@@ -37,7 +37,7 @@ public class JailEngine extends StateContainer {
 		}
 
 		public void load(Map<String, List<String>> section) {
-			world = Ini.loadWorld(section, "%s", plugin.getServer());
+			world = Ini.loadWorld(section, "%s");
 			position = Ini.loadVector(section, "position%s");
 			Vector size = Ini.loadVector(section, "size%s");
 			sizeX = size.getX();
@@ -96,7 +96,7 @@ public class JailEngine extends StateContainer {
 			else if (namesakes.size() == 1 && sectionName.startsWith("inmate ")) {
 				String playerName = sectionName.substring(7);
 
-				Location location = Ini.loadLocation(namesakes.get(0), "prev%s", plugin.getServer());
+				Location location = Ini.loadLocation(namesakes.get(0), "prev%s");
 				if (location == null)
 					location = plugin.getServer().getWorlds().get(0).getSpawnLocation();
 

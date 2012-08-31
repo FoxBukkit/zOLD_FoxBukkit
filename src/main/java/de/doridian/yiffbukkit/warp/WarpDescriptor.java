@@ -132,7 +132,7 @@ public class WarpDescriptor {
 
 	private void load(Map<String, List<String>> section) {
 		ownerName = section.get("owner").get(0);
-		location = Ini.loadLocation(section, "%s", plugin.getServer());
+		location = Ini.loadLocation(section, "%s");
 		isPublic = Boolean.valueOf(section.get("public").get(0));
 		isHidden = Boolean.valueOf(section.get("hidden").get(0));
 
