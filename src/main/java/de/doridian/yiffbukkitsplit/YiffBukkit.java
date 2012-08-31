@@ -19,7 +19,6 @@ import de.doridian.yiffbukkit.portal.PortalEngine;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.irc.Ircbot;
-import de.doridian.yiffbukkit.jail.JailEngine;
 import de.doridian.yiffbukkit.warp.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
@@ -81,7 +80,6 @@ public class YiffBukkit extends JavaPlugin {
 	public final Utils utils = new Utils(this);
 	public final SpawnUtils spawnUtils = new SpawnUtils(this);
 	public WarpEngine warpEngine;
-	public JailEngine jailEngine;
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 	public PersistentScheduler persistentScheduler;
@@ -167,7 +165,6 @@ public class YiffBukkit extends JavaPlugin {
 		YiffBukkitPermissionHandler.instance.load();
 
 		warpEngine = new WarpEngine(this);
-		jailEngine = new JailEngine(this);
 		persistentScheduler = new PersistentScheduler();
 		//portalEngine = new PortalEngine(this);
 		log("State components loaded.");

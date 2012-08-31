@@ -22,7 +22,7 @@ import java.util.LinkedList;
 public class BackCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		if(plugin.jailEngine.isJailed(ply)) {
+		if(playerHelper.isPlayerJailed(ply)) {
 			PlayerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;
 		}

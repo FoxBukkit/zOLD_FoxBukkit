@@ -22,7 +22,7 @@ public class HomeCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		if (plugin.jailEngine.isJailed(ply)) {
+		if (playerHelper.isPlayerJailed(ply)) {
 			PlayerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;
 		}

@@ -4,6 +4,8 @@ import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
+
+import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -20,10 +22,12 @@ import org.bukkit.util.Vector;
 @Usage("[remove]")
 @Permission("yiffbukkit.jail.setjail")
 public class SetJailCommand extends ICommand {
+	private final JailComponent jail = (JailComponent) plugin.componentSystem.getComponent("jail");
+
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		if (argStr.equals("remove")) {
-			plugin.jailEngine.removeJail(ply.getLocation());
+			jail.engine.removeJail(ply.getLocation());
 			PlayerHelper.sendDirectedMessage(ply, "Removed the jail cell closest to you.");
 			return;
 		}
@@ -35,7 +39,7 @@ public class SetJailCommand extends ICommand {
 			com.sk89q.worldedit.Vector pos1 = selected.getMaximumPoint();
 			com.sk89q.worldedit.Vector pos2 = selected.getMinimumPoint();
 			double y = Math.min(pos1.getY(), pos2.getY())+1;
-			plugin.jailEngine.setJail(ply.getWorld(), new Vector(pos1.getX(), y, pos1.getZ()), new Vector(pos2.getX(), y, pos2.getZ()));
+			jail.engine.setJail(ply.getWorld(), new Vector(pos1.getX(), y, pos1.getZ()), new Vector(pos2.getX(), y, pos2.getZ()));
 			PlayerHelper.sendDirectedMessage(ply, "Made a jail here.");
 		}
 		catch (IncompleteRegionException e) {

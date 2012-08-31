@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.mcbans.commands;
 
+import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -32,6 +33,8 @@ import org.bukkit.entity.Player;
 @StringFlags("t")
 @Permission("yiffbukkit.users.ban")
 public class BanCommand extends ICommand {
+	private static final JailComponent jail = (JailComponent) YiffBukkit.instance.componentSystem.getComponent("jail");
+
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
@@ -48,7 +51,7 @@ public class BanCommand extends ICommand {
 
 		if (unjail) {
 			try {
-				plugin.jailEngine.jailPlayer(otherply, false);
+				jail.engine.jailPlayer(otherply, false);
 			}
 			catch (JailException e) { }
 		}

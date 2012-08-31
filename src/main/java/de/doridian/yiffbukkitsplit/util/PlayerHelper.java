@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkitsplit.util;
 
+import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
@@ -523,14 +524,14 @@ public class PlayerHelper extends StateContainer {
 
 	public boolean canTp(CommandSender commandSender, Player target) {
 		// Prevent teleporting out of jail.
-		if ((commandSender instanceof Player) && plugin.jailEngine.isJailed((Player)commandSender))
+		if ((commandSender instanceof Player) && isPlayerJailed((Player) commandSender))
 			return false;
 
 		return canPort(playerTpPermissions, commandSender, target);
 	}
 	public boolean canSummon(CommandSender commandSender, Player target) {
 		// Prevent summoning someone out of jail.
-		if (plugin.jailEngine.isJailed(target))
+		if (isPlayerJailed(target))
 			return false;
 
 		return canPort(playerSummonPermissions, commandSender, target);
@@ -641,7 +642,15 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public boolean isPlayerDisabled(Player ply) {
-		return ply.getHealth() <= 0 || plugin.jailEngine.isJailed(ply);
+		return ply.getHealth() <= 0 || isPlayerJailed(ply);
+	}
+
+	private JailComponent jail;
+	public boolean isPlayerJailed(Player ply) {
+		if (jail == null)
+			jail = (JailComponent) plugin.componentSystem.getComponent("jail");
+
+		return jail.engine.isJailed(ply);
 	}
 
 	Map<String, String> leashMasters = new HashMap<String, String>();

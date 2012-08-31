@@ -4,12 +4,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.doridian.yiffbukkit.jail.JailComponent;
+
 public class ComponentSystem {
 	Map<String, Component> loadedComponents = new LinkedHashMap<String, Component>();
 
 	public void registerComponents() {
 		loadedComponents.put("advanced", new de.doridian.yiffbukkit.advanced.Main());
 		loadedComponents.put("fun", new de.doridian.yiffbukkit.fun.Main());
+		loadedComponents.put("jail", new JailComponent());
 	}
 
 	public void registerCommands() {

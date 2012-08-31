@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class SpawnCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) {
-		if (plugin.jailEngine.isJailed(ply)) {
+		if (playerHelper.isPlayerJailed(ply)) {
 			PlayerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;
 		}
