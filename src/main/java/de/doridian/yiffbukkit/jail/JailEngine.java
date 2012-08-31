@@ -136,6 +136,9 @@ public class JailEngine extends StateContainer {
 	public void jailPlayer(Player ply, boolean jailed) throws JailException {
 		String playerName = ply.getName();
 		if (jailed) {
+			if (jails.isEmpty())
+				throw new JailException("No jails defined!");
+
 			int index = (int) Math.floor(Math.random() * jails.size());
 
 			if (inmates.containsKey(playerName))
