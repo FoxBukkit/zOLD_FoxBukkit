@@ -25,4 +25,12 @@ public class ComponentSystem {
 			entry.getValue().registerListeners();
 		}
 	}
+
+	public Component getComponent(String name) {
+		final Component component = loadedComponents.get(name);
+		if (component == null)
+			throw new RuntimeException("Tried to get component that wasn't loaded.");
+
+		return component;
+	}
 }
