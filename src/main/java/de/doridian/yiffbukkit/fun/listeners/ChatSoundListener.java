@@ -50,10 +50,10 @@ public class ChatSoundListener extends BaseListener {
 		chatSounds.put("ssss", "random.fuse/1.0/0.5/0.5");
 		chatSounds.put("sssss", "random.fuse/1.0/0.5/0.5");
 		chatSounds.put("ssssss", "random.fuse/1.0/0.5/0.5");
-		chatSounds.put("fff", "random.fuse/1.0/0.5/0.5");
-		chatSounds.put("ffff", "random.fuse/1.0/0.5/0.5");
-		chatSounds.put("fffff", "random.fuse/1.0/0.5/0.5");
-		chatSounds.put("ffffff", "random.fuse/1.0/0.5/0.5");
+		chatSounds.put("fff", "ambient.weather.rain/1.0/1.7/1.7");
+		chatSounds.put("ffff", "ambient.weather.rain/1.0/1.7/1.7");
+		chatSounds.put("fffff", "ambient.weather.rain/1.0/1.7/1.7");
+		chatSounds.put("ffffff", "ambient.weather.rain/1.0/1.7/1.7");
 
 		chatSounds.put("burp", "random.burp/0.5/0.9/1.0");
 		chatSounds.put("psh", "random.fizz/0.5/2.0/3.0");
