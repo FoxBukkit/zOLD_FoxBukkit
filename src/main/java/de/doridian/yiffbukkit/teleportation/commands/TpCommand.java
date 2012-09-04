@@ -22,15 +22,40 @@ import org.bukkit.util.Vector;
 		"Teleports you to the specified user.\n" +
 		"Flags:\n" +
 		"  -s teleports you silently.\n" +
-		"  -n teleports you near the player."
+		"  -n teleports you near the player.\n" +
+		"  -c teleports you to coordinates."
 )
 @Usage("[<flags>] <name>")
 @Permission("yiffbukkit.teleport.tp")
-@BooleanFlags("sn")
+@BooleanFlags("snc")
 public class TpCommand extends ICommand {
 	@Override
 	public void Run(Player sender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
+
+		if(booleanFlags.contains('c')) {
+			if(!sender.hasPermission("yiffbukkit.teleport.tp.coords"))
+				throw new PermissionDeniedException();
+
+			int x, y, z;
+			if(args.length == 3) {
+				x = Integer.valueOf(args[0]);
+				y = Integer.valueOf(args[1]);
+				z = Integer.valueOf(args[2]);
+			} else if(args.length == 2) {
+				x = Integer.valueOf(args[0]);
+				z = Integer.valueOf(args[1]);
+				y = sender.getWorld().getHighestBlockYAt(x, z) + 1;
+			} else {
+				throw new YiffBukkitCommandException("Wat?");
+			}
+
+			Location target = new Location(sender.getWorld(), x, y, z);
+			plugin.playerHelper.teleportWithHistory(sender, target);
+
+			return;
+		}
+
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
 		String senderName = sender.getName();
