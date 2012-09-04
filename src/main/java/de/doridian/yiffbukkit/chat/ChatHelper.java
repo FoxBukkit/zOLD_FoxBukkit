@@ -202,7 +202,7 @@ public class ChatHelper extends StateContainer {
 				plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
 				try {
 					if (plugin.dynmap != null) {
-						plugin.dynmap.mapManager.pushUpdate(new Client.ChatMessage("player", "", ply.getDisplayName(), msg, ply.getName()));
+						plugin.dynmap.postPlayerMessageToWeb(ply, msg);
 					}
 				}
 				catch (Exception e) { }

@@ -29,27 +29,20 @@ import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.dynmap.ChatEvent;
-import org.dynmap.DynmapPlugin;
-import org.dynmap.Event;
-import org.dynmap.Event.Listener;
-import org.dynmap.SimpleWebChatComponent;
+import org.dynmap.bukkit.DynmapPlugin;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -111,7 +104,7 @@ public class YiffBukkit extends JavaPlugin {
 		if (worldEdit != null)
 			log( "Found WorldEdit!" );
 
-		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+		/*getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -120,7 +113,7 @@ public class YiffBukkit extends JavaPlugin {
 						return;
 					dynmap = (DynmapPlugin)tmp;
 
-					Event<?> event = dynmap.events.events.get("webchat");
+					Event<?> event = dynmap..events.get("webchat");
 
 					// listeners = event.listeners;
 					List<Event.Listener<ChatEvent>> listeners = Utils.getPrivateValue(Event.class, event, "listeners");
@@ -149,7 +142,7 @@ public class YiffBukkit extends JavaPlugin {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 
 		LogBlock logBlock = (LogBlock) pm.getPlugin("LogBlock");
 

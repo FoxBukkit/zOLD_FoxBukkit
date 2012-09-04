@@ -41,7 +41,6 @@ public class ChatSoundListener extends BaseListener {
 		chatSounds.put("baaa", "mob.sheep");
 		chatSounds.put("baaaa", "mob.sheep");
 		chatSounds.put("meh", "mob.sheep");
-		chatSounds.put("mäh", "mob.sheep");
 
 		chatSounds.put("oink", "mob.pig");
 
