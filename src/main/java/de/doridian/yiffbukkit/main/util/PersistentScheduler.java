@@ -61,7 +61,11 @@ public class PersistentScheduler extends StateContainer {
 		}
 
 		public void run() {
-			parsedCommands.run(getCommandSender(name));
+			final CommandSender commandSender = getCommandSender(name);
+			if (commandSender == null)
+				return;
+
+			parsedCommands.run(commandSender);
 		}
 
 		public Entry(Map<String, List<String>> section) {
