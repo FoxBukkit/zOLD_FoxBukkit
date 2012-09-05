@@ -94,9 +94,12 @@ public class PersistentScheduler extends StateContainer {
 					return;
 
 				final Entry entry = queue.poll();
-				entry.run();
-
-				refresh();
+				try {
+					entry.run();
+				}
+				finally {
+					refresh();
+				}
 			}
 		}.scheduleSyncRepeating(0, 1);
 	}
