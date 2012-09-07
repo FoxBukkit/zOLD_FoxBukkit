@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -35,8 +36,8 @@ public class YCAPICommand extends ICommand {
 			StringBuilder sb = new StringBuilder();
 			for(String plyName : plys) {
 				sb.append(' ');
-				Player plyOther = plugin.getServer().getPlayerExact(plyName);
-				if(plyOther.isOnline()) {
+				OfflinePlayer plyOther = plugin.getServer().getOfflinePlayer(plyName);
+				if(plyOther != null && plyOther.isOnline()) {
 					sb.append('1');
 				} else {
 					sb.append('0');
