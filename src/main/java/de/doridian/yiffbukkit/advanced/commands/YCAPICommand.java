@@ -34,6 +34,7 @@ public class YCAPICommand extends ICommand {
 			String[] plys = YiffBukkitPermissions.checkOffPlayers.toArray(new String[YiffBukkitPermissions.checkOffPlayers.size()]);
 			StringBuilder sb = new StringBuilder();
 			for(String plyName : plys) {
+				sb.append(' ');
 				Player plyOther = plugin.getServer().getPlayerExact(plyName);
 				if(plyOther.isOnline()) {
 					sb.append('1');
@@ -42,7 +43,7 @@ public class YCAPICommand extends ICommand {
 				}
 				sb.append(plyOther.getName());
 			}
-			playerHelper.sendYiffcraftClientCommand(ply, 'g', sb.toString());
+			playerHelper.sendYiffcraftClientCommand(ply, 'g', sb.substring(1));
 		} else if (arg0.equals("lbsb")) { // LogBlock Sum Blocks
 			try {
 				StringBuilder replyPacket = new StringBuilder();
