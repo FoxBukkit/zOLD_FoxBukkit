@@ -7,7 +7,6 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.entity.Player;
-import org.dynmap.Client;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
