@@ -107,15 +107,18 @@ public class YiffBukkitPermissions {
 
 	public static Set<String> checkOffPlayers = new LinkedHashSet<String>();
 
-	public static void addCOPlayer(Player player) {
-		addCOPlayer(player.getName());
+	public static boolean addCOPlayer(Player player) {
+		return addCOPlayer(player.getName());
 	}
-	public static void addCOPlayer(String player) {
+	public static boolean addCOPlayer(String player) {
 		player = player.toLowerCase();
-		if(!checkOffPlayers.contains(player)) {
-			checkOffPlayers.add(player);
-			saveCO();
-		}
+		if(checkOffPlayers.contains(player))
+			return false;
+
+		checkOffPlayers.add(player);
+		saveCO();
+
+		return true;
 	}
 	public static boolean removeCOPlayer(Player player) {
 		return removeCOPlayer(player.getName());
