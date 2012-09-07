@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 
 @Names({"checkoff","co"})
 @Help("Check-Off list and system for YB")
-@Usage("[[-f] name]")
-@BooleanFlags("f")
+@Usage("[[-f|-u] name]")
+@BooleanFlags("fu")
 @Permission("yiffbukkit.checkoff")
 public class CheckOffCommand extends ICommand {
 	@Override
@@ -33,16 +33,26 @@ public class CheckOffCommand extends ICommand {
 				first = false;
 			}
 			PlayerHelper.sendDirectedMessage(ply, reply.toString());
-		} else {
-			final String playerName = args[0];
-			if (!booleanFlags.contains('f') && isOnline(playerName))
-				throw new YiffBukkitCommandException("Cannot check off online player without -f flag.");
+			return;
+		}
 
-			if (YiffBukkitPermissions.removeCOPlayer(playerName)) {
-				PlayerHelper.sendDirectedMessage(ply, "Removed player "+playerName+" from CO");
+		final String playerName = args[0];
+		if (booleanFlags.contains('u')) {
+			if (YiffBukkitPermissions.addCOPlayer(playerName)) {
+				PlayerHelper.sendDirectedMessage(ply, "Added player "+playerName+" to CO");
 			} else {
-				PlayerHelper.sendDirectedMessage(ply, "Player "+playerName+" not found on CO");
+				PlayerHelper.sendDirectedMessage(ply, "Player "+playerName+" already on CO");
 			}
+			return;
+		}
+
+		if (!booleanFlags.contains('f') && isOnline(playerName))
+			throw new YiffBukkitCommandException("Cannot check off online player without -f flag.");
+
+		if (YiffBukkitPermissions.removeCOPlayer(playerName)) {
+			PlayerHelper.sendDirectedMessage(ply, "Removed player "+playerName+" from CO");
+		} else {
+			PlayerHelper.sendDirectedMessage(ply, "Player "+playerName+" not found on CO");
 		}
 	}
 
