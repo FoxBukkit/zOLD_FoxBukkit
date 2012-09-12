@@ -12,8 +12,11 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.Packet10Flying;
+
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -23,7 +26,9 @@ import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -169,7 +174,10 @@ public class ThrowCommand extends ICommand {
 		final String typeName = args[0];
 
 		final ToolBind runnable;
-		if (typeName.equalsIgnoreCase("me")) {
+		if (typeName.matches("^[mM][eE](:[a-zA-Z0-9]+)?$")) {
+			final boolean noise = "me:noisy".equalsIgnoreCase(typeName)
+			                   || "me:noise".equalsIgnoreCase(typeName)
+			                   || "me:rocket".equalsIgnoreCase(typeName);
 			plugin.spawnUtils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
 				@Override
@@ -186,11 +194,39 @@ public class ThrowCommand extends ICommand {
 
 					final Vector direction = Utils.toWorldAxis(location, speed);
 
-					final Entity vehicle = player.getVehicle();
-					if (vehicle == null)
-						player.setVelocity(direction);
-					else
-						vehicle.setVelocity(direction);
+					final Entity vehicle = player.isInsideVehicle() ? player.getVehicle() : player;
+
+					vehicle.setVelocity(direction);
+
+					if (!noise)
+						return true;
+
+					final List<Player> effectTargets = new ArrayList<Player>();
+					for (Player effectTarget : Utils.getObservingPlayers(player)) {
+						if (effectTarget.getLocation().distanceSquared(location) > 64*64)
+							continue;
+
+						effectTargets.add(effectTarget);
+					}
+
+					final long endTime = System.currentTimeMillis() + 200;
+					final ScheduledTask runnable = new ScheduledTask(plugin) {
+						@Override
+						public void run() {
+							if (System.currentTimeMillis() >= endTime) {
+								cancel();
+								return;
+							}
+
+							final Location effectLocation = vehicle.getLocation();
+							for (Player effectTarget : effectTargets) {
+								effectTarget.playEffect(effectLocation, Effect.EXTINGUISH, 0);
+								effectTarget.playEffect(effectLocation, Effect.SMOKE, 4);
+							}
+						}
+					};
+					runnable.run();
+					runnable.scheduleSyncRepeating(0, 1);
 
 					return true;
 				}
