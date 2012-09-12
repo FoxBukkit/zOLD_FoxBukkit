@@ -1,9 +1,11 @@
 package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -365,5 +367,18 @@ public class Utils {
 		}
 
 		return ret;
+	}
+
+	public static List<Player> getObservingPlayers(Player target) {
+		final List<Player> players = new ArrayList<Player>();
+
+		for (Player player : target.getWorld().getPlayers()) {
+			if (!player.canSee((Player) target))
+				continue;
+
+			players.add(player);
+		}
+
+		return players;
 	}
 }

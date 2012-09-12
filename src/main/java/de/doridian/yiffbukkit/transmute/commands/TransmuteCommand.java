@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.transmute.commands;
 
+import java.util.List;
+
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -11,6 +13,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.transmute.EntityShape;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -141,13 +144,17 @@ public class TransmuteCommand extends ICommand {
 				location = location.add(0, ((EntityShape) shape).getYOffset(), 0);
 		}
 
-		final boolean isPlayer = target instanceof Player;
+		double radius = 64;
+		radius *= radius;
 
-		for (Player player : location.getWorld().getPlayers()) {
-			if (player.getLocation().distanceSquared(location) > 64 * 64)
-				continue;
+		final List<Player> players;
+		if (target instanceof Player)
+			players = Utils.getObservingPlayers((Player) target);
+		else
+			players = target.getWorld().getPlayers();
 
-			if (isPlayer && !player.canSee((Player) target))
+		for (Player player : players) {
+			if (player.getLocation().distanceSquared(location) > radius)
 				continue;
 
 			player.playEffect(location, Effect.EXTINGUISH, 0);
