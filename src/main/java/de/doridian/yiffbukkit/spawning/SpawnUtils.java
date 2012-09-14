@@ -477,7 +477,11 @@ public class SpawnUtils {
 		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, name, new ItemInWorldManager(worldServer));
 
 		// Create network manager for the player
-		final NetworkManager networkManager = new NetworkManager(new NPCSocket(), eply.name, null, null);
+		final NetworkManager networkManager;
+		try {
+			networkManager = new NetworkManager(new NPCSocket(), eply.name, null, null);
+		} catch(IOException e) { return null; }
+
 		// Create NetServerHandler. This will automatically write itself to the player and networkmanager
 		new NetServerHandler(minecraftServer, networkManager, eply);
 

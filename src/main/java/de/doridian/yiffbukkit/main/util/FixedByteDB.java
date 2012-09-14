@@ -80,16 +80,16 @@ public class FixedByteDB<EntryT extends FixedByteDB.Entry> {
 
 	public void put(EntryT entry) {
 		synchronized (fileAccessLock) {
-			synchronized (entryCountLock) {
-				if(entry.id < 0) {
-					entry.id = entryCount++;
-					writeEntryCount();
-				}
-				try {
-					fileAccess.seek(entry.id * entry.getSize());
-					entry.write(fileAccess);
-				} catch(IOException e) { }
+		synchronized (entryCountLock) {
+			if(entry.id < 0) {
+				entry.id = entryCount++;
+				writeEntryCount();
 			}
+			try {
+				fileAccess.seek(entry.id * entry.getSize());
+				entry.write(fileAccess);
+			} catch(IOException e) { }
+		}
 		}
 	}
 
@@ -130,7 +130,7 @@ public class FixedByteDB<EntryT extends FixedByteDB.Entry> {
 	}
 
 	public static abstract class Entry {
-		private long id = -1;
+		protected long id = -1;
 		public long getID() {
 			return id;
 		}

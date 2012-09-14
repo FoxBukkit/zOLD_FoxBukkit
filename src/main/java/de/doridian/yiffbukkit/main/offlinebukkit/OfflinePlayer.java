@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.Server;
+import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -85,6 +86,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public PlayerInventory getInventory() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Inventory getEnderChest() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
@@ -532,6 +538,11 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
+	public void playSound(Location location, Sound sound, float v, float v1) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
 	public void resetPlayerTime() {
 		// TODO Auto-generated method stub
 	}
@@ -800,6 +811,26 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	@Override
 	public void setFlying(boolean b) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setFlySpeed(float v) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setWalkSpeed(float v) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public float getFlySpeed() {
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public float getWalkSpeed() {
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
