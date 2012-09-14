@@ -10,7 +10,7 @@ public abstract class YiffBukkitButton extends GenericButton {
 	}
 	
 	@Override
-	public void onButtonClick(ButtonClickEvent event) {
+	public final void onButtonClick(ButtonClickEvent event) {
 		try {
 			onClicked(event);
 		}
