@@ -187,6 +187,8 @@ public class ChatHelper extends StateContainer {
 			throw new YiffBukkitCommandException("You cannot speak in this channel!");
 		}
 
+		msg = ChatSounds.processMessage(ply, msg);
+
 		if(ply != null && !ply.hasPermission("yiffbukkit.chatreplace.override")) {
 			String tmp;
 			for(ChatReplacer replacer : container.replacers) {

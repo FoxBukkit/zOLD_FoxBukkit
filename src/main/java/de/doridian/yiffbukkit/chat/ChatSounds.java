@@ -1,17 +1,19 @@
-package de.doridian.yiffbukkit.fun.listeners;
+package de.doridian.yiffbukkit.chat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 
-public class ChatSoundListener extends BaseListener {
+public class ChatSounds {
 	private static final Map<String, String> chatSounds = new HashMap<String, String>();
+	private static final Pattern wordPattern = Pattern.compile("([^-'\\p{L}]*)([-'\\p{L}]*)");
 	static {
 		chatSounds.put("meow", "mob.cat.meow");
 		chatSounds.put("miau", "mob.cat.meow");
@@ -63,10 +65,20 @@ public class ChatSoundListener extends BaseListener {
 		chatSounds.put("fapfapfap", "mob.wolf.shake/0.5/0.5/0.5");
 	}
 
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
-	public void onPlayerChat(PlayerChatEvent event) {
-		for (String part : event.getMessage().split(" ")) {
-			String soundName = chatSounds.get(part.replaceAll("[-,.!?/]","").toLowerCase());
+	public static String processMessage(final Player player, final String message) {
+		// Split up words
+		final List<String> prefixes = new ArrayList<String>();
+		final List<String> words = new ArrayList<String>();
+
+		final Matcher matcher = wordPattern.matcher(message);
+		while (matcher.find()) {
+			prefixes.add(matcher.group(1));
+			words.add(matcher.group(2));
+		}
+
+		// Look for chat sounds
+		for (String word : words) {
+			String soundName = chatSounds.get(word.replaceAll("[-,.!?/]","").toLowerCase());
 			if (soundName == null)
 				continue;
 
@@ -79,7 +91,9 @@ public class ChatSoundListener extends BaseListener {
 			float minPitch = Float.parseFloat(split[2]);
 			float maxPitch = Float.parseFloat(split[3]);
 
-			Utils.makeSound(event.getPlayer().getEyeLocation(), soundName, volume, (float) (minPitch + Math.random()*(maxPitch - minPitch)));
+			Utils.makeSound(player.getEyeLocation(), soundName, volume, (float) (minPitch + Math.random()*(maxPitch - minPitch)));
 		}
+
+		return message;
 	}
 }
