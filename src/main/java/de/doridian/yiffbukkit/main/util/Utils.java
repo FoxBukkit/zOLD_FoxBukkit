@@ -381,4 +381,18 @@ public class Utils {
 
 		return players;
 	}
+
+	public static String firstLetterToUppercase(String string) {
+		return Character.toUpperCase(string.charAt(0))+string.substring(1);
+	}
+
+	public static int countSpaces(String phrase) {
+		int spaces = 0;
+		int pos = 0;
+		while ((pos = phrase.indexOf(' ', pos)) != -1 ) {
+			phrase = phrase.substring(pos+1);
+			++spaces;
+		}
+		return spaces;
+	}
 }
