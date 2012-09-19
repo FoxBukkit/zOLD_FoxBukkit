@@ -4,6 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,7 +32,12 @@ public class StateContainer {
 
 		public void invoke() {
 			try {
-				method.invoke(instance);
+				if (Modifier.isStatic(method.getModifiers())) {
+					method.invoke(null);
+				}
+				else {
+					method.invoke(instance);
+				}
 			}
 			catch (IllegalArgumentException e) {
 				e.printStackTrace();
