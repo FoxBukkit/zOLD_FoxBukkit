@@ -31,8 +31,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 		"Disguises you or an entity as a mob.\n" +
 		"Flags:\n" +
 		"  -e to transmute an entity (binds to a tool)\n" +
-		"  -i <item name or id> together with -e to bind to a specific tool.\n" +
-		"  -l to transmute the last entity you transmuted"
+		"  -i <item name or id> together with -e to bind to a specific tool\n" +
+		"  -l to transmute the last entity you transmuted\n" +
+		"  -x to bind to the left instead of the right mouse button"
 )
 @Usage("[<flags>][<shape>]")
 @Permission("yiffbukkit.transmute")
@@ -82,7 +83,9 @@ public class TransmuteCommand extends ICommand {
 				toolType = ply.getItemInHand().getType();
 			}
 
-			ToolBind.add(ply, toolType, new ToolBind(mobType, ply) {
+			boolean left = booleanFlags.contains('x');
+
+			ToolBind.add(ply, toolType, left, new ToolBind(mobType, ply) {
 				@Override
 				public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();

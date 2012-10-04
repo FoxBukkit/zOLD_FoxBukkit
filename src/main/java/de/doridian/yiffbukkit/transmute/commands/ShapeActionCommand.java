@@ -24,12 +24,13 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 		"Gives your current shape a command.\n" +
 		"Flags:\n" +
 		"  -e to issue the command to an entity (binds to a tool)\n" +
-		"  -i <item name or id> together with -e to bind to a specific tool.\n" +
-		"  -l to transmute the last entity you transmuted"
+		"  -i <item name or id> together with -e to bind to a specific tool\n" +
+		"  -l to transmute the last entity you transmuted\n" +
+		"  -x to bind to the left instead of the right mouse button"
 )
 @Usage("[<flags>][<command>]")
 @Permission("yiffbukkit.transmute.shapeaction")
-@BooleanFlags("el")
+@BooleanFlags("elx")
 @StringFlags("i")
 public class ShapeActionCommand extends ICommand {
 	@Override
@@ -49,7 +50,9 @@ public class ShapeActionCommand extends ICommand {
 				toolType = ply.getItemInHand().getType();
 			}
 
-			ToolBind.add(ply, toolType, new ToolBind(shapeAction, ply) {
+			boolean left = booleanFlags.contains('x');
+
+			ToolBind.add(ply, toolType, left, new ToolBind(shapeAction, ply) {
 				@Override
 				public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();

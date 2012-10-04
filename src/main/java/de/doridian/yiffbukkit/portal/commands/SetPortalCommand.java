@@ -2,10 +2,9 @@ package de.doridian.yiffbukkit.portal.commands;
 
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.commands.BindCommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.portal.PortalEngine;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
@@ -18,16 +17,16 @@ import org.bukkit.event.player.PlayerInteractEvent;
 @Names("setportal")
 @Help("Binds a command to your current tool. The leading slash is optional. Unbind by typing '/bind' without arguments.")
 @Permission("yiffbukkit.useless.setportal")
+@BooleanFlags("x")
 public class SetPortalCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		final Material toolType = ply.getItemInHand().getType();
 
+		boolean left = booleanFlags.contains('x');
+
 		if (argStr.isEmpty()) {
-			ToolBind.remove(ply, toolType);
-
-			PlayerHelper.sendDirectedMessage(ply, "Unbound your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
-
+			BindCommand.unbind(ply, toolType, left);
 			return;
 		}
 
@@ -69,7 +68,7 @@ public class SetPortalCommand extends ICommand {
 			}
 		};
 
-		ToolBind.add(ply, toolType, runnable);
+		ToolBind.add(ply, toolType, left, runnable);
 
 		PlayerHelper.sendDirectedMessage(ply, "right-click the in and out portals for \u00a79"+portalName+"\u00a7f with your current tool (\u00a7e"+toolType.name()+"\u00a7f).");
 	}

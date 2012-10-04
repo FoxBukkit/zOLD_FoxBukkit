@@ -23,10 +23,10 @@ public abstract class ToolBind {
 	public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException { return false; };
 	public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException { return false; };
 
-	public static Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
+	private static Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
 
-	public static void add(Player ply, Material toolType, ToolBind toolBind) {
-		String key = ply.getName()+" "+toolType.name();
+	public static void add(Player ply, Material toolType, boolean left, ToolBind toolBind) {
+		String key = makeKey(ply.getName(),toolType.name(), left);
 
 		toolMappings.put(key, toolBind);
 	}
@@ -44,8 +44,8 @@ public abstract class ToolBind {
 	 * @param toolType the tool the mapping is associated with.
 	 * @return true if there was a previous mapping
 	 */
-	public static boolean remove(Player ply, Material toolType) {
-		String key = ply.getName()+" "+toolType.name();
+	public static boolean remove(Player ply, Material toolType, boolean left) {
+		String key = makeKey(ply.getName(),toolType.name(), left);
 
 		return toolMappings.remove(key) != null;
 	}
@@ -95,12 +95,16 @@ public abstract class ToolBind {
 		}
 	}
 
-	public static ToolBind get(String playerName, Material itemMaterial) {
+	public static ToolBind get(String playerName, Material itemMaterial, boolean left) {
 		final String itemName = itemMaterial.name();
-		final ToolBind toolBind = toolMappings.get(playerName+" "+itemName);
+		final ToolBind toolBind = toolMappings.get(makeKey(playerName, itemName, left));
 		if (toolBind != null)
 			return toolBind;
 
 		return toolMappings.get(itemName);
+	}
+
+	private static String makeKey(String playerName, final String itemName, boolean left) {
+		return playerName+" "+itemName+left;
 	}
 }

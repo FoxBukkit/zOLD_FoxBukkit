@@ -25,11 +25,14 @@ import java.util.Set;
 @Help(
 		"Binds a command to your current tool. The leading slash\n" +
 		"is optional. Unbind by typing '/bind' without arguments.\n" +
-		"The -l flag lists your current binds."
+		"Flags:\n" +
+		"  -l lists your current binds.\n" +
+		"  -i <item name or id> together with -e to bind to a specific tool\n" +
+		"  -x to bind to the left instead of the right mouse button"
 )
 @Usage("-l|[-i <item name or id>][<command>[;<command>[;<command> ...]]]")
 @Permission("yiffbukkit.bind")
-@BooleanFlags("l")
+@BooleanFlags("lx")
 @StringFlags("i")
 public class BindCommand extends ICommand {
 	private static final Set<String> filter = new HashSet<String>();
@@ -49,7 +52,7 @@ public class BindCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		argStr = parseFlags(argStr).trim();
 
-		if (booleanFlags.contains('l')) {
+		if (booleanFlags.contains('v')) {
 			String playerName = ply.getName();
 			for (Entry<String, ToolBind> entry : ToolBind.list(playerName).entrySet()) {
 				ToolBind toolBind = entry.getValue();
@@ -75,8 +78,10 @@ public class BindCommand extends ICommand {
 			toolType = ply.getItemInHand().getType();
 		}
 
+		boolean left = booleanFlags.contains('x');
+
 		if (argStr.isEmpty()) {
-			unbind(ply, toolType);
+			unbind(ply, toolType, left);
 			return;
 		}
 
@@ -91,13 +96,13 @@ public class BindCommand extends ICommand {
 			}
 		};
 
-		ToolBind.add(ply, toolType, toolBind);
+		ToolBind.add(ply, toolType, left, toolBind);
 
 		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+parsedCommands.getCleanString()+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}
 
-	public static void unbind(Player ply, Material toolType) {
-		if (ToolBind.remove(ply, toolType)) {
+	public static void unbind(Player ply, Material toolType, boolean left) {
+		if (ToolBind.remove(ply, toolType, left)) {
 			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
 		}
 		else {

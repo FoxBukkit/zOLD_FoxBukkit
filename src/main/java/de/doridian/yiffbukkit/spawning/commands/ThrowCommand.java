@@ -45,7 +45,7 @@ import java.util.Map;
 		"  creeper:charged"
 )
 @Usage("[-i <item name or id> ][-m <amount> [-s <shape> ]][<type>[ <forward>[ <up>[ <left>]]]]")
-@BooleanFlags("p")
+@BooleanFlags("px")
 @StringFlags("is")
 @NumericFlags("m")
 @Permission("yiffbukkit.throw")
@@ -141,8 +141,10 @@ public class ThrowCommand extends ICommand {
 			toolType = ply.getItemInHand().getType();
 		}
 
+		boolean left = booleanFlags.contains('x');
+
 		if (args.length == 0) {
-			BindCommand.unbind(ply, toolType);
+			BindCommand.unbind(ply, toolType, left);
 			return;
 		}
 
@@ -277,7 +279,7 @@ public class ThrowCommand extends ICommand {
 			};
 		}
 
-		ToolBind.add(ply, toolType, runnable);
+		ToolBind.add(ply, toolType, left, runnable);
 
 		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+typeName+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
 	}

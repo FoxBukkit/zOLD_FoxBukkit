@@ -306,14 +306,19 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		/*if (event.isCancelled())
 			return;*/
 
+		boolean isLeftClick = false;
 		final Player ply = event.getPlayer();
 		switch (event.getAction()) {
+		case LEFT_CLICK_AIR:
+		case LEFT_CLICK_BLOCK:
+			isLeftClick = true;
+			/* FALL-THROUGH */
 		case RIGHT_CLICK_AIR:
 		case RIGHT_CLICK_BLOCK:
 			try {
 				final Material itemMaterial = event.getMaterial();
 
-				final ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
+				final ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial, isLeftClick);
 				if (toolBind != null) {
 					boolean success = true;
 					try {
@@ -352,7 +357,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		try {
 			Material itemMaterial = ply.getItemInHand().getType();
 
-			ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial);
+			ToolBind toolBind = ToolBind.get(ply.getName(), itemMaterial, false);
 			if (toolBind != null) {
 				boolean success = true;
 				try {
