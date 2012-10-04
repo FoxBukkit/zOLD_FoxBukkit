@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit.mcbans.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
+import de.doridian.yiffbukkitsplit.LockDownMode;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +15,7 @@ import org.json.simple.JSONObject;
 public class MCBansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		if (plugin.serverClosed)
+		if (plugin.lockdownMode != LockDownMode.NONE)
 			return;
 
 		final String ply = event.getPlayer().getName();
@@ -27,7 +29,7 @@ public class MCBansPlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-		if (plugin.serverClosed)
+		if (plugin.lockdownMode != LockDownMode.NONE)
 			return;
 
 		String name = event.getName();

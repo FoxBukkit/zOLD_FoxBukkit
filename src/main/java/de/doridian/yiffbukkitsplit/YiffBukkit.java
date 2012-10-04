@@ -83,7 +83,7 @@ public class YiffBukkit extends JavaPlugin {
 	public DynmapPlugin dynmap;
 	public Consumer logBlockConsumer;
 
-	public boolean serverClosed = false;
+	public LockDownMode lockdownMode = LockDownMode.NONE;
 	public CommandSystem commandSystem;
 	public final YBBank bank = new YBBank();
 

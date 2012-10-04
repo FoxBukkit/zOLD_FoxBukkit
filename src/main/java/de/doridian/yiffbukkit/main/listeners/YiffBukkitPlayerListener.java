@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Hashtable;
@@ -45,9 +46,27 @@ public class YiffBukkitPlayerListener extends BaseListener {
 			return;
 		}
 
-		if (plugin.serverClosed && playerHelper.isGuest(player)) {
-			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
-			return;
+		if (playerHelper.isGuest(player)) {
+			switch (plugin.lockdownMode) {
+			case FIREWALL:
+				final String ip = event.getAddress().getHostAddress();
+				try {
+					Runtime.getRuntime().exec("./wally I "+ip);
+					System.out.println("Firewalled IP "+ip+" of player "+playerName+".");
+					return;
+				}
+				catch (IOException e) {
+					System.out.println("Failed to firewall IP "+ip+" of player "+playerName+".");
+				}
+				/* FALL-THROUGH */
+
+			case KICK:
+				event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
+				/* FALL-THROUGH */
+
+			case NONE:
+				return;
+			}
 		}
 	}
 
