@@ -15,7 +15,7 @@ import org.json.simple.JSONObject;
 public class MCBansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		if (plugin.lockdownMode != LockDownMode.NONE)
+		if (plugin.lockdownMode != LockDownMode.OFF)
 			return;
 
 		final String ply = event.getPlayer().getName();
@@ -29,7 +29,7 @@ public class MCBansPlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-		if (plugin.lockdownMode != LockDownMode.NONE)
+		if (plugin.lockdownMode != LockDownMode.OFF)
 			return;
 
 		String name = event.getName();

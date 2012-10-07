@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkitsplit;
 
 public enum LockDownMode {
-	NONE("The server is already unlocked."),
+	OFF("The server is already unlocked."),
 	KICK("The server will already kick guests."),
 	FIREWALL("The server will already firewall guests.");
 

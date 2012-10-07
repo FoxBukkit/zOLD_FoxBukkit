@@ -64,7 +64,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
 				/* FALL-THROUGH */
 
-			case NONE:
+			case OFF:
 				return;
 			}
 		}

@@ -20,19 +20,22 @@ public class LockdownCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		final String name = commandSender.getName();
-		if (argStr.isEmpty()) {
-			argStr = plugin.lockdownMode == LockDownMode.NONE ? "KICK" : "NONE";
-		}
-
 		argStr = argStr.toUpperCase();
-		if (argStr.equals("ON")){
-			argStr = "KICK";
+		final LockDownMode newMode;
+		if (argStr.isEmpty()) {
+			newMode = plugin.lockdownMode == LockDownMode.OFF ? LockDownMode.KICK : LockDownMode.OFF;
 		}
-		else if (argStr.equals("OFF")) {
-			argStr = "NONE";
+		else if (argStr.equals("ON")){
+			newMode = LockDownMode.KICK;
 		}
-
-		LockDownMode newMode = LockDownMode.valueOf(argStr);
+		else {
+			try {
+				newMode = LockDownMode.valueOf(argStr);
+			}
+			catch (IllegalArgumentException e) {
+				throw new YiffBukkitCommandException("Invalid lockdown mode.", e);
+			}
+		}
 
 		if (newMode == plugin.lockdownMode) {
 			throw new YiffBukkitCommandException(newMode.getDescription());
@@ -49,7 +52,7 @@ public class LockdownCommand extends ICommand {
 			}
 		}
 
-		if (newMode == LockDownMode.NONE) {
+		if (newMode == LockDownMode.OFF) {
 			playerHelper.sendServerMessage(name + " unlocked the server for guests.", 1);
 		}
 		else {
