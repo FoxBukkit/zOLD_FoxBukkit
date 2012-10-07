@@ -56,13 +56,10 @@ public class BanCommand extends ICommand {
 			catch (JailException e) { }
 		}
 
-        boolean saveEvidence = false;
-
 		YiffBukkitPermissions.removeCOPlayer(otherply);
 
 		if(global || rollback) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
-            saveEvidence = true;
 		}
 
 		if(reason == null) {
@@ -88,7 +85,7 @@ public class BanCommand extends ICommand {
 				throw new YiffBukkitCommandException("Malformed ban duration");
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure, saveEvidence);
+			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure);
 		}
 		else {
 			if (global) {
@@ -97,7 +94,7 @@ public class BanCommand extends ICommand {
 				type = BanType.LOCAL;
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type, saveEvidence);
+			plugin.mcbans.ban(commandSender, otherply, reason, type);
 		}
 
 		if (rollback) {

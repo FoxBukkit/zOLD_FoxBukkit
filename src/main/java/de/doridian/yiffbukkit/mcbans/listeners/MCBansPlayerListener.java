@@ -14,20 +14,6 @@ import org.json.simple.JSONObject;
 
 public class MCBansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		if (plugin.lockdownMode != LockDownMode.OFF)
-			return;
-
-		final String ply = event.getPlayer().getName();
-
-		new Thread() {
-			public void run() {
-				MCBansUtil.apiQuery("exec=playerDisconnect&player="+MCBansUtil.URLEncode(ply));
-			}
-		}.start();
-	}
-
-	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
 		if (plugin.lockdownMode != LockDownMode.OFF)
 			return;
