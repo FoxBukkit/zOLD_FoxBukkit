@@ -6,7 +6,6 @@ import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.mcbans.listeners.MCBansKeyListener;
 import de.doridian.yiffbukkit.mcbans.listeners.MCBansPlayerListener;
 
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;

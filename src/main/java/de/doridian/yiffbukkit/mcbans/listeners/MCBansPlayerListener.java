@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent.Result;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.json.simple.JSONObject;
 
 public class MCBansPlayerListener extends BaseListener {
