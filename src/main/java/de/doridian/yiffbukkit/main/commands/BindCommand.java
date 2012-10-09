@@ -52,7 +52,7 @@ public class BindCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		argStr = parseFlags(argStr).trim();
 
-		if (booleanFlags.contains('v')) {
+		if (booleanFlags.contains('l')) {
 			String playerName = ply.getName();
 			for (Entry<String, ToolBind> entry : ToolBind.list(playerName).entrySet()) {
 				ToolBind toolBind = entry.getValue();
