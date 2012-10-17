@@ -395,4 +395,22 @@ public class Utils {
 		}
 		return spaces;
 	}
+
+	public static StringBuilder enumerateStrings(final List<String> strings) {
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < strings.size(); ++i) {
+			final String distance = strings.get(i);
+			if (i == 0) {
+			}
+			else if (i == strings.size()-1) {
+				sb.append(" and ");
+			}
+			else {
+				sb.append(", ");
+			}
+			sb.append(distance);
+			System.out.println(sb);
+		}
+		return sb;
+	}
 }
