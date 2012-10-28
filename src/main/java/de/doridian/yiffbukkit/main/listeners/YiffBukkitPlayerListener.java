@@ -200,7 +200,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:\u00a7f %s");
 
 		final Player ply = event.getPlayer();
-		String conversationTarget = playerHelper.conversations.get(ply.getName());
+		final Player conversationTarget = plugin.getServer().getPlayer(playerHelper.conversations.get(ply.getName()));
 		String message = event.getMessage();
 		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);
 		if (conversationTarget != null) {
@@ -208,7 +208,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 			plugin.chatManager.pushCurrentOrigin(ply);
 			ply.sendMessage(formattedMessage);
-			plugin.getServer().getPlayer(conversationTarget).sendMessage(formattedMessage);
+			conversationTarget.sendMessage(formattedMessage);
 			plugin.chatManager.popCurrentOrigin();
 
 			event.setCancelled(true);
