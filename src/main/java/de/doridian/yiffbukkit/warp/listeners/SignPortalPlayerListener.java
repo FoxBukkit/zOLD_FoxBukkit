@@ -71,6 +71,7 @@ public class SignPortalPlayerListener extends BaseListener {
 		}
 
 		PlayerHelper.sendDirectedMessage(player, "Portal sign activated.");
+		event.setCancelled(true);
 	}
 
 	Map<Player, Integer> timerIds = new HashMap<Player, Integer>();
