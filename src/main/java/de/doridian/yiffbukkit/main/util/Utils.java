@@ -2,6 +2,9 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 
+import net.minecraft.server.DataWatcher;
+import net.minecraft.server.WatchableObject;
+
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -412,5 +415,13 @@ public class Utils {
 			System.out.println(sb);
 		}
 		return sb;
+	}
+
+	public static void dumpDataWatcher(DataWatcher datawatcher) {
+		for (Object o : datawatcher.c()) {
+			net.minecraft.server.WatchableObject wo = (WatchableObject) o; 
+			System.out.println(wo.a());
+			System.out.println(wo.b());
+		}
 	}
 }
