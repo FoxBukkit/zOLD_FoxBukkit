@@ -989,4 +989,16 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public boolean isValid() {
 		return !isDead();
 	}
+
+	@Override
+	public void giveExpLevels(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setBedSpawnLocation(Location location, boolean force) {
+		// TODO Auto-generated method stub
+		
+	}
 }
