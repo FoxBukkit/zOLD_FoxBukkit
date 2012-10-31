@@ -27,7 +27,7 @@ public abstract class Shape {
 		this.entity = entity;
 		entityId = entity.getEntityId();
 		datawatcher = new DataWatcher();
-		datawatcher.a(31, 123);
+		datawatcher.a(31, "");
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {
@@ -134,7 +134,7 @@ public abstract class Shape {
 		// put the actual data in
 		datawatcher.watch(index, value);
 
-		return new Packet40EntityMetadata(entityId, datawatcher);
+		return new Packet40EntityMetadata(entityId, datawatcher, false);
 	}
 
 	public abstract void createTransmutedEntity();
