@@ -15,7 +15,7 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
 import net.minecraft.server.EntityFallingBlock;
-import net.minecraft.server.EntityFireball;
+import net.minecraft.server.EntityLargeFireball;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.ItemInWorldManager;
@@ -183,7 +183,7 @@ public class SpawnUtils {
 			double dy = dir.getY();
 			double dz = dir.getZ();
 
-			final EntityFireball notchEntity = new EntityFireball(notchWorld, playerEntity, dx, dy, dz);
+			final EntityLargeFireball notchEntity = new EntityLargeFireball(notchWorld, playerEntity, dx, dy, dz);
 			notchEntity.locX = location.getX();
 			notchEntity.locY = location.getY();
 			notchEntity.locZ = location.getZ();
