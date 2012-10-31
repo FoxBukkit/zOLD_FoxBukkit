@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
+import net.minecraft.server.ItemStack;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet21PickupSpawn;
 import org.bukkit.Location;
@@ -49,9 +50,7 @@ public class ItemShape extends EntityShape {
 		p21.f = (byte) ((int) (velocity.getY() * 128.0D));
 		p21.g = (byte) ((int) (velocity.getZ() * 128.0D));
 
-		p21.h = type;
-		p21.i = count;
-		p21.j = data;
+		p21.h = new ItemStack(type, count, data);
 
 		return p21;
 	}
