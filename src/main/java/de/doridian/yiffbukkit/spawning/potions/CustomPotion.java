@@ -2,9 +2,11 @@ package de.doridian.yiffbukkit.spawning.potions;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityPotion;
+import net.minecraft.server.ItemStack;
 import net.minecraft.server.MovingObjectPosition;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
 
@@ -16,7 +18,7 @@ public abstract class CustomPotion extends EntityPotion {
 	protected final EntityPlayer thrower;
 
 	public CustomPotion(Location location, int potionId, EntityPlayer thrower) {
-		super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), potionId);
+		super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new ItemStack(Material.POTION.getId(), 1, potionId));
 		this.potionId = potionId;
 		this.thrower = thrower;
 	}
