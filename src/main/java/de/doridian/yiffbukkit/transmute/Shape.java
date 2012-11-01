@@ -172,6 +172,10 @@ public abstract class Shape {
 		case 13: // SmallFireball
 		case 14: // ThrownEnderpearl
 		case 15: // EyeOfEnderSignal
+		case 16: // ThrownPotion
+		//case 17: // ThrownExpBottle
+		//case 18: // ItemFrame
+		//case 19: // WitherSkull
 		case 20: // PrimedTnt
 		case 21: // FallingSand
 		case 40: // Minecart
