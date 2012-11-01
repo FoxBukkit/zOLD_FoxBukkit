@@ -14,6 +14,7 @@ import net.minecraft.server.EntityOcelot;
 import net.minecraft.server.EntityPotion;
 import net.minecraft.server.EntityTNTPrimed;
 import net.minecraft.server.EntityTypes;
+import net.minecraft.server.EntityWither;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class MyEntityTypes {
 		addAliases(EntityMagmaCube.class, "MagmaCube");
 		addAliases(EntityEnderDragon.class, "Dragon");
 		addAliases(EntityOcelot.class, "Ocelot", "Cat");
+		addAliases(EntityWither.class, "Wither");
 
 		addType(EntityFishingHook.class, 1000, "FishingHook", "Fish", "Hook", "FishingPole");
 		addType(EntityPotion.class, 1001, "Potion", "ThrownPotion");
