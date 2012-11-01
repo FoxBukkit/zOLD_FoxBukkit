@@ -72,7 +72,7 @@ public class ThrowCommand extends ICommand {
 			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
 				final Location cone = new Location(null, 0, 0, 0, i * 360.0f / amount, -80);
 				final Vector pointingDown = Utils.toWorldAxis(cone, speed);
-				
+
 				Location location = baseLocation.clone();
 				location.setPitch(location.getPitch()+90);
 
@@ -180,8 +180,12 @@ public class ThrowCommand extends ICommand {
 			final boolean noise = "me:noisy".equalsIgnoreCase(typeName)
 			                   || "me:noise".equalsIgnoreCase(typeName)
 			                   || "me:rocket".equalsIgnoreCase(typeName);
+			final boolean wings = "me:wings".equalsIgnoreCase(typeName)
+			                   || "me:wing".equalsIgnoreCase(typeName)
+			                   || "me:flap".equalsIgnoreCase(typeName);
 			plugin.spawnUtils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
+				long nextFlap = Long.MIN_VALUE;
 				@Override
 				public boolean run(PlayerInteractEvent event) {
 					final Player player = event.getPlayer();
@@ -199,6 +203,15 @@ public class ThrowCommand extends ICommand {
 					final Entity vehicle = player.isInsideVehicle() ? player.getVehicle() : player;
 
 					vehicle.setVelocity(direction);
+
+					if (wings) {
+						final long t = System.currentTimeMillis();
+						if (t >= nextFlap) {
+							Utils.makeSound(vehicle.getLocation(), "mob.enderdragon.wings", 4, 0);
+							nextFlap = t + 800 + (long) (Math.random() * 400);
+						}
+						return true;
+					}
 
 					if (!noise)
 						return true;
