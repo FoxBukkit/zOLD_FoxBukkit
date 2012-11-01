@@ -227,7 +227,27 @@ final class ShapeActions {
 				"health",
 				new MetadataCustomValueAction(16, "Set your health to %s", Integer.class)
 		);
-		
+
+		registerMobActions(64, // WitherBoss
+				"help",
+				new HelpMobAction("/sac health <0..300>"),
+				"health",
+				new MetadataCustomValueAction(16, "Set your health to %s", Integer.class)
+		);
+
+		registerMobActions(65, // Bat
+				"help",
+				new HelpMobAction("/sac land|takeoff|flap [on|off]"),
+				"flap",
+				new MetadataBitMobAction(16, (byte) 0x1, "Took off...", "Landed..."),
+				"land",
+				new MetadataMobAction(16, (byte) 1, "Landed..."),
+				"takeoff",
+				new MetadataMobAction(16, (byte) 0, "Took off...")
+		);
+
+		//registerMobActions(66, // Witch
+
 		registerMobActions(90, // Pig
 				"help",
 				new HelpMobAction("/sac saddle [on|off]|baby|adult"),
