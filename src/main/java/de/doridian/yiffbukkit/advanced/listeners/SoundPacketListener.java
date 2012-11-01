@@ -65,7 +65,7 @@ public class SoundPacketListener extends PacketListener implements YBListener {
 			return true;
 		}
 
-		if (!soundName.startsWith("step.") && !soundName.equals("random.splash"))
+		if (!soundName.startsWith("step.") && !soundName.equals("random.splash") && !soundName.startsWith("liquid.") && !soundName.startsWith("damage."))
 			return true;
 
 		final int y;
