@@ -207,7 +207,9 @@ public class ThrowCommand extends ICommand {
 					if (wings) {
 						final long t = System.currentTimeMillis();
 						if (t >= nextFlap) {
-							Utils.makeSound(vehicle.getLocation(), "mob.enderdragon.wings", 4, 0);
+							for (Player effectTarget : Utils.getObservingPlayers(player)) {
+								Utils.makeSound(vehicle.getLocation(), "mob.enderdragon.wings", 4, 0, effectTarget);
+							}
 							nextFlap = t + 800 + (long) (Math.random() * 400);
 						}
 						return true;
