@@ -54,6 +54,8 @@ public abstract class EntityShape extends Shape {
 		}
 		catch (EntityTypeNotFoundException e) {
 		}
+
+		yOffset += 0.015625D;
 	}
 
 	@Override
