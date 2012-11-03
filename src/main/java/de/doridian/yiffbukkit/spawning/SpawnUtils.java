@@ -159,7 +159,7 @@ public class SpawnUtils {
 			Player them, Location location, final String type,
 			final String data)
 			throws YiffBukkitCommandException {
-		
+
 		final World world = location.getWorld();
 		final WorldServer notchWorld = ((CraftWorld)world).getHandle();
 
@@ -207,9 +207,49 @@ public class SpawnUtils {
 
 			return entity;
 		}
-		else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL") || type.equalsIgnoreCase("ANVIL")) {
-			int material = Material.valueOf(type.toUpperCase()).getId();
-			EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
+		else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL") || type.equalsIgnoreCase("ANVIL") || type.equalsIgnoreCase("BLOCK")) {
+			int typeId;
+			final int dataValue;
+			if (type.equalsIgnoreCase("BLOCK")) {
+				final String[] parts = data.split(":", 2);
+				final String typeIdString = parts[0];
+				try {
+					typeId = Integer.parseInt(typeIdString.toUpperCase());
+				}
+				catch (NumberFormatException e) {
+					try {
+						typeId = Material.valueOf(typeIdString.toUpperCase()).getId();
+					} catch (IllegalArgumentException e2) {
+						return null;
+					}
+				}
+				if (parts.length == 1) {
+					dataValue = 0;
+				}
+				else {
+					final String dataValueString = parts[1];
+					dataValue = Integer.parseInt(dataValueString.toUpperCase());
+				}
+			}
+			else if (data == null) {
+				typeId = Material.valueOf(type.toUpperCase()).getId();
+				dataValue = 0;
+			}
+			else {
+				typeId = 1;
+				dataValue = 0;
+			}
+
+			if (typeId >= 256)
+				return null;
+
+			EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), typeId, dataValue);
+
+			// This disables the first tick code, which takes care of removing the original block etc.
+			notchEntity.c = 1;
+
+			// Do not drop an item if placing a block fails
+			notchEntity.dropItem = false;
 
 			notchWorld.addEntity(notchEntity);
 			return notchEntity.getBukkitEntity();
