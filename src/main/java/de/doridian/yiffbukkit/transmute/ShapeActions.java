@@ -2,10 +2,12 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.EnumArt;
+
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -230,9 +232,17 @@ final class ShapeActions {
 
 		registerMobActions(64, // WitherBoss
 				"help",
-				new HelpMobAction("/sac health <0..300>"),
+				new HelpMobAction("/sac health <0..300>|size <0..900 - inverse>|headleft/center/right [<name>]"),
 				"health",
-				new MetadataCustomValueAction(16, "Set your health to %s", Integer.class)
+				new MetadataCustomValueAction(16, "Set your health to %s", Integer.class),
+				"head1", "headcenter", "centerhead",
+				new WitherHeadAction(17),
+				"head2", "headright", "righthead",
+				new WitherHeadAction(18),
+				"head3", "headleft", "lefthead",
+				new WitherHeadAction(19),
+				"size",
+				new MetadataCustomValueAction(20, "Set your size to %s", Integer.class)
 		);
 
 		registerMobActions(65, // Bat
@@ -552,6 +562,44 @@ final class ShapeActions {
 			shape.setData(index, value);
 
 			PlayerHelper.sendDirectedMessage(player, message);
+		}
+	}
+
+	static class WitherHeadAction implements ShapeAction {
+		private final int index;
+
+		public WitherHeadAction(int index) {
+			this.index = index;
+		}
+
+		@Override
+		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+			final Player target;
+			final boolean toggle;
+			if (argStr.isEmpty()) {
+				target = player;
+				toggle = true;
+			}
+			else {
+				target = YiffBukkit.instance.playerHelper.matchPlayerSingle(argStr);
+				toggle = false;
+			}
+
+			if (!toggle) {
+				shape.setData(index, target.getEntityId());
+
+				PlayerHelper.sendDirectedMessage(player, "That head is now following "+target.getName()+".");
+			}
+			else if (shape.getDataInteger(index) == 0) {
+				shape.setData(index, target.getEntityId());
+
+				PlayerHelper.sendDirectedMessage(player, "That head is now following you.");
+			}
+			else {
+				shape.setData(index, 0);
+
+				PlayerHelper.sendDirectedMessage(player, "That head is no longer following anyone.");
+			}
 		}
 	}
 }
