@@ -207,7 +207,7 @@ public class SpawnUtils {
 
 			return entity;
 		}
-		else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL")) {
+		else if (type.equalsIgnoreCase("SAND") || type.equalsIgnoreCase("GRAVEL") || type.equalsIgnoreCase("ANVIL")) {
 			int material = Material.valueOf(type.toUpperCase()).getId();
 			EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), material, 0);
 
