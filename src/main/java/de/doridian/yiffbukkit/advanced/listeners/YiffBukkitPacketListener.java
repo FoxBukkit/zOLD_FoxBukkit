@@ -56,6 +56,9 @@ public class YiffBukkitPacketListener extends PacketListener implements YBListen
 			if (p3.message.equals("\u00a74You are in a no-PvP area."))
 				return false;
 
+			if (p3.message.equals("\u00a74That player is in a no-PvP area."))
+				return false;
+
 			return true;
 
 		case 34:
