@@ -1,8 +1,10 @@
 package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import net.minecraft.server.DataWatcher;
+import net.minecraft.server.Packet62NamedSoundEffect;
 import net.minecraft.server.WatchableObject;
 
 import org.bukkit.Location;
@@ -252,6 +254,17 @@ public class Utils {
 
 	public static void makeSound(Location location, String soundName, float volume, float pitch) {
 		((CraftWorld) location.getWorld()).getHandle().makeSound(location.getX(), location.getY(), location.getZ(), soundName, volume, pitch);
+	}
+
+	public static void makeSound(Location location, String soundName, float volume, float pitch, Player player) {
+		if (location == null || soundName == null) return;
+
+		double x = location.getX();
+		double y = location.getY();
+		double z = location.getZ();
+
+		Packet62NamedSoundEffect packet = new Packet62NamedSoundEffect(soundName, x, y, z, volume, pitch);
+		PlayerHelper.sendPacketToPlayer(player, packet);
 	}
 
 	public static Pattern compileWildcard(String wildcard) {
