@@ -28,7 +28,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 @Permission("yiffbukkit.experimental.play")
 public class PlayCommand extends ICommand {
 	public static class Packet53BlockChangeExpress extends Packet53BlockChange {
-		{
+		static {
 			Map<Class<? extends Packet>, Integer> classToId = Utils.getPrivateValue(Packet.class, null, "a");
 			classToId.put(Packet53BlockChangeExpress.class, 53);
 		}
