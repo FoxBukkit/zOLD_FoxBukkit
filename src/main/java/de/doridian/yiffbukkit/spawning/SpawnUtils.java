@@ -240,7 +240,7 @@ public class SpawnUtils {
 				dataValue = 0;
 			}
 
-			if (typeId >= 256)
+			if (typeId <= 0 || typeId >= 256)
 				return null;
 
 			EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), typeId, dataValue);
