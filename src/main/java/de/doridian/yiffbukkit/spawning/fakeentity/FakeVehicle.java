@@ -8,11 +8,17 @@ import org.bukkit.entity.Player;
 
 public class FakeVehicle extends FakeEntity {
 	public int vehicleTypeId;
+	public int dataValue;
 
 	public FakeVehicle(Location location, int vehicleType) {
+		this(location, vehicleType, 0);
+	}
+
+	public FakeVehicle(Location location, int vehicleType, int dataValue) {
 		super(location);
 
 		this.vehicleTypeId = vehicleType;
+		this.dataValue = dataValue;
 	}
 
 	@Override
@@ -26,7 +32,7 @@ public class FakeVehicle extends FakeEntity {
 		p23.c = MathHelper.floor(position.getY() * 32.0D);
 		p23.d = MathHelper.floor(position.getZ() * 32.0D);
 		p23.h = vehicleTypeId;
-		p23.i = 0; //dataValue;
+		p23.i = dataValue;
 
 		PlayerHelper.sendPacketToPlayer(player, p23);
 	}
