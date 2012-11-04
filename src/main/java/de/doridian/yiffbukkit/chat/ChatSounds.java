@@ -36,15 +36,15 @@ public class ChatSounds {
 		chatSounds.put("welp", "mob.wolf.whine");
 		chatSounds.put("yelp", "mob.wolf.whine");
 
-		chatSounds.put("moo", "mob.cow");
-		chatSounds.put("muh", "mob.cow");
+		chatSounds.put("moo", "mob.cow.say");
+		chatSounds.put("muh", "mob.cow.say");
 
-		chatSounds.put("baa", "mob.sheep");
-		chatSounds.put("baaa", "mob.sheep");
-		chatSounds.put("baaaa", "mob.sheep");
-		chatSounds.put("meh", "mob.sheep");
+		chatSounds.put("baa", "mob.sheep.say");
+		chatSounds.put("baaa", "mob.sheep.say");
+		chatSounds.put("baaaa", "mob.sheep.say");
+		chatSounds.put("meh", "mob.sheep.say");
 
-		chatSounds.put("oink", "mob.pig");
+		chatSounds.put("oink", "mob.pig.say");
 
 		chatSounds.put("hiss", "random.fuse/1.0/0.5/0.5");
 		chatSounds.put("sss", "random.fuse/1.0/0.5/0.5");
@@ -59,7 +59,7 @@ public class ChatSounds {
 		chatSounds.put("burp", "random.burp/0.5/0.9/1.0");
 		chatSounds.put("psh", "random.fizz/0.5/2.0/3.0");
 
-		chatSounds.put("yiff", "mob.slime");
+		chatSounds.put("yiff", "mob.slime.small");
 		chatSounds.put("fap", "mob.wolf.shake/0.5/0.5/0.5");
 		chatSounds.put("fapfap", "mob.wolf.shake/0.5/0.5/0.5");
 		chatSounds.put("fapfapfap", "mob.wolf.shake/0.5/0.5/0.5");
