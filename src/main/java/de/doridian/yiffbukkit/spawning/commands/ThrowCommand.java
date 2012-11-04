@@ -118,7 +118,6 @@ public class ThrowCommand extends ICommand {
 				lastPitches.put(ply, p10.pitch);
 				return true;
 			}
-
 		};
 
 		PacketListener.addPacketListener(false, 12, packetListener, plugin);
