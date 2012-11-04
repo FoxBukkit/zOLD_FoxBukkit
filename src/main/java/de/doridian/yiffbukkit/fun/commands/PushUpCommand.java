@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.fun.commands;
 
 import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
@@ -20,10 +19,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 @Names("pushup")
 @Help("Pushes the selected region up, if it's sand or gravel.")
 @Permission("yiffbukkit.fun.pushup")
@@ -32,6 +27,8 @@ public class PushUpCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		LocalSession session = plugin.worldEdit.getSession(ply);
+
+		double speed = Double.parseDouble(args[0]);
 
 		World world = ply.getWorld();
 
@@ -43,8 +40,6 @@ public class PushUpCommand extends ICommand {
 			throw new YiffBukkitCommandException("Please select a region.", e);
 		}
 
-		Map<BlockVector2D, Integer> heightMap = new HashMap<BlockVector2D, Integer>();
-
 		for (BlockVector pos : selected) {
 			final int x = pos.getBlockX();
 			final int y = pos.getBlockY();
@@ -53,47 +48,31 @@ public class PushUpCommand extends ICommand {
 			if (world.getBlockTypeIdAt(x, y, z) == 0)
 				continue;
 
-			final BlockVector2D key = new BlockVector2D(x, z);
-
-			Integer oldValue = heightMap.get(key);
-			if (oldValue == null)
-				oldValue = Integer.MIN_VALUE;
-
-			final int newValue = y;
-			if (newValue <= oldValue)
-				continue;
-
-			heightMap.put(key, newValue);
-		}
-
-		for (Entry<BlockVector2D, Integer> entry : heightMap.entrySet()) {
-			BlockVector2D xz = entry.getKey();
-			pushUp(world, xz.getBlockX(), entry.getValue(), xz.getBlockZ());
+			pushUp(world, x, y, z, speed);
 		}
 	}
 
-	private static void pushUp(World world, int x, int y, int z) {
+	private static void pushUp(World world, int x, int y, int z, double speed) {
 		final Block block = world.getBlockAt(x, y, z);
 
 		final int typeId = block.getTypeId();
-		switch (typeId) {
-		case 12: // SAND
-		case 13: // GRAVEL
-			break;
-
-		default:
-			return;
-		}
 
 		block.setTypeIdAndData(0, (byte) 0, true);
 
 		final WorldServer notchWorld = ((CraftWorld) world).getHandle();
 
 		final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, block.getData());
+
+		// This disables the first tick code, which takes care of removing the original block etc.
+		notchEntity.c = 1;
+
+		// Do not drop an item if placing a block fails
+		notchEntity.dropItem = false;
+
 		notchWorld.addEntity(notchEntity);
 
 		final Entity entity = notchEntity.getBukkitEntity();
 
-		entity.setVelocity(new Vector(0, 1, 0));
+		entity.setVelocity(new Vector(0, speed, 0));
 	}
 }
