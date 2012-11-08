@@ -56,12 +56,13 @@ public class PushUpCommand extends ICommand {
 		final Block block = world.getBlockAt(x, y, z);
 
 		final int typeId = block.getTypeId();
+		final byte data = block.getData();
 
 		block.setTypeIdAndData(0, (byte) 0, true);
 
 		final WorldServer notchWorld = ((CraftWorld) world).getHandle();
 
-		final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, block.getData());
+		final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, data);
 
 		// This disables the first tick code, which takes care of removing the original block etc.
 		notchEntity.c = 1;
