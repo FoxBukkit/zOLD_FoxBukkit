@@ -6,6 +6,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.main.util.ZooKeeperManager;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
@@ -16,9 +17,12 @@ import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
+import net.killa.kept.KeptMap;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet70Bed;
 
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.ZooDefs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -38,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -336,7 +341,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Ranks
-	private Hashtable<String,String> playerranks = new Hashtable<String,String>();
+	private Map<String,String> playerranks = ZooKeeperManager.createKeptMap("playerranks");
 	public String getPlayerRank(Player ply) {
 		return getPlayerRank(ply.getName());
 	}
@@ -366,7 +371,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Permission levels
-	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
+	public Map<String,String> ranklevels = ZooKeeperManager.createKeptMap("ranklevels");
 	public int getPlayerLevel(CommandSender ply) {
 		return getPlayerLevel(ply.getName());
 	}
@@ -380,7 +385,7 @@ public class PlayerHelper extends StateContainer {
 
 	public int getRankLevel(String rankname) {
 		rankname = rankname.toLowerCase();
-		final Integer rankLevel = ranklevels.get(rankname);
+		final Integer rankLevel = Integer.parseInt(ranklevels.get(rankname));
 		if (rankLevel == null)
 			return 0;
 
@@ -396,7 +401,7 @@ public class PlayerHelper extends StateContainer {
 			String line; String[] split;
 			while((line = stream.readLine()) != null) {
 				split = line.split("=");
-				ranklevels.put(split[0], Integer.valueOf(split[1]));
+				ranklevels.put(split[0], Integer.valueOf(split[1]).toString());
 				ranktags.put(split[0], split[2]);
 			}
 			stream.close();
@@ -407,10 +412,8 @@ public class PlayerHelper extends StateContainer {
 	public void saveRanks() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("ranks-config.txt"));
-			Enumeration<String> e = playerranks.keys();
-			while(e.hasMoreElements()) {
-				String key = e.nextElement();
-				stream.write(key + "=" + playerranks.get(key) + "=" + ranktags.get(key));
+			for(Entry<String, String> e : playerranks.entrySet()) {
+				stream.write(e.getKey() + "=" + e.getValue() + "=" + ranktags.get(e.getKey()));
 				stream.newLine();
 			}
 			stream.close();
@@ -419,8 +422,8 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Tags
-	private Hashtable<String,String> ranktags = new Hashtable<String,String>();
-	private Hashtable<String,String> playertags = new Hashtable<String,String>();
+	private Map<String,String> ranktags = ZooKeeperManager.createKeptMap("ranktags");
+	private Map<String,String> playertags = ZooKeeperManager.createKeptMap("playertags");
 	public String getPlayerTag(CommandSender commandSender) {
 		return getPlayerTag(commandSender.getName());
 	}
@@ -461,10 +464,8 @@ public class PlayerHelper extends StateContainer {
 	public void savePlayerTags() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-tags.txt"));
-			Enumeration<String> e = playertags.keys();
-			while(e.hasMoreElements()) {
-				String key = e.nextElement();
-				stream.write(key + "=" + playertags.get(key));
+			for(Entry<String, String> e : playertags.entrySet()) {
+				stream.write(e.getKey() + "=" + e.getValue());
 				stream.newLine();
 			}
 			stream.close();
@@ -472,7 +473,7 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception e) { }
 	}
 
-	private Hashtable<String,String> playernicks = new Hashtable<String,String>();
+	private Map<String,String> playernicks = ZooKeeperManager.createKeptMap("playernicks");
 	@Loader({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
 	public void loadPlayerNicks() {
 		playernicks.clear();
@@ -491,10 +492,8 @@ public class PlayerHelper extends StateContainer {
 	public void savePlayerNicks() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-nicks.txt"));
-			Enumeration<String> e = playernicks.keys();
-			while(e.hasMoreElements()) {
-				String key = e.nextElement();
-				stream.write(key + "=" + playernicks.get(key));
+			for(Entry<String, String> e : playernicks.entrySet()) {
+				stream.write(e.getKey() + "=" + e.getValue());
 				stream.newLine();
 			}
 			stream.close();
