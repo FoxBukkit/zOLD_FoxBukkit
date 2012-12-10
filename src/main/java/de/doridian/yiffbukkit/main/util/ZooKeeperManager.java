@@ -36,17 +36,22 @@ public class ZooKeeperManager {
 			} catch(IOException e) {
 				throw new RuntimeException(e);
 			}
+			try {
+				zk.create("/yb", new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+				zk.create("/yb/", new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+			} catch(Exception e) { }
 		}
 		return zk;
 	}
 
 	public static Map<String,String> createKeptMap(String name) {
 		try {
+			ZooKeeper zk = getZooKeeper();
 			name = "/yb/" + name;
 			if(zk.exists(name, false) == null) {
 				zk.create(name, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 			}
-			return new KeptMap(ZooKeeperManager.getZooKeeper(), "/yb/" + name, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+			return new KeptMap(zk, name, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		} catch(Exception e) {
 			System.out.println("ERROR CONNECTING ZOOKEEPER");
 			e.printStackTrace();
