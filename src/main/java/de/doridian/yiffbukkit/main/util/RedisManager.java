@@ -1,6 +1,8 @@
 package de.doridian.yiffbukkit.main.util;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,50 +11,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class RedisManager {
-	private static Jedis jedis = new JedisMultiWriter("37.59.53.199", "46.37.189.177");
+	private static final JedisPool readJedisPool = createPool("37.59.53.199");
+	private static final JedisPool[] writeJedisPools = new JedisPool[] { readJedisPool, createPool("46.37.189.177") };
 
 	private static final String REDIS_PASSWORD = "SECRET";
 	private static final int REDIS_DB = 3;
 
-	private static class JedisMultiWriter extends Jedis {
-		private final Jedis[] writerConns;
-
-		private JedisMultiWriter(String host, String... otherHosts) {
-			super(host);
-			auth(REDIS_PASSWORD);
-			select(REDIS_DB);
-			writerConns = new Jedis[otherHosts.length];
-			for(int i = 0; i < otherHosts.length; i++) {
-				Jedis newConn = new Jedis(otherHosts[i]);
-				newConn.auth(REDIS_PASSWORD);
-				newConn.select(REDIS_DB);
-				writerConns[i] = newConn;
-			}
-		}
-
-		@Override
-		public Long hdel(String key, String... fields) {
-			for(Jedis jedis : writerConns) {
-				jedis.hdel(key, fields);
-			}
-			return super.hdel(key, fields);
-		}
-
-		@Override
-		public Long hset(String key, String field, String value) {
-			for(Jedis jedis : writerConns) {
-				jedis.hset(key, field, value);
-			}
-			return super.hset(key, field, value);
-		}
-
-		@Override
-		public Long del(String... keys) {
-			for(Jedis jedis : writerConns) {
-				jedis.del(keys);
-			}
-			return super.del(keys);
-		}
+	private static JedisPool createPool(String host) {
+		return new JedisPool(new JedisPoolConfig(), host, 6379, 20000, REDIS_PASSWORD, REDIS_DB);
 	}
 
 	public static class RedisMap implements Map<String, String> {
@@ -63,9 +29,17 @@ public class RedisManager {
 
 		@Override
 		public int size() {
+			Jedis jedis = readJedisPool.getResource();
+
+			int ret;
 			if(!jedis.exists(name))
-				return 0;
-			return (int)(long)jedis.hlen(name);
+				ret = 0;
+			else
+				ret = (int)(long)jedis.hlen(name);
+
+			readJedisPool.returnResource(jedis);
+
+			return ret;
 		}
 
 		@Override
@@ -75,7 +49,10 @@ public class RedisManager {
 
 		@Override
 		public boolean containsKey(Object key) {
-			return jedis.hexists(name, key.toString());
+			Jedis jedis = readJedisPool.getResource();
+			boolean exists = jedis.hexists(name, key.toString());
+			readJedisPool.returnResource(jedis);
+			return exists;
 		}
 
 		@Override
@@ -85,38 +62,17 @@ public class RedisManager {
 
 		@Override
 		public String get(Object key) {
-			return jedis.hget(name, key.toString());
-		}
-
-		@Override
-		public String put(String key, String value) {
-			String old = get(key);
-			jedis.hset(name, key, value);
-			return old;
-		}
-
-		@Override
-		public String remove(Object key) {
-			String old = get(key);
-			jedis.hdel(name, key.toString());
-			return old;
-		}
-
-		@Override
-		public void putAll(Map<? extends String, ? extends String> m) {
-			for(Entry<? extends String, ? extends String> e : m.entrySet()) {
-				jedis.hset(name, e.getKey(),  e.getValue());
-			}
-		}
-
-		@Override
-		public void clear() {
-			jedis.del(name);
+			Jedis jedis = readJedisPool.getResource();
+			String ret = jedis.hget(name, key.toString());
+			readJedisPool.returnResource(jedis);
+			return ret;
 		}
 
 		@Override
 		public Set<String> keySet() {
+			Jedis jedis = readJedisPool.getResource();
 			Set<String> keys = jedis.hkeys(name);
+			readJedisPool.returnResource(jedis);
 			if(keys == null)
 				return new HashSet<String>();
 			return keys;
@@ -124,7 +80,9 @@ public class RedisManager {
 
 		@Override
 		public Collection<String> values() {
+			Jedis jedis = readJedisPool.getResource();
 			Collection<String> values = jedis.hvals(name);
+			readJedisPool.returnResource(jedis);
 			if(values == null)
 				return new ArrayList<String>();
 			return values;
@@ -132,10 +90,55 @@ public class RedisManager {
 
 		@Override
 		public Set<Entry<String, String>> entrySet() {
+			Jedis jedis = readJedisPool.getResource();
 			Map<String, String> entryMap = jedis.hgetAll(name);
+			readJedisPool.returnResource(jedis);
 			if(entryMap == null)
 				return new HashSet<Entry<String, String>>();
 			return entryMap.entrySet();
+		}
+
+		@Override
+		public String put(String key, String value) {
+			String old = get(key);
+			for(JedisPool writeJedisPool : writeJedisPools) {
+				Jedis jedis = writeJedisPool.getResource();
+				jedis.hset(name, key, value);
+				writeJedisPool.returnResource(jedis);
+			}
+			return old;
+		}
+
+		@Override
+		public String remove(Object key) {
+			String old = get(key);
+			String keyS = key.toString();
+			for(JedisPool writeJedisPool : writeJedisPools) {
+				Jedis jedis = writeJedisPool.getResource();
+				jedis.hdel(name, keyS);
+				writeJedisPool.returnResource(jedis);
+			}
+			return old;
+		}
+
+		@Override
+		public void putAll(Map<? extends String, ? extends String> m) {
+			for(JedisPool writeJedisPool : writeJedisPools) {
+				Jedis jedis = writeJedisPool.getResource();
+				for(Entry<? extends String, ? extends String> e : m.entrySet()) {
+					jedis.hset(name, e.getKey(),  e.getValue());
+				}
+				writeJedisPool.returnResource(jedis);
+			}
+		}
+
+		@Override
+		public void clear() {
+			for(JedisPool writeJedisPool : writeJedisPools) {
+				Jedis jedis = writeJedisPool.getResource();
+				jedis.del(name);
+				writeJedisPool.returnResource(jedis);
+			}
 		}
 	}
 
