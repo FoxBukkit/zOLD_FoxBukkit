@@ -386,35 +386,6 @@ public class PlayerHelper extends StateContainer {
 		return rankLevel;
 	}
 
-	@Loader({ "ranks", "ranknames" })
-	public void loadRanks() {
-		ranklevels.clear();
-		ranktags.clear();
-		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("ranks-config.txt"));
-			String line; String[] split;
-			while((line = stream.readLine()) != null) {
-				split = line.split("=");
-				ranklevels.put(split[0], Integer.valueOf(split[1]).toString());
-				ranktags.put(split[0], split[2]);
-			}
-			stream.close();
-		}
-		catch (Exception e) { }
-	}
-	@Saver({ "ranks", "ranknames", "rank_names" })
-	public void saveRanks() {
-		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("ranks-config.txt"));
-			for(Entry<String, String> e : playerranks.entrySet()) {
-				stream.write(e.getKey() + "=" + e.getValue() + "=" + ranktags.get(e.getKey()));
-				stream.newLine();
-			}
-			stream.close();
-		}
-		catch(Exception e) { }
-	}
-
 	//Tags
 	private Map<String,String> ranktags = RedisManager.createKeptMap("ranktags");
 	private Map<String,String> playertags = RedisManager.createKeptMap("playertags");
@@ -437,63 +408,9 @@ public class PlayerHelper extends StateContainer {
 			playertags.remove(name);
 		else
 			playertags.put(name, tag);
-		savePlayerTags();
-	}
-
-	@Loader({ "playertags", "player_tags", "tags" })
-	public void loadPlayerTags() {
-		playertags.clear();
-		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-tags.txt"));
-			String line; int lpos;
-			while((line = stream.readLine()) != null) {
-				lpos = line.lastIndexOf('=');
-				playertags.put(line.substring(0,lpos), line.substring(lpos+1));
-			}
-			stream.close();
-		}
-		catch (Exception e) { }
-	}
-	@Saver({ "playertags", "player_tags", "tags" })
-	public void savePlayerTags() {
-		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-tags.txt"));
-			for(Entry<String, String> e : playertags.entrySet()) {
-				stream.write(e.getKey() + "=" + e.getValue());
-				stream.newLine();
-			}
-			stream.close();
-		}
-		catch(Exception e) { }
 	}
 
 	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
-	@Loader({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
-	public void loadPlayerNicks() {
-		playernicks.clear();
-		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-nicks.txt"));
-			String line; int lpos;
-			while((line = stream.readLine()) != null) {
-				lpos = line.lastIndexOf('=');
-				playernicks.put(line.substring(0,lpos), line.substring(lpos+1));
-			}
-			stream.close();
-		}
-		catch (Exception e) { }
-	}
-	@Saver({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
-	public void savePlayerNicks() {
-		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-nicks.txt"));
-			for(Entry<String, String> e : playernicks.entrySet()) {
-				stream.write(e.getKey() + "=" + e.getValue());
-				stream.newLine();
-			}
-			stream.close();
-		}
-		catch(Exception e) { }
-	}
 
 	public String getPlayerNick(String name) {
 		name = name.toLowerCase();
@@ -511,7 +428,6 @@ public class PlayerHelper extends StateContainer {
 		}
 		else
 			playernicks.put(name, tag);
-		savePlayerNicks();
 	}
 
 	public Set<String> playerTpPermissions = new HashSet<String>();

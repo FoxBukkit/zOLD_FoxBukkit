@@ -1,20 +1,16 @@
 package de.doridian.yiffbukkit.permissions;
 
-import de.doridian.yiffbukkit.main.config.ConfigFileReader;
-import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class YiffBukkitPermissionHandler {
 	public static final YiffBukkitPermissionHandler instance = new YiffBukkitPermissionHandler();
@@ -63,7 +59,6 @@ public class YiffBukkitPermissionHandler {
 		loaded = true;
 		groupPermissions.clear();
 		groupProhibitions.clear();
-		playerGroups.clear();
 
 		final File permissionsDirectory = new File(YiffBukkit.instance.getDataFolder() + "/permissions");
 		permissionsDirectory.mkdirs();
@@ -120,33 +115,10 @@ public class YiffBukkitPermissionHandler {
 			}
 			catch(Exception e) { e.printStackTrace(); }
 		}
-		try {
-			reader = new BufferedReader(new ConfigFileReader("player-groups.txt"));
-			String line; int lpos;
-			while((line = reader.readLine()) != null) {
-				line = line.toLowerCase();
-				lpos = line.lastIndexOf('=');
-				if(lpos < 0) continue;
-				playerGroups.put(line.substring(0,lpos), line.substring(lpos+1));
-			}
-			reader.close();
-		}
-		catch(Exception e) { }
 	}
 
 	public void save() {
-		try {
-			BufferedWriter writer = new BufferedWriter(new ConfigFileWriter("player-groups.txt"));
-			Set<String> e = playerGroups.keySet();
-			for(String key : e) {
-				String value = playerGroups.get(key);
-				if(value.equals("guest")) continue;
-				writer.write(key + "=" + value);
-				writer.newLine();
-			}
-			writer.close();
-		}
-		catch(Exception e) { }
+
 	}
 
 	public boolean has(CommandSender commandSender, String permission) {
