@@ -3,26 +3,22 @@ package de.doridian.yiffbukkitsplit.util;
 import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
-import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
-import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.main.util.ZooKeeperManager;
-import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkit.warp.WarpException;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
+import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
+import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
+import de.doridian.yiffbukkit.main.util.RedisManager;
+import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkit.warp.WarpException;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
-import net.killa.kept.KeptMap;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet70Bed;
-
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.ZooDefs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -42,9 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -341,7 +335,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Ranks
-	private Map<String,String> playerranks = ZooKeeperManager.createKeptMap("playerranks");
+	private Map<String,String> playerranks = RedisManager.createKeptMap("playerranks");
 	public String getPlayerRank(Player ply) {
 		return getPlayerRank(ply.getName());
 	}
@@ -371,7 +365,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Permission levels
-	public Map<String,String> ranklevels = ZooKeeperManager.createKeptMap("ranklevels");
+	public Map<String,String> ranklevels = RedisManager.createKeptMap("ranklevels");
 	public int getPlayerLevel(CommandSender ply) {
 		return getPlayerLevel(ply.getName());
 	}
@@ -422,8 +416,8 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Tags
-	private Map<String,String> ranktags = ZooKeeperManager.createKeptMap("ranktags");
-	private Map<String,String> playertags = ZooKeeperManager.createKeptMap("playertags");
+	private Map<String,String> ranktags = RedisManager.createKeptMap("ranktags");
+	private Map<String,String> playertags = RedisManager.createKeptMap("playertags");
 	public String getPlayerTag(CommandSender commandSender) {
 		return getPlayerTag(commandSender.getName());
 	}
@@ -473,7 +467,7 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception e) { }
 	}
 
-	private Map<String,String> playernicks = ZooKeeperManager.createKeptMap("playernicks");
+	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
 	@Loader({ "nicks", "nick", "nicknames", "nickname", "nick_names", "nick_name" })
 	public void loadPlayerNicks() {
 		playernicks.clear();

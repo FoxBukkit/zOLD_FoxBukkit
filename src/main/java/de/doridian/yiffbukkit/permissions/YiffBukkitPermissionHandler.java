@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.permissions;
 
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
-import de.doridian.yiffbukkit.main.util.ZooKeeperManager;
+import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.apache.zookeeper.ZooKeeper;
 import org.bukkit.command.CommandSender;
@@ -45,7 +45,7 @@ public class YiffBukkitPermissionHandler {
 	}
 
 	private boolean loaded = false;
-	private final Map<String,String> playerGroups = ZooKeeperManager.createKeptMap("playergroups");
+	private final Map<String,String> playerGroups = RedisManager.createKeptMap("playergroups");
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<GroupWorld,HashSet<String>>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<GroupWorld,HashSet<String>>();
 	
