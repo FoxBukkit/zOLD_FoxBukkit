@@ -5,7 +5,6 @@ import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.entity.Player;
 
 import java.io.FileInputStream;

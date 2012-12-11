@@ -1,21 +1,19 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
-import java.util.Random;
-
+import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
+import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet35EntityHeadRotation;
-
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
-import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import java.util.Random;
 
 @EffectProperties(
 		name = "rage",

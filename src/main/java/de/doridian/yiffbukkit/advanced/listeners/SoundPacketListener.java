@@ -1,17 +1,15 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
-import java.lang.reflect.Field;
-
+import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet62NamedSoundEffect;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 
-import de.doridian.yiffbukkit.componentsystem.YBListener;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import java.lang.reflect.Field;
 
 public class SoundPacketListener extends PacketListener implements YBListener {
 	public SoundPacketListener(YiffBukkit plugin) {

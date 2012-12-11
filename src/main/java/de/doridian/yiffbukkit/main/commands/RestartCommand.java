@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
-
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;

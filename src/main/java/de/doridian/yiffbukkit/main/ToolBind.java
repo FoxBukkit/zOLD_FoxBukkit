@@ -1,15 +1,14 @@
 package de.doridian.yiffbukkit.main;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class ToolBind {
 	public final String playerName;

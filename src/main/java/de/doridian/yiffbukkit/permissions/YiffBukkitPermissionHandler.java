@@ -4,7 +4,6 @@ import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import org.apache.zookeeper.ZooKeeper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

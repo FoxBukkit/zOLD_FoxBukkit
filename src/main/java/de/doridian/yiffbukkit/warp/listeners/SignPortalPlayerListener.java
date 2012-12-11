@@ -4,7 +4,6 @@ import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

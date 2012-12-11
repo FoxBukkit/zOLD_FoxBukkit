@@ -11,11 +11,10 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.Packet10Flying;
-
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;

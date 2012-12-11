@@ -1,16 +1,15 @@
 package de.doridian.yiffbukkit.main.util;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 
 public class RunString {
 	private static final Pattern commandPattern = Pattern.compile("^([^ ]+).*$");

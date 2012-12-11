@@ -1,14 +1,16 @@
 package de.doridian.yiffbukkit.yiffpoints.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @Names("addfunds")
 @Help("Adds funds to the specified player's balance.")

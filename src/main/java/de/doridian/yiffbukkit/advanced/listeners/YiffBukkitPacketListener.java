@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.fun.commands.PlayCommand.Packet53BlockChangeExpress;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -15,7 +16,6 @@ import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet70Bed;
 import net.minecraft.server.WorldServer;
-
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -26,8 +26,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
-
-import com.sk89q.worldedit.blocks.BlockType;
 
 public class YiffBukkitPacketListener extends PacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;

@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.chat.commands;
 
-import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.chat.ChatChannel;
 import de.doridian.yiffbukkit.chat.ChatHelper;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import org.bukkit.entity.Player;
 
 public abstract class GenericChannelCommand extends ICommand {

@@ -1,14 +1,12 @@
 package de.doridian.yiffbukkit.spawning.potions;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MovingObjectPosition;
-
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-
-import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 
 public abstract class AreaCustomPotion extends CustomPotion {
 	private double radius;

@@ -1,8 +1,5 @@
 package de.doridian.yiffbukkit.transmute;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.DataWatcher;
@@ -15,6 +12,9 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public abstract class Shape {
 	protected final Transmute transmute;

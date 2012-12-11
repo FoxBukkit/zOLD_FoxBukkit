@@ -1,15 +1,15 @@
 package de.doridian.yiffbukkit.main.commands.system;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.bukkit.command.CommandSender;
-
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Cost;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import org.bukkit.command.CommandSender;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommandSystem {
 	private final YiffBukkit plugin;

@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.componentsystem;
 
-import java.lang.reflect.InvocationTargetException;
-
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class Component {
 	protected final YiffBukkit plugin;

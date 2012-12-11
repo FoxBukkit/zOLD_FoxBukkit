@@ -1,15 +1,14 @@
 package de.doridian.yiffbukkit.jail;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import de.doridian.yiffbukkit.main.util.Ini;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import de.doridian.yiffbukkit.main.util.Ini;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class JailDescriptor {
 	private final World world;

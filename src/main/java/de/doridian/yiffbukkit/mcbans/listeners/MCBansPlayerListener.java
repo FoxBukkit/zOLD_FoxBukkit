@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.mcbans.listeners;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 import de.doridian.yiffbukkitsplit.LockDownMode;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

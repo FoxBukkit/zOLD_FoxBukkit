@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

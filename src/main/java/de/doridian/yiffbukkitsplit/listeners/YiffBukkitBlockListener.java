@@ -2,7 +2,6 @@ package de.doridian.yiffbukkitsplit.listeners;
 
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
-
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;

@@ -2,11 +2,9 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.Packet62NamedSoundEffect;
 import net.minecraft.server.WatchableObject;
-
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.CraftWorld;

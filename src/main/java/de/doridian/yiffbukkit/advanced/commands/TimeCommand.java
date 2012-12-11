@@ -9,7 +9,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;

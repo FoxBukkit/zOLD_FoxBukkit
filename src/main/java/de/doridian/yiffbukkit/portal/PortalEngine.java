@@ -4,7 +4,6 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.portal.listeners.PortalPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

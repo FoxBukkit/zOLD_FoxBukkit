@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.HashSet;

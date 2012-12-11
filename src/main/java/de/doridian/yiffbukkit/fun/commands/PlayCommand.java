@@ -10,7 +10,6 @@ import net.minecraft.server.Packet;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet54PlayNoteBlock;
 import net.minecraft.server.World;
-
 import org.bukkit.Instrument;
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -2,10 +2,14 @@ package de.doridian.yiffbukkit.fun.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.entity.Player;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

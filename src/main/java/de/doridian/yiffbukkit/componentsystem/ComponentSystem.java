@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.componentsystem;
 
+import de.doridian.yiffbukkit.jail.JailComponent;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import de.doridian.yiffbukkit.jail.JailComponent;
 
 public class ComponentSystem {
 	Map<String, Component> loadedComponents = new LinkedHashMap<String, Component>();

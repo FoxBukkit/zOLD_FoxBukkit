@@ -1,11 +1,10 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.mcbans.listeners.MCBansKeyListener;
 import de.doridian.yiffbukkit.mcbans.listeners.MCBansPlayerListener;
-
+import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;

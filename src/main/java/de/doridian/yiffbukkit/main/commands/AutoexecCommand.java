@@ -9,12 +9,12 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 

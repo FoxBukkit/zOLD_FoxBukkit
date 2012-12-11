@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
 import com.sk89q.worldedit.blocks.BlockType;
-
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -11,7 +10,6 @@ import net.minecraft.server.Packet28EntityVelocity;
 import net.minecraft.server.Packet30Entity;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet38EntityStatus;
-
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;

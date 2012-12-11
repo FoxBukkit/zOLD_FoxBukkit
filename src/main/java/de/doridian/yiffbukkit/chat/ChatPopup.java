@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.chat;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkit.main.spout.YiffBukkitButton;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.ContainerType;

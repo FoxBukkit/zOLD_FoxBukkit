@@ -1,16 +1,15 @@
 package de.doridian.yiffbukkit.yiffpoints;
 
+import de.doridian.yiffbukkit.main.StateContainer;
+import de.doridian.yiffbukkit.main.util.Ini;
+import org.bukkit.command.CommandSender;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
-
-import org.bukkit.command.CommandSender;
-
-import de.doridian.yiffbukkit.main.StateContainer;
-import de.doridian.yiffbukkit.main.util.Ini;
+import java.util.TreeMap;
 
 public class YBBank extends StateContainer {
 	Map<String, YBAccount> accounts = new HashMap<String, YBAccount>();

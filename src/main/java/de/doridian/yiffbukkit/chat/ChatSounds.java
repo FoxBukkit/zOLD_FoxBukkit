@@ -1,15 +1,14 @@
 package de.doridian.yiffbukkit.chat;
 
+import de.doridian.yiffbukkit.main.util.Utils;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.bukkit.entity.Player;
-
-import de.doridian.yiffbukkit.main.util.Utils;
 
 public class ChatSounds {
 	private static final Map<String, String> chatSounds = new HashMap<String, String>();

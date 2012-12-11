@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.chat.listeners;
 import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

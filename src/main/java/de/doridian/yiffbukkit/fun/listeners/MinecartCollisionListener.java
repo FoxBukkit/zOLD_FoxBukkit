@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.fun.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

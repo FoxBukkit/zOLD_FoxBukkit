@@ -5,7 +5,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
-
 import org.bukkit.entity.Player;
 
 @Names("rage")

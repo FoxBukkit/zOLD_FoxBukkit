@@ -1,5 +1,9 @@
 package de.doridian.yiffbukkit.transmute.listeners;
 
+import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.transmute.Shape;
+import de.doridian.yiffbukkit.transmute.Transmute;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.Packet17EntityLocationAction;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet20NamedEntitySpawn;
@@ -13,11 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.event.server.PacketListener;
 import org.bukkit.plugin.Plugin;
-
-import de.doridian.yiffbukkit.componentsystem.YBListener;
-import de.doridian.yiffbukkit.transmute.Shape;
-import de.doridian.yiffbukkit.transmute.Transmute;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 
 import java.util.HashSet;
 import java.util.Set;
