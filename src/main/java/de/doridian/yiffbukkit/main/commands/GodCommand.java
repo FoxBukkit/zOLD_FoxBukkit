@@ -42,11 +42,7 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 
 	@Override
 	protected void onStateChange(boolean prevState, boolean newState, String targetName, CommandSender commandSender) throws YiffBukkitCommandException {
-		if (commandSender.getName().equals(targetName)) {
-			/*if (!FakePermissions.has(commandSender, "yiffbukkit.players.god.self"))
-				throw new PermissionDeniedException();*/
-		}
-		else {
+		if (!commandSender.getName().equals(targetName)) {
 			if (!commandSender.hasPermission("yiffbukkit.players.god.others"))
 				throw new PermissionDeniedException();
 		}
