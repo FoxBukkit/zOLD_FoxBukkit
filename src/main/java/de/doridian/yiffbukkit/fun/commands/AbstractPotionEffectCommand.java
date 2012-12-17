@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public abstract class AbstractPotionEffectCommand extends AbstractPlayerStateCommand implements Runnable {
 	public AbstractPotionEffectCommand() {
-		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 10);
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 300);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public abstract class AbstractPotionEffectCommand extends AbstractPlayerStateCom
 	protected abstract PotionEffectType getPotionEffectType();
 
 	private void addPotionEffect(Player ply) {
-		PotionEffect potionEffect = new PotionEffect(getPotionEffectType(), 300, 1);
+		PotionEffect potionEffect = new PotionEffect(getPotionEffectType(), 600, 1);
 		ply.addPotionEffect(potionEffect, true);
 	}
 

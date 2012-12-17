@@ -19,7 +19,7 @@ public class SpeedCommand extends ICommand implements Runnable {
 	private final HashMap<String, Integer> states = new HashMap<String, Integer>();
 
 	public SpeedCommand() {
-		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 10);
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 300);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class SpeedCommand extends ICommand implements Runnable {
 	}
 
 	private void addPotionEffect(Player ply, int amp) {
-		PotionEffect potionEffect = new PotionEffect(PotionEffectType.SPEED, 300, amp - 1);
+		PotionEffect potionEffect = new PotionEffect(PotionEffectType.SPEED, 600, amp - 1);
 		ply.addPotionEffect(potionEffect, true);
 	}
 
