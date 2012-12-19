@@ -28,7 +28,7 @@ public abstract class AbstractPotionEffectCommand extends AbstractPlayerStateCom
 	protected abstract PotionEffectType getPotionEffectType();
 
 	private void addPotionEffect(Player ply) {
-		PotionEffect potionEffect = new PotionEffect(getPotionEffectType(), 600, 1);
+		PotionEffect potionEffect = new PotionEffect(getPotionEffectType(), 1200, 0);
 		ply.addPotionEffect(potionEffect, true);
 	}
 

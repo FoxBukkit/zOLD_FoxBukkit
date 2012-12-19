@@ -33,7 +33,7 @@ public class SpeedCommand extends ICommand implements Runnable {
 	}
 
 	private void addPotionEffect(Player ply, int amp) {
-		PotionEffect potionEffect = new PotionEffect(PotionEffectType.SPEED, 600, amp - 1);
+		PotionEffect potionEffect = new PotionEffect(PotionEffectType.SPEED, 1200, amp - 1);
 		ply.addPotionEffect(potionEffect, true);
 	}
 
