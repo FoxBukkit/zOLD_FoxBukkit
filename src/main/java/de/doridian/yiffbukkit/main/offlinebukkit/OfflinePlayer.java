@@ -16,8 +16,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.CraftOfflinePlayer;
-import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -28,6 +28,7 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.InventoryView.Property;
@@ -210,6 +211,12 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public Location getLocation() {
 		return location;
 	}
+
+	@Override
+	public Location getLocation(Location location) {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
 	@Override
 	public World getWorld() {
 		return world;
@@ -871,6 +878,31 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public boolean hasLineOfSight(Entity entity) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean getRemoveWhenFarAway() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setRemoveWhenFarAway(boolean b) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public EntityEquipment getEquipment() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setCanPickupItems(boolean b) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public boolean getCanPickupItems() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override

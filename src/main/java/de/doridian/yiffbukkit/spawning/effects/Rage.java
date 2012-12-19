@@ -3,13 +3,13 @@ package de.doridian.yiffbukkit.spawning.effects;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.Packet18ArmAnimation;
-import net.minecraft.server.Packet32EntityLook;
-import net.minecraft.server.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityLiving;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet18ArmAnimation;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet32EntityLook;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet35EntityHeadRotation;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_4_5.v1_4_5.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

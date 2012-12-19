@@ -2,12 +2,12 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.DataWatcher;
-import net.minecraft.server.Packet62NamedSoundEffect;
-import net.minecraft.server.WatchableObject;
+import net.minecraft.server.v1_4_5.v1_4_5.DataWatcher;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_4_5.v1_4_5.WatchableObject;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -430,7 +430,7 @@ public class Utils {
 
 	public static void dumpDataWatcher(DataWatcher datawatcher) {
 		for (Object o : datawatcher.c()) {
-			net.minecraft.server.WatchableObject wo = (WatchableObject) o; 
+			net.minecraft.server.v1_4_5.v1_4_5.WatchableObject wo = (WatchableObject) o;
 			System.out.println(wo.a());
 			System.out.println(wo.b());
 		}

@@ -39,7 +39,7 @@ public class Transmute implements Runnable {
 				for (Iterator<Packet> iterator = transmutePacketListener.ignoredPackets.iterator(); iterator.hasNext(); ) {
 					final Packet packet = iterator.next();
 
-					if (((net.minecraft.server.Packet) packet).timestamp < minTimestamp)
+					if (((net.minecraft.server.v1_4_5.v1_4_5.Packet) packet).timestamp < minTimestamp)
 						iterator.remove();
 				}
 
@@ -72,7 +72,7 @@ public class Transmute implements Runnable {
 		return transmuted.containsKey(entity.getEntityId());
 	}
 
-	public boolean isTransmuted(net.minecraft.server.Entity entity) {
+	public boolean isTransmuted(net.minecraft.server.v1_4_5.v1_4_5.Entity entity) {
 		return transmuted.containsKey(entity.id);
 	}
 
@@ -84,7 +84,7 @@ public class Transmute implements Runnable {
 		return transmuted.get(entity.getEntityId());
 	}
 
-	public Shape getShape(net.minecraft.server.Entity entity) {
+	public Shape getShape(net.minecraft.server.v1_4_5.v1_4_5.Entity entity) {
 		return transmuted.get(entity.id);
 	}
 

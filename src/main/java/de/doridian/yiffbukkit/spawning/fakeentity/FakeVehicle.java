@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.MathHelper;
-import net.minecraft.server.Packet23VehicleSpawn;
+import net.minecraft.server.v1_4_5.v1_4_5.MathHelper;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet23VehicleSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

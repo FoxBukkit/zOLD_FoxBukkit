@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.transmute;
 
-import net.minecraft.server.ItemStack;
-import net.minecraft.server.MathHelper;
-import net.minecraft.server.Packet21PickupSpawn;
+import net.minecraft.server.v1_4_5.v1_4_5.ItemStack;
+import net.minecraft.server.v1_4_5.v1_4_5.MathHelper;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet21PickupSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.server.Packet;

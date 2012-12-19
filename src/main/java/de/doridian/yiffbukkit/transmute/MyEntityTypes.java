@@ -1,20 +1,20 @@
 package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.util.Utils;
-import net.minecraft.server.Entity;
-import net.minecraft.server.EntityEgg;
-import net.minecraft.server.EntityEnderDragon;
-import net.minecraft.server.EntityEnderPearl;
-import net.minecraft.server.EntityEnderSignal;
-import net.minecraft.server.EntityExperienceOrb;
-import net.minecraft.server.EntityFallingBlock;
-import net.minecraft.server.EntityFishingHook;
-import net.minecraft.server.EntityMagmaCube;
-import net.minecraft.server.EntityOcelot;
-import net.minecraft.server.EntityPotion;
-import net.minecraft.server.EntityTNTPrimed;
-import net.minecraft.server.EntityTypes;
-import net.minecraft.server.EntityWither;
+import net.minecraft.server.v1_4_5.v1_4_5.Entity;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityEgg;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityEnderDragon;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityEnderPearl;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityEnderSignal;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityExperienceOrb;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityFallingBlock;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityFishingHook;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityMagmaCube;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityOcelot;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityPotion;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityTNTPrimed;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityTypes;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityWither;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,8 +62,8 @@ public class MyEntityTypes {
 		classToId.put(cls, Integer.valueOf(mobType));
 	}
 
-	public static final Class<? extends net.minecraft.server.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
-		for (Entry<String, Class<? extends net.minecraft.server.Entity>> entry : typeNameToClass.entrySet()) {
+	public static final Class<? extends net.minecraft.server.v1_4_5.v1_4_5.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
+		for (Entry<String, Class<? extends net.minecraft.server.v1_4_5.v1_4_5.Entity>> entry : typeNameToClass.entrySet()) {
 			if (entry.getKey().equalsIgnoreCase(mobType))
 				return entry.getValue();
 		}
@@ -72,7 +72,7 @@ public class MyEntityTypes {
 		//return typeNameToClass.get(mobType);
 	}
 	
-	public static final int classToId(Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
+	public static final int classToId(Class<? extends net.minecraft.server.v1_4_5.v1_4_5.Entity> mobType) throws EntityTypeNotFoundException {
 		final Integer id = classToId.get(mobType);
 		if (id == null)
 			throw new EntityTypeNotFoundException();
@@ -80,7 +80,7 @@ public class MyEntityTypes {
 		return id;
 	}
 
-	public static final String classToTypeName(Class<? extends net.minecraft.server.Entity> mobType) throws EntityTypeNotFoundException {
+	public static final String classToTypeName(Class<? extends net.minecraft.server.v1_4_5.v1_4_5.Entity> mobType) throws EntityTypeNotFoundException {
 		final String typeName = classToTypeName.get(mobType);
 		if (typeName == null)
 			throw new EntityTypeNotFoundException();
@@ -88,8 +88,8 @@ public class MyEntityTypes {
 		return typeName;
 	}
 
-	public static final Class<? extends net.minecraft.server.Entity> idToClass(int id) throws EntityTypeNotFoundException {
-		final Class<? extends net.minecraft.server.Entity> mobType = idToClass.get(id);
+	public static final Class<? extends net.minecraft.server.v1_4_5.v1_4_5.Entity> idToClass(int id) throws EntityTypeNotFoundException {
+		final Class<? extends net.minecraft.server.v1_4_5.v1_4_5.Entity> mobType = idToClass.get(id);
 		if (mobType == null)
 			throw new EntityTypeNotFoundException();
 

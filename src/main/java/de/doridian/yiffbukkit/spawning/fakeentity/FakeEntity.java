@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.MathHelper;
-import net.minecraft.server.Packet28EntityVelocity;
-import net.minecraft.server.Packet29DestroyEntity;
-import net.minecraft.server.Packet34EntityTeleport;
+import net.minecraft.server.v1_4_5.v1_4_5.MathHelper;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet28EntityVelocity;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet29DestroyEntity;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet34EntityTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
@@ -74,6 +74,11 @@ public abstract class FakeEntity implements Entity {
 
 	@Override
 	public Location getLocation() {
+		return location;
+	}
+
+	@Override
+	public Location getLocation(Location location) {
 		return location;
 	}
 
