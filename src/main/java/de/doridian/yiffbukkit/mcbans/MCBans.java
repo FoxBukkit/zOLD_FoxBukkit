@@ -15,14 +15,11 @@ public class MCBans {
 	private MCBansPlayerListener playerListener;
 	@SuppressWarnings("unused")
 	private MCBansKeyListener keyListener;
-	@SuppressWarnings("unused")
-	private ClientBlacklist clientBlacklist;
 
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
 		playerListener = new MCBansPlayerListener();
 		keyListener = new MCBansKeyListener();
-		clientBlacklist = new ClientBlacklist(plug);
 	}
 
 

@@ -17,19 +17,18 @@ import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.Packet70Bed;
+import net.minecraft.server.v1_4_5.v1_4_5.EntityPlayer;
+import net.minecraft.server.v1_4_5.v1_4_5.Packet70Bed;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_5.v1_4_5.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
-import org.getspout.spout.player.SpoutCraftPlayer;
 import org.getspout.spoutapi.packet.SpoutPacket;
 
 import java.io.BufferedReader;
@@ -525,13 +524,13 @@ public class PlayerHelper extends StateContainer {
 	private Long frozenServerTime;
 
 	public static void sendSpoutPacketToPlayer(final Player ply, final SpoutPacket packet) {
-		final Player scp = SpoutCraftPlayer.getPlayer(ply);
+		/*final Player scp = SpoutCraftPlayer.getPlayer(ply);
 		if(scp == null || !(scp instanceof SpoutCraftPlayer)) return;
-		((SpoutCraftPlayer)scp).sendPacket(packet);
+		((SpoutCraftPlayer)scp).sendPacket(packet);*/
 	}
 
 	public static void sendPacketToPlayer(final Player ply, final Packet packet) {
-		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket((net.minecraft.server.Packet) packet);
+		((CraftPlayer)ply).getHandle().netServerHandler.sendPacket((net.minecraft.server.v1_4_5.v1_4_5.Packet) packet);
 	}
 
 	public final void sendSpoutPacketToPlayersAround(final Location location, final double radius, final SpoutPacket packet) {
