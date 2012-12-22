@@ -1,8 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
-import net.minecraft.server.v1_4_5.v1_4_5.ItemStack;
-import net.minecraft.server.v1_4_5.v1_4_5.MathHelper;
-import net.minecraft.server.v1_4_5.v1_4_5.Packet21PickupSpawn;
+import net.minecraft.server.v1_4_6.v1_4_6.ItemStack;
+import net.minecraft.server.v1_4_6.v1_4_6.MathHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.server.Packet;
@@ -35,7 +34,7 @@ public class ItemShape extends EntityShape {
 
 	@Override
 	protected Packet createSpawnPacket() {
-		Location location = entity.getLocation();
+		/*Location location = entity.getLocation();
 
 		final Packet21PickupSpawn p21 = new Packet21PickupSpawn();
 
@@ -52,7 +51,8 @@ public class ItemShape extends EntityShape {
 
 		p21.h = new ItemStack(type, count, data);
 
-		return p21;
+		return p21;*/
+        return null;
 	}
 
 	public int getType() {

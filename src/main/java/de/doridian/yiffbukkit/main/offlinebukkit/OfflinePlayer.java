@@ -16,8 +16,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftOfflinePlayer;
-import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftServer;
+import org.bukkit.craftbukkit.v1_4_6.v1_4_6.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.v1_4_6.v1_4_6.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -840,7 +840,12 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		return 0;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	@Override
+    @Override
+    public void setTexturePack(String s) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
 	public boolean addPotionEffect(PotionEffect effect) {
 		// TODO Auto-generated method stub
 		return false;

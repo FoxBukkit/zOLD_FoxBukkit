@@ -14,16 +14,7 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_4_5.v1_4_5.EntityFallingBlock;
-import net.minecraft.server.v1_4_5.v1_4_5.EntityLargeFireball;
-import net.minecraft.server.v1_4_5.v1_4_5.EntityPlayer;
-import net.minecraft.server.v1_4_5.v1_4_5.EntityTNTPrimed;
-import net.minecraft.server.v1_4_5.v1_4_5.ItemInWorldManager;
-import net.minecraft.server.v1_4_5.v1_4_5.MinecraftServer;
-import net.minecraft.server.v1_4_5.v1_4_5.MovingObjectPosition;
-import net.minecraft.server.v1_4_5.v1_4_5.NetServerHandler;
-import net.minecraft.server.v1_4_5.v1_4_5.NetworkManager;
-import net.minecraft.server.v1_4_5.v1_4_5.WorldServer;
+import net.minecraft.server.v1_4_6.v1_4_6.*;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
@@ -31,9 +22,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftServer;
-import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftWorld;
-import org.bukkit.craftbukkit.v1_4_5.v1_4_5.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_6.v1_4_6.CraftServer;
+import org.bukkit.craftbukkit.v1_4_6.v1_4_6.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -256,7 +247,7 @@ public class SpawnUtils {
 		else if (type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-			net.minecraft.server.v1_4_5.v1_4_5.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+			net.minecraft.server.v1_4_6.v1_4_6.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 				@Override
 				protected boolean hit(MovingObjectPosition movingobjectposition) {
 					org.bukkit.World world = getBukkitEntity().getWorld();
@@ -272,7 +263,7 @@ public class SpawnUtils {
 			final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
 
 			if ("NINJA".equalsIgnoreCase(data)) {
-				final net.minecraft.server.v1_4_5.v1_4_5.Entity notchEntity = new CustomPotion(location, 8, notchPlayer) {
+				final net.minecraft.server.v1_4_6.v1_4_6.Entity notchEntity = new CustomPotion(location, 8, notchPlayer) {
 					@Override
 					protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
 						final Entity thisBukkitEntity = getBukkitEntity();
@@ -300,7 +291,7 @@ public class SpawnUtils {
 					if (effectProperties == null)
 						throw new YiffBukkitCommandException("Effect '"+data+"' does not exist");
 
-					final net.minecraft.server.v1_4_5.v1_4_5.Entity notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
+					final net.minecraft.server.v1_4_6.v1_4_6.Entity notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
 						@Override
 						protected void areaHit(final Entity entity) {
 							try {
@@ -318,7 +309,7 @@ public class SpawnUtils {
 					return entity;
 				}
 				else {
-					final net.minecraft.server.v1_4_5.v1_4_5.Entity notchEntity = new CustomPotion(location, potionId, notchPlayer) {
+					final net.minecraft.server.v1_4_6.v1_4_6.Entity notchEntity = new CustomPotion(location, potionId, notchPlayer) {
 						@Override
 						protected boolean hit(MovingObjectPosition movingobjectposition) {
 							org.bukkit.World world = getBukkitEntity().getWorld();
@@ -513,7 +504,7 @@ public class SpawnUtils {
 		final MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 
 		// Create the new player
-		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, name, new ItemInWorldManager(worldServer));
+		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, name, new PlayerInteractManager(worldServer));
 
 		// Create network manager for the player
 		final NetworkManager networkManager;
@@ -522,10 +513,10 @@ public class SpawnUtils {
 		} catch(IOException e) { return null; }
 
 		// Create NetServerHandler. This will automatically write itself to the player and networkmanager
-		new NetServerHandler(minecraftServer, networkManager, eply);
+		new PlayerConnection(minecraftServer, networkManager, eply);
 
 		// teleport it to the target location
-		eply.netServerHandler.teleport(location);
+		eply.playerConnection.teleport(location);
 		//bukkitEntity.teleport(location);
 
 		// Finally, put the entity into the world.
@@ -535,7 +526,7 @@ public class SpawnUtils {
 		worldServer.players.remove(eply);
 
 		// ...nor in the server player list (i.e. /list /who and the likes)
-		minecraftServer.getServerConfigurationManager().players.remove(eply);
+		minecraftServer.server.getHandle().players.remove(eply);
 
 		// finally obtain a bukkit entity,
 		final HumanEntity bukkitEntity = (HumanEntity) eply.getBukkitEntity();

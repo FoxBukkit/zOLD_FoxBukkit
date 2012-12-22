@@ -14,7 +14,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_4_5.v1_4_5.Packet10Flying;
+import net.minecraft.server.v1_4_6.v1_4_6.Packet10Flying;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;

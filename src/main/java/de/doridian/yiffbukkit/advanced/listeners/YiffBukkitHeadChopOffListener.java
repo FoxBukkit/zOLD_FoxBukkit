@@ -3,12 +3,12 @@ package de.doridian.yiffbukkit.advanced.listeners;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_4_5.v1_4_5.Packet30Entity;
-import net.minecraft.server.v1_4_5.v1_4_5.Packet34EntityTeleport;
-import net.minecraft.server.v1_4_5.v1_4_5.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_4_6.v1_4_6.Packet30Entity;
+import net.minecraft.server.v1_4_6.v1_4_6.Packet34EntityTeleport;
+import net.minecraft.server.v1_4_6.v1_4_6.Packet35EntityHeadRotation;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_4_5.v1_4_5.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.v1_4_6.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -61,7 +61,7 @@ public class YiffBukkitHeadChopOffListener extends PacketListener implements Lis
 		choppedEntities.add(damagedEntity.getEntityId());
 	}
 
-	private net.minecraft.server.v1_4_5.v1_4_5.Entity getEntityByID(int eid, World world) {
+	private net.minecraft.server.v1_4_6.v1_4_6.Entity getEntityByID(int eid, World world) {
 		return ((CraftWorld)world).getHandle().getEntity(eid);
 	}
 
