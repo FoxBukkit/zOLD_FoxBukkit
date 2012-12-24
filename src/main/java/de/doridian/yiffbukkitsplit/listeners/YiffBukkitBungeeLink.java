@@ -32,8 +32,17 @@ public class YiffBukkitBungeeLink extends BaseListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().sendPluginMessage(plugin, "yiffbukkitbungee", "getip".getBytes());
+    public void onPlayerJoin(final PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch(Exception e) { }
+                player.sendPluginMessage(plugin, "yiffbukkitbungee", "getip".getBytes());
+            }
+        }.start();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
