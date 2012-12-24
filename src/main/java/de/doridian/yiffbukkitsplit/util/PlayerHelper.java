@@ -1044,4 +1044,23 @@ public class PlayerHelper extends StateContainer {
 	public static boolean isGuestRank(final String rank) {
 		return guestRanks.contains(rank);
 	}
+
+    public static final HashMap<String, String> playerHosts = new HashMap<String, String>();
+    public static final HashMap<String, String> playerIPs = new HashMap<String, String>();
+
+    public static String getPlayerIP(CommandSender player) {
+        return getPlayerIP(player.getName());
+    }
+
+    public static String getPlayerIP(String player) {
+        return playerIPs.get(player.toLowerCase());
+    }
+
+    public static String getPlayerHost(CommandSender player) {
+        return getPlayerHost(player.getName());
+    }
+
+    public static String getPlayerHost(String player) {
+        return playerHosts.get(player.toLowerCase());
+    }
 }

@@ -26,27 +26,6 @@ import java.util.List;
 @Usage("[name]")
 @Permission("yiffbukkit.who")
 public class WhoCommand extends ICommand {
-	private final HashMap<Player, ArrayList<CommandSender>> waitingOnAddress = new HashMap<Player, ArrayList<CommandSender>>();
-
-	public WhoCommand() {
-		Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "yiffbukkitbungee");
-		Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "yiffbukkitbungee", new PluginMessageListener() {
-			@Override
-			public void onPluginMessageReceived(String s, Player ply, byte[] bytes) {
-				final String[] ret = new String(bytes).split("\\|");
-				if(ret[0].equals("ip")) {
-					final String msg = "IP: " + ret[1] + "(" + ret[2] + ")";
-					ArrayList<CommandSender> waiting = waitingOnAddress.remove(ply);
-					if(waiting != null) {
-						for(CommandSender commandSender : waiting) {
-							PlayerHelper.sendDirectedMessage(commandSender, msg);
-						}
-					}
-				}
-			}
-		});
-	}
-
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
@@ -123,15 +102,7 @@ public class WhoCommand extends ICommand {
 
 
 			if (commandSender.hasPermission("yiffbukkit.who.address") && playerLevel >= playerHelper.getPlayerLevel(target) && target.isOnline()) {
-				ArrayList<CommandSender> waiting = waitingOnAddress.get(target);
-				if(waiting == null) {
-					waiting = new ArrayList<CommandSender>();
-					waiting.add(commandSender);
-					waitingOnAddress.put(target, waiting);
-					target.sendPluginMessage(plugin, "yiffbukkitbungee", "getip".getBytes());
-				} else {
-					waiting.add(commandSender);
-				}
+                 PlayerHelper.sendDirectedMessage(commandSender, "IP: " + PlayerHelper.getPlayerIP(target) + " (" + PlayerHelper.getPlayerHost(target) + ")");
 			}
 		}
 		else {

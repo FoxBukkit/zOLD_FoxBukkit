@@ -26,11 +26,13 @@ import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.warp.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
+import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBungeeLink;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_4_6.v1_4_6.command.ColouredConsoleSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -60,6 +62,8 @@ public class YiffBukkit extends JavaPlugin {
 	private YiffBukkitBlockListener blockListener;
 	@SuppressWarnings("unused")
 	private YiffBukkitEntityListener yiffBukkitEntityListener;
+    @SuppressWarnings("unused")
+    private YiffBukkitBungeeLink yiffBukkitBungeeLink;
 	@SuppressWarnings("unused")
 	private SignPortalPlayerListener signPortalPlayerListener;
 	@SuppressWarnings("unused")
@@ -175,6 +179,7 @@ public class YiffBukkit extends JavaPlugin {
 		chatListener = new ChatListener();
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 		componentSystem.registerListeners();
+        yiffBukkitBungeeLink = new YiffBukkitBungeeLink();
 
 		log("Core components loaded.");
 		mcbans = new MCBans(this);
