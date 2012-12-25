@@ -60,7 +60,17 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	private String displayName;
 	private World world;
 
-	public OfflinePlayer(Server server, String name) {
+    @Override
+    public void setMaxHealth(int i) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void resetMaxHealth() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public OfflinePlayer(Server server, String name) {
 		super((CraftServer) server, name);
 		final File playerFile = PlayerHelper.getPlayerFile(name, "world");
 		if (playerFile != null) {
