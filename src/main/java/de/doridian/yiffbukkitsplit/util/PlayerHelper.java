@@ -372,6 +372,8 @@ public class PlayerHelper extends StateContainer {
 	public int getPlayerLevel(String name) {
 		if(name.equals("[CONSOLE]"))
 			return 9999;
+        if(name.equals("@"))
+            return 9998;
 
 		return getRankLevel(getPlayerRank(name));
 	}
