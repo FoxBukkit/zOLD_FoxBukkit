@@ -22,10 +22,12 @@ public class YiffBukkitBungeeLink extends BaseListener {
                 final String[] ret = new String(bytes).split("\\|");
                 if(ret[0].equals("ip")) {
                     final String name = ply.getName().toLowerCase();
-                    PlayerHelper.playerIPs.put(name, ret[1]);
-                    PlayerHelper.playerHosts.put(name, ret[2]);
+                    synchronized(PlayerHelper.playerIPs) {
+                        PlayerHelper.playerIPs.put(name, ret[1]);
+                        PlayerHelper.playerHosts.put(name, ret[2]);
+                    }
 
-                    plugin.getLogger().log(Level.INFO, "Player " + ply.getName() + " join from [" + ret[1] + " / " + ret[2] + "]");
+                    plugin.getLogger().log(Level.INFO, "Player " + ply.getName() + " joined from [" + ret[1] + " / " + ret[2] + "]");
                 }
             }
         });
@@ -40,7 +42,17 @@ public class YiffBukkitBungeeLink extends BaseListener {
                 try {
                     Thread.sleep(1000);
                 } catch(Exception e) { }
-                player.sendPluginMessage(plugin, "yiffbukkitbungee", "getip".getBytes());
+                boolean foundIP = false;
+                final String name = player.getName().toLowerCase();
+                do {
+                    player.sendPluginMessage(plugin, "yiffbukkitbungee", "getip".getBytes());
+                    try {
+                        Thread.sleep(5000);
+                    } catch(Exception e) { }
+                    synchronized(PlayerHelper.playerIPs) {
+                        foundIP = PlayerHelper.playerIPs.containsKey(name);
+                    }
+                } while(!foundIP);
             }
         }.start();
     }
@@ -48,8 +60,10 @@ public class YiffBukkitBungeeLink extends BaseListener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDisconnect(PlayerQuitEvent event) {
         final String name = event.getPlayer().getName().toLowerCase();
-        PlayerHelper.playerIPs.remove(name);
-        PlayerHelper.playerHosts.remove(name);
+        synchronized(PlayerHelper.playerIPs) {
+            PlayerHelper.playerIPs.remove(name);
+            PlayerHelper.playerHosts.remove(name);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -57,7 +71,9 @@ public class YiffBukkitBungeeLink extends BaseListener {
         if(event.isCancelled())
             return;
         final String name = event.getPlayer().getName().toLowerCase();
-        PlayerHelper.playerIPs.remove(name);
-        PlayerHelper.playerHosts.remove(name);
+        synchronized(PlayerHelper.playerIPs) {
+            PlayerHelper.playerIPs.remove(name);
+            PlayerHelper.playerHosts.remove(name);
+        }
     }
 }

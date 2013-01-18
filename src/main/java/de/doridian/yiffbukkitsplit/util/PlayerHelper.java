@@ -1055,7 +1055,9 @@ public class PlayerHelper extends StateContainer {
     }
 
     public static String getPlayerIP(String player) {
-        return playerIPs.get(player.toLowerCase());
+        synchronized(PlayerHelper.playerIPs) {
+            return playerIPs.get(player.toLowerCase());
+        }
     }
 
     public static String getPlayerHost(CommandSender player) {
@@ -1063,6 +1065,8 @@ public class PlayerHelper extends StateContainer {
     }
 
     public static String getPlayerHost(String player) {
-        return playerHosts.get(player.toLowerCase());
+        synchronized(PlayerHelper.playerIPs) {
+            return playerHosts.get(player.toLowerCase());
+        }
     }
 }
