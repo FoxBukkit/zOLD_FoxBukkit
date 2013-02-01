@@ -29,7 +29,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
-import org.getspout.spoutapi.packet.SpoutPacket;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -525,38 +524,8 @@ public class PlayerHelper extends StateContainer {
 	private Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
 	private Long frozenServerTime;
 
-	public static void sendSpoutPacketToPlayer(final Player ply, final SpoutPacket packet) {
-		/*final Player scp = SpoutCraftPlayer.getPlayer(ply);
-		if(scp == null || !(scp instanceof SpoutCraftPlayer)) return;
-		((SpoutCraftPlayer)scp).sendPacket(packet);*/
-	}
-
 	public static void sendPacketToPlayer(final Player ply, final Packet packet) {
 		((CraftPlayer)ply).getHandle().playerConnection.sendPacket((net.minecraft.server.v1_4_R1.v1_4_R1.Packet) packet);
-	}
-
-	public final void sendSpoutPacketToPlayersAround(final Location location, final double radius, final SpoutPacket packet) {
-		sendSpoutPacketToPlayersAround(location, radius, packet, null);
-	}
-	public final void sendSpoutPacketToPlayersAround(final Location location, final double radius, final SpoutPacket packet, final Player except) {
-		sendSpoutPacketToPlayersAround(location, radius, packet, except, Integer.MAX_VALUE);
-	}
-	public final void sendSpoutPacketToPlayersAround(final Location location, double radius, final SpoutPacket packet, final Player except, final int maxLevel) {
-		radius *= radius;
-		final Vector locationVector = location.toVector();
-		final World world = location.getWorld();
-		for (Player ply : world.getPlayers()) {
-			if (ply.equals(except))
-				continue;
-
-			if (getPlayerLevel(ply) >= maxLevel)
-				continue;
-
-			if (locationVector.distanceSquared(ply.getLocation().toVector()) > radius)
-				continue;
-
-			sendSpoutPacketToPlayer(ply, packet);
-		}
 	}
 
 	public final void sendPacketToPlayersAround(final Location location, final double radius, final Packet packet) {

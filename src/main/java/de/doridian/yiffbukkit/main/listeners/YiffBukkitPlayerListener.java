@@ -136,16 +136,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.pushWeather(player);
 	}
 
-	/*public void onSpoutcraftAuth(SpoutcraftBuildSetEvent event) {
-		SpoutPlayer player = event.getPlayer();
-
-		for(Player ply : plugin.getServer().getOnlinePlayers()) {
-			((SpoutPlayer)ply).setTitleFor(((SpoutPlayer)player), plugin.playerHelper.getPlayerTag(ply) + "\n" + ply.getDisplayName());
-		}
-
-		player.setTitle(plugin.playerHelper.getPlayerTag(player) + "\n" + player.getDisplayName());
-	}*/
-
 	public Hashtable<String,String> offlinePlayers = new Hashtable<String, String>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerQuit(PlayerQuitEvent event) {

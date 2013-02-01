@@ -116,12 +116,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.getspout</groupId>
-			<artifactId>spoutplugin</artifactId>
-			<version>dev-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>de.diddiz</groupId>
 			<artifactId>logblock</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

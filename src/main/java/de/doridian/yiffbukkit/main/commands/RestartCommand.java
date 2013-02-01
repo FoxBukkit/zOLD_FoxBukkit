@@ -5,12 +5,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.gui.Color;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.WidgetAnchor;
-import org.getspout.spoutapi.player.SpoutPlayer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +21,6 @@ public class RestartCommand extends ICommand {
 		if(taskID >= 0) {
 			plugin.getServer().getScheduler().cancelTask(taskID);
 			taskID = -1;
-			restarter.removeGUI();
 			plugin.playerHelper.sendServerMessage("Restart cancelled!");
 			return;
 		}
@@ -48,47 +41,6 @@ public class RestartCommand extends ICommand {
 		public RestartRunnable(long duration) {
 			endtime = System.currentTimeMillis() + (duration * 1000);
 			announceInChat(duration);
-			refreshGUI(duration);
-		}
-
-		HashMap<SpoutPlayer, GenericLabel> labels = new HashMap<SpoutPlayer, GenericLabel>();
-		void refreshGUI(long timeleft) {
-			final String formattedTime = "Server restarting in " + (timeleft / 60) + ":" + String.format("%02d", timeleft % 60);
-
-			try { // TEMP!
-			SpoutPlayer[] players = SpoutManager.getOnlinePlayers();
-			for(SpoutPlayer ply : players) {
-				try {
-					GenericLabel lbl = labels.get(ply);
-					if(lbl == null) {
-						lbl = new GenericLabel();
-						lbl.setAuto(true);
-						lbl.setX(200); lbl.setY(120);
-						lbl.setWidth(1); lbl.setHeight(1);
-						lbl.setAlign(WidgetAnchor.CENTER_CENTER);
-						lbl.setTextColor(new Color(255, 0, 0));
-						ply.getMainScreen().attachWidget(plugin, lbl);
-						labels.put(ply, lbl);
-					}
-					lbl.setText(formattedTime);
-				} catch(Exception e) { }
-			}
-
-				HashSet<SpoutPlayer> plys = new HashSet<SpoutPlayer>(Arrays.asList(players));
-				for(SpoutPlayer ply : new ArrayList<SpoutPlayer>(labels.keySet())) {
-					if(!plys.contains(ply)) {
-						labels.remove(ply);
-					}
-				}
-			} catch(Exception e) { }
-		}
-
-		void removeGUI() {
-			for(SpoutPlayer ply : SpoutManager.getOnlinePlayers()) {
-				if(labels.containsKey(ply)) {
-					ply.getMainScreen().removeWidget(labels.get(ply));
-				}
-			}
 		}
 
 		@Override
@@ -96,7 +48,6 @@ public class RestartCommand extends ICommand {
 			long timeleft = (endtime - System.currentTimeMillis()) / 1000;
 			if(timeleft == lasttimeleft) return;
 			lasttimeleft = timeleft;
-			refreshGUI(timeleft);
 			if(timeleft <= 0) {
 				plugin.getServer().getScheduler().cancelTask(taskID);
 				plugin.getServer().shutdown();

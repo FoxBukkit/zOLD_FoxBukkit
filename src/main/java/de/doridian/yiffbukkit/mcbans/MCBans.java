@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.mcbans;
 
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
-import de.doridian.yiffbukkit.mcbans.listeners.MCBansKeyListener;
 import de.doridian.yiffbukkit.mcbans.listeners.MCBansPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -13,13 +12,10 @@ public class MCBans {
 	private YiffBukkit plugin;
 	@SuppressWarnings("unused")
 	private MCBansPlayerListener playerListener;
-	@SuppressWarnings("unused")
-	private MCBansKeyListener keyListener;
 
 	public MCBans(YiffBukkit plug) {
 		plugin = plug;
 		playerListener = new MCBansPlayerListener();
-		keyListener = new MCBansKeyListener();
 	}
 
 

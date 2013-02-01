@@ -42,11 +42,10 @@ public class ChatListener extends BaseListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player ply = event.getPlayer();
 		helper.verifyPlayerInDefaultChannel(ply);
-		//screen.getPopupFor((SpoutPlayer)ply);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		//screen.removePopupFor((SpoutPlayer)event.getPlayer());
+
 	}
 }

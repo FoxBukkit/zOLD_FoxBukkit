@@ -54,10 +54,7 @@ public class PermissionPlayerListener extends BaseListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		
-		if (player.getClass().getName().equals("org.getspout.spout.player.SpoutCraftPlayer")) {
-			//final SpoutCraftPlayer spoutPlayer = (SpoutCraftPlayer)player;
-			//Utils.setPrivateValue(SpoutCraftPlayer.class, spoutPlayer, "perm", new YiffBukkitPermissibleBase(player));
-		} else if(player instanceof CraftHumanEntity) {
+		if(player instanceof CraftHumanEntity) {
 			final CraftHumanEntity craftPlayer = (CraftHumanEntity)player;
 			Utils.setPrivateValue(CraftHumanEntity.class, craftPlayer, "perm", new YiffBukkitPermissibleBase(player));
 		} else {
