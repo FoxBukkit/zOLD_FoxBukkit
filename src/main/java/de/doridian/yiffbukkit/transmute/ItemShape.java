@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
-import net.minecraft.server.v1_4_6.v1_4_6.ItemStack;
-import net.minecraft.server.v1_4_6.v1_4_6.MathHelper;
+import net.minecraft.server.v1_4_R1.v1_4_R1.ItemStack;
+import net.minecraft.server.v1_4_R1.v1_4_R1.MathHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.server.Packet;

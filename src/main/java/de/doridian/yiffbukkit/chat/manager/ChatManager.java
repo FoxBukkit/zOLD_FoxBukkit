@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.chat.manager;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_4_6.v1_4_6.Packet3Chat;
+import net.minecraft.server.v1_4_R1.v1_4_R1.Packet3Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

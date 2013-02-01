@@ -17,14 +17,14 @@ import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
-import net.minecraft.server.v1_4_6.v1_4_6.EntityPlayer;
-import net.minecraft.server.v1_4_6.v1_4_6.Packet70Bed;
+import net.minecraft.server.v1_4_R1.v1_4_R1.EntityPlayer;
+import net.minecraft.server.v1_4_R1.v1_4_R1.Packet70Bed;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_4_6.v1_4_6.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_R1.v1_4_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
@@ -532,7 +532,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public static void sendPacketToPlayer(final Player ply, final Packet packet) {
-		((CraftPlayer)ply).getHandle().playerConnection.sendPacket((net.minecraft.server.v1_4_6.v1_4_6.Packet) packet);
+		((CraftPlayer)ply).getHandle().playerConnection.sendPacket((net.minecraft.server.v1_4_R1.v1_4_R1.Packet) packet);
 	}
 
 	public final void sendSpoutPacketToPlayersAround(final Location location, final double radius, final SpoutPacket packet) {
