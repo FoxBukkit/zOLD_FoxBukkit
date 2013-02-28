@@ -4,14 +4,14 @@ import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_4_R1.v1_4_R1.MathHelper;
-import net.minecraft.server.v1_4_R1.v1_4_R1.Packet18ArmAnimation;
-import net.minecraft.server.v1_4_R1.v1_4_R1.Packet28EntityVelocity;
-import net.minecraft.server.v1_4_R1.v1_4_R1.Packet30Entity;
-import net.minecraft.server.v1_4_R1.v1_4_R1.Packet34EntityTeleport;
-import net.minecraft.server.v1_4_R1.v1_4_R1.Packet38EntityStatus;
+import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet18ArmAnimation;
+import net.minecraft.server.v1_4_R1.Packet28EntityVelocity;
+import net.minecraft.server.v1_4_R1.Packet30Entity;
+import net.minecraft.server.v1_4_R1.Packet34EntityTeleport;
+import net.minecraft.server.v1_4_R1.Packet38EntityStatus;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_R1.v1_4_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.server.Packet;
@@ -44,7 +44,7 @@ public abstract class EntityShape extends Shape {
 			return;
 
 		try {
-			Class<? extends net.minecraft.server.v1_4_R1.v1_4_R1.Entity> entityClass = ((CraftEntity) entity).getHandle().getClass();
+			Class<? extends net.minecraft.server.v1_4_R1.Entity> entityClass = ((CraftEntity) entity).getHandle().getClass();
 			int entityMobType = MyEntityTypes.classToId(entityClass);
 
 			yOffset -= yOffsets[entityMobType];
@@ -143,7 +143,7 @@ public abstract class EntityShape extends Shape {
 
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
-			final net.minecraft.server.v1_4_R1.v1_4_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
+			final net.minecraft.server.v1_4_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 			p34.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);
 			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F));
 			//p34.c += (int)(yOffset * 32.0);
@@ -161,7 +161,7 @@ public abstract class EntityShape extends Shape {
 		if (!dropping)
 			return;
 
-		final net.minecraft.server.v1_4_R1.v1_4_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_4_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 		if (yOffset == 0) {
 			if (Math.IEEEremainder(notchEntity.locY, 1.0) < 0.00001) {
 				int id = entity.getWorld().getBlockTypeIdAt(Location.locToBlock(notchEntity.locX), Location.locToBlock(notchEntity.locY)-1, Location.locToBlock(notchEntity.locZ));

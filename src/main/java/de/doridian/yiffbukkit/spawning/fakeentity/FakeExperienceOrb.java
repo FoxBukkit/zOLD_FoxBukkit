@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_4_R1.v1_4_R1.MathHelper;
-import net.minecraft.server.v1_4_R1.v1_4_R1.Packet26AddExpOrb;
+import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet26AddExpOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

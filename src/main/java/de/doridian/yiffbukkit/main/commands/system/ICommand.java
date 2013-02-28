@@ -8,7 +8,7 @@ import gnu.trove.map.hash.TCharObjectHashMap;
 import gnu.trove.set.TCharSet;
 import gnu.trove.set.hash.TCharHashSet;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_4_R1.v1_4_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.annotation.Retention;

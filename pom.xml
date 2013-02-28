@@ -118,20 +118,18 @@
 		<dependency>
 			<groupId>de.diddiz</groupId>
 			<artifactId>logblock</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>dev-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.21</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
 			<id>spout-repo</id>
 			<url>http://repo.spout.org</url>
+		</repository>
+		<repository>
+			<id>mikeprimm-repo</id>
+			<url>http://repo.mikeprimm.com</url>
 		</repository>
 		<repository>
 			<id>sk89q-repo</id>
