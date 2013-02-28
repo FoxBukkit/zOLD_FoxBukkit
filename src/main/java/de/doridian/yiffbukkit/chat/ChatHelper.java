@@ -200,12 +200,6 @@ public class ChatHelper extends StateContainer {
 			if (chan == OOC) {
 				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
 				plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
-				try {
-					if (plugin.dynmap != null) {
-						plugin.dynmap.postPlayerMessageToWeb(ply, msg);
-					}
-				}
-				catch (Exception e) { }
 			} else {
 				plugin.sendConsoleMsg("[" + chan.name + "] <" + ply.getName() + "> " + msg, false);
 			}

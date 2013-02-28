@@ -20,29 +20,29 @@ public class MCBans {
 
 
 	public enum BanType {
-		GLOBAL, LOCAL, TEMPORARY
+		GLOBAL("global"), LOCAL("local"), TEMPORARY("temp");
+
+        private final String name;
+
+        BanType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
 	}
 
 	public void unban(final CommandSender from, final String ply) {
 		new Thread() {
 			public void run() {
-				JSONObject unbanret = MCBansUtil.apiQuery("exec=unBan&admin="+MCBansUtil.URLEncode(from.getName())+"&player="+MCBansUtil.URLEncode(ply));
-				char result = ((String)unbanret.get("result")).charAt(0);
-				switch (result) {
-					case 'y':
-						plugin.playerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
-						break;
-					case 'n':
-						PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was not banned!");
-						break;
-					case 's':
-						PlayerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in a group this server is part of!");
-						break;
-					case 'e':
-					default:
-						PlayerHelper.sendDirectedMessage(from, "Error while unbanning player " + ply + "!");
-						break;
-				}
+				Ban ban = BanResolver.getBan(ply, false);
+                if(ban != null) {
+                    BanResolver.deleteBan(ban);
+                    plugin.playerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
+                } else {
+                    PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was not banned!");
+                }
 			}
 		}.start();
 	}
@@ -69,42 +69,18 @@ public class MCBans {
 
 	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type, final long duration, final String measure) {
 		if (type == null) return;
-		final String exec;
-		switch (type) {
-			case GLOBAL:
-				exec = "globalBan";
-				break;
-			case LOCAL:
-				exec = "localBan";
-				break;
-			case TEMPORARY:
-				exec = "tempBan";
-				break;
-			default:
-				return;
-		}
+        if (type == BanType.TEMPORARY) return;
+
 		new Thread() {
 			public void run() {
-				JSONObject banret = MCBansUtil.apiQuery("exec="+exec+"&admin="+MCBansUtil.URLEncode(from.getName())+"&playerip="+MCBansUtil.URLEncode(ip)+"&reason="+MCBansUtil.URLEncode(reason)+"&player="+MCBansUtil.URLEncode(ply)+"&duration="+duration+"&measure="+MCBansUtil.URLEncode(measure));
-				char result = ((String)banret.get("result")).charAt(0);
-				switch (result) {
-					case 'a':
-						PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
-						break;
-					case 's':
-						PlayerHelper.sendDirectedMessage(from, "Player " + ply + " is banned from another server in our servergroup(s)!");
-						break;
-					case 'y':
-						plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
-						break;
-					case 'w':
-						PlayerHelper.sendDirectedMessage(from, "Could not ban " + ply + " because ban contained badword: " + (String)banret.get("word"));
-						break;
-					default:
-					case 'e':
-						PlayerHelper.sendDirectedMessage(from, "Error while banning player " + ply + "!");
-						break;
-				}
+                Ban newBan = new Ban();
+                newBan.setUser(ply);
+                newBan.setAdmin(from.getName());
+                newBan.setReason(reason);
+                newBan.setType(type.getName());
+                BanResolver.addBan(newBan);
+                plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
+                //PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
 			}
 		}.start();
 	}

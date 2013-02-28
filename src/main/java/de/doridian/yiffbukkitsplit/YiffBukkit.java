@@ -40,7 +40,6 @@ import org.bukkit.entity.Slime;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.dynmap.bukkit.DynmapPlugin;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -84,7 +83,6 @@ public class YiffBukkit extends JavaPlugin {
 	public MCBans mcbans;
 	public Ircbot ircbot;
 	public WorldEditPlugin worldEdit;
-	public DynmapPlugin dynmap;
 	public Consumer logBlockConsumer;
 
 	public LockDownMode lockdownMode = LockDownMode.OFF;
@@ -107,46 +105,6 @@ public class YiffBukkit extends JavaPlugin {
 		worldEdit = (WorldEditPlugin) pm.getPlugin("WorldEdit");
 		if (worldEdit != null)
 			log( "Found WorldEdit!" );
-
-		/*getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Plugin tmp = getServer().getPluginManager().getPlugin("dynmap");
-					if (tmp == null)
-						return;
-					dynmap = (DynmapPlugin)tmp;
-
-					Event<?> event = dynmap..events.get("webchat");
-
-					// listeners = event.listeners;
-					List<Event.Listener<ChatEvent>> listeners = Utils.getPrivateValue(Event.class, event, "listeners");
-					if (listeners == null)
-						return;
-
-					// Remove the old listener
-					for (Iterator<Listener<ChatEvent>> it = listeners.iterator(); it.hasNext(); ) {
-						Listener<ChatEvent> foo = it.next();
-						if (!foo.getClass().getEnclosingClass().equals(SimpleWebChatComponent.class))
-							continue;
-
-						it.remove();
-					}
-
-					listeners.add(new Listener<ChatEvent>() {
-						@Override
-						public void triggered(ChatEvent t) {
-							String name = t.name.replace('\u00a7','$');
-							name = playerHelper.getPlayerNameByIP(name);
-							ircbot.sendToChannel("[WEB] " + name + ": " + t.message.replace('\u00a7','$'));
-							getServer().broadcast(Server.BROADCAST_CHANNEL_USERS, "[WEB]" + name + ": " + t.message.replace('\u00a7','$'));
-						}
-					});
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});*/
 
 		LogBlock logBlock = (LogBlock) pm.getPlugin("LogBlock");
 
