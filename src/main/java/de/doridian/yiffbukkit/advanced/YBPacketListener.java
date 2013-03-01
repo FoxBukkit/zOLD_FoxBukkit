@@ -18,6 +18,8 @@ public abstract class YBPacketListener extends PacketListener {
 
 	@Override
 	public Packet packetReceived(INetworkManager networkManager, Connection connection, Packet packet) {
+		if(!(connection instanceof PlayerConnection)) return packet;
+
 		if(onIncomingPacket(((PlayerConnection)connection).getPlayer(), packet.k(), packet)) {
 			return packet;
 		} else {
@@ -27,6 +29,8 @@ public abstract class YBPacketListener extends PacketListener {
 
 	@Override
 	public Packet packetQueued(INetworkManager networkManager, Connection connection, Packet packet) {
+		if(!(connection instanceof PlayerConnection)) return packet;
+
 		if(onOutgoingPacket(((PlayerConnection)connection).getPlayer(), packet.k(), packet)) {
 			return packet;
 		} else {
