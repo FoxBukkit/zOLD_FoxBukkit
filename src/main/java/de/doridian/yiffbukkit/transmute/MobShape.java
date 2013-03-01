@@ -3,11 +3,11 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet24MobSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
 
 public class MobShape extends EntityShape {
 	static {

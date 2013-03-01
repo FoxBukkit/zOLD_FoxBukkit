@@ -1,15 +1,12 @@
 package de.doridian.yiffbukkit.chat.manager;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_4_R1.Packet3Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -45,8 +42,8 @@ public class ChatManager {
 	public ChatManager(YiffBukkit plugin) {
 		this.plugin = plugin;
 
-		@SuppressWarnings("unused")
-		final PacketListener packetListener = new PacketListener() {
+		/*@SuppressWarnings("unused")
+		final YBPacketListener packetListener = new YBPacketListener(plugin) {
 			@Override
 			public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 				String text = ((Packet3Chat)packet).message;
@@ -121,7 +118,7 @@ public class ChatManager {
 
 				return true;
 			}
-		};
+		};*/
 
 		//PacketListener.addPacketListener(true, 3, packetListener, plugin);
 		//PacketListener.addPacketListener(false, 3, packetListener, plugin);

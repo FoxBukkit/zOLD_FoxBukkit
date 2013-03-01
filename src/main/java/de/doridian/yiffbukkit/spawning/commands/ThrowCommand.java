@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning.commands;
 
+import de.doridian.yiffbukkit.advanced.YBPacketListener;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.BindCommand;
@@ -14,6 +15,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet10Flying;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -21,8 +23,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -109,18 +109,16 @@ public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
 
 	public ThrowCommand() {
-		final PacketListener packetListener = new PacketListener() {
+		final YBPacketListener packetListener = new YBPacketListener(plugin) {
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
+				if(packetID < 12 || packetID > 13) return true;
 				Packet10Flying p10 = (Packet10Flying) packet;
 				lastYaws.put(ply, p10.yaw);
 				lastPitches.put(ply, p10.pitch);
 				return true;
 			}
 		};
-
-		PacketListener.addPacketListener(false, 12, packetListener, plugin);
-		PacketListener.addPacketListener(false, 13, packetListener, plugin);
 
 		playerHelper.registerMap(lastYaws);
 		playerHelper.registerMap(lastPitches);

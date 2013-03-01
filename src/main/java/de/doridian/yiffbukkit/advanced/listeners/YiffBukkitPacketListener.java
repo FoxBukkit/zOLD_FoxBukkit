@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
 import com.sk89q.worldedit.blocks.BlockType;
+import de.doridian.yiffbukkit.advanced.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.fun.commands.PlayCommand.Packet53BlockChangeExpress;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -11,6 +12,7 @@ import net.minecraft.server.v1_4_R1.ControllerMove;
 import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet10Flying;
 import net.minecraft.server.v1_4_R1.Packet34EntityTeleport;
 import net.minecraft.server.v1_4_R1.Packet3Chat;
@@ -23,27 +25,17 @@ import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
 import org.bukkit.util.Vector;
 
-public class YiffBukkitPacketListener extends PacketListener implements YBListener {
+public class YiffBukkitPacketListener extends YBPacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
 	private final YiffBukkit plugin;
 	private PlayerHelper playerHelper;
 
 	public YiffBukkitPacketListener(YiffBukkit instance) {
+		super(instance);
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
-
-		PacketListener.addPacketListener(true, 3, this, plugin);
-		PacketListener.addPacketListener(true, 34, this, plugin);
-		PacketListener.addPacketListener(true, 70, this, plugin);
-
-		//PacketListener.addPacketListener(false, 10, this, plugin);
-		PacketListener.addPacketListener(false, 11, this, plugin);
-		//PacketListener.addPacketListener(false, 12, this, plugin);
-		PacketListener.addPacketListener(false, 13, this, plugin);
 	}
 
 	@Override

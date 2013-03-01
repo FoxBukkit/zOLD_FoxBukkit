@@ -5,6 +5,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet18ArmAnimation;
 import net.minecraft.server.v1_4_R1.Packet28EntityVelocity;
 import net.minecraft.server.v1_4_R1.Packet30Entity;
@@ -14,7 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
 
 import java.util.Map;
 import java.util.regex.Matcher;

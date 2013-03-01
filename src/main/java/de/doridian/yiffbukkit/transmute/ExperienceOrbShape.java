@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.transmute;
 
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet26AddExpOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.server.Packet;
 
 public class ExperienceOrbShape extends EntityShape {
 	static {

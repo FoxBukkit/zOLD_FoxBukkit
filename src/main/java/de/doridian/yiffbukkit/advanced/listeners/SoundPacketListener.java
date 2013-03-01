@@ -1,19 +1,19 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import de.doridian.yiffbukkit.advanced.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet62NamedSoundEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
 
 import java.lang.reflect.Field;
 
-public class SoundPacketListener extends PacketListener implements YBListener {
+public class SoundPacketListener extends YBPacketListener implements YBListener {
 	public SoundPacketListener(YiffBukkit plugin) {
-		addPacketListener(true, 62, this, plugin);
+		super(plugin);
 	}
 
 	private static final Field Packet62NamedSoundEffect_a;
@@ -36,6 +36,8 @@ public class SoundPacketListener extends PacketListener implements YBListener {
 	}
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+		if(packetID != 62) return true;
+
 		final int x;
 		try {
 			x = (Integer) Packet62NamedSoundEffect_b.get(packet);

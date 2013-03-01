@@ -18,6 +18,7 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet70Bed;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,7 +28,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
 import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
@@ -525,7 +525,7 @@ public class PlayerHelper extends StateContainer {
 	private Long frozenServerTime;
 
 	public static void sendPacketToPlayer(final Player ply, final Packet packet) {
-		((CraftPlayer)ply).getHandle().playerConnection.sendPacket((net.minecraft.server.v1_4_R1.Packet) packet);
+		((CraftPlayer)ply).getHandle().playerConnection.sendPacket(packet);
 	}
 
 	public final void sendPacketToPlayersAround(final Location location, final double radius, final Packet packet) {

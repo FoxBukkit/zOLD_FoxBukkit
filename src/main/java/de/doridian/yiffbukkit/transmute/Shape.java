@@ -5,13 +5,13 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_4_R1.DataWatcher;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.EntityTrackerEntry;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet29DestroyEntity;
 import net.minecraft.server.v1_4_R1.Packet39AttachEntity;
 import net.minecraft.server.v1_4_R1.Packet40EntityMetadata;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -216,7 +216,7 @@ public abstract class Shape {
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(notchEntity, vehicle));
 	}
 
-	public abstract boolean onOutgoingPacket(Player ply, int packetID, org.bukkit.event.server.Packet packet);
+	public abstract boolean onOutgoingPacket(Player ply, int packetID, Packet packet);
 
 	public abstract void tick();
 }

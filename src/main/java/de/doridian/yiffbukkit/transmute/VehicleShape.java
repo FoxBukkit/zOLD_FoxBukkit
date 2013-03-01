@@ -3,10 +3,10 @@ package de.doridian.yiffbukkit.transmute;
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet23VehicleSpawn;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.server.Packet;
 
 public class VehicleShape extends EntityShape {
 	static {

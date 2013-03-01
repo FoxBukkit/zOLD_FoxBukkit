@@ -1,8 +1,10 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import de.doridian.yiffbukkit.advanced.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet30Entity;
 import net.minecraft.server.v1_4_R1.Packet34EntityTeleport;
 import net.minecraft.server.v1_4_R1.Packet35EntityHeadRotation;
@@ -18,24 +20,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
 
-public class YiffBukkitHeadChopOffListener extends PacketListener implements Listener, YBListener {
+public class YiffBukkitHeadChopOffListener extends YBPacketListener implements Listener, YBListener {
 	private final static byte CHOPPED_PITCH = (byte)128;
 
 	final YiffBukkit plugin;
 	public YiffBukkitHeadChopOffListener(YiffBukkit plugin) {
+		super(plugin);
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
-		//PacketListener.addPacketListener(true, 30, this, plugin);
-		//PacketListener.addPacketListener(true, 31, this, plugin);
-		PacketListener.addPacketListener(true, 32, this, plugin);
-		PacketListener.addPacketListener(true, 33, this, plugin);
-		PacketListener.addPacketListener(true, 34, this, plugin);
-
-		PacketListener.addPacketListener(true, 35, this, plugin);
 	}
 
 	private TIntHashSet choppedEntities = new TIntHashSet();

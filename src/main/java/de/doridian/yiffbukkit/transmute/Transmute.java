@@ -7,9 +7,9 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
 import gnu.trove.procedure.TObjectProcedure;
+import net.minecraft.server.v1_4_R1.Packet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
@@ -134,7 +134,7 @@ public class Transmute implements Runnable {
 		return shape;
 	}
 
-	org.bukkit.event.server.Packet ignorePacket(org.bukkit.event.server.Packet packet) {
+	Packet ignorePacket(Packet packet) {
 		transmutePacketListener.ignoredPackets.add(packet);
 		return packet;
 	}

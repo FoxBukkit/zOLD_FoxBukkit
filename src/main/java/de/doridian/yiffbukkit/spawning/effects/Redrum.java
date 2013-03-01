@@ -1,18 +1,18 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
+import de.doridian.yiffbukkit.advanced.YBPacketListener;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_4_R1.MathHelper;
+import net.minecraft.server.v1_4_R1.Packet;
 import net.minecraft.server.v1_4_R1.Packet31RelEntityMove;
 import net.minecraft.server.v1_4_R1.Packet35EntityHeadRotation;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.Packet;
-import org.bukkit.event.server.PacketListener;
 
 import java.util.Random;
 
@@ -24,13 +24,10 @@ public class Redrum extends YBEffect {
 	static TIntHashSet rotating = new TIntHashSet();
 	static boolean paused = false;
 
-	static PacketListener packetListener = new PacketListener() {
-		{
-			addPacketListener(true, 35, this, YiffBukkit.instance);
-		}
-
+	static YBPacketListener packetListener = new YBPacketListener(YiffBukkit.instance) {
 		@Override
 		public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
+			if(packetID != 35) return true;
 			return paused || !rotating.contains(((Packet35EntityHeadRotation) packet).a);
 		}
 	};
