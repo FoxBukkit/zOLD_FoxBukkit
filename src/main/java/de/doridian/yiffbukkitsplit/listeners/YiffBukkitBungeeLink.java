@@ -2,59 +2,25 @@ package de.doridian.yiffbukkitsplit.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import java.util.logging.Level;
+import java.net.InetSocketAddress;
 
 public class YiffBukkitBungeeLink extends BaseListener {
-    public YiffBukkitBungeeLink() {
-        Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "yiffbukkitbungee");
-        Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "yiffbukkitbungee", new PluginMessageListener() {
-            @Override
-            public void onPluginMessageReceived(String s, Player ply, byte[] bytes) {
-                final String[] ret = new String(bytes).split("\\|");
-                if(ret[0].equals("ip")) {
-                    final String name = ply.getName().toLowerCase();
-                    synchronized(PlayerHelper.playerIPs) {
-                        PlayerHelper.playerIPs.put(name, ret[1]);
-                        PlayerHelper.playerHosts.put(name, ret[2]);
-                    }
-
-                    plugin.getLogger().log(Level.INFO, "Player " + ply.getName() + " joined from [" + ret[1] + " / " + ret[2] + "]");
-                }
-            }
-        });
-    }
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch(Exception e) { }
-                boolean foundIP = false;
-                final String name = player.getName().toLowerCase();
-                do {
-                    player.sendPluginMessage(plugin, "yiffbukkitbungee", "getip".getBytes());
-                    try {
-                        Thread.sleep(5000);
-                    } catch(Exception e) { }
-                    synchronized(PlayerHelper.playerIPs) {
-                        foundIP = PlayerHelper.playerIPs.containsKey(name);
-                    }
-                } while(!foundIP);
-            }
-        }.start();
+		final String name = event.getPlayer().getName().toLowerCase();
+		final InetSocketAddress inet = event.getPlayer().getAddress();
+		final String ip = inet.getAddress().getHostAddress();
+		final String host = inet.getAddress().getCanonicalHostName();
+		synchronized (PlayerHelper.playerIPs) {
+			PlayerHelper.playerIPs.put(name, ip);
+			PlayerHelper.playerHosts.put(name, host);
+		}
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
