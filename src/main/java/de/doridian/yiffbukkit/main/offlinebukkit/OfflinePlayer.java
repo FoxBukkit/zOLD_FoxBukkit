@@ -16,8 +16,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.v1_4_R1.CraftOfflinePlayer;
-import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R1.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -917,6 +917,26 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public boolean getCanPickupItems() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setCustomName(String s) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public String getCustomName() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setCustomNameVisible(boolean b) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public boolean isCustomNameVisible() {
 		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 

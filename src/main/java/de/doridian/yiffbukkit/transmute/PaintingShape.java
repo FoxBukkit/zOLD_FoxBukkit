@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.transmute;
 
-import net.minecraft.server.v1_4_R1.Packet;
-import net.minecraft.server.v1_4_R1.Packet25EntityPainting;
-import net.minecraft.server.v1_4_R1.Packet34EntityTeleport;
+import net.minecraft.server.v1_5_R1.Packet;
+import net.minecraft.server.v1_5_R1.Packet25EntityPainting;
+import net.minecraft.server.v1_5_R1.Packet34EntityTeleport;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

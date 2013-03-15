@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
-import net.minecraft.server.v1_4_R1.Packet;
+import net.minecraft.server.v1_5_R1.Packet;
 import org.bukkit.entity.Entity;
 
 public class ItemShape extends EntityShape {

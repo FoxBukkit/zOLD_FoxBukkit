@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.advanced;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_4_R1.Connection;
-import net.minecraft.server.v1_4_R1.INetworkManager;
-import net.minecraft.server.v1_4_R1.Packet;
-import net.minecraft.server.v1_4_R1.PlayerConnection;
+import net.minecraft.server.v1_5_R1.Connection;
+import net.minecraft.server.v1_5_R1.INetworkManager;
+import net.minecraft.server.v1_5_R1.Packet;
+import net.minecraft.server.v1_5_R1.PlayerConnection;
 import org.bukkit.entity.Player;
 import org.spigotmc.netty.PacketListener;
 
@@ -20,7 +20,7 @@ public abstract class YBPacketListener extends PacketListener {
 	public Packet packetReceived(INetworkManager networkManager, Connection connection, Packet packet) {
 		if(!(connection instanceof PlayerConnection)) return packet;
 
-		if(onIncomingPacket(((PlayerConnection)connection).getPlayer(), packet.k(), packet)) {
+		if(onIncomingPacket(((PlayerConnection)connection).getPlayer(), packet.n(), packet)) {
 			return packet;
 		} else {
 			return null;
@@ -31,7 +31,7 @@ public abstract class YBPacketListener extends PacketListener {
 	public Packet packetQueued(INetworkManager networkManager, Connection connection, Packet packet) {
 		if(!(connection instanceof PlayerConnection)) return packet;
 
-		if(onOutgoingPacket(((PlayerConnection)connection).getPlayer(), packet.k(), packet)) {
+		if(onOutgoingPacket(((PlayerConnection)connection).getPlayer(), packet.n(), packet)) {
 			return packet;
 		} else {
 			return null;

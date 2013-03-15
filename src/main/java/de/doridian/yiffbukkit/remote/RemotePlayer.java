@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.remote;
 
-import org.bukkit.craftbukkit.v1_4_R1.command.CraftConsoleCommandSender;
+import org.bukkit.craftbukkit.v1_5_R1.command.CraftConsoleCommandSender;
 
 public class RemotePlayer extends CraftConsoleCommandSender {
 	private YiffBukkitRemoteThread yiffBukkitRemoteThread;

@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
-import net.minecraft.server.v1_4_R1.PlayerSelector;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.PlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
