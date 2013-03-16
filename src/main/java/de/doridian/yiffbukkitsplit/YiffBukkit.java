@@ -32,7 +32,7 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.command.CommandSender;
+import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_5_R1.command.ColouredConsoleSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -225,11 +225,21 @@ public class YiffBukkit extends JavaPlugin {
 		ColouredConsoleSender.getInstance().sendMessage(msg);
 	}
 
+	public World getOrCreateWorld(String name) {
+		name = name.toLowerCase();
+		World world = getServer().getWorld(name);
+		if(world == null) {
+			return getServer().createWorld(WorldCreator.name(name));
+		}
+		return world;
+	}
+
 	public World getOrCreateWorld(String name, Environment env) {
 		name = name.toLowerCase();
-		/*for (World world : getServer().getWorlds()) {
-			if (world.getName().equals(name)) return world;
-		}*/
-		return getServer().getWorld(name);
+		World world = getServer().getWorld(name);
+		if(world == null) {
+			return getServer().createWorld(WorldCreator.name(name).environment(env));
+		}
+		return world;
 	}
 }
