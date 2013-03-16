@@ -24,16 +24,17 @@ public class LayerLinkListener extends BaseListener {
 			return;
 
 		final Player player = event.getPlayer();
-		if(!mayPlayerUse(player)) {
-			event.setCancelled(true);
-			return;
-		}
 
 		final Block block = event.getBlockPlaced();
 		final Location location = block.getLocation();
 		final LayerLinker.WorldAndY worldAndY = LayerLinker.getLinkedPoint(location.getWorld(), location.getBlockY());
 		if(worldAndY == null)
 			return;
+
+		if(!mayPlayerUse(player)) {
+			event.setCancelled(true);
+			return;
+		}
 
 		final Block otherWorldBlock = worldAndY.world.getBlockAt(location.getBlockX(), worldAndY.y, location.getBlockZ());
 		otherWorldBlock.setTypeIdAndData(block.getTypeId(), block.getData(), true);
@@ -45,16 +46,17 @@ public class LayerLinkListener extends BaseListener {
 			return;
 
 		final Player player = event.getPlayer();
-		if(!mayPlayerUse(player)) {
-			event.setCancelled(true);
-			return;
-		}
 
 		final Block block = event.getBlock();
 		final Location location = block.getLocation();
 		final LayerLinker.WorldAndY worldAndY = LayerLinker.getLinkedPoint(location.getWorld(), location.getBlockY());
 		if(worldAndY == null)
 			return;
+
+		if(!mayPlayerUse(player)) {
+			event.setCancelled(true);
+			return;
+		}
 
 		final Block otherWorldBlock = worldAndY.world.getBlockAt(location.getBlockX(), worldAndY.y, location.getBlockZ());
 		otherWorldBlock.setTypeIdAndData(0, (byte)0, true);
@@ -97,10 +99,6 @@ public class LayerLinkListener extends BaseListener {
 			return;
 
 		final Player player = event.getPlayer();
-		if(!mayPlayerUse(player)) {
-			event.setCancelled(true);
-			return;
-		}
 
 		final Location location = event.getTo();
 
@@ -114,6 +112,10 @@ public class LayerLinkListener extends BaseListener {
 		final LayerLinker.WorldAndY worldAndY = LayerLinker.getLinkedPoint(location.getWorld(), yPly);
 		if(worldAndY == null)
 			return;
+
+		if(!mayPlayerUse(player)) {
+			return;
+		}
 
 		if(isTeleportBlocked(player, 5000)) {
 			event.setTo(event.getFrom());
