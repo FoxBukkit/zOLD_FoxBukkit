@@ -1,12 +1,13 @@
 package de.doridian.yiffbukkit.chat.listeners;
 
 import de.doridian.yiffbukkit.chat.ChatHelper;
+import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -16,11 +17,12 @@ public class ChatListener extends BaseListener {
 
 	public ChatListener() {
 		helper = new ChatHelper(plugin);
+		RedisHandler.initialize();
 		//screen = new ChatScreenListener(plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerChat(PlayerChatEvent event) {
+	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		if (event.isCancelled()) return;
 
 		String msg = event.getMessage();

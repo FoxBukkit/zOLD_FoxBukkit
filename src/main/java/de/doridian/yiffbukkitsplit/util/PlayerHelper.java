@@ -67,6 +67,9 @@ public class PlayerHelper extends StateContainer {
 
 	private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
 	public Player matchPlayerSingle(String subString, boolean implicitlyLiteral) throws PlayerNotFoundException, MultiplePlayersFoundException {
+		if(implicitlyLiteral)
+			return literalMatch(subString);
+
 		Matcher matcher = quotePattern.matcher(subString);
 
 		if (matcher.matches())
@@ -76,9 +79,6 @@ public class PlayerHelper extends StateContainer {
 
 		int c = players.size();
 		if (c < 1)
-			if (implicitlyLiteral)
-				return literalMatch(subString);
-			else
 				throw new PlayerNotFoundException();
 
 		if (c > 1)

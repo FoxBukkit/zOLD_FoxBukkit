@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.chat.commands;
 
 import de.doridian.yiffbukkit.chat.ChatChannel;
 import de.doridian.yiffbukkit.chat.ChatHelper;
+import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -27,6 +28,8 @@ public class MeCommand extends ICommand {
 			if(chan == helper.OOC) {
 				plugin.ircbot.sendToPublicChannel(msg);
 				plugin.sendConsoleMsg(msg, false);
+				RedisHandler.sendMessage(commandSender, "/me " + argStr);
+				return;
 			} else {
 				plugin.sendConsoleMsg("[" + chan.name + "] " + msg, false);
 			}

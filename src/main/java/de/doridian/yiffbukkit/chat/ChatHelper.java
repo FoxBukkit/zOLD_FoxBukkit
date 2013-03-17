@@ -182,7 +182,7 @@ public class ChatHelper extends StateContainer {
 
 	public void sendChat(Player ply, String msg, boolean format, ChatChannel chan) throws YiffBukkitCommandException {
 		if (chan == null) chan = getActiveChannel(ply);
-		if (!chan.canSpeak(ply)) {
+		if (chan != OOC && !chan.canSpeak(ply)) {
 			throw new YiffBukkitCommandException("You cannot speak in this channel!");
 		}
 
@@ -200,6 +200,8 @@ public class ChatHelper extends StateContainer {
 			if (chan == OOC) {
 				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
 				plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
+				RedisHandler.sendMessage(ply, msg);
+				return;
 			} else {
 				plugin.sendConsoleMsg("[" + chan.name + "] <" + ply.getName() + "> " + msg, false);
 			}
