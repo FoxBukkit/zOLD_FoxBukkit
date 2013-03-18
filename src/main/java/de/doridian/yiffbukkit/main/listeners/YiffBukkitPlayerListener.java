@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.listeners;
 
+import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
@@ -92,14 +93,18 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		if (playerFile != null && playerFile.exists()) {
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
-			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
+			event.setJoinMessage(null);
+			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
 		} else {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
 			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
 			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
-			event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
+			event.setJoinMessage(null);
+			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
 		}
+
+		RedisHandler.sendMessage(player, "/join");
 
 		new Thread() {
 			@Override
@@ -146,8 +151,10 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(playerName + " disconnected!");
-		event.setQuitMessage("\u00a74[-] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e disconnected!");
+		event.setQuitMessage(null);
 		plugin.chatManager.popCurrentOrigin();
+
+		RedisHandler.sendMessage(player, "/quit");
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
 
@@ -166,8 +173,10 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		plugin.ircbot.sendToChannel(player.getName() + " was kicked (" + event.getReason() + ")!");
-		event.setLeaveMessage("\u00a74[-] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e was kicked (" + event.getReason() + ")!");
+		event.setLeaveMessage(null);
 		plugin.chatManager.popCurrentOrigin();
+
+		RedisHandler.sendMessage(player, "/kick " + event.getReason());
 
 		for (Map<Player, ?> map : playerHelper.registeredMaps)
 			map.remove(player);
