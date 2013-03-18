@@ -104,7 +104,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
 		}
 
-		RedisHandler.sendMessage(player, "/join");
+		RedisHandler.sendMessage(player, "\u0123join");
 
 		new Thread() {
 			@Override
@@ -154,7 +154,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setQuitMessage(null);
 		plugin.chatManager.popCurrentOrigin();
 
-		RedisHandler.sendMessage(player, "/quit");
+		RedisHandler.sendMessage(player, "\u0123quit");
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
 
@@ -176,7 +176,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setLeaveMessage(null);
 		plugin.chatManager.popCurrentOrigin();
 
-		RedisHandler.sendMessage(player, "/kick " + event.getReason());
+		RedisHandler.sendMessage(player, "\u0123kick " + event.getReason());
 
 		for (Map<Player, ?> map : playerHelper.registeredMaps)
 			map.remove(player);
