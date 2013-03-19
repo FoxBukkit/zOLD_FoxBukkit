@@ -121,13 +121,13 @@ public abstract class Shape {
 			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
 	}
 
-	private Packet40EntityMetadata createMetadataPacket(int index, Object value) {
+	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {
 		try {
 			// create entry
-			datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
+			datawatcher.a(index, 0);
 
 			// mark dirty
-			datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
+			datawatcher.watch(index, 1);
 		}
 		catch (Exception e) { }
 

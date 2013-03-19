@@ -40,6 +40,7 @@ public class VehicleShape extends EntityShape {
 		mobTypeMap.put(40, 10); // Minecart
 		mobTypeMap.put(41, 1); // Boat
 		mobTypeMap.put(200, 51); // EnderCrystal
+		mobTypeMap.put(1, 2); //Item
 
 		// These are not in EntityTypes.class:
 		mobTypeMap.put(1000, 90); // FishingHook
@@ -56,6 +57,7 @@ public class VehicleShape extends EntityShape {
 		vehicleType = mobTypeMap.get(mobType);
 
 		switch (mobType) {
+		case 1: //Item
 		case 10: // Arrow
 		case 15: // EyeOfEnderSignal
 		case 40: // Minecart

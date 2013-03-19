@@ -1,16 +1,18 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_5_R1.Block;
+import net.minecraft.server.v1_5_R1.ItemStack;
 import net.minecraft.server.v1_5_R1.Packet;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
-public class ItemShape extends EntityShape {
+public class ItemShape extends VehicleShape {
 	static {
 		//yOffsets[1] = 1.62;
 	}
 
-	private int type = 81; // cactus
-	private int data = 0;
-	private int count = 1;
+	private final ItemStack itemStack = new ItemStack(Block.CACTUS, 1, 0);
 
 	public ItemShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
@@ -18,86 +20,68 @@ public class ItemShape extends EntityShape {
 		dropping = true;
 	}
 
+	private Packet createItemMetadataPacket() {
+		return createMetadataPacket(10, itemStack);
+	}
+
+	private void sendMetadataPacket() {
+		sendPacketToPlayersAround(transmute.ignorePacket(createItemMetadataPacket()));
+	}
+
 	@Override
 	public void createTransmutedEntity() {
 		super.createTransmutedEntity();
-
-		sendYCData(ShapeYCData.ITEM_TYPE, type);
-		sendYCData(ShapeYCData.ITEM_DATA, data);
-		sendYCData(ShapeYCData.ITEM_COUNT, count);
+		sendMetadataPacket();
 	}
 
-
 	@Override
-	protected Packet createSpawnPacket() {
-		/*Location location = entity.getLocation();
-
-		final Packet21PickupSpawn p21 = new Packet21PickupSpawn();
-
-		p21.a = entityId;
-
-		p21.b = MathHelper.floor(location.getX() * 32.0D);
-		p21.c = MathHelper.floor((location.getY()+yOffset) * 32.0D);
-		p21.d = MathHelper.floor(location.getZ() * 32.0D);
-
-		Vector velocity = entity.getVelocity();
-		p21.e = (byte) ((int) (velocity.getX() * 128.0D));
-		p21.f = (byte) ((int) (velocity.getY() * 128.0D));
-		p21.g = (byte) ((int) (velocity.getZ() * 128.0D));
-
-		p21.h = new ItemStack(type, count, data);
-
-		return p21;*/
-        return null;
+	public void createTransmutedEntity(Player forPlayer) {
+		super.createTransmutedEntity(forPlayer);
+		PlayerHelper.sendPacketToPlayer(forPlayer, transmute.ignorePacket(createItemMetadataPacket()));
 	}
 
 	public int getType() {
-		return type;
+		return itemStack.id;
 	}
 
 	public void setType(int type) {
-		this.type = type;
+		itemStack.id = type;
 
-		deleteEntity();
-		createTransmutedEntity();
+		sendMetadataPacket();
 	}
 
 	public int getDataValue() {
-		return data;
+		return itemStack.getData();
 	}
 
 	public void setData(int data) {
-		this.data = data;
+		itemStack.setData(data);
 
-		deleteEntity();
-		createTransmutedEntity();
+		sendMetadataPacket();
 	}
 
 	public int getCount() {
-		return count;
+		return itemStack.count;
 	}
 
 	public void setCount(int count) {
-		this.count = count;
+		itemStack.count = count;
 
-		deleteEntity();
-		createTransmutedEntity();
+		sendMetadataPacket();
 	}
 
 	public void setType(int type, int data) {
-		this.type = type;
-		this.data = data;
+		itemStack.id = type;
+		itemStack.setData(data);
 
-		deleteEntity();
-		createTransmutedEntity();
+		sendMetadataPacket();
 	}
 
 	public void setType(int type, int data, int count) {
-		this.type = type;
-		this.data = data;
-		this.count = count;
+		itemStack.id = type;
+		itemStack.setData(data);
+		itemStack.count = count;
 
-		deleteEntity();
-		createTransmutedEntity();
+		sendMetadataPacket();
 	}
 }
