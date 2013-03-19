@@ -39,7 +39,7 @@ public class Transmute implements Runnable {
 				for (Iterator<Packet> iterator = transmutePacketListener.ignoredPackets.iterator(); iterator.hasNext(); ) {
 					final Packet packet = iterator.next();
 
-					if (((net.minecraft.server.v1_5_R1.Packet) packet).timestamp < minTimestamp)
+					if (packet.timestamp < minTimestamp)
 						iterator.remove();
 				}
 
@@ -135,6 +135,8 @@ public class Transmute implements Runnable {
 	}
 
 	Packet ignorePacket(Packet packet) {
+		if(packet == null)
+			throw new NullPointerException();
 		transmutePacketListener.ignoredPackets.add(packet);
 		return packet;
 	}

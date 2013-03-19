@@ -46,7 +46,7 @@ public class MobShape extends EntityShape {
 		//p24.i = 
 		//p24.j = 
 		//p24.k = 
-		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "s", datawatcher);
+		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "t", datawatcher);
 		return p24;
 	}
 
