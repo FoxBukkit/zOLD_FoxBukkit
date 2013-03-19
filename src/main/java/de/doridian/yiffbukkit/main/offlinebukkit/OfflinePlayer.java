@@ -12,6 +12,7 @@ import org.bukkit.Note;
 import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
+import org.bukkit.WeatherType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
@@ -60,7 +61,27 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	private String displayName;
 	private World world;
 
-    @Override
+	@Override
+	public void setPlayerWeather(WeatherType weatherType) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public WeatherType getPlayerWeather() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void resetPlayerWeather() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public boolean isOnGround() {
+		return true;
+	}
+
+	@Override
     public void setMaxHealth(int i) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

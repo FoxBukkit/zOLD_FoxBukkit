@@ -29,6 +29,11 @@ public abstract class FakeEntity implements Entity {
 	public Location location;
 	private boolean isDead;
 
+	@Override
+	public boolean isOnGround() {
+		return true;
+	}
+
 	public void playEffect(EntityEffect effect) {
 		//TODO: Implement?
 	}
