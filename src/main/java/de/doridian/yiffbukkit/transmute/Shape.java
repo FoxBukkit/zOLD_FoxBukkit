@@ -2,9 +2,11 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import net.minecraft.server.v1_5_R1.Block;
 import net.minecraft.server.v1_5_R1.DataWatcher;
 import net.minecraft.server.v1_5_R1.EntityLiving;
 import net.minecraft.server.v1_5_R1.EntityTrackerEntry;
+import net.minecraft.server.v1_5_R1.ItemStack;
 import net.minecraft.server.v1_5_R1.Packet;
 import net.minecraft.server.v1_5_R1.Packet29DestroyEntity;
 import net.minecraft.server.v1_5_R1.Packet39AttachEntity;
@@ -122,14 +124,22 @@ public abstract class Shape {
 	}
 
 	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {
-		try {
-			// create entry
-			datawatcher.a(index, 0);
-
-			// mark dirty
-			datawatcher.watch(index, 1);
+		if(value instanceof ItemStack) {
+			try {
+				// create entry
+				datawatcher.a(index, new ItemStack(Block.ENDER_PORTAL, 2, 2));
+				// mark dirty
+				datawatcher.watch(index, new ItemStack(Block.ENDER_PORTAL, 1, 1));
+			} catch (Exception e) {	}
+		} else {
+			try {
+				// create entry
+				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
+				// mark dirty
+				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
+			}
+			catch (Exception e) { }
 		}
-		catch (Exception e) { }
 
 		// put the actual data in
 		datawatcher.watch(index, value);
@@ -157,6 +167,9 @@ public abstract class Shape {
 		 to: case \2: // \1
 		 */
 		switch (id) {
+		case 18: // ItemFrame
+			return getShapeImpl(transmute, entity, id, ItemFrameShape.class);
+
 		case 1: // Item
 			return getShapeImpl(transmute, entity, id, ItemShape.class);
 
@@ -174,7 +187,6 @@ public abstract class Shape {
 		case 15: // EyeOfEnderSignal
 		case 16: // ThrownPotion
 		//case 17: // ThrownExpBottle
-		//case 18: // ItemFrame
 		//case 19: // WitherSkull
 		case 20: // PrimedTnt
 		case 21: // FallingSand

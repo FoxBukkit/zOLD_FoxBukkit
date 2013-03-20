@@ -12,7 +12,7 @@ public class ItemShape extends VehicleShape {
 		//yOffsets[1] = 1.62;
 	}
 
-	private final ItemStack itemStack = new ItemStack(Block.CACTUS, 1, 0);
+	protected final ItemStack itemStack = new ItemStack(Block.CACTUS, 1, 0);
 
 	public ItemShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
@@ -20,11 +20,11 @@ public class ItemShape extends VehicleShape {
 		dropping = true;
 	}
 
-	private Packet createItemMetadataPacket() {
-		return createMetadataPacket(10, itemStack);
+	protected Packet createItemMetadataPacket() {
+		return createMetadataPacket(10, itemStack.cloneItemStack());
 	}
 
-	private void sendMetadataPacket() {
+	protected void sendMetadataPacket() {
 		sendPacketToPlayersAround(transmute.ignorePacket(createItemMetadataPacket()));
 	}
 

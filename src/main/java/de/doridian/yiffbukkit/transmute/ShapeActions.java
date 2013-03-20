@@ -27,68 +27,85 @@ final class ShapeActions {
 	}
 
 	static {
+		final ShapeAction itemTypeAction = new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+			final ItemShape itemShape = (ItemShape) shape;
+
+			final int count;
+			if (args.length >= 2) {
+				try {
+					count = Integer.valueOf(args[1]);
+				}
+				catch(NumberFormatException e) {
+					throw new YiffBukkitCommandException("Number expected");
+				}
+			}
+			else {
+				count = itemShape.getCount();
+			}
+
+			String materialName = args[0];
+			final int colonPos = materialName.indexOf(':');
+			String colorName = null;
+			if (colonPos >= 0) {
+				colorName = materialName.substring(colonPos+1);
+				materialName = materialName.substring(0, colonPos);
+			}
+			final Material material = GiveCommand.matchMaterial(materialName);
+			if (material == null) {
+				throw new YiffBukkitCommandException("Material "+materialName+" not found");
+			}
+
+			if (material.getId() == 0)
+				throw new YiffBukkitCommandException("Material "+materialName+" not found");
+
+			final ItemStack stack = new ItemStack(material, count, (short) itemShape.getDataValue());
+
+			if (colorName != null) {
+				colorName = colorName.toUpperCase();
+				Short dataValue = GiveCommand.getDataValue(material, colorName);
+				if (dataValue != null) {
+					stack.setDurability(dataValue);
+				}
+				else if (material == Material.WOOL || material == Material.INK_SACK) {
+					try {
+						DyeColor dyeColor = DyeColor.valueOf(colorName.replace("GREY", "GRAY"));
+
+						if (material == Material.WOOL)
+							stack.setDurability(dyeColor.getData());
+						else
+							stack.setDurability((short) (15-dyeColor.getData()));
+					}
+					catch (IllegalArgumentException e) {
+						throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
+					}
+				}
+				else {
+					throw new YiffBukkitCommandException("Material "+materialName+" cannot have a data value.");
+				}
+			}
+
+			itemShape.setType(stack.getTypeId(), stack.getDurability(), stack.getAmount());
+		}};
+
 		registerMobActions(1, // Item
 				"help",
 				new HelpMobAction("/sac type <type>[:<data>][ <count>]"),
 				"type",
+				itemTypeAction
+		);
+
+		registerMobActions(18, // ItemFrame
+				"help",
+				new HelpMobAction("/sac type <type>[:<data>][ <count>]|orientation 0,1,2,3"),
+				"type",
+				itemTypeAction,
+				"orientation",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
-					final ItemShape itemShape = (ItemShape) shape;
-
-					final int count;
-					if (args.length >= 2) {
-						try {
-							count = Integer.valueOf(args[1]);
-						}
-						catch(NumberFormatException e) {
-							throw new YiffBukkitCommandException("Number expected");
-						}
-					}
-					else {
-						count = itemShape.getCount();
-					}
-
-					String materialName = args[0];
-					final int colonPos = materialName.indexOf(':');
-					String colorName = null;
-					if (colonPos >= 0) {
-						colorName = materialName.substring(colonPos+1);
-						materialName = materialName.substring(0, colonPos);
-					}
-					final Material material = GiveCommand.matchMaterial(materialName);
-					if (material == null) {
-						throw new YiffBukkitCommandException("Material "+materialName+" not found");
-					}
-
-					if (material.getId() == 0)
-						throw new YiffBukkitCommandException("Material "+materialName+" not found");
-
-					final ItemStack stack = new ItemStack(material, count, (short) itemShape.getDataValue());
-
-					if (colorName != null) {
-						colorName = colorName.toUpperCase();
-						Short dataValue = GiveCommand.getDataValue(material, colorName);
-						if (dataValue != null) {
-							stack.setDurability(dataValue);
-						}
-						else if (material == Material.WOOL || material == Material.INK_SACK) {
-							try {
-								DyeColor dyeColor = DyeColor.valueOf(colorName.replace("GREY", "GRAY"));
-
-								if (material == Material.WOOL)
-									stack.setDurability(dyeColor.getData());
-								else
-									stack.setDurability((short) (15-dyeColor.getData()));
-							}
-							catch (IllegalArgumentException e) {
-								throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
-							}
-						}
-						else {
-							throw new YiffBukkitCommandException("Material "+materialName+" cannot have a data value.");
-						}
-					}
-
-					itemShape.setType(stack.getTypeId(), stack.getDurability(), stack.getAmount());
+					ItemFrameShape itemFrameShape = (ItemFrameShape)shape;
+					byte orientation = (byte)(int)Integer.valueOf(args[0]);
+					if(orientation < 0 || orientation > 3)
+						throw new YiffBukkitCommandException("Orientation may only be 0,1,2,3");
+					itemFrameShape.setOrientation(orientation);
 				}}
 		);
 
