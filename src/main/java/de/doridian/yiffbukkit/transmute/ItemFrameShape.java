@@ -8,6 +8,8 @@ public class ItemFrameShape extends ItemShape {
 
 	public ItemFrameShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
+
+		dropping = false;
 	}
 
 	@Override
