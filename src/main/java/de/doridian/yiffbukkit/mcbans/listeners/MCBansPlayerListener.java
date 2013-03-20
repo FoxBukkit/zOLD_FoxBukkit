@@ -4,7 +4,6 @@ import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.mcbans.Ban;
 import de.doridian.yiffbukkit.mcbans.BanResolver;
 import de.doridian.yiffbukkitsplit.LockDownMode;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -18,14 +17,15 @@ public class MCBansPlayerListener extends BaseListener {
 
 		String name = event.getName();
 
-        Ban ban = BanResolver.getBan(name);
-        if(ban != null) {
-            event.disallow(Result.KICK_BANNED, "[YB] Banned: " + ban.getReason());
-        }
+		Ban ban = BanResolver.getBan(name);
+		if(ban != null) {
+			event.disallow(Result.KICK_BANNED, "[YB] Banned: " + ban.getReason());
+		}
 	}
-	
+
+	/*
 	private void sendIRCMessage(final String msg) {
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		org.bukkit.Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
 				plugin.ircbot.sendToStaffChannel(msg);
 			}
@@ -33,10 +33,11 @@ public class MCBansPlayerListener extends BaseListener {
 	}
 
 	private void sendServerMessage(final String msg, final String permission) {
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		org.bukkit.Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
 				plugin.playerHelper.sendServerMessage(msg, permission);
 			}
 		});
 	}
+	*/
 }
