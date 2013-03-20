@@ -1,19 +1,12 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
-import net.minecraft.server.v1_5_R1.EntityPlayer;
-import net.minecraft.server.v1_5_R1.PlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.CommandBlockRunEvent;
-import org.yaml.snakeyaml.reader.StreamReader;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.ref.SoftReference;
 import java.util.*;
 import java.util.regex.Matcher;

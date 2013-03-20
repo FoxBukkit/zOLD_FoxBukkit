@@ -9,16 +9,13 @@ import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Names({ "who", "list" })

@@ -1,17 +1,13 @@
 package de.doridian.yiffbukkit.advanced.commands;
 
-import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.mcbans.MCBansUtil;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 

@@ -5,10 +5,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 
 @Names("restart")
 @Permission("yiffbukkit.admin.restart")
