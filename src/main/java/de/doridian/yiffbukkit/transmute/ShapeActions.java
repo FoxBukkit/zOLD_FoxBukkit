@@ -415,9 +415,18 @@ final class ShapeActions {
 	private static void registerMobActions(int mobType, Object... objects) {
 		Map<String, ShapeAction> actions = new HashMap<String, ShapeAction>();
 
+		addActions(actions, objects);
+
+		mobActions.put(mobType, actions);
+	}
+
+	private static void addActions(Map<String, ShapeAction> actions, Object[] objects) {
 		List<String> names = new ArrayList<String>();
 		for (Object object : objects) {
-			if (object instanceof String) {
+			if (object instanceof Object[]) {
+				addActions(actions, (Object[])object);
+			}
+			else if (object instanceof String) {
 				names.add((String)object);
 			}
 			else if (object instanceof ShapeAction) {
@@ -427,8 +436,6 @@ final class ShapeActions {
 				names.clear();
 			}
 		}
-
-		mobActions.put(mobType, actions);
 	}
 
 	private static class VehicleBobAction implements ShapeAction {
