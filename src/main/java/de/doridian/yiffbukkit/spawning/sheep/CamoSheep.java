@@ -139,10 +139,9 @@ public class CamoSheep extends AbstractSheep {
 					return DyeColor.BROWN;
 
 				case 3:
+				default:
 					return DyeColor.GRAY;
 				}
-
-				return DyeColor.getByData(block.getData());
 			}
 			else if (blockId < dyeMap.length) {
 				return dyeMap[blockId];
