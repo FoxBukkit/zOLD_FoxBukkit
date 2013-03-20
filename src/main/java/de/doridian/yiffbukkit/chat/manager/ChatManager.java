@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -22,21 +21,25 @@ public class ChatManager {
 	private static final ChatLogEntry EMPTY_CHAT_LOG_ENTRY = new ChatLogEntry("", null);
 	private static final int CHAT_QUEUE_LENGTH = 100;
 
+	/*
 	private static final int SPAM_WINDOW = 20;
 	private static final int SPAM_COUNT = 5;
 	private static final int SPAM_TIME_WINDOW = 10000; // ms
 
 	private static final int RATE_TIME_WINDOW = 500; // ms
 	private static final int RATE_LIMIT = 4;
+	*/
 
 	YiffBukkit plugin;
 	Stack<Object> currentOrigin = new Stack<Object>();
 
 	Map<String, Queue<ChatLogEntry>> chatQueues = new HashMap<String, Queue<ChatLogEntry>>();
 
+	/*
 	private Queue<ChatLogEntry> getChatQueue(Player ply) {
 		return chatQueues.get(ply.getName());
 	}
+	*/
 
 	Map<Player, LinkedList<ChatEntry>> lastPlayerMessages = new HashMap<Player, LinkedList<ChatEntry>>();
 	public ChatManager(YiffBukkit plugin) {
@@ -220,8 +223,9 @@ public class ChatManager {
 		}
 	}
 
+	/*
 	private void filterPlayer(Player ply) {
-		for (Entry<String, Queue<ChatLogEntry>> bar : chatQueues.entrySet()) {
+		for (Map.Entry<String, Queue<ChatLogEntry>> bar : chatQueues.entrySet()) {
 			for (Iterator<ChatLogEntry> it = bar.getValue().iterator(); it.hasNext();) {
 				ChatLogEntry chatEntry = it.next();
 				if (ply.equals(chatEntry.getOrigin()))
@@ -229,4 +233,5 @@ public class ChatManager {
 			}
 		}
 	}
+	*/
 }
