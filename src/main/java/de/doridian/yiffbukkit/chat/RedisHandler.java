@@ -8,12 +8,11 @@ import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
-public class RedisHandler extends JedisPubSub {
-	private RedisHandler() {
+public class RedisHandler extends JedisPubSub implements Runnable {
+	@Override
+	public void run() {
 		RedisManager.readJedisPool.getResource().subscribe(this, "yiffbukkit:to_server");
 	}
-
-	private static RedisHandler handler;
 
 	public static void sendMessage(final Player player, final String  message) {
 		if(player == null || message == null)
@@ -24,11 +23,7 @@ public class RedisHandler extends JedisPubSub {
 	}
 
 	public static void initialize() {
-		new Thread() {
-			public void run() {
-				handler = new RedisHandler();
-			}
-		}.start();
+		new Thread(new RedisHandler()).start();
 	}
 
 	@Override
