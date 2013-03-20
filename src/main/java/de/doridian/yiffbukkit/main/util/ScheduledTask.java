@@ -27,15 +27,18 @@ public abstract class ScheduledTask implements Runnable {
 	}
 
 
+	@Deprecated
 	public void scheduleAsyncDelayed(long delay) {
 		taskId = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, this, delay);
 	}
 
 
+	@Deprecated
 	public void scheduleAsyncDelayed() {
 		taskId = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, this);
 	}
 
+	@Deprecated
 	public void scheduleAsyncRepeating(long delay, long period) {
 		taskId = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, delay, period);
 	}
