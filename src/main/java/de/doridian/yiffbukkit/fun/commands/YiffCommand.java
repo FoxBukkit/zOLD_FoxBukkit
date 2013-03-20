@@ -58,7 +58,6 @@ public class YiffCommand extends ICommand {
 
 	class RaepRunnable implements Runnable {
 		private final Player target;
-		private final int taskID;
 
 		private final Packet20NamedEntitySpawn packet20NamedEntitySpawn;
 		private final Packet29DestroyEntity packet29DestroyEntity;
@@ -68,7 +67,6 @@ public class YiffCommand extends ICommand {
 
 		private RaepRunnable(Player target, int mode) {
 			this.target = target;
-			this.taskID = plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, this, 0, 1);
 			this.packet20NamedEntitySpawn = new Packet20NamedEntitySpawn();
 
 			packet20NamedEntitySpawn.b = "DoriBot";
@@ -83,12 +81,16 @@ public class YiffCommand extends ICommand {
 			packet34EntityTeleport.e = 0;
 
 			this.mode = mode;
+
+			new Thread(this).start();
 		}
 
 		private int lastEntID = 0;
 
+		private boolean cancelled = false;
+
 		public void stop() {
-			plugin.getServer().getScheduler().cancelTask(taskID);
+			this.cancelled = true;
 		}
 
 		@Override
@@ -123,6 +125,7 @@ public class YiffCommand extends ICommand {
 
 				lastEntID++;
 				if(lastEntID > 65535) lastEntID = 0;
+				if(cancelled) return;
 			}
 		}
 	}
