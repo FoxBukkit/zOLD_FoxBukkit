@@ -1,10 +1,9 @@
 package de.doridian.yiffbukkit.transmute.listeners;
 
-import de.doridian.yiffbukkit.advanced.YBPacketListener;
+import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkit.transmute.Transmute;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_5_R1.Packet;
 import net.minecraft.server.v1_5_R1.Packet17EntityLocationAction;
 import net.minecraft.server.v1_5_R1.Packet18ArmAnimation;
@@ -25,8 +24,21 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 	public final Set<Packet> ignoredPackets = new HashSet<Packet>();
 
 	public TransmutePacketListener(Transmute transmute) {
-		super(YiffBukkit.instance);
+		super();
 		this.transmute = transmute;
+
+		register(PacketDirection.OUTGOING, 17);
+		register(PacketDirection.OUTGOING, 18);
+
+		register(PacketDirection.OUTGOING, 20);
+		register(PacketDirection.OUTGOING, 22);
+		register(PacketDirection.OUTGOING, 23);
+		register(PacketDirection.OUTGOING, 24);
+
+		register(PacketDirection.OUTGOING, 32);
+		register(PacketDirection.OUTGOING, 33);
+		register(PacketDirection.OUTGOING, 34);
+		register(PacketDirection.OUTGOING, 40);
 	}
 
 	@Override

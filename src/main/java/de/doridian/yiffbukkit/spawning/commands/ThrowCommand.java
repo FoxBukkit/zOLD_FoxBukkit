@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.spawning.commands;
 
-import de.doridian.yiffbukkit.advanced.YBPacketListener;
+import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.BindCommand;
@@ -109,10 +109,14 @@ public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
 
 	public ThrowCommand() {
-		new YBPacketListener(plugin) {
+		new YBPacketListener() {
+			{
+				register(PacketDirection.INCOMING, 12);
+				register(PacketDirection.INCOMING, 13);
+			}
+
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-				if(packetID < 12 || packetID > 13) return true;
 				Packet10Flying p10 = (Packet10Flying) packet;
 				lastYaws.put(ply, p10.yaw);
 				lastPitches.put(ply, p10.pitch);

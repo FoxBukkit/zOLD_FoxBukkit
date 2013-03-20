@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
-import de.doridian.yiffbukkit.advanced.YBPacketListener;
+import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
@@ -26,9 +26,13 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 
 	final YiffBukkit plugin;
 	public YiffBukkitHeadChopOffListener(YiffBukkit plugin) {
-		super(plugin);
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+		register(PacketDirection.OUTGOING, 32);
+		register(PacketDirection.OUTGOING, 33);
+		register(PacketDirection.OUTGOING, 34);
+		register(PacketDirection.OUTGOING, 35);
 	}
 
 	private TIntHashSet choppedEntities = new TIntHashSet();
@@ -82,11 +86,6 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 				}
 				break;
 		}
-		return true;
-	}
-
-	@Override
-	public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
 		return true;
 	}
 }

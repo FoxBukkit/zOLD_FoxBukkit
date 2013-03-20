@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
 import com.sk89q.worldedit.blocks.BlockType;
-import de.doridian.yiffbukkit.advanced.YBPacketListener;
+import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.fun.commands.PlayCommand.Packet53BlockChangeExpress;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -33,9 +33,15 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 	private PlayerHelper playerHelper;
 
 	public YiffBukkitPacketListener(YiffBukkit instance) {
-		super(instance);
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
+
+		register(PacketDirection.OUTGOING, 3);
+		register(PacketDirection.OUTGOING, 34);
+		register(PacketDirection.OUTGOING, 70);
+
+		register(PacketDirection.INCOMING, 11);
+		register(PacketDirection.INCOMING, 13);
 	}
 
 	@Override

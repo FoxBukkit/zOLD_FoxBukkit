@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
-import de.doridian.yiffbukkit.advanced.YBPacketListener;
+import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -24,10 +24,13 @@ public class Redrum extends YBEffect {
 	static TIntHashSet rotating = new TIntHashSet();
 	static boolean paused = false;
 
-	static YBPacketListener packetListener = new YBPacketListener(YiffBukkit.instance) {
+	static YBPacketListener packetListener = new YBPacketListener() {
+		{
+			register(PacketDirection.OUTGOING, 35);
+		}
+
 		@Override
 		public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-			if(packetID != 35) return true;
 			return paused || !rotating.contains(((Packet35EntityHeadRotation) packet).a);
 		}
 	};
