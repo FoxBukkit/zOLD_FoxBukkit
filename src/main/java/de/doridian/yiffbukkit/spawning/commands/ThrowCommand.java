@@ -109,7 +109,7 @@ public class ThrowCommand extends ICommand {
 	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
 
 	public ThrowCommand() {
-		final YBPacketListener packetListener = new YBPacketListener(plugin) {
+		new YBPacketListener(plugin) {
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
 				if(packetID < 12 || packetID > 13) return true;

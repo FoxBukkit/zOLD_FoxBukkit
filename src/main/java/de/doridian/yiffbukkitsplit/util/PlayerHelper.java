@@ -333,7 +333,6 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Ranks
-	private Map<String,String> playerranks = RedisManager.createKeptMap("playerranks");
 	public String getPlayerRank(Player ply) {
 		return getPlayerRank(ply.getName());
 	}

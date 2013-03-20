@@ -16,7 +16,6 @@ import net.minecraft.server.v1_5_R1.Packet30Entity;
 import net.minecraft.server.v1_5_R1.Packet34EntityTeleport;
 import net.minecraft.server.v1_5_R1.Packet40EntityMetadata;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +27,6 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 	public TransmutePacketListener(Transmute transmute) {
 		super(YiffBukkit.instance);
 		this.transmute = transmute;
-		Plugin plugin = YiffBukkit.instance;
 	}
 
 	@Override
