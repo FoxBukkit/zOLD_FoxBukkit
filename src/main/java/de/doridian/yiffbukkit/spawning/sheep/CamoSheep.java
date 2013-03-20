@@ -125,7 +125,7 @@ public class CamoSheep extends AbstractSheep {
 			final Block block = location.getBlock();
 			int blockId = block.getTypeId();
 			if (blockId == 35) { // wool
-				return DyeColor.getByData(block.getData());
+				return DyeColor.getByWoolData(block.getData());
 			}
 			if (blockId == 43 || blockId == 44) { // steps
 				switch (block.getData()) {

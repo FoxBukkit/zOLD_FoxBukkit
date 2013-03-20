@@ -71,9 +71,9 @@ final class ShapeActions {
 						DyeColor dyeColor = DyeColor.valueOf(colorName.replace("GREY", "GRAY"));
 
 						if (material == Material.WOOL)
-							stack.setDurability(dyeColor.getData());
+							stack.setDurability(dyeColor.getWoolData());
 						else
-							stack.setDurability((short) (15-dyeColor.getData()));
+							stack.setDurability(dyeColor.getDyeData());
 					}
 					catch (IllegalArgumentException e) {
 						throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
@@ -302,7 +302,7 @@ final class ShapeActions {
 					}
 					catch (Exception e) { }
 
-					shape.setData(16, dyeColor.getData());
+					shape.setData(16, dyeColor.getWoolData());
 
 					PlayerHelper.sendDirectedMessage(player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
 				}},

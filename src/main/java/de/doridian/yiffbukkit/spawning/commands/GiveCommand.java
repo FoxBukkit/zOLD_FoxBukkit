@@ -217,9 +217,9 @@ public class GiveCommand extends ICommand {
 					DyeColor dyeColor = DyeColor.valueOf(colorName.replace("GREY", "GRAY"));
 
 					if (material == Material.WOOL)
-						stack.setDurability(dyeColor.getData());
+						stack.setDurability(dyeColor.getWoolData());
 					else
-						stack.setDurability((short) (15-dyeColor.getData()));
+						stack.setDurability(dyeColor.getDyeData());
 				}
 				catch (IllegalArgumentException e) {
 					throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
