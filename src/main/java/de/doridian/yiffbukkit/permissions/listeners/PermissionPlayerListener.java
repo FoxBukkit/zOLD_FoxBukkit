@@ -7,7 +7,7 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_5_R1.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftHumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

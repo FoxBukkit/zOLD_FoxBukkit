@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_5_R1.Block;
-import net.minecraft.server.v1_5_R1.ItemStack;
-import net.minecraft.server.v1_5_R1.Packet;
+import net.minecraft.server.v1_5_R2.Block;
+import net.minecraft.server.v1_5_R2.ItemStack;
+import net.minecraft.server.v1_5_R2.Packet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

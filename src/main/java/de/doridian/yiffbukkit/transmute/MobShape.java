@@ -2,9 +2,9 @@ package de.doridian.yiffbukkit.transmute;
 
 
 import de.doridian.yiffbukkit.main.util.Utils;
-import net.minecraft.server.v1_5_R1.MathHelper;
-import net.minecraft.server.v1_5_R1.Packet;
-import net.minecraft.server.v1_5_R1.Packet24MobSpawn;
+import net.minecraft.server.v1_5_R2.MathHelper;
+import net.minecraft.server.v1_5_R2.Packet;
+import net.minecraft.server.v1_5_R2.Packet24MobSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
