@@ -42,6 +42,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
@@ -63,6 +64,16 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 
 	@Override
 	public void setPlayerWeather(WeatherType weatherType) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Scoreboard getScoreboard() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setScoreboard(Scoreboard scoreboard) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
