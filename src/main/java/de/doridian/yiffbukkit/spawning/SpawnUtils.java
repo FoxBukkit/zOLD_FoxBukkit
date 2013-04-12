@@ -294,6 +294,31 @@ public class SpawnUtils {
 				notchWorld.addEntity(notchEntity);
 				return notchEntity.getBukkitEntity();
 			}
+			else if (data.toUpperCase().startsWith("METEOR")) {
+				String[] parts = data.split(":");
+				if (!"METEOR".equalsIgnoreCase(parts[0]))
+					return null;
+
+				final double radius;
+				if (parts.length < 2) {
+					radius = 3;
+				}
+				else {
+					radius = Math.min(8, Double.parseDouble(parts[1]));
+				}
+				final double speed;
+				if (parts.length < 3) {
+					speed = 1;
+				}
+				else {
+					speed = Math.min(1.5, Double.parseDouble(parts[2]));
+				}
+
+				final net.minecraft.server.v1_5_R2.Entity notchEntity = new Meteor(location, notchPlayer, radius, speed);
+
+				notchWorld.addEntity(notchEntity);
+				return notchEntity.getBukkitEntity();
+			}
 			else {
 				int potionId = -1;
 				try {
