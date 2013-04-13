@@ -23,6 +23,9 @@ public abstract class CustomPotion extends EntityPotion {
 
 	@Override
 	protected void a(MovingObjectPosition movingobjectposition) {
+		if (this.dead)
+			return;
+
 		if (movingobjectposition.entity == thrower)
 			return;
 
