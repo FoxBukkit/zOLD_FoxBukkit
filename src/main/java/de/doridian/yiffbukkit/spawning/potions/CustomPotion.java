@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.spawning.potions;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
 import net.minecraft.server.v1_5_R3.EntityPotion;
@@ -8,8 +9,11 @@ import net.minecraft.server.v1_5_R3.ItemStack;
 import net.minecraft.server.v1_5_R3.MovingObjectPosition;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
+import org.bukkit.entity.Entity;
 
 public abstract class CustomPotion extends EntityPotion {
 	protected final int potionId;
@@ -30,8 +34,55 @@ public abstract class CustomPotion extends EntityPotion {
 			return;
 
 		try {
-			if (hit(movingobjectposition))
-				die();
+			switch (movingobjectposition.type) {
+			case ENTITY:
+				if (hitEntity(movingobjectposition.entity.getBukkitEntity()) | hit(movingobjectposition))
+					die();
+
+				break;
+
+			case TILE:
+				final CraftWorld world = this.world.getWorld();
+				Block block = world.getBlockAt(
+						movingobjectposition.b,
+						movingobjectposition.c,
+						movingobjectposition.d
+				);
+				Location hitVec = Utils.toLocation(movingobjectposition.pos, world);
+
+				final BlockFace sideHit;
+				switch (movingobjectposition.face) {
+				case 0:
+					sideHit = BlockFace.DOWN;
+					break;
+
+				case 1:
+					sideHit = BlockFace.UP;
+					break;
+
+				case 2:
+					sideHit = BlockFace.EAST;
+					break;
+
+				case 3:
+					sideHit = BlockFace.WEST;
+					break;
+
+				case 4:
+					sideHit = BlockFace.NORTH;
+					break;
+
+				case 5:
+					sideHit = BlockFace.SOUTH;
+					break;
+				default:
+					throw new YiffBukkitCommandException("Invalid direction in TILE trace.");
+				}
+				if (hitBlock(block, sideHit, hitVec) | hit(movingobjectposition))
+					die();
+
+				break;
+			}
 		}
 		catch (YiffBukkitCommandException e) {
 			PlayerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
@@ -43,5 +94,15 @@ public abstract class CustomPotion extends EntityPotion {
 		}
 	}
 
-	protected abstract boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException;
+	protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
+		return false;
+	}
+
+	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) throws YiffBukkitCommandException {
+		return false;
+	}
+
+	protected boolean hitEntity(Entity hitEntity) throws YiffBukkitCommandException {
+		return false;
+	}
 }

@@ -4,7 +4,6 @@ import java.util.Collections;
 
 import net.minecraft.server.v1_5_R3.EntityFallingBlock;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
-import net.minecraft.server.v1_5_R3.MovingObjectPosition;
 import net.minecraft.server.v1_5_R3.Packet60Explosion;
 import net.minecraft.server.v1_5_R3.WorldServer;
 
@@ -12,6 +11,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
@@ -32,17 +32,12 @@ final class Meteor extends CustomPotion {
 		this.speed = speed;
 		new PotionTrail(this.getBukkitEntity()).start();
 	}
-
 	@Override
-	protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
+	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) throws YiffBukkitCommandException {
 		final double radiusSq = radius * radius;
-		if (movingobjectposition.entity != null)
-			return false;
 
 		final Entity thisBukkitEntity = getBukkitEntity();
 		final World world = thisBukkitEntity.getWorld();
-
-		Location hitLocation = Utils.toLocation(movingobjectposition.pos, world);
 
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(hitLocation, 64, new Packet60Explosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), -1.0f, Collections.emptyList(), null));
 		Utils.makeSound(hitLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
