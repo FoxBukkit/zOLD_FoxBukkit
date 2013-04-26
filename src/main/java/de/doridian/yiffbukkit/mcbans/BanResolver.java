@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.mcbans;
 
-import de.doridian.yiffbukkit.database.DatabaseConnection;
 import de.doridian.yiffbukkit.database.DatabaseConnectionPool;
 
 import java.lang.ref.SoftReference;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -23,8 +23,8 @@ public class BanResolver {
     public static void addBan(Ban ban) {
         deleteBan(ban);
         try {
-            DatabaseConnection connection = DatabaseConnectionPool.instance.getConnection();
-            PreparedStatement preparedStatement = connection.createPreparedStatement("INSERT INTO bans (reason, admin, player, type, time) VALUES (?, ?, ?, ?, ?)");
+            Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO bans (reason, admin, player, type, time) VALUES (?, ?, ?, ?, ?)");
             preparedStatement.setString(1, ban.getReason());
             preparedStatement.setInt(2, ban.getAdminID());
             preparedStatement.setInt(3, ban.getUserID());
@@ -32,7 +32,7 @@ public class BanResolver {
             preparedStatement.setInt(5, ban.getTime());
             preparedStatement.execute();
             preparedStatement.close();
-            connection.free();
+            connection.close();
 
             playerBans.put(ban.getUserID(), new SoftReference<Ban>(ban));
         } catch (Exception e) {
@@ -42,12 +42,12 @@ public class BanResolver {
 
     public static void deleteBan(Ban ban) {
         try {
-            DatabaseConnection connection = DatabaseConnectionPool.instance.getConnection();
-            PreparedStatement preparedStatement = connection.createPreparedStatement("DELETE FROM bans WHERE player = ?");
+			Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM bans WHERE player = ?");
             preparedStatement.setInt(1, ban.getUserID());
             preparedStatement.execute();
             preparedStatement.close();
-            connection.free();
+            connection.close();
 
             playerBans.remove(ban.getUserID());
         } catch(Exception e) {
@@ -71,8 +71,8 @@ public class BanResolver {
             }
         }
         try {
-            DatabaseConnection connection = DatabaseConnectionPool.instance.getConnection();
-            PreparedStatement preparedStatement = connection.createPreparedStatement("SELECT * FROM bans WHERE player = ?");
+			Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bans WHERE player = ?");
             preparedStatement.setInt(1, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
             Ban ret = null;
@@ -81,7 +81,7 @@ public class BanResolver {
                 playerBans.put(userID, new SoftReference<Ban>(ret));
             }
             preparedStatement.close();
-            connection.free();
+            connection.close();
             return ret;
         } catch(Exception e) {
             return new Ban("Database failure", 0, 0, "invalid", 0);
@@ -93,8 +93,8 @@ public class BanResolver {
             return playerNames.get(id);
         }
         try {
-            DatabaseConnection connection = DatabaseConnectionPool.instance.getConnection();
-            PreparedStatement preparedStatement = connection.createPreparedStatement("SELECT id FROM players WHERE id = ?");
+			Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM players WHERE id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             String ret = null;
@@ -104,7 +104,7 @@ public class BanResolver {
                 playerNames.put(id, ret);
             }
             preparedStatement.close();
-            connection.free();
+            connection.close();
             return ret;
         } catch(Exception e) {
             return null;
@@ -121,8 +121,8 @@ public class BanResolver {
             return playerIDs.get(user);
         }
         try {
-            DatabaseConnection connection = DatabaseConnectionPool.instance.getConnection();
-            PreparedStatement preparedStatement = connection.createPreparedStatement("SELECT id FROM players WHERE name = ?");
+			Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM players WHERE name = ?");
             preparedStatement.setString(1, user);
             ResultSet resultSet = preparedStatement.executeQuery();
             int ret = 0;
@@ -132,7 +132,7 @@ public class BanResolver {
                 playerNames.put(ret, user);
             } else if(create) {
                 preparedStatement.close();
-                preparedStatement = connection.createPreparedStatement("INSERT INTO players (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+                preparedStatement = connection.prepareStatement("INSERT INTO players (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, user);
                 ret = preparedStatement.executeUpdate();
                 resultSet = preparedStatement.getGeneratedKeys();
@@ -143,7 +143,7 @@ public class BanResolver {
                 }
             }
             preparedStatement.close();
-            connection.free();
+            connection.close();
             return ret;
         } catch(Exception e) {
             return 0;
