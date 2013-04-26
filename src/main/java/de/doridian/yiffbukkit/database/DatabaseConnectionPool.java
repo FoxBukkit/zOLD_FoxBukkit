@@ -7,12 +7,11 @@ import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.commons.pool.impl.StackKeyedObjectPoolFactory;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DatabaseConnectionPool {
-	private static DataSource dataSource;
+	private static PoolingDataSource dataSource;
 
     public static DatabaseConnectionPool instance = new DatabaseConnectionPool();
 
@@ -23,17 +22,25 @@ public class DatabaseConnectionPool {
 			System.err.println("Error loading JBBC MySQL: " + e.toString());
 		}
 
+		GenericObjectPool connectionPool = new GenericObjectPool(null);
+		connectionPool.setMaxActive(10);
+		connectionPool.setMaxIdle(5);
+		connectionPool.setTestOnBorrow(true);
+		connectionPool.setTestOnReturn(true);
+		connectionPool.setTestWhileIdle(true);
+
 		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory("jdbc:mysql://" + DatabaseConfiguration.HOST + "/" + DatabaseConfiguration.NAME, DatabaseConfiguration.USER, DatabaseConfiguration.PASSWORD);
 		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 				connectionFactory,
-				new GenericObjectPool(),
+				connectionPool,
 				new StackKeyedObjectPoolFactory(),
-				"SELECT 1+1",
+				"SELECT 1",
 				false,
 				true
 		);
+		poolableConnectionFactory.setValidationQueryTimeout(3);
 
-		dataSource = new PoolingDataSource(new GenericObjectPool(poolableConnectionFactory));
+		dataSource = new PoolingDataSource(connectionPool);
     }
 
     public Connection getConnection() throws SQLException {
