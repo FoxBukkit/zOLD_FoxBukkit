@@ -3,9 +3,9 @@ package de.doridian.yiffbukkit.advanced.listeners;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_5_R2.MathHelper;
-import net.minecraft.server.v1_5_R2.Packet;
-import net.minecraft.server.v1_5_R2.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_5_R3.MathHelper;
+import net.minecraft.server.v1_5_R3.Packet;
+import net.minecraft.server.v1_5_R3.Packet62NamedSoundEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

@@ -2,10 +2,10 @@ package de.doridian.yiffbukkit.transmute;
 
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
-import net.minecraft.server.v1_5_R2.MathHelper;
-import net.minecraft.server.v1_5_R2.Packet;
-import net.minecraft.server.v1_5_R2.Packet23VehicleSpawn;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
+import net.minecraft.server.v1_5_R3.MathHelper;
+import net.minecraft.server.v1_5_R3.Packet;
+import net.minecraft.server.v1_5_R3.Packet23VehicleSpawn;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 public class VehicleShape extends EntityShape {
@@ -82,7 +82,7 @@ public class VehicleShape extends EntityShape {
 
 	@Override
 	protected Packet createSpawnPacket() {
-		final net.minecraft.server.v1_5_R2.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
+		final net.minecraft.server.v1_5_R3.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
 		final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn(notchEntity, vehicleType, subType);
 		p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);

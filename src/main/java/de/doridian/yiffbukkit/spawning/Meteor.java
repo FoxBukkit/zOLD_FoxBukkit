@@ -2,17 +2,17 @@ package de.doridian.yiffbukkit.spawning;
 
 import java.util.Collections;
 
-import net.minecraft.server.v1_5_R2.EntityFallingBlock;
-import net.minecraft.server.v1_5_R2.EntityPlayer;
-import net.minecraft.server.v1_5_R2.MovingObjectPosition;
-import net.minecraft.server.v1_5_R2.Packet60Explosion;
-import net.minecraft.server.v1_5_R2.WorldServer;
+import net.minecraft.server.v1_5_R3.EntityFallingBlock;
+import net.minecraft.server.v1_5_R3.EntityPlayer;
+import net.minecraft.server.v1_5_R3.MovingObjectPosition;
+import net.minecraft.server.v1_5_R3.Packet60Explosion;
+import net.minecraft.server.v1_5_R3.WorldServer;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 

@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>de.doridian</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.5.1-R0.2-SNAPSHOT</version>
+			<version>1.5.2-R0.2-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

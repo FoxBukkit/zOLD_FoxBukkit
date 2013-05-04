@@ -14,16 +14,16 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_5_R2.EntityFallingBlock;
-import net.minecraft.server.v1_5_R2.EntityLargeFireball;
-import net.minecraft.server.v1_5_R2.EntityPlayer;
-import net.minecraft.server.v1_5_R2.EntityTNTPrimed;
-import net.minecraft.server.v1_5_R2.MinecraftServer;
-import net.minecraft.server.v1_5_R2.MovingObjectPosition;
-import net.minecraft.server.v1_5_R2.NetworkManager;
-import net.minecraft.server.v1_5_R2.PlayerConnection;
-import net.minecraft.server.v1_5_R2.PlayerInteractManager;
-import net.minecraft.server.v1_5_R2.WorldServer;
+import net.minecraft.server.v1_5_R3.EntityFallingBlock;
+import net.minecraft.server.v1_5_R3.EntityLargeFireball;
+import net.minecraft.server.v1_5_R3.EntityPlayer;
+import net.minecraft.server.v1_5_R3.EntityTNTPrimed;
+import net.minecraft.server.v1_5_R3.MinecraftServer;
+import net.minecraft.server.v1_5_R3.MovingObjectPosition;
+import net.minecraft.server.v1_5_R3.NetworkManager;
+import net.minecraft.server.v1_5_R3.PlayerConnection;
+import net.minecraft.server.v1_5_R3.PlayerInteractManager;
+import net.minecraft.server.v1_5_R3.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
@@ -31,9 +31,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_5_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -262,7 +262,7 @@ public class SpawnUtils {
 		else if (type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-			net.minecraft.server.v1_5_R2.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+			net.minecraft.server.v1_5_R3.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 				@Override
 				protected boolean hit(MovingObjectPosition movingobjectposition) {
 					org.bukkit.World world = getBukkitEntity().getWorld();
@@ -278,7 +278,7 @@ public class SpawnUtils {
 			final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
 
 			if ("NINJA".equalsIgnoreCase(data)) {
-				final net.minecraft.server.v1_5_R2.Entity notchEntity = new CustomPotion(location, 8, notchPlayer) {
+				final net.minecraft.server.v1_5_R3.Entity notchEntity = new CustomPotion(location, 8, notchPlayer) {
 					@Override
 					protected boolean hit(MovingObjectPosition movingobjectposition) throws YiffBukkitCommandException {
 						final Entity thisBukkitEntity = getBukkitEntity();
@@ -314,7 +314,7 @@ public class SpawnUtils {
 					speed = Math.min(1.5, Double.parseDouble(parts[2]));
 				}
 
-				final net.minecraft.server.v1_5_R2.Entity notchEntity = new Meteor(location, notchPlayer, radius, speed);
+				final net.minecraft.server.v1_5_R3.Entity notchEntity = new Meteor(location, notchPlayer, radius, speed);
 
 				notchWorld.addEntity(notchEntity);
 				return notchEntity.getBukkitEntity();
@@ -331,7 +331,7 @@ public class SpawnUtils {
 					if (effectProperties == null)
 						throw new YiffBukkitCommandException("Effect '"+data+"' does not exist");
 
-					final net.minecraft.server.v1_5_R2.Entity notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
+					final net.minecraft.server.v1_5_R3.Entity notchEntity = new AreaCustomPotion(location, effectProperties.potionColor(), notchPlayer, effectProperties.radius()) {
 						@Override
 						protected void areaHit(final Entity entity) {
 							try {
@@ -349,7 +349,7 @@ public class SpawnUtils {
 					return entity;
 				}
 				else {
-					final net.minecraft.server.v1_5_R2.Entity notchEntity = new CustomPotion(location, potionId, notchPlayer) {
+					final net.minecraft.server.v1_5_R3.Entity notchEntity = new CustomPotion(location, potionId, notchPlayer) {
 						@Override
 						protected boolean hit(MovingObjectPosition movingobjectposition) {
 							org.bukkit.World world = getBukkitEntity().getWorld();
