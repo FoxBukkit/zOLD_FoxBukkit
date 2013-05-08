@@ -42,7 +42,7 @@ public class MobShape extends EntityShape {
 		p24.e = MathHelper.floor(location.getZ() * 32.0D);
 		p24.f = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F));
 		p24.g = (byte) ((int) (location.getPitch() * 256.0F / 360.0F));
-		p24.h = p24.g;
+		p24.h = p24.f;
 		//p24.i = 
 		//p24.j = 
 		//p24.k = 
