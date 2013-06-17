@@ -31,8 +31,8 @@ public class FakeVehicle extends FakeEntity {
 		p23.b = MathHelper.floor(position.getX() * 32.0D);
 		p23.c = MathHelper.floor(position.getY() * 32.0D);
 		p23.d = MathHelper.floor(position.getZ() * 32.0D);
-		p23.h = vehicleTypeId;
-		p23.i = dataValue;
+		p23.j = vehicleTypeId;
+		p23.k = dataValue;
 
 		PlayerHelper.sendPacketToPlayer(player, p23);
 	}
