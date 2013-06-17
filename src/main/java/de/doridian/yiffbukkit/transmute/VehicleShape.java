@@ -5,8 +5,11 @@ import gnu.trove.map.hash.TIntIntHashMap;
 import net.minecraft.server.v1_5_R3.MathHelper;
 import net.minecraft.server.v1_5_R3.Packet;
 import net.minecraft.server.v1_5_R3.Packet23VehicleSpawn;
+
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
+import org.bukkit.util.Vector;
 
 public class VehicleShape extends EntityShape {
 	static {
@@ -82,12 +85,64 @@ public class VehicleShape extends EntityShape {
 
 	@Override
 	protected Packet createSpawnPacket() {
-		final net.minecraft.server.v1_5_R3.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
+		try {
+			final net.minecraft.server.v1_5_R3.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
-		final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn(notchEntity, vehicleType, subType);
-		p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);
+			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn(notchEntity, vehicleType, subType);
+			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);
 
-		return p23;
+			return p23;
+		}
+		catch (ClassCastException e) {
+			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn();
+			p23.a = entity.getEntityId();
+
+			Location location = entity.getLocation();
+			p23.b = MathHelper.floor(location.getX() * 32.0D);
+			p23.c = MathHelper.floor((location.getY()+yOffset) * 32.0D);
+			p23.d = MathHelper.floor(location.getZ() * 32.0D);
+			p23.h = MathHelper.d(location.getPitch() * 256.0F / 360.0F);
+			p23.i = MathHelper.d(location.getYaw() * 256.0F / 360.0F);
+			p23.j = vehicleType;
+			p23.k = subType;
+			if (subType > 0) {
+				final Vector velocity = entity.getVelocity();
+				double d0 = velocity.getX();
+				double d1 = velocity.getY();
+				double d2 = velocity.getZ();
+				double d3 = 3.9D;
+
+				if (d0 < -d3) {
+					d0 = -d3;
+				}
+
+				if (d1 < -d3) {
+					d1 = -d3;
+				}
+
+				if (d2 < -d3) {
+					d2 = -d3;
+				}
+
+				if (d0 > d3) {
+					d0 = d3;
+				}
+
+				if (d1 > d3) {
+					d1 = d3;
+				}
+
+				if (d2 > d3) {
+					d2 = d3;
+				}
+
+				p23.e = (int) (d0 * 8000.0D);
+				p23.f = (int) (d1 * 8000.0D);
+				p23.g = (int) (d2 * 8000.0D);
+			}
+
+			return p23;
+		}
 	}
 
 	public int getVehicleType() {

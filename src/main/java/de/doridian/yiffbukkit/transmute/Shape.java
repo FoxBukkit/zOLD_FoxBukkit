@@ -15,6 +15,8 @@ import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -124,14 +126,24 @@ public abstract class Shape {
 	}
 
 	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {
-		if(value instanceof ItemStack) {
+		if (value instanceof ItemStack) {
 			try {
 				// create entry
-				datawatcher.a(index, new ItemStack(Block.ENDER_PORTAL, 2, 2));
-				// mark dirty
-				datawatcher.watch(index, new ItemStack(Block.ENDER_PORTAL, 1, 1));
-			} catch (Exception e) {	}
-		} else {
+				datawatcher.a(index, 5);
+			} catch (Exception e) { }
+
+			// put the actual data in
+			datawatcher.watch(index, value);
+
+			// mark dirty
+			datawatcher.h(index);
+
+			final Packet40EntityMetadata packet40EntityMetadata = new Packet40EntityMetadata(entityId, datawatcher, false);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			packet40EntityMetadata.a(new DataOutputStream(baos));
+			return packet40EntityMetadata;
+		}
+		else {
 			try {
 				// create entry
 				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
@@ -139,12 +151,12 @@ public abstract class Shape {
 				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
 			}
 			catch (Exception e) { }
+
+			// put the actual data in
+			datawatcher.watch(index, value);
+
+			return new Packet40EntityMetadata(entityId, datawatcher, false);
 		}
-
-		// put the actual data in
-		datawatcher.watch(index, value);
-
-		return new Packet40EntityMetadata(entityId, datawatcher, false);
 	}
 
 	public abstract void createTransmutedEntity();

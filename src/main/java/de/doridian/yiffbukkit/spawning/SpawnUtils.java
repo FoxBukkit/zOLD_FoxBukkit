@@ -365,10 +365,10 @@ public class SpawnUtils {
 		}
 		else if (type.equalsIgnoreCase("FAKEITEM")) {
 			final FakeShapeBasedEntity entity = new FakeShapeBasedEntity(location, "item");
-			entity.send();
 			if (data != null) {
 				entity.runAction(them, "type "+data.replace("*", " "));
 			}
+			entity.send();
 
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
 				entity.remove();
