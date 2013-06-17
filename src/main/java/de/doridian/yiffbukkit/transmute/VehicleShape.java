@@ -95,6 +95,7 @@ public class VehicleShape extends EntityShape {
 		}
 		catch (ClassCastException e) {
 			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn();
+			// copypasta from Packet23VehicleSpawn(nms.Entity, int, int)
 			p23.a = entity.getEntityId();
 
 			Location location = entity.getLocation();
