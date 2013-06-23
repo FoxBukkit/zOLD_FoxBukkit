@@ -2,7 +2,6 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_5_R3.Block;
 import net.minecraft.server.v1_5_R3.DataWatcher;
 import net.minecraft.server.v1_5_R3.EntityLiving;
 import net.minecraft.server.v1_5_R3.EntityTrackerEntry;
@@ -202,6 +201,7 @@ public abstract class Shape {
 		//case 19: // WitherSkull
 		case 20: // PrimedTnt
 		case 21: // FallingSand
+		case 22: // FireworksRocketEntity
 		case 40: // Minecart
 		case 41: // Boat
 		case 200: // EnderCrystal

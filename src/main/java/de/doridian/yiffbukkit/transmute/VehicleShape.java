@@ -22,6 +22,7 @@ public class VehicleShape extends EntityShape {
 		yOffsets[15] = 1.62; // EyeOfEnderSignal
 		yOffsets[20] = 1.62; // PrimedTnt
 		yOffsets[21] = 1.62; // FallingSand
+		yOffsets[22] = 1.62; // FireworksRocketEntity
 		yawOffsets[40] = 270; // Minecart
 		yOffsets[40] = 0.6;
 		yawOffsets[41] = 270; // Boat
@@ -40,6 +41,7 @@ public class VehicleShape extends EntityShape {
 		mobTypeMap.put(15, 72); // EyeOfEnderSignal
 		mobTypeMap.put(20, 50); // PrimedTnt
 		mobTypeMap.put(21, 70); // FallingSand
+		mobTypeMap.put(22, 76); // FireworksRocketEntity
 		mobTypeMap.put(40, 10); // Minecart
 		mobTypeMap.put(41, 1); // Boat
 		mobTypeMap.put(200, 51); // EnderCrystal

@@ -8,6 +8,7 @@ import net.minecraft.server.v1_5_R3.EntityEnderPearl;
 import net.minecraft.server.v1_5_R3.EntityEnderSignal;
 import net.minecraft.server.v1_5_R3.EntityExperienceOrb;
 import net.minecraft.server.v1_5_R3.EntityFallingBlock;
+import net.minecraft.server.v1_5_R3.EntityFireworks;
 import net.minecraft.server.v1_5_R3.EntityFishingHook;
 import net.minecraft.server.v1_5_R3.EntityMagmaCube;
 import net.minecraft.server.v1_5_R3.EntityOcelot;
@@ -34,6 +35,7 @@ public class MyEntityTypes {
 		addAliases(EntityExperienceOrb.class, "XP");
 		addAliases(EntityEnderPearl.class, "Enderpearl");
 		addAliases(EntityEnderSignal.class, "EnderSignal", "EyeOfEnder", "EnderEye");
+		addAliases(EntityFireworks.class, "Fireworks", "Firework");
 		addAliases(EntityTNTPrimed.class, "Tnt");
 		addAliases(EntityFallingBlock.class, "FallingBlock");
 		addAliases(EntityMagmaCube.class, "MagmaCube");

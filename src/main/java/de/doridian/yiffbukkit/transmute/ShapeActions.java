@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -140,6 +141,20 @@ final class ShapeActions {
 		//registerMobActions(17, // ThrownExpBottle
 		//registerMobActions(20, // PrimedTnt
 		//registerMobActions(21, // FallingSand
+
+		registerMobActions(22, // FireworksRocketEntity
+				"help",
+				new HelpMobAction("/sac empty|chest|furnace|bob[ <amount>[ <time>]]|smoke [on|off]"),
+				"explode",
+				new EntityStatusMobAction(17, "Exploding..."),
+				"set",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					final net.minecraft.server.v1_5_R3.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
+					shape.setData(8, stack);
+
+					PlayerHelper.sendDirectedMessage(player, "Preparing...");
+				}}
+		);
 
 		registerMobActions(40, // Minecart
 				"help",
