@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class YiffBukkitRemote extends Thread {
 	public static CommandSender currentCommandSender;
@@ -39,6 +40,12 @@ public class YiffBukkitRemote extends Thread {
 				Socket socketX = socket.accept();
 				YiffBukkitRemoteThread thread = new YiffBukkitRemoteThread(plugin, socketX);
 				thread.start();
+			}
+			catch(SocketException e) {
+				if (socket.isClosed())
+					break;
+
+				e.printStackTrace();
 			}
 			catch(Exception e) {
 				e.printStackTrace();
