@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeShapeBasedEntity;
+import de.doridian.yiffbukkit.spawning.fakeentity.FakeVehicle;
 import de.doridian.yiffbukkit.spawning.potions.AreaCustomPotion;
 import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
@@ -18,8 +19,12 @@ import net.minecraft.server.v1_5_R3.EntityFallingBlock;
 import net.minecraft.server.v1_5_R3.EntityLargeFireball;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
 import net.minecraft.server.v1_5_R3.EntityTNTPrimed;
+import net.minecraft.server.v1_5_R3.Item;
+import net.minecraft.server.v1_5_R3.ItemStack;
 import net.minecraft.server.v1_5_R3.MinecraftServer;
 import net.minecraft.server.v1_5_R3.MovingObjectPosition;
+import net.minecraft.server.v1_5_R3.NBTTagCompound;
+import net.minecraft.server.v1_5_R3.NBTTagList;
 import net.minecraft.server.v1_5_R3.NetworkManager;
 import net.minecraft.server.v1_5_R3.PlayerConnection;
 import net.minecraft.server.v1_5_R3.PlayerInteractManager;
@@ -34,6 +39,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_5_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -385,6 +391,20 @@ public class SpawnUtils {
 		else if (type.equalsIgnoreCase("XP") || type.equalsIgnoreCase("XPBALL")) {
 			return world.spawn(location, ExperienceOrb.class);
 		}
+		else if (type.equalsIgnoreCase("fireworks") || type.equalsIgnoreCase("firework") || type.equalsIgnoreCase("fw")) {
+			final net.minecraft.server.v1_5_R3.ItemStack fireworks;
+			if (commandSender instanceof Player && ((Player) commandSender).getItemInHand().getType() == Material.FIREWORK) {
+				fireworks = CraftItemStack.asNMSCopy(((Player) commandSender).getItemInHand());
+			}
+			else if (data == null) {
+				fireworks = makeFireworks(1, 0, (int)(Math.random() * (1 << 24)), (int)(Math.random() * (1 << 24)), (int)(Math.random() * (1 << 24)));
+			}
+			else {
+				fireworks = makeFireworks(data);
+			}
+
+			return explodeFirework(location, fireworks);
+		}
 		else if (type.equalsIgnoreCase("FAKEXP") || type.equalsIgnoreCase("FAKEBALL")) {
 			final FakeEntity a = new FakeExperienceOrb(location, 1);
 			a.send();
@@ -531,6 +551,68 @@ public class SpawnUtils {
 				throw new YiffBukkitCommandException("Creature type "+type+" not found", e);
 			}
 		}
+	}
+
+	public static Entity explodeFirework(Location location, net.minecraft.server.v1_5_R3.ItemStack fireworks) {
+		final FakeVehicle a = new FakeVehicle(location, 76);
+		a.send();
+
+		a.setData(8, fireworks);
+
+		a.teleport(location);
+
+		a.sendEntityStatus((byte) 17);
+		a.remove();
+		return a;
+	}
+
+	public static net.minecraft.server.v1_5_R3.ItemStack makeFireworks(final String fireworkType) {
+		final net.minecraft.server.v1_5_R3.ItemStack fireworks;
+		final String[] parameters = fireworkType.split("/");
+		final int[] colors = parseColors(parameters[0].split(","));
+		fireworks = makeFireworks(-127, 0, colors);
+		NBTTagCompound explosionTag = (NBTTagCompound) fireworks.getTag().getCompound("Fireworks").getList("Explosions").get(0);
+		for (int i = 1; i < parameters.length; ++i) {
+			final String[] kv = parameters[i].split("=");
+			final String key = kv[0];
+			final String value = kv.length > 1 ? kv[1] : "1";
+			if (key.equalsIgnoreCase("Fade")) {
+				final int[] fadeColors = parseColors(value.split(","));
+				explosionTag.setIntArray("FadeColors", fadeColors);
+			}
+			else {
+				explosionTag.setByte(key, Byte.parseByte(value));
+			}
+		}
+		return fireworks;
+	}
+
+	private static int[] parseColors(final String[] colorStrings) {
+		final int[] colors = new int[colorStrings.length];
+		for (int i = 0; i < colorStrings.length; ++i) {
+			colors[i] = Integer.parseInt(colorStrings[i], 16);
+		}
+		return colors;
+	}
+
+	public static ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
+		final NBTTagCompound explosionTag = new NBTTagCompound("Explosion");
+		explosionTag.setByte("Type", (byte) explosionType);
+		explosionTag.setIntArray("Colors", explosionColors);
+
+		final NBTTagList explosionsTag = new NBTTagList("Explosions");
+		explosionsTag.add(explosionTag);
+
+		final NBTTagCompound fireworksTag = new NBTTagCompound("Fireworks");
+		fireworksTag.setByte("Flight", (byte)nGunpowder);
+		fireworksTag.set("Explosions", explosionsTag);
+
+		final NBTTagCompound itemStackTag = new NBTTagCompound();
+		itemStackTag.set("Fireworks", fireworksTag);
+
+		final net.minecraft.server.v1_5_R3.ItemStack stack = new net.minecraft.server.v1_5_R3.ItemStack(Item.FIREWORKS);
+		stack.setTag(itemStackTag);
+		return stack;
 	}
 
 	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {
