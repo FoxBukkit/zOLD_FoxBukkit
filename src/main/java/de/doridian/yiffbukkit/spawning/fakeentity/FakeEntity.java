@@ -1,10 +1,17 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_5_R3.DataWatcher;
+import net.minecraft.server.v1_5_R3.ItemStack;
 import net.minecraft.server.v1_5_R3.MathHelper;
+import net.minecraft.server.v1_5_R3.Packet;
 import net.minecraft.server.v1_5_R3.Packet28EntityVelocity;
 import net.minecraft.server.v1_5_R3.Packet29DestroyEntity;
 import net.minecraft.server.v1_5_R3.Packet34EntityTeleport;
+import net.minecraft.server.v1_5_R3.Packet38EntityStatus;
+import net.minecraft.server.v1_5_R3.Packet40EntityMetadata;
+
 import org.bukkit.Bukkit;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
@@ -19,6 +26,8 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +37,8 @@ public abstract class FakeEntity implements Entity {
 	public final int entityId;
 	public Location location;
 	private boolean isDead;
+
+	private DataWatcher datawatcher = new DataWatcher();
 
 	@Override
 	public boolean isOnGround() {
@@ -275,5 +286,54 @@ public abstract class FakeEntity implements Entity {
 	@Override
 	public boolean isValid() {
 		return !isDead();
+	}
+
+
+	public void setData(int index, Object value) {
+		Packet40EntityMetadata p40 = createMetadataPacket(index, value);
+
+		sendPacketToPlayersAround(p40);
+	}
+
+	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {
+		if (value instanceof ItemStack) {
+			try {
+				// create entry
+				datawatcher .a(index, 5);
+			} catch (Exception e) { }
+
+			// put the actual data in
+			datawatcher.watch(index, value);
+
+			// mark dirty
+			datawatcher.h(index);
+
+			final Packet40EntityMetadata packet40EntityMetadata = new Packet40EntityMetadata(entityId, datawatcher, false);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			packet40EntityMetadata.a(new DataOutputStream(baos));
+			return packet40EntityMetadata;
+		}
+		else {
+			try {
+				// create entry
+				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
+				// mark dirty
+				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
+			}
+			catch (Exception e) { }
+
+			// put the actual data in
+			datawatcher.watch(index, value);
+
+			return new Packet40EntityMetadata(entityId, datawatcher, false);
+		}
+	}
+
+	public void sendEntityStatus(byte status) {
+		sendPacketToPlayersAround(new Packet38EntityStatus(entityId, status));
+	}
+
+	public void sendPacketToPlayersAround(Packet packet) {
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(getLocation(), 1024, packet);
 	}
 }
