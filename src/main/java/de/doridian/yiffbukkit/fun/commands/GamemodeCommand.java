@@ -7,6 +7,9 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
+import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -17,14 +20,75 @@ import org.bukkit.entity.Player;
 public class GamemodeCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		Player target = ply;
-		if (args.length > 1)
-			target = plugin.playerHelper.matchPlayerSingle(args[1]);
+		final Player target;
+		final GameMode gameMode;
+
+		switch (args.length) {
+		case 0:
+			target = ply;
+			gameMode = toggleGameMode(target);
+			break;
+
+		case 1: {
+			final GameMode firstArgGameMode = getGameMode(args[0]);
+			if (firstArgGameMode == null) {
+				// number|modename
+				target = getPlayer(args[0]);
+				gameMode = toggleGameMode(target);
+			}
+			else {
+				target = ply;
+				gameMode = getGameMode(args[0]);
+			}
+			break;
+		}
+
+		default: {
+			final GameMode firstArgGameMode = getGameMode(args[0]);
+			if (firstArgGameMode == null) {
+				// playername number|modename
+				target = getPlayer(args[0]);
+				gameMode = getGameMode(args[1]);
+			}
+			else {
+				// number|modename playername
+				target = getPlayer(args[1]);
+				gameMode = firstArgGameMode;
+			}
+		}
+		}
+
+		if (gameMode == null)
+			throw new YiffBukkitCommandException("Invalid gamemode specified");
 
 		if (target != ply && !ply.hasPermission("yiffbukkit.gamemode.others"))
 			throw new PermissionDeniedException();
 
-		final String arg = args[0].toUpperCase();
+		target.setGameMode(gameMode);
+
+		if (target == ply) {
+			plugin.playerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + gameMode.toString());
+		}
+		else {
+			plugin.playerHelper.sendServerMessage(ply.getName() + " changed the gamemode of " + target.getName() + " to " + gameMode.toString());
+		}
+	}
+
+	private GameMode toggleGameMode(Player player) {
+		switch(player.getGameMode()) {
+		case SURVIVAL:
+			return GameMode.CREATIVE;
+
+		default:
+			return GameMode.SURVIVAL;
+		}
+	}
+
+	private Player getPlayer(String arg) throws PlayerNotFoundException, MultiplePlayersFoundException {
+		return plugin.playerHelper.matchPlayerSingle(arg);
+	}
+
+	private GameMode getGameMode(String arg) {
 		final char firstChar = arg.charAt(0);
 		int numeric = -1;
 		try {
@@ -34,19 +98,10 @@ public class GamemodeCommand extends ICommand {
 
 		for (GameMode gameMode : GameMode.values()) {
 			if (gameMode.name().charAt(0) == firstChar || gameMode.getValue() == numeric) {
-				target.setGameMode(gameMode);
-
-				if (target == ply) {
-					plugin.playerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + gameMode.toString());
-				}
-				else {
-					plugin.playerHelper.sendServerMessage(ply.getName() + " changed the gamemode of " + target.getName() + " to " + gameMode.toString());
-				}
-
-				return;
+				return gameMode;
 			}
 		}
 
-		throw new YiffBukkitCommandException("Invalid gamemode specified");
+		return null;
 	}
 }
