@@ -89,7 +89,7 @@ public class GamemodeCommand extends ICommand {
 	}
 
 	private GameMode getGameMode(String arg) {
-		final char firstChar = arg.charAt(0);
+		final char firstChar = Character.toUpperCase(arg.charAt(0));
 		int numeric = -1;
 		try {
 			numeric = Integer.parseInt(arg);
