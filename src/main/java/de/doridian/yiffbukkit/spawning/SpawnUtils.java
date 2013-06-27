@@ -590,7 +590,13 @@ public class SpawnUtils {
 	private static int[] parseColors(final String[] colorStrings) {
 		final int[] colors = new int[colorStrings.length];
 		for (int i = 0; i < colorStrings.length; ++i) {
-			colors[i] = Integer.parseInt(colorStrings[i], 16);
+			final String colorString = colorStrings[i];
+			if (colorString.charAt(0) == 'r') {
+				colors[i] = (int)(Math.random() * (1 << 24));
+			}
+			else {
+				colors[i] = Integer.parseInt(colorString, 16);
+			}
 		}
 		return colors;
 	}
