@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
@@ -7,6 +8,7 @@ import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
+import de.doridian.yiffbukkit.spawning.fakeentity.FakeShapeBasedEntity;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_5_R3.ItemStack;
 import net.minecraft.server.v1_5_R3.Packet60Explosion;
@@ -69,6 +71,8 @@ public class Rocket extends YBEffect {
 		fireworkTypes.put(EntityType.PIG, "f09090/Type=0/Trail/Fade=b3312c");
 		fireworkTypes.put(EntityType.PIG_ZOMBIE, "f09090/Type=2/Trail/Fade=b3312c");
 		fireworkTypes.put(EntityType.ENDERMAN, "5b1e66,a035b2/Type=2/Trail/Fade=a035b2,5b1e66/Flicker");
+		fireworkTypes.put(EntityType.BLAZE, "ffcc33/Type=2/Trail/Fade=666666,777777,888888,999999");
+		fireworkTypes.put(EntityType.CHICKEN, "ffffff/Type=4/Trail/Fade=ff1117");
 	}
 
 	@Override
@@ -96,6 +100,28 @@ public class Rocket extends YBEffect {
 
 						final ItemStack fireworks = SpawnUtils.makeFireworks(fireworkType);
 						SpawnUtils.explodeFirework(currentLocation, fireworks);
+
+						switch (entity.getType()) {
+						case CHICKEN:
+							try {
+								for (int i = 0; i < 30; ++i) {
+									final FakeShapeBasedEntity fakeEntity = new FakeShapeBasedEntity(currentLocation, "item");
+									fakeEntity.runAction(null, "type feather");
+									fakeEntity.send();
+									fakeEntity.teleport(currentLocation);
+
+									final Vector velocity = Utils.randvec().multiply(0.3);
+									fakeEntity.setVelocity(velocity.setY(Math.abs(velocity.getY())));
+
+									toRemove.add(fakeEntity);
+									cleanup();
+								}
+							}
+							catch (YiffBukkitCommandException e) {
+								e.printStackTrace();
+							}
+							break;
+						}
 					}
 				});
 				return;
