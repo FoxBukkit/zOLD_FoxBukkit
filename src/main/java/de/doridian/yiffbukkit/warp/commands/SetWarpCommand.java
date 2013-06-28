@@ -12,7 +12,6 @@ import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 @Names("setwarp")
 @Help("Creates a warp point with the specified name, for the specified player or yourself. When run from the console, the warp is created at the guest spawn.")
@@ -44,9 +43,6 @@ public class SetWarpCommand extends ICommand {
 	}
 
 	private Location getWarpTargetLocation(CommandSender commandSender) throws WarpException {
-		if (commandSender instanceof Player)
-			return ((Player) commandSender).getLocation();
-
-		return plugin.warpEngine.getWarp(null, "guest_spawn").location;
+		return getCommandSenderLocation(commandSender, plugin.warpEngine.getWarp(null, "guest_spawn").location);
 	}
 }
