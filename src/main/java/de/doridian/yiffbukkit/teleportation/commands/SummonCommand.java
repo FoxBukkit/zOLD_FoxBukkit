@@ -1,12 +1,13 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkit.main.util.PlayerFindException;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @Names({"summon", "tphere"})
@@ -15,14 +16,14 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.teleport.summon")
 public class SummonCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		if (!playerHelper.canSummon(ply, otherply))
+		if (!playerHelper.canSummon(commandSender, otherply))
 			throw new PermissionDeniedException();
 
-		plugin.playerHelper.teleportWithHistory(otherply, ply);
+		plugin.playerHelper.teleportWithHistory(otherply, getCommandSenderLocation(commandSender));
 
-		playerHelper.sendServerMessage(ply.getName() + " summoned " + otherply.getName());
+		playerHelper.sendServerMessage(commandSender.getName() + " summoned " + otherply.getName());
 	}
 }
