@@ -158,16 +158,36 @@ public class GiveCommand extends ICommand {
 
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		Integer count = 1;
-		String otherName = null;
+		Integer count;
+		String otherName;
 		try {
-			count = Integer.valueOf(args[1]);
-			if (args.length >= 3)
+			switch (args.length) {
+			case 0:
+				throw new YiffBukkitCommandException("Not enough arguments");
+
+			case 1:
+				// <name or id>
+				count = 1;
+				otherName = null;
+				break;
+
+			case 2:
+				// <name or id> <amount>
+				count = Integer.valueOf(args[1]);
+				otherName = null;
+				break;
+
+			default:
+				// <name or id> <amount> <player>
+				count = Integer.valueOf(args[1]);
 				otherName = args[2];
+				break;
+			}
 		}
-		catch(Exception e) {
-			if (args.length >= 2)
-				otherName = args[1];
+		catch (NumberFormatException e) {
+			// <name or id> <player>
+			count = 1;
+			otherName = args[1];
 		}
 
 		final Player target;
