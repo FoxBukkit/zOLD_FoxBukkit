@@ -7,6 +7,9 @@ import gnu.trove.map.TCharObjectMap;
 import gnu.trove.map.hash.TCharObjectHashMap;
 import gnu.trove.set.TCharSet;
 import gnu.trove.set.hash.TCharHashSet;
+
+import org.bukkit.Location;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -188,11 +191,9 @@ public abstract class ICommand {
 		return levelAnnotation.value();
 	}
 
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException { }
 
-	}
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-
 		Run(asPlayer(commandSender), args, argStr);
 	}
 
@@ -201,6 +202,24 @@ public abstract class ICommand {
 			throw new YiffBukkitCommandException("This command can only be run as a player.");
 
 		return (Player) commandSender;
+	}
+
+	public static Location getCommandSenderLocation(CommandSender commandSender) throws YiffBukkitCommandException {
+		final Location location = getCommandSenderLocation(commandSender, null);
+		if (location == null)
+			throw new YiffBukkitCommandException("This command can only be run as a player or a command block.");
+
+		return location;
+	}
+
+	public static Location getCommandSenderLocation(CommandSender commandSender, Location defaultValue) {
+		if (commandSender instanceof Player)
+			return ((Player) commandSender).getLocation();
+
+		if (commandSender instanceof BlockCommandSender)
+			return ((BlockCommandSender) commandSender).getBlock().getLocation().add(0.5, 1, 0.5);
+
+		return defaultValue;
 	}
 
 	public static CraftPlayer asCraftPlayer(CommandSender commandSender) throws YiffBukkitCommandException {
