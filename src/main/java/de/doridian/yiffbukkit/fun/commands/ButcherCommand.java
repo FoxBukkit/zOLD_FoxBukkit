@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
+import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
 import org.bukkit.Location;
@@ -40,12 +42,12 @@ public class ButcherCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		int radius;
-		Player target;
+		Location target;
 		switch (args.length) {
 		case 0:
 			//butcher - butcher around yourself in a radius of 20
 			radius = 20;
-			target = asPlayer(commandSender);
+			target = getCommandSenderLocation(commandSender);
 
 			break;
 
@@ -53,12 +55,12 @@ public class ButcherCommand extends ICommand {
 			try {
 				//butcher <radius> - butcher around yourself in the given radius
 				radius = args[0].equalsIgnoreCase("all") ? -1 : Integer.parseInt(args[0]);
-				target = asPlayer(commandSender);
+				target = getCommandSenderLocation(commandSender);
 			}
 			catch (NumberFormatException e) {
 				//butcher <name> -  butcher around someone else in a radius of 20
 				radius = 20;
-				target = playerHelper.matchPlayerSingle(args[0]);
+				target = getMatchedPlayerLocation(args[0]);
 			}
 			break;
 
@@ -66,11 +68,11 @@ public class ButcherCommand extends ICommand {
 			try {
 				//butcher <radius> <name> - butcher around someone in the given radius
 				radius = Integer.parseInt(args[0]);
-				target = playerHelper.matchPlayerSingle(args[1]);
+				target = getMatchedPlayerLocation(args[1]);
 			}
 			catch (NumberFormatException e) {
 				//butcher <name> <...> - not sure yet
-				target = playerHelper.matchPlayerSingle(args[0]);
+				target = getMatchedPlayerLocation(args[0]);
 
 				try {
 					//butcher <name> <radius> - butcher around someone in the given radius
@@ -106,12 +108,12 @@ public class ButcherCommand extends ICommand {
 			return;
 		}
 
-		final Vector targetPos = target.getLocation().toVector();
+		final Vector targetPos = target.toVector();
 		final double radiusSquared = radius*radius;
 
 		final List<? extends Entity> entities;
 		if (booleanFlags.contains('v'))
-			entities = target.getNearbyEntities(radius*2, radius*2, radius*2);
+			entities = world.getEntities();
 		else
 			entities = world.getLivingEntities();
 
@@ -134,14 +136,18 @@ public class ButcherCommand extends ICommand {
 			++removed;
 		}
 
-		if (target == commandSender) {
+		//if (target == commandSender) {
 			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around themselves.", commandSender);
 			PlayerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around yourself.");
-		}
+		/*}
 		else {
 			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around "+target.getName()+".");
 			PlayerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around "+target.getName()+".");
-		}
+		}*/
+	}
+
+	public Location getMatchedPlayerLocation(final String arg) throws PlayerNotFoundException, MultiplePlayersFoundException {
+		return playerHelper.matchPlayerSingle(arg).getLocation();
 	}
 
 	private boolean isSpared(Entity entity, boolean spareNPCs) {
