@@ -9,6 +9,8 @@ import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
@@ -26,12 +28,9 @@ public class WhoCommand extends ICommand {
 	@Override
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
-			final World world;
-			if (commandSender instanceof Player)
-				world = ((Player)commandSender).getWorld();
-			else
-				world = plugin.getOrCreateWorld("world", Environment.NORMAL);
-
+			final Location defaultLocation = new Location(plugin.getOrCreateWorld("world", Environment.NORMAL), Double.POSITIVE_INFINITY, 0, 0);
+			final Location location = getCommandSenderLocation(commandSender, defaultLocation);
+			final World world = location.getWorld();
 			final Player target = playerHelper.matchPlayerSingle(args[0], false);
 
 			PlayerHelper.sendDirectedMessage(commandSender, "Name: " + target.getName());
@@ -59,8 +58,8 @@ public class WhoCommand extends ICommand {
 				final String directionFromSpawn = Utils.yawToDirection(Utils.vectorToYaw(offsetFromSpawn));
 				distances.add(unitsFromSpawn+"m "+directionFromSpawn+" from the spawn");
 
-				if (commandSender instanceof Player) {
-					final Vector offsetFromYou = targetPosition.clone().subtract(((Player)commandSender).getLocation().toVector());
+				if (Double.isInfinite(location.getX())) {
+					final Vector offsetFromYou = targetPosition.clone().subtract(location.toVector());
 					final long unitsFromYou = Math.round(offsetFromYou.length());
 					final String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
 					distances.add(unitsFromYou+"m "+directionFromYou+" from you");
@@ -99,7 +98,7 @@ public class WhoCommand extends ICommand {
 
 
 			if (commandSender.hasPermission("yiffbukkit.who.address") && playerLevel >= playerHelper.getPlayerLevel(target) && target.isOnline()) {
-                 PlayerHelper.sendDirectedMessage(commandSender, "IP: " + PlayerHelper.getPlayerIP(target) + " (" + PlayerHelper.getPlayerHost(target) + ")");
+				PlayerHelper.sendDirectedMessage(commandSender, "IP: " + PlayerHelper.getPlayerIP(target) + " (" + PlayerHelper.getPlayerHost(target) + ")");
 			}
 		}
 		else {
