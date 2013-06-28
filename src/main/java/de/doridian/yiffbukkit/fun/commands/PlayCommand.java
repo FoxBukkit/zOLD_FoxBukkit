@@ -5,20 +5,12 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
-import de.doridian.yiffbukkit.main.util.Utils;
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.Packet53BlockChange;
-import net.minecraft.server.v1_5_R3.Packet54PlayNoteBlock;
-import net.minecraft.server.v1_5_R3.World;
-import org.bukkit.Instrument;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
-import org.bukkit.entity.Player;
 
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -26,21 +18,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 @Help("Plays notes (currently qbasic format)")
 @Permission("yiffbukkit.experimental.play")
 public class PlayCommand extends ICommand {
-	public static class Packet53BlockChangeExpress extends Packet53BlockChange {
-		static {
-			Map<Class<? extends Packet>, Integer> classToId = Utils.getPrivateValue(Packet.class, null, "a");
-			classToId.put(Packet53BlockChangeExpress.class, 53);
-		}
-		public Packet53BlockChangeExpress() {
-			lowPriority = false;
-		}
-
-		public Packet53BlockChangeExpress(int x, int y, int z, World world) {
-			super(x, y, z, world);
-			lowPriority = false;
-		}
-	}
-
 	enum Sharp {
 		FLAT(-1), REGULAR(0), SHARP(1);
 
@@ -62,18 +39,10 @@ public class PlayCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(final Player ply, String[] args, final String argStr) throws YiffBukkitCommandException {
-		final CraftWorld cworld = (CraftWorld) ply.getWorld();
-		final World notchWorld = cworld.getHandle();
-
-		final Location loc = ply.getLocation();
-		final int x = loc.getBlockX(), y = loc.getBlockY(), z = loc.getBlockZ();
+	public void run(final CommandSender commandSender, String[] args, final String argStr) throws YiffBukkitCommandException {
+		final Location loc = getCommandSenderLocation(commandSender);
 
 		final long startTime = System.currentTimeMillis()+1000;
-
-		final Packet53BlockChange p53 = new Packet53BlockChangeExpress(x, y, z, notchWorld);
-		p53.material = Material.NOTE_BLOCK.getId();
-		playerHelper.sendPacketToPlayersAround(loc, 64, p53);
 
 		new Runnable() {
 			// Note length fractions in the the modes ML, MN and MS
@@ -254,11 +223,9 @@ public class PlayCommand extends ICommand {
 			@Override
 			public void run() {
 				while (System.currentTimeMillis() >= nextTime) {
-
 					Note note = notes.poll();
 
 					if (note == null) {
-						playerHelper.sendPacketToPlayersAround(loc, 64, new Packet53BlockChangeExpress(x, y, z, notchWorld));
 						plugin.getServer().getScheduler().cancelTask(taskID);
 						return;
 					}
@@ -266,8 +233,7 @@ public class PlayCommand extends ICommand {
 					nextTime += note.length*1000;
 
 					final int noteValue = note.number-4*12+5;
-					//System.out.println(String.format("%d/%d/%d i=%d n=%d", x, y, z, 0, noteValue));
-					playerHelper.sendPacketToPlayersAround(loc, 64, new Packet54PlayNoteBlock(x, y, z, Instrument.PIANO.getType(), noteValue, Material.NOTE_BLOCK.getId()));
+					loc.getWorld().playSound(loc, Sound.NOTE_PIANO, 3.0f, (float)Math.pow(2.0D, (double)(noteValue - 12) / 12.0D));
 				}
 			}
 		};
