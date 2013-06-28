@@ -167,10 +167,11 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			final Vector normalizedVel = new Vector(Math.cos(yaw), 0, Math.sin(yaw));
 
 			final Block targetBlock = ply.getVehicle().getLocation().add(normalizedVel).getBlock();
-			if (BlockType.canPassThrough(targetBlock.getTypeId()))
+			if (BlockType.canPassThrough(targetBlock.getTypeId(), targetBlock.getData()))
 				break;
 
-			if (!BlockType.canPassThrough(targetBlock.getRelative(0, 1, 0).getTypeId()))
+			final Block blockAbove = targetBlock.getRelative(0, 1, 0);
+			if (!BlockType.canPassThrough(blockAbove.getTypeId(), blockAbove.getData()))
 				break;
 
 			controller.jump();

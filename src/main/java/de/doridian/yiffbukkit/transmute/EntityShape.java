@@ -12,6 +12,7 @@ import net.minecraft.server.v1_5_R3.Packet30Entity;
 import net.minecraft.server.v1_5_R3.Packet34EntityTeleport;
 import net.minecraft.server.v1_5_R3.Packet38EntityStatus;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -164,8 +165,8 @@ public abstract class EntityShape extends Shape {
 		final net.minecraft.server.v1_5_R3.Entity notchEntity = ((CraftEntity) entity).getHandle();
 		if (yOffset == 0) {
 			if (Math.IEEEremainder(notchEntity.locY, 1.0) < 0.00001) {
-				int id = entity.getWorld().getBlockTypeIdAt(Location.locToBlock(notchEntity.locX), Location.locToBlock(notchEntity.locY)-1, Location.locToBlock(notchEntity.locZ));
-				if (!BlockType.canPassThrough(id))
+				final Block block = entity.getWorld().getBlockAt(Location.locToBlock(notchEntity.locX), Location.locToBlock(notchEntity.locY)-1, Location.locToBlock(notchEntity.locZ));
+				if (!BlockType.canPassThrough(block.getTypeId(), block.getData()))
 					return;
 			}
 		}
