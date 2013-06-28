@@ -8,7 +8,8 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import org.bukkit.entity.Player;
+
+import org.bukkit.command.CommandSender;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +22,7 @@ public class SoundCommand extends ICommand {
 	final Pattern argumentPattern = Pattern.compile("^([^ ]+) ([^ ]+) (.+)$");
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		final Matcher matcher = argumentPattern.matcher(argStr);
@@ -32,8 +33,8 @@ public class SoundCommand extends ICommand {
 		final float pitch = Float.parseFloat(matcher.group(2));
 		final String soundName = matcher.group(3);
 
-		Utils.makeSound(ply.getLocation(), soundName, volume, pitch);
+		Utils.makeSound(getCommandSenderLocation(commandSender), soundName, volume, pitch);
 
-		PlayerHelper.sendDirectedMessage(ply, "Played sound "+soundName+" at volume "+volume+" and pitch "+pitch+".");
+		PlayerHelper.sendDirectedMessage(commandSender, "Played sound "+soundName+" at volume "+volume+" and pitch "+pitch+".");
 	}
 }
