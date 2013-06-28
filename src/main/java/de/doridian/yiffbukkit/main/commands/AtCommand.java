@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 @Usage("<seconds> <command>[;<command>[;<command> ...]")
 @Permission("yiffbukkit.at")
 public class AtCommand extends ICommand {
-	final Pattern argumentPattern = Pattern.compile("^([^ ]+) (.*)$");
+	private static final Pattern argumentPattern = Pattern.compile("^([^ ]+) (.*)$");
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		Matcher matcher = argumentPattern.matcher(argStr);
