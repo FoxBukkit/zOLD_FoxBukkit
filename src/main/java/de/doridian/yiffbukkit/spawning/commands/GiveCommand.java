@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -169,8 +170,18 @@ public class GiveCommand extends ICommand {
 				otherName = args[1];
 		}
 
-		final Player target = otherName == null ? asPlayer(commandSender) : playerHelper.matchPlayerSingle(otherName);
+		final Player target;
+		if (otherName != null) {
+			target = playerHelper.matchPlayerSingle(otherName);
+		}
+		else if (commandSender instanceof Player) {
+			target = (Player) commandSender;
+		}
+		else {
+			target = null;
+		}
 
+		final Location targetLocation = getCommandSenderLocation(commandSender);
 
 		String materialName = args[0];
 		final int colonPos = materialName.indexOf(':');
@@ -180,13 +191,13 @@ public class GiveCommand extends ICommand {
 			materialName = materialName.substring(0, colonPos);
 		}
 		final Material material = matchMaterial(materialName);
-		if (material == null) {
+		if (material == null || target == null) {
 			if (count > 10)
 				count = 10;
 
 			for (int i = 0; i < count; ++i) {
 				try {
-					plugin.spawnUtils.buildMob(args[0].split("\\+"), commandSender, target, target.getLocation());
+					plugin.spawnUtils.buildMob(args[0].split("\\+"), commandSender, target, targetLocation);
 				}
 				catch (PermissionDeniedException e) {
 					throw new YiffBukkitCommandException("Material "+materialName+" not found");
