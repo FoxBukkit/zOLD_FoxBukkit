@@ -8,6 +8,8 @@ import gnu.trove.map.hash.TCharObjectHashMap;
 import gnu.trove.set.TCharSet;
 import gnu.trove.set.hash.TCharHashSet;
 
+import net.minecraft.server.v1_5_R3.EntityPlayer;
+
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
@@ -225,11 +227,21 @@ public abstract class ICommand {
 	public static CraftPlayer asCraftPlayer(CommandSender commandSender) throws YiffBukkitCommandException {
 		if (!(commandSender instanceof Player))
 			throw new YiffBukkitCommandException("This command can only be run as a player.");
-		
+
 		if (!(commandSender instanceof CraftPlayer))
 			throw new YiffBukkitCommandException("This command can only be run on CraftBukkit.");
 
 		return (CraftPlayer) commandSender;
+	}
+
+	public static EntityPlayer asNotchPlayer(CommandSender commandSender) throws YiffBukkitCommandException {
+		return asCraftPlayer(commandSender).getHandle();
+	}
+
+	public static EntityPlayer asNotchPlayer(CommandSender commandSender, EntityPlayer defaultValue) throws YiffBukkitCommandException {
+		if (!(commandSender instanceof CraftPlayer))
+			return defaultValue;
+		return asNotchPlayer(commandSender);
 	}
 
 	public final String getHelp() {
