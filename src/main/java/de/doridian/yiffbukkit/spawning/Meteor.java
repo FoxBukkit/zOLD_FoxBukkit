@@ -67,7 +67,7 @@ final class Meteor extends CustomPotion {
 
 					final byte data = block.getData();
 
-					if (YiffBukkit.instance.logBlockConsumer != null)
+					if (thrower != null && YiffBukkit.instance.logBlockConsumer != null)
 						YiffBukkit.instance.logBlockConsumer.queueBlockBreak(thrower.name, block.getState());
 					block.setTypeIdAndData(0, (byte) 0, true);
 

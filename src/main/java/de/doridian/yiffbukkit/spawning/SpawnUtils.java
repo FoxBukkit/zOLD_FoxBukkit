@@ -281,7 +281,7 @@ public class SpawnUtils {
 			return notchEntity.getBukkitEntity();
 		}
 		else if (type.equalsIgnoreCase("POTION")) {
-			final EntityPlayer notchPlayer = ICommand.asCraftPlayer(commandSender).getHandle();
+			final EntityPlayer notchPlayer = ICommand.asNotchPlayer(commandSender, null);
 
 			if ("NINJA".equalsIgnoreCase(data)) {
 				final net.minecraft.server.v1_5_R3.Entity notchEntity = new CustomPotion(location, 8, notchPlayer) {

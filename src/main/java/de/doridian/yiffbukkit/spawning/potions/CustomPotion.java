@@ -30,7 +30,7 @@ public abstract class CustomPotion extends EntityPotion {
 		if (this.dead)
 			return;
 
-		if (movingobjectposition.entity == thrower)
+		if (thrower != null && movingobjectposition.entity == thrower)
 			return;
 
 		try {
@@ -85,7 +85,12 @@ public abstract class CustomPotion extends EntityPotion {
 			}
 		}
 		catch (YiffBukkitCommandException e) {
-			PlayerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
+			if (thrower == null) {
+				System.out.println("\u00a7"+e.getColor()+"[YB]\u00a7f " + e.getMessage());
+			}
+			else {
+				PlayerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
+			}
 			die();
 		}
 		catch (Throwable e) {
