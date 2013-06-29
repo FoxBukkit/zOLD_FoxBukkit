@@ -425,7 +425,6 @@ public class Utils {
 				sb.append(", ");
 			}
 			sb.append(distance);
-			System.out.println(sb);
 		}
 		return sb;
 	}
