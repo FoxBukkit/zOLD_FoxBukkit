@@ -58,7 +58,7 @@ public class WhoCommand extends ICommand {
 				final String directionFromSpawn = Utils.yawToDirection(Utils.vectorToYaw(offsetFromSpawn));
 				distances.add(unitsFromSpawn+"m "+directionFromSpawn+" from the spawn");
 
-				if (Double.isInfinite(location.getX())) {
+				if (!Double.isInfinite(location.getX())) {
 					final Vector offsetFromYou = targetPosition.clone().subtract(location.toVector());
 					final long unitsFromYou = Math.round(offsetFromYou.length());
 					final String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
