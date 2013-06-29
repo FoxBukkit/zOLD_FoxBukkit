@@ -180,11 +180,10 @@ public class PlayerHelper extends StateContainer {
 		return playersPositions;
 	}
 
-	public void clearPlayerHomePositions(Player ply) {
-		String name = ply.getName().toLowerCase();
-		if(playerhomepos.containsKey(name)) {
-			playerhomepos.remove(name);
-		}
+	public void clearPlayerHomePositionsAndTeleportHistory(Player ply) {
+		final String name = ply.getName().toLowerCase();
+		playerhomepos.remove(name);
+		teleportHistory.remove(name);
 		savePlayerHomePositions();
 	}
 

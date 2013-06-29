@@ -36,7 +36,7 @@ public class BanishCommand extends ICommand {
 		otherply.teleport(teleportTarget);
 
 		if (resetHome) {
-			playerHelper.clearPlayerHomePositions(otherply);
+			playerHelper.clearPlayerHomePositionsAndTeleportHistory(otherply);
 		}
 		else {
 			Vector homePos = playerHelper.getPlayerHomePosition(otherply, "default").toVector();
@@ -55,6 +55,6 @@ public class BanishCommand extends ICommand {
 					unitsFromSpawn + "m from the spawn. Use '/banish " + otherply.getName() + " resethome' to move it to the spawn.");
 		}
 
-		playerHelper.sendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and reset his/her home position!" : "!"));
+		playerHelper.sendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and cleared teleport history and home position!" : "!"));
 	}
 }
