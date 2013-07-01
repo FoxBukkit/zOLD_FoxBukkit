@@ -89,7 +89,7 @@ public class GamemodeCommand extends ICommand {
 	}
 
 	private GameMode getGameMode(String arg) {
-		final char firstChar = Character.toUpperCase(arg.charAt(0));
+		arg = arg.toUpperCase();
 		int numeric = -1;
 		try {
 			numeric = Integer.parseInt(arg);
@@ -97,7 +97,7 @@ public class GamemodeCommand extends ICommand {
 		catch (NumberFormatException e) { }
 
 		for (GameMode gameMode : GameMode.values()) {
-			if (gameMode.name().charAt(0) == firstChar || gameMode.getValue() == numeric) {
+			if (gameMode.name().startsWith(arg) || gameMode.getValue() == numeric) {
 				return gameMode;
 			}
 		}
