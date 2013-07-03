@@ -191,17 +191,20 @@ public class GiveCommand extends ICommand {
 		}
 
 		final Player target;
+		final Location targetLocation;
 		if (otherName != null) {
 			target = playerHelper.matchPlayerSingle(otherName);
-		}
-		else if (commandSender instanceof Player) {
-			target = (Player) commandSender;
+			targetLocation = target.getLocation();
 		}
 		else {
-			target = null;
+			targetLocation = getCommandSenderLocation(commandSender);
+			if (commandSender instanceof Player) {
+				target = (Player) commandSender;
+			}
+			else {
+				target = null;
+			}
 		}
-
-		final Location targetLocation = getCommandSenderLocation(commandSender);
 
 		String materialName = args[0];
 		final int colonPos = materialName.indexOf(':');
