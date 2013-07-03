@@ -260,7 +260,7 @@ public class GiveCommand extends ICommand {
 				}
 			}
 			else {
-				throw new YiffBukkitCommandException("Material "+materialName+" cannot have a data value.");
+				stack.setDurability(Short.parseShort(colorName));
 			}
 		}
 
