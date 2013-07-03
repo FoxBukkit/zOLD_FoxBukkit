@@ -406,7 +406,17 @@ final class ShapeActions {
 		//registerMobActions(99, //VillagerGolem
 		//registerMobActions(120, // Villager
 		//registerMobActions(200, // EnderCrystal
-		//registerMobActions(1000, // FishingHook
+		registerMobActions(1000, // FishingHook
+				"help",
+				new HelpMobAction("/sac angler <name>"),
+				"angler",
+				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+					final Player target = YiffBukkit.instance.playerHelper.matchPlayerSingle(argStr);;
+					((VehicleShape) shape).setSubType(target.getEntityId());
+
+					PlayerHelper.sendDirectedMessage(player, "Now being hooked by "+target.getDisplayName()+"...");
+				}}
+		);
 
 		registerMobActions(1001, // Potion
 				"help",
