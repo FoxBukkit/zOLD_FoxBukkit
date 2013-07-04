@@ -33,7 +33,7 @@ public class SoundCommand extends ICommand {
 		final float pitch = Float.parseFloat(matcher.group(2));
 		final String soundName = matcher.group(3);
 
-		Utils.makeSound(getCommandSenderLocation(commandSender), soundName, volume, pitch);
+		Utils.makeSound(getCommandSenderLocation(commandSender, true), soundName, volume, pitch);
 
 		PlayerHelper.sendDirectedMessage(commandSender, "Played sound "+soundName+" at volume "+volume+" and pitch "+pitch+".");
 	}

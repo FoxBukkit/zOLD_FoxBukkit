@@ -206,20 +206,20 @@ public abstract class ICommand {
 		return (Player) commandSender;
 	}
 
-	public static Location getCommandSenderLocation(CommandSender commandSender) throws YiffBukkitCommandException {
-		final Location location = getCommandSenderLocation(commandSender, null);
+	public static Location getCommandSenderLocation(CommandSender commandSender, boolean elevated) throws YiffBukkitCommandException {
+		final Location location = getCommandSenderLocation(commandSender, elevated, null);
 		if (location == null)
 			throw new YiffBukkitCommandException("This command can only be run as a player or a command block.");
 
 		return location;
 	}
 
-	public static Location getCommandSenderLocation(CommandSender commandSender, Location defaultValue) {
+	public static Location getCommandSenderLocation(CommandSender commandSender, boolean elevated, Location defaultValue) {
 		if (commandSender instanceof Player)
-			return ((Player) commandSender).getLocation();
+			return elevated ? ((Player) commandSender).getEyeLocation() : ((Player) commandSender).getLocation();
 
 		if (commandSender instanceof BlockCommandSender)
-			return ((BlockCommandSender) commandSender).getBlock().getLocation().add(0.5, 1, 0.5);
+			return ((BlockCommandSender) commandSender).getBlock().getLocation().add(0.5, elevated ? 1 : 0.5, 0.5);
 
 		return defaultValue;
 	}

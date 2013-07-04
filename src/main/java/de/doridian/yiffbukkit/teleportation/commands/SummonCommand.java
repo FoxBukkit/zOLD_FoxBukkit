@@ -22,7 +22,7 @@ public class SummonCommand extends ICommand {
 		if (!playerHelper.canSummon(commandSender, otherply))
 			throw new PermissionDeniedException();
 
-		plugin.playerHelper.teleportWithHistory(otherply, getCommandSenderLocation(commandSender));
+		plugin.playerHelper.teleportWithHistory(otherply, getCommandSenderLocation(commandSender, false));
 
 		playerHelper.sendServerMessage(commandSender.getName() + " summoned " + otherply.getName());
 	}

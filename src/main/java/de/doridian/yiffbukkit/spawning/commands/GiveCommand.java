@@ -197,7 +197,7 @@ public class GiveCommand extends ICommand {
 			targetLocation = target.getLocation();
 		}
 		else {
-			targetLocation = getCommandSenderLocation(commandSender);
+			targetLocation = getCommandSenderLocation(commandSender, true);
 			if (commandSender instanceof Player) {
 				target = (Player) commandSender;
 			}

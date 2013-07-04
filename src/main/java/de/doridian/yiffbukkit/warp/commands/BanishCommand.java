@@ -44,7 +44,7 @@ public class BanishCommand extends ICommand {
 			final long unitsFromPrevious = Math.round(homePos.distance(previousPos));
 			String unitsFromYou = "";
 			try {
-				unitsFromYou = Math.round(homePos.distance(getCommandSenderLocation(commandSender).toVector())) + "m from you and ";
+				unitsFromYou = Math.round(homePos.distance(getCommandSenderLocation(commandSender, false).toVector())) + "m from you and ";
 			} catch (YiffBukkitCommandException e) { }
 			final long unitsFromSpawn = Math.round(homePos.distance(teleportTarget.toVector()));
 

@@ -43,6 +43,6 @@ public class SetWarpCommand extends ICommand {
 	}
 
 	private Location getWarpTargetLocation(CommandSender commandSender) throws WarpException {
-		return getCommandSenderLocation(commandSender, plugin.warpEngine.getWarp(null, "guest_spawn").location);
+		return getCommandSenderLocation(commandSender, false, plugin.warpEngine.getWarp(null, "guest_spawn").location);
 	}
 }

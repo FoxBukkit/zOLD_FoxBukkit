@@ -29,7 +29,7 @@ public class WhoCommand extends ICommand {
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
 		if(args.length > 0) {
 			final Location defaultLocation = new Location(plugin.getOrCreateWorld("world", Environment.NORMAL), Double.POSITIVE_INFINITY, 0, 0);
-			final Location location = getCommandSenderLocation(commandSender, defaultLocation);
+			final Location location = getCommandSenderLocation(commandSender, false, defaultLocation);
 			final World world = location.getWorld();
 			final Player target = playerHelper.matchPlayerSingle(args[0], false);
 

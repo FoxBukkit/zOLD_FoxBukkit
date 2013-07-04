@@ -49,7 +49,7 @@ public class SpawnAtCommand extends ICommand {
 			player = null;
 		}
 
-		final Location defaultLocation = getCommandSenderLocation(commandSender, new Location(null, 0, 0, 0));
+		final Location defaultLocation = getCommandSenderLocation(commandSender, true, new Location(null, 0, 0, 0));
 
 		final String[] coords = coordString.split(",");
 

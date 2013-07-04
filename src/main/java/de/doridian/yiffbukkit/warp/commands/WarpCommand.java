@@ -35,7 +35,7 @@ public class WarpCommand extends ICommand {
 			final Collection<WarpDescriptor> values = plugin.warpEngine.getWarps().values();
 			final WarpDescriptor[] valueArray = values.toArray(new WarpDescriptor[values.size()]);
 
-			final Location location = getCommandSenderLocation(commandSender, null);
+			final Location location = getCommandSenderLocation(commandSender, false, null);
 			if (location != null) {
 				final Vector playerPos = location.toVector();
 				Arrays.sort(valueArray, 0, valueArray.length, new Comparator<WarpDescriptor>() {
@@ -173,7 +173,7 @@ public class WarpCommand extends ICommand {
 				if (rank < 3)
 					throw new WarpException("You need to be the warp's owner to do this.");
 
-				warp.location = getCommandSenderLocation(commandSender).clone();
+				warp.location = getCommandSenderLocation(commandSender, false).clone();
 
 				PlayerHelper.sendDirectedMessage(commandSender, "Moved warp \u00a79" + warp.name + "\u00a7f to your current location.");
 			}
@@ -204,7 +204,7 @@ public class WarpCommand extends ICommand {
 
 				String msg = "This warp is ";
 
-				final Location location = getCommandSenderLocation(commandSender, null);
+				final Location location = getCommandSenderLocation(commandSender, false, null);
 				if (location != null) {
 					final long unitsFromYou = Math.round(warpPosition.distance(location.toVector()));
 					msg += unitsFromYou + "m from you and ";
