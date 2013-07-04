@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.spawning;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
@@ -26,6 +27,7 @@ import net.minecraft.server.v1_5_R3.MovingObjectPosition;
 import net.minecraft.server.v1_5_R3.NBTTagCompound;
 import net.minecraft.server.v1_5_R3.NBTTagList;
 import net.minecraft.server.v1_5_R3.NetworkManager;
+import net.minecraft.server.v1_5_R3.Packet63WorldParticles;
 import net.minecraft.server.v1_5_R3.PlayerConnection;
 import net.minecraft.server.v1_5_R3.PlayerInteractManager;
 import net.minecraft.server.v1_5_R3.WorldServer;
@@ -680,5 +682,24 @@ public class SpawnUtils {
 		public InputStream getInputStream() throws IOException {
 			return is;
 		}
+	}
+
+	public static void makeParticles(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+		final Packet63WorldParticles packet63WorldParticles = new Packet63WorldParticles();
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "a", particleName);
+
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "b", (float) location.getX());
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "c", (float) location.getY());
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "d", (float) location.getZ());
+
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "e", (float) scatter.getX());
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "f", (float) scatter.getY());
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "g", (float) scatter.getZ());
+
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed);
+
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "i", numParticles);
+
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
 	}
 }
