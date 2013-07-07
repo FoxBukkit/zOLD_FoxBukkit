@@ -152,6 +152,8 @@ public abstract class YBEffect extends ScheduledTask {
 	}
 
 	public static abstract class PotionTrail extends YBEffect {
+		private static final int STEPS = 5;
+
 		Location lastLocation = null;
 		public PotionTrail(Entity entity) {
 			super(entity);
@@ -162,11 +164,11 @@ public abstract class YBEffect extends ScheduledTask {
 			final Location currentLocation = entity.getLocation();
 
 			if (lastLocation != null) {
-				Location location = currentLocation.clone();
-				Location diff = lastLocation.subtract(currentLocation);
-				diff.multiply(1.0/5);
+				Location diff = currentLocation.clone().subtract(lastLocation);
+				Location location = lastLocation;
+				diff.multiply(1.0 / STEPS);
 
-				for (int i = 0; i < 5; ++i) {
+				for (int i = 0; i < STEPS; ++i) {
 					renderEffect(location);
 					location.add(diff);
 				}
