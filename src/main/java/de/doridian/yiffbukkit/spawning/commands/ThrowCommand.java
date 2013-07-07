@@ -14,6 +14,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_5_R3.Packet;
 import net.minecraft.server.v1_5_R3.Packet10Flying;
@@ -284,7 +285,7 @@ public class ThrowCommand extends ICommand {
 							final Location effectLocation = vehicle.getLocation();
 							for (Player effectTarget : effectTargets) {
 								effectTarget.playEffect(effectLocation, Effect.EXTINGUISH, 0);
-								effectTarget.playEffect(effectLocation, Effect.SMOKE, 4);
+								SpawnUtils.makeParticles(effectTarget, effectLocation, new Vector(.1, .1, .1), 0, 10, "smoke");
 							}
 						}
 					};

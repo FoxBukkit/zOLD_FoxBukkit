@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
+import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -7,11 +8,11 @@ import net.minecraft.server.v1_5_R3.EntityLiving;
 import net.minecraft.server.v1_5_R3.Packet18ArmAnimation;
 import net.minecraft.server.v1_5_R3.Packet32EntityLook;
 import net.minecraft.server.v1_5_R3.Packet35EntityHeadRotation;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.Random;
 
@@ -76,7 +77,7 @@ public class Rage extends YBEffect {
 
 		@Override
 		protected void renderEffect(Location location) {
-			location.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES, 0);
+			SpawnUtils.makeParticles(location, new Vector(.1, .1, .1), 0, 10, "flame");
 		}
 	}
 }

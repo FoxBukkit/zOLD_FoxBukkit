@@ -11,6 +11,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
+import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
 import de.doridian.yiffbukkit.transmute.EntityShape;
 import de.doridian.yiffbukkit.transmute.Shape;
@@ -22,6 +23,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 
@@ -160,9 +162,7 @@ public class TransmuteCommand extends ICommand {
 				continue;
 
 			player.playEffect(location, Effect.EXTINGUISH, 0);
-			player.playEffect(location, Effect.SMOKE, 4);
-			player.playEffect(location, Effect.SMOKE, 4);
-			player.playEffect(location, Effect.SMOKE, 4);
+			SpawnUtils.makeParticles(player, location, new Vector(.1, .1, .1), 0, 30, "smoke");
 		}
 	}
 }

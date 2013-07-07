@@ -82,7 +82,7 @@ public class Rocket extends YBEffect {
 		final Location currentLocation = entity.getLocation();
 		//for (int data = 0; data < 16; ++data)
 		final World currentWorld = currentLocation.getWorld();
-		currentWorld.playEffect(currentLocation, Effect.SMOKE, 4);
+		SpawnUtils.makeParticles(currentLocation, new Vector(.1, .1, .1), 0, 10, "smoke");
 		currentWorld.playEffect(currentLocation, Effect.EXTINGUISH, 0);
 
 		++i;
@@ -162,7 +162,7 @@ public class Rocket extends YBEffect {
 
 		@Override
 		protected void renderEffect(Location location) {
-			location.getWorld().playEffect(location, Effect.SMOKE, 4);
+			SpawnUtils.makeParticles(location, new Vector(.1, .1, .1), 0, 10, "smoke");
 		}
 	}
 }

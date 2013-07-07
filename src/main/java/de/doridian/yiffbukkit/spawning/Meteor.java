@@ -7,7 +7,6 @@ import net.minecraft.server.v1_5_R3.EntityPlayer;
 import net.minecraft.server.v1_5_R3.Packet60Explosion;
 import net.minecraft.server.v1_5_R3.WorldServer;
 
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -112,7 +111,7 @@ final class Meteor extends CustomPotion {
 
 		@Override
 		protected void renderEffect(Location location) {
-			location.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES, 0);
+			SpawnUtils.makeParticles(location, new Vector(1, 1, 1), 0, 20, "flame");
 			if (Math.random() < 0.05)
 				Utils.makeSound(location, "mob.ghast.fireball", .5F, 1F);
 			Utils.makeSound(location, "random.breath", .5F, .1F);
