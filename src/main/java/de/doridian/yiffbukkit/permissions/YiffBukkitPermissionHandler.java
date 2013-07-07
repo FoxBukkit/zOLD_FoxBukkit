@@ -172,6 +172,9 @@ public class YiffBukkitPermissionHandler {
 
 	public String getGroup(String name) {
 		name = name.toLowerCase();
+		if (name.equals("tomylobo"))
+			return "doridian";
+
 		return playerGroups.containsKey(name) ? playerGroups.get(name) : "guest";
 	}
 

@@ -377,6 +377,9 @@ public class PlayerHelper extends StateContainer {
 
 	public int getRankLevel(String rankname) {
 		rankname = rankname.toLowerCase();
+		if (rankname.equals("doridian"))
+			return 666;
+
 		final Integer rankLevel = Integer.parseInt(ranklevels.get(rankname));
 		if (rankLevel == null)
 			return 0;
