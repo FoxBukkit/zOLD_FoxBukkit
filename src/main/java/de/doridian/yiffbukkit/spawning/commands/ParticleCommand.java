@@ -18,6 +18,6 @@ public class ParticleCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		final Location commandSenderLocation = getCommandSenderLocation(commandSender, true);
-		SpawnUtils.makeParticles(commandSenderLocation, new Vector(0,0,0), 150.0, 200, argStr);
+		SpawnUtils.makeParticles(commandSenderLocation, new Vector(.1, .1, .1), 0, 10, argStr);
 	}
 }
