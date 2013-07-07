@@ -102,6 +102,26 @@ public class ThrowCommand extends ICommand {
 			}
 		});
 
+		throwShapes.put("rcone", new ThrowShapeFactory() {
+			@Override
+			public ThrowShape createShape(String[] args) {
+				final float angle;
+				if (args.length >= 2) {
+					angle = Float.parseFloat(args[1]);
+				}
+				else {
+					angle = 10;
+				}
+
+				return new ThrowShape() {
+					@Override
+					public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+						return Utils.randomCone(baseLocation, angle).multiply(speed.length());
+					}
+				};
+			}
+		});
+
 		throwShapes.put("random", new SimpleThrowShapeFactory() {
 			@Override
 			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
