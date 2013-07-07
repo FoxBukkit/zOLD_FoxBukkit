@@ -16,6 +16,7 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_5_R3.EntityFallingBlock;
 import net.minecraft.server.v1_5_R3.EntityLargeFireball;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
@@ -685,6 +686,18 @@ public class SpawnUtils {
 	}
 
 	public static void makeParticles(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
+
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
+	}
+
+	public static void makeParticles(Player target, Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
+
+		PlayerHelper.sendPacketToPlayer(target, packet63WorldParticles);
+	}
+
+	public static Packet63WorldParticles createParticlePacket(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
 		final Packet63WorldParticles packet63WorldParticles = new Packet63WorldParticles();
 		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "a", particleName);
 
@@ -699,7 +712,6 @@ public class SpawnUtils {
 		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed);
 
 		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "i", numParticles);
-
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
+		return packet63WorldParticles;
 	}
 }
