@@ -53,9 +53,19 @@ public class ThrowCommand extends ICommand {
 		Vector getDirection(int i, int amount, Location baseLocation, Vector speed);
 	}
 
-	private static final Map<String, ThrowShape> throwShapes = new HashMap<String, ThrowCommand.ThrowShape>();
+	public interface ThrowShapeFactory {
+		ThrowShape createShape(String[] args);
+	}
+
+	public static abstract class SimpleThrowShapeFactory implements ThrowShape, ThrowShapeFactory {
+		public final ThrowShape createShape(String[] args) {
+			return this;
+		}
+	}
+
+	private static final Map<String, ThrowShapeFactory> throwShapes = new HashMap<String, ThrowShapeFactory>();
 	static {
-		throwShapes.put("circle", new ThrowShape() {
+		throwShapes.put("circle", new SimpleThrowShapeFactory() {
 			@Override
 			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
 				final Location location = baseLocation.clone();
@@ -66,27 +76,40 @@ public class ThrowCommand extends ICommand {
 			}
 		});
 
-		throwShapes.put("cone", new ThrowShape() {
+		throwShapes.put("cone", new ThrowShapeFactory() {
 			@Override
-			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
-				final Location cone = new Location(null, 0, 0, 0, i * 360.0f / amount, -80);
-				final Vector pointingDown = Utils.toWorldAxis(cone, speed);
+			public ThrowShape createShape(String[] args) {
+				final float angle;
+				if (args.length >= 2) {
+					angle = Float.parseFloat(args[1]);
+				}
+				else {
+					angle = 10;
+				}
 
-				Location location = baseLocation.clone();
-				location.setPitch(location.getPitch()+90);
+				return new ThrowShape() {
+					@Override
+					public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+						final Location cone = new Location(null, 0, 0, 0, i * 360.0f / amount, -90+angle);
+						final Vector pointingDown = Utils.toWorldAxis(cone, speed);
 
-				return Utils.toWorldAxis(location, pointingDown);
+						Location location = baseLocation.clone();
+						location.setPitch(location.getPitch()+90);
+
+						return Utils.toWorldAxis(location, pointingDown);
+					}
+				};
 			}
 		});
 
-		throwShapes.put("random", new ThrowShape() {
+		throwShapes.put("random", new SimpleThrowShapeFactory() {
 			@Override
 			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
 				return Utils.randvec().multiply(speed.length());
 			}
 		});
 
-		throwShapes.put("randomup", new ThrowShape() {
+		throwShapes.put("randomup", new SimpleThrowShapeFactory() {
 			@Override
 			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
 				final Vector direction = Utils.randvec().multiply(speed.length());
@@ -95,7 +118,7 @@ public class ThrowCommand extends ICommand {
 			}
 		});
 
-		throwShapes.put("randomdown", new ThrowShape() {
+		throwShapes.put("randomdown", new SimpleThrowShapeFactory() {
 			@Override
 			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
 				final Vector direction = Utils.randvec().multiply(speed.length());
@@ -165,13 +188,16 @@ public class ThrowCommand extends ICommand {
 		}
 
 		final boolean usePitch = !booleanFlags.contains('p');
-		final String shapeName;
-		if (stringFlags.containsKey('s'))
-			shapeName = stringFlags.get('s');
-		else
-			shapeName = "circle";
+		String shapeString = "circle";
+		if (stringFlags.containsKey('s')) {
+			shapeString = stringFlags.get('s');
+		}
 
-		final ThrowShape shape = throwShapes.get(shapeName);
+		final String[] shapeArgs = shapeString.split(":");
+
+		final String shapeName = shapeArgs[0];
+
+		final ThrowShape shape = throwShapes.get(shapeName).createShape(shapeArgs);
 
 		final String typeName = args[0];
 
