@@ -440,4 +440,16 @@ public class Utils {
 	public static Location toLocation(Vec3D pos, World world) {
 		return new Location(world, pos.c, pos.d, pos.e);
 	}
+
+	public static Vector randomCone(Location baseLocation, double maxAngle) {
+		maxAngle = Math.toRadians(maxAngle);
+
+		final double minZ = Math.cos(maxAngle);
+		final double z = minZ + Math.random() * (1 - minZ);
+		final double radius = Math.sqrt(1 - z * z);
+		final double angle = 2 * Math.PI * Math.random();
+		final Vector axis = new Vector(z, Math.sin(angle) * radius, Math.cos(angle) * radius);
+
+		return toWorldAxis(baseLocation, axis);
+	}
 }
