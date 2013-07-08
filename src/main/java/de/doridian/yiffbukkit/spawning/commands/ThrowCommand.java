@@ -285,7 +285,7 @@ public class ThrowCommand extends ICommand {
 							final Location effectLocation = vehicle.getLocation();
 							for (Player effectTarget : effectTargets) {
 								effectTarget.playEffect(effectLocation, Effect.EXTINGUISH, 0);
-								SpawnUtils.makeParticles(effectTarget, effectLocation, new Vector(.1, .1, .1), 0, 10, "smoke");
+								SpawnUtils.makeParticles(effectTarget, effectLocation, new Vector(), 0.05, 10, "fireworksSpark");
 							}
 						}
 					};

@@ -34,7 +34,7 @@ import java.util.Map;
 		potionColor = 12,
 		potionTrail = true
 )
-public class Rocket extends YBEffect {
+public class Rocket extends YBEffect.PotionTrail {
 	private int i = 0;
 	private List<Entity> toRemove = new ArrayList<Entity>();
 	private Vector velocity = entity.getVelocity();
@@ -76,13 +76,18 @@ public class Rocket extends YBEffect {
 	}
 
 	@Override
+	protected void renderEffect(Location location) {
+		SpawnUtils.makeParticles(location, new Vector(), 0.05, 3, "fireworksSpark");
+	}
+
+	@Override
 	public void runEffect() {
+		super.runEffect();
 		velocity = velocity.add(new Vector(0, 0.1, 0));
 		entity.setVelocity(velocity);
 		final Location currentLocation = entity.getLocation();
 		//for (int data = 0; data < 16; ++data)
 		final World currentWorld = currentLocation.getWorld();
-		SpawnUtils.makeParticles(currentLocation, new Vector(.1, .1, .1), 0, 10, "smoke");
 		currentWorld.playEffect(currentLocation, Effect.EXTINGUISH, 0);
 
 		++i;
@@ -162,7 +167,7 @@ public class Rocket extends YBEffect {
 
 		@Override
 		protected void renderEffect(Location location) {
-			SpawnUtils.makeParticles(location, new Vector(.1, .1, .1), 0, 10, "smoke");
+			SpawnUtils.makeParticles(location, new Vector(), 0.05, 3, "fireworksSpark");
 		}
 	}
 }
