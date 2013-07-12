@@ -62,8 +62,8 @@ public class Rocket extends YBEffect.PotionTrail {
 		scheduleSyncRepeating(0, 1);
 	}
 
-	static Map<EntityType, String> fireworkTypes = new EnumMap<EntityType, String>(EntityType.class);
-	{
+	private static Map<EntityType, String> fireworkTypes = new EnumMap<EntityType, String>(EntityType.class);
+	static {
 		fireworkTypes.put(EntityType.SPIDER, "1e1b1b,434343/Type=1/Trail/Fade=b3312c");
 		fireworkTypes.put(EntityType.CREEPER, "41cd34,3b511a,ababab/Type=3/Trail");
 		fireworkTypes.put(EntityType.SQUID, "0,001010/Type=0/Trail");
@@ -73,6 +73,8 @@ public class Rocket extends YBEffect.PotionTrail {
 		fireworkTypes.put(EntityType.ENDERMAN, "5b1e66,a035b2/Type=2/Trail/Fade=a035b2,5b1e66/Flicker");
 		fireworkTypes.put(EntityType.BLAZE, "ffcc33/Type=2/Trail/Fade=666666,777777,888888,999999");
 		fireworkTypes.put(EntityType.CHICKEN, "ffffff/Type=4/Trail/Fade=ff1117");
+		fireworkTypes.put(EntityType.ZOMBIE, "00a8a8,00a8a8,43389f,43389f,426832/Trail/Fade=a04000");
+		fireworkTypes.put(EntityType.COW, "909090,4b3e32,4b3e32,4b3e32/Type=1/Trail/Fade=ff1117");
 	}
 
 	@Override
