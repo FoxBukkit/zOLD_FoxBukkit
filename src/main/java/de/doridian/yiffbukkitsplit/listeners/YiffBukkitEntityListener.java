@@ -39,12 +39,6 @@ public class YiffBukkitEntityListener extends BaseListener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		if (event.getEntityType() == EntityType.SLIME)
-			event.setCancelled(true);
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
 		final Entity ent = event.getEntity();
 

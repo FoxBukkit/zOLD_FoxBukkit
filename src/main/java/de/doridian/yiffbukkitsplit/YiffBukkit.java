@@ -34,17 +34,13 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_5_R3.command.ColouredConsoleSender;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -148,24 +144,6 @@ public class YiffBukkit extends JavaPlugin {
 		remote = new YiffBukkitRemote(this);
 		remote.start();
 		log("Remote loaded.");
-
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-			@Override
-			public void run() {
-				List<LivingEntity> removeList = new ArrayList<LivingEntity >(); 
-				for (World world : getServer().getWorlds()) {
-					for (LivingEntity livingEntity : world.getLivingEntities()) {
-						if (livingEntity instanceof Slime) {
-							removeList.add(livingEntity);
-						}
-					}
-				}
-
-				for (LivingEntity livingEntity : removeList) {
-					livingEntity.remove();
-				}
-			}
-		}, 1000, 200);
 
 		log( "Plugin enabled!" );
 
