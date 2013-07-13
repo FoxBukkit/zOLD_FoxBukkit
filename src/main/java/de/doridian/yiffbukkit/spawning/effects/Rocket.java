@@ -134,8 +134,6 @@ public class Rocket extends YBEffect.PotionTrail {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(YiffBukkit.instance, new Runnable() {
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
-
 						final ItemStack fireworks = SpawnUtils.makeFireworks(fireworkType);
 						SpawnUtils.explodeFirework(currentLocation, fireworks);
 
