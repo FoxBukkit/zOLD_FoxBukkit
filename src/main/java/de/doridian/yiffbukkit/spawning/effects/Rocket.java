@@ -62,6 +62,18 @@ public class Rocket extends YBEffect.PotionTrail {
 		scheduleSyncRepeating(0, 1);
 	}
 
+	@de.doridian.yiffbukkit.main.commands.system.ICommand.Names("setfw")
+	@de.doridian.yiffbukkit.main.commands.system.ICommand.Permission("")
+	public static class SetFireworkCommand extends de.doridian.yiffbukkit.main.commands.system.ICommand {
+		@Override
+		public void run(org.bukkit.command.CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+			if (args.length < 2)
+				throw new YiffBukkitCommandException("Not enough arguments.");
+
+			fireworkTypes.put(EntityType.fromName(args[0].toUpperCase()), args[1]);
+		}
+	}
+
 	private static Map<EntityType, String> fireworkTypes = new EnumMap<EntityType, String>(EntityType.class);
 	static {
 		//fireworkTypes.put(EntityType.BAT, "");
@@ -92,6 +104,8 @@ public class Rocket extends YBEffect.PotionTrail {
 		//fireworkTypes.put(EntityType.WITHER, "");
 		//fireworkTypes.put(EntityType.WOLF, "");
 		fireworkTypes.put(EntityType.ZOMBIE, "00a8a8,00a8a8,43389f,43389f,426832/Trail/Fade=a04000");
+
+		new SetFireworkCommand();
 	}
 
 	@Override
