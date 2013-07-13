@@ -83,7 +83,7 @@ public class Rocket extends YBEffect.PotionTrail {
 		//fireworkTypes.put(EntityType.SHEEP, "");
 		//fireworkTypes.put(EntityType.SILVERFISH, "");
 		//fireworkTypes.put(EntityType.SKELETON, "");
-		//fireworkTypes.put(EntityType.SLIME, "");
+		fireworkTypes.put(EntityType.SLIME, "72bb61/Trail");
 		//fireworkTypes.put(EntityType.SNOWMAN, "");
 		fireworkTypes.put(EntityType.SPIDER, "1e1b1b,434343/Type=1/Trail/Fade=b3312c");
 		fireworkTypes.put(EntityType.SQUID, "0,001010/Type=0/Trail");
@@ -127,10 +127,18 @@ public class Rocket extends YBEffect.PotionTrail {
 
 						switch (entity.getType()) {
 						case CHICKEN:
+						case SLIME:
 							try {
 								for (int i = 0; i < 30; ++i) {
 									final FakeShapeBasedEntity fakeEntity = new FakeShapeBasedEntity(currentLocation, "item");
-									fakeEntity.runAction(null, "type feather");
+									switch (entity.getType()) {
+									case CHICKEN:
+										fakeEntity.runAction(null, "type feather");
+										break;
+									case SLIME:
+										fakeEntity.runAction(null, "type slime_ball");
+										break;
+									}
 									fakeEntity.send();
 									fakeEntity.teleport(currentLocation);
 
