@@ -5,12 +5,7 @@ import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
@@ -32,6 +27,7 @@ import org.bukkit.entity.Player;
 @BooleanFlags("jrg")
 @StringFlags("t")
 @Permission("yiffbukkit.users.ban")
+@AbusePotential
 public class BanCommand extends ICommand {
 	private static final JailComponent jail = (JailComponent) YiffBukkit.instance.componentSystem.getComponent("jail");
 

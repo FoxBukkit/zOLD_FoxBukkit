@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.main.commands.system;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkitsplit.AbusePotentialManager;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TCharObjectMap;
@@ -26,6 +27,7 @@ public abstract class ICommand {
 	@Retention(RetentionPolicy.RUNTIME) public @interface Usage { String value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Level { int value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Permission { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) public @interface AbusePotential { }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Cost { double value(); }
 	@Retention(RetentionPolicy.RUNTIME) public @interface Disabled { }
 	@Retention(RetentionPolicy.RUNTIME) public @interface BooleanFlags { String value(); }
@@ -260,6 +262,10 @@ public abstract class ICommand {
 	}
 
 	public boolean canPlayerUseCommand(CommandSender commandSender) {
+		AbusePotential abusePotentialAnnotation = this.getClass().getAnnotation(AbusePotential.class);
+		if (abusePotentialAnnotation != null && AbusePotentialManager.isAbusive(commandSender.getName()))
+			return false;
+
 		Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
 		if (permissionAnnotation != null)
 			return commandSender.hasPermission(permissionAnnotation.value());

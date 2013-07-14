@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 @Help("Pushes a command to console")
 @Usage("<command>")
 @Permission("yiffbukkit.rcon")
+@AbusePotential
 public class ConsoleCommand extends ICommand {
 	private static final MinecraftServer mcServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 

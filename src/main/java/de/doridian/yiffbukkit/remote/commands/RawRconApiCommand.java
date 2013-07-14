@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.remote.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Level;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.remote.RemotePlayer;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 @Names("rawrconapi")
 @Level(9000)
+@AbusePotential
 public class RawRconApiCommand extends ICommand {
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		if(!(commandSender instanceof RemotePlayer)) return;

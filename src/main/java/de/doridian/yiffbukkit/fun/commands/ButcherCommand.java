@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.fun.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -37,6 +38,7 @@ import java.util.List;
 @Usage("[<target>] [<radius>]")
 @BooleanFlags("nvl")
 @Permission("yiffbukkit.butcher")
+@AbusePotential
 public class ButcherCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

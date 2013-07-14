@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
 import de.doridian.yiffbukkit.main.util.RedisManager;
+import de.doridian.yiffbukkitsplit.AbusePotentialManager;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -133,6 +134,9 @@ public class YiffBukkitPermissionHandler {
 	public boolean has(String worldName, String playerName, String permission) {
 		playerName = playerName.toLowerCase();
 		permission = permission.toLowerCase();
+		if (AbusePotentialManager.isBlocked(playerName, permission))
+			return false;
+
 		GroupWorld currentGroupWorld = new GroupWorld(getGroup(playerName), worldName);
 
 		HashSet<String> currentPermissions = groupPermissions.get(currentGroupWorld);

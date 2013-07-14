@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.fun.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_5_R3.MathHelper;
 import net.minecraft.server.v1_5_R3.Packet20NamedEntitySpawn;
@@ -19,6 +20,7 @@ import java.util.Random;
 @ICommand.Usage("[-sv] <target>")
 @ICommand.BooleanFlags("sv")
 @ICommand.Permission("yiffbukkit.yiffyiffyiff")
+@AbusePotential
 public class YiffCommand extends ICommand {
 	private final static Random rand = new Random();
 

@@ -4,6 +4,7 @@ import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
@@ -17,6 +18,7 @@ import org.bukkit.command.CommandSender;
 @Usage("<full name> <rank>")
 @ICommand.BooleanFlags("p")
 @Permission("yiffbukkit.users.setrank")
+@AbusePotential
 public class SetRankCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.main.commands;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
@@ -14,6 +15,7 @@ import org.bukkit.command.CommandSender;
 @Help("Reloads a named config.")
 @Usage("")
 @Permission("yiffbukkit.reload")
+@AbusePotential
 public class ReloadConfigCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

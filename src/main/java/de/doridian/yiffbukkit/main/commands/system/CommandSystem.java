@@ -103,8 +103,15 @@ public class CommandSystem {
 				}
 				icmd.run(commandSender, args, argStr);
 			}
+			catch (PermissionDeniedException e) {
+				String logmsg = "YB Command denied: " + playerName + ": "  + cmd + " " + argStr;
+				plugin.ircbot.sendToStaffChannel(logmsg);
+				plugin.log(logmsg);
+
+				PlayerHelper.sendDirectedMessage(commandSender, e.getMessage(), e.getColor());
+			}
 			catch (YiffBukkitCommandException e) {
-				PlayerHelper.sendDirectedMessage(commandSender,e.getMessage(), e.getColor());
+				PlayerHelper.sendDirectedMessage(commandSender, e.getMessage(), e.getColor());
 			}
 			catch (Exception e) {
 				if (commandSender.hasPermission("yiffbukkit.detailederrors")) {

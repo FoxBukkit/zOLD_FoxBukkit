@@ -118,6 +118,7 @@ public class YiffBukkit extends JavaPlugin {
 		warpEngine = new WarpEngine(this);
 		persistentScheduler = new PersistentScheduler();
 		//portalEngine = new PortalEngine(this);
+		new AbusePotentialManager();
 		log("State components loaded.");
 		StateContainer.loadAll();
 		log("State component config loaded.");
@@ -133,7 +134,7 @@ public class YiffBukkit extends JavaPlugin {
 		chatListener = new ChatListener();
 		consoleCommands = new YiffBukkitConsoleCommands(this);
 		componentSystem.registerListeners();
-        yiffBukkitBungeeLink = new YiffBukkitBungeeLink();
+		yiffBukkitBungeeLink = new YiffBukkitBungeeLink();
 
 		log("Core components loaded.");
 		mcbans = new MCBans(this);

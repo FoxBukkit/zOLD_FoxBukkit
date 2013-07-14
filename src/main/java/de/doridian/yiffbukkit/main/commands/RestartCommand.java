@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import org.bukkit.command.CommandSender;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 
 @Names("restart")
 @Permission("yiffbukkit.admin.restart")
+@AbusePotential
 public class RestartCommand extends ICommand {
 	int taskID = -1;
 	RestartRunnable restarter;
