@@ -58,28 +58,25 @@ public abstract class ICommand {
 		if (this.getClass().getAnnotation(Disabled.class) != null)
 			return;
 
-		Names namesAnnotation = this.getClass().getAnnotation(Names.class);
-		if (namesAnnotation != null) {
-			for (String name : namesAnnotation.value()) {
-				commandSystem.registerCommand(name, this);
-			}
+		for (String name : getNames()) {
+			commandSystem.registerCommand(name, this);
 		}
 
 		parseFlagsAnnotations();
 	}
 
 	private void parseFlagsAnnotations() {
-		BooleanFlags booleanFlagsAnnotation = this.getClass().getAnnotation(BooleanFlags.class);
+		final BooleanFlags booleanFlagsAnnotation = this.getClass().getAnnotation(BooleanFlags.class);
 		if (booleanFlagsAnnotation != null) {
 			parseFlagsAnnotation(booleanFlagsAnnotation.value(), FlagType.BOOLEAN);
 		}
 
-		StringFlags stringFlagsAnnotation = this.getClass().getAnnotation(StringFlags.class);
+		final StringFlags stringFlagsAnnotation = this.getClass().getAnnotation(StringFlags.class);
 		if (stringFlagsAnnotation != null) {
 			parseFlagsAnnotation(stringFlagsAnnotation.value(), FlagType.STRING);
 		}
 
-		NumericFlags numericFlagsAnnotation = this.getClass().getAnnotation(NumericFlags.class);
+		final NumericFlags numericFlagsAnnotation = this.getClass().getAnnotation(NumericFlags.class);
 		if (numericFlagsAnnotation != null) {
 			parseFlagsAnnotation(numericFlagsAnnotation.value(), FlagType.NUMERIC);
 		}
@@ -187,13 +184,6 @@ public abstract class ICommand {
 		return Arrays.copyOfRange(args, nextArg, args.length);
 	}
 
-	public final int getMinLevel() {
-		Level levelAnnotation = this.getClass().getAnnotation(Level.class);
-		if (levelAnnotation == null)
-			throw new UnsupportedOperationException("You need either a GetMinLevel method or an @Level annotation.");
-
-		return levelAnnotation.value();
-	}
 
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException { }
 
@@ -217,8 +207,13 @@ public abstract class ICommand {
 	}
 
 	public static Location getCommandSenderLocation(CommandSender commandSender, boolean elevated, Location defaultValue) {
-		if (commandSender instanceof Player)
-			return elevated ? ((Player) commandSender).getEyeLocation() : ((Player) commandSender).getLocation();
+		if (commandSender instanceof Player) {
+			final Player player = (Player) commandSender;
+			if (elevated)
+				return player.getEyeLocation();
+			else
+				return player.getLocation();
+		}
 
 		if (commandSender instanceof BlockCommandSender)
 			return ((BlockCommandSender) commandSender).getBlock().getLocation().add(0.5, elevated ? 1 : 0.5, 0.5);
@@ -243,46 +238,68 @@ public abstract class ICommand {
 	public static EntityPlayer asNotchPlayer(CommandSender commandSender, EntityPlayer defaultValue) throws YiffBukkitCommandException {
 		if (!(commandSender instanceof CraftPlayer))
 			return defaultValue;
+
 		return asNotchPlayer(commandSender);
 	}
 
+
+	public boolean canPlayerUseCommand(CommandSender commandSender) {
+		if (hasAbusePotential() && AbusePotentialManager.isAbusive(commandSender.getName()))
+			return false;
+
+		final String requiredPermission = getRequiredPermission();
+		if (requiredPermission != null)
+			return commandSender.hasPermission(requiredPermission);
+
+		final int playerLevel = plugin.playerHelper.getPlayerLevel(commandSender);
+		final int requiredLevel = getRequiredLevel();
+
+		return playerLevel >= requiredLevel;
+	}
+
+
+	public String[] getNames() {
+		final Names namesAnnotation = this.getClass().getAnnotation(Names.class);
+		if (namesAnnotation == null)
+			return new String[0];
+
+		return namesAnnotation.value();
+	}
+
 	public final String getHelp() {
-		Help helpAnnotation = this.getClass().getAnnotation(Help.class);
+		final Help helpAnnotation = this.getClass().getAnnotation(Help.class);
 		if (helpAnnotation == null)
 			return "";
 
 		return helpAnnotation.value();
 	}
+
 	public final String getUsage() {
-		Usage usageAnnotation = this.getClass().getAnnotation(Usage.class);
+		final Usage usageAnnotation = this.getClass().getAnnotation(Usage.class);
 		if (usageAnnotation == null)
 			return "";
 
 		return usageAnnotation.value();
 	}
 
-	public boolean canPlayerUseCommand(CommandSender commandSender) {
-		AbusePotential abusePotentialAnnotation = this.getClass().getAnnotation(AbusePotential.class);
-		if (abusePotentialAnnotation != null && AbusePotentialManager.isAbusive(commandSender.getName()))
-			return false;
+	public String getRequiredPermission() {
+		final Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
+		if (permissionAnnotation == null)
+			return null;
 
-		Permission permissionAnnotation = this.getClass().getAnnotation(Permission.class);
-		if (permissionAnnotation != null)
-			return commandSender.hasPermission(permissionAnnotation.value());
-
-		int plylvl = plugin.playerHelper.getPlayerLevel(commandSender);
-		int reqlvl = getMinLevel();
-
-		return plylvl >= reqlvl;
+		return permissionAnnotation.value();
 	}
 
-	protected void requireSSL(CommandSender commandSender) throws YiffBukkitCommandException {
-		/* SSL is fucked!
-		if (!YiffBukkit.instance.hasSSL())
-			return;
+	public final int getRequiredLevel() {
+		final Level levelAnnotation = this.getClass().getAnnotation(Level.class);
+		if (levelAnnotation == null)
+			throw new UnsupportedOperationException("You need either a GetMinLevel method or an @Level annotation.");
 
-		if(commandSender instanceof Player && !SSLUtils.hasSSL(commandSender.getName()))
-			throw new YiffBukkitCommandException("This command can only be run over an SSL connection or from the console!");
-		*/
+		return levelAnnotation.value();
+	}
+
+	public boolean hasAbusePotential() {
+		final AbusePotential abusePotentialAnnotation = this.getClass().getAnnotation(AbusePotential.class);
+		return abusePotentialAnnotation != null;
 	}
 }

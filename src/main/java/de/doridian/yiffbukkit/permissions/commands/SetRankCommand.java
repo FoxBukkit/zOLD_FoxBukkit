@@ -22,8 +22,6 @@ import org.bukkit.command.CommandSender;
 public class SetRankCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		requireSSL(commandSender);
-
 		args = parseFlags(args);
 
 		String otherName = args[0];

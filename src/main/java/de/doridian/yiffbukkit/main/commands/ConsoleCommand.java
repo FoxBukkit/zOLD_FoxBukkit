@@ -39,7 +39,6 @@ public class ConsoleCommand extends ICommand {
 
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		requireSSL(commandSender);
 		sendServerCmd(argStr, commandSender);
 	}
 }
