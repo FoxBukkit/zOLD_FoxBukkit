@@ -51,15 +51,22 @@ import java.util.Map;
 @Permission("yiffbukkit.throw")
 public class ThrowCommand extends ICommand {
 	public interface ThrowShape {
-		Vector getDirection(int i, int amount, Location baseLocation, Vector speed);
+		Vector getDirection(int i);
 	}
 
 	public interface ThrowShapeFactory {
-		ThrowShape createShape(String[] args);
+		ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args);
 	}
 
 	public static abstract class SimpleThrowShapeFactory implements ThrowShape, ThrowShapeFactory {
-		public final ThrowShape createShape(String[] args) {
+		protected int amount;
+		protected Location baseLocation;
+		protected Vector speed;
+		@Override
+		public final ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args) {
+			this.amount = amount;
+			this.baseLocation = baseLocation;
+			this.speed = speed;
 			return this;
 		}
 	}
@@ -68,7 +75,7 @@ public class ThrowCommand extends ICommand {
 	static {
 		throwShapes.put("circle", new SimpleThrowShapeFactory() {
 			@Override
-			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+			public Vector getDirection(int i) {
 				final Location location = baseLocation.clone();
 
 				location.setYaw(location.getYaw() + i * 360.0f / amount);
@@ -79,7 +86,7 @@ public class ThrowCommand extends ICommand {
 
 		throwShapes.put("cone", new ThrowShapeFactory() {
 			@Override
-			public ThrowShape createShape(String[] args) {
+			public ThrowShape createShape(final int amount, final Location baseLocation, final Vector speed, String[] args) {
 				final float angle;
 				if (args.length >= 2) {
 					angle = Float.parseFloat(args[1]);
@@ -90,7 +97,7 @@ public class ThrowCommand extends ICommand {
 
 				return new ThrowShape() {
 					@Override
-					public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+					public Vector getDirection(int i) {
 						final Location cone = new Location(null, 0, 0, 0, i * 360.0f / amount, -90+angle);
 						final Vector pointingDown = Utils.toWorldAxis(cone, speed);
 
@@ -105,7 +112,7 @@ public class ThrowCommand extends ICommand {
 
 		throwShapes.put("rcone", new ThrowShapeFactory() {
 			@Override
-			public ThrowShape createShape(String[] args) {
+			public ThrowShape createShape(final int amount, final Location baseLocation, final Vector speed, String[] args) {
 				final float angle;
 				if (args.length >= 2) {
 					angle = Float.parseFloat(args[1]);
@@ -116,7 +123,7 @@ public class ThrowCommand extends ICommand {
 
 				return new ThrowShape() {
 					@Override
-					public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+					public Vector getDirection(int i) {
 						return Utils.randomCone(baseLocation, angle).multiply(speed.length());
 					}
 				};
@@ -125,14 +132,14 @@ public class ThrowCommand extends ICommand {
 
 		throwShapes.put("random", new SimpleThrowShapeFactory() {
 			@Override
-			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+			public Vector getDirection(int i) {
 				return Utils.randvec().multiply(speed.length());
 			}
 		});
 
 		throwShapes.put("randomup", new SimpleThrowShapeFactory() {
 			@Override
-			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+			public Vector getDirection(int i) {
 				final Vector direction = Utils.randvec().multiply(speed.length());
 				direction.setY(Math.abs(direction.getY()));
 				return direction;
@@ -141,7 +148,7 @@ public class ThrowCommand extends ICommand {
 
 		throwShapes.put("randomdown", new SimpleThrowShapeFactory() {
 			@Override
-			public Vector getDirection(int i, int amount, Location baseLocation, Vector speed) {
+			public Vector getDirection(int i) {
 				final Vector direction = Utils.randvec().multiply(speed.length());
 				direction.setY(-Math.abs(direction.getY()));
 				return direction;
@@ -218,7 +225,7 @@ public class ThrowCommand extends ICommand {
 
 		final String shapeName = shapeArgs[0];
 
-		final ThrowShape shape = throwShapes.get(shapeName).createShape(shapeArgs);
+		final ThrowShapeFactory shapeFactory = throwShapes.get(shapeName);
 
 		final String typeName = args[0];
 
@@ -312,8 +319,9 @@ public class ThrowCommand extends ICommand {
 			runnable = new ToolBind("/throw "+typeName, ply) {
 				@Override
 				public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException {
-					Player player = event.getPlayer();
+					final Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
+					final ThrowShape shape = shapeFactory.createShape(amount, location, speed, shapeArgs);
 
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
 						location.setYaw(lastYaws.get(player));
@@ -324,7 +332,7 @@ public class ThrowCommand extends ICommand {
 						location.setPitch(0);
 
 					for (int i = 0; i < amount; ++i) {
-						final Vector direction = shape.getDirection(i, amount, location, speed);
+						final Vector direction = shape.getDirection(i);
 						// TODO: orientation
 
 						final Location finalLocation = location.clone();
