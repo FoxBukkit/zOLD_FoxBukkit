@@ -22,11 +22,14 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +155,43 @@ public class ThrowCommand extends ICommand {
 				final Vector direction = Utils.randvec().multiply(speed.length());
 				direction.setY(-Math.abs(direction.getY()));
 				return direction;
+			}
+		});
+
+		throwShapes.put("near", new ThrowShapeFactory() {
+			@Override
+			public ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args) {
+				final double speedLength = speed.length();
+
+				final double maxDistance = 100;
+				final List<Location> locations = new ArrayList<Location>();
+				for (LivingEntity entity : baseLocation.getWorld().getLivingEntities()) {
+					if (entity instanceof Player)
+						continue;
+
+					final Location entityLocation = entity.getLocation();
+					final Location subtract = entityLocation.subtract(baseLocation);
+					final double distanceSq = subtract.lengthSquared();
+
+					if (distanceSq > maxDistance*maxDistance)
+						continue;
+
+					locations.add(subtract);
+				}
+
+				Collections.sort(locations, new Comparator<Location>() {
+					@Override
+					public int compare(Location o1, Location o2) {
+						return Double.compare(o1.lengthSquared(), o2.lengthSquared());
+					}
+				});
+
+				return new ThrowShape() {
+					@Override
+					public Vector getDirection(int i) {
+						return locations.get(i % locations.size()).toVector().normalize().multiply(speedLength);
+					}
+				};
 			}
 		});
 	}
