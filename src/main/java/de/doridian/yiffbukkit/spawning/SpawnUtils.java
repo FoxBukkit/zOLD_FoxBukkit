@@ -20,6 +20,7 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_5_R3.EntityFallingBlock;
 import net.minecraft.server.v1_5_R3.EntityLargeFireball;
 import net.minecraft.server.v1_5_R3.EntityPlayer;
+import net.minecraft.server.v1_5_R3.EntitySnowball;
 import net.minecraft.server.v1_5_R3.EntityTNTPrimed;
 import net.minecraft.server.v1_5_R3.Item;
 import net.minecraft.server.v1_5_R3.ItemStack;
@@ -544,6 +545,17 @@ public class SpawnUtils {
 			}
 
 			return ocelot;
+		}
+		else if(type.equalsIgnoreCase("SNOWBALL")) {
+			final EntitySnowball notchEntity;
+			if (them == null) {
+				notchEntity = new EntitySnowball(notchWorld, ICommand.asNotchPlayer(commandSender));
+			} else {
+				notchEntity = new EntitySnowball(notchWorld, ICommand.asNotchPlayer(them));
+			}
+
+			notchWorld.addEntity(notchEntity);
+			return notchEntity.getBukkitEntity();
 		}
 		else {
 			try {
