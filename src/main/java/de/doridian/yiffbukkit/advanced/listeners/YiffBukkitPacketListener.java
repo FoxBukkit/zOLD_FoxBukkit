@@ -1,19 +1,31 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
+import net.minecraft.server.v1_6_R2.ControllerMove;
+import net.minecraft.server.v1_6_R2.EntityCreature;
+import net.minecraft.server.v1_6_R2.EntityInsentient;
+import net.minecraft.server.v1_6_R2.EntityLiving;
 import net.minecraft.server.v1_6_R2.MathHelper;
 import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.Packet10Flying;
 import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
 import net.minecraft.server.v1_6_R2.Packet3Chat;
 import net.minecraft.server.v1_6_R2.Packet70Bed;
 import net.minecraft.server.v1_6_R2.WorldServer;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class YiffBukkitPacketListener extends YBPacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
@@ -97,8 +109,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 	@Override
 	public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-		//TODO: Fix IdleControllerMove
-		/*switch (packetID) {
+		switch (packetID) {
 		//case 10:
 		case 11:
 		//case 12:
@@ -144,7 +155,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 				controller = (IdleControllerMove) oldController;
 			}
 			else {
-				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", controller = new IdleControllerMove(notchEntity, oldController));
+				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", controller = new IdleControllerMove((EntityInsentient)notchEntity, oldController));
 			}
 
 			if (notchEntity instanceof EntityCreature) {
@@ -165,16 +176,16 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 			controller.jump();
 			break;
-		}*/
+		}
 
 		return true;
 	}
 
-	/*public static class IdleControllerMove extends ControllerMove {
-		private final EntityLiving notchEntity;
+	public static class IdleControllerMove extends ControllerMove {
+		private final EntityInsentient notchEntity;
 		private final ControllerMove oldController;
 
-		private IdleControllerMove(EntityLiving notchEntity, ControllerMove oldController) {
+		private IdleControllerMove(EntityInsentient notchEntity, ControllerMove oldController) {
 			super(notchEntity);
 			this.notchEntity = notchEntity;
 			this.oldController = oldController;
@@ -182,7 +193,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 		@Override public boolean a() { return oldController.a(); }
 
-		@Override public void a(double arg0, double arg1, double arg2, float arg3) { oldController.a(arg0, arg1, arg2, arg3); }
+		@Override public void a(double arg0, double arg1, double arg2, double arg3) { oldController.a(arg0, arg1, arg2, arg3); }
 
 		@Override public double b() { return oldController.b(); }
 
@@ -197,5 +208,5 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		public void jump() {
 			notchEntity.getControllerJump().a();
 		}
-	}*/
+	}
 }
