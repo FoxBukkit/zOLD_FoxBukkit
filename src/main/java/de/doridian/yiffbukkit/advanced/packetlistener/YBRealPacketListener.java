@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.advanced.packetlistener;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_5_R3.Connection;
-import net.minecraft.server.v1_5_R3.INetworkManager;
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.PlayerConnection;
+import net.minecraft.server.v1_6_R2.Connection;
+import net.minecraft.server.v1_6_R2.INetworkManager;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.PlayerConnection;
 import org.bukkit.entity.Player;
 import org.spigotmc.netty.PacketListener;
 

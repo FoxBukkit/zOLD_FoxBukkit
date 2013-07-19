@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.advanced.listeners;
 
 import java.util.Map;
 
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.Packet53BlockChange;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.Packet53BlockChange;
 import de.doridian.yiffbukkit.main.util.Utils;
 
 public class Packet53BlockChangeExpress extends Packet53BlockChange {
@@ -16,7 +16,7 @@ public class Packet53BlockChangeExpress extends Packet53BlockChange {
 		lowPriority = false;
 	}
 
-	public Packet53BlockChangeExpress(int x, int y, int z, net.minecraft.server.v1_5_R3.World world) {
+	public Packet53BlockChangeExpress(int x, int y, int z, net.minecraft.server.v1_6_R2.World world) {
 		super(x, y, z, world);
 		lowPriority = false;
 	}

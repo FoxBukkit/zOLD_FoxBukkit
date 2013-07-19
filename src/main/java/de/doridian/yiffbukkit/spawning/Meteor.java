@@ -1,25 +1,23 @@
 package de.doridian.yiffbukkit.spawning;
 
-import java.util.Collections;
-
-import net.minecraft.server.v1_5_R3.EntityFallingBlock;
-import net.minecraft.server.v1_5_R3.EntityPlayer;
-import net.minecraft.server.v1_5_R3.Packet60Explosion;
-import net.minecraft.server.v1_5_R3.WorldServer;
-
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
-import org.bukkit.entity.Entity;
-import org.bukkit.util.Vector;
-
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import net.minecraft.server.v1_6_R2.EntityFallingBlock;
+import net.minecraft.server.v1_6_R2.EntityPlayer;
+import net.minecraft.server.v1_6_R2.Packet60Explosion;
+import net.minecraft.server.v1_6_R2.WorldServer;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.entity.Entity;
+import org.bukkit.util.Vector;
+
+import java.util.Collections;
 
 final class Meteor extends CustomPotion {
 	private final double radius;
@@ -67,7 +65,7 @@ final class Meteor extends CustomPotion {
 					final byte data = block.getData();
 
 					if (thrower != null && YiffBukkit.instance.logBlockConsumer != null)
-						YiffBukkit.instance.logBlockConsumer.queueBlockBreak(thrower.name, block.getState());
+						YiffBukkit.instance.logBlockConsumer.queueBlockBreak(thrower.getName(), block.getState());
 					block.setTypeIdAndData(0, (byte) 0, true);
 
 					final WorldServer notchWorld = ((CraftWorld) world).getHandle();

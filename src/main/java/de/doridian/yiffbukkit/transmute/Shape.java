@@ -2,15 +2,15 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_5_R3.DataWatcher;
-import net.minecraft.server.v1_5_R3.EntityLiving;
-import net.minecraft.server.v1_5_R3.EntityTrackerEntry;
-import net.minecraft.server.v1_5_R3.ItemStack;
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.Packet29DestroyEntity;
-import net.minecraft.server.v1_5_R3.Packet39AttachEntity;
-import net.minecraft.server.v1_5_R3.Packet40EntityMetadata;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
+import net.minecraft.server.v1_6_R2.DataWatcher;
+import net.minecraft.server.v1_6_R2.EntityLiving;
+import net.minecraft.server.v1_6_R2.EntityTrackerEntry;
+import net.minecraft.server.v1_6_R2.ItemStack;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.Packet29DestroyEntity;
+import net.minecraft.server.v1_6_R2.Packet39AttachEntity;
+import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -62,7 +62,7 @@ public abstract class Shape {
 	}
 
 	private Packet createOriginalSpawnPacket() {
-		final net.minecraft.server.v1_5_R3.Entity notchEntity = ((CraftEntity)entity).getHandle();
+		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity)entity).getHandle();
 		EntityTrackerEntry ete = new EntityTrackerEntry(notchEntity, 0, 0, false);
 
 		try {
@@ -167,7 +167,7 @@ public abstract class Shape {
 		return getShape(transmute, entity, MyEntityTypes.typeNameToClass(mobType));
 	}
 
-	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_5_R3.Entity> mobType) throws EntityTypeNotFoundException {
+	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_6_R2.Entity> mobType) throws EntityTypeNotFoundException {
 		final int id = MyEntityTypes.classToId(mobType);
 		if (EntityLiving.class.isAssignableFrom(mobType)) {
 			return getShapeImpl(transmute, entity, id, MobShape.class);
@@ -229,15 +229,15 @@ public abstract class Shape {
 
 
 	public void reattachPassenger() {
-		final net.minecraft.server.v1_5_R3.Entity notchEntity = ((CraftEntity) entity).getHandle();
-		net.minecraft.server.v1_5_R3.Entity passenger = notchEntity.passenger;
-		net.minecraft.server.v1_5_R3.Entity vehicle = notchEntity.vehicle;
+		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		net.minecraft.server.v1_6_R2.Entity passenger = notchEntity.passenger;
+		net.minecraft.server.v1_6_R2.Entity vehicle = notchEntity.vehicle;
 
 		if (passenger != null)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(passenger, notchEntity));
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(0, passenger, notchEntity)); //TODO: Check what this int is for in ctor Packet39AttachEntity
 
 		if (vehicle != null)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(notchEntity, vehicle));
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(0, notchEntity, vehicle)); //TODO: See above
 	}
 
 	public abstract boolean onOutgoingPacket(Player ply, int packetID, Packet packet);

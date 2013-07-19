@@ -17,8 +17,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.v1_5_R3.CraftOfflinePlayer;
-import org.bukkit.craftbukkit.v1_5_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_6_R2.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.v1_6_R2.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -68,6 +68,53 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
+	public boolean isScaledHealth() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setScaleHealth(boolean b) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Spigot spigot() {
+		return null;
+	}
+
+	public void setLastDamage(double v) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void damage(double v) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void damage(double v, Entity entity) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void _INVALID_damage(int v) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void _INVALID_damage(int v, Entity entity) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void setHealth(double v) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void setMaxHealth(double v) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	public void _INVALID_setMaxHealth(int v) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
 	public Scoreboard getScoreboard() {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
@@ -91,11 +138,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public boolean isOnGround() {
 		return true;
 	}
-
-	@Override
-    public void setMaxHealth(int i) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public void resetMaxHealth() {
@@ -144,15 +186,22 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	public void setItemInHand(ItemStack item) {
 		getInventory().setItemInHand(item);
 	}
-	@Override
-	public int getHealth() {
+
+
+	public double getHealth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	@Override
-	public void setHealth(int health) {
+
+	public int _INVALID_getHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void _INVALID_setHealth(int health) {
 		// TODO Auto-generated method stub
 	}
+
 	@Override
 	public double getEyeHeight() {
 		return getEyeHeight(false);
@@ -340,16 +389,6 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
-	public void damage(int amount) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void damage(int amount, Entity source) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void setVelocity(Vector velocity) {
 		// TODO Auto-generated method stub
 	}
@@ -371,16 +410,18 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public int getLastDamage() {
-		// TODO Auto-generated method stub
+	public int _INVALID_getLastDamage() {
 		return 0;
 	}
 
-	@Override
-	public void setLastDamage(int damage) {
+	public double getLastDamage() {
+		return 0;
+	}
+
+	public void _INVALID_setLastDamage(int damage) {
 		// TODO Auto-generated method stub
 	}
+
 
 	@Override
 	public int getNoDamageTicks() {
@@ -783,8 +824,12 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public int getMaxHealth() {
+	public double getMaxHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int _INVALID_getMaxHealth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

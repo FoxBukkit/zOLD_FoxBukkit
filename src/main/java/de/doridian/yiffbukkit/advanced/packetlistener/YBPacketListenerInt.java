@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.advanced.packetlistener;
 
-import net.minecraft.server.v1_5_R3.Packet;
+import net.minecraft.server.v1_6_R2.Packet;
 import org.bukkit.entity.Player;
 
 interface YBPacketListenerInt {

@@ -2,15 +2,15 @@ package de.doridian.yiffbukkit.spawning.fakeentity;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_5_R3.DataWatcher;
-import net.minecraft.server.v1_5_R3.ItemStack;
-import net.minecraft.server.v1_5_R3.MathHelper;
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.Packet28EntityVelocity;
-import net.minecraft.server.v1_5_R3.Packet29DestroyEntity;
-import net.minecraft.server.v1_5_R3.Packet34EntityTeleport;
-import net.minecraft.server.v1_5_R3.Packet38EntityStatus;
-import net.minecraft.server.v1_5_R3.Packet40EntityMetadata;
+import net.minecraft.server.v1_6_R2.DataWatcher;
+import net.minecraft.server.v1_6_R2.ItemStack;
+import net.minecraft.server.v1_6_R2.MathHelper;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.Packet28EntityVelocity;
+import net.minecraft.server.v1_6_R2.Packet29DestroyEntity;
+import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
+import net.minecraft.server.v1_6_R2.Packet38EntityStatus;
+import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
 
 import org.bukkit.Bukkit;
 import org.bukkit.EntityEffect;

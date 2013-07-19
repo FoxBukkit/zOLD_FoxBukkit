@@ -20,7 +20,7 @@ public class SpectatePlayer {
 	private ItemStack[] originalInventory = null;
 	private ItemStack[] originalArmor = null;
 	private Location originalPosition = null;
-	private int originalHealth = 0;
+	private double originalHealth = 0;
 	private int originalFood = 0;
 	private float originalExp = 0;
 	private int originalLevel = 0;

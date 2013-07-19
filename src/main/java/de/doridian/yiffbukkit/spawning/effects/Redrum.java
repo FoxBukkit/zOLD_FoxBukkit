@@ -5,12 +5,12 @@ import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_5_R3.MathHelper;
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.Packet31RelEntityMove;
-import net.minecraft.server.v1_5_R3.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_6_R2.MathHelper;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.Packet31RelEntityMove;
+import net.minecraft.server.v1_6_R2.Packet35EntityHeadRotation;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
