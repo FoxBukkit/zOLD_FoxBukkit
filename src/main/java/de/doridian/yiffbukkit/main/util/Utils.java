@@ -430,15 +430,15 @@ public class Utils {
 	}
 
 	public static void dumpDataWatcher(DataWatcher datawatcher) {
-		for (Object o : datawatcher.c()) {
-			net.minecraft.server.v1_6_R2.WatchableObject wo = (WatchableObject) o;
-			System.out.println(wo.a());
-			System.out.println(wo.b());
+		for (Object o : datawatcher.c()) { // v1_6_R2
+			WatchableObject wo = (WatchableObject) o;
+			System.out.println(wo.a()); // v1_6_R2
+			System.out.println(wo.b()); // v1_6_R2
 		}
 	}
 
 	public static Location toLocation(Vec3D pos, World world) {
-		return new Location(world, pos.c, pos.d, pos.e);
+		return new Location(world, pos.c, pos.d, pos.e); // v1_6_R2
 	}
 
 	public static Vector randomCone(Location baseLocation, double maxAngle) {

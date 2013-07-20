@@ -23,13 +23,13 @@ public class ExperienceOrbShape extends EntityShape {
 
 		final Packet26AddExpOrb p26 = new Packet26AddExpOrb();
 
-		p26.a = entityId;
+		p26.a = entityId; // v1_6_R2
 
-		p26.b = MathHelper.floor(location.getX() * 32.0D);
-		p26.c = MathHelper.floor((location.getY()+yOffset) * 32.0D);
-		p26.d = MathHelper.floor(location.getZ() * 32.0D);
+		p26.b = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
+		p26.c = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_6_R2
+		p26.d = MathHelper.floor(location.getZ() * 32.0D); // v1_6_R2
 
-		p26.e = 1;
+		p26.e = 1; // v1_6_R2
 
 		return p26;
 	}

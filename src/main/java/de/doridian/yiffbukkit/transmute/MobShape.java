@@ -8,6 +8,7 @@ import net.minecraft.server.v1_6_R2.Packet24MobSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class MobShape extends EntityShape {
 	static {
@@ -35,18 +36,50 @@ public class MobShape extends EntityShape {
 
 		final Packet24MobSpawn p24 = new Packet24MobSpawn();
 
-		p24.a = entityId;
-		p24.b = (byte) mobType;
-		p24.c = MathHelper.floor(location.getX() * 32.0D);
-		p24.d = MathHelper.floor((location.getY()+yOffset) * 32.0D);
-		p24.e = MathHelper.floor(location.getZ() * 32.0D);
-		p24.f = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F));
-		p24.g = (byte) ((int) (location.getPitch() * 256.0F / 360.0F));
-		p24.h = p24.f;
-		//p24.i = 
-		//p24.j = 
-		//p24.k = 
-		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "t", datawatcher);
+		p24.a = entityId; // v1_6_R2
+		p24.b = (byte) mobType; // v1_6_R2
+		p24.c = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
+		p24.d = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_6_R2
+		p24.e = MathHelper.floor(location.getZ() * 32.0D); // v1_6_R2
+		p24.i = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F)); // v1_6_R2
+		p24.j = (byte) ((int) (location.getPitch() * 256.0F / 360.0F)); // v1_6_R2
+		p24.k = p24.i; // v1_6_R2
+
+		final Vector velocity = entity.getVelocity();
+		final double d0 = 3.9D;
+		double d1 = velocity.getX();
+		double d2 = velocity.getY();
+		double d3 = velocity.getZ();
+
+		if (d1 < -d0) {
+			d1 = -d0;
+		}
+
+		if (d2 < -d0) {
+			d2 = -d0;
+		}
+
+		if (d3 < -d0) {
+			d3 = -d0;
+		}
+
+		if (d1 > d0) {
+			d1 = d0;
+		}
+
+		if (d2 > d0) {
+			d2 = d0;
+		}
+
+		if (d3 > d0) {
+			d3 = d0;
+		}
+
+		p24.f = (int) (d1 * 8000.0D); // v1_6_R2
+		p24.g = (int) (d2 * 8000.0D); // v1_6_R2
+		p24.h = (int) (d3 * 8000.0D); // v1_6_R2
+
+		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "t", datawatcher); // v1_6_R2
 		return p24;
 	}
 

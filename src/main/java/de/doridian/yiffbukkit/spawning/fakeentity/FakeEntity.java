@@ -299,7 +299,7 @@ public abstract class FakeEntity implements Entity {
 		if (value instanceof ItemStack) {
 			try {
 				// create entry
-				datawatcher .a(index, 5);
+				datawatcher.a(index, 5); // v1_6_R2
 			} catch (Exception e) { }
 
 			// put the actual data in
@@ -309,14 +309,14 @@ public abstract class FakeEntity implements Entity {
 			datawatcher.h(index);
 
 			final Packet40EntityMetadata packet40EntityMetadata = new Packet40EntityMetadata(entityId, datawatcher, false);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			packet40EntityMetadata.a(new DataOutputStream(baos));
 			return packet40EntityMetadata;
 		}
 		else {
 			try {
 				// create entry
-				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
+				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0")); // v1_6_R2
 				// mark dirty
 				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
 			}

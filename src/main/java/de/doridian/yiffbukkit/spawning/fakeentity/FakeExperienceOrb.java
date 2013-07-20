@@ -18,11 +18,11 @@ public class FakeExperienceOrb extends FakeEntity {
 	@Override
 	public void send(Player player) {
 		final Packet26AddExpOrb p26 = new Packet26AddExpOrb();
-		p26.a = entityId;
-		p26.b = MathHelper.floor(location.getX());// * 32.0D);
-		p26.c = MathHelper.floor(location.getY());// * 32.0D);
-		p26.d = MathHelper.floor(location.getZ());// * 32.0D);
-		p26.e = value;
+		p26.a = entityId; // v1_6_R2
+		p26.b = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
+		p26.c = MathHelper.floor(location.getY() * 32.0D); // v1_6_R2
+		p26.d = MathHelper.floor(location.getZ() * 32.0D); // v1_6_R2
+		p26.e = value; // v1_6_R2
 
 		PlayerHelper.sendPacketToPlayer(player, p26);
 	}

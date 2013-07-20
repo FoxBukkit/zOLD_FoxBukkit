@@ -45,8 +45,8 @@ public class VehicleShape extends EntityShape {
 		mobTypeMap.put(40, 10); // Minecart
 		mobTypeMap.put(41, 1); // Boat
 		mobTypeMap.put(200, 51); // EnderCrystal
-		mobTypeMap.put(1, 2); //Item
-		mobTypeMap.put(18, 71); //Item
+		mobTypeMap.put(1, 2); // Item
+		mobTypeMap.put(18, 71); // ItemFrame
 
 		// These are not in EntityTypes.class:
 		mobTypeMap.put(1000, 90); // FishingHook
@@ -91,23 +91,23 @@ public class VehicleShape extends EntityShape {
 			final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
 			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn(notchEntity, vehicleType, subType);
-			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);
+			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_6_R2
 
 			return p23;
 		}
 		catch (ClassCastException e) {
 			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn();
 			// copypasta from Packet23VehicleSpawn(nms.Entity, int, int)
-			p23.a = entity.getEntityId();
+			p23.a = entity.getEntityId(); // v1_6_R2
 
-			Location location = entity.getLocation();
-			p23.b = MathHelper.floor(location.getX() * 32.0D);
-			p23.c = MathHelper.floor((location.getY()+yOffset) * 32.0D);
-			p23.d = MathHelper.floor(location.getZ() * 32.0D);
-			p23.h = MathHelper.d(location.getPitch() * 256.0F / 360.0F);
-			p23.i = MathHelper.d(location.getYaw() * 256.0F / 360.0F);
-			p23.j = vehicleType;
-			p23.k = subType;
+			final Location location = entity.getLocation();
+			p23.b = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
+			p23.c = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_6_R2
+			p23.d = MathHelper.floor(location.getZ() * 32.0D); // v1_6_R2
+			p23.h = MathHelper.d(location.getPitch() * 256.0F / 360.0F); // v1_6_R2
+			p23.i = MathHelper.d(location.getYaw() * 256.0F / 360.0F); // v1_6_R2
+			p23.j = vehicleType; // v1_6_R2
+			p23.k = subType; // v1_6_R2
 			if (subType > 0) {
 				final Vector velocity = entity.getVelocity();
 				double d0 = velocity.getX();
@@ -139,9 +139,9 @@ public class VehicleShape extends EntityShape {
 					d2 = d3;
 				}
 
-				p23.e = (int) (d0 * 8000.0D);
-				p23.f = (int) (d1 * 8000.0D);
-				p23.g = (int) (d2 * 8000.0D);
+				p23.e = (int) (d0 * 8000.0D); // v1_6_R2
+				p23.f = (int) (d1 * 8000.0D); // v1_6_R2
+				p23.g = (int) (d2 * 8000.0D); // v1_6_R2
 			}
 
 			return p23;

@@ -44,9 +44,9 @@ public abstract class CustomPotion extends EntityPotion {
 			case TILE:
 				final CraftWorld world = this.world.getWorld();
 				Block block = world.getBlockAt(
-						movingobjectposition.b,
-						movingobjectposition.c,
-						movingobjectposition.d
+						movingobjectposition.b, // v1_6_R2
+						movingobjectposition.c, // v1_6_R2
+						movingobjectposition.d // v1_6_R2
 				);
 				Location hitVec = Utils.toLocation(movingobjectposition.pos, world);
 

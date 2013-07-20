@@ -19,16 +19,17 @@ import org.bukkit.util.Vector;
 
 import java.util.Collections;
 
-final class Meteor extends CustomPotion {
+public class Meteor extends CustomPotion {
 	private final double radius;
 	private final double speed;
 
-	Meteor(Location location, EntityPlayer thrower, double radius, double speed) throws YiffBukkitCommandException {
+	public Meteor(Location location, EntityPlayer thrower, double radius, double speed) throws YiffBukkitCommandException {
 		super(location, 8, thrower); // TODO: pick different potionId
 		this.radius = radius;
 		this.speed = speed;
 		new PotionTrail(this.getBukkitEntity()).start();
 	}
+
 	@Override
 	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) throws YiffBukkitCommandException {
 		final double radiusSq = radius * radius;
@@ -39,8 +40,8 @@ final class Meteor extends CustomPotion {
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(hitLocation, 64, new Packet60Explosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), -1.0f, Collections.emptyList(), null));
 		Utils.makeSound(hitLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
 
-		Location min = hitLocation.clone().subtract(radius, radius, radius);
-		Location max = hitLocation.clone().add(radius + 1, radius + 1, radius + 1);
+		final Location min = hitLocation.clone().subtract(radius, radius, radius);
+		final Location max = hitLocation.clone().add(radius + 1, radius + 1, radius + 1);
 
 		for (Entity entity : thisBukkitEntity.getNearbyEntities(radius, radius, radius)) {
 			if (hitLocation.distanceSquared(entity.getLocation()) > radiusSq)
@@ -52,8 +53,8 @@ final class Meteor extends CustomPotion {
 		for (int x = min.getBlockX(); x <= max.getBlockX(); ++x) {
 			for (int y = min.getBlockY(); y <= max.getBlockY(); ++y) {
 				for (int z = min.getBlockZ(); z <= max.getBlockZ(); ++z) {
-					Location location = new Location(world, x + 0.5, y + 0.5, z + 0.5);
-					Block block = location.clone().getBlock();
+					final Location location = new Location(world, x + 0.5, y + 0.5, z + 0.5);
+					final Block block = location.getBlock();
 					location.subtract(hitLocation);
 					if (location.lengthSquared() > radiusSq)
 						continue;
@@ -70,14 +71,14 @@ final class Meteor extends CustomPotion {
 
 					final WorldServer notchWorld = ((CraftWorld) world).getHandle();
 
-					Location fbloc = location.clone().multiply(0.5);
+					final Location fbloc = location.multiply(0.5);
 					fbloc.setY(0);
 					fbloc.add(hitLocation);
 
 					final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, fbloc.getX(), fbloc.getY(), fbloc.getZ(), typeId, data);
 
 					// This disables the first tick code, which takes care of removing the original block etc.
-					notchEntity.c = 1;
+					notchEntity.c = 1; // v1_6_R2
 
 					// Do not drop an item if placing a block fails
 					notchEntity.dropItem = false;

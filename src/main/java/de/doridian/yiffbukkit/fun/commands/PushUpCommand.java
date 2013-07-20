@@ -21,18 +21,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 @Names("pushup")
-@Help("Pushes the selected region up, if it's sand or gravel.")
+@Help("Pushes the selected region up.")
 @Permission("yiffbukkit.fun.pushup")
 @AbusePotential
 public class PushUpCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
-		LocalSession session = plugin.worldEdit.getSession(ply);
+		final LocalSession session = plugin.worldEdit.getSession(ply);
 
-		double speed = Double.parseDouble(args[0]);
+		final double speed = Double.parseDouble(args[0]);
 
-		World world = ply.getWorld();
+		final World world = ply.getWorld();
 
 		final Region selected;
 		try {
@@ -67,7 +67,7 @@ public class PushUpCommand extends ICommand {
 		final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, data);
 
 		// This disables the first tick code, which takes care of removing the original block etc.
-		notchEntity.c = 1;
+		notchEntity.c = 1; // v1_6_R2
 
 		// Do not drop an item if placing a block fails
 		notchEntity.dropItem = false;

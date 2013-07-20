@@ -34,13 +34,13 @@ public class PaintingShape extends EntityShape {
 
 		final Packet25EntityPainting p25 = new Packet25EntityPainting();
 
-		p25.a = entityId;
+		p25.a = entityId; // v1_6_R2
 
-		p25.b = location.getBlockX();
-		p25.c = (int)(location.getY() + yOffset);
-		p25.d = location.getBlockZ();
-		p25.e = 0;
-		p25.f = paintingName;
+		p25.b = location.getBlockX(); // v1_6_R2
+		p25.c = (int)(location.getY() + yOffset); // v1_6_R2
+		p25.d = location.getBlockZ(); // v1_6_R2
+		p25.e = 0; // v1_6_R2
+		p25.f = paintingName; // v1_6_R2
 
 		return p25;
 	}
@@ -70,7 +70,7 @@ public class PaintingShape extends EntityShape {
 
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
-			p34.e = (byte) -p34.e;
+			p34.e = (byte) -p34.e; // v1_6_R2
 			return true;
 		}
 

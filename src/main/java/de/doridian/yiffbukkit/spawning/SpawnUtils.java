@@ -261,7 +261,7 @@ public class SpawnUtils {
 			EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), typeId, dataValue);
 
 			// This disables the first tick code, which takes care of removing the original block etc.
-			notchEntity.c = 1;
+			notchEntity.c = 1; // v1_6_R2
 
 			// Do not drop an item if placing a block fails
 			notchEntity.dropItem = false;
@@ -410,14 +410,14 @@ public class SpawnUtils {
 			return explodeFirework(location, fireworks);
 		}
 		else if (type.equalsIgnoreCase("FAKEXP") || type.equalsIgnoreCase("FAKEBALL")) {
-			final FakeEntity a = new FakeExperienceOrb(location, 1);
-			a.send();
-			a.teleport(location);
+			final FakeEntity fakeEntity = new FakeExperienceOrb(location, 1);
+			fakeEntity.send();
+			fakeEntity.teleport(location);
 
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
-				a.remove();
+				fakeEntity.remove();
 			}}, 1000);
-			return a;
+			return fakeEntity;
 		}
 		else if (type.equalsIgnoreCase("BOAT")) {
 			return world.spawn(location, Boat.class);
@@ -569,24 +569,23 @@ public class SpawnUtils {
 	}
 
 	public static Entity explodeFirework(Location location, net.minecraft.server.v1_6_R2.ItemStack fireworks) {
-		final FakeVehicle a = new FakeVehicle(location, 76);
-		a.send();
+		final FakeVehicle fakeEntity = new FakeVehicle(location, 76);
+		fakeEntity.send();
 
-		a.setData(8, fireworks);
+		fakeEntity.setData(8, fireworks);
 
-		a.teleport(location);
+		fakeEntity.teleport(location);
 
-		a.sendEntityStatus((byte) 17);
-		a.remove();
-		return a;
+		fakeEntity.sendEntityStatus((byte) 17);
+		fakeEntity.remove();
+		return fakeEntity;
 	}
 
 	public static net.minecraft.server.v1_6_R2.ItemStack makeFireworks(final String fireworkType) {
-		final net.minecraft.server.v1_6_R2.ItemStack fireworks;
 		final String[] parameters = fireworkType.split("/");
 		final int[] colors = parseColors(parameters[0].split(","));
-		fireworks = makeFireworks(-127, 0, colors);
-		NBTTagCompound explosionTag = (NBTTagCompound) fireworks.getTag().getCompound("Fireworks").getList("Explosions").get(0);
+		final net.minecraft.server.v1_6_R2.ItemStack fireworks = makeFireworks(-127, 0, colors);
+		final NBTTagCompound explosionTag = (NBTTagCompound) fireworks.getTag().getCompound("Fireworks").getList("Explosions").get(0);
 		for (int i = 1; i < parameters.length; ++i) {
 			final String[] kv = parameters[i].split("=");
 			final String key = kv[0];
@@ -711,19 +710,19 @@ public class SpawnUtils {
 
 	public static Packet63WorldParticles createParticlePacket(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
 		final Packet63WorldParticles packet63WorldParticles = new Packet63WorldParticles();
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "a", particleName);
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "a", particleName); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "b", (float) location.getX());
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "c", (float) location.getY());
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "d", (float) location.getZ());
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "b", (float) location.getX()); // v1_6_R2
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "c", (float) location.getY()); // v1_6_R2
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "d", (float) location.getZ()); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "e", (float) scatter.getX());
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "f", (float) scatter.getY());
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "g", (float) scatter.getZ());
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "e", (float) scatter.getX()); // v1_6_R2
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "f", (float) scatter.getY()); // v1_6_R2
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "g", (float) scatter.getZ()); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed);
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "i", numParticles);
+		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "i", numParticles); // v1_6_R2
 		return packet63WorldParticles;
 	}
 }

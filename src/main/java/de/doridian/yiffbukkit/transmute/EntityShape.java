@@ -128,7 +128,7 @@ public abstract class EntityShape extends Shape {
 
 		switch (packetID) {
 		case 18:
-			return ((Packet18ArmAnimation) packet).b == 2;
+			return ((Packet18ArmAnimation) packet).b == 2; // v1_6_R2
 
 		case 22:
 			return false; // will be overridden in MobShape
@@ -138,15 +138,15 @@ public abstract class EntityShape extends Shape {
 		case 32:
 		case 33:
 			Packet30Entity p30 = (Packet30Entity) packet;
-			p30.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
+			p30.e += (byte) ((int) (yawOffset * 256.0F / 360.0F)); // v1_6_R2
 
 			return true;
 
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
 			final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
-			p34.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D);
-			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F));
+			p34.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_6_R2
+			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F)); // v1_6_R2
 			//p34.c += (int)(yOffset * 32.0);
 			//p34.e += (byte) ((int) (yawOffset * 256.0F / 360.0F));
 

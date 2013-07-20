@@ -15,7 +15,7 @@ public class ItemFrameShape extends ItemShape {
 	@Override
 	protected Packet createItemMetadataPacket() {
 		try {
-			datawatcher.a(3, (byte)1);
+			datawatcher.a(3, (byte)1); // v1_6_R2
 			datawatcher.watch(3, (byte)0);
 		} catch (Exception e) { }
 

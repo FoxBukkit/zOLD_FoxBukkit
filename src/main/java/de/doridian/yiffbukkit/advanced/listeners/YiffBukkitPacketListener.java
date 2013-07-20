@@ -59,12 +59,12 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 		case 34:
 			final Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
-			if (p34.a != 0 && p34.a != ply.getEntityId())
+			if (p34.a != 0 && p34.a != ply.getEntityId()) // v1_6_R2
 				return true;
 
-			final int x = MathHelper.floor(p34.b / 32.0D);
-			final int y = MathHelper.floor(p34.c / 32.0D);
-			final int z = MathHelper.floor(p34.d / 32.0D);
+			final int x = MathHelper.floor(p34.b / 32.0D); // v1_6_R2
+			final int y = MathHelper.floor(p34.c / 32.0D); // v1_6_R2
+			final int z = MathHelper.floor(p34.d / 32.0D); // v1_6_R2
 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { @Override public void run() {
 				final WorldServer notchWorld = ((CraftWorld) ply.getWorld()).getHandle();
@@ -76,7 +76,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 		case 70: {
 			final Packet70Bed p70 = (Packet70Bed) packet;
-			int reason = p70.b;
+			int reason = p70.b; // v1_6_R2
 			final boolean rainState;
 			if (reason == 1)
 				rainState = true;
@@ -144,23 +144,29 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			passengerXZVel = passengerXZVel.multiply(factor);
 
 			vehicle.setVelocity(vehicle.getVelocity().add(passengerXZVel));
+
 			if (!(vehicle instanceof CraftLivingEntity))
 				break;
 
-			final EntityLiving notchEntity = ((CraftLivingEntity) vehicle).getHandle();
+			final EntityLiving notchLiving = ((CraftLivingEntity) vehicle).getHandle();
+			if (!(notchLiving instanceof EntityInsentient))
+				break;
 
-			final ControllerMove oldController = Utils.getPrivateValue(EntityLiving.class, notchEntity, "moveController");
+			final EntityInsentient notchEntity = (EntityInsentient) notchLiving;
+
+			final ControllerMove oldController = Utils.getPrivateValue(EntityInsentient.class, notchEntity, "moveController"); // v1_6_R2
 			final IdleControllerMove controller;
 			if (oldController instanceof IdleControllerMove) {
 				controller = (IdleControllerMove) oldController;
 			}
 			else {
-				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", controller = new IdleControllerMove((EntityInsentient)notchEntity, oldController));
+				Utils.setPrivateValue(EntityInsentient.class, notchEntity, "moveController", controller = new IdleControllerMove(notchEntity, oldController)); // v1_6_R2
 			}
 
 			if (notchEntity instanceof EntityCreature) {
-				Utils.setPrivateValue(EntityCreature.class, (EntityCreature) notchEntity, "target", null);
-				Utils.setPrivateValue(EntityCreature.class, (EntityCreature) notchEntity, "pathEntity", null);
+				final EntityCreature notchCreature = (EntityCreature) notchEntity;
+				Utils.setPrivateValue(EntityCreature.class, notchCreature, "target", null);
+				Utils.setPrivateValue(EntityCreature.class, notchCreature, "pathEntity", null);
 			}
 
 			final double yaw = Math.round(Math.atan2(p10.z, p10.x)/QUARTER_CIRCLE)*QUARTER_CIRCLE;
@@ -191,22 +197,24 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			this.oldController = oldController;
 		}
 
-		@Override public boolean a() { return oldController.a(); }
+		@Override public boolean a() { return oldController.a(); } // v1_6_R2
 
-		@Override public void a(double arg0, double arg1, double arg2, double arg3) { oldController.a(arg0, arg1, arg2, arg3); }
+		@Override public void a(double arg0, double arg1, double arg2, double arg3) { oldController.a(arg0, arg1, arg2, arg3); } // v1_6_R2
 
-		@Override public double b() { return oldController.b(); }
+		@Override public double b() { return oldController.b(); } // v1_6_R2
 
 		@Override
-		public void c() {
+		public void c() { // v1_6_R2
 			if (notchEntity.passenger == null) {
-				Utils.setPrivateValue(EntityLiving.class, notchEntity, "moveController", oldController);
-				oldController.c();
+				Utils.setPrivateValue(EntityInsentient.class, notchEntity, "moveController", oldController); // v1_6_R2
+				oldController.c(); // v1_6_R2
 			}
 		}
 
+		
+
 		public void jump() {
-			notchEntity.getControllerJump().a();
+			notchEntity.getControllerJump().a(); // v1_6_R2
 		}
 	}
 }

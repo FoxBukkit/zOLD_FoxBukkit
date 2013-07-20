@@ -9,12 +9,12 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_6_R2.IntHashMap;
 import net.minecraft.server.v1_6_R2.Packet;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,16 +30,17 @@ public class SendPacketCommand extends ICommand {
 		if (args.length < 2)
 			throw new YiffBukkitCommandException("Too few arguments");
 
-		Player otherply = playerHelper.matchPlayerSingle(args[0]);
-		int packetId = Integer.parseInt(args[1]);
+		final Player otherply = playerHelper.matchPlayerSingle(args[0]);
+		final int packetId = Integer.parseInt(args[1]);
 
-		Map<Integer, Class<? extends Packet>> idToClass = Utils.getPrivateValue(Packet.class, null, "b");
-		Class<? extends Packet> packetClass = idToClass.get(packetId);
+		final IntHashMap idToClass = Utils.getPrivateValue(Packet.class, null, "b"); // v1_6_R2
+		@SuppressWarnings("unchecked")
+		final Class<? extends Packet> packetClass = (Class<? extends Packet>) idToClass.get(packetId);
 
 		if (packetClass == null)
 			throw new YiffBukkitCommandException("There is no packet with ID "+packetId+".");
 
-		Packet packet;
+		final Packet packet;
 		try {
 			packet = packetClass.newInstance();
 		} catch (InstantiationException e) {
@@ -48,7 +49,7 @@ public class SendPacketCommand extends ICommand {
 			throw new YiffBukkitCommandException("Packet constructor is private (this should never happen)", e);
 		}
 
-		Field field_modifiers;
+		final Field field_modifiers;
 		try {
 			field_modifiers = Field.class.getDeclaredField("modifiers");
 			field_modifiers.setAccessible(true);
@@ -58,12 +59,12 @@ public class SendPacketCommand extends ICommand {
 
 		for (int i = 2; i < args.length; ++i) {
 			final String arg = args[i];
-			Matcher matcher = keyValuePattern.matcher(arg);
+			final Matcher matcher = keyValuePattern.matcher(arg);
 			if (!matcher.matches())
 				throw new YiffBukkitCommandException("Cannot parse key=value pair '"+arg+"'. "+keyValuePattern.pattern());
 
-			String key = matcher.group(1);
-			String valueString = matcher.group(2);
+			final String key = matcher.group(1);
+			final String valueString = matcher.group(2);
 
 			final Field f;
 			try {
@@ -120,7 +121,7 @@ public class SendPacketCommand extends ICommand {
 			}
 
 			try {
-				int modifiers = field_modifiers.getInt(f);
+				final int modifiers = field_modifiers.getInt(f);
 				if ((modifiers & 0x10) != 0)
 					field_modifiers.setInt(f, modifiers & 0xFFFFFFEF);
 

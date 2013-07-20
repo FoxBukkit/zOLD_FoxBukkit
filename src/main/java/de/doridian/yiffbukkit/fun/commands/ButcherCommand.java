@@ -158,7 +158,7 @@ public class ButcherCommand extends ICommand {
 				if (spareNPCs)
 					return true;
 
-				final EntityPlayer eply = ((CraftPlayer)entity).getHandle();
+				final EntityPlayer eply = ((CraftPlayer) entity).getHandle();
 				if (eply.world.players.contains(eply))
 					return true;
 

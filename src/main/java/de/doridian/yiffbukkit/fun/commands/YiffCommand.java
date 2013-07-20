@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.fun.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_6_R2.MathHelper;
 import net.minecraft.server.v1_6_R2.Packet20NamedEntitySpawn;
@@ -15,11 +15,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Random;
 
-@ICommand.Names({"yiff","raep"})
-@ICommand.Help("RAEP! -s = stop, -v = Anti-Anti-Vanish [FU NODUS c:]")
-@ICommand.Usage("[-sv] <target>")
-@ICommand.BooleanFlags("sv")
-@ICommand.Permission("yiffbukkit.yiffyiffyiff")
+@Names({"yiff","raep"})
+@Help("RAEP! -s = stop, -v = Anti-Anti-Vanish [FU NODUS c:]")
+@Usage("[-sv] <target>")
+@BooleanFlags("sv")
+@Permission("yiffbukkit.yiffyiffyiff")
 @AbusePotential
 public class YiffCommand extends ICommand {
 	private final static Random rand = new Random();
@@ -69,18 +69,14 @@ public class YiffCommand extends ICommand {
 
 		private RaepRunnable(Player target, int mode) {
 			this.target = target;
+			// TODO: make sure packets are sent before being reused or stop reusing them.
 			this.packet20NamedEntitySpawn = new Packet20NamedEntitySpawn();
 
-			packet20NamedEntitySpawn.b = "DoriBot";
-			packet20NamedEntitySpawn.f = 0; //Yaw
-			packet20NamedEntitySpawn.g = 0; //Pitch
-			packet20NamedEntitySpawn.h = 0; //ItemID
+			packet20NamedEntitySpawn.b = "DoriBot"; // v1_6_R2
 
-			this.packet29DestroyEntity = new Packet29DestroyEntity();
+			this.packet29DestroyEntity = new Packet29DestroyEntity(0);
 
 			this.packet34EntityTeleport = new Packet34EntityTeleport();
-			packet34EntityTeleport.f = 0;
-			packet34EntityTeleport.e = 0;
 
 			this.mode = mode;
 
@@ -97,28 +93,33 @@ public class YiffCommand extends ICommand {
 
 		@Override
 		public synchronized void run() {
-			if(!target.isOnline()) stop();
+			if (!target.isOnline()) {
+				stop();
+				return;
+			}
 
-			Location pos = target.getLocation();
+			final Location pos = target.getLocation();
 
-			for(int i=0;i<100;i++) {
-				packet20NamedEntitySpawn.a = lastEntID;
+			for (int i = 0; i < 100; ++i) {
+				packet20NamedEntitySpawn.a = lastEntID; // v1_6_R2
 
-				double x = (pos.getX() + (rand.nextGaussian() * 2.0D));
-				double z = (pos.getZ() + (rand.nextGaussian() * 2.0D));
-				packet20NamedEntitySpawn.c = MathHelper.floor(x * 32.0D);
-				packet20NamedEntitySpawn.e = MathHelper.floor(z * 32.0D);
-				packet20NamedEntitySpawn.d = MathHelper.floor(pos.getY() * 32.0D);
+				final double x = pos.getX() + rand.nextGaussian() * 2;
+				final double y = pos.getY();
+				final double z = pos.getZ() + rand.nextGaussian() * 2;
+
+				packet20NamedEntitySpawn.c = MathHelper.floor(x * 32.0D); // v1_6_R2
+				packet20NamedEntitySpawn.d = MathHelper.floor(y * 32.0D); // v1_6_R2
+				packet20NamedEntitySpawn.e = MathHelper.floor(z * 32.0D); // v1_6_R2
 
 				PlayerHelper.sendPacketToPlayer(target, packet20NamedEntitySpawn);
 
-				if(mode == 1) {
-					packet29DestroyEntity.a = new int[] { lastEntID };
+				if (mode == 1) {
+					packet29DestroyEntity.a[0] = lastEntID; // v1_6_R2
 
-					packet34EntityTeleport.a = lastEntID;
-					packet34EntityTeleport.b = packet20NamedEntitySpawn.c;
-					packet34EntityTeleport.c = packet20NamedEntitySpawn.d + 1;
-					packet34EntityTeleport.d = packet20NamedEntitySpawn.e;
+					packet34EntityTeleport.a = lastEntID; // v1_6_R2
+					packet34EntityTeleport.b = packet20NamedEntitySpawn.c; // v1_6_R2
+					packet34EntityTeleport.c = packet20NamedEntitySpawn.d + 1; // v1_6_R2
+					packet34EntityTeleport.d = packet20NamedEntitySpawn.e; // v1_6_R2
 
 					PlayerHelper.sendPacketToPlayer(target, packet29DestroyEntity);
 
@@ -126,8 +127,8 @@ public class YiffCommand extends ICommand {
 				}
 
 				lastEntID++;
-				if(lastEntID > 65535) lastEntID = 0;
-				if(cancelled) return;
+				if (lastEntID > 65535) lastEntID = 0; // TODO: pick a better range
+				if (cancelled) return;
 			}
 		}
 	}

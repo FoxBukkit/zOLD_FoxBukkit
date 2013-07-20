@@ -50,38 +50,38 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 
 		switch (packetID) {
 		case 17:
-			return !transmute.isTransmuted(((Packet17EntityLocationAction) packet).a);
+			return !transmute.isTransmuted(((Packet17EntityLocationAction) packet).a); // v1_6_R2
 
 		case 18:
-			entityId = ((Packet18ArmAnimation) packet).a;
+			entityId = ((Packet18ArmAnimation) packet).a; // v1_6_R2
 			break;
 
 		case 20:
-			return handleSpawn(ply, ((Packet20NamedEntitySpawn) packet).a);
+			return handleSpawn(ply, ((Packet20NamedEntitySpawn) packet).a); // v1_6_R2
 
 		case 22:
-			entityId = ((Packet22Collect) packet).b;
+			entityId = ((Packet22Collect) packet).b; // v1_6_R2
 			break;
 
 		case 23:
-			return handleSpawn(ply, ((Packet23VehicleSpawn) packet).a);
+			return handleSpawn(ply, ((Packet23VehicleSpawn) packet).a); // v1_6_R2
 
 		case 24:
-			return handleSpawn(ply, ((Packet24MobSpawn) packet).a);
+			return handleSpawn(ply, ((Packet24MobSpawn) packet).a); // v1_6_R2
 
 		//case 30:
 		//case 31:
 		case 32:
 		case 33:
-			entityId = ((Packet30Entity) packet).a;
+			entityId = ((Packet30Entity) packet).a; // v1_6_R2
 			break;
 
 		case 34:
-			entityId = ((Packet34EntityTeleport) packet).a;
+			entityId = ((Packet34EntityTeleport) packet).a; // v1_6_R2
 			break;
 
 		case 40:
-			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a);
+			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a); // v1_6_R2
 
 		default:
 			return true;

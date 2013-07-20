@@ -118,7 +118,7 @@ final class ShapeActions {
 				"art", "painting", "name", "type",
 				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 					for (EnumArt art : EnumArt.values()) {
-						final String currentName = art.B;
+						final String currentName = art.B; // v1_6_R2
 						if (!currentName.equalsIgnoreCase(argStr))
 							continue;
 

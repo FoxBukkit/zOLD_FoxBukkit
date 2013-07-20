@@ -28,9 +28,9 @@ public abstract class Shape {
 	protected Shape(Transmute transmute, Entity entity) {
 		this.transmute = transmute;
 		this.entity = entity;
-		entityId = entity.getEntityId();
-		datawatcher = new DataWatcher();
-		datawatcher.a(31, "");
+		this.entityId = entity.getEntityId();
+		this.datawatcher = new DataWatcher();
+		datawatcher.a(31, ""); // v1_6_R2
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {
@@ -51,28 +51,31 @@ public abstract class Shape {
 		sendPacketToPlayersAround(transmute.ignorePacket(createOriginalSpawnPacket()));
 	}
 
-	private static final Method methodEntityTrackerEntry_b;
+	private static final Method methodEntityTrackerEntry_getPacketForThisEntity;
 	static {
 		try {
-			methodEntityTrackerEntry_b = EntityTrackerEntry.class.getDeclaredMethod("b");
-			methodEntityTrackerEntry_b.setAccessible(true);
+			methodEntityTrackerEntry_getPacketForThisEntity = EntityTrackerEntry.class.getDeclaredMethod("c"); // v1_6_R2
+			methodEntityTrackerEntry_getPacketForThisEntity.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private Packet createOriginalSpawnPacket() {
-		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity)entity).getHandle();
-		EntityTrackerEntry ete = new EntityTrackerEntry(notchEntity, 0, 0, false);
+		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final EntityTrackerEntry ete = new EntityTrackerEntry(notchEntity, 0, 0, false);
 
 		try {
-			return (Packet) methodEntityTrackerEntry_b.invoke(ete);
-		} catch (IllegalAccessException e) {
+			return (Packet) methodEntityTrackerEntry_getPacketForThisEntity.invoke(ete);
+		}
+		catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
-		} catch (InvocationTargetException e) {
+		}
+		catch (InvocationTargetException e) {
 			Throwable cause = e.getCause();
 			if (cause instanceof RuntimeException)
 				throw (RuntimeException) cause;
+
 			if (cause instanceof Error)
 				throw (Error) cause;
 
@@ -108,7 +111,7 @@ public abstract class Shape {
 	}
 
 	public void setData(int index, Object value) {
-		Packet40EntityMetadata p40 = createMetadataPacket(index, value);
+		final Packet40EntityMetadata p40 = createMetadataPacket(index, value);
 
 		if (entity instanceof Player) {
 			sendYCData(index, value);
@@ -139,13 +142,13 @@ public abstract class Shape {
 
 			final Packet40EntityMetadata packet40EntityMetadata = new Packet40EntityMetadata(entityId, datawatcher, false);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			packet40EntityMetadata.a(new DataOutputStream(baos));
+			packet40EntityMetadata.a(new DataOutputStream(baos)); // v1_6_R2
 			return packet40EntityMetadata;
 		}
 		else {
 			try {
 				// create entry
-				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0"));
+				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0")); // v1_6_R2
 				// mark dirty
 				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
 			}
@@ -230,8 +233,8 @@ public abstract class Shape {
 
 	public void reattachPassenger() {
 		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
-		net.minecraft.server.v1_6_R2.Entity passenger = notchEntity.passenger;
-		net.minecraft.server.v1_6_R2.Entity vehicle = notchEntity.vehicle;
+		final net.minecraft.server.v1_6_R2.Entity passenger = notchEntity.passenger;
+		final net.minecraft.server.v1_6_R2.Entity vehicle = notchEntity.vehicle;
 
 		if (passenger != null)
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(0, passenger, notchEntity)); //TODO: Check what this int is for in ctor Packet39AttachEntity
