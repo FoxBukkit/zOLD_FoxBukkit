@@ -58,7 +58,7 @@ public class ThrowCommand extends ICommand {
 	}
 
 	public interface ThrowShapeFactory {
-		ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args);
+		ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args) throws YiffBukkitCommandException;
 	}
 
 	public static abstract class SimpleThrowShapeFactory implements ThrowShape, ThrowShapeFactory {
@@ -160,17 +160,17 @@ public class ThrowCommand extends ICommand {
 
 		throwShapes.put("near", new ThrowShapeFactory() {
 			@Override
-			public ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args) {
+			public ThrowShape createShape(int amount, Location baseLocation, Vector speed, String[] args) throws YiffBukkitCommandException {
 				final double speedLength = speed.length();
 
 				final double maxDistance = 100;
-				final List<Location> locations = new ArrayList<Location>();
+				final List<Vector> locations = new ArrayList<Vector>();
 				for (LivingEntity entity : baseLocation.getWorld().getLivingEntities()) {
 					if (entity instanceof Player)
 						continue;
 
 					final Location entityLocation = entity.getLocation();
-					final Location subtract = entityLocation.subtract(baseLocation);
+					final Vector subtract = entityLocation.subtract(baseLocation).toVector();
 					final double distanceSq = subtract.lengthSquared();
 
 					if (distanceSq > maxDistance*maxDistance)
@@ -179,17 +179,21 @@ public class ThrowCommand extends ICommand {
 					locations.add(subtract);
 				}
 
-				Collections.sort(locations, new Comparator<Location>() {
+				Collections.sort(locations, new Comparator<Vector>() {
 					@Override
-					public int compare(Location o1, Location o2) {
+					public int compare(Vector o1, Vector o2) {
 						return Double.compare(o1.lengthSquared(), o2.lengthSquared());
 					}
 				});
 
+				if (locations.isEmpty()) {
+					throw new YiffBukkitCommandException("No valid targets found.");
+				}
+
 				return new ThrowShape() {
 					@Override
 					public Vector getDirection(int i) {
-						return locations.get(i % locations.size()).toVector().normalize().multiply(speedLength);
+						return locations.get(i % locations.size()).normalize().multiply(speedLength);
 					}
 				};
 			}
