@@ -7,17 +7,13 @@ public class JailException extends YiffBukkitCommandException {
 
 	public JailException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public JailException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	public JailException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
-
 }
