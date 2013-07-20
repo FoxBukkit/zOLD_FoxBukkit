@@ -153,6 +153,9 @@ public class SpawnUtils {
 					((Pig)previous).setSaddle(true);
 
 				entity.teleport(location);
+				if (previous == entity)
+					throw new YiffBukkitCommandException("Cannot attach entities to themselves for now. Sorry.");
+
 				previous.setPassenger(entity);
 			}
 
