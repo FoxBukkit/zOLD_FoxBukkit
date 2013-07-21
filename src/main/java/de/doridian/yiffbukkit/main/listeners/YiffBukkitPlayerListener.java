@@ -3,11 +3,21 @@ package de.doridian.yiffbukkit.main.listeners;
 import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_6_R2.AxisAlignedBB;
+import net.minecraft.server.v1_6_R2.EntityAnimal;
+import net.minecraft.server.v1_6_R2.EntityInsentient;
+import net.minecraft.server.v1_6_R2.EntityLiving;
+import net.minecraft.server.v1_6_R2.EntityPlayer;
+import net.minecraft.server.v1_6_R2.EntityTameableAnimal;
+import net.minecraft.server.v1_6_R2.EntityWaterAnimal;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -298,6 +308,104 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					player.setItemInHand(null);
 
 				return true;
+			}
+		});
+
+		ToolBind.addGlobal(Material.LEASH, new ToolBind("leash", null) {
+			final class Perms {
+				public final boolean mayLeashToPlayers;
+				public final boolean mayLeashToLeashable;
+				public final boolean mayLeashToNonLeashable;
+				public final boolean mayLeashToNonLiving;
+
+				public Perms(Player player) {
+					mayLeashToPlayers = player.hasPermission("yiffbukkit.leash.players");
+					mayLeashToLeashable = player.hasPermission("yiffbukkit.leash.leashable");
+					mayLeashToNonLeashable = player.hasPermission("yiffbukkit.leash.nonleashable");
+					mayLeashToNonLiving = player.hasPermission("yiffbukkit.leash.nonliving");
+				}
+
+				private boolean isNaturallyLeashable(net.minecraft.server.v1_6_R2.Entity entity) {
+					if (entity instanceof EntityTameableAnimal)
+						return ((EntityTameableAnimal) entity).isTamed();
+
+					if (entity instanceof EntityAnimal)
+						return true;
+
+					if (entity instanceof EntityWaterAnimal)
+						return true;
+					return false;
+				}
+
+				public boolean mayLeashTo(net.minecraft.server.v1_6_R2.Entity entity) {
+					if (entity instanceof EntityPlayer)
+						return mayLeashToPlayers;
+
+					if (isNaturallyLeashable(entity))
+						return mayLeashToLeashable;
+
+					if (entity instanceof EntityLiving)
+						return mayLeashToNonLeashable;
+
+					return mayLeashToNonLiving;
+				}
+			};
+			
+			@Override
+			public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
+				final Player player = event.getPlayer();
+				if (!player.isSneaking())
+					return false;
+
+				if (!player.hasPermission("yiffbukkit.leash"))
+					return false;
+
+				final Perms perms = new Perms(player);
+
+				final Entity rightClicked = event.getRightClicked();
+				final net.minecraft.server.v1_6_R2.Entity notchRightClicked = ((CraftEntity) rightClicked).getHandle();
+				final EntityPlayer notchPlayer = ICommand.asNotchPlayer(player);
+				final net.minecraft.server.v1_6_R2.World world = notchPlayer.world;
+
+				if (!perms.mayLeashTo(notchRightClicked))
+					return false;
+
+				final Location location = player.getLocation();
+				final double x = location.getX();
+				final double y = location.getY();
+				final double z = location.getZ();
+				final double maxDistance = 7.0D + location.distance(rightClicked.getLocation());
+
+				final AxisAlignedBB aabb = AxisAlignedBB.a().a(x - maxDistance, y - maxDistance, z - maxDistance, x + maxDistance, y + maxDistance, z + maxDistance);
+				@SuppressWarnings("unchecked")
+				List<? extends EntityInsentient> list = world.a(EntityInsentient.class, aabb); // v1_6_R2
+
+				boolean ret = false;
+				if (list != null) {
+					for (EntityInsentient entityinsentient : list) {
+						if (!entityinsentient.bH()) // v1_6_R2
+							continue;
+
+						final net.minecraft.server.v1_6_R2.Entity leashed = entityinsentient.bI();
+
+						if (leashed == notchRightClicked) { // v1_6_R2
+							entityinsentient.b(notchPlayer, true); // v1_6_R2
+							ret = true;
+							continue;
+						}
+
+						if (leashed != notchPlayer) // v1_6_R2
+							continue;
+
+						if (entityinsentient == notchRightClicked) // v1_6_R2
+							continue;
+
+						entityinsentient.b(notchRightClicked, true); // v1_6_R2
+						ret = true;
+					}
+				}
+
+				return ret;
 			}
 		});
 	}
