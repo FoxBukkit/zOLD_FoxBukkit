@@ -33,6 +33,7 @@ public class VehicleShape extends EntityShape {
 
 	private static final TIntIntMap mobTypeMap = new TIntIntHashMap();
 	static {
+		mobTypeMap.put(8, 77); // LeashKnot
 		mobTypeMap.put(10, 60); // Arrow
 		mobTypeMap.put(11, 61); // Snowball
 		mobTypeMap.put(12, 63); // Fireball
@@ -63,14 +64,14 @@ public class VehicleShape extends EntityShape {
 		vehicleType = mobTypeMap.get(mobType);
 
 		switch (mobType) {
-		case 1: //Item
+		case 8: // LeashKnot
 		case 10: // Arrow
 		case 15: // EyeOfEnderSignal
 		case 40: // Minecart
 		case 41: // Boat
 		case 200: // EnderCrystal
 		case 1000: // FishingHook
-			dropping = true;
+			dropping = false;
 			break;
 
 		default:

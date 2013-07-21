@@ -181,9 +181,6 @@ public abstract class Shape {
 		 to: case \2: // \1
 		 */
 		switch (id) {
-		case 18: // ItemFrame
-			return getShapeImpl(transmute, entity, id, ItemFrameShape.class);
-
 		case 1: // Item
 			return getShapeImpl(transmute, entity, id, ItemShape.class);
 
@@ -193,6 +190,10 @@ public abstract class Shape {
 		case 9: // Painting
 			return getShapeImpl(transmute, entity, id, PaintingShape.class);
 
+		case 18: // ItemFrame
+			return getShapeImpl(transmute, entity, id, ItemFrameShape.class);
+
+		case 8: // Leash
 		case 10: // Arrow
 		case 11: // Snowball
 		case 12: // Fireball
