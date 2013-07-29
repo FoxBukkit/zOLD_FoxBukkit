@@ -84,6 +84,7 @@ public class BanResolver {
             connection.close();
             return ret;
         } catch(Exception e) {
+            e.printStackTrace();
             return new Ban("Database failure", 0, 0, "invalid", 0);
         }
     }
