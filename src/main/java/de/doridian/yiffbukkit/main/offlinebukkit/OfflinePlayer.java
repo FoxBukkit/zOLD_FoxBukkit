@@ -68,13 +68,23 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
-	public boolean isScaledHealth() {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	public boolean isHealthScaled() {
+		return false;
 	}
 
 	@Override
-	public void setScaleHealth(boolean b) {
-		//To change body of implemented methods use File | Settings | File Templates.
+	public void setHealthScaled(boolean b) {
+
+	}
+
+	@Override
+	public void setHealthScale(double v) throws IllegalArgumentException {
+
+	}
+
+	@Override
+	public double getHealthScale() {
+		return 1;
 	}
 
 	@Override
