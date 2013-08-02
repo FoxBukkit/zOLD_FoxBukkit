@@ -10,6 +10,7 @@ import net.minecraft.server.v1_6_R2.EntityExperienceOrb;
 import net.minecraft.server.v1_6_R2.EntityFallingBlock;
 import net.minecraft.server.v1_6_R2.EntityFireworks;
 import net.minecraft.server.v1_6_R2.EntityFishingHook;
+import net.minecraft.server.v1_6_R2.EntityHorse;
 import net.minecraft.server.v1_6_R2.EntityLeash;
 import net.minecraft.server.v1_6_R2.EntityMagmaCube;
 import net.minecraft.server.v1_6_R2.EntityOcelot;
@@ -44,6 +45,7 @@ public class MyEntityTypes {
 		addAliases(EntityOcelot.class, "Ocelot", "Cat");
 		addAliases(EntityWither.class, "Wither");
 		addAliases(EntityLeash.class, "Leash");
+		addAliases(EntityHorse.class, "Horse");
 
 		addType(EntityFishingHook.class, 1000, "FishingHook", "Fish", "Hook", "FishingPole");
 		addType(EntityPotion.class, 1001, "Potion", "ThrownPotion");
