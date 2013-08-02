@@ -567,6 +567,38 @@ public class SpawnUtils {
 			notchWorld.addEntity(notchEntity);
 			return notchEntity.getBukkitEntity();
 		}
+		else if (type.equalsIgnoreCase("PARTICLE")) {
+			String[] parts = data.split(":");
+			final String particleName = parts[0];
+
+			final int numParticles;
+			if (parts.length < 2) {
+				numParticles = 3;
+			}
+			else {
+				numParticles = Math.min(100, Integer.parseInt(parts[1]));
+			}
+
+			final double particleSpeed;
+			if (parts.length < 3) {
+				particleSpeed = 1;
+			}
+			else {
+				particleSpeed = Math.min(10, Double.parseDouble(parts[2]));
+			}
+
+			final Vector scatter;
+			if (parts.length < 4) {
+				scatter = new Vector();
+			}
+			else {
+				scatter = Vector.getMinimum(new Vector(10, 10, 10), parseVector(parts[3]));
+			}
+
+			final FakeEntityParticleSpawner entity = new FakeEntityParticleSpawner(location, scatter, particleSpeed, numParticles, particleName);
+			entity.send();
+			return entity;
+		}
 		else {
 			try {
 				EntityType creatureType = EntityType.valueOf(type.toUpperCase());
@@ -576,6 +608,16 @@ public class SpawnUtils {
 				throw new YiffBukkitCommandException("Creature type "+type+" not found", e);
 			}
 		}
+	}
+
+	private Vector parseVector(String s) {
+		final String[] parts = s.split(",");
+
+		final double x = Double.parseDouble(parts[0]);
+		final double y = Double.parseDouble(parts[1]);
+		final double z = Double.parseDouble(parts[2]);
+
+		return new Vector(x, y, z);
 	}
 
 	public static Entity explodeFirework(Location location, net.minecraft.server.v1_6_R2.ItemStack fireworks) {
