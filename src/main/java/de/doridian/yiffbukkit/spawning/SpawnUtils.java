@@ -581,7 +581,7 @@ public class SpawnUtils {
 
 			final double particleSpeed;
 			if (parts.length < 3) {
-				particleSpeed = 1;
+				particleSpeed = 0;
 			}
 			else {
 				particleSpeed = Math.min(10, Double.parseDouble(parts[2]));
