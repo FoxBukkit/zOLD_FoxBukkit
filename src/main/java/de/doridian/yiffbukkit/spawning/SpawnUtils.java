@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
+import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntityParticleSpawner;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeShapeBasedEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeVehicle;
@@ -67,10 +68,12 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class SpawnUtils {
-	private YiffBukkit plugin;
+	private final YiffBukkit plugin;
+	private final Entity noErrorPlz;
 
 	public SpawnUtils(YiffBukkit plugin) {
 		this.plugin = plugin;
+		this.noErrorPlz = new FakeEntityParticleSpawner(new Location(null, 0, 0, 0), new Vector(), 0, 0, "");
 	}
 
 	public Entity buildMob(final String[] types, final CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
@@ -159,11 +162,15 @@ public class SpawnUtils {
 				previous.setPassenger(entity);
 			}
 
+			if (entity == noErrorPlz)
+				continue;
+
 			previous = entity;
 		}
-		if (first == null) {
+
+		if (first == null)
 			throw new YiffBukkitCommandException("Unknown error occured while spawning entity.");
-		}
+
 		return first;
 	}
 
@@ -207,7 +214,7 @@ public class SpawnUtils {
 			notchEntity.dirZ = dz * d3;
 
 			notchWorld.addEntity(notchEntity);
-			return null;//notchEntity.getBukkitEntity();
+			return noErrorPlz;//notchEntity.getBukkitEntity();
 		}
 		else if (type.equalsIgnoreCase("TNT")) {
 			final EntityPlayer playerEntity;
