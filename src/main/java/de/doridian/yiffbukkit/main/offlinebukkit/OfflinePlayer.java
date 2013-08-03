@@ -1155,4 +1155,10 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void playSound(Location arg0, String arg1, float arg2, float arg3) {
+		// TODO Auto-generated method stub
+		
+	}
 }

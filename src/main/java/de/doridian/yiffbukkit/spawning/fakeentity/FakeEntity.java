@@ -336,4 +336,9 @@ public abstract class FakeEntity implements Entity {
 	public void sendPacketToPlayersAround(Packet packet) {
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(getLocation(), 1024, packet);
 	}
+
+	@Override
+	public Spigot spigot() {
+		return new Spigot();
+	}
 }
