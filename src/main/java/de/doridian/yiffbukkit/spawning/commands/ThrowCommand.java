@@ -15,6 +15,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
+import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntityParticleSpawner;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_6_R2.Packet;
 import net.minecraft.server.v1_6_R2.Packet10Flying;
@@ -33,6 +34,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Names("throw")
@@ -274,13 +277,12 @@ public class ThrowCommand extends ICommand {
 		final String typeName = args[0];
 
 		final ToolBind runnable;
-		if (typeName.matches("^[mM][eE](:[a-zA-Z0-9]+)?$")) {
-			final boolean noise = "me:noisy".equalsIgnoreCase(typeName)
-			                   || "me:noise".equalsIgnoreCase(typeName)
-			                   || "me:rocket".equalsIgnoreCase(typeName);
-			final boolean wings = "me:wings".equalsIgnoreCase(typeName)
-			                   || "me:wing".equalsIgnoreCase(typeName)
-			                   || "me:flap".equalsIgnoreCase(typeName);
+		final Pattern pattern = Pattern.compile("^[mM][eE](?::([a-zA-Z0-9]+)(?::(.+))?)?$");
+		final Matcher matcher = pattern.matcher(typeName);
+		if (matcher.matches()) {
+			final String effectType = matcher.group(1);
+			final String data = matcher.group(2);
+
 			plugin.spawnUtils.checkMobSpawn(ply, "me");
 			runnable = new ToolBind("/throw me", ply) {
 				long nextFlap = Long.MIN_VALUE;
@@ -302,26 +304,51 @@ public class ThrowCommand extends ICommand {
 
 					vehicle.setVelocity(direction);
 
-					if (wings) {
-						final long t = System.currentTimeMillis();
-						if (t >= nextFlap) {
-							for (Player effectTarget : Utils.getObservingPlayers(player)) {
-								Utils.makeSound(vehicle.getLocation(), "mob.enderdragon.wings", 4, 0, effectTarget);
-							}
-							nextFlap = t + 800 + (long) (Math.random() * 400);
-						}
-						return true;
-					}
-
-					if (!noise)
-						return true;
-
 					final List<Player> effectTargets = new ArrayList<Player>();
 					for (Player effectTarget : Utils.getObservingPlayers(player)) {
 						if (effectTarget.getLocation().distanceSquared(location) > 64*64)
 							continue;
 
 						effectTargets.add(effectTarget);
+					}
+
+					final FakeEntityParticleSpawner spawner;
+
+					switch (effectType == null ? "null" : effectType.toLowerCase()) {
+					case "wings":
+					case "wing":
+					case "flap":
+						final long t = System.currentTimeMillis();
+						if (t >= nextFlap) {
+							for (Player effectTarget : effectTargets) {
+								Utils.makeSound(vehicle.getLocation(), "mob.enderdragon.wings", 4.0f, 0.0f, effectTarget);
+							}
+							nextFlap = t + 800 + (long) (Math.random() * 400);
+						}
+
+						return true;
+
+					case "noisy":
+					case "noise":
+					case "rocket":
+						if (data == null) {
+							spawner = SpawnUtils.makeParticleSpawner(vehicle.getLocation(), "fireworksSpark", 10, 0.05, new Vector());
+						}
+						else {
+							spawner = SpawnUtils.makeParticleSpawner(vehicle.getLocation(), "fireworksSpark:"+data, 10, 0.05, new Vector());
+						}
+						break;
+
+					case "particle":
+						if (data == null)
+							return true;
+
+						spawner = SpawnUtils.makeParticleSpawner(vehicle.getLocation(), data, 3, 0, new Vector());
+
+						break;
+
+					default:
+						return true;
 					}
 
 					final long endTime = System.currentTimeMillis() + 200;
@@ -334,9 +361,10 @@ public class ThrowCommand extends ICommand {
 							}
 
 							final Location effectLocation = vehicle.getLocation();
+							spawner.teleport(effectLocation);
 							for (Player effectTarget : effectTargets) {
 								effectTarget.playEffect(effectLocation, Effect.EXTINGUISH, 0);
-								SpawnUtils.makeParticles(effectTarget, effectLocation, new Vector(), 0.05, 10, "fireworksSpark");
+								spawner.send(effectTarget);
 							}
 						}
 					};
