@@ -172,9 +172,6 @@ public abstract class Shape {
 
 	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_6_R2.Entity> mobType) throws EntityTypeNotFoundException {
 		final int id = MyEntityTypes.classToId(mobType);
-		if (EntityLiving.class.isAssignableFrom(mobType)) {
-			return getShapeImpl(transmute, entity, id, MobShape.class);
-		}
 
 		/*
 		 from: "    a\(.*\.class, "(.*)", (.*)\);"
@@ -208,6 +205,8 @@ public abstract class Shape {
 		case 22: // FireworksRocketEntity
 		case 40: // Minecart
 		case 41: // Boat
+		case 48: // Mob
+		case 49: // Monster
 		case 200: // EnderCrystal
 		case 1000: // FishingHook
 		case 1001: // Potion
@@ -215,6 +214,10 @@ public abstract class Shape {
 			return getShapeImpl(transmute, entity, id, VehicleShape.class);
 
 		default:
+			if (EntityLiving.class.isAssignableFrom(mobType)) {
+				return getShapeImpl(transmute, entity, id, MobShape.class);
+			}
+
 			throw new RuntimeException("Invalid shape.");
 		}
 	}
