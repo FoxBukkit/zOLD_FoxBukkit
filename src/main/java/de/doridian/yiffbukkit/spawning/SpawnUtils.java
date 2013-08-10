@@ -568,34 +568,7 @@ public class SpawnUtils {
 			return notchEntity.getBukkitEntity();
 		}
 		else if (type.equalsIgnoreCase("PARTICLE")) {
-			String[] parts = data.split(":");
-			final String particleName = parts[0];
-
-			final int numParticles;
-			if (parts.length < 2) {
-				numParticles = 3;
-			}
-			else {
-				numParticles = Math.min(100, Integer.parseInt(parts[1]));
-			}
-
-			final double particleSpeed;
-			if (parts.length < 3) {
-				particleSpeed = 0;
-			}
-			else {
-				particleSpeed = Math.min(10, Double.parseDouble(parts[2]));
-			}
-
-			final Vector scatter;
-			if (parts.length < 4) {
-				scatter = new Vector();
-			}
-			else {
-				scatter = Vector.getMinimum(new Vector(10, 10, 10), parseVector(parts[3]));
-			}
-
-			final FakeEntityParticleSpawner entity = new FakeEntityParticleSpawner(location, scatter, particleSpeed, numParticles, particleName);
+			final FakeEntityParticleSpawner entity = makeParticleSpawner(location, data, 3, 0, new Vector());
 			entity.send();
 			return entity;
 		}
@@ -610,7 +583,7 @@ public class SpawnUtils {
 		}
 	}
 
-	private Vector parseVector(String s) {
+	private static Vector parseVector(String s) {
 		final String[] parts = s.split(",");
 
 		final double x = Double.parseDouble(parts[0]);
@@ -758,6 +731,37 @@ public class SpawnUtils {
 		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
 
 		PlayerHelper.sendPacketToPlayer(target, packet63WorldParticles);
+	}
+
+	public static FakeEntityParticleSpawner makeParticleSpawner(Location location, final String data, int defaultNumParticles, double defaultParticleSpeed, Vector defaultScatter) {
+		String[] parts = data.split(":");
+		final String particleName = parts[0];
+
+		final int numParticles;
+		if (parts.length < 2) {
+			numParticles = defaultNumParticles;
+		}
+		else {
+			numParticles = Math.min(100, Integer.parseInt(parts[1]));
+		}
+
+		final double particleSpeed;
+		if (parts.length < 3) {
+			particleSpeed = defaultParticleSpeed;
+		}
+		else {
+			particleSpeed = Math.min(10, Double.parseDouble(parts[2]));
+		}
+
+		final Vector scatter;
+		if (parts.length < 4) {
+			scatter = defaultScatter;
+		}
+		else {
+			scatter = Vector.getMinimum(new Vector(10, 10, 10), parseVector(parts[3]));
+		}
+
+		return new FakeEntityParticleSpawner(location, scatter, particleSpeed, numParticles, particleName);
 	}
 
 	public static Packet63WorldParticles createParticlePacket(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
