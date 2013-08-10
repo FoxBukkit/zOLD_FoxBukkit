@@ -49,9 +49,7 @@ public class WarpEngine extends StateContainer {
 		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
 		for (Entry<String, WarpDescriptor> entry : warps.entrySet()) {
 			WarpDescriptor warp = entry.getValue();
-			@SuppressWarnings("unchecked")
-			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(warp.save());
-			sections.put(warp.name, wrappedSection);
+			sections.put(warp.name, Arrays.asList(warp.save()));
 		}
 
 		Ini.save("warps.txt", sections);

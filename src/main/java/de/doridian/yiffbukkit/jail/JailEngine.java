@@ -71,9 +71,7 @@ public class JailEngine extends StateContainer {
 			Map<String, List<String>> section = new TreeMap<String, List<String>>();
 			Ini.saveLocation(section, "prev%s", entry.getValue());
 
-			@SuppressWarnings("unchecked")
-			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(section);
-			sections.put("inmate "+entry.getKey(), wrappedSection);
+			sections.put("inmate "+entry.getKey(), Arrays.asList(section));
 		}
 
 		Ini.save("jails.txt", sections);

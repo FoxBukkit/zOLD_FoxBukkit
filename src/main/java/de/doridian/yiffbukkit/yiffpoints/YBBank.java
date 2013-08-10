@@ -92,9 +92,7 @@ public class YBBank extends StateContainer {
 			if (section == null)
 				continue;
 
-			@SuppressWarnings("unchecked")
-			final List<Map<String, List<String>>> wrappedSection = Arrays.asList(section);
-			sections.put(entry.getKey(), wrappedSection);
+			sections.put(entry.getKey(), Arrays.asList(section));
 		}
 
 		Ini.save("bank.txt", sections);
