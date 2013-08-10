@@ -14,6 +14,7 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
+import de.doridian.yiffbukkitsplit.AbusePotentialManager;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
@@ -464,7 +465,7 @@ public class PlayerHelper extends StateContainer {
 			return false;
 
 		// Higher-ranked people can always port.
-		if (commandSenderLevel > targetLevel)
+		if (commandSenderLevel > targetLevel && !AbusePotentialManager.isAbusive(commandSenderName))
 			return true;
 
 		// Same-ranked people can deny each other teleportation.
