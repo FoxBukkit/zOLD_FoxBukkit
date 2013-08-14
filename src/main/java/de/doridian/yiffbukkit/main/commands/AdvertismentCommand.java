@@ -126,7 +126,7 @@ public class AdvertismentCommand extends ICommand {
 						int max = serilizable.advertismentMsgs.size();
 						if(max <= 0)
 							return;
-						String msg = serilizable.advertismentMsgs.get(random.nextInt(max - 1));
+						String msg = serilizable.advertismentMsgs.get(random.nextInt(max));
 						if(msg == null || msg.isEmpty())
 							return;
 						playerHelper.sendServerMessage(msg);
