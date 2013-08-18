@@ -30,4 +30,8 @@ public class FakeShapeBasedEntity extends FakeEntity {
 	public void runAction(Player player, String action) throws YiffBukkitCommandException {
 		shape.runAction(player, action);
 	}
+
+	public Shape getShape() {
+		return shape;
+	}
 }

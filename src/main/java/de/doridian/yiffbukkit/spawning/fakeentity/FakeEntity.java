@@ -290,9 +290,7 @@ public abstract class FakeEntity implements Entity {
 
 
 	public void setData(int index, Object value) {
-		Packet40EntityMetadata p40 = createMetadataPacket(index, value);
-
-		sendPacketToPlayersAround(p40);
+		sendPacketToPlayersAround(createMetadataPacket(index, value));
 	}
 
 	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {

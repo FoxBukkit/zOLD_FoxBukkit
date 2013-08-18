@@ -16,6 +16,7 @@ import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
+import de.doridian.yiffbukkit.transmute.ItemShape;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_6_R2.EntityFallingBlock;
@@ -34,6 +35,7 @@ import net.minecraft.server.v1_6_R2.PlayerConnection;
 import net.minecraft.server.v1_6_R2.PlayerInteractManager;
 import net.minecraft.server.v1_6_R2.WorldServer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -58,7 +60,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Wolf;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
+
+import com.sk89q.worldedit.blocks.ItemID;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -580,6 +587,19 @@ public class SpawnUtils {
 			particleSpawner.send();
 			return particleSpawner;
 
+		case "head":
+			return world.dropItem(location, makeHeadFromData(data));
+
+		case "fakehead":
+			final FakeShapeBasedEntity head = new FakeShapeBasedEntity(location, "item");
+			final ItemShape shape = (ItemShape) head.getShape();
+
+			shape.setItemStack(makeHeadFromData(data));
+
+			head.send();
+
+			return head;
+
 		default:
 			try {
 				final EntityType entityType = EntityType.valueOf(type.toUpperCase());
@@ -788,5 +808,55 @@ public class SpawnUtils {
 
 		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "i", numParticles); // v1_6_R2
 		return packet63WorldParticles;
+	}
+
+	private ItemStack makeHeadFromData(final String data) {
+		final ItemStack itemStack;
+		if (data == null)
+			itemStack = makeHead(EntityType.PLAYER);
+		else
+			itemStack = makeHead(data);
+		return itemStack;
+	}
+
+	public ItemStack makeHead(String playerName) {
+		final ItemStack toDrop = new ItemStack(ItemID.HEAD, 1, (short) 3);
+		toDrop.setData(new MaterialData(ItemID.HEAD, (byte) 3));
+
+		final SkullMeta meta = (SkullMeta) toDrop.getItemMeta();
+		meta.setOwner(playerName);
+		meta.setDisplayName(ChatColor.RESET + playerName + "'s Head");
+		toDrop.setItemMeta(meta);
+
+		return toDrop;
+	}
+
+	public ItemStack makeHead(EntityType entityType) {
+		final ItemStack toDrop;
+		switch (entityType) {
+		case PLAYER:
+			toDrop = new ItemStack(ItemID.HEAD, 1, (short)3);
+			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)3));
+			break;
+
+		case ZOMBIE:
+			toDrop = new ItemStack(ItemID.HEAD, 1, (short)2);
+			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)2));
+			break;
+
+		case CREEPER:
+			toDrop = new ItemStack(ItemID.HEAD, 1, (short)4);
+			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)4));
+			break;
+
+		case SKELETON:
+			toDrop = new ItemStack(ItemID.HEAD, 1, (short)0);
+			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)0));
+			break;
+
+		default:
+			return null;
+		}
+		return toDrop;
 	}
 }

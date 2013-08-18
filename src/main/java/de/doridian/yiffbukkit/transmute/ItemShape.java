@@ -4,6 +4,8 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_6_R2.Block;
 import net.minecraft.server.v1_6_R2.ItemStack;
 import net.minecraft.server.v1_6_R2.Packet;
+
+import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -12,7 +14,7 @@ public class ItemShape extends VehicleShape {
 		//yOffsets[1] = 1.62;
 	}
 
-	protected final ItemStack itemStack = new ItemStack(Block.CACTUS, 1, 0);
+	protected ItemStack itemStack = new ItemStack(Block.CACTUS, 1, 0);
 
 	public ItemShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
@@ -83,5 +85,13 @@ public class ItemShape extends VehicleShape {
 		itemStack.count = count;
 
 		sendMetadataPacket();
+	}
+
+	public void setItemStack(org.bukkit.inventory.ItemStack bukkitItemStack) {
+		setItemStack(CraftItemStack.asNMSCopy(bukkitItemStack));
+	}
+
+	private void setItemStack(ItemStack itemStack) {
+		this.itemStack = itemStack;
 	}
 }
