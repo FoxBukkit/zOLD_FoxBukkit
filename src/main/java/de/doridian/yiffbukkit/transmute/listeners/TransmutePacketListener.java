@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.transmute.listeners;
 
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import net.minecraft.server.v1_6_R2.Packet;
@@ -14,6 +15,8 @@ import net.minecraft.server.v1_6_R2.Packet24MobSpawn;
 import net.minecraft.server.v1_6_R2.Packet30Entity;
 import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
 import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
+import net.minecraft.server.v1_6_R2.Packet44UpdateAttributes;
+
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -39,6 +42,7 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 		register(PacketDirection.OUTGOING, 33);
 		register(PacketDirection.OUTGOING, 34);
 		register(PacketDirection.OUTGOING, 40);
+		register(PacketDirection.OUTGOING, 44);
 	}
 
 	@Override
@@ -82,6 +86,10 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 
 		case 40:
 			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a); // v1_6_R2
+
+		case 44:
+			final int entityId2 = Utils.getPrivateValue(Packet44UpdateAttributes.class, (Packet44UpdateAttributes) packet, "a"); // v1_6_R2
+			return !transmute.isTransmuted(entityId2); // TODO: don't block for MobShape and see what happens
 
 		default:
 			return true;
