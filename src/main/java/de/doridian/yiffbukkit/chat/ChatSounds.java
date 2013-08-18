@@ -64,7 +64,7 @@ public class ChatSounds {
 		chatSounds.put("fapfapfap", "mob.wolf.shake/0.5/0.5/0.5");
 	}
 
-	public static String processMessage(final Player player, final String message) {
+	public static void processMessage(final Player player, final String message) {
 		// Split up words
 		final List<String> prefixes = new ArrayList<String>();
 		final List<String> words = new ArrayList<String>();
@@ -92,7 +92,5 @@ public class ChatSounds {
 
 			Utils.makeSound(player.getEyeLocation(), soundName, volume, (float) (minPitch + Math.random()*(maxPitch - minPitch)));
 		}
-
-		return message;
 	}
 }

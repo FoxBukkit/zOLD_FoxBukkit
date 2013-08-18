@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.chat.listeners;
 
 import de.doridian.yiffbukkit.chat.ChatHelper;
+import de.doridian.yiffbukkit.chat.ChatSounds;
 import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -29,6 +30,8 @@ public class ChatListener extends BaseListener {
 		char fchar = msg.charAt(0);
 		if (fchar == '/' || fchar == '#')
 			return;
+
+		ChatSounds.processMessage(event.getPlayer(), msg);
 
 		try {
 			helper.sendChat(event.getPlayer(), msg, true);
