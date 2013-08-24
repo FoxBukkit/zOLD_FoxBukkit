@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import java.util.Random;
 @ICommand.Usage("<add/remove/list/delay> <text/id/-/seconds>")
 @ICommand.Permission("yiffbukkit.advertisment")
 public class AdvertismentCommand extends ICommand {
-	private class AdSerilizable implements Serializable {
+	private class AdSerializable implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		private int delayInSeconds = 60;
@@ -30,14 +31,14 @@ public class AdvertismentCommand extends ICommand {
 
 	private final Random random = new Random();
 
-	private final AdSerilizable serilizable;
+	private final AdSerializable serializable;
 
 	private void save() {
 		try {
 			FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/advertisments.dat");
 			ObjectOutputStream writer = new ObjectOutputStream(stream);
 			try {
-				writer.writeObject(serilizable);
+				writer.writeObject(serializable);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -49,14 +50,14 @@ public class AdvertismentCommand extends ICommand {
 	}
 
 	public AdvertismentCommand() {
-		AdSerilizable tmp = null;
+		AdSerializable tmp = null;
 
 		try {
 			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/advertisments.dat");
 			try {
 				ObjectInputStream reader = new ObjectInputStream(stream);
 				try {
-					tmp = (AdSerilizable)reader.readObject();
+					tmp = (AdSerializable)reader.readObject();
 				}
 				finally {
 					reader.close();
@@ -65,15 +66,17 @@ public class AdvertismentCommand extends ICommand {
 			finally {
 				stream.close();
 			}
+		} catch (IOException e) {
+			tmp = null;
 		} catch (Exception e) {
 			e.printStackTrace();
-			tmp = new AdSerilizable();
+			tmp = null;
 		}
 
 		if(tmp == null)
-			serilizable = new AdSerilizable();
+			serializable = new AdSerializable();
 		else
-			serilizable = tmp;
+			serializable = tmp;
 
 		new AdvertismentThread().start();
 	}
@@ -86,11 +89,11 @@ public class AdvertismentCommand extends ICommand {
 			if(res.isEmpty()) {
 				throw new YiffBukkitCommandException("Empty message");
 			}
-			serilizable.advertismentMsgs.add(res);
+			serializable.advertismentMsgs.add(res);
 			save();
 			PlayerHelper.sendDirectedMessage(commandSender, "Added message: " + res);
 		} else if(method.equals("remove")) {
-			String msgRemoved = serilizable.advertismentMsgs.remove(Integer.parseInt(args[1]));
+			String msgRemoved = serializable.advertismentMsgs.remove(Integer.parseInt(args[1]));
 			if(msgRemoved == null) {
 				throw new YiffBukkitCommandException("Invalid message");
 			} else {
@@ -99,13 +102,13 @@ public class AdvertismentCommand extends ICommand {
 			}
 		} else if(method.equals("list")) {
 			PlayerHelper.sendDirectedMessage(commandSender, "Current ad messages:");
-			for(int i = 0; i < serilizable.advertismentMsgs.size(); i++) {
-				PlayerHelper.sendDirectedMessage(commandSender, i + ") " + serilizable.advertismentMsgs.get(i));
+			for(int i = 0; i < serializable.advertismentMsgs.size(); i++) {
+				PlayerHelper.sendDirectedMessage(commandSender, i + ") " + serializable.advertismentMsgs.get(i));
 			}
 		} else if(method.equals("delay")) {
-			serilizable.delayInSeconds = Integer.parseInt(args[1]);
+			serializable.delayInSeconds = Integer.parseInt(args[1]);
 			save();
-			PlayerHelper.sendDirectedMessage(commandSender, "Set ad delay to " + serilizable.delayInSeconds);
+			PlayerHelper.sendDirectedMessage(commandSender, "Set ad delay to " + serializable.delayInSeconds);
 		}
 	}
 
@@ -113,7 +116,7 @@ public class AdvertismentCommand extends ICommand {
 		@Override
 		public void run() {
 			while(true) {
-				if(serilizable.delayInSeconds <= 0) {
+				if(serializable.delayInSeconds <= 0) {
 					try {
 						Thread.sleep(1000);
 					} catch (Exception e) { }
@@ -123,10 +126,10 @@ public class AdvertismentCommand extends ICommand {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(YiffBukkit.instance, new Runnable() {
 					@Override
 					public void run() {
-						int max = serilizable.advertismentMsgs.size();
+						int max = serializable.advertismentMsgs.size();
 						if(max <= 0)
 							return;
-						String msg = serilizable.advertismentMsgs.get(random.nextInt(max));
+						String msg = serializable.advertismentMsgs.get(random.nextInt(max));
 						if(msg == null || msg.isEmpty())
 							return;
 						playerHelper.sendServerMessage(msg);
@@ -134,7 +137,7 @@ public class AdvertismentCommand extends ICommand {
 				});
 
 				try {
-					Thread.sleep(serilizable.delayInSeconds * 1000);
+					Thread.sleep(serializable.delayInSeconds * 1000);
 				} catch (Exception e) { }
 			}
 		}
