@@ -19,6 +19,7 @@ import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
 import de.doridian.yiffbukkit.transmute.ItemShape;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_6_R2.Block;
 import net.minecraft.server.v1_6_R2.EntityFallingBlock;
 import net.minecraft.server.v1_6_R2.EntityLargeFireball;
 import net.minecraft.server.v1_6_R2.EntityPlayer;
@@ -750,6 +751,31 @@ public class SpawnUtils {
 	}
 
 	public static void makeParticles(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+		try {
+			if (particleName.startsWith("iconcrack_")) {
+				final int itemId = Integer.parseInt(particleName.substring(particleName.indexOf("_") + 1));
+				if (Item.byId[itemId] == null)
+					return;
+			}
+			else if (particleName.startsWith("tilecrack_")) {
+				final String[] parts = particleName.split("_", 3);
+
+				final int blockId = Integer.parseInt(parts[1]);
+				if (Block.byId[blockId] == null)
+					return;
+
+				final int data = Integer.parseInt(parts[2]);
+				if (data < 0)
+					return;
+
+				if (data >= 16)
+					return;
+			}
+		}
+		catch (Exception e) {
+			return;
+		}
+
 		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
 
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
