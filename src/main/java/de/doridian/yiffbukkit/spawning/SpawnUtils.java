@@ -344,7 +344,7 @@ public class SpawnUtils {
 				try {
 					potionId = Integer.parseInt(data);
 				}
-				catch (NumberFormatException e) { }
+				catch (NumberFormatException ignored) { }
 
 				if (potionId == -1) {
 					final EffectProperties effectProperties = YBEffect.getEffectProperties(data.toLowerCase());
@@ -356,7 +356,7 @@ public class SpawnUtils {
 						protected void areaHit(final Entity entity) {
 							try {
 								YBEffect.create(data.toLowerCase(), entity).start();
-							} catch (YiffBukkitCommandException e) {
+							} catch (YiffBukkitCommandException ignored) {
 							}
 						}
 					};
@@ -457,7 +457,7 @@ public class SpawnUtils {
 					int size = Integer.parseInt(data);
 					slime.setSize(size);
 				}
-				catch (NumberFormatException e) { }
+				catch (NumberFormatException ignored) { }
 			}
 
 			return slime;
@@ -473,17 +473,23 @@ public class SpawnUtils {
 				if (subData.isEmpty())
 					continue;
 
-				if (subData.equals("ANGRY")) {
+				switch (subData) {
+				case "ANGRY":
 					wolf.setAngry(true);
-				}
-				else if (subData.equals("SITTING") || subData.equals("SIT")) {
+					break;
+
+				case "SITTING":
+				case "SIT":
 					wolf.setSitting(true);
-				}
-				else if (subData.equals("TAME") || subData.equals("TAMED")) {
+					break;
+
+				case "TAME":
+				case "TAMED":
 					if (them == null)
 						wolf.setOwner(ICommand.asPlayer(commandSender));
 					else
 						wolf.setOwner(them);
+					break;
 				}
 			}
 
@@ -523,7 +529,7 @@ public class SpawnUtils {
 						dyeColor = DyeColor.valueOf(data.toUpperCase());
 					}
 				}
-				catch (Exception e) { }
+				catch (Exception ignored) { }
 
 				sheep.setColor(dyeColor);
 			}
@@ -557,7 +563,8 @@ public class SpawnUtils {
 							} else {
 								tmpOType = Ocelot.Type.valueOf(filteredData + "_CAT");
 							}
-						} catch(Exception e) { }
+						}
+						catch(Exception ignored) { }
 
 						if(tmpOType != null) {
 							oType = tmpOType;
@@ -724,11 +731,8 @@ public class SpawnUtils {
 		// ...nor in the server player list (i.e. /list /who and the likes)
 		minecraftServer.server.getHandle().players.remove(eply);
 
-		// finally obtain a bukkit entity,
-		final HumanEntity bukkitEntity = (HumanEntity) eply.getBukkitEntity();
-
-		// and return it
-		return bukkitEntity;
+		// finally obtain a bukkit entity and return it
+		return eply.getBukkitEntity();
 	}
 
 	private static class NPCSocket extends Socket {
