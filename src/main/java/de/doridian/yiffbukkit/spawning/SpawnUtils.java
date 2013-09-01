@@ -755,43 +755,52 @@ public class SpawnUtils {
 	}
 
 	public static void makeParticles(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
-		try {
-			if (particleName.startsWith("iconcrack_")) {
-				final int itemId = Integer.parseInt(particleName.substring(particleName.indexOf("_") + 1));
-				if (itemId <= 0)
-					return;
-
-				if (Item.byId[itemId] == null)
-					return;
-			}
-			else if (particleName.startsWith("tilecrack_")) {
-				final String[] parts = particleName.split("_", 3);
-
-				final int blockId = Integer.parseInt(parts[1]);
-				if (blockId <= 0)
-					return;
-
-				if (Block.byId[blockId] == null)
-					return;
-
-				final int data = Integer.parseInt(parts[2]);
-				if (data < 0)
-					return;
-
-				if (data >= 16)
-					return;
-			}
-		}
-		catch (Exception e) {
+		if (!isValidParticle(particleName))
 			return;
-		}
 
 		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
 
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
 	}
 
+	private static boolean isValidParticle(String particleName) {
+		try {
+			if (particleName.startsWith("iconcrack_")) {
+				final int itemId = Integer.parseInt(particleName.substring(particleName.indexOf("_") + 1));
+				if (itemId <= 0)
+					return false;
+
+				if (Item.byId[itemId] == null)
+					return false;
+			}
+			else if (particleName.startsWith("tilecrack_")) {
+				final String[] parts = particleName.split("_", 3);
+
+				final int blockId = Integer.parseInt(parts[1]);
+				if (blockId <= 0)
+					return false;
+
+				if (Block.byId[blockId] == null)
+					return false;
+
+				final int data = Integer.parseInt(parts[2]);
+				if (data < 0)
+					return false;
+
+				if (data >= 16)
+					return false;
+			}
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
 	public static void makeParticles(Player target, Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+		if (!isValidParticle(particleName))
+			return;
+
 		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
 
 		PlayerHelper.sendPacketToPlayer(target, packet63WorldParticles);
@@ -800,6 +809,9 @@ public class SpawnUtils {
 	public static FakeEntityParticleSpawner makeParticleSpawner(Location location, final String data, int defaultNumParticles, double defaultParticleSpeed, Vector defaultScatter) {
 		String[] parts = data.split(":");
 		final String particleName = parts[0];
+		if (!isValidParticle(particleName))
+			return null;
+
 
 		final int numParticles;
 		if (parts.length < 2) {
@@ -829,6 +841,9 @@ public class SpawnUtils {
 	}
 
 	public static Packet63WorldParticles createParticlePacket(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+		if (!isValidParticle(particleName))
+			throw new RuntimeException("Invalid particle name");
+
 		final Packet63WorldParticles packet63WorldParticles = new Packet63WorldParticles();
 		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "a", particleName); // v1_6_R2
 
