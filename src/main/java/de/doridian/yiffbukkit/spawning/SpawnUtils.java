@@ -758,6 +758,9 @@ public class SpawnUtils {
 		try {
 			if (particleName.startsWith("iconcrack_")) {
 				final int itemId = Integer.parseInt(particleName.substring(particleName.indexOf("_") + 1));
+				if (itemId <= 0)
+					return;
+
 				if (Item.byId[itemId] == null)
 					return;
 			}
@@ -765,6 +768,9 @@ public class SpawnUtils {
 				final String[] parts = particleName.split("_", 3);
 
 				final int blockId = Integer.parseInt(parts[1]);
+				if (blockId <= 0)
+					return;
+
 				if (Block.byId[blockId] == null)
 					return;
 
