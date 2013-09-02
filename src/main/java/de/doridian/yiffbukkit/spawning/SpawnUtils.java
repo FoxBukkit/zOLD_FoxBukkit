@@ -763,7 +763,7 @@ public class SpawnUtils {
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
 	}
 
-	private static boolean isValidParticle(String particleName) {
+	static boolean isValidParticle(String particleName) {
 		try {
 			if (particleName.startsWith("iconcrack_")) {
 				final int itemId = Integer.parseInt(particleName.substring(particleName.indexOf("_") + 1));
@@ -780,14 +780,14 @@ public class SpawnUtils {
 				if (blockId <= 0)
 					return false;
 
-				if (Block.byId[blockId] == null)
-					return false;
-
 				final int data = Integer.parseInt(parts[2]);
 				if (data < 0)
 					return false;
 
 				if (data >= 16)
+					return false;
+
+				if (Block.byId[blockId] == null)
 					return false;
 			}
 		}
