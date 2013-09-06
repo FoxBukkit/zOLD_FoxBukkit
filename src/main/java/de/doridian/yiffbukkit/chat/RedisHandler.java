@@ -40,7 +40,7 @@ public class RedisHandler extends JedisPubSub implements Runnable {
 				return;
 			}
 			ChatHelper chatHelper = ChatHelper.getInstance();
-			chatHelper.sendChat(user, message, false, chatHelper.OOC);
+			chatHelper.sendChat(user, message, false, chatHelper.DEFAULT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

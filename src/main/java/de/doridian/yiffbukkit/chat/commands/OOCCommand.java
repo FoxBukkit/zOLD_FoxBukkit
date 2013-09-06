@@ -14,6 +14,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 public class OOCCommand extends GenericChannelCommand {
 	@Override
 	protected ChatChannel getChannel() {
-		return ChatHelper.getInstance().OOC;
+		return ChatHelper.getInstance().DEFAULT;
 	}
 }

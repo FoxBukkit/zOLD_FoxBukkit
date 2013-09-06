@@ -25,7 +25,6 @@ public class ChatHelper extends StateContainer {
 	public final ChatChannelContainer container;
 
 	public final ChatChannel DEFAULT;
-	public final ChatChannel OOC;
 
 	public void joinChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
 		String plyname = player.getName().toLowerCase();
@@ -41,9 +40,6 @@ public class ChatHelper extends StateContainer {
 	public void leaveChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
 		if (channel == DEFAULT)
 			throw new YiffBukkitCommandException("You cannot leave the default channel! Mute it!");
-
-		if (channel == OOC)
-			throw new YiffBukkitCommandException("You cannot leave the OOC channel! Mute it!");
 
 		String plyname = player.getName().toLowerCase();
 		if (channel.players.containsKey(plyname)) {
@@ -152,28 +148,19 @@ public class ChatHelper extends StateContainer {
 
 		String plyname = ply.getName().toLowerCase();
 
-		if (container.activeChannel.get(plyname) == null) {
-			container.activeChannel.put(plyname, DEFAULT);
-			needsSave = true;
-		}
-
 		try {
 			joinChannel(ply, DEFAULT);
 			needsSave = true;
 		}
 		catch (Exception e) { }
 
-		try {
-			joinChannel(ply, OOC);
+		if (container.activeChannel.get(plyname) == null) {
+			container.activeChannel.put(plyname, DEFAULT);
 			needsSave = true;
 		}
-		catch (Exception e) { }
 
 		if (needsSave)
 			saveChannels();
-
-		PlayerHelper.sendDirectedMessage(ply, "WARNING: Default channel is now *LOCAL*");
-		PlayerHelper.sendDirectedMessage(ply, "To talk to everyone, you do /ooc MESSAGE");
 	}
 
 	public void sendChat(Player ply, String msg, boolean format) throws YiffBukkitCommandException {
@@ -182,7 +169,7 @@ public class ChatHelper extends StateContainer {
 
 	public void sendChat(Player ply, String msg, boolean format, ChatChannel chan) throws YiffBukkitCommandException {
 		if (chan == null) chan = getActiveChannel(ply);
-		if (chan != OOC && !chan.canSpeak(ply)) {
+		if (chan != DEFAULT && !chan.canSpeak(ply)) {
 			throw new YiffBukkitCommandException("You cannot speak in this channel!");
 		}
 
@@ -195,7 +182,7 @@ public class ChatHelper extends StateContainer {
 		}
 
 		if (format && ply != null) {
-			if (chan == OOC) {
+			if (chan == DEFAULT) {
 				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
 				plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
 				RedisHandler.sendMessage(ply, msg);
@@ -226,7 +213,7 @@ public class ChatHelper extends StateContainer {
 		}
 
 		if (noOneHearsYou && chan.range > 0) {
-			PlayerHelper.sendDirectedMessage(ply, "No one can hear you (forgot /ooc?)");
+			PlayerHelper.sendDirectedMessage(ply, "No one can hear you");
 		}
 	}
 
@@ -263,13 +250,6 @@ public class ChatHelper extends StateContainer {
 		}
 		catch (Exception e) { }
 		DEFAULT = cc;
-
-		cc = null;
-		try {
-			cc = addChannel(null, "OOC", true);
-		}
-		catch (Exception e) { }
-		OOC = cc;
 
 		saveChannels();
 	}

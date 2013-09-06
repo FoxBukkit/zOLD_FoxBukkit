@@ -147,6 +147,6 @@ public class ChatChannel implements Serializable {
 	}
 	
 	public enum ChatChannelMode {
-		PUBLIC, PRIVATE, MODERATED;
+		PUBLIC, PRIVATE, MODERATED
 	}
 }
