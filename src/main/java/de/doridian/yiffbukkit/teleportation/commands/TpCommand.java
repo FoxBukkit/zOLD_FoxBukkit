@@ -93,7 +93,7 @@ public class TpCommand extends ICommand {
 				continue;
 			}
 
-			if (silentFlag && !sender.hasPermission("yiffbukkit.teleport.tp.silent.see"))
+			if (silentFlag && !player.hasPermission("yiffbukkit.teleport.tp.silent.see"))
 				continue;
 
 			receivers.add(player);
