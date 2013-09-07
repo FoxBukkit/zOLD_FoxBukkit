@@ -85,58 +85,63 @@ public class SpawnUtils {
 		this.noErrorPlz = new FakeEntityParticleSpawner(new Location(null, 0, 0, 0), new Vector(), 0, 0, "");
 	}
 
-	public Entity buildMob(final String[] types, final CommandSender commandSender, Player them, Location location) throws YiffBukkitCommandException {
-		boolean hasThis = false;
-		for (String part : types) {
-			if ("THIS".equalsIgnoreCase(part)) {
-				hasThis = true;
-				break;
-			}
-		}
+	public Entity buildMob(final String[] types, final CommandSender commandSender, Player them, final Location location) throws YiffBukkitCommandException {
+		final Map<String, Spawnable<? extends Entity>> fixedSpawnables = new HashMap<>();
 
-		Entity thisEnt = null;
-		if (hasThis) {
-			Vector eyeVector = location.getDirection();
-			Vector eyeOrigin = location.toVector();
+		final AbstractSpawnable<Entity> thisSpawnable = new AbstractSpawnable<Entity>() {
+			@Override
+			protected void spawn() throws YiffBukkitCommandException {
+				Vector eyeVector = location.getDirection();
+				Vector eyeOrigin = location.toVector();
 
-			for (Entity currentEntity : location.getWorld().getEntities()) {
-				Location eyeLocation;
-				if (currentEntity instanceof LivingEntity) {
-					eyeLocation = ((LivingEntity)currentEntity).getEyeLocation();
+				for (Entity currentEntity : location.getWorld().getEntities()) {
+					Location eyeLocation;
+					if (currentEntity instanceof LivingEntity) {
+						eyeLocation = ((LivingEntity) currentEntity).getEyeLocation();
+					} else if (currentEntity instanceof Boat || currentEntity instanceof Minecart) {
+						eyeLocation = currentEntity.getLocation();
+					} else {
+						continue;
+					}
+
+					Vector pos = eyeLocation.toVector();
+					pos.add(new Vector(0, 0.6, 0));
+
+					pos.subtract(eyeOrigin);
+
+					if (pos.lengthSquared() > 9)
+						continue;
+
+					double dot = pos.clone().normalize().dot(eyeVector);
+
+					if (dot < 0.8)
+						continue;
+
+
+					if (currentEntity.equals(commandSender))
+						continue;
+
+					entity = currentEntity;
+					return;
 				}
-				else if (currentEntity instanceof Boat || currentEntity instanceof Minecart) {
-					eyeLocation = currentEntity.getLocation();
-				}
-				else {
-					continue;
-				}
 
-				Vector pos = eyeLocation.toVector();
-				pos.add(new Vector(0, 0.6, 0));
-
-				pos.subtract(eyeOrigin);
-
-				if (pos.lengthSquared() > 9)
-					continue;
-
-				double dot = pos.clone().normalize().dot(eyeVector);
-
-				if (dot < 0.8)
-					continue;
-
-
-				if (currentEntity.equals(commandSender))
-					continue;
-
-				thisEnt = currentEntity;
-				break;
-			}
-			if (thisEnt == null) {
 				throw new YiffBukkitCommandException("You must face a creature/boat/minecart");
 			}
-		}
+		};
+		fixedSpawnables.put("this", thisSpawnable);
+		fixedSpawnables.put("thisvehicle", new AbstractSpawnable<Entity>() {
+			@Override
+			protected void spawn() throws YiffBukkitCommandException {
+				entity = thisSpawnable.getEntity().getVehicle();
+			}
+		});
+		fixedSpawnables.put("thisvehicle", new AbstractSpawnable<Entity>() {
+			@Override
+			protected void spawn() throws YiffBukkitCommandException {
+				entity = thisSpawnable.getEntity().getPassenger();
+			}
+		});
 
-		final Map<String, Spawnable<? extends Entity>> fixedSpawnables = new HashMap<>();
 		fixedSpawnables.put("me", new AbstractSpawnable<Player>() {
 			@Override
 			protected void spawn() throws YiffBukkitCommandException {
@@ -159,12 +164,6 @@ public class SpawnUtils {
 		fixedSpawnables.put("them", ConstantSpawnable.create(them));
 		fixedSpawnables.put("themvehicle", ConstantSpawnable.create(them.getVehicle()));
 		fixedSpawnables.put("thempassenger", ConstantSpawnable.create(them.getPassenger()));
-
-		if (thisEnt != null) {
-			fixedSpawnables.put("this", ConstantSpawnable.create(thisEnt));
-			fixedSpawnables.put("thisvehicle", ConstantSpawnable.create(thisEnt.getVehicle()));
-			fixedSpawnables.put("thispassenger", ConstantSpawnable.create(thisEnt.getPassenger()));
-		}
 
 		Entity previous = null;
 		Entity first = null;
