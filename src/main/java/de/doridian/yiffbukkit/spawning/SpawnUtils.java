@@ -73,6 +73,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SpawnUtils {
 	private final YiffBukkit plugin;
@@ -134,6 +136,36 @@ public class SpawnUtils {
 			}
 		}
 
+		final Map<String, Spawnable<? extends Entity>> fixedSpawnables = new HashMap<>();
+		fixedSpawnables.put("me", new AbstractSpawnable<Player>() {
+			@Override
+			protected void spawn() throws YiffBukkitCommandException {
+				entity = ICommand.asPlayer(commandSender);
+			}
+		});
+		fixedSpawnables.put("mevehicle", new AbstractSpawnable<Entity>() {
+			@Override
+			protected void spawn() throws YiffBukkitCommandException {
+				entity = ICommand.asPlayer(commandSender).getVehicle();
+			}
+		});
+		fixedSpawnables.put("mepassenger", new AbstractSpawnable<Entity>() {
+			@Override
+			protected void spawn() throws YiffBukkitCommandException {
+				entity = ICommand.asPlayer(commandSender).getPassenger();
+			}
+		});
+
+		fixedSpawnables.put("them", ConstantSpawnable.create(them));
+		fixedSpawnables.put("themvehicle", ConstantSpawnable.create(them.getVehicle()));
+		fixedSpawnables.put("thempassenger", ConstantSpawnable.create(them.getPassenger()));
+
+		if (thisEnt != null) {
+			fixedSpawnables.put("this", ConstantSpawnable.create(thisEnt));
+			fixedSpawnables.put("thisvehicle", ConstantSpawnable.create(thisEnt.getVehicle()));
+			fixedSpawnables.put("thispassenger", ConstantSpawnable.create(thisEnt.getPassenger()));
+		}
+
 		Entity previous = null;
 		Entity first = null;
 		for (String part : types) {
@@ -144,13 +176,7 @@ public class SpawnUtils {
 
 			checkMobSpawn(commandSender, type);
 
-			final Entity entity;
-			if (type.equalsIgnoreCase("THIS")) {
-				entity = thisEnt;
-			}
-			else {
-				entity = spawnSingleMob(commandSender, them, location, type, data);
-			}
+			final Entity entity = spawnSingleMob(commandSender, fixedSpawnables, location, type, data);
 
 			if (entity == null)
 				throw new YiffBukkitCommandException("Failed to spawn "+type);
@@ -182,7 +208,8 @@ public class SpawnUtils {
 	}
 
 	private Entity spawnSingleMob(final CommandSender commandSender,
-			Player them, Location location, final String type,
+			Map<String, ? extends Spawnable<? extends Entity>> fixedSpawnables,
+			Location location, final String type,
 			final String data)
 			throws YiffBukkitCommandException {
 
@@ -205,15 +232,20 @@ public class SpawnUtils {
 			return notchEntity.getBukkitEntity();
 		}
 
+		final Spawnable<? extends Entity> spawnable = fixedSpawnables.get(type.toLowerCase());
+		if (spawnable != null)
+			return spawnable.getEntity();
+
+		@SuppressWarnings("unchecked")
+		final Spawnable<Player> them = (Spawnable<Player>) fixedSpawnables.get("them");
+
 		switch (type.toLowerCase()) {
-		case "me":
-			return ICommand.asPlayer(commandSender);
-
-		case "them":
-			return them;
-
 		case "fireball":
-			final EntityPlayer playerEntity = ICommand.asNotchPlayer(them, ICommand.asNotchPlayer(commandSender, null));
+			final EntityPlayer playerEntity;
+			if (them == null)
+				playerEntity = ICommand.asNotchPlayer(commandSender, null);
+			else
+				playerEntity = (EntityPlayer) them.getInternalEntity();
 
 			final Vector dir = playerEntity.getBukkitEntity().getLocation().getDirection();
 			double dx = dir.getX();
@@ -386,7 +418,7 @@ public class SpawnUtils {
 		case "fakeitem":
 			final FakeShapeBasedEntity itemEntity = new FakeShapeBasedEntity(location, "item");
 			if (data != null) {
-				itemEntity.runAction(them, "type "+data.replace("*", " "));
+				itemEntity.runAction(them.getEntity(), "type "+data.replace("*", " "));
 			}
 			itemEntity.send();
 
@@ -488,7 +520,7 @@ public class SpawnUtils {
 					if (them == null)
 						wolf.setOwner(ICommand.asPlayer(commandSender));
 					else
-						wolf.setOwner(them);
+						wolf.setOwner(them.getEntity());
 					break;
 				}
 			}
@@ -584,7 +616,7 @@ public class SpawnUtils {
 			if (them == null) {
 				notchSnowball = new EntitySnowball(notchWorld, ICommand.asNotchPlayer(commandSender));
 			} else {
-				notchSnowball = new EntitySnowball(notchWorld, ICommand.asNotchPlayer(them));
+				notchSnowball = new EntitySnowball(notchWorld, (EntityPlayer) them.getInternalEntity());
 			}
 
 			notchWorld.addEntity(notchSnowball);
