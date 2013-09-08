@@ -11,7 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 @Names("spawnat")
 @Help(
@@ -19,7 +21,7 @@ import org.bukkit.entity.Player;
 		"Missing values will be replaced by a default, if that's available.\n" +
 		" Offsets from that default can be specified by prefixing an 'o'."
 )
-@Usage("[<x>][,<y>][,<z>][,<yaw>][,<pitch>][,<world>] <mob>")
+@Usage("[<x>][,<y>][,<z>][,<yaw>][,<pitch>][,<world>][,<velX>][,<velY>][,<velZ>] <mob>")
 @Permission("yiffbukkit.spawnat")
 public class SpawnAtCommand extends ICommand {
 	@Override
@@ -61,8 +63,14 @@ public class SpawnAtCommand extends ICommand {
 				(float) getDouble(coords, 3, defaultLocation.getPitch()),
 				(float) getDouble(coords, 4, defaultLocation.getYaw())
 		);
+		final Vector velocity = new Vector(
+			getDouble(coords, 6, 0),
+			getDouble(coords, 7, 0),
+			getDouble(coords, 8, 0)
+		);
 
-		plugin.spawnUtils.buildMob(mobString.split("\\+"), commandSender, player, location);
+		final Entity entity = plugin.spawnUtils.buildMob(mobString.split("\\+"), commandSender, player, location);
+		entity.setVelocity(velocity);
 	}
 
 	private static String getString(String[] coords, int index, String defaultValue) {
