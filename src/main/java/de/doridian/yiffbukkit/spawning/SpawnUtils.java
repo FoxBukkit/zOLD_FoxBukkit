@@ -161,9 +161,11 @@ public class SpawnUtils {
 			}
 		});
 
-		fixedSpawnables.put("them", ConstantSpawnable.create(them));
-		fixedSpawnables.put("themvehicle", ConstantSpawnable.create(them.getVehicle()));
-		fixedSpawnables.put("thempassenger", ConstantSpawnable.create(them.getPassenger()));
+		if (them != null) {
+			fixedSpawnables.put("them", ConstantSpawnable.create(them));
+			fixedSpawnables.put("themvehicle", ConstantSpawnable.create(them.getVehicle()));
+			fixedSpawnables.put("thempassenger", ConstantSpawnable.create(them.getPassenger()));
+		}
 
 		Entity previous = null;
 		Entity first = null;
