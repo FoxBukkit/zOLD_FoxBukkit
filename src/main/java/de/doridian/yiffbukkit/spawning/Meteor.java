@@ -18,6 +18,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
 import java.util.Collections;
+import java.util.logging.Level;
 
 public class Meteor extends CustomPotion {
 	private final double radius;
@@ -28,6 +29,8 @@ public class Meteor extends CustomPotion {
 		this.radius = radius;
 		this.speed = speed;
 		new PotionTrail(this.getBukkitEntity()).start();
+
+		YiffBukkit.instance.getServer().getLogger().log(Level.WARNING, thrower.getName() + " used meteor potion at (" + thrower.locX + "," + thrower.locY + "," + thrower.locZ + ")");
 	}
 
 	@Override
