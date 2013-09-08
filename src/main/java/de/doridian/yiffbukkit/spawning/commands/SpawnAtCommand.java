@@ -28,6 +28,7 @@ public class SpawnAtCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		final String coordString;
 		final String mobString;
+		final String themString;
 		switch (args.length) {
 		case 0:
 			throw new YiffBukkitCommandException("Not enough arguments!");
@@ -35,16 +36,27 @@ public class SpawnAtCommand extends ICommand {
 		case 1:
 			coordString = "";
 			mobString = args[0];
+			themString = null; // TODO: detect if coordString or name given ...somehow
+			break;
+
+		case 2:
+			coordString = args[0];
+			mobString = args[1];
+			themString = null;
 			break;
 
 		default:
 			coordString = args[0];
 			mobString = args[1];
+			themString = args[2];
 			break;
 		}
 
 		final Player player;
-		if (commandSender instanceof Player) {
+		if (themString != null) {
+			player = playerHelper.matchPlayerSingle(themString);
+		}
+		else if (commandSender instanceof Player) {
 			player = (Player) commandSender;
 		}
 		else {
