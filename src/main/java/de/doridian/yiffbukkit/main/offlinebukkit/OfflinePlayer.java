@@ -1028,6 +1028,21 @@ public class OfflinePlayer extends CraftOfflinePlayer implements Player {
 	}
 
 	@Override
+	public boolean isLeashed() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Entity getLeashHolder() throws IllegalStateException {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public boolean setLeashHolder(Entity entity) {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
 	public void closeInventory() {
 		// TODO Auto-generated method stub
 	}
