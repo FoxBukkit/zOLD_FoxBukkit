@@ -158,7 +158,7 @@
 			<groupId>de.doridian</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>1.6.2-R0.2-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>de.diddiz</groupId>
