@@ -12,24 +12,15 @@ import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
 import net.minecraft.server.v1_6_R2.Packet38EntityStatus;
 import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
 
-import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.List;
-import java.util.UUID;
 
 public abstract class FakeEntity extends AbstractEntity {
 	static int lastFakeEntityId = 1000000000;
