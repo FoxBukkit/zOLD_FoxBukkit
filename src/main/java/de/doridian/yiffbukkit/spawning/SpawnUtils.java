@@ -66,8 +66,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
-import com.sk89q.worldedit.blocks.ItemID;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -904,8 +902,7 @@ public class SpawnUtils {
 	}
 
 	public ItemStack makeHead(String playerName) {
-		final ItemStack toDrop = new ItemStack(ItemID.HEAD, 1, (short) 3);
-		toDrop.setData(new MaterialData(ItemID.HEAD, (byte) 3));
+		final ItemStack toDrop = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 
 		final SkullMeta meta = (SkullMeta) toDrop.getItemMeta();
 		meta.setOwner(playerName);
@@ -916,31 +913,21 @@ public class SpawnUtils {
 	}
 
 	public ItemStack makeHead(EntityType entityType) {
-		final ItemStack toDrop;
 		switch (entityType) {
 		case PLAYER:
-			toDrop = new ItemStack(ItemID.HEAD, 1, (short)3);
-			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)3));
-			break;
+			return new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 
 		case ZOMBIE:
-			toDrop = new ItemStack(ItemID.HEAD, 1, (short)2);
-			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)2));
-			break;
+			return new ItemStack(Material.SKULL_ITEM, 1, (short) 2);
 
 		case CREEPER:
-			toDrop = new ItemStack(ItemID.HEAD, 1, (short)4);
-			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)4));
-			break;
+			return new ItemStack(Material.SKULL_ITEM, 1, (short) 4);
 
 		case SKELETON:
-			toDrop = new ItemStack(ItemID.HEAD, 1, (short)0);
-			toDrop.setData(new MaterialData(ItemID.HEAD,(byte)0));
-			break;
+			return new ItemStack(Material.SKULL_ITEM, 1, (short) 0);
 
 		default:
 			return null;
 		}
-		return toDrop;
 	}
 }
