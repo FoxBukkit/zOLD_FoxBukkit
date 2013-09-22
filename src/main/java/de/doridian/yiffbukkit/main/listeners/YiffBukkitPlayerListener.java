@@ -91,10 +91,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.setYiffcraftState(player, false);
 		playerHelper.pushPlayerLocationOntoTeleportStack(player);
 
-		String nick = playerHelper.getPlayerNick(player.getName());
-		if (nick == null)
-			nick = player.getName();
-		player.setDisplayName(nick);
+		playerHelper.setPlayerDisplayName(player);
 
 		playerHelper.setPlayerListName(player);
 

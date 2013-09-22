@@ -422,6 +422,13 @@ public class PlayerHelper extends StateContainer {
 			return null;
 	}
 
+	public void setPlayerDisplayName(Player player) {
+		String nick = getPlayerNick(player.getName());
+		if (nick == null)
+			nick = player.getName();
+		player.setDisplayName(nick);
+	}
+
 	public void setPlayerNick(String name, String tag) {
 		name = name.toLowerCase();
 		if (tag == null)
