@@ -4,7 +4,6 @@ import com.sk89q.jnbt.CompoundTag;
 import com.sk89q.jnbt.DoubleTag;
 import com.sk89q.jnbt.FloatTag;
 import com.sk89q.jnbt.IntTag;
-import com.sk89q.jnbt.ListTag;
 import com.sk89q.jnbt.NBTInputStream;
 import com.sk89q.jnbt.Tag;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
@@ -31,19 +30,16 @@ public class OfflinePlayer extends AbstractPlayer {
 	private World world;
 
 	public OfflinePlayer(Server server, String name) {
-		super((CraftServer) server, name);
-		final File playerFile = PlayerHelper.getPlayerFile(name, "world");
+		this(server, PlayerHelper.getPlayerFile(name, "world"), name);
+	}
 
-		YiffBukkit.instance.playerHelper.setPlayerDisplayName(this);
+	private OfflinePlayer(Server server, File playerFile, String name) {
+		super((CraftServer) server, getCaseCorrectName(playerFile, name));
 
 		world = server.getWorld("world"); // default value
 		location = world.getSpawnLocation(); // default value
-		if (playerFile == null)
-			return;
 
-		final String playerFileName = playerFile.getName();
-		// Correct the case of the player name, if the player has been online before.
-		name = playerFileName.substring(0, playerFileName.length() - 4);
+		YiffBukkit.instance.playerHelper.setPlayerDisplayName(this);
 
 		try {
 			final NBTInputStream nbtis = new NBTInputStream(new GZIPInputStream(new FileInputStream(playerFile)));
@@ -68,6 +64,15 @@ public class OfflinePlayer extends AbstractPlayer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static String getCaseCorrectName(File playerFile, String name) {
+		if (playerFile == null)
+			return name;
+
+		final String playerFileName = playerFile.getName();
+		// Correct the case of the player name, if the player has been online before.
+		return playerFileName.substring(0, playerFileName.length() - 4);
 	}
 
 	private static Vector listTagToVector(Tag tag) {
