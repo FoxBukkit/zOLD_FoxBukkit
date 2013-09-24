@@ -25,7 +25,6 @@ import java.util.zip.GZIPInputStream;
 public class OfflinePlayer extends AbstractPlayer {
 	private Vector velocity;
 	private Location location;
-	private int entId = -1;
 	private String displayName;
 	private World world;
 
@@ -79,9 +78,9 @@ public class OfflinePlayer extends AbstractPlayer {
 		@SuppressWarnings("unchecked")
 		final List<DoubleTag> value = (List<DoubleTag>) tag.getValue();
 		return new Vector(
-				((DoubleTag) value.get(0)).getValue(),
-				((DoubleTag) value.get(1)).getValue(),
-				((DoubleTag) value.get(2)).getValue()
+				value.get(0).getValue(),
+				value.get(1).getValue(),
+				value.get(2).getValue()
 		);
 	}
 
@@ -95,7 +94,7 @@ public class OfflinePlayer extends AbstractPlayer {
 	}
 	@Override
 	public int getEntityId() {
-		return entId;
+		return -1;
 	}
 	@Override
 	public String getDisplayName() {
