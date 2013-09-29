@@ -389,32 +389,47 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Tags
-	private Map<String,String> ranktags = RedisManager.createKeptMap("ranktags");
-	private Map<String,String> playertags = RedisManager.createKeptMap("playertags");
+	private Map<String,String> rankTags = RedisManager.createKeptMap("ranktags");
+	private Map<String,String> playerTags = RedisManager.createKeptMap("playerTags");
+	private Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
+
 	public String getPlayerTag(CommandSender commandSender) {
 		return getPlayerTag(commandSender.getName());
 	}
+
+	private String getPlayerRankTag(String name) {
+		name = name.toLowerCase();
+		final String rank = getPlayerRank(name).toLowerCase();
+		if (playerRankTags.containsKey(name))
+			return playerRankTags.get(name);
+
+		if (rankTags.containsKey(rank))
+			return rankTags.get(rank);
+
+		return "\u00a77";
+	}
+
 	public String getPlayerTag(String name) {
 		name = name.toLowerCase();
-		String rank = getPlayerRank(name).toLowerCase();
-		if(playertags.containsKey(name))
-			return playertags.get(name);
-		else if(ranktags.containsKey(rank))
-			return ranktags.get(rank);
-		else
-			return "\u00a77";
+		final String rankTag = getPlayerRankTag(name);
+
+		if (playerTags.containsKey(name))
+			return playerTags.get(name) + " " + rankTag;
+
+		return rankTag;
 	}
-	public void setPlayerTag(String name, String tag) {
+	public void setPlayerTag(String name, String tag, boolean rankTag) {
 		name = name.toLowerCase();
+		final Map<String, String> tags = rankTag ? playerRankTags : playerTags;
 		if (tag == null)
-			playertags.remove(name);
+			tags.remove(name);
 		else
-			playertags.put(name, tag);
+			tags.put(name, tag);
 	}
 
 	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
 
-	public String getPlayerNick(String name) {
+	private String getPlayerNick(String name) {
 		name = name.toLowerCase();
 		if(playernicks.containsKey(name))
 			return playernicks.get(name);
