@@ -144,8 +144,8 @@
 		<dependency>
 			<groupId>com.sk89q</groupId>
 			<artifactId>worldedit</artifactId>
-			<version>5.5.8-SNAPSHOT</version>
-			<scope>provided</scope>
+			<version>5.5.9-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>redis.clients</groupId>
