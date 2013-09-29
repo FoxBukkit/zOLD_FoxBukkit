@@ -37,6 +37,7 @@ public class ChatListener extends BaseListener {
 			helper.sendChat(event.getPlayer(), msg, true);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			PlayerHelper.sendDirectedMessage(event.getPlayer(), e.getMessage());
 		}
 
