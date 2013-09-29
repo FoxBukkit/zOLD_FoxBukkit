@@ -40,6 +40,9 @@ public class OfflinePlayer extends AbstractPlayer {
 
 		YiffBukkit.instance.playerHelper.setPlayerDisplayName(this);
 
+		if (playerFile == null)
+			return;
+
 		try {
 			final NBTInputStream nbtis = new NBTInputStream(new GZIPInputStream(new FileInputStream(playerFile)));
 			final CompoundTag root = (CompoundTag) nbtis.readTag();
