@@ -6,6 +6,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -84,7 +85,7 @@ public class RedisManager {
 			Collection<String> values = jedis.hvals(name);
 			readJedisPool.returnResource(jedis);
 			if(values == null)
-				return new ArrayList<String>();
+				return Collections.emptyList();
 			return values;
 		}
 
@@ -94,7 +95,7 @@ public class RedisManager {
 			Map<String, String> entryMap = jedis.hgetAll(name);
 			readJedisPool.returnResource(jedis);
 			if(entryMap == null)
-				return new HashSet<Entry<String, String>>();
+				return Collections.emptySet();
 			return entryMap.entrySet();
 		}
 
