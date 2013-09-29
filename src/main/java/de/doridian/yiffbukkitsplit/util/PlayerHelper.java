@@ -718,6 +718,14 @@ public class PlayerHelper extends StateContainer {
 		return null;
 	}
 
+	public String formatPlayerFull(String playerName) {
+		String nick = getPlayerNick(playerName);
+		if (nick == null)
+			nick = playerName;
+
+		return getPlayerTag(playerName) + nick;
+	}
+
 	public enum WeatherType {
 		CLEAR("clear"), RAIN("rain"), THUNDERSTORM("thunderstorm");
 

@@ -19,22 +19,22 @@ import org.bukkit.command.CommandSender;
 public class SetTagCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws PermissionDeniedException {
-		String otherName = playerHelper.completePlayerName(args[0], false);
+		final String otherName = playerHelper.completePlayerName(args[0], false);
 		if (otherName == null) {
 			return;
 		}
 
-		String newTag = Utils.concatArray(args, 1, "").replace('$', '\u00a7');
+		final String newTag = Utils.concatArray(args, 1, "").replace('$', '\u00a7');
 		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
 		if (newTag.equals("none")) {
-			playerHelper.setPlayerTag(otherName, null);
-			playerHelper.sendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.getPlayerTag(otherName) + otherName + "\u00a7f!");
+			playerHelper.setPlayerTag(otherName, null, useRankTag);
+			playerHelper.sendServerMessage(commandSender.getName() + " reset tag of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
 		}
 		else {
-			playerHelper.setPlayerTag(otherName, newTag);
-			playerHelper.sendServerMessage(commandSender.getName() + " set tag of " + newTag + otherName + "\u00a7f!");
+			playerHelper.setPlayerTag(otherName, newTag, useRankTag);
+			playerHelper.sendServerMessage(commandSender.getName() + " set tag of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
 		}
 	}
 }

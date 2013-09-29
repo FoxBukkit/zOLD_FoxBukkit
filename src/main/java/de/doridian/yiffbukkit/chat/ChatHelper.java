@@ -190,7 +190,7 @@ public class ChatHelper extends StateContainer {
 			} else {
 				plugin.sendConsoleMsg("[" + chan.name + "] <" + ply.getName() + "> " + msg, false);
 			}
-			msg = plugin.playerHelper.getPlayerTag(ply) + ply.getDisplayName() + ":\u00a7f " + msg;
+			msg = plugin.playerHelper.formatPlayerFull(ply.getName()) + ":\u00a7f " + msg;
 		}
 
 		boolean noOneHearsYou = true;
