@@ -51,6 +51,12 @@
 									</includes>
 								</filter>
 							</filters>
+							<artifactSet>
+								<excludes>
+									<exclude>com.sk89q:worldedit</exclude>
+									<exclude>de.doridian:craftbukkit</exclude>
+								</excludes>
+							</artifactSet>
 						</configuration>
 						<phase>package</phase>
 						<goals>
