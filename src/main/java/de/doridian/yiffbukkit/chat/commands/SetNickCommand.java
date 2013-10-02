@@ -35,12 +35,12 @@ public class SetNickCommand extends ICommand {
 		if (newNick.equals("none")) {
 			otherPly.setDisplayName(otherName);
 			playerHelper.setPlayerNick(otherName, null);
-			playerHelper.sendServerMessage(commandSender.getName() + " reset nickname of " + otherName + "\u00a7f!");
+			playerHelper.sendServerMessage(commandSender.getName() + " reset nickname of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
 		}
 		else {
 			otherPly.setDisplayName(newNick);
 			playerHelper.setPlayerNick(otherName, newNick);
-			playerHelper.sendServerMessage(commandSender.getName() + " set nickname of " + otherName + " to " + newNick + "\u00a7f!");
+			playerHelper.sendServerMessage(commandSender.getName() + " set nickname of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
 		}
 	}
 }
