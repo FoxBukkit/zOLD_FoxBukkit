@@ -389,9 +389,9 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Tags
-	private Map<String,String> rankTags = RedisManager.createKeptMap("ranktags");
-	private Map<String,String> playerTags = RedisManager.createKeptMap("playerTags");
-	private Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
+	private final Map<String,String> rankTags = RedisManager.createKeptMap("ranktags");
+	private final Map<String,String> playerTags = RedisManager.createKeptMap("playerTags");
+	private final Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
 
 	public String getPlayerTag(CommandSender commandSender) {
 		return getPlayerTag(commandSender.getName());
