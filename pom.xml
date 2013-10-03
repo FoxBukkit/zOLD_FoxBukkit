@@ -3,6 +3,9 @@
 	<groupId>de.doridian</groupId>
 	<artifactId>YiffBukkit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
 	<build>
 		<plugins>
 			<plugin>
@@ -70,81 +73,61 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.5</version>
 				<executions>
-				  <execution>
-					<id>maps-file</id>
-					<phase>package</phase>
-					<goals>
-					  <goal>copy-resources</goal>
-					</goals>
-					<configuration>
-					  <outputDirectory>${basedir}/target</outputDirectory>
-					  <resources>
-						<resource>
-						  <directory>${basedir}</directory>
-						  <filtering>true</filtering>
-						  <includes>
-							<include>maps.yml</include>
-						  </includes>
-						</resource>
-					  </resources>
-					</configuration>
-				  </execution>
+					<execution>
+						<id>maps-file</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>maps.yml</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 				</executions>
-			  </plugin>
-			  <!--<plugin>
-				<groupId>com.wolvereness</groupId>
-				<artifactId>overmapped</artifactId>
-				<version>0.0.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-4</version>
 				<executions>
-				  <execution>
-					<phase>package</phase>
-					<goals>
-					  <goal>map</goal>
-					</goals>
-					<configuration>
-					  <maps>${basedir}/target/maps.yml</maps>
-					  <input>${basedir}/target/${project.artifactId}-${project.version}.jar</input>
-					  <original>${basedir}/target/unmapped-${project.artifactId}-${project.version}.jar</original>
-					</configuration>
-				  </execution>
+					<execution>
+						<id>deploy-jar</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>upload-single</goal>
+						</goals>
+						<configuration>
+							<serverId>arcticfox-mc</serverId>
+							<fromFile>${project.build.directory}/${project.build.finalName}.jar</fromFile>
+							<url>scpexe://root@arcticfox-mc.doridian.de/home/minecraft/multicraft/servers/server1/plugins/</url>
+						</configuration>
+					</execution>
 				</executions>
-			  </plugin>-->
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-utils</artifactId>
+						<version>1.5.4</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.zeroturnaround
-										</groupId>
-										<artifactId>
-											javarebel-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.0.5,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>2.4</version>
+			</extension>
+		</extensions>
 	</build>
 	<dependencies>
 		<dependency>
@@ -184,13 +167,13 @@
 			<version>1.4</version>
 			<scope>compile</scope>
 		</dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 	<repositories>
 		<repository>
 			<id>spout-repo</id>
