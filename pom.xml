@@ -108,7 +108,8 @@
 						<configuration>
 							<serverId>arcticfox-mc</serverId>
 							<fromFile>${project.build.directory}/${project.build.finalName}.jar</fromFile>
-							<url>scpexe://root@arcticfox-mc.doridian.de/home/minecraft/multicraft/servers/server1/plugins/</url>
+							<url>scpexe://root@arcticfox-mc.doridian.de/home/minecraft/multicraft/servers/server1/plugins</url>
+							<toFile>${project.name}.jar</toFile>
 						</configuration>
 					</execution>
 				</executions>
