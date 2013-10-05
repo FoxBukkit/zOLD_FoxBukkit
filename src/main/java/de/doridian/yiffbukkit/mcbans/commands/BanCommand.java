@@ -10,6 +10,7 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -49,7 +50,9 @@ public class BanCommand extends ICommand {
 			try {
 				jail.engine.jailPlayer(otherply, false);
 			}
-			catch (JailException e) { }
+			catch (JailException e) {
+				PlayerHelper.sendDirectedMessage(commandSender, e.getMessage(), e.getColor());
+			}
 		}
 
 		YiffBukkitPermissions.removeCOPlayer(otherply);

@@ -23,6 +23,7 @@ import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -31,17 +32,27 @@ import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("UnusedDeclaration")
 public class Utils {
 	private YiffBukkit plugin;
 	public Utils(YiffBukkit iface) {
 		plugin = iface;
 	}
 
-	public static String concatArray(String[] array, int start, String def) {
-		if (array.length <= start) return def;
-		if (array.length <= start + 1) return array[start];
+	public static String concat(Collection<String> parts, int start, String defaultText) {
+		// TODO: optimize
+		return concatArray(parts.toArray(new String[parts.size()]), start, defaultText);
+	}
+
+	public static String concatArray(String[] array, int start, String defaultText) {
+		if (array.length <= start)
+			return defaultText;
+
+		if (array.length <= start + 1)
+			return array[start]; // optimization
+
 		StringBuilder ret = new StringBuilder(array[start]);
-		for(int i=start+1;i<array.length;i++) {
+		for(int i = start + 1; i < array.length; i++) {
 			ret.append(' ');
 			ret.append(array[i]);
 		}
@@ -110,25 +121,25 @@ public class Utils {
 		final double yaw = Math.toRadians(location.getYaw());
 		final double pitch = Math.toRadians(location.getPitch());
 
-		final double cos_y = Math.cos(yaw);
-		final double sin_y = Math.sin(yaw);
-		final double cos_p = Math.cos(pitch);
-		final double sin_p = Math.sin(pitch);
+		final double cosYaw = Math.cos(yaw);
+		final double sinYaw = Math.sin(yaw);
+		final double cosPitch = Math.cos(pitch);
+		final double sinPitch = Math.sin(pitch);
 
 		final Vector forward = new Vector(
-				-sin_y*cos_p,
-				-sin_p,
-				cos_y*cos_p
+				-sinYaw*cosPitch,
+				-sinPitch,
+				cosYaw*cosPitch
 		);
 		final Vector up = new Vector(
-				-sin_y*sin_p,
-				cos_p,
-				cos_y*sin_p
+				-sinYaw*sinPitch,
+				cosPitch,
+				cosYaw*sinPitch
 		);
 		final Vector left = new Vector(
-				cos_y,
+				cosYaw,
 				0,
-				sin_y
+				sinYaw
 		);
 
 		return forward.multiply(axis.getX()).add(up.multiply(axis.getY())).add(left.multiply(axis.getZ()));
@@ -225,9 +236,9 @@ public class Utils {
 	}
 
 	/**
-	 * Returns a uniformly distributed, random, normalized direction vector.
+	 * Generates a uniformly distributed, random, normalized direction vector.
 	 *
-	 * @return
+	 * @return the vector
 	 */
 	public static Vector randvec() {
 		double s, x,y;
@@ -298,7 +309,7 @@ public class Utils {
 	}
 
 	public static <T> List<Class<? extends T>> getSubClasses(Class<T> baseClass, String packageName) {
-		final List<Class<? extends T>> ret = new ArrayList<Class<? extends T>>();
+		final List<Class<? extends T>> ret = new ArrayList<>();
 		final File file;
 		try {
 			final ProtectionDomain protectionDomain = baseClass.getProtectionDomain();
@@ -331,7 +342,7 @@ public class Utils {
 			fileList = directory.list();
 		}
 		else if (file.isFile()) {
-			final List<String> tmp = new ArrayList<String>();
+			final List<String> tmp = new ArrayList<>();
 			final JarFile jarFile;
 			try {
 				jarFile = new JarFile(file);
@@ -375,6 +386,7 @@ public class Utils {
 				ret.add(classT);
 			}
 			catch (ClassCastException e) {
+				//noinspection UnnecessaryContinue
 				continue;
 			}
 			catch (Exception e) {
@@ -386,10 +398,10 @@ public class Utils {
 	}
 
 	public static List<Player> getObservingPlayers(Player target) {
-		final List<Player> players = new ArrayList<Player>();
+		final List<Player> players = new ArrayList<>();
 
 		for (Player player : target.getWorld().getPlayers()) {
-			if (!player.canSee((Player) target))
+			if (!player.canSee(target))
 				continue;
 
 			players.add(player);
@@ -412,11 +424,19 @@ public class Utils {
 		return spaces;
 	}
 
+	/**
+	 * Enumerates strings in natural english.
+	 *
+	 * @param strings The strings to enumerate.
+	 * @return the enumerated strings.
+	 */
 	public static StringBuilder enumerateStrings(final List<String> strings) {
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < strings.size(); ++i) {
 			final String distance = strings.get(i);
+			//noinspection StatementWithEmptyBody
 			if (i == 0) {
+				// Do nothing
 			}
 			else if (i == strings.size()-1) {
 				sb.append(" and ");

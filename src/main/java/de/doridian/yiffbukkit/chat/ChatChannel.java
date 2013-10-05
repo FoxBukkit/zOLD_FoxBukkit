@@ -10,142 +10,196 @@ import java.util.HashSet;
 
 public class ChatChannel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public ChatChannelMode mode = ChatChannelMode.PUBLIC;
 	public final String name;
 	public String password = "";
-	
-	public HashSet<String> users = new HashSet<String>();
-	public HashSet<String> moderators = new HashSet<String>();
+
+	public final HashSet<String> users = new HashSet<>();
+	public final HashSet<String> moderators = new HashSet<>();
 	public String owner;
-	
+
 	public int range = 0;
-	
-	public HashMap<String,Boolean> players = new HashMap<String,Boolean>();
-	
+
+	public final HashMap<String,Boolean> players = new HashMap<>();
+
 	public ChatChannel(String name) {
 		this.name = name;
 	}
-	
+
 	public boolean canJoin(Player ply) {
 		return canJoin(ply, "");
 	}
-	
+
 	public boolean canJoin(Player ply, String pass) {
-		String plyname = ply.getName().toLowerCase();
-		
-		if(users.contains(plyname) || moderators.contains(plyname)) return true;
-		
-		if(mode != ChatChannelMode.PRIVATE && (password.isEmpty() || pass.equals(password))) return true;
-		
+		if (ply.hasPermission("yiffbukkit.channels.force.user"))
+			return true;
+
+		final String playerName = ply.getName().toLowerCase();
+
+		if (users.contains(playerName))
+			return true;
+
+		if (moderators.contains(playerName))
+			return true;
+
+		if (mode == ChatChannelMode.PRIVATE)
+			return false;
+
+		if (password.isEmpty())
+			return true;
+
+		//noinspection RedundantIfStatement
+		if (pass.equals(password))
+			return true;
+
 		return false;
 	}
-	
+
 	public boolean canHear(Player target, Player source) {
-		if(source == null || target == source) return true;
-		
-		String tname = target.getName().toLowerCase();
-		
+		if (source == null)
+			return true;
+
+		if (target == source)
+			return true;
+
+		final String targetName = target.getName().toLowerCase();
+
 		//is the player in the channel?
-		if(!players.containsKey(tname)) {
+		if (!players.containsKey(targetName))
 			return false;
-		}
-		
+
 		//is the player listening to the channel?
-		if(!players.get(tname)) {
+		if (!players.get(targetName))
 			return false;
-		}
-		
+
 		//is the player in range of the channel?
-		if(range > 0 && (target.getWorld() != source.getWorld() || target.getLocation().distance(source.getLocation()) > range)) {
+		if (range <= 0)
+			return true;
+
+		if (target.getWorld() != source.getWorld())
 			return false;
-		}
-		
+
+		//noinspection RedundantIfStatement
+		if (target.getLocation().distance(source.getLocation()) > range)
+			return false;
+
 		return true;
+
 	}
-	
+
 	public boolean canSpeak(Player player) {
-		if(player == null) return true;
-		
-		String pname = player.getName().toLowerCase();
-		
+		if (player == null)
+			return true;
+
+		final String playerName = player.getName().toLowerCase();
+
 		//is the player in the channel?
-		if(!players.containsKey(pname)) {
+		if (!players.containsKey(playerName))
 			return false;
-		}
-		
+
 		//if channel is moderated, is user in the users list?
-		if(mode == ChatChannelMode.MODERATED && !isUser(player)) {
-			return false;
-		}
-		
-		return true;
+		if (mode != ChatChannelMode.MODERATED)
+			return true;
+
+		//noinspection RedundantIfStatement
+		if (isUser(player))
+			return true;
+
+		return false;
+
 	}
-	
+
 	public void addUser(Player player) throws YiffBukkitCommandException {
-		if(player == null) throw new PlayerNotFoundException();
-		
-		String plyname = player.getName().toLowerCase();
-		if(!this.users.contains(plyname)) {
-			this.users.add(plyname);
-		} else {
+		if (player == null)
+			throw new PlayerNotFoundException();
+
+		final String playerName = player.getName().toLowerCase();
+		if (this.users.contains(playerName))
 			throw new YiffBukkitCommandException("Player is already a user of this channel!");
-		}
+
+		this.users.add(playerName);
 	}
-	
+
 	public void removeUser(Player player) throws YiffBukkitCommandException {
-		if(player == null) throw new PlayerNotFoundException();
-		
+		if (player == null)
+			throw new PlayerNotFoundException();
+
 		try {
 			removeModerator(player);
-		} catch(Exception e) { }
-		
-		String plyname = player.getName().toLowerCase();
-		if(this.users.contains(plyname)) {
-			this.users.remove(plyname);
-		} else {
-			throw new YiffBukkitCommandException("Player is not a user of this channel!");
 		}
+		catch (YiffBukkitCommandException ignored) { }
+
+		final String playerName = player.getName().toLowerCase();
+		if (!this.users.contains(playerName))
+			throw new YiffBukkitCommandException("Player is not a user of this channel!");
+
+		this.users.remove(playerName);
 	}
-	
+
 	public void addModerator(Player player) throws YiffBukkitCommandException {
-		if(player == null) throw new PlayerNotFoundException();
-		
+		if (player == null)
+			throw new PlayerNotFoundException();
+
 		try {
 			addUser(player);
-		} catch(Exception e) { }
-		
-		String plyname = player.getName().toLowerCase();
-		if(!this.moderators.contains(plyname)) {
-			this.moderators.add(plyname);
-		} else {
+		}
+		catch (YiffBukkitCommandException ignored) { }
+
+		final String playerName = player.getName().toLowerCase();
+		if (this.moderators.contains(playerName))
 			throw new YiffBukkitCommandException("Player is already a moderator of this channel!");
-		}
+
+		this.moderators.add(playerName);
 	}
-	
+
 	public void removeModerator(Player player) throws YiffBukkitCommandException {
-		if(player == null) throw new PlayerNotFoundException();
-		
-		String plyname = player.getName().toLowerCase();
-		if(this.moderators.contains(plyname)) {
-			this.moderators.remove(plyname);
-		} else {
+		if (player == null)
+			throw new PlayerNotFoundException();
+
+		final String playerName = player.getName().toLowerCase();
+		if (!this.moderators.contains(playerName))
 			throw new YiffBukkitCommandException("Player is not a moderator of this channel!");
-		}
+
+		this.moderators.remove(playerName);
 	}
-	
+
 	public boolean isOwner(Player player) {
-		return player.getName().toLowerCase().equals(this.owner) || player.hasPermission("yiffbukkit.channels.force.owner");
+		if (player.getName().toLowerCase().equals(this.owner))
+			return true;
+
+		//noinspection RedundantIfStatement
+		if (player.hasPermission("yiffbukkit.channels.force.owner"))
+			return true;
+
+		return false;
 	}
-	
+
 	public boolean isModerator(Player player) {
-		return isOwner(player) || moderators.contains(player.getName().toLowerCase()) || player.hasPermission("yiffbukkit.channels.force.moderator");
+		if (isOwner(player))
+			return true;
+
+		if (moderators.contains(player.getName().toLowerCase()))
+			return true;
+
+		//noinspection RedundantIfStatement
+		if (player.hasPermission("yiffbukkit.channels.force.moderator"))
+			return true;
+
+		return false;
 	}
-	
+
 	public boolean isUser(Player player) {
-		return isModerator(player) || users.contains(player.getName().toLowerCase());
+		if (isModerator(player))
+			return true;
+
+		//noinspection RedundantIfStatement
+		if (users.contains(player.getName().toLowerCase()))
+			return true;
+
+		return false;
 	}
-	
+
 	public enum ChatChannelMode {
 		PUBLIC, PRIVATE, MODERATED
 	}

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
@@ -27,13 +28,11 @@ public class ChatHelper extends StateContainer {
 	public final ChatChannel DEFAULT;
 
 	public void joinChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
-		String plyname = player.getName().toLowerCase();
-		if (!channel.players.containsKey(plyname)) {
-			channel.players.put(plyname, true);
-		}
-		else {
+		final String plyname = player.getName().toLowerCase();
+		if (channel.players.containsKey(plyname))
 			throw new YiffBukkitCommandException("Player already in channel!");
-		}
+
+		channel.players.put(plyname, true);
 		saveChannels();
 	}
 
@@ -41,16 +40,15 @@ public class ChatHelper extends StateContainer {
 		if (channel == DEFAULT)
 			throw new YiffBukkitCommandException("You cannot leave the default channel! Mute it!");
 
-		String plyname = player.getName().toLowerCase();
-		if (channel.players.containsKey(plyname)) {
-			if (container.activeChannel.get(plyname) == channel) {
-				container.activeChannel.put(plyname, DEFAULT);
-			}
-			channel.players.remove(plyname);
-		}
-		else {
+		final String plyname = player.getName().toLowerCase();
+		if (!channel.players.containsKey(plyname))
 			throw new YiffBukkitCommandException("Player not in channel!");
+
+		if (container.activeChannel.get(plyname) == channel) {
+			container.activeChannel.put(plyname, DEFAULT);
 		}
+
+		channel.players.remove(plyname);
 		saveChannels();
 	}
 
@@ -59,27 +57,23 @@ public class ChatHelper extends StateContainer {
 	}
 
 	public ChatChannel addChannel(Player owner, String name, boolean overwrite) throws YiffBukkitCommandException {
-		String keyname = name.toLowerCase();
-		ChatChannel newChan;
-		if (container.channels.containsKey(keyname)) {
-			if (overwrite) {
-				newChan = container.channels.get(keyname);
-			}
-			else {
+		final String key = name.toLowerCase();
+		final ChatChannel newChan;
+		if (container.channels.containsKey(key)) {
+			if (!overwrite)
 				throw new YiffBukkitCommandException("Channel exists already!");
-			}
+
+			newChan = container.channels.get(key);
 		}
 		else {
 			newChan = new ChatChannel(name);
-			container.channels.put(keyname, newChan);
+			container.channels.put(key, newChan);
 		}
 
-		try {
+		if (owner == null)
+			newChan.owner = null;
+		else
 			newChan.owner = owner.getName().toLowerCase();
-		}
-		catch (Exception e) {
-			newChan.owner = null; 
-		}
 
 		saveChannels();
 		return newChan;
@@ -87,10 +81,11 @@ public class ChatHelper extends StateContainer {
 
 	@SuppressWarnings("unchecked")
 	public void removeChannel(ChatChannel channel) {
-		for (Entry<String,ChatChannel> entry : ((HashMap<String,ChatChannel>)container.activeChannel.clone()).entrySet()) {
-			if (entry.getValue() == channel) {
-				container.activeChannel.put(entry.getKey(), DEFAULT);
-			}
+		for (Entry<String,ChatChannel> entry : new HashMap<>(container.activeChannel).entrySet()) {
+			if (entry.getValue() != channel)
+				continue;
+
+			container.activeChannel.put(entry.getKey(), DEFAULT);
 		}
 
 		channel.players.clear();
@@ -152,7 +147,7 @@ public class ChatHelper extends StateContainer {
 			joinChannel(ply, DEFAULT);
 			needsSave = true;
 		}
-		catch (Exception e) { }
+		catch (Exception ignored) { }
 
 		if (container.activeChannel.get(plyname) == null) {
 			container.activeChannel.put(plyname, DEFAULT);
@@ -221,23 +216,16 @@ public class ChatHelper extends StateContainer {
 		plugin = plug;
 		instance = this;
 
-		ChatChannelContainer cont = null;
-		try {
-			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/channels.dat");
-			try {
-				ObjectInputStream reader = new ObjectInputStream(stream);
-				try {
-					cont = (ChatChannelContainer) reader.readObject();
-				}
-				finally {
-					reader.close();
-				}
+		ChatChannelContainer cont;
+		try (
+				final FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/channels.dat");
+				final ObjectInputStream reader = new ObjectInputStream(stream)
+		) {
+			cont = (ChatChannelContainer) reader.readObject();
+			if (cont.replacers == null) {
+				cont = new ChatChannelContainer();
 			}
-			finally {
-				stream.close();
-			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			cont = new ChatChannelContainer();
 		}
@@ -248,7 +236,7 @@ public class ChatHelper extends StateContainer {
 		try {
 			cc = addChannel(null, "DEFAULT", true);
 		}
-		catch (Exception e) { }
+		catch (Exception ignored) { }
 		DEFAULT = cc;
 
 		saveChannels();
@@ -256,18 +244,13 @@ public class ChatHelper extends StateContainer {
 
 	@Saver("channels")
 	public static void saveChannels() {
-		try {
-			FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/channels.dat");
-			ObjectOutputStream writer = new ObjectOutputStream(stream);
-			try {
-				writer.writeObject(ChatHelper.instance.container);
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}		
-			writer.close();
-			stream.close();
+		try (
+				FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/channels.dat");
+				ObjectOutputStream writer = new ObjectOutputStream(stream)
+		) {
+			writer.writeObject(ChatHelper.instance.container);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		catch (Exception e) { }
 	}
 }

@@ -5,48 +5,42 @@ import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.chat.ChatReplacer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-
-@ICommand.Names({"crepl"})
-@ICommand.Help("Makes chat text replace on certain phrases")
-@ICommand.Usage("<from> <to>")
-@ICommand.Permission("yiffbukkit.chatreplace")
-@ICommand.BooleanFlags("lrd")
+@Names("crepl")
+@Help("Makes chat text replace on certain phrases")
+@Usage("<from> <to>")
+@Permission("yiffbukkit.chatreplace")
+@BooleanFlags("lrd")
 public class ChatReplacement extends ICommand {
-	public ChatReplacement() {
-		super();
-	}
-
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		ChatChannelContainer cont = ChatHelper.getInstance().container;
 
-		if(cont.replacers == null) {
-			cont.replacers = new ArrayList<ChatReplacer>();
-		}
-
 		if(booleanFlags.contains('l')) {
 			PlayerHelper.sendDirectedMessage(commandSender, "Listing ChatReplacements:");
 			for(int i=0;i<cont.replacers.size();i++) {
-				PlayerHelper.sendDirectedMessage(commandSender, (i+1)+") "+cont.replacers.get(i));
+				final ChatReplacer repl = cont.replacers.get(i);
+				PlayerHelper.sendDirectedMessage(commandSender, i + ") " + repl);
 			}
 		} else if(booleanFlags.contains('d')) {
-			cont.replacers.remove(Integer.parseInt(args[0]) - 1);
-			PlayerHelper.sendDirectedMessage(commandSender, "Removed: " + args[0]);
-			ChatHelper.saveChannels();
-		} else if(booleanFlags.contains('r')) {
-			ChatReplacer.RegexChatReplacer repl = new ChatReplacer.RegexChatReplacer(args[0],  Utils.concatArray(args, 1, null));
-			cont.replacers.add(repl);
-			PlayerHelper.sendDirectedMessage(commandSender, "Added: " + repl);
+			final int i = Integer.parseInt(args[0]);
+			final ChatReplacer repl = cont.replacers.remove(i);
+			PlayerHelper.sendDirectedMessage(commandSender, "Removed: " + i + ") " + repl);
 			ChatHelper.saveChannels();
 		} else {
-			ChatReplacer.PlainChatReplacer repl = new ChatReplacer.PlainChatReplacer(args[0],  Utils.concatArray(args, 1, null));
+			final String to = Utils.concatArray(args, 1, null);
+			final ChatReplacer repl;
+			if (booleanFlags.contains('r')) {
+				repl = new ChatReplacer.RegexChatReplacer(args[0], to);
+			} else {
+				repl = new ChatReplacer.PlainChatReplacer(args[0], to);
+			}
 			cont.replacers.add(repl);
 			PlayerHelper.sendDirectedMessage(commandSender, "Added: " + repl);
 			ChatHelper.saveChannels();
