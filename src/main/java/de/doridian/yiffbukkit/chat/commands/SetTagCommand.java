@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 		"-r to specify a custom rank tag instead of a player tag."
 )
 @Usage("<name> <tag>|none")
-@BooleanFlags("r")
+@BooleanFlags("rf")
 @Permission("yiffbukkit.users.settag")
 public class SetTagCommand extends ICommand {
 	@Override
@@ -30,11 +30,15 @@ public class SetTagCommand extends ICommand {
 			throw new PermissionDeniedException();
 
 		final boolean useRankTag = booleanFlags.contains('r');
+		final boolean force = booleanFlags.contains('f');
 		final String tagTypeName = useRankTag ? "rank tag" : "tag";
 
 		if (newTag.equals("none")) {
 			playerHelper.setPlayerTag(otherName, null, useRankTag);
 			playerHelper.sendServerMessage(commandSender.getName() + " reset "+tagTypeName+" of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
+		}
+		else if (!useRankTag && !force && newTag.matches("^.*\u00a7.$")) {
+			throw new YiffBukkitCommandException("Player tag ends in color code. This belongs into the rank tag now (-r flag).");
 		}
 		else {
 			playerHelper.setPlayerTag(otherName, newTag, useRankTag);

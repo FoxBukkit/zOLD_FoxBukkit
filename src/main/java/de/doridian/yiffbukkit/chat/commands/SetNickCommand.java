@@ -3,10 +3,7 @@ package de.doridian.yiffbukkit.chat.commands;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,10 +14,12 @@ import org.bukkit.entity.Player;
 		"Colors: \u00a70$0 \u00a71$1 \u00a72$2 \u00a73$3 \u00a74$4 \u00a75$5 \u00a76$6 \u00a77$7 \u00a78$8 \u00a79$9 \u00a7a$a \u00a7b$b \u00a7c$c \u00a7d$d \u00a7e$e \u00a7f$f"
 )
 @Usage("<name> <nick>|none")
+@BooleanFlags("f")
 @Permission("yiffbukkit.users.setnick")
 public class SetNickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		args = parseFlags(args);
 		String otherName = playerHelper.completePlayerName(args[0], false);
 
 		if (otherName == null)
@@ -32,10 +31,15 @@ public class SetNickCommand extends ICommand {
 		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
 			throw new PermissionDeniedException();
 
+		final boolean force = booleanFlags.contains('f');
+
 		if (newNick.equals("none")) {
 			otherPly.setDisplayName(otherName);
 			playerHelper.setPlayerNick(otherName, null);
 			playerHelper.sendServerMessage(commandSender.getName() + " reset nickname of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
+		}
+		else if (!force && newNick.matches("^\u00a7[^\u00a7]*$")) {
+			throw new YiffBukkitCommandException("Plainly colored nick detected. This color belongs into the rank tag now (/settag -r).");
 		}
 		else {
 			otherPly.setDisplayName(newNick);
