@@ -121,11 +121,36 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+				<groupId>com.github.goldin</groupId>
+				<artifactId>sshexec-maven-plugin</artifactId>
+				<version>0.2.5</version>
+				<executions>
+					<execution>
+						<id>restart-server</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>sshexec</goal>
+						</goals>
+						<configuration>
+							<runIf>{{ restart }}</runIf>
+							<location>scp://root:dummy@arcticfox-mc.doridian.de:/</location>
+							<keyfile>${env.HOME}/.ssh/id_rsa</keyfile>
+							<command>/bin/sh /root/restart-server.sh</command>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh-external</artifactId>
+				<version>2.4</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
 				<version>2.4</version>
 			</extension>
 		</extensions>
