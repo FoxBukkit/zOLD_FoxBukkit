@@ -397,7 +397,7 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerTag(commandSender.getName());
 	}
 
-	private String getPlayerRankTag(String name) {
+	public String getPlayerRankTag(String name) {
 		name = name.toLowerCase();
 		final String rank = getPlayerRank(name).toLowerCase();
 		if (playerRankTags.containsKey(name))

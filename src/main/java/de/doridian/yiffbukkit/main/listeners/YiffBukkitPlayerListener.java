@@ -224,7 +224,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		else if(message.charAt(0) == '#') {
 			event.setCancelled(true);
 			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
-			message = "\u00a7e[#OP] \u00a7f" + ply.getDisplayName() + "\u00a7f: " + message.substring(1);
+			message = "\u00a7e[#OP] \u00a7f" + playerHelper.getPlayerRankTag(ply.getName())+ply.getDisplayName() + "\u00a7f: " + message.substring(1);
 			playerHelper.broadcastMessage(message, "yiffbukkit.opchat");
 
 			event.setCancelled(true);
