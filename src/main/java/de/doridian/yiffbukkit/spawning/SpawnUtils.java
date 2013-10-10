@@ -47,6 +47,7 @@ import org.bukkit.craftbukkit.v1_6_R2.CraftServer;
 import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
+import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -73,6 +74,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class SpawnUtils {
 	private final YiffBukkit plugin;
@@ -170,12 +172,32 @@ public class SpawnUtils {
 		for (String part : types) {
 			final String[] partparts = part.split(":", 2);
 
-			final String type = partparts[0];
+			final String typeCompound = partparts[0];
 			final String data = partparts.length >= 2 ? partparts[1] : null;
+
+			final String[] typeParts = typeCompound.split("@");
+			final String type = typeParts[0];
 
 			checkMobSpawn(commandSender, type);
 
 			final Entity entity = spawnSingleMob(commandSender, fixedSpawnables, location, type, data);
+			for (int i = 1; i < typeParts.length; i++) {
+				final String attribute = typeParts[i];
+				switch (attribute.toLowerCase()) {
+				case "leash":
+					((LivingEntity) entity).setLeashHolder(them);
+					break;
+
+				case "fire":
+				case "flame":
+					entity.setFireTicks(100);
+					break;
+
+				case "baby":
+					((Ageable) entity).setBaby();
+					break;
+				}
+			}
 
 			if (entity == null)
 				throw new YiffBukkitCommandException("Failed to spawn "+type);
