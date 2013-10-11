@@ -21,26 +21,22 @@ public abstract class Component {
 		plugin.commandSystem.scanCommands(packageName+".commands");
 	}
 
+	@SuppressWarnings("UnnecessaryContinue")
 	public void registerListeners() {
 		final String packageName = this.getClass().getPackage().getName();
-		for (Class<? extends Object> cls : Utils.getSubClasses(YBListener.class, packageName+".listeners")) {
+		for (Class<?> cls : Utils.getSubClasses(YBListener.class, packageName+".listeners")) {
 			try {
 				cls.getConstructor(YiffBukkit.class).newInstance(plugin);
 				System.out.println("Registered Listener '"+cls.getName()+"' for component '"+packageName+"'.");
 				continue;
 			}
-			catch (NoSuchMethodException e) { }
-			catch (InstantiationException e) { }
-			catch (IllegalAccessException e) { }
-			catch (InvocationTargetException e) { }
+			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException ignored) { }
 
 			try {
 				cls.newInstance();
 				System.out.println("Registered Listener '"+cls.getName()+"' for component '"+packageName+"'.");
 				continue;
-			} catch (InstantiationException e) {
-				continue;
-			} catch (IllegalAccessException e) {
+			} catch (InstantiationException | IllegalAccessException e) {
 				continue;
 			}
 		}
