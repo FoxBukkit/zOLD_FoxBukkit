@@ -182,15 +182,15 @@ public class SpawnUtils {
 
 			final Entity entity = spawnSingleMob(commandSender, fixedSpawnables, location, type, data);
 			for (int i = 1; i < typeParts.length; i++) {
-				final String attribute = typeParts[i];
-				switch (attribute.toLowerCase()) {
+				final String attribute = typeParts[i].toLowerCase();
+				switch (attribute) {
 				case "leash":
 					((LivingEntity) entity).setLeashHolder(them);
 					break;
 
 				case "fire":
 				case "flame":
-					entity.setFireTicks(100);
+					entity.setFireTicks(entity.getFireTicks() + Math.max(20, entity.getMaxFireTicks()));
 					break;
 
 				case "baby":
