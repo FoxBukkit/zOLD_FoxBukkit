@@ -65,7 +65,6 @@ public class YiffBukkitPermissionHandler {
 		permissionsDirectory.mkdirs();
 		File[] files = permissionsDirectory.listFiles();
 
-		BufferedReader reader;
 		for(File file : files) {
 			try {
 				String currentWorld;
@@ -76,45 +75,47 @@ public class YiffBukkitPermissionHandler {
 				}
 				HashSet<String> currentPermissions = null;
 				HashSet<String> currentProhibitions = null;
-				reader = new BufferedReader(new FileReader(file));
-				String line;
-				while((line = reader.readLine()) != null) {
-					line = line.trim().toLowerCase();
-					if(line.length() < 1) continue;
-					char c = line.charAt(0);
-					if(c == '-') {
-						line = line.substring(1).trim();
-						currentPermissions.remove(line);
-						currentProhibitions.add(line);
-					} else if(c == '+') {
-						line = line.substring(1).trim();
-						currentPermissions.add(line);
-						currentProhibitions.remove(line);
-					} else {
-						if(currentGroupWorld != null) {
-							groupPermissions.put(currentGroupWorld, currentPermissions);
-							groupProhibitions.put(currentGroupWorld, currentProhibitions);
-						}
-						int i = line.indexOf(' ');
-						currentPermissions = new HashSet<String>();
-						currentProhibitions = new HashSet<String>();
-						if(i > 0) {
-							currentGroupWorld = new GroupWorld(line.substring(0, i).trim(), currentWorld);
-							GroupWorld tmp = new GroupWorld(line.substring(i+1).trim(), currentWorld);
-							currentPermissions.addAll(groupPermissions.get(tmp));
-							currentProhibitions.addAll(groupProhibitions.get(tmp));
+				try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+					String line;
+					while ((line = reader.readLine()) != null) {
+						line = line.trim().toLowerCase();
+						if (line.length() < 1) continue;
+						char c = line.charAt(0);
+						if (c == '-') {
+							line = line.substring(1).trim();
+							currentPermissions.remove(line);
+							currentProhibitions.add(line);
+						} else if (c == '+') {
+							line = line.substring(1).trim();
+							currentPermissions.add(line);
+							currentProhibitions.remove(line);
 						} else {
-							currentGroupWorld = new GroupWorld(line, currentWorld);
+							if (currentGroupWorld != null) {
+								groupPermissions.put(currentGroupWorld, currentPermissions);
+								groupProhibitions.put(currentGroupWorld, currentProhibitions);
+							}
+							int i = line.indexOf(' ');
+							currentPermissions = new HashSet<String>();
+							currentProhibitions = new HashSet<String>();
+							if (i > 0) {
+								currentGroupWorld = new GroupWorld(line.substring(0, i).trim(), currentWorld);
+								GroupWorld tmp = new GroupWorld(line.substring(i + 1).trim(), currentWorld);
+								currentPermissions.addAll(groupPermissions.get(tmp));
+								currentProhibitions.addAll(groupProhibitions.get(tmp));
+							} else {
+								currentGroupWorld = new GroupWorld(line, currentWorld);
+							}
 						}
 					}
+					if (currentGroupWorld != null) {
+						groupPermissions.put(currentGroupWorld, currentPermissions);
+						groupProhibitions.put(currentGroupWorld, currentProhibitions);
+					}
 				}
-				if(currentGroupWorld != null) {
-					groupPermissions.put(currentGroupWorld, currentPermissions);
-					groupProhibitions.put(currentGroupWorld, currentProhibitions);
-				}
-				reader.close();
 			}
-			catch(Exception e) { e.printStackTrace(); }
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
