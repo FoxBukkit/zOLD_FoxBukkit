@@ -5,6 +5,8 @@ import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.Packet20NamedEntitySpawn;
+import net.minecraft.server.v1_6_R2.Packet24MobSpawn;
 import net.minecraft.server.v1_6_R2.Packet30Entity;
 import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
 import net.minecraft.server.v1_6_R2.Packet35EntityHeadRotation;
@@ -32,6 +34,8 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		instance = this;
 		Bukkit.getServer().getPluginManager().registerEvents(this, YiffBukkit.instance);
 
+		register(PacketDirection.OUTGOING, 20);
+		register(PacketDirection.OUTGOING, 24);
 		register(PacketDirection.OUTGOING, 32);
 		register(PacketDirection.OUTGOING, 33);
 		register(PacketDirection.OUTGOING, 34);
@@ -90,6 +94,24 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packetRaw) {
 		switch (packetID) {
+		case 20:
+			final Packet20NamedEntitySpawn packet20 = (Packet20NamedEntitySpawn) packetRaw;
+			if(!choppedEntities.contains(packet20.a)) // v1_6_R2
+				break;
+
+			packet20.g = CHOPPED_PITCH; // v1_6_R2
+
+			break;
+
+		case 24:
+			final Packet24MobSpawn packet24 = (Packet24MobSpawn) packetRaw;
+			if(!choppedEntities.contains(packet24.a)) // v1_6_R2
+				break;
+
+			packet24.j = CHOPPED_PITCH; // v1_6_R2
+
+			break;
+
 		case 34:
 			final Packet34EntityTeleport packet34 = (Packet34EntityTeleport) packetRaw;
 			if (!choppedEntities.contains(packet34.a)) // v1_6_R2
