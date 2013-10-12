@@ -63,6 +63,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Wolf;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
@@ -195,7 +196,12 @@ public class SpawnUtils {
 					break;
 
 				case "baby":
-					((Ageable) entity).setBaby();
+					if (entity instanceof Ageable) {
+						((Ageable) entity).setBaby();
+					}
+					else if (entity instanceof Zombie) {
+						((Zombie) entity).setBaby(true);
+					}
 					break;
 
 				case "headless":
