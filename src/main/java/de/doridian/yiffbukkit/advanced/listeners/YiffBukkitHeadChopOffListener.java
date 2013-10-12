@@ -71,15 +71,16 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 
 		final Player damagerPly = (Player) damager;
 		final Material item = damagerPly.getItemInHand().getType();
-		if (item != Material.DIAMOND_SPADE &&
-		    item != Material.GOLD_SPADE &&
-		    item != Material.IRON_SPADE &&
-		    item != Material.WOOD_SPADE &&
-		    item != Material.STONE_SPADE
-		)
-			return;
 
-		addChoppedEntity(entityId);
+		switch (item) {
+		case DIAMOND_SPADE:
+		case GOLD_SPADE:
+		case IRON_SPADE:
+		case WOOD_SPADE:
+		case STONE_SPADE:
+			addChoppedEntity(entityId);
+			break;
+		}
 	}
 
 	private net.minecraft.server.v1_6_R2.Entity getEntityByID(int eid, World world) {
