@@ -562,6 +562,9 @@ public class SpawnUtils {
 		case "sheep":
 			final Sheep sheep = (Sheep) world.spawnEntity(location, EntityType.SHEEP);
 
+			if (data == null)
+				return sheep;
+
 			switch (data.toLowerCase()) {
 			case "camo":
 			case "camouflage":
