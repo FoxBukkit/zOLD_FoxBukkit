@@ -33,7 +33,7 @@ public class SendPacketCommand extends ICommand {
 		final Player otherply = playerHelper.matchPlayerSingle(args[0]);
 		final int packetId = Integer.parseInt(args[1]);
 
-		final IntHashMap idToClass = Utils.getPrivateValue(Packet.class, null, "b"); // v1_6_R2
+		final IntHashMap idToClass = Utils.getPrivateValue(Packet.class, null, "l"); // v1_6_R2
 		@SuppressWarnings("unchecked")
 		final Class<? extends Packet> packetClass = (Class<? extends Packet>) idToClass.get(packetId);
 
