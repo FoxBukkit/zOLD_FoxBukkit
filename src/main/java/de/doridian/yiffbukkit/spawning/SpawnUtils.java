@@ -241,14 +241,14 @@ public class SpawnUtils {
 
 	private Entity spawnSingleMob(final CommandSender commandSender,
 			Map<String, ? extends Spawnable<? extends Entity>> fixedSpawnables,
-			Location location, final String type,
+			Location location, String type,
 			final String data)
 			throws YiffBukkitCommandException {
-
+		type = type.toLowerCase();
 		final World world = location.getWorld();
 		final WorldServer notchWorld = ((CraftWorld)world).getHandle();
 
-		if (type.equalsIgnoreCase("LIGHTNING") || (type.equalsIgnoreCase("POTION") && "LIGHTNING".equalsIgnoreCase(data))) {
+		if (type.equals("lightning") || (type.equals("potion") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
 			net.minecraft.server.v1_6_R2.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
@@ -271,7 +271,7 @@ public class SpawnUtils {
 		@SuppressWarnings("unchecked")
 		final Spawnable<Player> them = (Spawnable<Player>) fixedSpawnables.get("them");
 
-		switch (type.toLowerCase()) {
+		switch (type) {
 		case "fireball":
 			final EntityPlayer playerEntity;
 			if (them == null)
@@ -314,7 +314,7 @@ public class SpawnUtils {
 		case "block":
 			int typeId;
 			final int dataValue;
-			if (type.equals("BLOCK")) {
+			if (type.equals("block")) {
 				final String[] parts = data.split(":", 2);
 				final String typeIdString = parts[0];
 				try {
