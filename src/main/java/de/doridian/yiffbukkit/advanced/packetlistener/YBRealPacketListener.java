@@ -10,7 +10,7 @@ import org.spigotmc.netty.PacketListener;
 
 import java.util.HashSet;
 
-class YBRealPacketListener extends PacketListener implements YBPacketListenerInt {
+class YBRealPacketListener extends PacketListener {
 	@SuppressWarnings("serial")
 	private class YBPLCollection extends HashSet<YBPacketListener> { }
 
