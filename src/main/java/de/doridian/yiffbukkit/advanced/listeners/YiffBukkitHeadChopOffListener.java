@@ -92,30 +92,30 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		switch (packetID) {
 		case 34:
 			final Packet34EntityTeleport packet34 = (Packet34EntityTeleport) packetRaw;
-			if (!choppedEntities.contains(packet34.a))
+			if (!choppedEntities.contains(packet34.a)) // v1_6_R2
 				break;
 
-			packet34.f = CHOPPED_PITCH;
+			packet34.f = CHOPPED_PITCH; // v1_6_R2
 
 			break;
 
 		case 32:
 		case 33:
 			final Packet30Entity packet30 = (Packet30Entity) packetRaw;
-			if(!choppedEntities.contains(packet30.a))
+			if(!choppedEntities.contains(packet30.a)) // v1_6_R2
 				break;
 
-			packet30.f = CHOPPED_PITCH;
+			packet30.f = CHOPPED_PITCH; // v1_6_R2
 
 			break;
 
 		case 35:
 			final Packet35EntityHeadRotation packet35 = (Packet35EntityHeadRotation) packetRaw;
-			if (!choppedEntities.contains(packet35.a))
+			if (!choppedEntities.contains(packet35.a)) // v1_6_R2
 				break;
 
-			final float yaw = getEntityByID(packet35.a, ply.getWorld()).yaw;
-			packet35.b = (byte)(((yaw % 360) / 360) * 255);
+			final float yaw = getEntityByID(packet35.a, ply.getWorld()).yaw; // v1_6_R2
+			packet35.b = (byte)(((yaw % 360) / 360) * 255); // v1_6_R2
 
 			break;
 		}
