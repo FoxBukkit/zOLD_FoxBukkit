@@ -26,11 +26,10 @@ import org.bukkit.event.entity.EntityDeathEvent;
 public class YiffBukkitHeadChopOffListener extends YBPacketListener implements Listener, YBListener {
 	private final static byte CHOPPED_PITCH = (byte)128;
 
-	public YiffBukkitHeadChopOffListener(YiffBukkit plugin) {
-		this();
-	}
+	public static YiffBukkitHeadChopOffListener instance;
 
 	public YiffBukkitHeadChopOffListener() {
+		instance = this;
 		Bukkit.getServer().getPluginManager().registerEvents(this, YiffBukkit.instance);
 
 		register(PacketDirection.OUTGOING, 32);
@@ -80,7 +79,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		)
 			return;
 
-		choppedEntities.add(entityId);
+		addChoppedEntity(entityId);
 	}
 
 	private net.minecraft.server.v1_6_R2.Entity getEntityByID(int eid, World world) {
@@ -120,5 +119,9 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 			break;
 		}
 		return true;
+	}
+
+	public void addChoppedEntity(int entityId) {
+		choppedEntities.add(entityId);
 	}
 }

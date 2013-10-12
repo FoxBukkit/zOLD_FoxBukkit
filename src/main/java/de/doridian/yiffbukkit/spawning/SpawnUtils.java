@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning;
 
+import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitHeadChopOffListener;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -195,6 +196,10 @@ public class SpawnUtils {
 
 				case "baby":
 					((Ageable) entity).setBaby();
+					break;
+
+				case "headless":
+					YiffBukkitHeadChopOffListener.instance.addChoppedEntity(entity.getEntityId());
 					break;
 				}
 			}
