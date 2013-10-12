@@ -5,6 +5,7 @@ import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -15,8 +16,9 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
 
 import java.util.HashMap;
@@ -27,7 +29,7 @@ import java.util.Stack;
 
 public class SignPortalPlayerListener extends BaseListener {
 	public SignPortalPlayerListener() {
-		plugin.playerHelper.registerMap(timerIds);
+		plugin.playerHelper.registerMap(lastTouchedPortal);
 		plugin.playerHelper.registerSet(portalStates);
 	}
 
@@ -73,37 +75,35 @@ public class SignPortalPlayerListener extends BaseListener {
 		event.setCancelled(true);
 	}
 
-	Map<Player, Integer> timerIds = new HashMap<Player, Integer>();
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerMove(PlayerMoveEvent event) {
+	private Map<Player, Block> lastTouchedPortal = new HashMap<>();
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerPortal(PlayerPortalEvent event) {
 		if (event.isCancelled())
 			return;
 
-		final boolean isPortal = event.getTo().getBlock().getTypeId() == 90;
-		final boolean hasTimer = timerIds.containsKey(event.getPlayer());
-		if (isPortal == hasTimer)
+		final Player player = event.getPlayer();
+		Block block = event.getTo().getBlock();
+		if (block.getType() != Material.PORTAL)
+			block = lastTouchedPortal.get(player);
+
+		if (block.getType() != Material.PORTAL)
 			return;
 
-		final Player player = event.getPlayer();
-		if (isPortal) {
-			//player.sendMessage("scheduling task");
-			final Block block = event.getTo().getBlock();
-
-			int taskId = plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-				@Override
-				public void run() {
-					doPort(player, player, block);
-				}
-			}, 70);
-			timerIds.put(player, taskId);
-		}
-		else {
-			int taskId = timerIds.remove(player);
-			plugin.getServer().getScheduler().cancelTask(taskId);
-		}
+		if (doPort(player, player, block))
+			event.setCancelled(true);
 	}
 
-	Set<Player> portalStates = new HashSet<Player>();
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onEntityPortalEnter(EntityPortalEnterEvent event) {
+		final Entity entity = event.getEntity();
+		if (!(entity instanceof Player))
+			return;
+
+		lastTouchedPortal.put((Player) entity, event.getLocation().getBlock());
+	}
+
+
+	Set<Player> portalStates = new HashSet<>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onVehicleUpdate(VehicleUpdateEvent event) {
 		final Vehicle vehicle = event.getVehicle();
@@ -127,11 +127,19 @@ public class SignPortalPlayerListener extends BaseListener {
 		}
 	}
 
-	private void doPort(final Player player, final Entity entityToPort, final Block block) {
-		Stack<Block> todo = new Stack<Block>();
+	/**
+	 * Teleports a player and, optionally, a vehicle, to the sign portal's destination, if there is one.
+	 *
+	 * @param player The player to teleport
+	 * @param entityToPort An additional vehicle to port and reattach to the player
+	 * @param block a block that's part of the portal
+	 * @return <code>true</code> if the block belongs to a sign portal, <code>false</code> otherwise
+	 */
+	private boolean doPort(final Player player, final Entity entityToPort, final Block block) {
+		Stack<Block> todo = new Stack<>();
 		todo.push(block);
 
-		Set<Block> portalsAndNeighboring = new HashSet<Block>();
+		Set<Block> portalsAndNeighboring = new HashSet<>();
 		while (!todo.isEmpty()) {
 			Block current = todo.pop();
 
@@ -169,7 +177,7 @@ public class SignPortalPlayerListener extends BaseListener {
 						warpDescriptor = plugin.warpEngine.getWarp(player, warpName);
 					} catch (WarpException e) {
 						player.sendMessage("\u00a7cYour entrance is blocked by a powerful entity.");
-						return;
+						return true;
 					}
 				}
 				else {
@@ -191,7 +199,10 @@ public class SignPortalPlayerListener extends BaseListener {
 				}
 
 				player.sendMessage("\u00a79You're hurtled through the ethereal realm to your destination.");
+				return true;
 			}
 		}
+
+		return false;
 	}
 }
