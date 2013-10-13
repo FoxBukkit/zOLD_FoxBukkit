@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class ConsoleCommand extends ICommand {
 	private static final MinecraftServer mcServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 
-	private static final void sendServerCmd(String cmd, CommandSender sender) {
+	private static void sendServerCmd(String cmd, CommandSender sender) {
 		if (mcServer != null && !mcServer.isStopped() && mcServer.isRunning()) {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
 		}
