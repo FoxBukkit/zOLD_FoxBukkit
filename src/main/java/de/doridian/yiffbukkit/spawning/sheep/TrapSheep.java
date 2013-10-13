@@ -15,7 +15,7 @@ import java.util.Set;
 public class TrapSheep implements Runnable {
 	public static class TrapSheepEntityListener implements Listener {
 		public TrapSheepEntityListener(YiffBukkit plugin) {
-			plugin.getServer().getPluginManager().registerEvents(entityListener, plugin);
+			plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		}
 
 		@EventHandler(priority = EventPriority.MONITOR)
