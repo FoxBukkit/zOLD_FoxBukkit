@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.spawning.sheep;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
@@ -12,10 +13,10 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TrapSheep implements Runnable {
+public class TrapEntity implements Runnable {
 	public static class TrapSheepEntityListener implements Listener {
-		public TrapSheepEntityListener(YiffBukkit plugin) {
-			plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		public TrapSheepEntityListener() {
+			Bukkit.getPluginManager().registerEvents(this, YiffBukkit.instance);
 		}
 
 		@EventHandler(priority = EventPriority.MONITOR)
@@ -23,7 +24,7 @@ public class TrapSheep implements Runnable {
 			if (event.getCause() != DamageCause.ENTITY_ATTACK)
 				return;
 
-			if (!trapSheeps.contains(event.getEntity()))
+			if (!trapEntities.contains(event.getEntity()))
 				return;
 
 			final Entity entity = event.getEntity();
@@ -32,33 +33,39 @@ public class TrapSheep implements Runnable {
 		}
 	}
 
-	private final YiffBukkit plugin;
-	protected final Sheep sheep;
+	protected final Entity entity;
 
-	private static Set<Entity> trapSheeps = new HashSet<Entity>();
+	private static Set<Entity> trapEntities = new HashSet<Entity>();
 	private static Listener entityListener = null;
 	private final int taskId;
 
-	public TrapSheep(YiffBukkit plugin, Sheep sheep) {
-		this.plugin = plugin;
-		this.sheep = sheep;
+	public TrapEntity(YiffBukkit plugin, Entity entity) {
+		this.entity = entity;
 
-		trapSheeps.add(sheep);
+		trapEntities.add(entity);
 
-		taskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 200);
+		taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 200);
 
-		if (entityListener != null)
-			return;
-
-		entityListener = new TrapSheepEntityListener(plugin);
+		if (entityListener == null) {
+			entityListener = new TrapSheepEntityListener();
+		}
 	}
 
 	@Override
 	public void run() {
-		if (sheep.isDead() || sheep.isSheared()) {
-			plugin.getServer().getScheduler().cancelTask(taskId);
-			trapSheeps.remove(sheep);
-			return;
+		if (canBeRemoved()) {
+			Bukkit.getScheduler().cancelTask(taskId);
+			trapEntities.remove(entity);
 		}
+	}
+
+	private boolean canBeRemoved() {
+		if (!entity.isValid())
+			return true;
+
+		if (!(entity instanceof Sheep))
+			return false;
+
+		return ((Sheep) entity).isSheared();
 	}
 }

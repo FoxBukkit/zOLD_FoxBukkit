@@ -16,7 +16,7 @@ import de.doridian.yiffbukkit.spawning.potions.AreaCustomPotion;
 import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
-import de.doridian.yiffbukkit.spawning.sheep.TrapSheep;
+import de.doridian.yiffbukkit.spawning.sheep.TrapEntity;
 import de.doridian.yiffbukkit.transmute.ItemShape;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -574,7 +574,7 @@ public class SpawnUtils {
 				break;
 
 			case "trap":
-				new TrapSheep(plugin, sheep);
+				new TrapEntity(plugin, sheep);
 				break;
 
 			case "sheared":
