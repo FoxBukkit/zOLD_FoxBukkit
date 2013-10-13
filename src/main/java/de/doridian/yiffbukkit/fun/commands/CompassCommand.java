@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 @Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
 	int taskId = -1;
-	protected Map<Player, Player> playerCompassTargets = new HashMap<Player, Player>();
+	protected Map<Player, Player> playerCompassTargets = new HashMap<>();
 	{
 		plugin.playerHelper.registerMap(playerCompassTargets);
 	}
@@ -41,7 +41,9 @@ public class CompassCommand extends ICommand {
 			return;
 		}
 
-		if ("player".equals(args[0]) || "pl".equals(args[0])) {
+		switch (args[0]) {
+		case "player":
+		case "pl":
 			if (!ply.hasPermission("yiffbukkit.compass.player"))
 				throw new PermissionDeniedException();
 
@@ -53,45 +55,38 @@ public class CompassCommand extends ICommand {
 			if (!playerHelper.canTp(ply, target))
 				throw new PermissionDeniedException();
 
-			playerCompassTargets.put(ply, target);
-
-			if (taskId == -1) {
-				taskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() { public void run() {
-					for (Entry<Player, Player> entry : playerCompassTargets.entrySet()) {
-						entry.getKey().setCompassTarget(entry.getValue().getLocation());
-					}
-				}}, 0, 1);
-			}
+			addCompassTarget(ply, target);
 
 			PlayerHelper.sendDirectedMessage(ply, "Set your compass to follow "+target.getName()+".");
 			return;
 		}
 
-		playerCompassTargets.remove(ply);
-		if (playerCompassTargets.isEmpty()) {
-			plugin.getServer().getScheduler().cancelTask(taskId);
-			taskId = -1;
-		}
+		removeCompassTarget(ply);
 
 		final Location location;
-		if ("spawn".equals(args[0])) {
+		switch (args[0]) {
+		case "spawn":
 			location = ply.getWorld().getSpawnLocation();
-		}
-		else if ("home".equals(args[0])) {
+			break;
+
+		case "home":
 			location = playerHelper.getPlayerHomePosition(ply, "default");
-		}
-		else if ("here".equals(args[0])) {
+			break;
+
+		case "here":
 			location = ply.getLocation();
-		}
-		else if ("warp".equals(args[0])) {
+			break;
+
+		case "warp":
 			if (args.length < 2)
 				throw new YiffBukkitCommandException("Expected warp name");
 
 			final WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(ply, args[1]);
 
 			location = warpDescriptor.location;
-		}
-		else {
+			break;
+
+		default:
 			final int xmod;
 			final int zmod;
 			switch (args[0].length()) {
@@ -127,7 +122,6 @@ public class CompassCommand extends ICommand {
 				}
 
 				location = new Location(ply.getWorld(), xmod, 0, zmod);
-				/* FALL-THROUGH */
 				break;
 
 			case 1:
@@ -166,7 +160,7 @@ public class CompassCommand extends ICommand {
 			default:
 				Location loc = null;
 				for (BlockFace face : BlockFace.values()) {
-					if (!face.name().replaceAll("_", "").equalsIgnoreCase(args[0])) 
+					if (!face.name().replaceAll("_", "").equalsIgnoreCase(args[0]))
 						continue;
 
 					loc = new Location(ply.getWorld(), face.getModX()*1000000000, face.getModY()*1000000000, face.getModZ()*1000000000);
@@ -177,10 +171,39 @@ public class CompassCommand extends ICommand {
 					throw new YiffBukkitCommandException("Unrecognised parameter");
 				location = loc;
 			}
+			break;
 		}
 
 		ply.setCompassTarget(location);
 
 		PlayerHelper.sendDirectedMessage(ply, String.format("Set your compass target to %d/%d/%d", location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+	}
+
+	private void addCompassTarget(Player ply, Player target) {
+		playerCompassTargets.put(ply, target);
+
+		if (taskId != -1)
+			return;
+
+		taskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				for (Entry<Player, Player> entry : playerCompassTargets.entrySet()) {
+					entry.getKey().setCompassTarget(entry.getValue().getLocation());
+				}
+			}
+		}, 0, 1);
+	}
+
+	private void removeCompassTarget(Player ply) {
+		playerCompassTargets.remove(ply);
+		if (!playerCompassTargets.isEmpty())
+			return;
+
+		if (taskId == -1)
+			return;
+
+		plugin.getServer().getScheduler().cancelTask(taskId);
+		taskId = -1;
 	}
 }
