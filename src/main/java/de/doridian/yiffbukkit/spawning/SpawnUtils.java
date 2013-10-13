@@ -205,6 +205,10 @@ public class SpawnUtils {
 				case "headless":
 					YiffBukkitHeadChopOffListener.instance.addChoppedEntity(entity.getEntityId());
 					break;
+
+				case "trap":
+					new TrapEntity(plugin, entity);
+					break;
 				}
 			}
 
