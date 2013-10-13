@@ -70,7 +70,13 @@ public class CompassCommand extends ICommand {
 			break;
 
 		case "home":
-			location = playerHelper.getPlayerHomePosition(ply, "default");
+			final String posName;
+			if (args.length < 2)
+				posName = "default";
+			else
+				posName = args[1];
+
+			location = playerHelper.getPlayerHomePosition(ply, posName);
 			break;
 
 		case "here":
