@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -182,6 +183,13 @@ public class SignPortalPlayerListener extends BaseListener {
 				}
 				else {
 					warpDescriptor = plugin.warpEngine.getWarps().get(warpName.toLowerCase());
+				}
+
+				final String portalOwnerName = lines[3];
+				final CommandSender portalOwner = playerHelper.literalMatch(portalOwnerName);
+				if (warpDescriptor.checkAccess(portalOwner) < 1) {
+					player.sendMessage("\u00a7cThe arcane forces no longer bind this portal to its target.");
+					return true;
 				}
 
 				if (player != entityToPort) {

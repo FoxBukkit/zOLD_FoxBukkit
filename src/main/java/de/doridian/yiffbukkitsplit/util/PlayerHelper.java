@@ -58,7 +58,7 @@ public class PlayerHelper extends StateContainer {
 		plugin = plug;
 	}
 
-	private Player literalMatch(String name) {
+	public Player literalMatch(String name) {
 		Player onlinePlayer = plugin.getServer().getPlayer(name);
 		if (onlinePlayer != null)
 			return onlinePlayer;
