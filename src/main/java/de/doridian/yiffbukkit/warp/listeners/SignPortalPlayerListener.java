@@ -50,11 +50,11 @@ public class SignPortalPlayerListener extends BaseListener {
 		if (event.getItem().getTypeId() != 323)
 			return;
 
-		BlockState blockState = event.getClickedBlock().getState();
+		final BlockState blockState = event.getClickedBlock().getState();
 		if (!(blockState instanceof Sign))
 			return;
 
-		Sign sign = (Sign) blockState;
+		final Sign sign = (Sign) blockState;
 		if (!sign.getLine(0).trim().equalsIgnoreCase("[Portal]"))
 			return;
 
@@ -76,7 +76,7 @@ public class SignPortalPlayerListener extends BaseListener {
 		event.setCancelled(true);
 	}
 
-	private Map<Player, Block> lastTouchedPortal = new HashMap<>();
+	private final Map<Player, Block> lastTouchedPortal = new HashMap<>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPortal(PlayerPortalEvent event) {
 		if (event.isCancelled())
@@ -104,7 +104,7 @@ public class SignPortalPlayerListener extends BaseListener {
 	}
 
 
-	Set<Player> portalStates = new HashSet<>();
+	private final Set<Player> portalStates = new HashSet<>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onVehicleUpdate(VehicleUpdateEvent event) {
 		final Vehicle vehicle = event.getVehicle();
@@ -137,12 +137,12 @@ public class SignPortalPlayerListener extends BaseListener {
 	 * @return <code>true</code> if the block belongs to a sign portal, <code>false</code> otherwise
 	 */
 	private boolean doPort(final Player player, final Entity entityToPort, final Block block) {
-		Stack<Block> todo = new Stack<>();
+		final Stack<Block> todo = new Stack<>();
 		todo.push(block);
 
-		Set<Block> portalsAndNeighboring = new HashSet<>();
+		final Set<Block> portalsAndNeighboring = new HashSet<>();
 		while (!todo.isEmpty()) {
-			Block current = todo.pop();
+			final Block current = todo.pop();
 
 			final int typeId = current.getTypeId();
 			if (typeId == 0)
@@ -161,12 +161,12 @@ public class SignPortalPlayerListener extends BaseListener {
 
 		for (Block current : portalsAndNeighboring) {
 			for (BlockFace face : faces) {
-				Block attached = current.getRelative(face);
+				final Block attached = current.getRelative(face);
 				int typeId = attached.getTypeId();
 				if (typeId != 63 && typeId != 68)
 					continue;
 
-				String[] lines = ((Sign)attached.getState()).getLines();
+				final String[] lines = ((Sign)attached.getState()).getLines();
 
 				if (!lines[0].equals("\u00a79[Portal]"))
 					continue;
@@ -185,6 +185,7 @@ public class SignPortalPlayerListener extends BaseListener {
 					warpDescriptor = plugin.warpEngine.getWarps().get(warpName.toLowerCase());
 				}
 
+				// TODO: y offset when porting?
 				final String portalOwnerName = lines[3];
 				final CommandSender portalOwner = playerHelper.literalMatch(portalOwnerName);
 				if (warpDescriptor.checkAccess(portalOwner) < 1) {

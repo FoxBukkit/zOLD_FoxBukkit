@@ -20,11 +20,9 @@ import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.EntityCreatePortalEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -36,9 +34,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.Permissible;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,6 +78,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				/* FALL-THROUGH */
 
 			case OFF:
+				//noinspection UnnecessaryReturnStatement
 				return;
 			}
 		}
@@ -153,7 +150,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.pushWeather(player);
 	}
 
-	public Hashtable<String,String> offlinePlayers = new Hashtable<String, String>();
+	public Hashtable<String,String> offlinePlayers = new Hashtable<>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
@@ -334,8 +331,10 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					if (entity instanceof EntityAnimal)
 						return true;
 
+					//noinspection RedundantIfStatement
 					if (entity instanceof EntityWaterAnimal)
 						return true;
+
 					return false;
 				}
 
@@ -351,7 +350,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 					return mayLeashToNonLiving;
 				}
-			};
+			}
 			
 			@Override
 			public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {

@@ -183,6 +183,7 @@ public class SpawnUtils {
 			final Entity entity = spawnSingleMob(commandSender, fixedSpawnables, location, type, data);
 			for (int i = 1; i < typeParts.length; i++) {
 				final String attribute = typeParts[i].toLowerCase();
+				// TODO: mob effects
 				switch (attribute) {
 				case "leash":
 					((LivingEntity) entity).setLeashHolder(them);

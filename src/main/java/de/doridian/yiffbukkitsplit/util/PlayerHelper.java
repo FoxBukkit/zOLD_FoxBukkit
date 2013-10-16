@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
 
 public class PlayerHelper extends StateContainer {
 	private YiffBukkit plugin;
-	public Map<String, String> conversations = new HashMap<String, String>();
+	public Map<String, String> conversations = new HashMap<>();
 
 	public PlayerHelper(YiffBukkit plug) {
 		plugin = plug;
@@ -115,8 +115,8 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Home position stuff
-	private TObjectIntHashMap<String> playerHomePosLimits = new TObjectIntHashMap<String>();
-	private HashMap<String,HashMap<String,Location>> playerhomepos = new HashMap<String,HashMap<String,Location>>();
+	private TObjectIntHashMap<String> playerHomePosLimits = new TObjectIntHashMap<>();
+	private HashMap<String,HashMap<String,Location>> playerhomepos = new HashMap<>();
 	public Location getPlayerHomePosition(Player ply, String posName) throws YiffBukkitCommandException {
 		String name = ply.getName().toLowerCase();
 		posName = posName.toLowerCase();
@@ -175,7 +175,7 @@ public class PlayerHelper extends StateContainer {
 		if(playerhomepos.containsKey(name)) {
 			playersPositions = playerhomepos.get(name);
 		} else {
-			playersPositions = new HashMap<String, Location>();
+			playersPositions = new HashMap<>();
 			playerhomepos.put(name, playersPositions);
 		}
 		return playersPositions;
@@ -208,7 +208,7 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception e) { }
+		catch (Exception ignored) { }
 	}
 	@Saver({ "homepositions", "home_positions", "homes", "home" })
 	public void savePlayerHomePositions() {
@@ -234,7 +234,7 @@ public class PlayerHelper extends StateContainer {
 			});
 			stream.close();
 		}
-		catch(Exception e) { }
+		catch(Exception ignored) { }
 	}
 
 	//Messaging stuff
@@ -267,36 +267,43 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	
-	/** Broadcasts a message to all players with the given permission, prefixed with [YB] in purple.
-	 * @param msg
-	 * @param permission
+	/**
+	 * Broadcasts a message to all players with the given permission, prefixed with [YB] in purple.
+	 *
+	 * @param message The message to send
+	 * @param permission The permission required to receive the message
 	 */
-	public void sendServerMessage(String msg, String permission) {
-		sendServerMessage(msg, permission, '5');
+	public void sendServerMessage(String message, String permission) {
+		sendServerMessage(message, permission, '5');
 	}
-	/** Broadcasts a message to all players with the given permission, prefixed with [YB] in the given color.
-	 * @param msg
-	 * @param permission
+	/**
+	 * Broadcasts a message to all players with the given permission, prefixed with [YB] in the given color.
+	 *
+	 * @param message The message to send
+	 * @param permission The permission required to receive the message
+	 * @param colorCode The color code to prefix
 	 */
-	public void sendServerMessage(String msg, String permission, char colorCode) {
-		broadcastMessage("\u00a7"+colorCode+"[YB]\u00a7f " + msg, permission);
+	public void sendServerMessage(String message, String permission, char colorCode) {
+		broadcastMessage("\u00a7"+colorCode+"[YB]\u00a7f " + message, permission);
 	}
 
-	/** Broadcasts a message to all players with the given permission.
-	 * @param msg
-	 * @param permission
+	/**
+	 * Broadcasts a message to all players with the given permission.
+	 *
+	 * @param message The message to send
+	 * @param permission The permission required to receive the message
 	 */
-	public void broadcastMessage(String msg, String permission) {
+	public void broadcastMessage(String message, String permission) {
 		Player[] players = plugin.getServer().getOnlinePlayers();
 
 		for (Player player : players) {
 			if (!player.hasPermission(permission))
 				continue;
 
-			player.sendMessage(msg);
+			player.sendMessage(message);
 		}
 
-		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
+		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(message);
 	}
 
 	public void sendServerMessage(String msg, CommandSender... exceptPlayers) {
@@ -305,7 +312,7 @@ public class PlayerHelper extends StateContainer {
 	public void sendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
 		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 
-		Set<Player> exceptPlayersSet = new HashSet<Player>();
+		Set<Player> exceptPlayersSet = new HashSet<>();
 		for (CommandSender exceptPlayer : exceptPlayers) {
 			if (!(exceptPlayer instanceof Player))
 				continue;
@@ -358,7 +365,7 @@ public class PlayerHelper extends StateContainer {
 			String listName = formatPlayer(ply);
 			if(listName.length() > 16) listName = listName.substring(0, 15);
 			ply.setPlayerListName(listName);
-		} catch(Exception e) { }
+		} catch(Exception ignored) { }
 	}
 
 	//Permission levels
@@ -381,11 +388,11 @@ public class PlayerHelper extends StateContainer {
 		if (rankname.equals("doridian"))
 			return 666;
 
-		final Integer rankLevel = Integer.parseInt(ranklevels.get(rankname));
-		if (rankLevel == null)
+		final String rankLevelString = ranklevels.get(rankname);
+		if (rankLevelString == null)
 			return 0;
 
-		return rankLevel;
+		return Integer.parseInt(rankLevelString);
 	}
 
 	//Tags
@@ -454,11 +461,12 @@ public class PlayerHelper extends StateContainer {
 			playernicks.put(name, tag);
 	}
 
-	public Set<String> playerTpPermissions = new HashSet<String>();
-	public Set<String> playerSummonPermissions = new HashSet<String>();
+	public Set<String> playerTpPermissions = new HashSet<>();
+	public Set<String> playerSummonPermissions = new HashSet<>();
 
 	public boolean canTp(CommandSender commandSender, Player target) {
 		// Prevent teleporting out of jail.
+		//noinspection SimplifiableIfStatement
 		if ((commandSender instanceof Player) && isPlayerJailed((Player) commandSender))
 			return false;
 
@@ -466,6 +474,7 @@ public class PlayerHelper extends StateContainer {
 	}
 	public boolean canSummon(CommandSender commandSender, Player target) {
 		// Prevent summoning someone out of jail.
+		//noinspection SimplifiableIfStatement
 		if (isPlayerJailed(target))
 			return false;
 
@@ -509,7 +518,7 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception e) { }
+		catch (Exception ignored) { }
 
 		playerSummonPermissions.clear();
 		try {
@@ -520,7 +529,7 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception e) { }
+		catch (Exception ignored) { }
 	}
 	@Saver({ "portpermissions", "port_permissions", "noport" })
 	public void savePortPermissions() {
@@ -532,7 +541,7 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch(Exception e) { }
+		catch(Exception ignored) { }
 
 		try {
 			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-nosummon.txt"));
@@ -542,10 +551,10 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch(Exception e) { }
+		catch(Exception ignored) { }
 	}
 
-	private Hashtable<String, Long> frozenTimes = new Hashtable<String, Long>();
+	private Hashtable<String, Long> frozenTimes = new Hashtable<>();
 	private Long frozenServerTime;
 
 	public static void sendPacketToPlayer(final Player ply, final Packet packet) {
@@ -588,7 +597,7 @@ public class PlayerHelper extends StateContainer {
 		return jail.engine.isJailed(ply);
 	}
 
-	Map<String, String> leashMasters = new HashMap<String, String>();
+	Map<String, String> leashMasters = new HashMap<>();
 	private int leashTaskId;
 
 	public boolean toggleLeash(Player master, Player slave) {
@@ -750,7 +759,7 @@ public class PlayerHelper extends StateContainer {
 			this.name = name;
 		}
 	}
-	public Hashtable<String, WeatherType> frozenWeathers = new Hashtable<String, WeatherType>();
+	public Hashtable<String, WeatherType> frozenWeathers = new Hashtable<>();
 	public WeatherType frozenServerWeather;
 
 	public void pushWeather(Player ply) {
@@ -781,8 +790,8 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	public Set<Map<Player,?>> registeredMaps = new HashSet<Map<Player,?>>();
-	public Set<Set<Player>> registeredSets = new HashSet<Set<Player>>();
+	public Set<Map<Player,?>> registeredMaps = new HashSet<>();
+	public Set<Set<Player>> registeredSets = new HashSet<>();
 	public void registerMap(Map<Player,?> map) {
 		registeredMaps.add(map);
 	}
@@ -790,7 +799,7 @@ public class PlayerHelper extends StateContainer {
 		registeredSets.add(set);
 	}
 
-	public Map<String, List<String>> autoexecs = new HashMap<String, List<String>>();
+	public Map<String, List<String>> autoexecs = new HashMap<>();
 
 	private static final Pattern sectionPattern = Pattern.compile("^\\[(.*)\\]$");
 	@Loader({ "autoexecs", "autoexec" })
@@ -813,7 +822,7 @@ public class PlayerHelper extends StateContainer {
 					}
 
 					currentPlayerName = matcher.group(1);
-					commands = new ArrayList<String>();
+					commands = new ArrayList<>();
 					continue;
 				}
 
@@ -831,7 +840,7 @@ public class PlayerHelper extends StateContainer {
 
 			stream.close();
 		}
-		catch (IOException e) { }
+		catch (IOException ignored) { }
 	}
 	@Saver({ "autoexecs", "autoexec" })
 	public void saveAutoexecs() {
@@ -852,7 +861,7 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch(IOException e) { }
+		catch(IOException ignored) { }
 	}
 
 	public Location getPlayerSpawnPosition(Player ply) {
@@ -914,7 +923,7 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	public HashSet<String> yiffcraftPlayers = new HashSet<String>();
+	public HashSet<String> yiffcraftPlayers = new HashSet<>();
 	public void setYiffcraftState(Player ply, boolean hasYC) {
 		String plyName = ply.getName().toLowerCase();
 		if(hasYC) {
@@ -969,13 +978,13 @@ public class PlayerHelper extends StateContainer {
 		ply.sendPluginMessage(plugin, "yiffcraft", bytes);
 	}
 
-	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<String, LinkedList<Location>>();
+	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<>();
 	public void pushPlayerLocationOntoTeleportStack(Player ply) {
 		String name = ply.getName().toLowerCase();
 
 		LinkedList<Location> locs = teleportHistory.get(name);
 		if(locs == null) {
-			locs = new LinkedList<Location>();
+			locs = new LinkedList<>();
 			teleportHistory.put(name, locs);
 		}
 
@@ -1039,7 +1048,7 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	private static final Set<String> guestRanks = new HashSet<String>(Arrays.asList("guest", "pohr"));
+	private static final Set<String> guestRanks = new HashSet<>(Arrays.asList("guest", "pohr"));
 	public boolean isGuest(final Player player) {
 		return isGuestRank(getPlayerRank(player));
 	}
@@ -1048,8 +1057,8 @@ public class PlayerHelper extends StateContainer {
 		return guestRanks.contains(rank);
 	}
 
-    public static final HashMap<String, String> playerHosts = new HashMap<String, String>();
-    public static final HashMap<String, String> playerIPs = new HashMap<String, String>();
+    public static final HashMap<String, String> playerHosts = new HashMap<>();
+    public static final HashMap<String, String> playerIPs = new HashMap<>();
 
     public static String getPlayerIP(CommandSender player) {
         return getPlayerIP(player.getName());

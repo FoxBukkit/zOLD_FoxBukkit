@@ -35,7 +35,7 @@ public class TrapEntity implements Runnable {
 
 	protected final Entity entity;
 
-	private static Set<Entity> trapEntities = new HashSet<Entity>();
+	private static Set<Entity> trapEntities = new HashSet<>();
 	private static Listener entityListener = null;
 	private final int taskId;
 
@@ -63,6 +63,7 @@ public class TrapEntity implements Runnable {
 		if (!entity.isValid())
 			return true;
 
+		//noinspection SimplifiableIfStatement
 		if (!(entity instanceof Sheep))
 			return false;
 

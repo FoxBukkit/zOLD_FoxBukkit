@@ -27,7 +27,7 @@ public class WarpDescriptor {
 	 * 2 = op, can set guest permissions
 	 * 3 = admin/owner, can remove warp
 	 */
-	private Map<String, Integer> ranks = new HashMap<String, Integer>();
+	private Map<String, Integer> ranks = new HashMap<>();
 
 	public WarpDescriptor(YiffBukkit plugin, String ownerName, String name, Location location) {
 		this.plugin = plugin;
@@ -95,11 +95,11 @@ public class WarpDescriptor {
 	}
 
 	public Map<String, Integer> getRanks() {
-		return new Hashtable<String, Integer>(ranks);
+		return new Hashtable<>(ranks);
 	}
 
 	public Map<String, List<String>> save() {
-		Map<String, List<String>> section = new TreeMap<String, List<String>>();
+		Map<String, List<String>> section = new TreeMap<>();
 
 		section.put("owner", Arrays.asList(ownerName));
 
@@ -107,17 +107,22 @@ public class WarpDescriptor {
 		section.put("public", Arrays.asList(String.valueOf(isPublic)));
 		section.put("hidden", Arrays.asList(String.valueOf(isHidden)));
 
-		List<String> ops = new ArrayList<String>();
-		List<String> guests = new ArrayList<String>();
+		List<String> ops = new ArrayList<>();
+		List<String> guests = new ArrayList<>();
 		for (Map.Entry<String, Integer> entry : ranks.entrySet()) {
 			int rank = entry.getValue();
-			if (rank == 1)
+			switch (rank) {
+			case 1:
 				guests.add(entry.getKey());
-			else if (rank == 2)
+				break;
+
+			case 2:
 				ops.add(entry.getKey());
-			else {
+				break;
+
+			default:
 				System.err.println("Invalid warp rank.");
-				continue;
+				break;
 			}
 		}
 

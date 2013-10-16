@@ -15,10 +15,10 @@ import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 public class WarpEngine extends StateContainer {
-	public Map<String, String> warpMRU = new Hashtable<String, String>(); // TODO!
+	// TODO: public Map<String, String> warpMRU = new Hashtable<>();
 
 	private YiffBukkit plugin;
-	private Map<String, WarpDescriptor> warps = new Hashtable<String, WarpDescriptor>();
+	private Map<String, WarpDescriptor> warps = new Hashtable<>();
 
 	public WarpEngine(YiffBukkit plugin) {
 		this.plugin = plugin;
@@ -46,7 +46,7 @@ public class WarpEngine extends StateContainer {
 
 	@Saver({"warps", "warp"})
 	public void SaveWarps() {
-		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
+		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
 		for (Entry<String, WarpDescriptor> entry : warps.entrySet()) {
 			WarpDescriptor warp = entry.getValue();
 			sections.put(warp.name, Arrays.asList(warp.save()));
@@ -97,6 +97,6 @@ public class WarpEngine extends StateContainer {
 	}
 
 	public Map<String, WarpDescriptor> getWarps() {
-		return new Hashtable<String, WarpDescriptor>(warps);
+		return new Hashtable<>(warps);
 	}
 }
