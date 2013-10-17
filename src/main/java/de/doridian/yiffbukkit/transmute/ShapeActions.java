@@ -24,7 +24,7 @@ import java.util.Map;
 import static de.doridian.yiffbukkit.main.commands.system.ICommand.asPlayer;
 
 final class ShapeActions {
-	private static TIntObjectMap<Map<String, ShapeAction>> mobActions = new TIntObjectHashMap<Map<String, ShapeAction>>();
+	private static TIntObjectMap<Map<String, ShapeAction>> mobActions = new TIntObjectHashMap<>();
 
 	public static Map<String, ShapeAction> get(int mobType) {
 		return mobActions.get(mobType);
@@ -59,7 +59,7 @@ final class ShapeActions {
 				throw new YiffBukkitCommandException("Material "+materialName+" not found");
 			}
 
-			if (material.getId() == 0)
+			if (material == Material.AIR)
 				throw new YiffBukkitCommandException("Material "+materialName+" not found");
 
 			final ItemStack stack = new ItemStack(material, count, (short) itemShape.getDataValue());
@@ -318,7 +318,7 @@ final class ShapeActions {
 							dyeColor = DyeColor.valueOf(argStr.toUpperCase());
 						}
 					}
-					catch (Exception e) { }
+					catch (Exception ignored) { }
 
 					shape.setData(16, dyeColor.getWoolData());
 
@@ -390,15 +390,25 @@ final class ShapeActions {
 				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					argStr = argStr.toLowerCase();
 					byte data;
-					if(argStr.equals("black")) {
+					switch (argStr) {
+					case "black":
 						data = 0x1;
-					} else if(argStr.equals("red")) {
+						break;
+
+					case "red":
 						data = 0x2;
-					} else if(argStr.equals("siamese")) {
+						break;
+
+					case "siamese":
 						data = 0x3;
-					} else if(argStr.equals("wild") || argStr.equals("ocelot")) {
+						break;
+
+					case "wild":
+					case "ocelot":
 						data = 0x0;
-					} else {
+						break;
+
+					default:
 						throw new YiffBukkitCommandException("Invalid ocelot type");
 					}
 					shape.setData(18, data);
@@ -414,7 +424,7 @@ final class ShapeActions {
 				new HelpMobAction("/sac angler <name>"),
 				"angler",
 				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-					final Player target = YiffBukkit.instance.playerHelper.matchPlayerSingle(argStr);;
+					final Player target = YiffBukkit.instance.playerHelper.matchPlayerSingle(argStr);
 					((VehicleShape) shape).setSubType(target.getEntityId());
 
 					PlayerHelper.sendDirectedMessage(commandSender, "Now being hooked by "+target.getDisplayName()+"...");
@@ -441,7 +451,7 @@ final class ShapeActions {
 	}
 
 	private static void registerMobActions(int mobType, Object... objects) {
-		Map<String, ShapeAction> actions = new HashMap<String, ShapeAction>();
+		Map<String, ShapeAction> actions = new HashMap<>();
 
 		addActions(actions, objects);
 
@@ -449,7 +459,7 @@ final class ShapeActions {
 	}
 
 	private static void addActions(Map<String, ShapeAction> actions, Object[] objects) {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 		for (Object object : objects) {
 			if (object instanceof Object[]) {
 				addActions(actions, (Object[])object);
@@ -520,9 +530,7 @@ final class ShapeActions {
 				shape.setData(index, value);
 
 				PlayerHelper.sendDirectedMessage(commandSender, String.format(message, value.toString()));
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			} catch (InstantiationException e) {
+			} catch (IllegalAccessException | InstantiationException e) {
 				throw new RuntimeException(e);
 			} catch (InvocationTargetException e) {
 				if (e.getTargetException() instanceof RuntimeException) {
