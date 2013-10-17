@@ -91,11 +91,11 @@ public class SpawnUtils {
 		final AbstractSpawnable<Entity> thisSpawnable = new AbstractSpawnable<Entity>() {
 			@Override
 			protected void spawn() throws YiffBukkitCommandException {
-				Vector eyeVector = location.getDirection();
-				Vector eyeOrigin = location.toVector();
+				final Vector eyeVector = location.getDirection();
+				final Vector eyeOrigin = location.toVector();
 
 				for (Entity currentEntity : location.getWorld().getEntities()) {
-					Location eyeLocation;
+					final Location eyeLocation;
 					if (currentEntity instanceof LivingEntity) {
 						eyeLocation = ((LivingEntity) currentEntity).getEyeLocation();
 					} else if (currentEntity instanceof Boat || currentEntity instanceof Minecart) {
@@ -104,7 +104,7 @@ public class SpawnUtils {
 						continue;
 					}
 
-					Vector pos = eyeLocation.toVector();
+					final Vector pos = eyeLocation.toVector();
 					pos.add(new Vector(0, 0.6, 0));
 
 					pos.subtract(eyeOrigin);
@@ -112,7 +112,7 @@ public class SpawnUtils {
 					if (pos.lengthSquared() > 9)
 						continue;
 
-					double dot = pos.clone().normalize().dot(eyeVector);
+					final double dot = pos.clone().normalize().dot(eyeVector);
 
 					if (dot < 0.8)
 						continue;
@@ -259,7 +259,7 @@ public class SpawnUtils {
 		if (type.equals("lightning") || (type.equals("potion") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-			net.minecraft.server.v1_6_R2.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+			final net.minecraft.server.v1_6_R2.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 				@Override
 				protected boolean hit(MovingObjectPosition movingobjectposition) {
 					org.bukkit.World world = getBukkitEntity().getWorld();
@@ -288,16 +288,16 @@ public class SpawnUtils {
 				playerEntity = (EntityPlayer) them.getInternalEntity();
 
 			final Vector dir = playerEntity.getBukkitEntity().getLocation().getDirection();
-			double dx = dir.getX();
-			double dy = dir.getY();
-			double dz = dir.getZ();
+			final double dx = dir.getX();
+			final double dy = dir.getY();
+			final double dz = dir.getZ();
 
 			final EntityLargeFireball notchEntity = new EntityLargeFireball(notchWorld, playerEntity, dx, dy, dz);
 			notchEntity.locX = location.getX();
 			notchEntity.locY = location.getY();
 			notchEntity.locZ = location.getZ();
 
-			double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
+			final double d3 = 0.1D / Math.sqrt(dx * dx + dy * dy + dz * dz);
 
 			notchEntity.dirX = dx * d3;
 			notchEntity.dirY = dy * d3;
@@ -307,7 +307,7 @@ public class SpawnUtils {
 			return noErrorPlz;//notchEntity.getBukkitEntity();
 
 		case "tnt":
-			EntityTNTPrimed notchTNT = new EntityTNTPrimed(notchWorld, 0, 1, 0, ICommand.asNotchPlayer(commandSender, null));
+			final EntityTNTPrimed notchTNT = new EntityTNTPrimed(notchWorld, 0, 1, 0, ICommand.asNotchPlayer(commandSender, null));
 
 			notchWorld.addEntity(notchTNT);
 			final Entity entity = notchTNT.getBukkitEntity();
@@ -444,7 +444,7 @@ public class SpawnUtils {
 					final CustomPotion notchPotion = new CustomPotion(location, potionId, notchPlayer) {
 						@Override
 						protected boolean hit(MovingObjectPosition movingobjectposition) {
-							org.bukkit.World world = getBukkitEntity().getWorld();
+							final org.bukkit.World world = getBukkitEntity().getWorld();
 							world.playEffect(new Location(world, this.locX, this.locY, this.locZ), Effect.POTION_BREAK, potionId);
 							return true;
 						}
@@ -886,7 +886,7 @@ public class SpawnUtils {
 	}
 
 	public static FakeEntityParticleSpawner makeParticleSpawner(Location location, final String data, int defaultNumParticles, double defaultParticleSpeed, Vector defaultScatter) {
-		String[] parts = data.split(":");
+		final String[] parts = data.split(":");
 		final String particleName = parts[0];
 		if (!isValidParticle(particleName))
 			return null;
@@ -941,12 +941,10 @@ public class SpawnUtils {
 	}
 
 	private ItemStack makeHeadFromData(final String data) {
-		final ItemStack itemStack;
 		if (data == null)
-			itemStack = makeHead(EntityType.PLAYER);
-		else
-			itemStack = makeHead(data);
-		return itemStack;
+			return makeHead(EntityType.PLAYER);
+
+		return makeHead(data);
 	}
 
 	public ItemStack makeHead(String playerName) {
