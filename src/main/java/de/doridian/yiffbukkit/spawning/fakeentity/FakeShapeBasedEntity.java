@@ -5,6 +5,7 @@ import de.doridian.yiffbukkit.transmute.EntityTypeNotFoundException;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class FakeShapeBasedEntity extends FakeEntity {
@@ -27,8 +28,8 @@ public class FakeShapeBasedEntity extends FakeEntity {
 		shape.createTransmutedEntity(player);
 	}
 
-	public void runAction(Player player, String action) throws YiffBukkitCommandException {
-		shape.runAction(player, action);
+	public void runAction(CommandSender commandSender, String action) throws YiffBukkitCommandException {
+		shape.runAction(commandSender, action);
 	}
 
 	public Shape getShape() {

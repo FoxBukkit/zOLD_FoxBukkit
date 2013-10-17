@@ -10,6 +10,7 @@ import net.minecraft.server.v1_6_R2.Packet;
 import net.minecraft.server.v1_6_R2.Packet29DestroyEntity;
 import net.minecraft.server.v1_6_R2.Packet39AttachEntity;
 import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -164,7 +165,7 @@ public abstract class Shape {
 	public abstract void createTransmutedEntity();
 	public abstract void createTransmutedEntity(Player forPlayer);
 
-	public abstract void runAction(Player player, String action) throws YiffBukkitCommandException;
+	public abstract void runAction(CommandSender commandSender, String action) throws YiffBukkitCommandException;
 
 	public static Shape getShape(Transmute transmute, Entity entity, String mobType) throws EntityTypeNotFoundException {
 		return getShape(transmute, entity, MyEntityTypes.typeNameToClass(mobType));

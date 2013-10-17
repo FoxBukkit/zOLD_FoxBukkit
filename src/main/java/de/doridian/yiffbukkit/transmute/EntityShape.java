@@ -13,6 +13,7 @@ import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
 import net.minecraft.server.v1_6_R2.Packet38EntityStatus;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -84,7 +85,7 @@ public abstract class EntityShape extends Shape {
 	private static final Pattern commandPattern = Pattern.compile("^([^ ]+) (.+)?$");
 
 	@Override
-	public void runAction(Player player, String action) throws YiffBukkitCommandException {
+	public void runAction(CommandSender commandSender, String action) throws YiffBukkitCommandException {
 		final Matcher matcher = commandPattern.matcher(action);
 
 		final String actionName;
@@ -101,10 +102,10 @@ public abstract class EntityShape extends Shape {
 			args = new String[0];
 		}
 
-		runAction(player, actionName, args, argStr);
+		runAction(commandSender, actionName, args, argStr);
 	}
 
-	protected void runAction(Player player, final String actionName, final String[] args, final String argStr) throws YiffBukkitCommandException {
+	protected void runAction(CommandSender commandSender, final String actionName, final String[] args, final String argStr) throws YiffBukkitCommandException {
 		if (actions == null)
 			throw new YiffBukkitCommandException("No actions defined for your current shape.");
 
@@ -114,11 +115,11 @@ public abstract class EntityShape extends Shape {
 			if (mobAction == null)
 				throw new YiffBukkitCommandException("No action named '"+actionName+"' defined for your current shape.");
 
-			mobAction.run(this, player, new String[] { "" }, "");
+			mobAction.run(this, commandSender, new String[] { "" }, "");
 			return;
 		}
 
-		mobAction.run(this, player, args, argStr);
+		mobAction.run(this, commandSender, args, argStr);
 	}
 
 	@Override

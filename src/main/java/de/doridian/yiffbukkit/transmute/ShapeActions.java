@@ -10,6 +10,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.v1_6_R2.EnumArt;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static de.doridian.yiffbukkit.main.commands.system.ICommand.asPlayer;
+
 final class ShapeActions {
 	private static TIntObjectMap<Map<String, ShapeAction>> mobActions = new TIntObjectHashMap<Map<String, ShapeAction>>();
 
@@ -28,7 +31,7 @@ final class ShapeActions {
 	}
 
 	static {
-		final ShapeAction itemTypeAction = new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+		final ShapeAction itemTypeAction = new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 			final ItemShape itemShape = (ItemShape) shape;
 
 			final int count;
@@ -101,7 +104,7 @@ final class ShapeActions {
 				"type",
 				itemTypeAction,
 				"orientation",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					ItemFrameShape itemFrameShape = (ItemFrameShape)shape;
 					byte orientation = (byte)(int)Integer.valueOf(args[0]);
 					if(orientation < 0 || orientation > 3)
@@ -116,14 +119,14 @@ final class ShapeActions {
 				"help",
 				new HelpMobAction("/sac art <name>"),
 				"art", "painting", "name", "type",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					for (EnumArt art : EnumArt.values()) {
 						final String currentName = art.B; // v1_6_R2
 						if (!currentName.equalsIgnoreCase(argStr))
 							continue;
 
 						((PaintingShape) shape).setPaintingName(currentName);
-						PlayerHelper.sendDirectedMessage(player, "Set painting to "+currentName);
+						PlayerHelper.sendDirectedMessage(commandSender, "Set painting to "+currentName);
 						return;
 					}
 
@@ -148,11 +151,11 @@ final class ShapeActions {
 				"explode",
 				new EntityStatusMobAction(17, "Exploding..."),
 				"set",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					final net.minecraft.server.v1_6_R2.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
 					shape.setData(8, stack);
 
-					PlayerHelper.sendDirectedMessage(player, "Preparing...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Preparing...");
 				}}
 		);
 
@@ -160,22 +163,22 @@ final class ShapeActions {
 				"help",
 				new HelpMobAction("/sac empty|chest|furnace|bob[ <amount>[ <time>]]|smoke [on|off]"),
 				"empty",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(10);
 
-					PlayerHelper.sendDirectedMessage(player, "Now a regular minecart...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Now a regular minecart...");
 				}},
 				"chest",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(11);
 
-					PlayerHelper.sendDirectedMessage(player, "Now a storage minecart...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Now a storage minecart...");
 				}},
 				"furnace",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					((VehicleShape) shape).setVehicleType(12);
 
-					PlayerHelper.sendDirectedMessage(player, "Now a powered minecart...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Now a powered minecart...");
 				}},
 				"bob",
 				new VehicleBobAction(),
@@ -203,11 +206,11 @@ final class ShapeActions {
 				"help",
 				new HelpMobAction("/sac hiss|charge [on|off]"),
 				"sss", "ssss", "sssss", "ssssss", "hiss", "fuse", "ignite",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					shape.setData(16, (byte) 0);
 					shape.setData(16, (byte) 1);
 
-					PlayerHelper.sendDirectedMessage(player, "Hissing...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Hissing...");
 				}},
 				"charge",
 				new MetadataBitMobAction(17, (byte) 0x1, "Uncharged...", "Charged...")
@@ -304,7 +307,7 @@ final class ShapeActions {
 				"help",
 				new HelpMobAction("/sac shorn|color <color>|baby|adult"),
 				"color",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					DyeColor dyeColor = DyeColor.WHITE;
 					try {
 						if ("RAINBOW".equalsIgnoreCase(argStr) || "RAINBOWS".equalsIgnoreCase(argStr) || "RANDOM".equalsIgnoreCase(argStr)) {
@@ -319,7 +322,7 @@ final class ShapeActions {
 
 					shape.setData(16, dyeColor.getWoolData());
 
-					PlayerHelper.sendDirectedMessage(player, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
+					PlayerHelper.sendDirectedMessage(commandSender, "You are now "+dyeColor.toString().toLowerCase().replace('_',' ')+".");
 				}},
 				"shorn",
 				new MetadataMobAction(16, (byte) 16, "You are now shorn."),
@@ -384,7 +387,7 @@ final class ShapeActions {
 				"adult",
 				new MetadataMobAction(12, 0, "Now an adult..."),
 				"type",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					argStr = argStr.toLowerCase();
 					byte data;
 					if(argStr.equals("black")) {
@@ -399,7 +402,7 @@ final class ShapeActions {
 						throw new YiffBukkitCommandException("Invalid ocelot type");
 					}
 					shape.setData(18, data);
-					PlayerHelper.sendDirectedMessage(player, "Changed ocelot type!");
+					PlayerHelper.sendDirectedMessage(commandSender, "Changed ocelot type!");
 				}}
 		);
 
@@ -410,11 +413,11 @@ final class ShapeActions {
 				"help",
 				new HelpMobAction("/sac angler <name>"),
 				"angler",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					final Player target = YiffBukkit.instance.playerHelper.matchPlayerSingle(argStr);;
 					((VehicleShape) shape).setSubType(target.getEntityId());
 
-					PlayerHelper.sendDirectedMessage(player, "Now being hooked by "+target.getDisplayName()+"...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Now being hooked by "+target.getDisplayName()+"...");
 				}}
 		);
 
@@ -422,7 +425,7 @@ final class ShapeActions {
 				"help",
 				new HelpMobAction("/sac type <type>"),
 				"type",
-				new ShapeAction() { @Override public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 					try {
 						((VehicleShape) shape).setVehicleType(Integer.parseInt(argStr));
 					}
@@ -430,7 +433,7 @@ final class ShapeActions {
 						throw new YiffBukkitCommandException("Number expected.", e);
 					}
 
-					PlayerHelper.sendDirectedMessage(player, "Now potion type "+argStr+"...");
+					PlayerHelper.sendDirectedMessage(commandSender, "Now potion type "+argStr+"...");
 				}}
 		);
 
@@ -465,7 +468,7 @@ final class ShapeActions {
 
 	private static class VehicleBobAction implements ShapeAction {
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 			final int amplitude;
 			final int time;
 			try {
@@ -511,12 +514,12 @@ final class ShapeActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 			try {
 				final Number value = constructor.newInstance(argStr);
 				shape.setData(index, value);
 
-				PlayerHelper.sendDirectedMessage(player, String.format(message, value.toString()));
+				PlayerHelper.sendDirectedMessage(commandSender, String.format(message, value.toString()));
 			} catch (IllegalAccessException e) {
 				throw new RuntimeException(e);
 			} catch (InstantiationException e) {
@@ -539,8 +542,8 @@ final class ShapeActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) {
-			PlayerHelper.sendDirectedMessage(player, message);
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) {
+			PlayerHelper.sendDirectedMessage(commandSender, message);
 		}
 
 	}
@@ -560,20 +563,20 @@ final class ShapeActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 			final byte oldData = shape.getDataByte(index);
 			if ((oldData & bit) != 0) {
 				if ("on".equalsIgnoreCase(argStr))
 					throw new YiffBukkitCommandException("Already on");
 
 				shape.setData(index, (byte)(oldData & ~bit));
-				PlayerHelper.sendDirectedMessage(player, unsetMessage);
+				PlayerHelper.sendDirectedMessage(commandSender, unsetMessage);
 			}
 			else {
 				if ("off".equalsIgnoreCase(argStr))
 					throw new YiffBukkitCommandException("Already off");
 				shape.setData(index, (byte)(oldData | bit));
-				PlayerHelper.sendDirectedMessage(player, setMessage);
+				PlayerHelper.sendDirectedMessage(commandSender, setMessage);
 			}
 		}
 	}
@@ -588,9 +591,9 @@ final class ShapeActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) {
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) {
 			shape.sendEntityStatus(status);
-			PlayerHelper.sendDirectedMessage(player, message);
+			PlayerHelper.sendDirectedMessage(commandSender, message);
 		}
 	}
 
@@ -606,10 +609,10 @@ final class ShapeActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) {
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) {
 			shape.setData(index, value);
 
-			PlayerHelper.sendDirectedMessage(player, message);
+			PlayerHelper.sendDirectedMessage(commandSender, message);
 		}
 	}
 
@@ -621,11 +624,11 @@ final class ShapeActions {
 		}
 
 		@Override
-		public void run(EntityShape shape, Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 			final Player target;
 			final boolean toggle;
 			if (argStr.isEmpty()) {
-				target = player;
+				target = asPlayer(commandSender);
 				toggle = true;
 			}
 			else {
@@ -636,17 +639,17 @@ final class ShapeActions {
 			if (!toggle) {
 				shape.setData(index, target.getEntityId());
 
-				PlayerHelper.sendDirectedMessage(player, "That head is now following "+target.getName()+".");
+				PlayerHelper.sendDirectedMessage(commandSender, "That head is now following "+target.getName()+".");
 			}
 			else if (shape.getDataInteger(index) == 0) {
 				shape.setData(index, target.getEntityId());
 
-				PlayerHelper.sendDirectedMessage(player, "That head is now following you.");
+				PlayerHelper.sendDirectedMessage(commandSender, "That head is now following you.");
 			}
 			else {
 				shape.setData(index, 0);
 
-				PlayerHelper.sendDirectedMessage(player, "That head is no longer following anyone.");
+				PlayerHelper.sendDirectedMessage(commandSender, "That head is no longer following anyone.");
 			}
 		}
 	}
