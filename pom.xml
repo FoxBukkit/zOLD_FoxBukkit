@@ -108,7 +108,7 @@
 						<configuration>
 							<serverId>arcticfox-mc</serverId>
 							<fromFile>${project.build.directory}/${project.build.finalName}.jar</fromFile>
-							<url>scpexe://root@arcticfox-mc.doridian.de/home/minecraft/multicraft/servers/server1/plugins</url>
+							<url>scpexe://root@mc.arcticfox.doridian.net/home/minecraft/multicraft/servers/server1/plugins</url>
 							<toFile>${project.name}.jar</toFile>
 						</configuration>
 					</execution>
@@ -134,7 +134,7 @@
 						</goals>
 						<configuration>
 							<runIf>{{ restart }}</runIf>
-							<location>scp://root:dummy@arcticfox-mc.doridian.de:/</location>
+							<location>scp://root:dummy@mc.arcticfox.doridian.net:/</location>
 							<keyfile>${env.HOME}/.ssh/id_rsa</keyfile>
 							<command>/bin/sh /root/restart-server.sh</command>
 						</configuration>
