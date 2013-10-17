@@ -64,6 +64,10 @@ public abstract class YBEffect extends ScheduledTask {
 
 	public abstract void start();
 
+	public void forceStart() {
+		start();
+	}
+
 	public final void stop() {
 		cancel();
 		done();

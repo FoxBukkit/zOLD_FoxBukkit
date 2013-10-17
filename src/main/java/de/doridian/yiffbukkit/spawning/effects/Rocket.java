@@ -56,6 +56,11 @@ public class Rocket extends YBEffect.PotionTrail {
 			return;
 		}
 
+		forceStart();
+	}
+
+	@Override
+	public void forceStart() {
 		// TODO: area/direct hit with different heights
 		maxHeight = entity.getLocation().getY() + 32;
 
@@ -127,7 +132,8 @@ public class Rocket extends YBEffect.PotionTrail {
 		if (i == 100 || currentLocation.getY() >= maxHeight) {
 			done();
 			cancel();
-			entity.remove();
+			if (!(entity instanceof Player))
+				entity.remove();
 
 			final String fireworkType = fireworkTypes.get(entity.getType());
 			if (fireworkType != null) {

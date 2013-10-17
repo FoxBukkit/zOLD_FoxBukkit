@@ -185,7 +185,7 @@ public class SpawnUtils {
 				final String attribute = typeParts[i].toLowerCase();
 				if (YBEffect.effectExists(attribute)) {
 					final YBEffect effect = YBEffect.create(attribute, entity);
-					effect.start();
+					effect.forceStart();
 					continue;
 				}
 
