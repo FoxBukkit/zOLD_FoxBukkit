@@ -458,7 +458,11 @@ public class SpawnUtils {
 		case "fakeitem":
 			final FakeShapeBasedEntity itemEntity = new FakeShapeBasedEntity(location, "item");
 			if (data != null) {
-				itemEntity.runAction(them.getEntity(), "type "+data.replace("*", " "));
+				CommandSender themSender = them.getEntity();
+				if (themSender == null)
+					themSender = commandSender;
+
+				itemEntity.runAction(themSender, "type "+data.replace("*", " "));
 			}
 			itemEntity.send();
 
