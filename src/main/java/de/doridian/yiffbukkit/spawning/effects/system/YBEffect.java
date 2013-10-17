@@ -88,20 +88,27 @@ public abstract class YBEffect extends ScheduledTask {
 
 	protected abstract void runEffect();
 
-	public static EffectProperties getEffectProperties(String effect) {
-		Class<? extends YBEffect> effectClass = effectClasses.get(effect);
 
-		return effectClass.getAnnotation(EffectProperties.class);
+	public static boolean effectExists(String effect) {
+		return effectClasses.containsKey(effect);
 	}
+
+	public static EffectProperties getEffectProperties(String effect) {
+		if (!effectExists(effect))
+			return null;
+
+		return effectClasses.get(effect).getAnnotation(EffectProperties.class);
+	}
+
 	public static YBEffect create(String effect, Entity entity) throws YiffBukkitCommandException {
-		if (!effectClasses.containsKey(effect))
+		if (!effectExists(effect))
 			throw new YiffBukkitCommandException("Effect '"+effect+"' not found.");
 
 		return create(effectClasses.get(effect), entity);
 	}
 
 	public static YBEffect createTrail(String effect, Entity entity) throws YiffBukkitCommandException {
-		if (!effectClasses.containsKey(effect))
+		if (!effectExists(effect))
 			throw new YiffBukkitCommandException("Effect '"+effect+"' not found.");
 
 		return createTrail(effectClasses.get(effect), entity);

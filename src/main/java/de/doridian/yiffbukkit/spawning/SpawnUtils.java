@@ -183,7 +183,12 @@ public class SpawnUtils {
 			final Entity entity = spawnSingleMob(commandSender, fixedSpawnables, location, type, data);
 			for (int i = 1; i < typeParts.length; i++) {
 				final String attribute = typeParts[i].toLowerCase();
-				// TODO: mob effects
+				if (YBEffect.effectExists(attribute)) {
+					final YBEffect effect = YBEffect.create(attribute, entity);
+					effect.start();
+					continue;
+				}
+
 				switch (attribute) {
 				case "leash":
 					((LivingEntity) entity).setLeashHolder(them);
