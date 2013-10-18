@@ -36,7 +36,7 @@ import java.util.Map;
 )
 public class Rocket extends YBEffect.PotionTrail {
 	private int i = 0;
-	private List<Entity> toRemove = new ArrayList<Entity>();
+	private List<Entity> toRemove = new ArrayList<>();
 	private Vector velocity = entity.getVelocity();
 	private double maxHeight;
 
@@ -79,7 +79,7 @@ public class Rocket extends YBEffect.PotionTrail {
 		}
 	}
 
-	private static Map<EntityType, String> fireworkTypes = new EnumMap<EntityType, String>(EntityType.class);
+	private static Map<EntityType, String> fireworkTypes = new EnumMap<>(EntityType.class);
 	static {
 		//fireworkTypes.put(EntityType.BAT, "");
 		fireworkTypes.put(EntityType.BLAZE, "ffcc33/Type=2/Trail/Fade=666666,777777,888888,999999");
