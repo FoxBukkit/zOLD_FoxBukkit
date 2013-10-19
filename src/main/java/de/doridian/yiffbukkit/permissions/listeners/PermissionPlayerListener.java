@@ -68,9 +68,8 @@ public class PermissionPlayerListener extends BaseListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
-		if(event.isCancelled()) return;
 		YiffBukkitPermissions.removeCOPlayer(event.getPlayer());
 	}
 }

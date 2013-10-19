@@ -61,6 +61,10 @@ public class CheckOffCommand extends ICommand {
 
 	public boolean isOnline(String playerName) {
 		Player plyply = plugin.getServer().getPlayerExact(playerName);
-		return plyply != null && plyply.isOnline();
+		//noinspection SimplifiableIfStatement
+		if (plyply == null)
+			return false;
+
+		return plyply.isOnline();
 	}
 }

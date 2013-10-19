@@ -13,11 +13,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class YiffBukkitPermissions {
-	@SuppressWarnings("unused")
-	private static PermissionPlayerListener playerListener;
-
 	public static void init() {
-		playerListener = new PermissionPlayerListener();
+		new PermissionPlayerListener();
 
 		try {
 			final File file = new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt");
@@ -34,88 +31,19 @@ public class YiffBukkitPermissions {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
-		/*new Thread() {
-			@Override
-			public void run() {
-				Packet20NamedEntitySpawn packet20NamedEntitySpawn = new Packet20NamedEntitySpawn();
-
-				packet20NamedEntitySpawn.b = "\u00a7kDoridian";
-				packet20NamedEntitySpawn.f = 0; //Yaw
-				packet20NamedEntitySpawn.g = 0; //Pitch
-				packet20NamedEntitySpawn.h = 0; //ItemID
-
-				Packet29DestroyEntity packet29DestroyEntity = new Packet29DestroyEntity();
-
-				packet20NamedEntitySpawn.a = -1400;
-
-				while(true) {
-					for(int i=-1337;i<-337;i++) {
-						packet20NamedEntitySpawn.a = i;
-						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
-							if(YiffBukkit.instance.playerHelper.getPlayerLevel(ply) <= 0) {
-								Location pos = ply.getLocation();
-								packet20NamedEntitySpawn.c = MathHelper.floor((pos.getX() + 1024D) * 32.0D);
-								packet20NamedEntitySpawn.d = MathHelper.floor((pos.getY() + 1024D) * 32.0D);
-								packet20NamedEntitySpawn.e = MathHelper.floor((pos.getZ() + 1024D) * 32.0D);
-
-								PlayerHelper.sendPacketToPlayer(ply, packet20NamedEntitySpawn);
-							}
-						}
-						try {
-							Thread.sleep(10);
-						} catch(Exception e) { }
-					}
-					for(int i=-2666;i<-2333;i++) {
-						packet29DestroyEntity.a = new int[] { i };
-						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
-							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
-						}
-						try {
-							Thread.sleep(10);
-						} catch(Exception e) { }
-					}
-					for(int i=-2666;i<-2333;i++) {
-						packet20NamedEntitySpawn.a = i;
-						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
-							if(YiffBukkit.instance.playerHelper.getPlayerLevel(ply) <= 0) {
-								Location pos = ply.getLocation();
-								packet20NamedEntitySpawn.c = MathHelper.floor((pos.getX() + 1024D) * 32.0D);
-								packet20NamedEntitySpawn.d = MathHelper.floor((pos.getY() + 1024D) * 32.0D);
-								packet20NamedEntitySpawn.e = MathHelper.floor((pos.getZ() + 1024D) * 32.0D);
-
-								PlayerHelper.sendPacketToPlayer(ply, packet20NamedEntitySpawn);
-							}
-						}
-						try {
-							Thread.sleep(10);
-						} catch(Exception e) { }
-					}
-					for(int i=-1337;i<-337;i++) {
-						packet29DestroyEntity.a = new int[] { i };
-						for(Player ply : YiffBukkit.instance.getServer().getOnlinePlayers()) {
-							PlayerHelper.sendPacketToPlayer(ply, packet29DestroyEntity);
-						}
-						try {
-							Thread.sleep(10);
-						} catch(Exception e) { }
-					}
-				}
-			}
-		}.start();*/
 	}
 
-	public static Set<String> checkOffPlayers = new LinkedHashSet<String>();
+	public static Set<String> checkOffPlayers = new LinkedHashSet<>();
 
 	public static boolean addCOPlayer(Player player) {
 		return addCOPlayer(player.getName());
 	}
-	public static boolean addCOPlayer(String player) {
-		player = player.toLowerCase();
-		if(checkOffPlayers.contains(player))
+	public static boolean addCOPlayer(String playerName) {
+		playerName = playerName.toLowerCase();
+		if(checkOffPlayers.contains(playerName))
 			return false;
 
-		checkOffPlayers.add(player);
+		checkOffPlayers.add(playerName);
 		saveCO();
 
 		return true;
@@ -123,14 +51,14 @@ public class YiffBukkitPermissions {
 	public static boolean removeCOPlayer(Player player) {
 		return removeCOPlayer(player.getName());
 	}
-	public static boolean removeCOPlayer(String player) {
-		player = player.toLowerCase();
-		if(checkOffPlayers.contains(player)) {
-			checkOffPlayers.remove(player);
-			saveCO();
-			return true;
-		}
-		return false;
+	public static boolean removeCOPlayer(String playerName) {
+		playerName = playerName.toLowerCase();
+		if (!checkOffPlayers.contains(playerName))
+			return false;
+
+		checkOffPlayers.remove(playerName);
+		saveCO();
+		return true;
 	}
 
 	private static void saveCO() {
