@@ -5,6 +5,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<maven.deploy.skip>true</maven.deploy.skip>
+		<deployTargetUser>root</deployTargetUser>
+		<deployTargetHost>mc.arcticfox.doridian.net</deployTargetHost>
+		<deployTargetFolder>/home/minecraft/multicraft/servers/server1/plugins</deployTargetFolder>
+		<deployRestartCommand>/bin/sh /root/restart-server.sh</deployRestartCommand>
 	</properties>
 	<build>
 		<plugins>
@@ -108,7 +112,7 @@
 						<configuration>
 							<serverId>arcticfox-mc</serverId>
 							<fromFile>${project.build.directory}/${project.build.finalName}.jar</fromFile>
-							<url>scpexe://root@mc.arcticfox.doridian.net/home/minecraft/multicraft/servers/server1/plugins</url>
+							<url>scpexe://${deployTargetUser}@${deployTargetHost}${deployTargetFolder}</url>
 							<toFile>${project.name}.jar</toFile>
 						</configuration>
 					</execution>
@@ -134,9 +138,9 @@
 						</goals>
 						<configuration>
 							<runIf>{{ restart }}</runIf>
-							<location>scp://root:dummy@mc.arcticfox.doridian.net:/</location>
+							<location>scp://${deployTargetUser}:dummy@${deployTargetHost}}:/</location>
 							<keyfile>${env.HOME}/.ssh/id_rsa</keyfile>
-							<command>/bin/sh /root/restart-server.sh</command>
+							<command>${deployRestartCommand}</command>
 						</configuration>
 					</execution>
 				</executions>
