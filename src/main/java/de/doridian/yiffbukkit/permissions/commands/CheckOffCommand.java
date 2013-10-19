@@ -13,14 +13,14 @@ import org.bukkit.entity.Player;
 
 @Names({"checkoff","co"})
 @Help("Check-Off list and system for YB")
-@Usage("[[-f|-u] name]")
-@BooleanFlags("fu")
+@Usage("[[-f|-u|] name|-l|on|off]")
+@BooleanFlags("ful")
 @Permission("yiffbukkit.checkoff")
 public class CheckOffCommand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
-		if (args.length < 1) {
+		if (booleanFlags.contains('l')) {
 			final StringBuilder reply = new StringBuilder("\u00a76CO: ");
 			boolean first = true;
 			for (String playerName : YiffBukkitPermissions.checkOffPlayers) {
@@ -37,6 +37,39 @@ public class CheckOffCommand extends ICommand {
 			}
 			PlayerHelper.sendDirectedMessage(ply, reply.toString());
 			return;
+		}
+
+		switch (args.length) {
+		case 0:
+			if (YiffBukkitPermissions.toggleDisplayCO(ply)) {
+				PlayerHelper.sendDirectedMessage(ply, "Enabled CO display");
+			} else {
+				PlayerHelper.sendDirectedMessage(ply, "Disabled CO display");
+			}
+			return;
+
+		case 1:
+			switch (args[0]) {
+			case "on":
+				if (YiffBukkitPermissions.isDisplayingCO(ply)) {
+					PlayerHelper.sendDirectedMessage(ply, "CO display already enabled");
+				}
+				else {
+					YiffBukkitPermissions.toggleDisplayCO(ply);
+					PlayerHelper.sendDirectedMessage(ply, "Enabled CO display");
+				}
+				return;
+
+			case "off":
+				if (YiffBukkitPermissions.isDisplayingCO(ply)) {
+					YiffBukkitPermissions.toggleDisplayCO(ply);
+					PlayerHelper.sendDirectedMessage(ply, "Disabled CO display");
+				}
+				else {
+					PlayerHelper.sendDirectedMessage(ply, "CO display already disabled");
+				}
+				return;
+			}
 		}
 
 		final String playerName = args[0];

@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PermissionPlayerListener extends BaseListener {
@@ -66,10 +67,23 @@ public class PermissionPlayerListener extends BaseListener {
 		} else {
 			YiffBukkitPermissions.removeCOPlayer(player);
 		}
+
+		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), true);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
-		YiffBukkitPermissions.removeCOPlayer(event.getPlayer());
+		final Player player = event.getPlayer();
+
+		YiffBukkitPermissions.removeCOPlayer(player);
+
+		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), false);
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		final Player player = event.getPlayer();
+
+		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), false);
 	}
 }
