@@ -75,8 +75,6 @@ public class PermissionPlayerListener extends BaseListener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		final Player player = event.getPlayer();
 
-		YiffBukkitPermissions.removeCOPlayer(player);
-
 		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), false);
 	}
 

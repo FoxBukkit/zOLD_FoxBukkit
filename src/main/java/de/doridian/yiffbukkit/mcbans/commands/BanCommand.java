@@ -101,5 +101,6 @@ public class BanCommand extends ICommand {
 		}
 
 		otherply.kickPlayer(reason);
+		YiffBukkitPermissions.removeCOPlayer(otherply);
 	}
 }
