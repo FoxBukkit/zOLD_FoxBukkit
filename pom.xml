@@ -4,6 +4,7 @@
 	<artifactId>YiffBukkit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
+		<restart>false</restart>
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<deployTargetUser>root</deployTargetUser>
 		<deployTargetHost>mc.arcticfox.doridian.net</deployTargetHost>
@@ -138,7 +139,7 @@
 						</goals>
 						<configuration>
 							<runIf>{{ restart }}</runIf>
-							<location>scp://${deployTargetUser}:dummy@${deployTargetHost}}:/</location>
+							<location>scp://${deployTargetUser}:dummy@${deployTargetHost}:/</location>
 							<keyfile>${env.HOME}/.ssh/id_rsa</keyfile>
 							<command>${deployRestartCommand}</command>
 						</configuration>
