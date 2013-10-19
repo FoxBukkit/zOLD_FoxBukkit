@@ -7,7 +7,7 @@
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<deployTargetUser>root</deployTargetUser>
 		<deployTargetHost>mc.arcticfox.doridian.net</deployTargetHost>
-		<deployTargetFolder>/home/minecraft/multicraft/servers/server1/plugins</deployTargetFolder>
+		<deployTargetFolder>/home/minecraft/multicraft/servers/server1/deploy/plugins</deployTargetFolder>
 		<deployRestartCommand>/bin/sh /root/restart-server.sh</deployRestartCommand>
 	</properties>
 	<build>
