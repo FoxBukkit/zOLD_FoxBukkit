@@ -30,7 +30,7 @@ public class RedisHandler extends JedisPubSub implements Runnable {
 	public void onMessage(final String channel, final String c_message) {
 		try {
 			//SERVER|USER|MESSAGE
-			final String[] split = c_message.split("\\|");
+			final String[] split = c_message.split("\\|", 3);
 			final String server = split[0];
 			final Player user = YiffBukkit.instance.playerHelper.matchPlayerSingle(split[1], true);
 			String message = split[2];
