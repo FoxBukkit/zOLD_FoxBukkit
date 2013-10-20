@@ -88,7 +88,7 @@ public class WarpEngine extends StateContainer {
 		WarpDescriptor warp = warps.get(name.toLowerCase());
 
 		if (warp == null)
-			throw new WarpException("Warp not found.");
+			throw new WarpException("Warp '"+name+"' not found.");
 
 		if (warp.checkAccess(commandSender) < 1)
 			throw new WarpException("Permission denied.").setColor('4');
