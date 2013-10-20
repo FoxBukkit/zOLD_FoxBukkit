@@ -11,6 +11,7 @@ import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 @Names("setwarp")
@@ -43,6 +44,7 @@ public class SetWarpCommand extends ICommand {
 	}
 
 	private Location getWarpTargetLocation(CommandSender commandSender) throws WarpException {
-		return getCommandSenderLocation(commandSender, false, plugin.warpEngine.getWarp(null, "guest_spawn").location);
+		final Location guestSpawn = playerHelper.getRankSpawnPosition(plugin.getOrCreateWorld("world", World.Environment.NORMAL), "guest");
+		return getCommandSenderLocation(commandSender, false, guestSpawn);
 	}
 }

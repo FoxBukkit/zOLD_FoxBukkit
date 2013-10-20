@@ -865,14 +865,18 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public Location getPlayerSpawnPosition(Player ply) {
+		return getRankSpawnPosition(ply.getWorld(), getPlayerRank(ply));
+	}
+
+	public Location getRankSpawnPosition(World world, String rank) {
 		try {
-			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(null, getPlayerRank(ply)+"_spawn");
+			WarpDescriptor warpDescriptor = plugin.warpEngine.getWarp(null, rank +"_spawn");
 			if (warpDescriptor == null)
 				throw new WarpException("");
 
 			return warpDescriptor.location;
 		} catch (WarpException e) {
-			final Location location = ply.getWorld().getSpawnLocation();
+			final Location location = world.getSpawnLocation();
 			location.setX(location.getX()+0.5);
 			location.setZ(location.getZ()+0.5);
 			return location;
