@@ -10,6 +10,8 @@
 		<deployTargetHost>mc.arcticfox.doridian.net</deployTargetHost>
 		<deployTargetFolder>/home/minecraft/multicraft/servers/server1/deploy/plugins</deployTargetFolder>
 		<deployRestartCommand>/bin/sh /root/restart-server.sh</deployRestartCommand>
+		<deployFileName>${project.name}.jar</deployFileName>
+		<deployKeyFile>${env.HOME}/.ssh/id_rsa</deployKeyFile>
 	</properties>
 	<build>
 		<plugins>
@@ -114,7 +116,7 @@
 							<serverId>arcticfox-mc</serverId>
 							<fromFile>${project.build.directory}/${project.build.finalName}.jar</fromFile>
 							<url>scpexe://${deployTargetUser}@${deployTargetHost}${deployTargetFolder}</url>
-							<toFile>${project.name}.jar</toFile>
+							<toFile>${deployFileName}</toFile>
 						</configuration>
 					</execution>
 				</executions>
@@ -139,8 +141,8 @@
 						</goals>
 						<configuration>
 							<runIf>{{ restart }}</runIf>
+							<keyfile>${deployKeyFile}</keyfile>
 							<location>scp://${deployTargetUser}:dummy@${deployTargetHost}:/</location>
-							<keyfile>${env.HOME}/.ssh/id_rsa</keyfile>
 							<command>${deployRestartCommand}</command>
 						</configuration>
 					</execution>
