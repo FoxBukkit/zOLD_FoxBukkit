@@ -76,43 +76,43 @@ public class SendPacketCommand extends ICommand {
 			final String fClassName = f.getType().getCanonicalName();
 
 			final Object value;
-			switch (fClassName.hashCode()) {
-			case 1195259493: // String.class.getCanonicalName().hashCode()
+			switch (fClassName) { // TODO: string switch
+			case "java.lang.String":
 				value = valueString;
 				break;
 
-			case 64711720: // boolean.class.getCanonicalName().hashCode()
-			case 344809556: // Boolean.class.getCanonicalName().hashCode()
+			case "boolean":
+			case "java.lang.Boolean":
 				value = Boolean.valueOf(valueString);
 				break;
 
-			case 3039496: // byte.class.getCanonicalName().hashCode()
-			case 398507100: // Byte.class.getCanonicalName().hashCode()
+			case "byte":
+			case "java.lang.Byte":
 				value = Byte.valueOf(valueString);
 				break;
 
-			case 109413500: // short.class.getCanonicalName().hashCode()
-			case -515992664: // Short.class.getCanonicalName().hashCode()
+			case "short":
+			case "java.lang.Short":
 				value = Byte.valueOf(valueString);
 				break;
 
-			case 104431: // int.class.getCanonicalName().hashCode()
-			case -2056817302: // Integer.class.getCanonicalName().hashCode()
+			case "int":
+			case "java.lang.Integer":
 				value = Integer.valueOf(valueString);
 				break;
 
-			case 3327612: // long.class.getCanonicalName().hashCode()
-			case 398795216: // Long.class.getCanonicalName().hashCode()
+			case "long":
+			case "java.lang.Long":
 				value = Long.valueOf(valueString);
 				break;
 
-			case 97526364: // float.class.getCanonicalName().hashCode()
-			case -527879800: // Float.class.getCanonicalName().hashCode()
+			case "float":
+			case "java.lang.Float":
 				value = Float.valueOf(valueString);
 				break;
 
-			case -1325958191: // double.class.getCanonicalName().hashCode()
-			case 761287205: // Double.class.getCanonicalName().hashCode()
+			case "double":
+			case "java.lang.Double":
 				value = Double.valueOf(valueString);
 				break;
 
