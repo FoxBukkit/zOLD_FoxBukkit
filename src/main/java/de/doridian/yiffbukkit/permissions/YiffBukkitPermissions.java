@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.permissions;
 
+import com.sk89q.util.StringUtil;
 import de.doridian.yiffbukkit.permissions.listeners.PermissionPlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Bukkit;
@@ -141,8 +142,7 @@ public class YiffBukkitPermissions {
 	}
 
 	private static OfflinePlayer getOfflinePlayer(String playerName) {
-		playerName = "\u00a7f" + playerName;
-		final String text = playerName.substring(0, Math.min(16, playerName.length()));
+		final String text = StringUtil.trimLength("\u00a7f" + playerName, 16);
 		return Bukkit.getOfflinePlayer(text);
 	}
 }
