@@ -70,7 +70,8 @@ public class YiffBukkitPermissions {
 		checkOffPlayers.remove(playerName);
 		saveCO();
 
-		board.resetScores(getOfflinePlayer(playerName));
+		board.resetScores(getOfflinePlayer(playerName, true));
+		board.resetScores(getOfflinePlayer(playerName, false));
 
 		return true;
 	}
@@ -93,7 +94,7 @@ public class YiffBukkitPermissions {
 	private static final Objective objective = board.registerNewObjective("checkoff", DUMMY_CRITERION);
 	static {
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName("Name         off");
+		objective.setDisplayName("Checkov");
 	}
 
 	// CO online status update
@@ -108,7 +109,8 @@ public class YiffBukkitPermissions {
 		if(!checkOffPlayers.contains(playerName))
 			return;
 
-		final Score score = objective.getScore(getOfflinePlayer(playerName));
+		board.resetScores(getOfflinePlayer(playerName, !online));
+		final Score score = objective.getScore(getOfflinePlayer(playerName, online));
 		if (online) {
 			score.setScore(1);
 			score.setScore(0);
@@ -141,8 +143,8 @@ public class YiffBukkitPermissions {
 		return player.getScoreboard() == board;
 	}
 
-	private static OfflinePlayer getOfflinePlayer(String playerName) {
-		final String text = StringUtil.trimLength("\u00a7f" + playerName, 16);
+	private static OfflinePlayer getOfflinePlayer(String playerName, boolean online) {
+		final String text = StringUtil.trimLength((online ? "\u00a72" : "\u00a7c") + playerName, 16);
 		return Bukkit.getOfflinePlayer(text);
 	}
 }
