@@ -44,9 +44,22 @@ public class YiffBukkitPermissions {
 
 	public static Set<String> checkOffPlayers = new LinkedHashSet<>();
 
+	/**
+	 * Adds a player to checkoff.
+	 *
+	 * @param player the player to add
+	 * @return true if the player wasn't already on checkoff
+	 */
 	public static boolean addCOPlayer(Player player) {
 		return addCOPlayer(player.getName());
 	}
+
+	/**
+	 * Adds a player to checkoff.
+	 *
+	 * @param playerName the name of the player to add
+	 * @return true if the player wasn't already on checkoff
+	 */
 	public static boolean addCOPlayer(String playerName) {
 		playerName = playerName.toLowerCase();
 		if(checkOffPlayers.contains(playerName))
@@ -59,9 +72,23 @@ public class YiffBukkitPermissions {
 
 		return true;
 	}
+
+	/**
+	 * Removes a player from checkoff.
+	 *
+	 * @param player the player to remove
+	 * @return true if the player wasn't already on checkoff
+	 */
 	public static boolean removeCOPlayer(Player player) {
 		return removeCOPlayer(player.getName());
 	}
+
+	/**
+	 * Removes a player from checkoff.
+	 *
+	 * @param playerName the name of the player to remove
+	 * @return true if the player wasn't already on checkoff
+	 */
 	public static boolean removeCOPlayer(String playerName) {
 		playerName = playerName.toLowerCase();
 		if (!checkOffPlayers.contains(playerName))
@@ -99,11 +126,22 @@ public class YiffBukkitPermissions {
 
 	// CO online status update
 
+	/**
+	 * Refreshes the player's online status if they're on checkoff.
+	 *
+	 * @param playerName the name of the player to refresh
+	 */
 	public static void refreshCOPlayerOnlineState(String playerName) {
-		refreshCOPlayerOnlineState(playerName, Bukkit.getOfflinePlayer(playerName).isOnline());
+		setCOPlayerOnlineState(playerName, Bukkit.getOfflinePlayer(playerName).isOnline());
 	}
 
-	public static void refreshCOPlayerOnlineState(String playerName, boolean online) {
+	/**
+	 * Sets the player's online status if they're on checkoff.
+	 *
+	 * @param playerName the name of the player to refresh
+	 * @param online the new online status
+	 */
+	public static void setCOPlayerOnlineState(String playerName, boolean online) {
 		playerName = playerName.toLowerCase();
 
 		if(!checkOffPlayers.contains(playerName))
@@ -125,7 +163,7 @@ public class YiffBukkitPermissions {
 	/**
 	 * Toggle checkoff display for the specified player
 	 *
-	 * @param player Player to toggle for.
+	 * @param player the player to toggle for.
 	 * @return new state
 	 */
 	public static boolean toggleDisplayCO(Player player) {
@@ -139,6 +177,12 @@ public class YiffBukkitPermissions {
 		}
 	}
 
+	/**
+	 * Return whether checkoff is display for the specified player
+	 *
+	 * @param player the player to query.
+	 * @return current state
+	 */
 	public static boolean isDisplayingCO(Player player) {
 		return player.getScoreboard() == board;
 	}

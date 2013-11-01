@@ -68,20 +68,20 @@ public class PermissionPlayerListener extends BaseListener {
 			YiffBukkitPermissions.removeCOPlayer(player);
 		}
 
-		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), true);
+		YiffBukkitPermissions.setCOPlayerOnlineState(player.getName(), true);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
 		final Player player = event.getPlayer();
 
-		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), false);
+		YiffBukkitPermissions.setCOPlayerOnlineState(player.getName(), false);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
 
-		YiffBukkitPermissions.refreshCOPlayerOnlineState(player.getName(), false);
+		YiffBukkitPermissions.setCOPlayerOnlineState(player.getName(), false);
 	}
 }
