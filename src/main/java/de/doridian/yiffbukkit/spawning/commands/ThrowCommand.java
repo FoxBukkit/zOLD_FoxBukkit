@@ -403,14 +403,18 @@ public class ThrowCommand extends ICommand {
 					if (!usePitch)
 						location.setPitch(0);
 
+					final double x = location.getX();
+					final double y = location.getY();
+					final double z = location.getZ();
+					System.out.println(String.format("%s spawned %d %s at (%s,%.0f,%.0f,%.0f)", playerName, amount, typeName, location.getWorld().getName(), x, y, z));
 					for (int i = 0; i < amount; ++i) {
 						final Vector direction = shape.getDirection(i);
 						// TODO: orientation
 
 						final Location finalLocation = location.clone();
-						finalLocation.setX(location.getX()+direction.getX()*scale);
-						finalLocation.setY(location.getY()+direction.getY()*scale);
-						finalLocation.setZ(location.getZ()+direction.getZ()*scale);
+						finalLocation.setX(x + direction.getX()*scale);
+						finalLocation.setY(y + direction.getY()*scale);
+						finalLocation.setZ(z + direction.getZ()*scale);
 
 						final Entity entity = plugin.spawnUtils.buildMob(types, player, player, finalLocation);
 						entity.setVelocity(direction);
