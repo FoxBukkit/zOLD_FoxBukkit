@@ -4,6 +4,7 @@ import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
+import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_6_R2.AxisAlignedBB;
@@ -24,6 +25,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -33,6 +35,8 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.SpawnEgg;
 
 import java.io.File;
 import java.io.IOException;
@@ -405,6 +409,33 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				}
 
 				return ret;
+			}
+		});
+
+		ToolBind.addGlobal(Material.MONSTER_EGG, new ToolBind("monster egg", null) {
+			@Override
+			public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException {
+				return handlePlayerEvent(event);
+			}
+
+			@Override
+			public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException {
+				return handlePlayerEvent(event);
+			}
+
+			private boolean handlePlayerEvent(PlayerEvent event) {
+				final Player player = event.getPlayer();
+				final MaterialData data = player.getItemInHand().getData();
+				if (!(data instanceof SpawnEgg))
+					return false;
+
+				final String typeName = ((SpawnEgg) data).getSpawnedType().name().toLowerCase();
+				final Location location = player.getLocation();
+				final String playerName = player.getName();
+				SpawnUtils.logSpawn(playerName, location, 1, typeName);
+
+				// Do not cancel, just log
+				return false;
 			}
 		});
 	}
