@@ -19,8 +19,23 @@ public abstract class ToolBind {
 		playerName = ply == null ? null : ply.getName();
 	}
 
-	public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException { return false; };
-	public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException { return false; };
+	/**
+	 * Called when the bind is triggers by interacting with a block.
+	 *
+	 * @param event the event that triggered the bind
+	 * @return false if the bind was not applicable
+	 * @throws YiffBukkitCommandException if there was a problem
+	 */
+	public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException { return false; }
+
+	/**
+	 * Called when the bind is triggers by interacting with an entity.
+	 *
+	 * @param event the event that triggered the bind
+	 * @return false if the bind was not applicable
+	 * @throws YiffBukkitCommandException if there was a problem
+	 */
+	public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException { return false; }
 
 	private static Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
 
