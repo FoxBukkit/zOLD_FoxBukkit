@@ -85,6 +85,13 @@ public class SpawnUtils {
 		this.noErrorPlz = new FakeEntityParticleSpawner(new Location(null, 0, 0, 0), new Vector(), 0, 0, "");
 	}
 
+	public static void logSpawn(String playerName, Location location, int amount, String typeName) {
+		final double x = location.getX();
+		final double y = location.getY();
+		final double z = location.getZ();
+		System.out.println(String.format("%s spawned %d %s at (%s,%.0f,%.0f,%.0f)", playerName, amount, typeName, location.getWorld().getName(), x, y, z));
+	}
+
 	public Entity buildMob(final String[] types, final CommandSender commandSender, Player them, final Location location) throws YiffBukkitCommandException {
 		final Map<String, Spawnable<? extends Entity>> fixedSpawnables = new HashMap<>();
 
