@@ -19,13 +19,11 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -494,42 +492,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		if (event.isCancelled())
-			return;
-
-		final Item item = event.getItemDrop();
-		final ItemStack itemStack = item.getItemStack();
-		final int typeId = itemStack.getTypeId();
-
-		int amount = itemStack.getAmount();
-
-		final List<Entity> nearbyEntities = item.getNearbyEntities(2, 2, 2);
-		if (nearbyEntities.size() < 15)
-			return;
-
-		for (Entity entity : nearbyEntities) {
-			if (!(entity instanceof Item))
-				continue;
-
-			final Item otherItem = (Item) entity;
-
-			if (otherItem.isDead())
-				continue;
-
-			final ItemStack otherItemStack = otherItem.getItemStack();
-			if (typeId != otherItemStack.getTypeId())
-				continue;
-
-			amount += otherItemStack.getAmount();
-
-			otherItem.remove();
-		}
-
-		itemStack.setAmount(amount);
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
