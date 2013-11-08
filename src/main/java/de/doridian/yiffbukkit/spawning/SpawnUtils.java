@@ -46,6 +46,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_6_R2.CraftServer;
 import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Ageable;
@@ -221,6 +222,13 @@ public class SpawnUtils {
 
 				case "trap":
 					new TrapEntity(plugin, entity);
+					break;
+
+				case "arrows":
+				case "pincushion":
+					if (entity instanceof CraftLivingEntity) {
+						((CraftLivingEntity) entity).getHandle().m(127);
+					}
 					break;
 				}
 			}
