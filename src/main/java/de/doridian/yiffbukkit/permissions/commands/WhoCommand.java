@@ -72,6 +72,9 @@ public class WhoCommand extends ICommand {
 				WarpDescriptor closestWarp = null;
 
 				for (WarpDescriptor warpDescriptor : plugin.warpEngine.getWarps().values()) {
+					if (!warpDescriptor.location.getWorld().equals(targetLocation.getWorld()))
+						continue;
+
 					final Vector currentOffsetFromWarp = targetLocation.toVector().subtract(warpDescriptor.location.toVector());
 					final double currentDistance = currentOffsetFromWarp.length();
 					if (currentDistance >= minDistance)
