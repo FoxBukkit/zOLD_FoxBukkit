@@ -47,19 +47,19 @@ public class WhoCommand extends ICommand {
 				PlayerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
 			}
 
-			final List<String> distances = new ArrayList<String>();
+			final List<String> distances = new ArrayList<>();
 
-			final Vector targetPosition = target.getLocation().toVector();
+			final Location targetLocation = target.getLocation();
 			if (commandSender.hasPermission("yiffbukkit.who.position") && playerLevel >= playerHelper.getPlayerLevel(target)) {
-				PlayerHelper.sendDirectedMessage(commandSender, "Position: " + targetPosition);
+				PlayerHelper.sendDirectedMessage(commandSender, "Position: " + targetLocation.toVector());
 
-				final Vector offsetFromSpawn = targetPosition.clone().subtract(world.getSpawnLocation().toVector());
+				final Vector offsetFromSpawn = targetLocation.toVector().subtract(world.getSpawnLocation().toVector());
 				final long unitsFromSpawn = Math.round(offsetFromSpawn.length());
 				final String directionFromSpawn = Utils.yawToDirection(Utils.vectorToYaw(offsetFromSpawn));
 				distances.add(unitsFromSpawn+"m "+directionFromSpawn+" from the spawn");
 
 				if (!Double.isInfinite(location.getX())) {
-					final Vector offsetFromYou = targetPosition.clone().subtract(location.toVector());
+					final Vector offsetFromYou = targetLocation.toVector().subtract(location.toVector());
 					final long unitsFromYou = Math.round(offsetFromYou.length());
 					final String directionFromYou = Utils.yawToDirection(Utils.vectorToYaw(offsetFromYou));
 					distances.add(unitsFromYou+"m "+directionFromYou+" from you");
@@ -72,7 +72,7 @@ public class WhoCommand extends ICommand {
 				WarpDescriptor closestWarp = null;
 
 				for (WarpDescriptor warpDescriptor : plugin.warpEngine.getWarps().values()) {
-					final Vector currentOffsetFromWarp = targetPosition.clone().subtract(warpDescriptor.location.toVector());
+					final Vector currentOffsetFromWarp = targetLocation.toVector().subtract(warpDescriptor.location.toVector());
 					final double currentDistance = currentOffsetFromWarp.length();
 					if (currentDistance >= minDistance)
 						continue;
