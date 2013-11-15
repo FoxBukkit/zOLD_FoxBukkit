@@ -177,20 +177,19 @@ public class SpawnUtils {
 
 		Entity previous = null;
 		Entity first = null;
-		for (String part : types) {
-			final String[] partparts = part.split(":", 2);
+		for (String typeDataAttributes : types) {
+			final String[] typeDataAttributesParts = typeDataAttributes.split("@");
+			final String typeData = typeDataAttributesParts[0];
+			final String[] typeDataParts = typeData.split(":", 2);
 
-			final String typeCompound = partparts[0];
-			final String data = partparts.length >= 2 ? partparts[1] : null;
-
-			final String[] typeParts = typeCompound.split("@");
-			final String type = typeParts[0];
+			final String type = typeDataParts[0];
+			final String data = typeDataParts.length >= 2 ? typeDataParts[1] : null;
 
 			checkMobSpawn(commandSender, type);
 
 			final Entity entity = spawnSingleMob(commandSender, fixedSpawnables, location, type, data);
-			for (int i = 1; i < typeParts.length; i++) {
-				final String attribute = typeParts[i].toLowerCase();
+			for (int i = 1; i < typeDataAttributesParts.length; i++) {
+				final String attribute = typeDataAttributesParts[i].toLowerCase();
 				if (YBEffect.effectExists(attribute)) {
 					final YBEffect effect = YBEffect.create(attribute, entity);
 					effect.forceStart();
