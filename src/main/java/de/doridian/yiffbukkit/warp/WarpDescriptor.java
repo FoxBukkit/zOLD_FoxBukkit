@@ -50,7 +50,7 @@ public class WarpDescriptor {
 		if (playerName.equals(ownerName))
 			return 3;
 
-		int playerLevel = plugin.playerHelper.getPlayerLevel(playerName);
+		int playerLevel = plugin.playerHelper.getPlayerLevel(commandSender);
 		int ownerLevel = plugin.playerHelper.getPlayerLevel(ownerName);
 
 		if (playerLevel > ownerLevel && commandSender.hasPermission("yiffbukkit.warp.override"))

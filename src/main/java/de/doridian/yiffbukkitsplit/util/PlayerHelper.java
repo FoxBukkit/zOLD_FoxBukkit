@@ -25,7 +25,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -371,14 +373,18 @@ public class PlayerHelper extends StateContainer {
 	//Permission levels
 	public Map<String,String> ranklevels = RedisManager.createKeptMap("ranklevels");
 	public int getPlayerLevel(CommandSender ply) {
+		if (ply instanceof ConsoleCommandSender) {
+			return 9999;
+		}
+		if (ply instanceof BlockCommandSender) {
+			return 9998;
+		}
 		return getPlayerLevel(ply.getName());
 	}
 
 	public int getPlayerLevel(String name) {
 		if(name.equals("[CONSOLE]"))
 			return 9999;
-        if(name.equals("@"))
-            return 9998;
 
 		return getRankLevel(getPlayerRank(name));
 	}
