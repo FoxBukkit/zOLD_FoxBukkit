@@ -32,7 +32,7 @@ public class RestartCommand extends ICommand {
 		}
 
 		final long time;
-		if (args[0].isEmpty()) {
+		if (args.length == 0) {
 			time = 120;
 		}
 		else {
