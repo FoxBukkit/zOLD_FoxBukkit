@@ -126,7 +126,11 @@ public class PlayerHelper extends StateContainer {
 			HashMap<String, Location> playersPositions = playerhomepos.get(name);
 			if(playersPositions.containsKey(posName)) {
 				return playersPositions.get(posName);
-			} else {
+			}
+			else if (posName.equals("default")) {
+				return getPlayerSpawnPosition(ply);
+			}
+			else {
 				throw new YiffBukkitCommandException("Home position with that name was not found");
 			}
 		} else {
