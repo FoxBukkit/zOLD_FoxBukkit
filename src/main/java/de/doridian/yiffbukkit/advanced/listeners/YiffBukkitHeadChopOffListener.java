@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_6_R2.Packet;
@@ -13,8 +14,6 @@ import net.minecraft.server.v1_6_R2.Packet35EntityHeadRotation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -85,10 +84,6 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 			addChoppedEntity(entityId);
 			break;
 		}
-	}
-
-	private net.minecraft.server.v1_6_R2.Entity getEntityByID(int eid, World world) {
-		return ((CraftWorld)world).getHandle().getEntity(eid);
 	}
 
 	@Override

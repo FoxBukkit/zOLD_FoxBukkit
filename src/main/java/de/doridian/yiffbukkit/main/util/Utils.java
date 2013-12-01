@@ -472,4 +472,8 @@ public class Utils {
 
 		return toWorldAxis(baseLocation, axis);
 	}
+
+	public static net.minecraft.server.v1_6_R2.Entity getEntityByID(int entityId, World world) {
+		return ((CraftWorld)world).getHandle().getEntity(entityId);
+	}
 }
