@@ -203,7 +203,8 @@ public class SpawnUtils {
 
 				case "fire":
 				case "flame":
-					entity.setFireTicks(entity.getFireTicks() + Math.max(20, entity.getMaxFireTicks()));
+					final int fireTicks = Math.max(20, entity.getMaxFireTicks());
+					entity.setFireTicks(entity.getFireTicks() + fireTicks);
 					break;
 
 				case "baby":

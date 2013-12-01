@@ -25,7 +25,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public class YiffBukkitHeadChopOffListener extends YBPacketListener implements Listener, YBListener {
-	private final static byte CHOPPED_PITCH = (byte)128;
+	private final static byte CHOPPED_PITCH = (byte) 128;
 
 	public static YiffBukkitHeadChopOffListener instance;
 
@@ -41,12 +41,12 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		register(PacketDirection.OUTGOING, 35);
 	}
 
-	private TIntHashSet choppedEntities = new TIntHashSet();
+	private final TIntHashSet choppedEntities = new TIntHashSet();
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDeath(EntityDeathEvent event) {
-		int eid = event.getEntity().getEntityId();
-		choppedEntities.remove(eid);
+		final int entityId = event.getEntity().getEntityId();
+		choppedEntities.remove(entityId);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -72,10 +72,9 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		if (!(damager instanceof Player))
 			return;
 
-		final Player damagerPly = (Player) damager;
-		final Material item = damagerPly.getItemInHand().getType();
+		final Material materialInHand = ((Player) damager).getItemInHand().getType();
 
-		switch (item) {
+		switch (materialInHand) {
 		case DIAMOND_SPADE:
 		case GOLD_SPADE:
 		case IRON_SPADE:
@@ -87,52 +86,52 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 	}
 
 	@Override
-	public boolean onOutgoingPacket(Player ply, int packetID, Packet packetRaw) {
+	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 20:
-			final Packet20NamedEntitySpawn packet20 = (Packet20NamedEntitySpawn) packetRaw;
-			if(!choppedEntities.contains(packet20.a)) // v1_6_R2
+			final Packet20NamedEntitySpawn p20 = (Packet20NamedEntitySpawn) packet;
+			if(!choppedEntities.contains(p20.a)) // v1_6_R2
 				break;
 
-			packet20.g = CHOPPED_PITCH; // v1_6_R2
+			p20.g = CHOPPED_PITCH; // v1_6_R2
 
 			break;
 
 		case 24:
-			final Packet24MobSpawn packet24 = (Packet24MobSpawn) packetRaw;
-			if(!choppedEntities.contains(packet24.a)) // v1_6_R2
+			final Packet24MobSpawn p24 = (Packet24MobSpawn) packet;
+			if(!choppedEntities.contains(p24.a)) // v1_6_R2
 				break;
 
-			packet24.j = CHOPPED_PITCH; // v1_6_R2
+			p24.j = CHOPPED_PITCH; // v1_6_R2
 
 			break;
 
 		case 34:
-			final Packet34EntityTeleport packet34 = (Packet34EntityTeleport) packetRaw;
-			if (!choppedEntities.contains(packet34.a)) // v1_6_R2
+			final Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			if (!choppedEntities.contains(p34.a)) // v1_6_R2
 				break;
 
-			packet34.f = CHOPPED_PITCH; // v1_6_R2
+			p34.f = CHOPPED_PITCH; // v1_6_R2
 
 			break;
 
 		case 32:
 		case 33:
-			final Packet30Entity packet30 = (Packet30Entity) packetRaw;
-			if(!choppedEntities.contains(packet30.a)) // v1_6_R2
+			final Packet30Entity p30 = (Packet30Entity) packet;
+			if(!choppedEntities.contains(p30.a)) // v1_6_R2
 				break;
 
-			packet30.f = CHOPPED_PITCH; // v1_6_R2
+			p30.f = CHOPPED_PITCH; // v1_6_R2
 
 			break;
 
 		case 35:
-			final Packet35EntityHeadRotation packet35 = (Packet35EntityHeadRotation) packetRaw;
-			if (!choppedEntities.contains(packet35.a)) // v1_6_R2
+			final Packet35EntityHeadRotation p35 = (Packet35EntityHeadRotation) packet;
+			if (!choppedEntities.contains(p35.a)) // v1_6_R2
 				break;
 
-			final float yaw = getEntityByID(packet35.a, ply.getWorld()).yaw; // v1_6_R2
-			packet35.b = (byte)(((yaw % 360) / 360) * 255); // v1_6_R2
+			final float yaw = Utils.getEntityByID(p35.a, ply.getWorld()).yaw; // v1_6_R2
+			p35.b = (byte)(((yaw % 360) / 360) * 255); // v1_6_R2
 
 			break;
 		}

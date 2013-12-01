@@ -14,8 +14,6 @@ import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.util.Random;
-
 @EffectProperties(
 		name = "redrum",
 		potionColor = 8
@@ -31,7 +29,9 @@ public class Redrum extends YBEffect {
 
 		@Override
 		public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-			return paused || !rotating.contains(((Packet35EntityHeadRotation) packet).a);
+			if (paused) return true;
+
+			return !rotating.contains(((Packet35EntityHeadRotation) packet).a);
 		}
 	};
 
@@ -39,7 +39,6 @@ public class Redrum extends YBEffect {
 	private static final int ticks = 100;
 
 	private int i = 0;
-	final Random random = new Random();
 	private byte startYaw;
 
 	public Redrum(Entity entity) {
