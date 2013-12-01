@@ -56,16 +56,16 @@ public class AutoCleanup extends BaseListener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDeath(EntityDeathEvent event) {
-		final Entity entity = event.getEntity();
-
-		for (Set<Entity> set : registeredEntitySets) {
-			set.remove(entity);
-		}
-
-		for (Set<Integer> set : registeredEntityIdSets) {
-			set.remove(entity.getEntityId());
-		}
+		handleEntityEvent(event);
 	}
+
+	/* TODO:
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onEntityRemoved(EntityRemovedEvent event) {
+		handleEntityEvent(event);
+	}
+	*/
+
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
@@ -75,6 +75,24 @@ public class AutoCleanup extends BaseListener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerKick(PlayerKickEvent event) {
 		handlePlayerEvent(event);
+	}
+
+
+	private void handleEntityEvent(EntityDeathEvent event) {
+		final Entity entity = event.getEntity();
+
+		for (Set<Player> set : registeredPlayerSets) {
+			//noinspection SuspiciousMethodCalls
+			set.remove(entity);
+		}
+
+		for (Set<Entity> set : registeredEntitySets) {
+			set.remove(entity);
+		}
+
+		for (Set<Integer> set : registeredEntityIdSets) {
+			set.remove(entity.getEntityId());
+		}
 	}
 
 	private void handlePlayerEvent(PlayerEvent event) {
