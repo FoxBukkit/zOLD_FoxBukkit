@@ -4,6 +4,8 @@ import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
+import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_6_R2.Packet;
 import net.minecraft.server.v1_6_R2.Packet20NamedEntitySpawn;
@@ -33,6 +35,8 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		instance = this;
 		Bukkit.getServer().getPluginManager().registerEvents(this, YiffBukkit.instance);
 
+		AutoCleanup.registerEntityIdSet(TDecorators.wrap(choppedEntities));
+
 		register(PacketDirection.OUTGOING, 20);
 		register(PacketDirection.OUTGOING, 24);
 		register(PacketDirection.OUTGOING, 32);
@@ -42,12 +46,6 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 	}
 
 	private final TIntHashSet choppedEntities = new TIntHashSet();
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onEntityDeath(EntityDeathEvent event) {
-		final int entityId = event.getEntity().getEntityId();
-		choppedEntities.remove(entityId);
-	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent event) {

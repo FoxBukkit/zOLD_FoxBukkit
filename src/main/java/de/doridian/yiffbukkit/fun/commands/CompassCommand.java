@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
@@ -30,7 +31,7 @@ public class CompassCommand extends ICommand {
 	int taskId = -1;
 	protected Map<Player, Player> playerCompassTargets = new HashMap<>();
 	{
-		plugin.playerHelper.registerMap(playerCompassTargets);
+		AutoCleanup.registerPlayerMap(playerCompassTargets);
 	}
 
 	@Override

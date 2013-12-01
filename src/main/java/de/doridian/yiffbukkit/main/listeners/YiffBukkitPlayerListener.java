@@ -168,11 +168,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		RedisHandler.sendMessage(player, "\u0123quit");
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
-
-		for (Map<Player, ?> map : playerHelper.registeredMaps)
-			map.remove(player);
-		for (Set<Player> set : playerHelper.registeredSets)
-			set.remove(player);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -188,11 +183,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		plugin.chatManager.popCurrentOrigin();
 
 		RedisHandler.sendMessage(player, "\u0123kick " + event.getReason());
-
-		for (Map<Player, ?> map : playerHelper.registeredMaps)
-			map.remove(player);
-		for (Set<Player> set : playerHelper.registeredSets)
-			set.remove(player);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)

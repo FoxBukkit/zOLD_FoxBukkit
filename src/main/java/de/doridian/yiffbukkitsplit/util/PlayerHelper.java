@@ -800,15 +800,6 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	public Set<Map<Player,?>> registeredMaps = new HashSet<>();
-	public Set<Set<Player>> registeredSets = new HashSet<>();
-	public void registerMap(Map<Player,?> map) {
-		registeredMaps.add(map);
-	}
-	public void registerSet(Set<Player> set) {
-		registeredSets.add(set);
-	}
-
 	public Map<String, List<String>> autoexecs = new HashMap<>();
 
 	private static final Pattern sectionPattern = Pattern.compile("^\\[(.*)\\]$");

@@ -28,6 +28,7 @@ import de.doridian.yiffbukkit.yiffpoints.YBBank;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBungeeLink;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -51,6 +52,8 @@ import java.util.logging.Level;
 public class YiffBukkit extends JavaPlugin {
 	public static YiffBukkit instance;
 	public ComponentSystem componentSystem = new ComponentSystem();
+	@SuppressWarnings("unused")
+	private AutoCleanup autoCleanup;
 	@SuppressWarnings("unused")
 	private YiffBukkitPlayerListener playerListener;
 	@SuppressWarnings("unused")
@@ -126,6 +129,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		commandSystem = new CommandSystem(this);
 		componentSystem.registerCommands();
+		autoCleanup = new AutoCleanup();
 		playerListener = new YiffBukkitPlayerListener();
 		blockListener = new YiffBukkitBlockListener();
 		yiffBukkitEntityListener = new YiffBukkitEntityListener();

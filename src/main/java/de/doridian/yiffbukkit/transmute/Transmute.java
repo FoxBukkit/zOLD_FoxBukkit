@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.transmute;
 import de.doridian.yiffbukkit.transmute.listeners.TransmutePacketListener;
 import de.doridian.yiffbukkit.transmute.listeners.TransmutePlayerListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
@@ -61,7 +62,7 @@ public class Transmute implements Runnable {
 
 		scheduler.scheduleSyncRepeatingTask(plugin, this, 0, 1);
 
-		plugin.playerHelper.registerMap(lastEntities);
+		AutoCleanup.registerPlayerMap(lastEntities);
 	}
 
 	public boolean isTransmuted(int entityId) {

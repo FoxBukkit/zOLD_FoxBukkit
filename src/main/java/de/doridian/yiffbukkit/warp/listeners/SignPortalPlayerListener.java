@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.warp.listeners;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,8 +31,8 @@ import java.util.Stack;
 
 public class SignPortalPlayerListener extends BaseListener {
 	public SignPortalPlayerListener() {
-		plugin.playerHelper.registerMap(lastTouchedPortal);
-		plugin.playerHelper.registerSet(portalStates);
+		AutoCleanup.registerPlayerMap(lastTouchedPortal);
+		AutoCleanup.registerPlayerSet(portalStates);
 	}
 
 	private static final BlockFace[] faces = { BlockFace.NORTH,BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };

@@ -16,6 +16,7 @@ import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntityParticleSpawner;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_6_R2.Packet;
 import net.minecraft.server.v1_6_R2.Packet10Flying;
@@ -222,8 +223,8 @@ public class ThrowCommand extends ICommand {
 			}
 		};
 
-		playerHelper.registerMap(lastYaws);
-		playerHelper.registerMap(lastPitches);
+		AutoCleanup.registerPlayerMap(lastYaws);
+		AutoCleanup.registerPlayerMap(lastPitches);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -73,7 +74,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 	}
 
 	public YiffBukkitBlockListener() {
-		playerHelper.registerMap(torchQueues);
+		AutoCleanup.registerPlayerMap(torchQueues);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
