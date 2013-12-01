@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.spawning;
 
 import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitHeadChopOffListener;
+import de.doridian.yiffbukkit.advanced.listeners.YiffBukkitPermaFlameListener;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -199,6 +200,25 @@ public class SpawnUtils {
 				switch (attribute) {
 				case "leash":
 					((LivingEntity) entity).setLeashHolder(them);
+					break;
+
+				case "permafire":
+				case "permaflame":
+					if (!YiffBukkitPermaFlameListener.instance.addPermaFlameEntity(entity))
+						YiffBukkitPermaFlameListener.instance.removePermaFlameEntity(entity);
+					break;
+
+				case "fakefire":
+				case "fakeflame":
+					YiffBukkitPermaFlameListener.instance.addPermaFlameEntity(entity);
+
+					final int fakeFireTicks = 100;
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						@Override
+						public void run() {
+							YiffBukkitPermaFlameListener.instance.removePermaFlameEntity(entity);
+						}
+					}, fakeFireTicks);
 					break;
 
 				case "fire":
