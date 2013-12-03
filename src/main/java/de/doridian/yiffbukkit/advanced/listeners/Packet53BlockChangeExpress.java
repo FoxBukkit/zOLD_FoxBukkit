@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.advanced.listeners;
 
 import java.util.Map;
 
-import net.minecraft.server.v1_6_R2.Packet;
-import net.minecraft.server.v1_6_R2.Packet53BlockChange;
+import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.Packet53BlockChange;
 import de.doridian.yiffbukkit.main.util.Utils;
 
 public class Packet53BlockChangeExpress extends Packet53BlockChange {

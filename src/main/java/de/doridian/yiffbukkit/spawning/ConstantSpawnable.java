@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.spawning;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 public class ConstantSpawnable<V extends Entity> implements Spawnable<V> {

@@ -7,11 +7,11 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_6_R2.Packet;
-import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
-import net.minecraft.server.v1_6_R2.WatchableObject;
+import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
+import net.minecraft.server.v1_7_R1.WatchableObject;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

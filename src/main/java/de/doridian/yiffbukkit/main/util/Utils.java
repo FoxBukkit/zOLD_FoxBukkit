@@ -2,14 +2,14 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_6_R2.DataWatcher;
-import net.minecraft.server.v1_6_R2.Packet62NamedSoundEffect;
-import net.minecraft.server.v1_6_R2.WatchableObject;
-import net.minecraft.server.v1_6_R2.Vec3D;
+import net.minecraft.server.v1_7_R1.DataWatcher;
+import net.minecraft.server.v1_7_R1.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_7_R1.WatchableObject;
+import net.minecraft.server.v1_7_R1.Vec3D;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 

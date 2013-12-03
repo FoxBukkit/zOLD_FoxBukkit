@@ -5,17 +5,17 @@ import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkit.transmute.Transmute;
-import net.minecraft.server.v1_6_R2.Packet;
-import net.minecraft.server.v1_6_R2.Packet17EntityLocationAction;
-import net.minecraft.server.v1_6_R2.Packet18ArmAnimation;
-import net.minecraft.server.v1_6_R2.Packet20NamedEntitySpawn;
-import net.minecraft.server.v1_6_R2.Packet22Collect;
-import net.minecraft.server.v1_6_R2.Packet23VehicleSpawn;
-import net.minecraft.server.v1_6_R2.Packet24MobSpawn;
-import net.minecraft.server.v1_6_R2.Packet30Entity;
-import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
-import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
-import net.minecraft.server.v1_6_R2.Packet44UpdateAttributes;
+import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.Packet17EntityLocationAction;
+import net.minecraft.server.v1_7_R1.Packet18ArmAnimation;
+import net.minecraft.server.v1_7_R1.Packet20NamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.Packet22Collect;
+import net.minecraft.server.v1_7_R1.Packet23VehicleSpawn;
+import net.minecraft.server.v1_7_R1.Packet24MobSpawn;
+import net.minecraft.server.v1_7_R1.Packet30Entity;
+import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
+import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
+import net.minecraft.server.v1_7_R1.Packet44UpdateAttributes;
 
 import org.bukkit.entity.Player;
 

@@ -2,16 +2,16 @@ package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_6_R2.DataWatcher;
-import net.minecraft.server.v1_6_R2.EntityLiving;
-import net.minecraft.server.v1_6_R2.EntityTrackerEntry;
-import net.minecraft.server.v1_6_R2.ItemStack;
-import net.minecraft.server.v1_6_R2.Packet;
-import net.minecraft.server.v1_6_R2.Packet29DestroyEntity;
-import net.minecraft.server.v1_6_R2.Packet39AttachEntity;
-import net.minecraft.server.v1_6_R2.Packet40EntityMetadata;
+import net.minecraft.server.v1_7_R1.DataWatcher;
+import net.minecraft.server.v1_7_R1.EntityLiving;
+import net.minecraft.server.v1_7_R1.EntityTrackerEntry;
+import net.minecraft.server.v1_7_R1.ItemStack;
+import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.Packet29DestroyEntity;
+import net.minecraft.server.v1_7_R1.Packet39AttachEntity;
+import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

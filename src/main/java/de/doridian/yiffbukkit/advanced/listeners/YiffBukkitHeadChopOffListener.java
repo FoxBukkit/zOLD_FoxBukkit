@@ -7,12 +7,12 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_6_R2.Packet;
-import net.minecraft.server.v1_6_R2.Packet20NamedEntitySpawn;
-import net.minecraft.server.v1_6_R2.Packet24MobSpawn;
-import net.minecraft.server.v1_6_R2.Packet30Entity;
-import net.minecraft.server.v1_6_R2.Packet34EntityTeleport;
-import net.minecraft.server.v1_6_R2.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.Packet20NamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.Packet24MobSpawn;
+import net.minecraft.server.v1_7_R1.Packet30Entity;
+import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
+import net.minecraft.server.v1_7_R1.Packet35EntityHeadRotation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

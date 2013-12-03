@@ -10,8 +10,8 @@ import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeShapeBasedEntity;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_6_R2.ItemStack;
-import net.minecraft.server.v1_6_R2.Packet60Explosion;
+import net.minecraft.server.v1_7_R1.ItemStack;
+import net.minecraft.server.v1_7_R1.Packet60Explosion;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
