@@ -9,7 +9,7 @@ import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R1.PacketPlayOutMobSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
@@ -96,7 +96,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 			break;
 
 		case 24:
-			final PacketPlayOutMobSpawn p24 = (PacketPlayOutMobSpawn) packet;
+			final PacketPlayOutSpawnEntityLiving p24 = (PacketPlayOutSpawnEntityLiving) packet;
 			if(!choppedEntities.contains(p24.a)) // v1_6_R2
 				break;
 

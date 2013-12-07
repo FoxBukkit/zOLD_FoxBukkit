@@ -11,7 +11,7 @@ import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_7_R1.PacketPlayOutCollect;
 import net.minecraft.server.v1_7_R1.PacketPlayOutVehicleSpawn;
-import net.minecraft.server.v1_7_R1.PacketPlayOutMobSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
@@ -71,7 +71,7 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 			return handleSpawn(ply, ((PacketPlayOutVehicleSpawn) packet).a); // v1_6_R2
 
 		case 24:
-			return handleSpawn(ply, ((PacketPlayOutMobSpawn) packet).a); // v1_6_R2
+			return handleSpawn(ply, ((PacketPlayOutSpawnEntityLiving) packet).a); // v1_6_R2
 
 		//case 30:
 		//case 31:
