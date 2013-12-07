@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.spawning.fakeentity;
 
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
-import net.minecraft.server.v1_7_R1.PacketPlayOutVehicleSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -24,7 +24,7 @@ public class FakeVehicle extends FakeEntity {
 
 	@Override
 	public void send(Player player) {
-		final PacketPlayOutVehicleSpawn p23 = new PacketPlayOutVehicleSpawn();
+		final PacketPlayOutSpawnEntity p23 = new PacketPlayOutSpawnEntity();
 
 		final Location position = player.getLocation();
 
