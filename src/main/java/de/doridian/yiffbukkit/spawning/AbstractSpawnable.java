@@ -15,7 +15,7 @@ public abstract class AbstractSpawnable<V extends Entity> implements Spawnable<V
 	}
 
 	@Override
-	public net.minecraft.server.v1_6_R2.Entity getInternalEntity() throws YiffBukkitCommandException {
+	public net.minecraft.server.v1_7_R1.Entity getInternalEntity() throws YiffBukkitCommandException {
 		ensureSpawned();
 		return ((CraftEntity) entity).getHandle();
 	}

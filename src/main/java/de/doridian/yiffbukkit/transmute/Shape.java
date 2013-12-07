@@ -63,7 +63,7 @@ public abstract class Shape {
 	}
 
 	private Packet createOriginalSpawnPacket() {
-		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 		final EntityTrackerEntry ete = new EntityTrackerEntry(notchEntity, 0, 0, false);
 
 		try {
@@ -171,7 +171,7 @@ public abstract class Shape {
 		return getShape(transmute, entity, MyEntityTypes.typeNameToClass(mobType));
 	}
 
-	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_6_R2.Entity> mobType) throws EntityTypeNotFoundException {
+	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_7_R1.Entity> mobType) throws EntityTypeNotFoundException {
 		final int id = MyEntityTypes.classToId(mobType);
 
 		/*
@@ -237,9 +237,9 @@ public abstract class Shape {
 
 
 	public void reattachPassenger() {
-		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
-		final net.minecraft.server.v1_6_R2.Entity passenger = notchEntity.passenger;
-		final net.minecraft.server.v1_6_R2.Entity vehicle = notchEntity.vehicle;
+		final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_7_R1.Entity passenger = notchEntity.passenger;
+		final net.minecraft.server.v1_7_R1.Entity vehicle = notchEntity.vehicle;
 
 		if (passenger != null)
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(0, passenger, notchEntity)); //TODO: Check what this int is for in ctor Packet39AttachEntity

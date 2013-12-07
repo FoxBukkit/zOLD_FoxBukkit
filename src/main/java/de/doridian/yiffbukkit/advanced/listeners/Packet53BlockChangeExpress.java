@@ -16,7 +16,7 @@ public class Packet53BlockChangeExpress extends Packet53BlockChange {
 		lowPriority = false;
 	}
 
-	public Packet53BlockChangeExpress(int x, int y, int z, net.minecraft.server.v1_6_R2.World world) {
+	public Packet53BlockChangeExpress(int x, int y, int z, net.minecraft.server.v1_7_R1.World world) {
 		super(x, y, z, world);
 		lowPriority = false;
 	}

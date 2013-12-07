@@ -316,7 +316,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					mayLeashToNonLiving = player.hasPermission("yiffbukkit.leash.nonliving");
 				}
 
-				private boolean isNaturallyLeashable(net.minecraft.server.v1_6_R2.Entity entity) {
+				private boolean isNaturallyLeashable(net.minecraft.server.v1_7_R1.Entity entity) {
 					if (entity instanceof EntityTameableAnimal)
 						return ((EntityTameableAnimal) entity).isTamed();
 
@@ -330,7 +330,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					return false;
 				}
 
-				public boolean mayLeashTo(net.minecraft.server.v1_6_R2.Entity entity) {
+				public boolean mayLeashTo(net.minecraft.server.v1_7_R1.Entity entity) {
 					if (entity instanceof EntityPlayer)
 						return mayLeashToPlayers;
 
@@ -356,9 +356,9 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				final Perms perms = new Perms(player);
 
 				final Entity rightClicked = event.getRightClicked();
-				final net.minecraft.server.v1_6_R2.Entity notchRightClicked = ((CraftEntity) rightClicked).getHandle();
+				final net.minecraft.server.v1_7_R1.Entity notchRightClicked = ((CraftEntity) rightClicked).getHandle();
 				final EntityPlayer notchPlayer = ICommand.asNotchPlayer(player);
-				final net.minecraft.server.v1_6_R2.World world = notchPlayer.world;
+				final net.minecraft.server.v1_7_R1.World world = notchPlayer.world;
 
 				if (!perms.mayLeashTo(notchRightClicked))
 					return false;
@@ -379,7 +379,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 						if (!entityinsentient.bH()) // v1_6_R2
 							continue;
 
-						final net.minecraft.server.v1_6_R2.Entity leashed = entityinsentient.bI();
+						final net.minecraft.server.v1_7_R1.Entity leashed = entityinsentient.bI();
 
 						if (leashed == notchRightClicked) { // v1_6_R2
 							entityinsentient.b(notchPlayer, true); // v1_6_R2

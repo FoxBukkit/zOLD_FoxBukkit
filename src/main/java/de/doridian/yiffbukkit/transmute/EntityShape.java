@@ -46,7 +46,7 @@ public abstract class EntityShape extends Shape {
 			return;
 
 		try {
-			Class<? extends net.minecraft.server.v1_6_R2.Entity> entityClass = ((CraftEntity) entity).getHandle().getClass();
+			Class<? extends net.minecraft.server.v1_7_R1.Entity> entityClass = ((CraftEntity) entity).getHandle().getClass();
 			int entityMobType = MyEntityTypes.classToId(entityClass);
 
 			yOffset -= yOffsets[entityMobType];
@@ -145,7 +145,7 @@ public abstract class EntityShape extends Shape {
 
 		case 34:
 			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
-			final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
+			final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 			p34.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_6_R2
 			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F)); // v1_6_R2
 			//p34.c += (int)(yOffset * 32.0);
@@ -163,7 +163,7 @@ public abstract class EntityShape extends Shape {
 		if (!dropping)
 			return;
 
-		final net.minecraft.server.v1_6_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 		if (yOffset == 0) {
 			if (Math.IEEEremainder(notchEntity.locY, 1.0) < 0.00001) {
 				final Block block = entity.getWorld().getBlockAt(Location.locToBlock(notchEntity.locX), Location.locToBlock(notchEntity.locY)-1, Location.locToBlock(notchEntity.locZ));

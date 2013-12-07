@@ -73,7 +73,7 @@ public class Transmute implements Runnable {
 		return transmuted.containsKey(entity.getEntityId());
 	}
 
-	public boolean isTransmuted(net.minecraft.server.v1_6_R2.Entity entity) {
+	public boolean isTransmuted(net.minecraft.server.v1_7_R1.Entity entity) {
 		return transmuted.containsKey(entity.id);
 	}
 
@@ -85,7 +85,7 @@ public class Transmute implements Runnable {
 		return transmuted.get(entity.getEntityId());
 	}
 
-	public Shape getShape(net.minecraft.server.v1_6_R2.Entity entity) {
+	public Shape getShape(net.minecraft.server.v1_7_R1.Entity entity) {
 		return transmuted.get(entity.id);
 	}
 

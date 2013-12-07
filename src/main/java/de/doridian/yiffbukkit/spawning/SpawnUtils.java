@@ -294,7 +294,7 @@ public class SpawnUtils {
 		if (type.equals("lightning") || (type.equals("potion") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-			final net.minecraft.server.v1_6_R2.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+			final net.minecraft.server.v1_7_R1.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 				@Override
 				protected boolean hit(MovingObjectPosition movingobjectposition) {
 					org.bukkit.World world = getBukkitEntity().getWorld();
@@ -521,7 +521,7 @@ public class SpawnUtils {
 		case "fireworks":
 		case "firework":
 		case "fw":
-			final net.minecraft.server.v1_6_R2.ItemStack fireworks;
+			final net.minecraft.server.v1_7_R1.ItemStack fireworks;
 			if (commandSender instanceof Player && ((Player) commandSender).getItemInHand().getType() == Material.FIREWORK) {
 				fireworks = CraftItemStack.asNMSCopy(((Player) commandSender).getItemInHand());
 			}
@@ -743,7 +743,7 @@ public class SpawnUtils {
 		return new Vector(x, y, z);
 	}
 
-	public static Entity explodeFirework(Location location, net.minecraft.server.v1_6_R2.ItemStack fireworks) {
+	public static Entity explodeFirework(Location location, net.minecraft.server.v1_7_R1.ItemStack fireworks) {
 		final FakeVehicle fakeEntity = new FakeVehicle(location, 76);
 		fakeEntity.send();
 
@@ -756,10 +756,10 @@ public class SpawnUtils {
 		return fakeEntity;
 	}
 
-	public static net.minecraft.server.v1_6_R2.ItemStack makeFireworks(final String fireworkType) {
+	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(final String fireworkType) {
 		final String[] parameters = fireworkType.split("/");
 		final int[] colors = parseColors(parameters[0].split(","));
-		final net.minecraft.server.v1_6_R2.ItemStack fireworks = makeFireworks(-127, 0, colors);
+		final net.minecraft.server.v1_7_R1.ItemStack fireworks = makeFireworks(-127, 0, colors);
 		final NBTTagCompound explosionTag = (NBTTagCompound) fireworks.getTag().getCompound("Fireworks").getList("Explosions").get(0);
 		for (int i = 1; i < parameters.length; ++i) {
 			final String[] kv = parameters[i].split("=");
@@ -790,7 +790,7 @@ public class SpawnUtils {
 		return colors;
 	}
 
-	public static net.minecraft.server.v1_6_R2.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
+	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
 		final NBTTagCompound explosionTag = new NBTTagCompound("Explosion");
 		explosionTag.setByte("Type", (byte) explosionType);
 		explosionTag.setIntArray("Colors", explosionColors);
@@ -805,7 +805,7 @@ public class SpawnUtils {
 		final NBTTagCompound itemStackTag = new NBTTagCompound();
 		itemStackTag.set("Fireworks", fireworksTag);
 
-		final net.minecraft.server.v1_6_R2.ItemStack stack = new net.minecraft.server.v1_6_R2.ItemStack(Item.FIREWORKS);
+		final net.minecraft.server.v1_7_R1.ItemStack stack = new net.minecraft.server.v1_7_R1.ItemStack(Item.FIREWORKS);
 		stack.setTag(itemStackTag);
 		return stack;
 	}

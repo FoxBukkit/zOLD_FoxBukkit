@@ -77,7 +77,7 @@ public class YiffBukkitPermaFlameListener extends YBPacketListener implements YB
 		}
 
 		if (!found) {
-			final net.minecraft.server.v1_6_R2.Entity notchEntity;
+			final net.minecraft.server.v1_7_R1.Entity notchEntity;
 			byte value = 0;
 			if (entity == null) {
 				notchEntity = Utils.getEntityByID(entityId, world);

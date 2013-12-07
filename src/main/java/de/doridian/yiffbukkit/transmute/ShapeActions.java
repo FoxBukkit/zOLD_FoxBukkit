@@ -152,7 +152,7 @@ final class ShapeActions {
 				new EntityStatusMobAction(17, "Exploding..."),
 				"set",
 				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-					final net.minecraft.server.v1_6_R2.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
+					final net.minecraft.server.v1_7_R1.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
 					shape.setData(8, stack);
 
 					PlayerHelper.sendDirectedMessage(commandSender, "Preparing...");
