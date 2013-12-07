@@ -7,7 +7,7 @@ import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityLocationAction;
-import net.minecraft.server.v1_7_R1.PacketPlayOutArmAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_7_R1.PacketPlayOutCollect;
 import net.minecraft.server.v1_7_R1.PacketPlayOutVehicleSpawn;
@@ -57,7 +57,7 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 			return !transmute.isTransmuted(((PacketPlayOutEntityLocationAction) packet).a); // v1_6_R2
 
 		case 18:
-			entityId = ((PacketPlayOutArmAnimation) packet).a; // v1_6_R2
+			entityId = ((PacketPlayOutAnimation) packet).a; // v1_6_R2
 			break;
 
 		case 20:

@@ -6,7 +6,7 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutArmAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
@@ -129,7 +129,7 @@ public abstract class EntityShape extends Shape {
 
 		switch (packetID) {
 		case 18:
-			return ((PacketPlayOutArmAnimation) packet).b == 2; // v1_6_R2
+			return ((PacketPlayOutAnimation) packet).b == 2; // v1_6_R2
 
 		case 22:
 			return false; // will be overridden in MobShape
