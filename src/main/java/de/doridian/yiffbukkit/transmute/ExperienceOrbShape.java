@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.transmute;
 
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutAddExpOrb;
+import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityExperienceOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -21,7 +21,7 @@ public class ExperienceOrbShape extends EntityShape {
 	protected Packet createSpawnPacket() {
 		Location location = entity.getLocation();
 
-		final PacketPlayOutAddExpOrb p26 = new PacketPlayOutAddExpOrb();
+		final PacketPlayOutSpawnEntityExperienceOrb p26 = new PacketPlayOutSpawnEntityExperienceOrb();
 
 		p26.a = entityId; // v1_6_R2
 
