@@ -6,7 +6,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R1.PacketPlayOutDestroyEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -62,7 +62,7 @@ public class YiffCommand extends ICommand {
 		private final Player target;
 
 		private final PacketPlayOutNamedEntitySpawn packet20NamedEntitySpawn;
-		private final PacketPlayOutDestroyEntity packet29DestroyEntity;
+		private final PacketPlayOutEntityDestroy packet29DestroyEntity;
 		private final PacketPlayOutEntityTeleport packet34EntityTeleport;
 
 		private final int mode;
@@ -74,7 +74,7 @@ public class YiffCommand extends ICommand {
 
 			packet20NamedEntitySpawn.b = "DoriBot"; // v1_6_R2
 
-			this.packet29DestroyEntity = new PacketPlayOutDestroyEntity(0);
+			this.packet29DestroyEntity = new PacketPlayOutEntityDestroy(0);
 
 			this.packet34EntityTeleport = new PacketPlayOutEntityTeleport();
 

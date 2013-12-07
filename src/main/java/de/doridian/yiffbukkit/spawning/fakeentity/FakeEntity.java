@@ -7,7 +7,7 @@ import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
-import net.minecraft.server.v1_7_R1.PacketPlayOutDestroyEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityStatus;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
@@ -56,7 +56,7 @@ public abstract class FakeEntity extends AbstractEntity {
 	}
 
 	private void delete(Player player) {
-		PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutDestroyEntity(entityId));
+		PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutEntityDestroy(entityId));
 	}
 
 	@Override

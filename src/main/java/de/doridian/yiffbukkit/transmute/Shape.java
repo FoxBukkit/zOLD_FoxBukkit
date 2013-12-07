@@ -7,7 +7,7 @@ import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.EntityTrackerEntry;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutDestroyEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutAttachEntity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
 import org.bukkit.command.CommandSender;
@@ -42,7 +42,7 @@ public abstract class Shape {
 	}
 
 	public void deleteEntity() {
-		sendPacketToPlayersAround(new PacketPlayOutDestroyEntity(entity.getEntityId()));
+		sendPacketToPlayersAround(new PacketPlayOutEntityDestroy(entity.getEntityId()));
 	}
 
 	public void createOriginalEntity() {
