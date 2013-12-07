@@ -5,7 +5,7 @@ import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -16,32 +16,32 @@ public class SoundPacketListener extends YBPacketListener implements YBListener 
 		register(PacketDirection.OUTGOING, 62);
 	}
 
-	private static final Field Packet62NamedSoundEffect_soundName;
-	private static final Field Packet62NamedSoundEffect_effectX;
-	private static final Field Packet62NamedSoundEffect_effectY;
-	private static final Field Packet62NamedSoundEffect_effectZ;
+	private static final Field PacketPlayOutNamedSoundEffect_soundName;
+	private static final Field PacketPlayOutNamedSoundEffect_effectX;
+	private static final Field PacketPlayOutNamedSoundEffect_effectY;
+	private static final Field PacketPlayOutNamedSoundEffect_effectZ;
 	static {
 		try {
-			Packet62NamedSoundEffect_soundName = Packet62NamedSoundEffect.class.getDeclaredField("a"); // v1_6_R2
-			Packet62NamedSoundEffect_effectX = Packet62NamedSoundEffect.class.getDeclaredField("b"); // v1_6_R2
-			Packet62NamedSoundEffect_effectY = Packet62NamedSoundEffect.class.getDeclaredField("c"); // v1_6_R2
-			Packet62NamedSoundEffect_effectZ = Packet62NamedSoundEffect.class.getDeclaredField("d"); // v1_6_R2
+			PacketPlayOutNamedSoundEffect_soundName = PacketPlayOutNamedSoundEffect.class.getDeclaredField("a"); // v1_6_R2
+			PacketPlayOutNamedSoundEffect_effectX = PacketPlayOutNamedSoundEffect.class.getDeclaredField("b"); // v1_6_R2
+			PacketPlayOutNamedSoundEffect_effectY = PacketPlayOutNamedSoundEffect.class.getDeclaredField("c"); // v1_6_R2
+			PacketPlayOutNamedSoundEffect_effectZ = PacketPlayOutNamedSoundEffect.class.getDeclaredField("d"); // v1_6_R2
 		}
 		catch (NoSuchFieldException e) {
 			throw new RuntimeException(e);
 		}
 
-		Packet62NamedSoundEffect_soundName.setAccessible(true);
-		Packet62NamedSoundEffect_effectX.setAccessible(true);
-		Packet62NamedSoundEffect_effectY.setAccessible(true);
-		Packet62NamedSoundEffect_effectZ.setAccessible(true);
+		PacketPlayOutNamedSoundEffect_soundName.setAccessible(true);
+		PacketPlayOutNamedSoundEffect_effectX.setAccessible(true);
+		PacketPlayOutNamedSoundEffect_effectY.setAccessible(true);
+		PacketPlayOutNamedSoundEffect_effectZ.setAccessible(true);
 	}
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		final int x;
 		try {
-			x = (Integer) Packet62NamedSoundEffect_effectX.get(packet);
+			x = (Integer) PacketPlayOutNamedSoundEffect_effectX.get(packet);
 		}
 		catch (IllegalAccessException e) {
 			return true;
@@ -53,7 +53,7 @@ public class SoundPacketListener extends YBPacketListener implements YBListener 
 
 		final int z;
 		try {
-			z = (Integer) Packet62NamedSoundEffect_effectZ.get(packet);
+			z = (Integer) PacketPlayOutNamedSoundEffect_effectZ.get(packet);
 		}
 		catch (IllegalAccessException e) {
 			return true;
@@ -63,7 +63,7 @@ public class SoundPacketListener extends YBPacketListener implements YBListener 
 
 		final String soundName;
 		try {
-			soundName = (String) Packet62NamedSoundEffect_soundName.get(packet);
+			soundName = (String) PacketPlayOutNamedSoundEffect_soundName.get(packet);
 		}
 		catch (IllegalAccessException e) {
 			return true;
@@ -74,7 +74,7 @@ public class SoundPacketListener extends YBPacketListener implements YBListener 
 
 		final int y;
 		try {
-			y = (Integer) Packet62NamedSoundEffect_effectY.get(packet);
+			y = (Integer) PacketPlayOutNamedSoundEffect_effectY.get(packet);
 		}
 		catch (IllegalAccessException e) {
 			return true;

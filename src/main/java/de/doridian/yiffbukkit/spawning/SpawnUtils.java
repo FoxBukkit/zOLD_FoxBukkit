@@ -33,7 +33,7 @@ import net.minecraft.server.v1_7_R1.MovingObjectPosition;
 import net.minecraft.server.v1_7_R1.NBTTagCompound;
 import net.minecraft.server.v1_7_R1.NBTTagList;
 import net.minecraft.server.v1_7_R1.NetworkManager;
-import net.minecraft.server.v1_7_R1.Packet63WorldParticles;
+import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_7_R1.PlayerConnection;
 import net.minecraft.server.v1_7_R1.PlayerInteractManager;
 import net.minecraft.server.v1_7_R1.WorldServer;
@@ -872,7 +872,7 @@ public class SpawnUtils {
 		if (!isValidParticle(particleName))
 			return;
 
-		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
+		final PacketPlayOutWorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
 
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 200, packet63WorldParticles);
 	}
@@ -915,7 +915,7 @@ public class SpawnUtils {
 		if (!isValidParticle(particleName))
 			return;
 
-		final Packet63WorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
+		final PacketPlayOutWorldParticles packet63WorldParticles = createParticlePacket(location, scatter, particleSpeed, numParticles, particleName);
 
 		PlayerHelper.sendPacketToPlayer(target, packet63WorldParticles);
 	}
@@ -954,24 +954,24 @@ public class SpawnUtils {
 		return new FakeEntityParticleSpawner(location, scatter, particleSpeed, numParticles, particleName);
 	}
 
-	public static Packet63WorldParticles createParticlePacket(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
+	public static PacketPlayOutWorldParticles createParticlePacket(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {
 		if (!isValidParticle(particleName))
 			throw new RuntimeException("Invalid particle name");
 
-		final Packet63WorldParticles packet63WorldParticles = new Packet63WorldParticles();
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "a", particleName); // v1_6_R2
+		final PacketPlayOutWorldParticles packet63WorldParticles = new PacketPlayOutWorldParticles();
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "a", particleName); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "b", (float) location.getX()); // v1_6_R2
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "c", (float) location.getY()); // v1_6_R2
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "d", (float) location.getZ()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "b", (float) location.getX()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "c", (float) location.getY()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "d", (float) location.getZ()); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "e", (float) scatter.getX()); // v1_6_R2
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "f", (float) scatter.getY()); // v1_6_R2
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "g", (float) scatter.getZ()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "e", (float) scatter.getX()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "f", (float) scatter.getY()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "g", (float) scatter.getZ()); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed); // v1_6_R2
 
-		Utils.setPrivateValue(Packet63WorldParticles.class, packet63WorldParticles, "i", numParticles); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "i", numParticles); // v1_6_R2
 		return packet63WorldParticles;
 	}
 

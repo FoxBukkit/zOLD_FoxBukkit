@@ -7,8 +7,8 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet31RelEntityMove;
-import net.minecraft.server.v1_7_R1.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutRelEntityMove;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
@@ -31,7 +31,7 @@ public class Redrum extends YBEffect {
 		public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 			if (paused) return true;
 
-			return !rotating.contains(((Packet35EntityHeadRotation) packet).a);
+			return !rotating.contains(((PacketPlayOutEntityHeadRotation) packet).a);
 		}
 	};
 
@@ -72,8 +72,8 @@ public class Redrum extends YBEffect {
 		final Player except = entity instanceof Player ? (Player) entity : null;
 
 		paused = true;
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet35EntityHeadRotation(entity.getEntityId(), yaw), except);
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet31RelEntityMove(entity.getEntityId(), (byte) 0, (byte) 0, entz), except);
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(entity.getEntityId(), yaw), except);
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutRelEntityMove(entity.getEntityId(), (byte) 0, (byte) 0, entz), except);
 		paused = false;
 
 		if (++i > ticks) {

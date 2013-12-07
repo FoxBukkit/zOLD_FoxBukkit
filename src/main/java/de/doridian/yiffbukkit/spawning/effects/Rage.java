@@ -5,9 +5,9 @@ import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.EntityLiving;
-import net.minecraft.server.v1_7_R1.Packet18ArmAnimation;
-import net.minecraft.server.v1_7_R1.Packet32EntityLook;
-import net.minecraft.server.v1_7_R1.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutArmAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityLook;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
@@ -48,20 +48,20 @@ public class Rage extends YBEffect {
 		Location location = entity.getLocation();
 
 		// damage animation
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchEntity, 2));
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutArmAnimation(notchEntity, 2));
 
 		byte yaw = (byte)(random.nextInt(255)-128);
 		byte pitch = (byte)(random.nextInt(255)-128);
 		if (entity instanceof Player) {
 			// arm animation
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet18ArmAnimation(notchEntity, 1));
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutArmAnimation(notchEntity, 1));
 			// random looking
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet32EntityLook(entity.getEntityId(), yaw, pitch), (Player) entity);
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet35EntityHeadRotation(entity.getEntityId(), yaw), (Player) entity);
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch), (Player) entity);
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(entity.getEntityId(), yaw), (Player) entity);
 		}
 		else {
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet32EntityLook(entity.getEntityId(), yaw, pitch), null);
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new Packet35EntityHeadRotation(entity.getEntityId(), (byte) random.nextInt(256)), null);
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch), null);
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(entity.getEntityId(), (byte) random.nextInt(256)), null);
 		}
 
 		if (++i > ticks) {

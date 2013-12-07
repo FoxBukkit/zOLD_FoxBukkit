@@ -7,9 +7,9 @@ import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.EntityTrackerEntry;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet29DestroyEntity;
-import net.minecraft.server.v1_7_R1.Packet39AttachEntity;
-import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
+import net.minecraft.server.v1_7_R1.PacketPlayOutDestroyEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
@@ -42,7 +42,7 @@ public abstract class Shape {
 	}
 
 	public void deleteEntity() {
-		sendPacketToPlayersAround(new Packet29DestroyEntity(entity.getEntityId()));
+		sendPacketToPlayersAround(new PacketPlayOutDestroyEntity(entity.getEntityId()));
 	}
 
 	public void createOriginalEntity() {
@@ -112,7 +112,7 @@ public abstract class Shape {
 	}
 
 	public void setData(int index, Object value) {
-		final Packet40EntityMetadata p40 = createMetadataPacket(index, value);
+		final PacketPlayOutEntityMetadata p40 = createMetadataPacket(index, value);
 
 		if (entity instanceof Player) {
 			sendYCData(index, value);
@@ -128,7 +128,7 @@ public abstract class Shape {
 			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
 	}
 
-	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {
+	protected PacketPlayOutEntityMetadata createMetadataPacket(int index, Object value) {
 		if (value instanceof ItemStack) {
 			try {
 				// create entry
@@ -141,7 +141,7 @@ public abstract class Shape {
 			// mark dirty
 			datawatcher.h(index);
 
-			final Packet40EntityMetadata packet40EntityMetadata = new Packet40EntityMetadata(entityId, datawatcher, false);
+			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			packet40EntityMetadata.a(new DataOutputStream(baos)); // v1_6_R2
 			return packet40EntityMetadata;
@@ -158,7 +158,7 @@ public abstract class Shape {
 			// put the actual data in
 			datawatcher.watch(index, value);
 
-			return new Packet40EntityMetadata(entityId, datawatcher, false);
+			return new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
 		}
 	}
 
@@ -242,10 +242,10 @@ public abstract class Shape {
 		final net.minecraft.server.v1_7_R1.Entity vehicle = notchEntity.vehicle;
 
 		if (passenger != null)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(0, passenger, notchEntity)); //TODO: Check what this int is for in ctor Packet39AttachEntity
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new PacketPlayOutAttachEntity(0, passenger, notchEntity)); //TODO: Check what this int is for in ctor PacketPlayOutAttachEntity
 
 		if (vehicle != null)
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new Packet39AttachEntity(0, notchEntity, vehicle)); //TODO: See above
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new PacketPlayOutAttachEntity(0, notchEntity, vehicle)); //TODO: See above
 	}
 
 	public abstract boolean onOutgoingPacket(Player ply, int packetID, Packet packet);

@@ -8,7 +8,7 @@ import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_7_R1.WatchableObject;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
@@ -35,7 +35,7 @@ public class YiffBukkitPermaFlameListener extends YBPacketListener implements YB
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 40:
-			final Packet40EntityMetadata p40 = (Packet40EntityMetadata) packet;
+			final PacketPlayOutEntityMetadata p40 = (PacketPlayOutEntityMetadata) packet;
 			if (!permaFlameEntities.contains(p40.a)) // v1_6_R2
 				break;
 
@@ -46,9 +46,9 @@ public class YiffBukkitPermaFlameListener extends YBPacketListener implements YB
 		return true;
 	}
 
-	private void modifyMetadataPacket(Packet40EntityMetadata p40, World world, boolean reset, Entity entity) {
+	private void modifyMetadataPacket(PacketPlayOutEntityMetadata p40, World world, boolean reset, Entity entity) {
 		final int entityId = p40.a; // v1_6_R2
-		final List<WatchableObject> metadata = Utils.getPrivateValue(Packet40EntityMetadata.class, p40, "b"); // v1_6_R2
+		final List<WatchableObject> metadata = Utils.getPrivateValue(PacketPlayOutEntityMetadata.class, p40, "b"); // v1_6_R2
 
 		boolean found = false;
 		// The "save some bandwidth" loop
@@ -103,9 +103,9 @@ public class YiffBukkitPermaFlameListener extends YBPacketListener implements YB
 		if (!permaFlameEntities.add(entityId))
 			return false;
 
-		final Packet40EntityMetadata p40 = new Packet40EntityMetadata();
+		final PacketPlayOutEntityMetadata p40 = new PacketPlayOutEntityMetadata();
 		p40.a = entityId; // v1_6_R2
-		Utils.setPrivateValue(Packet40EntityMetadata.class, p40, "b", new ArrayList<WatchableObject>()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutEntityMetadata.class, p40, "b", new ArrayList<WatchableObject>()); // v1_6_R2
 		modifyMetadataPacket(p40, entity.getWorld(), false, entity);
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 512, p40);
 
@@ -117,9 +117,9 @@ public class YiffBukkitPermaFlameListener extends YBPacketListener implements YB
 		if (!permaFlameEntities.remove(entityId))
 			return false;
 
-		final Packet40EntityMetadata p40 = new Packet40EntityMetadata();
+		final PacketPlayOutEntityMetadata p40 = new PacketPlayOutEntityMetadata();
 		p40.a = entityId; // v1_6_R2
-		Utils.setPrivateValue(Packet40EntityMetadata.class, p40, "b", new ArrayList<WatchableObject>()); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutEntityMetadata.class, p40, "b", new ArrayList<WatchableObject>()); // v1_6_R2
 		modifyMetadataPacket(p40, entity.getWorld(), true, entity);
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 512, p40);
 

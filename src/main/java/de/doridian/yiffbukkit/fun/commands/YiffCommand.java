@@ -5,9 +5,9 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
-import net.minecraft.server.v1_7_R1.Packet20NamedEntitySpawn;
-import net.minecraft.server.v1_7_R1.Packet29DestroyEntity;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutDestroyEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -61,22 +61,22 @@ public class YiffCommand extends ICommand {
 	class RaepRunnable implements Runnable {
 		private final Player target;
 
-		private final Packet20NamedEntitySpawn packet20NamedEntitySpawn;
-		private final Packet29DestroyEntity packet29DestroyEntity;
-		private final Packet34EntityTeleport packet34EntityTeleport;
+		private final PacketPlayOutNamedEntitySpawn packet20NamedEntitySpawn;
+		private final PacketPlayOutDestroyEntity packet29DestroyEntity;
+		private final PacketPlayOutEntityTeleport packet34EntityTeleport;
 
 		private final int mode;
 
 		private RaepRunnable(Player target, int mode) {
 			this.target = target;
 			// TODO: make sure packets are sent before being reused or stop reusing them.
-			this.packet20NamedEntitySpawn = new Packet20NamedEntitySpawn();
+			this.packet20NamedEntitySpawn = new PacketPlayOutNamedEntitySpawn();
 
 			packet20NamedEntitySpawn.b = "DoriBot"; // v1_6_R2
 
-			this.packet29DestroyEntity = new Packet29DestroyEntity(0);
+			this.packet29DestroyEntity = new PacketPlayOutDestroyEntity(0);
 
-			this.packet34EntityTeleport = new Packet34EntityTeleport();
+			this.packet34EntityTeleport = new PacketPlayOutEntityTeleport();
 
 			this.mode = mode;
 

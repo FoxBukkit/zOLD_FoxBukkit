@@ -49,7 +49,7 @@ public class ChatManager {
 		final YBPacketListener packetListener = new YBPacketListener(plugin) {
 			@Override
 			public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-				String text = ((Packet3Chat)packet).message;
+				String text = ((PacketPlayOutChat)packet).message;
 
 				ChatLogEntry chatEntry = new ChatLogEntry(text, getCurrentOrigin());
 
@@ -71,7 +71,7 @@ public class ChatManager {
 				if (spamWindow == null)
 					return false;
 
-				String text = ((Packet3Chat)packet).message;
+				String text = ((PacketPlayOutChat)packet).message;
 
 				if (text.charAt(0) == '/')
 					return true;

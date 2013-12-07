@@ -4,7 +4,7 @@ import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet23VehicleSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutVehicleSpawn;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
@@ -91,14 +91,14 @@ public class VehicleShape extends EntityShape {
 		try {
 			final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
-			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn(notchEntity, vehicleType, subType);
+			final PacketPlayOutVehicleSpawn p23 = new PacketPlayOutVehicleSpawn(notchEntity, vehicleType, subType);
 			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_6_R2
 
 			return p23;
 		}
 		catch (ClassCastException e) {
-			final Packet23VehicleSpawn p23 = new Packet23VehicleSpawn();
-			// copypasta from Packet23VehicleSpawn(nms.Entity, int, int)
+			final PacketPlayOutVehicleSpawn p23 = new PacketPlayOutVehicleSpawn();
+			// copypasta from PacketPlayOutVehicleSpawn(nms.Entity, int, int)
 			p23.a = entity.getEntityId(); // v1_6_R2
 
 			final Location location = entity.getLocation();

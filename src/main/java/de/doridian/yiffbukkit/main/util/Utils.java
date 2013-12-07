@@ -3,7 +3,7 @@ package de.doridian.yiffbukkit.main.util;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.DataWatcher;
-import net.minecraft.server.v1_7_R1.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R1.WatchableObject;
 import net.minecraft.server.v1_7_R1.Vec3D;
 import org.bukkit.Location;
@@ -274,7 +274,7 @@ public class Utils {
 		double y = location.getY();
 		double z = location.getZ();
 
-		Packet62NamedSoundEffect packet = new Packet62NamedSoundEffect(soundName, x, y, z, volume, pitch);
+		PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(soundName, x, y, z, volume, pitch);
 		PlayerHelper.sendPacketToPlayer(player, packet);
 	}
 

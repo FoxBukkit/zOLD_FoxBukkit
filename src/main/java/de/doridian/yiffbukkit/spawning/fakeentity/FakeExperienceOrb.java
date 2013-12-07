@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.spawning.fakeentity;
 
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
-import net.minecraft.server.v1_7_R1.Packet26AddExpOrb;
+import net.minecraft.server.v1_7_R1.PacketPlayOutAddExpOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -17,7 +17,7 @@ public class FakeExperienceOrb extends FakeEntity {
 
 	@Override
 	public void send(Player player) {
-		final Packet26AddExpOrb p26 = new Packet26AddExpOrb();
+		final PacketPlayOutAddExpOrb p26 = new PacketPlayOutAddExpOrb();
 		p26.a = entityId; // v1_6_R2
 		p26.b = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
 		p26.c = MathHelper.floor(location.getY() * 32.0D); // v1_6_R2

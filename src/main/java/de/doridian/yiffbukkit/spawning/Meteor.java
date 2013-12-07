@@ -7,7 +7,7 @@ import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.EntityFallingBlock;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.Packet60Explosion;
+import net.minecraft.server.v1_7_R1.PacketPlayOutExplosion;
 import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -40,7 +40,7 @@ public class Meteor extends CustomPotion {
 		final Entity thisBukkitEntity = getBukkitEntity();
 		final World world = thisBukkitEntity.getWorld();
 
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(hitLocation, 64, new Packet60Explosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), -1.0f, Collections.emptyList(), null));
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(hitLocation, 64, new PacketPlayOutExplosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), -1.0f, Collections.emptyList(), null));
 		Utils.makeSound(hitLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
 
 		final Location min = hitLocation.clone().subtract(radius, radius, radius);

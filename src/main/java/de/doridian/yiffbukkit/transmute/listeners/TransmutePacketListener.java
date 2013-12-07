@@ -6,16 +6,16 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet17EntityLocationAction;
-import net.minecraft.server.v1_7_R1.Packet18ArmAnimation;
-import net.minecraft.server.v1_7_R1.Packet20NamedEntitySpawn;
-import net.minecraft.server.v1_7_R1.Packet22Collect;
-import net.minecraft.server.v1_7_R1.Packet23VehicleSpawn;
-import net.minecraft.server.v1_7_R1.Packet24MobSpawn;
-import net.minecraft.server.v1_7_R1.Packet30Entity;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
-import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
-import net.minecraft.server.v1_7_R1.Packet44UpdateAttributes;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityLocationAction;
+import net.minecraft.server.v1_7_R1.PacketPlayOutArmAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutCollect;
+import net.minecraft.server.v1_7_R1.PacketPlayOutVehicleSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutMobSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R1.PacketPlayOutUpdateAttributes;
 
 import org.bukkit.entity.Player;
 
@@ -54,41 +54,41 @@ public class TransmutePacketListener extends YBPacketListener implements YBListe
 
 		switch (packetID) {
 		case 17:
-			return !transmute.isTransmuted(((Packet17EntityLocationAction) packet).a); // v1_6_R2
+			return !transmute.isTransmuted(((PacketPlayOutEntityLocationAction) packet).a); // v1_6_R2
 
 		case 18:
-			entityId = ((Packet18ArmAnimation) packet).a; // v1_6_R2
+			entityId = ((PacketPlayOutArmAnimation) packet).a; // v1_6_R2
 			break;
 
 		case 20:
-			return handleSpawn(ply, ((Packet20NamedEntitySpawn) packet).a); // v1_6_R2
+			return handleSpawn(ply, ((PacketPlayOutNamedEntitySpawn) packet).a); // v1_6_R2
 
 		case 22:
-			entityId = ((Packet22Collect) packet).b; // v1_6_R2
+			entityId = ((PacketPlayOutCollect) packet).b; // v1_6_R2
 			break;
 
 		case 23:
-			return handleSpawn(ply, ((Packet23VehicleSpawn) packet).a); // v1_6_R2
+			return handleSpawn(ply, ((PacketPlayOutVehicleSpawn) packet).a); // v1_6_R2
 
 		case 24:
-			return handleSpawn(ply, ((Packet24MobSpawn) packet).a); // v1_6_R2
+			return handleSpawn(ply, ((PacketPlayOutMobSpawn) packet).a); // v1_6_R2
 
 		//case 30:
 		//case 31:
 		case 32:
 		case 33:
-			entityId = ((Packet30Entity) packet).a; // v1_6_R2
+			entityId = ((PacketPlayOutEntity) packet).a; // v1_6_R2
 			break;
 
 		case 34:
-			entityId = ((Packet34EntityTeleport) packet).a; // v1_6_R2
+			entityId = ((PacketPlayOutEntityTeleport) packet).a; // v1_6_R2
 			break;
 
 		case 40:
-			return !transmute.isTransmuted(((Packet40EntityMetadata) packet).a); // v1_6_R2
+			return !transmute.isTransmuted(((PacketPlayOutEntityMetadata) packet).a); // v1_6_R2
 
 		case 44:
-			final int entityId2 = Utils.getPrivateValue(Packet44UpdateAttributes.class, (Packet44UpdateAttributes) packet, "a"); // v1_6_R2
+			final int entityId2 = Utils.getPrivateValue(PacketPlayOutUpdateAttributes.class, (PacketPlayOutUpdateAttributes) packet, "a"); // v1_6_R2
 			return !transmute.isTransmuted(entityId2); // TODO: don't block for MobShape and see what happens
 
 		default:

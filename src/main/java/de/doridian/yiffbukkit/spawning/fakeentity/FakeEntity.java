@@ -6,11 +6,11 @@ import net.minecraft.server.v1_7_R1.DataWatcher;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet28EntityVelocity;
-import net.minecraft.server.v1_7_R1.Packet29DestroyEntity;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
-import net.minecraft.server.v1_7_R1.Packet38EntityStatus;
-import net.minecraft.server.v1_7_R1.Packet40EntityMetadata;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutDestroyEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityStatus;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -56,13 +56,13 @@ public abstract class FakeEntity extends AbstractEntity {
 	}
 
 	private void delete(Player player) {
-		PlayerHelper.sendPacketToPlayer(player, new Packet29DestroyEntity(entityId));
+		PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutDestroyEntity(entityId));
 	}
 
 	@Override
 	public void setVelocity(Vector velocity) {
 		for (Player player : location.getWorld().getPlayers()) {
-			PlayerHelper.sendPacketToPlayer(player, new Packet28EntityVelocity(entityId, velocity.getX(), velocity.getY(), velocity.getZ()));
+			PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutEntityVelocity(entityId, velocity.getX(), velocity.getY(), velocity.getZ()));
 		}
 	}
 
@@ -70,7 +70,7 @@ public abstract class FakeEntity extends AbstractEntity {
 	public boolean teleport(Location location) {
 		this.location = location;
 		for (Player player : location.getWorld().getPlayers()) {
-			PlayerHelper.sendPacketToPlayer(player, new Packet34EntityTeleport(entityId, MathHelper.floor(location.getX()*32.0D), MathHelper.floor(location.getY()*32.0D), MathHelper.floor(location.getZ()*32.0D), (byte)0, (byte)0));
+			PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutEntityTeleport(entityId, MathHelper.floor(location.getX()*32.0D), MathHelper.floor(location.getY()*32.0D), MathHelper.floor(location.getZ()*32.0D), (byte)0, (byte)0));
 		}
 		return true;
 	}
@@ -121,7 +121,7 @@ public abstract class FakeEntity extends AbstractEntity {
 		sendPacketToPlayersAround(createMetadataPacket(index, value));
 	}
 
-	protected Packet40EntityMetadata createMetadataPacket(int index, Object value) {
+	protected PacketPlayOutEntityMetadata createMetadataPacket(int index, Object value) {
 		if (value instanceof ItemStack) {
 			try {
 				// create entry
@@ -134,7 +134,7 @@ public abstract class FakeEntity extends AbstractEntity {
 			// mark dirty
 			datawatcher.h(index);
 
-			final Packet40EntityMetadata packet40EntityMetadata = new Packet40EntityMetadata(entityId, datawatcher, false);
+			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			packet40EntityMetadata.a(new DataOutputStream(baos));
 			return packet40EntityMetadata;
@@ -151,12 +151,12 @@ public abstract class FakeEntity extends AbstractEntity {
 			// put the actual data in
 			datawatcher.watch(index, value);
 
-			return new Packet40EntityMetadata(entityId, datawatcher, false);
+			return new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
 		}
 	}
 
 	public void sendEntityStatus(byte status) {
-		sendPacketToPlayersAround(new Packet38EntityStatus(entityId, status));
+		sendPacketToPlayersAround(new PacketPlayOutEntityStatus(entityId, status));
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {

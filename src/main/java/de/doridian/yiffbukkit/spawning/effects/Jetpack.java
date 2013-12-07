@@ -8,7 +8,7 @@ import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_7_R1.Packet60Explosion;
+import net.minecraft.server.v1_7_R1.PacketPlayOutExplosion;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -83,7 +83,7 @@ public class Jetpack extends YBEffect.PotionTrail {
 			done();
 			cancel();
 
-			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new Packet60Explosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptyList(), null));
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new PacketPlayOutExplosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptyList(), null));
 			Utils.makeSound(currentLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
 
 			for (int i = 0; i < 100; ++i) {

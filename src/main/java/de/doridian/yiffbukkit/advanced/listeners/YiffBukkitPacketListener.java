@@ -13,10 +13,10 @@ import net.minecraft.server.v1_7_R1.EntityInsentient;
 import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet10Flying;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
-import net.minecraft.server.v1_7_R1.Packet3Chat;
-import net.minecraft.server.v1_7_R1.Packet70Bed;
+import net.minecraft.server.v1_7_R1.PacketPlayOutFlying;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
 import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -48,7 +48,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 	public boolean onOutgoingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 3:
-			final Packet3Chat p3 = (Packet3Chat) packet;
+			final PacketPlayOutChat p3 = (PacketPlayOutChat) packet;
 			if (p3.message.contains("\"\u00a74You are in a no-PvP area.\""))
 				return false;
 
@@ -58,7 +58,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			return true;
 
 		case 34:
-			final Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			final PacketPlayOutEntityTeleport p34 = (PacketPlayOutEntityTeleport) packet;
 			if (p34.a != 0 && p34.a != ply.getEntityId()) // v1_6_R2
 				return true;
 
@@ -68,14 +68,14 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { @Override public void run() {
 				final WorldServer notchWorld = ((CraftWorld) ply.getWorld()).getHandle();
-				final Packet53BlockChangeExpress p53 = new Packet53BlockChangeExpress(x, y-1, z, notchWorld);
+				final PacketPlayOutBlockChangeExpress p53 = new PacketPlayOutBlockChangeExpress(x, y-1, z, notchWorld);
 				PlayerHelper.sendPacketToPlayer(ply, p53);
 			}});
 
 			return true;
 
 		case 70: {
-			final Packet70Bed p70 = (Packet70Bed) packet;
+			final PacketPlayOutBed p70 = (PacketPlayOutBed) packet;
 			int reason = p70.b; // v1_6_R2
 			final boolean rainState;
 			if (reason == 1)
@@ -121,7 +121,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			if (vehicle instanceof Boat)
 				break;
 
-			final Packet10Flying p10 = (Packet10Flying) packet;
+			final PacketPlayOutFlying p10 = (PacketPlayOutFlying) packet;
 
 			//if (!p10.h)
 				//break;

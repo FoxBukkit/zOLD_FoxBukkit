@@ -6,11 +6,11 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet18ArmAnimation;
-import net.minecraft.server.v1_7_R1.Packet28EntityVelocity;
-import net.minecraft.server.v1_7_R1.Packet30Entity;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
-import net.minecraft.server.v1_7_R1.Packet38EntityStatus;
+import net.minecraft.server.v1_7_R1.PacketPlayOutArmAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityStatus;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -129,7 +129,7 @@ public abstract class EntityShape extends Shape {
 
 		switch (packetID) {
 		case 18:
-			return ((Packet18ArmAnimation) packet).b == 2; // v1_6_R2
+			return ((PacketPlayOutArmAnimation) packet).b == 2; // v1_6_R2
 
 		case 22:
 			return false; // will be overridden in MobShape
@@ -138,13 +138,13 @@ public abstract class EntityShape extends Shape {
 		//case 31:
 		case 32:
 		case 33:
-			Packet30Entity p30 = (Packet30Entity) packet;
+			PacketPlayOutEntity p30 = (PacketPlayOutEntity) packet;
 			p30.e += (byte) ((int) (yawOffset * 256.0F / 360.0F)); // v1_6_R2
 
 			return true;
 
 		case 34:
-			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			PacketPlayOutEntityTeleport p34 = (PacketPlayOutEntityTeleport) packet;
 			final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 			p34.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_6_R2
 			p34.e = (byte) ((int) ((notchEntity.yaw+yawOffset) * 256.0F / 360.0F)); // v1_6_R2
@@ -172,8 +172,8 @@ public abstract class EntityShape extends Shape {
 			}
 		}
 
-		sendPacketToPlayersAround(new Packet34EntityTeleport(notchEntity));
-		sendPacketToPlayersAround(new Packet28EntityVelocity(entityId, notchEntity.motX, notchEntity.motY, notchEntity.motZ));
+		sendPacketToPlayersAround(new PacketPlayOutEntityTeleport(notchEntity));
+		sendPacketToPlayersAround(new PacketPlayOutEntityVelocity(entityId, notchEntity.motX, notchEntity.motY, notchEntity.motZ));
 	}
 
 	public double getYOffset() {
@@ -181,7 +181,7 @@ public abstract class EntityShape extends Shape {
 	}
 
 	public void sendEntityStatus(byte status) {
-		sendPacketToPlayersAround(new Packet38EntityStatus(entityId, status));
+		sendPacketToPlayersAround(new PacketPlayOutEntityStatus(entityId, status));
 		sendYCData(ShapeYCData.ENTITY_STATUS, status);
 	}
 }

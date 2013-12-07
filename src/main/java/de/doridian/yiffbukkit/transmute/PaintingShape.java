@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.transmute;
 
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet25EntityPainting;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityPainting;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class PaintingShape extends EntityShape {
 	protected Packet createSpawnPacket() {
 		Location location = entity.getLocation();
 
-		final Packet25EntityPainting p25 = new Packet25EntityPainting();
+		final PacketPlayOutEntityPainting p25 = new PacketPlayOutEntityPainting();
 
 		p25.a = entityId; // v1_6_R2
 
@@ -69,7 +69,7 @@ public class PaintingShape extends EntityShape {
 			return false;
 
 		case 34:
-			Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			PacketPlayOutEntityTeleport p34 = (PacketPlayOutEntityTeleport) packet;
 			p34.e = (byte) -p34.e; // v1_6_R2
 			return true;
 		}

@@ -8,11 +8,11 @@ import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet20NamedEntitySpawn;
-import net.minecraft.server.v1_7_R1.Packet24MobSpawn;
-import net.minecraft.server.v1_7_R1.Packet30Entity;
-import net.minecraft.server.v1_7_R1.Packet34EntityTeleport;
-import net.minecraft.server.v1_7_R1.Packet35EntityHeadRotation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutMobSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -87,7 +87,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 20:
-			final Packet20NamedEntitySpawn p20 = (Packet20NamedEntitySpawn) packet;
+			final PacketPlayOutNamedEntitySpawn p20 = (PacketPlayOutNamedEntitySpawn) packet;
 			if(!choppedEntities.contains(p20.a)) // v1_6_R2
 				break;
 
@@ -96,7 +96,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 			break;
 
 		case 24:
-			final Packet24MobSpawn p24 = (Packet24MobSpawn) packet;
+			final PacketPlayOutMobSpawn p24 = (PacketPlayOutMobSpawn) packet;
 			if(!choppedEntities.contains(p24.a)) // v1_6_R2
 				break;
 
@@ -105,7 +105,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 			break;
 
 		case 34:
-			final Packet34EntityTeleport p34 = (Packet34EntityTeleport) packet;
+			final PacketPlayOutEntityTeleport p34 = (PacketPlayOutEntityTeleport) packet;
 			if (!choppedEntities.contains(p34.a)) // v1_6_R2
 				break;
 
@@ -115,7 +115,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 
 		case 32:
 		case 33:
-			final Packet30Entity p30 = (Packet30Entity) packet;
+			final PacketPlayOutEntity p30 = (PacketPlayOutEntity) packet;
 			if(!choppedEntities.contains(p30.a)) // v1_6_R2
 				break;
 
@@ -124,7 +124,7 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 			break;
 
 		case 35:
-			final Packet35EntityHeadRotation p35 = (Packet35EntityHeadRotation) packet;
+			final PacketPlayOutEntityHeadRotation p35 = (PacketPlayOutEntityHeadRotation) packet;
 			if (!choppedEntities.contains(p35.a)) // v1_6_R2
 				break;
 

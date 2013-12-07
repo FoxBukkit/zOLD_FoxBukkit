@@ -4,7 +4,7 @@ package de.doridian.yiffbukkit.transmute;
 import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.Packet24MobSpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutMobSpawn;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public class MobShape extends EntityShape {
 	protected Packet createSpawnPacket() {
 		Location location = entity.getLocation();
 
-		final Packet24MobSpawn p24 = new Packet24MobSpawn();
+		final PacketPlayOutMobSpawn p24 = new PacketPlayOutMobSpawn();
 
 		p24.a = entityId; // v1_6_R2
 		p24.b = (byte) mobType; // v1_6_R2
@@ -79,7 +79,7 @@ public class MobShape extends EntityShape {
 		p24.g = (int) (d2 * 8000.0D); // v1_6_R2
 		p24.h = (int) (d3 * 8000.0D); // v1_6_R2
 
-		Utils.setPrivateValue(Packet24MobSpawn.class, p24, "t", datawatcher); // v1_6_R2
+		Utils.setPrivateValue(PacketPlayOutMobSpawn.class, p24, "t", datawatcher); // v1_6_R2
 		return p24;
 	}
 
