@@ -35,13 +35,16 @@ public abstract class CustomPotion extends EntityPotion {
 
 		try {
 			switch (movingobjectposition.type) {
+			case MISS:
+				break;
+
 			case ENTITY:
 				if (hitEntity(movingobjectposition.entity.getBukkitEntity()) | hit(movingobjectposition))
 					die();
 
 				break;
 
-			case TILE:
+			case BLOCK:
 				final CraftWorld world = this.world.getWorld();
 				Block block = world.getBlockAt(
 						movingobjectposition.b, // v1_6_R2
@@ -76,7 +79,7 @@ public abstract class CustomPotion extends EntityPotion {
 					sideHit = BlockFace.SOUTH;
 					break;
 				default:
-					throw new YiffBukkitCommandException("Invalid direction in TILE trace.");
+					throw new YiffBukkitCommandException("Invalid direction in BLOCK trace.");
 				}
 				if (hitBlock(block, sideHit, hitVec) | hit(movingobjectposition))
 					die();
