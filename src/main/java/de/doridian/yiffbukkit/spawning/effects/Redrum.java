@@ -10,6 +10,7 @@ import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutRelEntityMove;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class Redrum extends YBEffect {
 		public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
 			if (paused) return true;
 
-			return !rotating.contains(((PacketPlayOutEntityHeadRotation) packet).a);
+			return !rotating.contains(((PacketPlayOutEntityHeadRotation) packet).a); // v1_7_R1
 		}
 	};
 
@@ -70,9 +71,10 @@ public class Redrum extends YBEffect {
 		byte yaw = (byte) (i*255*3/ticks+startYaw);
 		final byte entz = (byte) (i%2*2-1);
 		final Player except = entity instanceof Player ? (Player) entity : null;
+		final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 
 		paused = true;
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(entity.getEntityId(), yaw), except);
+		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), except);
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutRelEntityMove(entity.getEntityId(), (byte) 0, (byte) 0, entz), except);
 		paused = false;
 

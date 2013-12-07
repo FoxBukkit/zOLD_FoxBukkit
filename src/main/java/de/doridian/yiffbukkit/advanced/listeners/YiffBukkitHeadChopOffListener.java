@@ -125,11 +125,11 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 
 		case 35:
 			final PacketPlayOutEntityHeadRotation p35 = (PacketPlayOutEntityHeadRotation) packet;
-			if (!choppedEntities.contains(p35.a)) // v1_6_R2
+			if (!choppedEntities.contains(p35.a)) // v1_7_R1
 				break;
 
-			final float yaw = Utils.getEntityByID(p35.a, ply.getWorld()).yaw; // v1_6_R2
-			p35.b = (byte)(((yaw % 360) / 360) * 255); // v1_6_R2
+			final float yaw = Utils.getEntityByID(p35.a, ply.getWorld()).yaw; // v1_7_R1
+			p35.b = (byte) (((yaw % 360) / 360) * 255); // v1_7_R1
 
 			break;
 		}
