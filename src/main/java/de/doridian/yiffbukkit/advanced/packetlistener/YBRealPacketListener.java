@@ -1,92 +1,84 @@
 package de.doridian.yiffbukkit.advanced.packetlistener;
 
+import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import net.minecraft.server.v1_7_R1.Connection;
-import net.minecraft.server.v1_7_R1.INetworkManager;
+import net.minecraft.server.v1_7_R1.NetworkManager;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PlayerConnection;
 import org.bukkit.entity.Player;
-import org.spigotmc.netty.PacketListener;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
-class YBRealPacketListener extends PacketListener {
+public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListener implements YBListener {
 	@SuppressWarnings("serial")
 	private class YBPLCollection extends HashSet<YBPacketListener> { }
 
-	private final YBPLCollection[] incomingPacketListeners;
-	private final YBPLCollection[] outgoingPacketListeners;
+	private final HashMap<Class<? extends Packet>, YBPLCollection> incomingPacketListeners;
+	private final HashMap<Class<? extends Packet>, YBPLCollection> outgoingPacketListeners;
 
 	private static YBRealPacketListener instance = null;
-	static void initialize(YiffBukkit plugin) {
+
+	private static void initialize() {
 		if(instance != null) return;
-		instance = new YBRealPacketListener(plugin);
+		new YBRealPacketListener(YiffBukkit.instance);
 	}
 
-	static void register(YBPacketListener ybPacketListener, int[] packetsIn, int[] packetsOut) {
-		initialize(YiffBukkit.instance);
+	static void register(YBPacketListener ybPacketListener, Class<? extends Packet>[] packetsIn, Class<? extends Packet>[] packetsOut) {
+		initialize();
 		instance._register(ybPacketListener, packetsIn, packetsOut);
 	}
 
-	private void _register(YBPacketListener ybPacketListener, int[] packetsIn, int[] packetsOut) {
+	private void _register(YBPacketListener ybPacketListener, Class<? extends Packet>[] packetsIn, Class<? extends Packet>[] packetsOut) {
 		if(packetsIn != null) {
-			for(int i : packetsIn) {
-				incomingPacketListeners[i].add(ybPacketListener);
+			for(Class<? extends Packet> i : packetsIn) {
+				if(!incomingPacketListeners.containsKey(i))
+					incomingPacketListeners.put(i, new YBPLCollection());
+				incomingPacketListeners.get(i).add(ybPacketListener);
 			}
 		}
 
 		if(packetsOut != null) {
-			for(int i : packetsOut) {
-				outgoingPacketListeners[i].add(ybPacketListener);
+			for(Class<? extends Packet> i : packetsOut) {
+				if(!outgoingPacketListeners.containsKey(i))
+					outgoingPacketListeners.put(i, new YBPLCollection());
+				outgoingPacketListeners.get(i).add(ybPacketListener);
 			}
 		}
 	}
 
-	public YBRealPacketListener(YiffBukkit plugin) {
-		PacketListener.register(this, plugin);
+	private YBRealPacketListener(YiffBukkit plugin) {
+		if(instance != null)
+			throw new RuntimeException("This is a singleton!");
 
-		incomingPacketListeners = new YBPLCollection[256];
-		outgoingPacketListeners = new YBPLCollection[256];
+		incomingPacketListeners = new HashMap<Class<? extends Packet>, YBPLCollection>();
+		outgoingPacketListeners = new HashMap<Class<? extends Packet>, YBPLCollection>();
 
-		for(int i=0;i<256;i++) {
-			incomingPacketListeners[i] = new YBPLCollection();
-			outgoingPacketListeners[i] = new YBPLCollection();
-		}
+		instance = this;
+
+		NetworkManager.registerPacketListener(this);
 	}
 
-	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet) {
-		for(YBPacketListener ybPacketListener : outgoingPacketListeners[packetID]) {
-			if(!ybPacketListener.onOutgoingPacket(ply, packetID, packet)) return false;
-		}
-		return true;
-	}
-
-	public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-		for(YBPacketListener ybPacketListener : incomingPacketListeners[packetID]) {
-			if(!ybPacketListener.onIncomingPacket(ply, packetID, packet)) return false;
-		}
+	@Override
+	public boolean outgoingPacket(final Player ply, final Packet packet) {
+		final Class<? extends Packet> packetCls = packet.getClass();
+		final YBPLCollection ybPacketListeners = outgoingPacketListeners.get(packetCls);
+		if(ybPacketListeners == null || ybPacketListeners.isEmpty())
+			return true;
+		for(YBPacketListener ybPacketListener : ybPacketListeners)
+			if(!ybPacketListener.onOutgoingPacket(ply, packetCls, packet))
+				return false;
 		return true;
 	}
 
 	@Override
-	public Packet packetReceived(INetworkManager networkManager, Connection connection, Packet packet) {
-		if(!(connection instanceof PlayerConnection)) return packet;
-
-		if(onIncomingPacket(((PlayerConnection)connection).getPlayer(), packet.n(), packet)) {
-			return packet;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public Packet packetQueued(INetworkManager networkManager, Connection connection, Packet packet) {
-		if(packet == null || !(connection instanceof PlayerConnection)) return packet;
-
-		if(onOutgoingPacket(((PlayerConnection)connection).getPlayer(), packet.n(), packet)) {
-			return packet;
-		} else {
-			return null;
-		}
+	public boolean incomingPacket(final Player ply, final Packet packet) {
+		final Class<? extends Packet> packetCls = packet.getClass();
+		final YBPLCollection ybPacketListeners = incomingPacketListeners.get(packetCls);
+		if(ybPacketListeners == null || ybPacketListeners.isEmpty())
+			return true;
+		for(YBPacketListener ybPacketListener : ybPacketListeners)
+			if(!ybPacketListener.onIncomingPacket(ply, packetCls, packet))
+				return false;
+		return true;
 	}
 }
