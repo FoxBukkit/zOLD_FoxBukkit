@@ -19,7 +19,7 @@ import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntityParticleSpawner;
 import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutFlying;
+import net.minecraft.server.v1_7_R1.PacketPlayInFlying;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -216,7 +216,7 @@ public class ThrowCommand extends ICommand {
 
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-				PacketPlayOutFlying p10 = (PacketPlayOutFlying) packet;
+				PacketPlayInFlying p10 = (PacketPlayInFlying) packet;
 				lastYaws.put(ply, p10.yaw);
 				lastPitches.put(ply, p10.pitch);
 				return true;

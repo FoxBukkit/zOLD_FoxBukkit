@@ -13,7 +13,7 @@ import net.minecraft.server.v1_7_R1.EntityInsentient;
 import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutFlying;
+import net.minecraft.server.v1_7_R1.PacketPlayInFlying;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
@@ -123,7 +123,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			if (vehicle instanceof Boat)
 				break;
 
-			final PacketPlayOutFlying p10 = (PacketPlayOutFlying) packet;
+			final PacketPlayInFlying p10 = (PacketPlayInFlying) packet;
 
 			//if (!p10.h)
 				//break;
