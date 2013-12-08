@@ -2,14 +2,18 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DataWatcher;
+import net.minecraft.server.v1_7_R1.EntityFallingBlock;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R1.WatchableObject;
 import net.minecraft.server.v1_7_R1.Vec3D;
+import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -476,4 +480,29 @@ public class Utils {
 	public static net.minecraft.server.v1_7_R1.Entity getEntityByID(int entityId, World world) {
 		return ((CraftWorld)world).getHandle().getEntity(entityId);
 	}
+
+	public static EntityFallingBlock spawnFallingBlock(Location location, int typeId, int dataValue) {
+		WorldServer notchWorld = ((CraftWorld) location.getWorld()).getHandle();
+		final EntityFallingBlock notchFallingBlock = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), getBlockById(typeId), dataValue);
+
+		// This disables the first tick code, which takes care of removing the original block etc.
+		notchFallingBlock.b = 1; // v1_7_R1
+
+		// Do not drop an item if placing a block fails
+		notchFallingBlock.dropItem = false;
+
+		notchWorld.addEntity(notchFallingBlock);
+
+		return notchFallingBlock;
+	}
+
+	private static Block getBlockByMaterial(Material material) {
+		return CraftMagicNumbers.getBlock(material);
+	}
+
+	public static Block getBlockById(int typeId) {
+		return getBlockByMaterial(Material.getMaterial(typeId));
+		//return (Block) Block.REGISTRY.a(typeId); // v1_7_R1
+	}
+
 }

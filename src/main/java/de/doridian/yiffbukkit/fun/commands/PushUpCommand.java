@@ -11,11 +11,10 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.v1_7_R1.EntityFallingBlock;
-import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -62,18 +61,7 @@ public class PushUpCommand extends ICommand {
 
 		block.setTypeIdAndData(0, (byte) 0, true);
 
-		final WorldServer notchWorld = ((CraftWorld) world).getHandle();
-
-		final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, x + 0.5, y + 0.5, z + 0.5, typeId, data);
-
-		// This disables the first tick code, which takes care of removing the original block etc.
-		notchEntity.c = 1; // v1_6_R2
-
-		// Do not drop an item if placing a block fails
-		notchEntity.dropItem = false;
-
-		notchWorld.addEntity(notchEntity);
-
+		final EntityFallingBlock notchEntity = Utils.spawnFallingBlock(block.getLocation().add(0.5, 0.5, 0.5), typeId, data);
 		final Entity entity = notchEntity.getBukkitEntity();
 
 		entity.setVelocity(new Vector(0, speed, 0));

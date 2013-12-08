@@ -8,12 +8,10 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.EntityFallingBlock;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
 import net.minecraft.server.v1_7_R1.PacketPlayOutExplosion;
-import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
@@ -72,27 +70,15 @@ public class Meteor extends CustomPotion {
 						YiffBukkit.instance.logBlockConsumer.queueBlockBreak(thrower.getName(), block.getState());
 					block.setTypeIdAndData(0, (byte) 0, true);
 
-					final WorldServer notchWorld = ((CraftWorld) world).getHandle();
-
 					final Location fbloc = location.multiply(0.5);
 					fbloc.setY(0);
 					fbloc.add(hitLocation);
 
-					final EntityFallingBlock notchEntity = new EntityFallingBlock(notchWorld, fbloc.getX(), fbloc.getY(), fbloc.getZ(), typeId, data);
-
-					// This disables the first tick code, which takes care of removing the original block etc.
-					notchEntity.c = 1; // v1_6_R2
-
-					// Do not drop an item if placing a block fails
-					notchEntity.dropItem = false;
-
-					notchWorld.addEntity(notchEntity);
-
+					final EntityFallingBlock notchEntity = Utils.spawnFallingBlock(fbloc, typeId, data);
 					final Entity entity = notchEntity.getBukkitEntity();
 
 					//entity.setVelocity(location.toVector().add(new Vector(0, radius, 0)).multiply(speed/radius));
 					entity.setVelocity(randvecUp().multiply(speed));
-
 				}
 			}
 		}

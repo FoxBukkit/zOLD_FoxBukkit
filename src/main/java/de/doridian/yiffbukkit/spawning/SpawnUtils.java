@@ -390,15 +390,7 @@ public class SpawnUtils {
 			if (typeId <= 0 || typeId >= 256)
 				return null;
 
-			final EntityFallingBlock notchFallingBlock = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), typeId, dataValue);
-
-			// This disables the first tick code, which takes care of removing the original block etc.
-			notchFallingBlock.c = 1; // v1_6_R2
-
-			// Do not drop an item if placing a block fails
-			notchFallingBlock.dropItem = false;
-
-			notchWorld.addEntity(notchFallingBlock);
+			final EntityFallingBlock notchFallingBlock = Utils.spawnFallingBlock(location, typeId, dataValue);
 			return notchFallingBlock.getBukkitEntity();
 
 		case "potion":
