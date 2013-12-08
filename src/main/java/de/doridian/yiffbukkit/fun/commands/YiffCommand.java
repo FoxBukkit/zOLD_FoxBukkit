@@ -8,6 +8,7 @@ import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ import java.util.Random;
 public class YiffCommand extends ICommand {
 	private final static Random rand = new Random();
 
-	private static HashMap<String, RaepRunnable> raepedPlayers = new HashMap<String, RaepRunnable>();
+	private static HashMap<String, RaepRunnable> raepedPlayers = new HashMap<>();
 
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
@@ -33,14 +34,22 @@ public class YiffCommand extends ICommand {
 		Player target = null;
 		try {
 			target = playerHelper.matchPlayerSingle(args[0]);
-		} catch(YiffBukkitCommandException e) { throw e; } catch(Exception e) { }
-		if(target == null) throw new YiffBukkitCommandException("Sorry, invalid player!");
+		}
+		catch (YiffBukkitCommandException e) {
+			throw e;
+		}
+		catch (Exception ignored) { }
 
-		if(booleanFlags.contains('s')) {
+		if (target == null)
+			throw new YiffBukkitCommandException("Sorry, invalid player!");
+
+		if (booleanFlags.contains('s')) {
 			stopRaep(target);
-		} else if(booleanFlags.contains('v')) {
+		}
+		else if (booleanFlags.contains('v')) {
 			startRaep(target, 1);
-		} else {
+		}
+		else {
 			startRaep(target, 0);
 		}
 	}
@@ -52,7 +61,7 @@ public class YiffCommand extends ICommand {
 
 	public void stopRaep(Player target) {
 		String name = target.getName().toLowerCase();
-		if(raepedPlayers.containsKey(name)) {
+		if (raepedPlayers.containsKey(name)) {
 			raepedPlayers.get(name).stop();
 			raepedPlayers.remove(name);
 		}
@@ -72,7 +81,7 @@ public class YiffCommand extends ICommand {
 			// TODO: make sure packets are sent before being reused or stop reusing them.
 			this.packet20NamedEntitySpawn = new PacketPlayOutNamedEntitySpawn();
 
-			packet20NamedEntitySpawn.b = "DoriBot"; // v1_6_R2
+			packet20NamedEntitySpawn.b = new GameProfile("DoriBot", "DoriBot"); // v1_7_R1
 
 			this.packet29DestroyEntity = new PacketPlayOutEntityDestroy(0);
 
@@ -127,8 +136,11 @@ public class YiffCommand extends ICommand {
 				}
 
 				lastEntID++;
-				if (lastEntID > 65535) lastEntID = 0; // TODO: pick a better range
-				if (cancelled) return;
+				if (lastEntID > 65535)
+					lastEntID = 0; // TODO: pick a better range
+
+				if (cancelled)
+					return;
 			}
 		}
 	}
