@@ -16,7 +16,7 @@ import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayInFlying;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
+import net.minecraft.server.v1_7_R1.PacketPlayOutGameStateChange;
 import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -77,7 +77,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			return true;
 
 		case 70: {
-			final PacketPlayOutBed p70 = (PacketPlayOutBed) packet;
+			final PacketPlayOutGameStateChange p70 = (PacketPlayOutGameStateChange) packet;
 			int reason = p70.b; // v1_6_R2
 			final boolean rainState;
 			if (reason == 1)

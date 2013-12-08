@@ -20,7 +20,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
+import net.minecraft.server.v1_7_R1.PacketPlayOutGameStateChange;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -791,7 +791,7 @@ public class PlayerHelper extends StateContainer {
 
 		int reason = weatherType == WeatherType.CLEAR ? 2 : 1;
 		//@TODO fixme
-		sendPacketToPlayer(ply, new PacketPlayOutBed(reason, 0));
+		sendPacketToPlayer(ply, new PacketPlayOutGameStateChange(reason, 0));
 	}
 
 	public void pushWeather() {
