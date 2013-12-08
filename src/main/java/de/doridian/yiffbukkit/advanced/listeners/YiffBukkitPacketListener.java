@@ -49,11 +49,13 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		switch (packetID) {
 		case 3:
 			final PacketPlayOutChat p3 = (PacketPlayOutChat) packet;
+			/* TODO:
 			if (p3.message.contains("\"\u00a74You are in a no-PvP area.\""))
 				return false;
 
 			if (p3.message.contains("\"\u00a74That player is in a no-PvP area.\""))
 				return false;
+			*/
 
 			return true;
 
