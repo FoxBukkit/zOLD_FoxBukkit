@@ -5,11 +5,13 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DataWatcher;
 import net.minecraft.server.v1_7_R1.EntityFallingBlock;
+import net.minecraft.server.v1_7_R1.Item;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R1.WatchableObject;
 import net.minecraft.server.v1_7_R1.Vec3D;
 import net.minecraft.server.v1_7_R1.WorldServer;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
@@ -498,6 +500,10 @@ public class Utils {
 
 	private static Block getBlockByMaterial(Material material) {
 		return CraftMagicNumbers.getBlock(material);
+	}
+
+	public static Item getItemByMaterial(Material material) {
+		return CraftMagicNumbers.getItem(material);
 	}
 
 	public static Block getBlockById(int typeId) {

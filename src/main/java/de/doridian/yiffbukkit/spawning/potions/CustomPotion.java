@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 
@@ -20,7 +19,7 @@ public abstract class CustomPotion extends EntityPotion {
 	protected final EntityPlayer thrower;
 
 	public CustomPotion(Location location, int potionId, EntityPlayer thrower) {
-		super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new ItemStack(Material.POTION.getId(), 1, potionId));
+		super(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ(), new ItemStack(Utils.getItemByMaterial(Material.POTION), 1, potionId));
 		this.potionId = potionId;
 		this.thrower = thrower;
 	}
@@ -92,7 +91,7 @@ public abstract class CustomPotion extends EntityPotion {
 				System.out.println("\u00a7"+e.getColor()+"[YB]\u00a7f " + e.getMessage());
 			}
 			else {
-				PlayerHelper.sendDirectedMessage((CommandSender) thrower.getBukkitEntity(), e.getMessage(), e.getColor());
+				PlayerHelper.sendDirectedMessage(thrower.getBukkitEntity(), e.getMessage(), e.getColor());
 			}
 			die();
 		}
@@ -110,7 +109,7 @@ public abstract class CustomPotion extends EntityPotion {
 		return false;
 	}
 
-	protected boolean hitEntity(Entity hitEntity) throws YiffBukkitCommandException {
+	protected boolean hitEntity(@SuppressWarnings("UnusedParameters") Entity hitEntity) throws YiffBukkitCommandException {
 		return false;
 	}
 }
