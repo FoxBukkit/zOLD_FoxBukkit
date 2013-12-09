@@ -1,11 +1,15 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.Block;
+import net.minecraft.server.v1_7_R1.Blocks;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.Packet;
 
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_7_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -14,7 +18,7 @@ public class ItemShape extends VehicleShape {
 		//yOffsets[1] = 1.62;
 	}
 
-	protected ItemStack itemStack = new ItemStack(Block.CACTUS, 1, 0);
+	protected ItemStack itemStack = new ItemStack(Blocks.CACTUS, 1, 0);
 
 	public ItemShape(Transmute transmute, Entity entity, int mobType) {
 		super(transmute, entity, mobType);
@@ -43,11 +47,11 @@ public class ItemShape extends VehicleShape {
 	}
 
 	public int getType() {
-		return itemStack.id;
+		return CraftMagicNumbers.getId(itemStack.item);
 	}
 
 	public void setType(int type) {
-		itemStack.id = type;
+		itemStack.item = Utils.getItemById(type);
 
 		sendMetadataPacket();
 	}
@@ -73,14 +77,14 @@ public class ItemShape extends VehicleShape {
 	}
 
 	public void setType(int type, int data) {
-		itemStack.id = type;
+		itemStack.item = Utils.getItemById(type);
 		itemStack.setData(data);
 
 		sendMetadataPacket();
 	}
 
 	public void setType(int type, int data, int count) {
-		itemStack.id = type;
+		itemStack.item = Utils.getItemById(type);
 		itemStack.setData(data);
 		itemStack.count = count;
 

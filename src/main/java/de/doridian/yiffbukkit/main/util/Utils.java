@@ -512,6 +512,10 @@ public class Utils {
 		//return (Block) Block.REGISTRY.a(typeId); // v1_7_R1
 	}
 
+	public static Item getItemById(int typeId) {
+		return getItemByMaterial(Material.getMaterial(typeId));
+	}
+
 	public static DataWatcher createEmptyDataWatcher() {
 		return new DataWatcher(new EntityBat(null));
 	}
