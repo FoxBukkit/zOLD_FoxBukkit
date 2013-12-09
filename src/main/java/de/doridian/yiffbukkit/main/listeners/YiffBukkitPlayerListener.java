@@ -371,29 +371,29 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 				final AxisAlignedBB aabb = AxisAlignedBB.a().a(x - maxDistance, y - maxDistance, z - maxDistance, x + maxDistance, y + maxDistance, z + maxDistance);
 				@SuppressWarnings("unchecked")
-				List<? extends EntityInsentient> list = world.a(EntityInsentient.class, aabb); // v1_6_R2
+				List<? extends EntityInsentient> list = world.a(EntityInsentient.class, aabb); // v1_7_R1
 
 				boolean ret = false;
 				if (list != null) {
 					for (EntityInsentient entityinsentient : list) {
-						if (!entityinsentient.bH()) // v1_6_R2
+						if (!entityinsentient.bL()) // v1_7_R1
 							continue;
 
-						final net.minecraft.server.v1_7_R1.Entity leashed = entityinsentient.bI();
+						final net.minecraft.server.v1_7_R1.Entity leashed = entityinsentient.getLeashHolder();
 
-						if (leashed == notchRightClicked) { // v1_6_R2
-							entityinsentient.b(notchPlayer, true); // v1_6_R2
+						if (leashed == notchRightClicked) {
+							entityinsentient.setLeashHolder(notchPlayer, true);
 							ret = true;
 							continue;
 						}
 
-						if (leashed != notchPlayer) // v1_6_R2
+						if (leashed != notchPlayer)
 							continue;
 
-						if (entityinsentient == notchRightClicked) // v1_6_R2
+						if (entityinsentient == notchRightClicked)
 							continue;
 
-						entityinsentient.b(notchRightClicked, true); // v1_6_R2
+						entityinsentient.setLeashHolder(notchRightClicked, true);
 						ret = true;
 					}
 				}
