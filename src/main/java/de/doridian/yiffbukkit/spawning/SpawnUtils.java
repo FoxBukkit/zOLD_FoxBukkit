@@ -879,8 +879,10 @@ public class SpawnUtils {
 				if (itemId <= 0)
 					return false;
 
+				/* TODO: check if still necessary
 				if (Item.byId[itemId] == null)
 					return false;
+				*/
 			}
 			else if (particleName.startsWith("tilecrack_")) {
 				final String[] parts = particleName.split("_", 3);
@@ -896,8 +898,10 @@ public class SpawnUtils {
 				if (data >= 16)
 					return false;
 
+				/* TODO: check if still necessary
 				if (Block.byId[blockId] == null)
 					return false;
+				*/
 			}
 		}
 		catch (Exception e) {
