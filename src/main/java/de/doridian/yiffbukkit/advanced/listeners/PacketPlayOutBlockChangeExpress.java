@@ -13,11 +13,11 @@ public class PacketPlayOutBlockChangeExpress extends PacketPlayOutBlockChange {
 	}
 
 	public PacketPlayOutBlockChangeExpress() {
-		lowPriority = false;
+		//lowPriority = false;
 	}
 
 	public PacketPlayOutBlockChangeExpress(int x, int y, int z, net.minecraft.server.v1_7_R1.World world) {
 		super(x, y, z, world);
-		lowPriority = false;
+		//lowPriority = false;
 	}
 }
