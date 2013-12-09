@@ -751,6 +751,8 @@ public class SpawnUtils {
 	}
 
 	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(final String fireworkType) {
+		throw new RuntimeException("not ported yet!");
+		/*
 		final String[] parameters = fireworkType.split("/");
 		final int[] colors = parseColors(parameters[0].split(","));
 		final net.minecraft.server.v1_7_R1.ItemStack fireworks = makeFireworks(-127, 0, colors);
@@ -768,6 +770,7 @@ public class SpawnUtils {
 			}
 		}
 		return fireworks;
+		*/
 	}
 
 	private static int[] parseColors(final String[] colorStrings) {
@@ -785,6 +788,8 @@ public class SpawnUtils {
 	}
 
 	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
+		throw new RuntimeException("not ported yet!");
+		/*
 		final NBTTagCompound explosionTag = new NBTTagCompound("Explosion");
 		explosionTag.setByte("Type", (byte) explosionType);
 		explosionTag.setIntArray("Colors", explosionColors);
@@ -802,6 +807,7 @@ public class SpawnUtils {
 		final net.minecraft.server.v1_7_R1.ItemStack stack = new net.minecraft.server.v1_7_R1.ItemStack(Items.FIREWORKS);
 		stack.setTag(itemStackTag);
 		return stack;
+		*/
 	}
 
 	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {
@@ -810,6 +816,8 @@ public class SpawnUtils {
 	}
 
 	public static HumanEntity makeNPC(String name, Location location) {
+		throw new RuntimeException("not ported yet!");
+		/*
 		final String id = name;
 		// Get some notch-type references
 		final WorldServer worldServer = ((CraftWorld)location.getWorld()).getHandle();
@@ -842,6 +850,7 @@ public class SpawnUtils {
 
 		// finally obtain a bukkit entity and return it
 		return eply.getBukkitEntity();
+		*/
 	}
 
 	private static class NPCSocket extends Socket {
