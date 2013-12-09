@@ -3,6 +3,27 @@ package de.doridian.yiffbukkit.advanced.packetlistener;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.PacketPlayInFlying;
+import net.minecraft.server.v1_7_R1.PacketPlayInLook;
+import net.minecraft.server.v1_7_R1.PacketPlayInPosition;
+import net.minecraft.server.v1_7_R1.PacketPlayInPositionLook;
+import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
+import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R1.PacketPlayOutCollect;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityLook;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutGameStateChange;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_7_R1.PacketPlayOutRelEntityMove;
+import net.minecraft.server.v1_7_R1.PacketPlayOutRelEntityMoveLook;
+import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R1.PacketPlayOutUpdateAttributes;
 import org.bukkit.entity.Player;
 
 public class YBPacketListener implements YBPacketListenerInt {
@@ -18,10 +39,38 @@ public class YBPacketListener implements YBPacketListenerInt {
 	}
 
 	static {
-		packetToIDMapping = new TObjectIntHashMap<Class<? extends Packet>>();
-		idToPacketMapping = new TIntObjectHashMap<Class<? extends Packet>>();
+		packetToIDMapping = new TObjectIntHashMap<>();
+		idToPacketMapping = new TIntObjectHashMap<>();
 
+		addLegacyMapping(3, PacketPlayOutChat.class);
 
+		addLegacyMapping(10, PacketPlayInFlying.class);
+		addLegacyMapping(11, PacketPlayInPosition.class);
+		addLegacyMapping(12, PacketPlayInLook.class);
+		addLegacyMapping(13, PacketPlayInPositionLook.class);
+
+		addLegacyMapping(17, PacketPlayOutBed.class);
+		addLegacyMapping(18, PacketPlayOutAnimation.class);
+
+		addLegacyMapping(20, PacketPlayOutNamedEntitySpawn.class);
+		addLegacyMapping(22, PacketPlayOutCollect.class);
+		addLegacyMapping(23, PacketPlayOutSpawnEntity.class);
+		addLegacyMapping(24, PacketPlayOutSpawnEntityLiving.class);
+
+		addLegacyMapping(30, PacketPlayOutEntity.class);
+		addLegacyMapping(31, PacketPlayOutRelEntityMove.class);
+		addLegacyMapping(32, PacketPlayOutEntityLook.class);
+		addLegacyMapping(33, PacketPlayOutRelEntityMoveLook.class);
+		addLegacyMapping(34, PacketPlayOutEntityTeleport.class);
+		addLegacyMapping(35, PacketPlayOutEntityHeadRotation.class);
+
+		addLegacyMapping(40, PacketPlayOutEntityMetadata.class);
+
+		addLegacyMapping(44, PacketPlayOutUpdateAttributes.class);
+
+		addLegacyMapping(64, PacketPlayOutNamedSoundEffect.class);
+
+		addLegacyMapping(70, PacketPlayOutGameStateChange.class);
 	}
 
 	private static void addLegacyMapping(int ID, Class<? extends Packet> packet) {
