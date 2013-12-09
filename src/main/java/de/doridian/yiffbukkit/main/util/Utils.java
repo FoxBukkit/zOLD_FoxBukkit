@@ -4,6 +4,7 @@ import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DataWatcher;
+import net.minecraft.server.v1_7_R1.EntityBat;
 import net.minecraft.server.v1_7_R1.EntityFallingBlock;
 import net.minecraft.server.v1_7_R1.Item;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
@@ -511,4 +512,7 @@ public class Utils {
 		//return (Block) Block.REGISTRY.a(typeId); // v1_7_R1
 	}
 
+	public static DataWatcher createEmptyDataWatcher() {
+		return new DataWatcher(new EntityBat(null));
+	}
 }

@@ -181,7 +181,10 @@ public abstract class EntityShape extends Shape {
 	}
 
 	public void sendEntityStatus(byte status) {
-		sendPacketToPlayersAround(new PacketPlayOutEntityStatus(entityId, status));
+		final PacketPlayOutEntityStatus packetPlayOutEntityStatus = new PacketPlayOutEntityStatus();
+		packetPlayOutEntityStatus.a = entityId; // v1_7_R1
+		packetPlayOutEntityStatus.b = status; // v1_7_R1
+		sendPacketToPlayersAround(packetPlayOutEntityStatus);
 		sendYCData(ShapeYCData.ENTITY_STATUS, status);
 	}
 }

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.DataWatcher;
@@ -18,8 +19,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.util.List;
 
 public abstract class FakeEntity extends AbstractEntity {
@@ -29,7 +28,7 @@ public abstract class FakeEntity extends AbstractEntity {
 	public Location location;
 	private boolean isDead;
 
-	private DataWatcher datawatcher = new DataWatcher();
+	private DataWatcher datawatcher = Utils.createEmptyDataWatcher();
 
 	@Override
 	public boolean isOnGround() {
@@ -135,8 +134,10 @@ public abstract class FakeEntity extends AbstractEntity {
 			datawatcher.h(index);
 
 			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
+			/*
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			packet40EntityMetadata.a(new DataOutputStream(baos));
+			*/
 			return packet40EntityMetadata;
 		}
 		else {
@@ -156,7 +157,10 @@ public abstract class FakeEntity extends AbstractEntity {
 	}
 
 	public void sendEntityStatus(byte status) {
-		sendPacketToPlayersAround(new PacketPlayOutEntityStatus(entityId, status));
+		final PacketPlayOutEntityStatus packetPlayOutEntityStatus = new PacketPlayOutEntityStatus();
+		packetPlayOutEntityStatus.a = entityId; // v1_7_R1
+		packetPlayOutEntityStatus.b = status; // v1_7_R1
+		sendPacketToPlayersAround(packetPlayOutEntityStatus);
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {

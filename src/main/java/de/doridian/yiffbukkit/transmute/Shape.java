@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.transmute;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.DataWatcher;
 import net.minecraft.server.v1_7_R1.EntityLiving;
@@ -15,8 +16,6 @@ import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -30,7 +29,7 @@ public abstract class Shape {
 		this.transmute = transmute;
 		this.entity = entity;
 		this.entityId = entity.getEntityId();
-		this.datawatcher = new DataWatcher();
+		this.datawatcher = Utils.createEmptyDataWatcher();
 		datawatcher.a(31, ""); // v1_6_R2
 	}
 
@@ -142,8 +141,10 @@ public abstract class Shape {
 			datawatcher.h(index);
 
 			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
+			/* TODO: check if still necessary
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			packet40EntityMetadata.a(new DataOutputStream(baos)); // v1_6_R2
+			*/
 			return packet40EntityMetadata;
 		}
 		else {
