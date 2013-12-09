@@ -28,6 +28,7 @@ import net.minecraft.server.v1_7_R1.EntityPlayer;
 import net.minecraft.server.v1_7_R1.EntitySnowball;
 import net.minecraft.server.v1_7_R1.EntityTNTPrimed;
 import net.minecraft.server.v1_7_R1.Item;
+import net.minecraft.server.v1_7_R1.Items;
 import net.minecraft.server.v1_7_R1.MinecraftServer;
 import net.minecraft.server.v1_7_R1.MovingObjectPosition;
 import net.minecraft.server.v1_7_R1.NBTTagCompound;
@@ -37,6 +38,7 @@ import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_7_R1.PlayerConnection;
 import net.minecraft.server.v1_7_R1.PlayerInteractManager;
 import net.minecraft.server.v1_7_R1.WorldServer;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -797,7 +799,7 @@ public class SpawnUtils {
 		final NBTTagCompound itemStackTag = new NBTTagCompound();
 		itemStackTag.set("Fireworks", fireworksTag);
 
-		final net.minecraft.server.v1_7_R1.ItemStack stack = new net.minecraft.server.v1_7_R1.ItemStack(Item.FIREWORKS);
+		final net.minecraft.server.v1_7_R1.ItemStack stack = new net.minecraft.server.v1_7_R1.ItemStack(Items.FIREWORKS);
 		stack.setTag(itemStackTag);
 		return stack;
 	}
@@ -808,12 +810,13 @@ public class SpawnUtils {
 	}
 
 	public static HumanEntity makeNPC(String name, Location location) {
+		final String id = name;
 		// Get some notch-type references
 		final WorldServer worldServer = ((CraftWorld)location.getWorld()).getHandle();
 		final MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 
 		// Create the new player
-		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, name, new PlayerInteractManager(worldServer));
+		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, new GameProfile(id, name), new PlayerInteractManager(worldServer));
 
 		// Create network manager for the player
 		final NetworkManager networkManager;
