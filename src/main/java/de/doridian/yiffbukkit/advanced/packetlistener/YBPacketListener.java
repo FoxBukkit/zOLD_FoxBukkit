@@ -84,14 +84,26 @@ public class YBPacketListener implements YBPacketListenerInt {
 
 	@Deprecated
 	protected void register(int[] packetsIn, int[] packetsOut) {
-		Class<? extends Packet>[] packetsInCls = new Class[packetsIn.length];
-		Class<? extends Packet>[] packetsOutCls = new Class[packetsOut.length];
-		for (int i = 0; i < packetsIn.length; i++) {
-			packetsInCls[i] = idToPacketMapping.get(packetsIn[i]);
+		Class<? extends Packet>[] packetsInCls;
+		if(packetsIn == null) {
+			packetsInCls = null;
+		} else {
+			packetsInCls = new Class[packetsIn.length];
+			for (int i = 0; i < packetsIn.length; i++) {
+				packetsInCls[i] = idToPacketMapping.get(packetsIn[i]);
+			}
 		}
-		for (int i = 0; i < packetsOut.length; i++) {
-			packetsOutCls[i] = idToPacketMapping.get(packetsOut[i]);
+
+		Class<? extends Packet>[] packetsOutCls;
+		if(packetsOut == null) {
+			packetsOutCls = null;
+		} else {
+			packetsOutCls = new Class[packetsOut.length];
+			for (int i = 0; i < packetsOut.length; i++) {
+				packetsOutCls[i] = idToPacketMapping.get(packetsOut[i]);
+			}
 		}
+
 		register(packetsInCls, packetsOutCls);
 	}
 
