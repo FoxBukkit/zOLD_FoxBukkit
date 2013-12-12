@@ -41,9 +41,6 @@ public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListene
 				outgoingPacketListeners.get(i).add(ybPacketListener);
 			}
 		}
-
-		System.out.println(incomingPacketListeners);
-		System.out.println(outgoingPacketListeners);
 	}
 
 	private YBRealPacketListener(YiffBukkit plugin) {
