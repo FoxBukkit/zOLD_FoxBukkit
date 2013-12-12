@@ -23,6 +23,10 @@ public class YiffBukkitPermissions {
 	public static void init() {
 		new PermissionPlayerListener();
 
+		load();
+	}
+
+	public static void load() {
 		try {
 			final File file = new File(YiffBukkit.instance.getDataFolder(), "coplayers.txt");
 			if (!file.exists())
