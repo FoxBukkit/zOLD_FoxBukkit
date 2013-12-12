@@ -92,57 +92,38 @@ public class VehicleShape extends EntityShape {
 			final net.minecraft.server.v1_7_R1.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
 			final PacketPlayOutSpawnEntity p23 = new PacketPlayOutSpawnEntity(notchEntity, vehicleType, subType);
-			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_6_R2
+			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_7_R1
 
 			return p23;
 		}
 		catch (ClassCastException e) {
 			final PacketPlayOutSpawnEntity p23 = new PacketPlayOutSpawnEntity();
 			// copypasta from PacketPlayOutSpawnEntity(nms.Entity, int, int)
-			p23.a = entity.getEntityId(); // v1_6_R2
+			p23.a = entity.getEntityId(); // v1_7_R1
 
 			final Location location = entity.getLocation();
-			p23.b = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
-			p23.c = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_6_R2
-			p23.d = MathHelper.floor(location.getZ() * 32.0D); // v1_6_R2
-			p23.h = MathHelper.d(location.getPitch() * 256.0F / 360.0F); // v1_6_R2
-			p23.i = MathHelper.d(location.getYaw() * 256.0F / 360.0F); // v1_6_R2
-			p23.j = vehicleType; // v1_6_R2
-			p23.k = subType; // v1_6_R2
+			p23.b = MathHelper.floor(location.getX() * 32.0D); // v1_7_R1
+			p23.c = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_7_R1
+			p23.d = MathHelper.floor(location.getZ() * 32.0D); // v1_7_R1
+			p23.h = MathHelper.d(location.getPitch() * 256.0F / 360.0F); // v1_7_R1
+			p23.i = MathHelper.d(location.getYaw() * 256.0F / 360.0F); // v1_7_R1
+			p23.j = vehicleType; // v1_7_R1
+			p23.k = subType; // v1_7_R1
 			if (subType > 0) {
 				final Vector velocity = entity.getVelocity();
-				double d0 = velocity.getX();
-				double d1 = velocity.getY();
-				double d2 = velocity.getZ();
-				double d3 = 3.9D;
-
-				if (d0 < -d3) {
-					d0 = -d3;
-				}
-
-				if (d1 < -d3) {
-					d1 = -d3;
-				}
-
-				if (d2 < -d3) {
-					d2 = -d3;
-				}
-
-				if (d0 > d3) {
-					d0 = d3;
-				}
-
-				if (d1 > d3) {
-					d1 = d3;
-				}
-
-				if (d2 > d3) {
-					d2 = d3;
-				}
-
-				p23.e = (int) (d0 * 8000.0D); // v1_6_R2
-				p23.f = (int) (d1 * 8000.0D); // v1_6_R2
-				p23.g = (int) (d2 * 8000.0D); // v1_6_R2
+				double d1 = velocity.getX();
+				double d2 = velocity.getY();
+				double d3 = velocity.getZ();
+				double d4 = 3.9D;
+				if (d1 < -d4) d1 = -d4;
+				if (d2 < -d4) d2 = -d4;
+				if (d3 < -d4) d3 = -d4;
+				if (d1 > d4) d1 = d4;
+				if (d2 > d4) d2 = d4;
+				if (d3 > d4) d3 = d4;
+				p23.e = (int)(d1 * 8000.0D); // v1_7_R1
+				p23.f = (int)(d2 * 8000.0D); // v1_7_R1
+				p23.g = (int)(d3 * 8000.0D); // v1_7_R1
 			}
 
 			return p23;

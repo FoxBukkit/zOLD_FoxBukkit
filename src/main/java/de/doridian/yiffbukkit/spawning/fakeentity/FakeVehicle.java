@@ -28,48 +28,29 @@ public class FakeVehicle extends FakeEntity {
 
 		final Location position = player.getLocation();
 
-		p23.a = entityId; // v1_6_R2
-		p23.b = MathHelper.floor(position.getX() * 32.0D); // v1_6_R2
-		p23.c = MathHelper.floor(position.getY() * 32.0D); // v1_6_R2
-		p23.d = MathHelper.floor(position.getZ() * 32.0D); // v1_6_R2
-		p23.h = MathHelper.d(position.getPitch() * 256.0F / 360.0F); // v1_6_R2
-		p23.i = MathHelper.d(position.getYaw() * 256.0F / 360.0F); // v1_6_R2
-		p23.j = vehicleTypeId; // v1_6_R2
-		p23.k = dataValue; // v1_6_R2
+		p23.a = entityId; // v1_7_R1
+		p23.b = MathHelper.floor(position.getX() * 32.0D); // v1_7_R1
+		p23.c = MathHelper.floor(position.getY() * 32.0D); // v1_7_R1
+		p23.d = MathHelper.floor(position.getZ() * 32.0D); // v1_7_R1
+		p23.h = MathHelper.d(position.getPitch() * 256.0F / 360.0F); // v1_7_R1
+		p23.i = MathHelper.d(position.getYaw() * 256.0F / 360.0F); // v1_7_R1
+		p23.j = vehicleTypeId; // v1_7_R1
+		p23.k = dataValue; // v1_7_R1
 		if (dataValue > 0) {
 			final Vector velocity = getVelocity();
-			double d0 = velocity.getX();
-			double d1 = velocity.getY();
-			double d2 = velocity.getZ();
-			double d3 = 3.9D;
-
-			if (d0 < -d3) {
-				d0 = -d3;
-			}
-
-			if (d1 < -d3) {
-				d1 = -d3;
-			}
-
-			if (d2 < -d3) {
-				d2 = -d3;
-			}
-
-			if (d0 > d3) {
-				d0 = d3;
-			}
-
-			if (d1 > d3) {
-				d1 = d3;
-			}
-
-			if (d2 > d3) {
-				d2 = d3;
-			}
-
-			p23.e = (int) (d0 * 8000.0D); // v1_6_R2
-			p23.f = (int) (d1 * 8000.0D); // v1_6_R2
-			p23.g = (int) (d2 * 8000.0D); // v1_6_R2
+			double d1 = velocity.getX();
+			double d2 = velocity.getY();
+			double d3 = velocity.getZ();
+			double d4 = 3.9D;
+			if (d1 < -d4) d1 = -d4;
+			if (d2 < -d4) d2 = -d4;
+			if (d3 < -d4) d3 = -d4;
+			if (d1 > d4) d1 = d4;
+			if (d2 > d4) d2 = d4;
+			if (d3 > d4) d3 = d4;
+			p23.e = (int)(d1 * 8000.0D); // v1_7_R1
+			p23.f = (int)(d2 * 8000.0D); // v1_7_R1
+			p23.g = (int)(d3 * 8000.0D); // v1_7_R1
 		}
 
 		PlayerHelper.sendPacketToPlayer(player, p23);

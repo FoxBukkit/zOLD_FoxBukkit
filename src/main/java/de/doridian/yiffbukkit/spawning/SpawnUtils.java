@@ -967,19 +967,19 @@ public class SpawnUtils {
 			throw new RuntimeException("Invalid particle name");
 
 		final PacketPlayOutWorldParticles packet63WorldParticles = new PacketPlayOutWorldParticles();
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "a", particleName); // v1_6_R2
+		packet63WorldParticles.a = particleName; // v1_7_R1
 
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "b", (float) location.getX()); // v1_6_R2
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "c", (float) location.getY()); // v1_6_R2
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "d", (float) location.getZ()); // v1_6_R2
+		packet63WorldParticles.b = (float) location.getX(); // v1_7_R1
+		packet63WorldParticles.c = (float) location.getY(); // v1_7_R1
+		packet63WorldParticles.d = (float) location.getZ(); // v1_7_R1
 
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "e", (float) scatter.getX()); // v1_6_R2
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "f", (float) scatter.getY()); // v1_6_R2
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "g", (float) scatter.getZ()); // v1_6_R2
+		packet63WorldParticles.e = (float) scatter.getX(); // v1_7_R1
+		packet63WorldParticles.f = (float) scatter.getY(); // v1_7_R1
+		packet63WorldParticles.g = (float) scatter.getZ(); // v1_7_R1
 
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "h", (float) particleSpeed); // v1_6_R2
+		packet63WorldParticles.h = (float) particleSpeed; // v1_7_R1
 
-		Utils.setPrivateValue(PacketPlayOutWorldParticles.class, packet63WorldParticles, "i", numParticles); // v1_6_R2
+		packet63WorldParticles.i = numParticles; // v1_7_R1
 		return packet63WorldParticles;
 	}
 

@@ -124,7 +124,7 @@ public abstract class FakeEntity extends AbstractEntity {
 		if (value instanceof ItemStack) {
 			try {
 				// create entry
-				datawatcher.a(index, 5); // v1_6_R2
+				datawatcher.a(index, 5); // v1_7_R1
 			} catch (Exception e) { }
 
 			// put the actual data in
@@ -134,7 +134,7 @@ public abstract class FakeEntity extends AbstractEntity {
 			datawatcher.h(index);
 
 			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
-			/*
+			/*TODO: postponed
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			packet40EntityMetadata.a(new DataOutputStream(baos));
 			*/
@@ -143,7 +143,7 @@ public abstract class FakeEntity extends AbstractEntity {
 		else {
 			try {
 				// create entry
-				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0")); // v1_6_R2
+				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0")); // v1_7_R1
 				// mark dirty
 				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
 			}

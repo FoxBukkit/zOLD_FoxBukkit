@@ -110,25 +110,25 @@ public class YiffCommand extends ICommand {
 			final Location pos = target.getLocation();
 
 			for (int i = 0; i < 100; ++i) {
-				packet20NamedEntitySpawn.a = lastEntID; // v1_6_R2
+				packet20NamedEntitySpawn.a = lastEntID; // v1_7_R1
 
 				final double x = pos.getX() + rand.nextGaussian() * 2;
 				final double y = pos.getY();
 				final double z = pos.getZ() + rand.nextGaussian() * 2;
 
-				packet20NamedEntitySpawn.c = MathHelper.floor(x * 32.0D); // v1_6_R2
-				packet20NamedEntitySpawn.d = MathHelper.floor(y * 32.0D); // v1_6_R2
-				packet20NamedEntitySpawn.e = MathHelper.floor(z * 32.0D); // v1_6_R2
+				packet20NamedEntitySpawn.c = MathHelper.floor(x * 32.0D); // v1_7_R1
+				packet20NamedEntitySpawn.d = MathHelper.floor(y * 32.0D); // v1_7_R1
+				packet20NamedEntitySpawn.e = MathHelper.floor(z * 32.0D); // v1_7_R1
 
 				PlayerHelper.sendPacketToPlayer(target, packet20NamedEntitySpawn);
 
 				if (mode == 1) {
-					packet29DestroyEntity.a[0] = lastEntID; // v1_6_R2
+					packet29DestroyEntity.a[0] = lastEntID; // v1_7_R1
 
-					packet34EntityTeleport.a = lastEntID; // v1_6_R2
-					packet34EntityTeleport.b = packet20NamedEntitySpawn.c; // v1_6_R2
-					packet34EntityTeleport.c = packet20NamedEntitySpawn.d + 1; // v1_6_R2
-					packet34EntityTeleport.d = packet20NamedEntitySpawn.e; // v1_6_R2
+					packet34EntityTeleport.a = lastEntID; // v1_7_R1
+					packet34EntityTeleport.b = packet20NamedEntitySpawn.c; // v1_7_R1
+					packet34EntityTeleport.c = packet20NamedEntitySpawn.d + 1; // v1_7_R1
+					packet34EntityTeleport.d = packet20NamedEntitySpawn.e; // v1_7_R1
 
 					PlayerHelper.sendPacketToPlayer(target, packet29DestroyEntity);
 

@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.advanced.listeners;
 import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
-import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
@@ -14,6 +13,8 @@ import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayInFlying;
+import net.minecraft.server.v1_7_R1.PacketPlayInPosition;
+import net.minecraft.server.v1_7_R1.PacketPlayInPositionLook;
 import net.minecraft.server.v1_7_R1.PacketPlayOutBlockChange;
 import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
@@ -37,12 +38,12 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
 
-		register(PacketDirection.OUTGOING, 3);
-		register(PacketDirection.OUTGOING, 34);
-		register(PacketDirection.OUTGOING, 70);
+		register(PacketDirection.OUTGOING, PacketPlayOutChat.class);
+		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
+		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
-		register(PacketDirection.INCOMING, 11);
-		register(PacketDirection.INCOMING, 13);
+		register(PacketDirection.INCOMING, PacketPlayInPosition.class);
+		register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
 	}
 
 	@Override
@@ -50,24 +51,23 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		switch (packetID) {
 		case 3:
 			final PacketPlayOutChat p3 = (PacketPlayOutChat) packet;
-			/* TODO:
-			if (p3.message.contains("\"\u00a74You are in a no-PvP area.\""))
+			if (p3.a.e().contains("You are in a no-PvP area."))
 				return false;
 
-			if (p3.message.contains("\"\u00a74That player is in a no-PvP area.\""))
+			//noinspection RedundantIfStatement
+			if (p3.a.e().contains("That player is in a no-PvP area."))
 				return false;
-			*/
 
 			return true;
 
 		case 34:
 			final PacketPlayOutEntityTeleport p34 = (PacketPlayOutEntityTeleport) packet;
-			if (p34.a != 0 && p34.a != ply.getEntityId()) // v1_6_R2
+			if (p34.a != 0 && p34.a != ply.getEntityId()) // v1_7_R1
 				return true;
 
-			final int x = MathHelper.floor(p34.b / 32.0D); // v1_6_R2
-			final int y = MathHelper.floor(p34.c / 32.0D); // v1_6_R2
-			final int z = MathHelper.floor(p34.d / 32.0D); // v1_6_R2
+			final int x = MathHelper.floor(p34.b / 32.0D); // v1_7_R1
+			final int y = MathHelper.floor(p34.c / 32.0D); // v1_7_R1
+			final int z = MathHelper.floor(p34.d / 32.0D); // v1_7_R1
 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { @Override public void run() {
 				final WorldServer notchWorld = ((CraftWorld) ply.getWorld()).getHandle();
@@ -79,7 +79,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 		case 70: {
 			final PacketPlayOutGameStateChange p70 = (PacketPlayOutGameStateChange) packet;
-			int reason = p70.b; // v1_6_R2
+			int reason = p70.b; // v1_7_R1?
 			final boolean rainState;
 			if (reason == 1)
 				rainState = true;
@@ -157,19 +157,19 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 
 			final EntityInsentient notchEntity = (EntityInsentient) notchLiving;
 
-			final ControllerMove oldController = Utils.getPrivateValue(EntityInsentient.class, notchEntity, "moveController"); // v1_6_R2
+			final ControllerMove oldController = notchEntity.moveController;
 			final IdleControllerMove controller;
 			if (oldController instanceof IdleControllerMove) {
 				controller = (IdleControllerMove) oldController;
 			}
 			else {
-				Utils.setPrivateValue(EntityInsentient.class, notchEntity, "moveController", controller = new IdleControllerMove(notchEntity, oldController)); // v1_6_R2
+				notchEntity.moveController = controller = new IdleControllerMove(notchEntity, oldController);
 			}
 
 			if (notchEntity instanceof EntityCreature) {
 				final EntityCreature notchCreature = (EntityCreature) notchEntity;
-				Utils.setPrivateValue(EntityCreature.class, notchCreature, "target", null);
-				Utils.setPrivateValue(EntityCreature.class, notchCreature, "pathEntity", null);
+				notchCreature.target = null;
+				notchCreature.pathEntity = null;
 			}
 
 			final double yaw = Math.round(Math.atan2(p10.z, p10.x)/QUARTER_CIRCLE)*QUARTER_CIRCLE;
@@ -200,24 +200,24 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			this.oldController = oldController;
 		}
 
-		@Override public boolean a() { return oldController.a(); } // v1_6_R2
+		@Override public boolean a() { return oldController.a(); } // v1_7_R1
 
-		@Override public void a(double arg0, double arg1, double arg2, double arg3) { oldController.a(arg0, arg1, arg2, arg3); } // v1_6_R2
+		@Override public void a(double arg0, double arg1, double arg2, double arg3) { oldController.a(arg0, arg1, arg2, arg3); } // v1_7_R1
 
-		@Override public double b() { return oldController.b(); } // v1_6_R2
+		@Override public double b() { return oldController.b(); } // v1_7_R1
 
 		@Override
-		public void c() { // v1_6_R2
+		public void c() { // v1_7_R1
 			if (notchEntity.passenger == null) {
-				Utils.setPrivateValue(EntityInsentient.class, notchEntity, "moveController", oldController); // v1_6_R2
-				oldController.c(); // v1_6_R2
+				notchEntity.moveController = oldController;
+				oldController.c(); // v1_7_R1
 			}
 		}
 
 		
 
 		public void jump() {
-			notchEntity.getControllerJump().a(); // v1_6_R2
+			notchEntity.getControllerJump().a(); // v1_7_R1
 		}
 	}
 }

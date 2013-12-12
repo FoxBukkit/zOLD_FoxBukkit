@@ -36,50 +36,32 @@ public class MobShape extends EntityShape {
 
 		final PacketPlayOutSpawnEntityLiving p24 = new PacketPlayOutSpawnEntityLiving();
 
-		p24.a = entityId; // v1_6_R2
-		p24.b = (byte) mobType; // v1_6_R2
-		p24.c = MathHelper.floor(location.getX() * 32.0D); // v1_6_R2
-		p24.d = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_6_R2
-		p24.e = MathHelper.floor(location.getZ() * 32.0D); // v1_6_R2
-		p24.i = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F)); // v1_6_R2
-		p24.j = (byte) ((int) (location.getPitch() * 256.0F / 360.0F)); // v1_6_R2
-		p24.k = p24.i; // v1_6_R2
+		p24.a = entityId; // v1_7_R1
+		p24.b = (byte) mobType; // v1_7_R1
+		p24.c = MathHelper.floor(location.getX() * 32.0D); // v1_7_R1
+		p24.d = MathHelper.floor((location.getY()+yOffset) * 32.0D); // v1_7_R1
+		p24.e = MathHelper.floor(location.getZ() * 32.0D); // v1_7_R1
+		p24.i = (byte) ((int) ((location.getYaw()+yawOffset) * 256.0F / 360.0F)); // v1_7_R1
+		p24.j = (byte) ((int) (location.getPitch() * 256.0F / 360.0F)); // v1_7_R1
+		p24.k = p24.i; // v1_7_R1
 
 		final Vector velocity = entity.getVelocity();
-		final double d0 = 3.9D;
-		double d1 = velocity.getX();
-		double d2 = velocity.getY();
-		double d3 = velocity.getZ();
+		double d1 = 3.9D;
+		double d2 = velocity.getX();
+		double d3 = velocity.getY();
+		double d4 = velocity.getZ();
 
-		if (d1 < -d0) {
-			d1 = -d0;
-		}
+		if (d2 < -d1) d2 = -d1;
+		if (d3 < -d1) d3 = -d1;
+		if (d4 < -d1) d4 = -d1;
+		if (d2 > d1) d2 = d1;
+		if (d3 > d1) d3 = d1;
+		if (d4 > d1) d4 = d1;
+		p24.f = (int)(d2 * 8000.0D); // v1_7_R1
+		p24.g = (int)(d3 * 8000.0D); // v1_7_R1
+		p24.h = (int)(d4 * 8000.0D); // v1_7_R1
 
-		if (d2 < -d0) {
-			d2 = -d0;
-		}
-
-		if (d3 < -d0) {
-			d3 = -d0;
-		}
-
-		if (d1 > d0) {
-			d1 = d0;
-		}
-
-		if (d2 > d0) {
-			d2 = d0;
-		}
-
-		if (d3 > d0) {
-			d3 = d0;
-		}
-
-		p24.f = (int) (d1 * 8000.0D); // v1_6_R2
-		p24.g = (int) (d2 * 8000.0D); // v1_6_R2
-		p24.h = (int) (d3 * 8000.0D); // v1_6_R2
-
-		Utils.setPrivateValue(PacketPlayOutSpawnEntityLiving.class, p24, "t", datawatcher); // v1_6_R2
+		p24.l = datawatcher; // v1_7_R1
 		return p24;
 	}
 

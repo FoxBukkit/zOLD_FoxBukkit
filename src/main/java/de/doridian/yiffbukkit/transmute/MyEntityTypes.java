@@ -25,13 +25,13 @@ import java.util.Map.Entry;
 
 public class MyEntityTypes {
 	@SuppressWarnings("unchecked")
-	private static final Map<String, Class<? extends Entity>> typeNameToClass = new HashMap<String, Class<? extends Entity>>((Map<String, Class<? extends Entity>>) Utils.getPrivateValue(EntityTypes.class, null, "b")); // v1_6_R2
+	private static final Map<String, Class<? extends Entity>> typeNameToClass = new HashMap<>((Map<String, Class<? extends Entity>>) EntityTypes.c); // v1_7_R1
 	@SuppressWarnings("unchecked")
-	private static final Map<Class<? extends Entity>, String> classToTypeName = new HashMap<Class<? extends Entity>, String>((Map<Class<? extends Entity>, String>) Utils.getPrivateValue(EntityTypes.class, null, "c")); // v1_6_R2
+	private static final Map<Class<? extends Entity>, String> classToTypeName = new HashMap<>((Map<Class<? extends Entity>, String>) EntityTypes.d); // v1_7_R1
 	@SuppressWarnings("unchecked")
-	private static final Map<Integer, Class<? extends Entity>> idToClass = new HashMap<Integer, Class<? extends Entity>>((Map<Integer, Class<? extends Entity>>) Utils.getPrivateValue(EntityTypes.class, null, "d")); // v1_6_R2
+	private static final Map<Integer, Class<? extends Entity>> idToClass = new HashMap<>((Map<Integer, Class<? extends Entity>>) EntityTypes.e); // v1_7_R1
 	@SuppressWarnings("unchecked")
-	private static final Map<Class<? extends Entity>, Integer> classToId = new HashMap<Class<? extends Entity>, Integer>((Map<Class<? extends Entity>, Integer>) Utils.getPrivateValue(EntityTypes.class, null, "e")); // v1_6_R2
+	private static final Map<Class<? extends Entity>, Integer> classToId = new HashMap<>((Map<Class<? extends Entity>, Integer>) EntityTypes.f); // v1_7_R1
 
 	static {
 		addAliases(EntityExperienceOrb.class, "XP");

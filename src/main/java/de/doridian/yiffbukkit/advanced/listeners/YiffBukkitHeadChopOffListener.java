@@ -88,38 +88,38 @@ public class YiffBukkitHeadChopOffListener extends YBPacketListener implements L
 		switch (packetID) {
 		case 20:
 			final PacketPlayOutNamedEntitySpawn p20 = (PacketPlayOutNamedEntitySpawn) packet;
-			if(!choppedEntities.contains(p20.a)) // v1_6_R2
+			if(!choppedEntities.contains(p20.a)) // v1_7_R1
 				break;
 
-			p20.g = CHOPPED_PITCH; // v1_6_R2
+			p20.g = CHOPPED_PITCH; // v1_7_R1
 
 			break;
 
 		case 24:
 			final PacketPlayOutSpawnEntityLiving p24 = (PacketPlayOutSpawnEntityLiving) packet;
-			if(!choppedEntities.contains(p24.a)) // v1_6_R2
+			if(!choppedEntities.contains(p24.a)) // v1_7_R1
 				break;
 
-			p24.j = CHOPPED_PITCH; // v1_6_R2
+			p24.j = CHOPPED_PITCH; // v1_7_R1
 
 			break;
 
 		case 34:
 			final PacketPlayOutEntityTeleport p34 = (PacketPlayOutEntityTeleport) packet;
-			if (!choppedEntities.contains(p34.a)) // v1_6_R2
+			if (!choppedEntities.contains(p34.a)) // v1_7_R1
 				break;
 
-			p34.f = CHOPPED_PITCH; // v1_6_R2
+			p34.f = CHOPPED_PITCH; // v1_7_R1
 
 			break;
 
 		case 32:
 		case 33:
 			final PacketPlayOutEntity p30 = (PacketPlayOutEntity) packet;
-			if(!choppedEntities.contains(p30.a)) // v1_6_R2
+			if(!choppedEntities.contains(p30.a)) // v1_7_R1
 				break;
 
-			p30.f = CHOPPED_PITCH; // v1_6_R2
+			p30.f = CHOPPED_PITCH; // v1_7_R1
 
 			break;
 

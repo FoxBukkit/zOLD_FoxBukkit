@@ -30,7 +30,7 @@ public abstract class Shape {
 		this.entity = entity;
 		this.entityId = entity.getEntityId();
 		this.datawatcher = Utils.createEmptyDataWatcher();
-		datawatcher.a(31, ""); // v1_6_R2
+		datawatcher.a(31, ""); // v1_7_R1
 	}
 
 	public void sendPacketToPlayersAround(Packet packet) {
@@ -54,7 +54,7 @@ public abstract class Shape {
 	private static final Method methodEntityTrackerEntry_getPacketForThisEntity;
 	static {
 		try {
-			methodEntityTrackerEntry_getPacketForThisEntity = EntityTrackerEntry.class.getDeclaredMethod("c"); // v1_6_R2
+			methodEntityTrackerEntry_getPacketForThisEntity = EntityTrackerEntry.class.getDeclaredMethod("c"); // v1_7_R1
 			methodEntityTrackerEntry_getPacketForThisEntity.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
@@ -143,14 +143,14 @@ public abstract class Shape {
 			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
 			/* TODO: check if still necessary
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			packet40EntityMetadata.a(new DataOutputStream(baos)); // v1_6_R2
+			packet40EntityMetadata.a(new DataOutputStream(baos)); // v1_7_R1
 			*/
 			return packet40EntityMetadata;
 		}
 		else {
 			try {
 				// create entry
-				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0")); // v1_6_R2
+				datawatcher.a(index, value.getClass().getConstructor(String.class).newInstance("0")); // v1_7_R1
 				// mark dirty
 				datawatcher.watch(index, value.getClass().getConstructor(String.class).newInstance("1"));
 			}
