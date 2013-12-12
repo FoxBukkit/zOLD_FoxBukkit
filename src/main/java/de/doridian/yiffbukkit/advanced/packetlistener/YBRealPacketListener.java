@@ -10,11 +10,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListener implements YBListener {
-	@SuppressWarnings("serial")
-	private class YBPLCollection extends HashSet<YBPacketListener> { }
-
-	private final HashMap<Class<? extends Packet>, YBPLCollection> incomingPacketListeners;
-	private final HashMap<Class<? extends Packet>, YBPLCollection> outgoingPacketListeners;
+	private final HashMap<Class<? extends Packet>, HashSet<YBPacketListener>> incomingPacketListeners;
+	private final HashMap<Class<? extends Packet>, HashSet<YBPacketListener>> outgoingPacketListeners;
 
 	private static YBRealPacketListener instance = null;
 
@@ -32,7 +29,7 @@ public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListene
 		if(packetsIn != null) {
 			for(Class<? extends Packet> i : packetsIn) {
 				if(!incomingPacketListeners.containsKey(i))
-					incomingPacketListeners.put(i, new YBPLCollection());
+					incomingPacketListeners.put(i, new HashSet<YBPacketListener>());
 				incomingPacketListeners.get(i).add(ybPacketListener);
 			}
 		}
@@ -40,18 +37,21 @@ public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListene
 		if(packetsOut != null) {
 			for(Class<? extends Packet> i : packetsOut) {
 				if(!outgoingPacketListeners.containsKey(i))
-					outgoingPacketListeners.put(i, new YBPLCollection());
+					outgoingPacketListeners.put(i, new HashSet<YBPacketListener>());
 				outgoingPacketListeners.get(i).add(ybPacketListener);
 			}
 		}
+
+		System.out.println(incomingPacketListeners);
+		System.out.println(outgoingPacketListeners);
 	}
 
 	private YBRealPacketListener(YiffBukkit plugin) {
 		if(instance != null)
 			throw new RuntimeException("This is a singleton!");
 
-		incomingPacketListeners = new HashMap<Class<? extends Packet>, YBPLCollection>();
-		outgoingPacketListeners = new HashMap<Class<? extends Packet>, YBPLCollection>();
+		incomingPacketListeners = new HashMap<>();
+		outgoingPacketListeners = new HashMap<>();
 
 		instance = this;
 
@@ -61,7 +61,7 @@ public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListene
 	@Override
 	public boolean outgoingPacket(final Player ply, final Packet packet) {
 		final Class<? extends Packet> packetCls = packet.getClass();
-		final YBPLCollection ybPacketListeners = outgoingPacketListeners.get(packetCls);
+		final HashSet<YBPacketListener> ybPacketListeners = outgoingPacketListeners.get(packetCls);
 		if(ybPacketListeners == null || ybPacketListeners.isEmpty())
 			return true;
 		for(YBPacketListener ybPacketListener : ybPacketListeners)
@@ -73,7 +73,7 @@ public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListene
 	@Override
 	public boolean incomingPacket(final Player ply, final Packet packet) {
 		final Class<? extends Packet> packetCls = packet.getClass();
-		final YBPLCollection ybPacketListeners = incomingPacketListeners.get(packetCls);
+		final HashSet<YBPacketListener> ybPacketListeners = incomingPacketListeners.get(packetCls);
 		if(ybPacketListeners == null || ybPacketListeners.isEmpty())
 			return true;
 		for(YBPacketListener ybPacketListener : ybPacketListeners)

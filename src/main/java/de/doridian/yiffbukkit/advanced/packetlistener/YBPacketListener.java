@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.advanced.packetlistener;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.PacketPlayInChat;
 import net.minecraft.server.v1_7_R1.PacketPlayInFlying;
 import net.minecraft.server.v1_7_R1.PacketPlayInLook;
 import net.minecraft.server.v1_7_R1.PacketPlayInPosition;
@@ -28,7 +29,9 @@ import org.bukkit.entity.Player;
 
 public class YBPacketListener implements YBPacketListenerInt {
 	private static final TObjectIntHashMap<Class<? extends Packet>> packetToIDMapping;
-	private static final TIntObjectHashMap<Class<? extends Packet>> idToPacketMapping;
+
+	private static final TIntObjectHashMap<Class<? extends Packet>> idToPacketMappingIn;
+	private static final TIntObjectHashMap<Class<? extends Packet>> idToPacketMappingOut;
 
 	protected enum PacketDirection {
 		OUTGOING, INCOMING
@@ -40,42 +43,58 @@ public class YBPacketListener implements YBPacketListenerInt {
 
 	static {
 		packetToIDMapping = new TObjectIntHashMap<>();
-		idToPacketMapping = new TIntObjectHashMap<>();
+		idToPacketMappingIn = new TIntObjectHashMap<>();
+		idToPacketMappingOut = new TIntObjectHashMap<>();
 
-		addLegacyMapping(3, PacketPlayOutChat.class);
+		addLegacyMapping(3, PacketPlayInChat.class, PacketPlayOutChat.class);
 
-		addLegacyMapping(10, PacketPlayInFlying.class);
-		addLegacyMapping(11, PacketPlayInPosition.class);
-		addLegacyMapping(12, PacketPlayInLook.class);
-		addLegacyMapping(13, PacketPlayInPositionLook.class);
+		addLegacyMappingIn(10, PacketPlayInFlying.class);
+		addLegacyMappingIn(11, PacketPlayInPosition.class);
+		addLegacyMappingIn(12, PacketPlayInLook.class);
+		addLegacyMappingIn(13, PacketPlayInPositionLook.class);
 
-		addLegacyMapping(17, PacketPlayOutBed.class);
-		addLegacyMapping(18, PacketPlayOutAnimation.class);
+		addLegacyMappingOut(17, PacketPlayOutBed.class);
+		addLegacyMappingOut(18, PacketPlayOutAnimation.class);
 
-		addLegacyMapping(20, PacketPlayOutNamedEntitySpawn.class);
-		addLegacyMapping(22, PacketPlayOutCollect.class);
-		addLegacyMapping(23, PacketPlayOutSpawnEntity.class);
-		addLegacyMapping(24, PacketPlayOutSpawnEntityLiving.class);
+		addLegacyMappingOut(20, PacketPlayOutNamedEntitySpawn.class);
+		addLegacyMappingOut(22, PacketPlayOutCollect.class);
+		addLegacyMappingOut(23, PacketPlayOutSpawnEntity.class);
+		addLegacyMappingOut(24, PacketPlayOutSpawnEntityLiving.class);
 
-		addLegacyMapping(30, PacketPlayOutEntity.class);
-		addLegacyMapping(31, PacketPlayOutRelEntityMove.class);
-		addLegacyMapping(32, PacketPlayOutEntityLook.class);
-		addLegacyMapping(33, PacketPlayOutRelEntityMoveLook.class);
-		addLegacyMapping(34, PacketPlayOutEntityTeleport.class);
-		addLegacyMapping(35, PacketPlayOutEntityHeadRotation.class);
+		addLegacyMappingOut(30, PacketPlayOutEntity.class);
+		addLegacyMappingOut(31, PacketPlayOutRelEntityMove.class);
+		addLegacyMappingOut(32, PacketPlayOutEntityLook.class);
+		addLegacyMappingOut(33, PacketPlayOutRelEntityMoveLook.class);
+		addLegacyMappingOut(34, PacketPlayOutEntityTeleport.class);
+		addLegacyMappingOut(35, PacketPlayOutEntityHeadRotation.class);
 
-		addLegacyMapping(40, PacketPlayOutEntityMetadata.class);
+		addLegacyMappingOut(40, PacketPlayOutEntityMetadata.class);
 
-		addLegacyMapping(44, PacketPlayOutUpdateAttributes.class);
+		addLegacyMappingOut(44, PacketPlayOutUpdateAttributes.class);
 
-		addLegacyMapping(64, PacketPlayOutNamedSoundEffect.class);
+		addLegacyMappingOut(62, PacketPlayOutNamedSoundEffect.class);
 
-		addLegacyMapping(70, PacketPlayOutGameStateChange.class);
+		addLegacyMappingOut(70, PacketPlayOutGameStateChange.class);
 	}
 
-	private static void addLegacyMapping(int ID, Class<? extends Packet> packet) {
-		packetToIDMapping.put(packet, ID);
-		idToPacketMapping.put(ID, packet);
+	private static void addLegacyMappingIn(int ID, Class<? extends Packet> packet) {
+		addLegacyMapping(ID, packet, null);
+	}
+
+	private static void addLegacyMappingOut(int ID, Class<? extends Packet> packet) {
+		addLegacyMapping(ID, null, packet);
+	}
+
+	private static void addLegacyMapping(int ID, Class<? extends Packet> packetIn, Class<? extends Packet> packetOut) {
+		if(packetIn != null) {
+			packetToIDMapping.put(packetIn, ID);
+			idToPacketMappingIn.put(ID, packetIn);
+		}
+
+		if(packetOut != null) {
+			packetToIDMapping.put(packetOut, ID);
+			idToPacketMappingOut.put(ID, packetOut);
+		}
 	}
 
 	protected void register(Class<? extends Packet>[] packetsIn, Class<? extends Packet>[] packetsOut) {
@@ -90,7 +109,7 @@ public class YBPacketListener implements YBPacketListenerInt {
 		} else {
 			packetsInCls = new Class[packetsIn.length];
 			for (int i = 0; i < packetsIn.length; i++) {
-				packetsInCls[i] = idToPacketMapping.get(packetsIn[i]);
+				packetsInCls[i] = idToPacketMappingIn.get(packetsIn[i]);
 			}
 		}
 
@@ -100,7 +119,7 @@ public class YBPacketListener implements YBPacketListenerInt {
 		} else {
 			packetsOutCls = new Class[packetsOut.length];
 			for (int i = 0; i < packetsOut.length; i++) {
-				packetsOutCls[i] = idToPacketMapping.get(packetsOut[i]);
+				packetsOutCls[i] = idToPacketMappingOut.get(packetsOut[i]);
 			}
 		}
 
