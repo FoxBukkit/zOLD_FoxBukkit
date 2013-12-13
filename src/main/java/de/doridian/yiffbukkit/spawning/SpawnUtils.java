@@ -751,12 +751,10 @@ public class SpawnUtils {
 	}
 
 	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(final String fireworkType) {
-		throw new RuntimeException("not ported yet!");
-		/*
 		final String[] parameters = fireworkType.split("/");
 		final int[] colors = parseColors(parameters[0].split(","));
 		final net.minecraft.server.v1_7_R1.ItemStack fireworks = makeFireworks(-127, 0, colors);
-		final NBTTagCompound explosionTag = (NBTTagCompound) fireworks.getTag().getCompound("Fireworks").getList("Explosions").get(0);
+		final NBTTagCompound explosionTag = fireworks.getTag().getCompound("Fireworks").getList("Explosions", Utils.mapNBT("Explosions")).get(0);
 		for (int i = 1; i < parameters.length; ++i) {
 			final String[] kv = parameters[i].split("=");
 			final String key = kv[0];
@@ -770,7 +768,6 @@ public class SpawnUtils {
 			}
 		}
 		return fireworks;
-		*/
 	}
 
 	private static int[] parseColors(final String[] colorStrings) {
@@ -788,16 +785,14 @@ public class SpawnUtils {
 	}
 
 	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
-		throw new RuntimeException("not ported yet!");
-		/*
-		final NBTTagCompound explosionTag = new NBTTagCompound("Explosion");
+		final NBTTagCompound explosionTag = new NBTTagCompound();
 		explosionTag.setByte("Type", (byte) explosionType);
 		explosionTag.setIntArray("Colors", explosionColors);
 
-		final NBTTagList explosionsTag = new NBTTagList("Explosions");
+		final NBTTagList explosionsTag = new NBTTagList();
 		explosionsTag.add(explosionTag);
 
-		final NBTTagCompound fireworksTag = new NBTTagCompound("Fireworks");
+		final NBTTagCompound fireworksTag = new NBTTagCompound();
 		fireworksTag.setByte("Flight", (byte)nGunpowder);
 		fireworksTag.set("Explosions", explosionsTag);
 
@@ -807,7 +802,6 @@ public class SpawnUtils {
 		final net.minecraft.server.v1_7_R1.ItemStack stack = new net.minecraft.server.v1_7_R1.ItemStack(Items.FIREWORKS);
 		stack.setTag(itemStackTag);
 		return stack;
-		*/
 	}
 
 	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {

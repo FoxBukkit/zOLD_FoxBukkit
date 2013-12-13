@@ -2,6 +2,8 @@ package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.DataWatcher;
 import net.minecraft.server.v1_7_R1.EntityBat;
@@ -518,5 +520,50 @@ public class Utils {
 
 	public static DataWatcher createEmptyDataWatcher() {
 		return new DataWatcher(new EntityBat(null));
+	}
+
+	private static final TObjectIntMap<String> nbtMappings = new TObjectIntHashMap<>();
+	static {
+		nbtMappings.put("ActiveEffects", 10);
+		nbtMappings.put("AttributeModifiers", 10);
+		nbtMappings.put("Attributes", 10);
+		nbtMappings.put("Children", 10);
+		nbtMappings.put("CustomPotionEffects", 10);
+		nbtMappings.put("Doors", 10);
+		nbtMappings.put("DropChances", 5);
+		nbtMappings.put("EnderItems", 10);
+		nbtMappings.put("Entities", 10);
+		nbtMappings.put("Entrances", 11);
+		nbtMappings.put("Equipment", 10);
+		nbtMappings.put("Explosions", 10);
+		nbtMappings.put("Inventory", 10);
+		nbtMappings.put("Items", 10);
+		nbtMappings.put("Lore", 8);
+		nbtMappings.put("Modifiers", 10);
+		nbtMappings.put("Motion", 6);
+		nbtMappings.put("Objectives", 10);
+		nbtMappings.put("PlayerScores", 10);
+		//nbtMappings.put("Players", 10);
+		//nbtMappings.put("Players", 8);
+		nbtMappings.put("Pos", 6);
+		nbtMappings.put("Recipes", 10);
+		nbtMappings.put("Rotation", 5);
+		nbtMappings.put("Sections", 10);
+		nbtMappings.put("SpawnPotentials", 10);
+		nbtMappings.put("Teams", 10);
+		nbtMappings.put("TileEntities", 10);
+		nbtMappings.put("TileTicks", 10);
+		nbtMappings.put("Villages", 10);
+		nbtMappings.put("direction", 6);
+		nbtMappings.put("ench", 10);
+		nbtMappings.put("pages", 8);
+		nbtMappings.put("servers", 10);
+	}
+
+	public static int mapNBT(String tagName) {
+		if (!nbtMappings.containsKey(tagName))
+			throw new RuntimeException("unmapped tag name encountered.");
+
+		return nbtMappings.get(tagName);
 	}
 }
