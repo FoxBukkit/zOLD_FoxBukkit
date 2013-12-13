@@ -81,12 +81,16 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 			final PacketPlayOutGameStateChange p70 = (PacketPlayOutGameStateChange) packet;
 			int reason = p70.b; // v1_7_R1?
 			final boolean rainState;
-			if (reason == 1)
-				rainState = true;
-			else if (reason == 2)
+			switch (reason) {
+			case 1:
 				rainState = false;
-			else
+				break;
+			case 2:
+				rainState = true;
+				break;
+			default:
 				return true;
+			}
 
 			final WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
 

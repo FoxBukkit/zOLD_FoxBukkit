@@ -789,7 +789,7 @@ public class PlayerHelper extends StateContainer {
 			weatherType = frozenServerWeather;
 		}
 
-		int reason = weatherType == WeatherType.CLEAR ? 2 : 1;
+		int reason = weatherType == WeatherType.CLEAR ? 1 : 2;
 		//@TODO fixme
 		sendPacketToPlayer(ply, new PacketPlayOutGameStateChange(reason, 0));
 	}

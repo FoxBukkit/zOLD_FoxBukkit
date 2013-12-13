@@ -18,7 +18,7 @@ import java.util.Hashtable;
 @StringFlags("w")
 @Permission("yiffbukkit.servertime")
 public class ServerTimeCommand extends ICommand {
-	private static final Hashtable<String,Long> timeSwatches = new Hashtable<String,Long>();
+	private static final Hashtable<String,Long> timeSwatches = new Hashtable<>();
 	static {
 		timeSwatches.put("night", 0L);
 		timeSwatches.put("morning", 6L);
@@ -30,22 +30,8 @@ public class ServerTimeCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		String weather = stringFlags.get('w');
-		final WeatherType weatherType;
-		if (weather == null)
-			weatherType = null;
-		else if (weather.equalsIgnoreCase("rain"))
-			weatherType = WeatherType.RAIN;
-		else if (weather.equalsIgnoreCase("thunderstorm"))
-			weatherType = WeatherType.THUNDERSTORM;
-		else if (weather.equalsIgnoreCase("thunder"))
-			weatherType = WeatherType.THUNDERSTORM;
-		else if (weather.equalsIgnoreCase("none"))
-			weatherType = WeatherType.CLEAR;
-		else if (weather.equalsIgnoreCase("clear"))
-			weatherType = WeatherType.CLEAR;
-		else
-			throw new YiffBukkitCommandException("Invalid weather specified.");
+		String weather = stringFlags.get('w').toLowerCase();
+		final WeatherType weatherType = getWeatherType(weather);
 
 		long displayTime;
 
@@ -67,6 +53,28 @@ public class ServerTimeCommand extends ICommand {
 
 		final long setTime = ((displayTime+18)%24)*1000;
 		setTime(commandSender, setTime, displayTime, weatherType);
+	}
+
+	private WeatherType getWeatherType(String weather) throws YiffBukkitCommandException {
+		if (weather == null) {
+			return null;
+		}
+
+		switch (weather) {
+		case "rain":
+			return WeatherType.RAIN;
+
+		case "thunderstorm":
+		case "thunder":
+			return WeatherType.THUNDERSTORM;
+
+		case "none":
+		case "clear":
+			return WeatherType.CLEAR;
+
+		default:
+			throw new YiffBukkitCommandException("Invalid weather specified.");
+		}
 	}
 
 	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {
