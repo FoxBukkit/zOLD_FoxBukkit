@@ -901,31 +901,8 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public String formatPlayer(Player player) {
-		int playerLevel = getPlayerLevel(player);
 		final String playerName = player.getName();
-
-		if (playerLevel < 0)
-			return "\u00a70"+playerName;
-
-		switch (playerLevel) {
-		case 0:
-			return "\u00a77"+playerName;
-
-		case 1:
-			return "\u00a7a"+playerName;
-
-		case 2:
-			return "\u00a72"+playerName;
-			
-		case 3:
-			return "\u00a79"+playerName;
-
-		case 4:
-			return "\u00a7b"+playerName;
-
-		default:
-			return "\u00a75"+playerName;
-		}
+		return getPlayerRankTag(playerName) + playerName;
 	}
 
 	public HashSet<String> yiffcraftPlayers = new HashSet<>();
