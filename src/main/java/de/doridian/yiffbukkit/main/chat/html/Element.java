@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @XmlSeeAlso({
+		A.class,
 		B.class,
 		Color.class,
 		I.class,
