@@ -21,8 +21,8 @@ public class Tr extends Element {
 	}
 
 	@Override
-	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements) throws JAXBException {
-		final List<ChatBaseComponent> components = super.getNmsComponents(style, true);
+	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements, Object[] params) throws JAXBException {
+		final List<ChatBaseComponent> components = super.getNmsComponents(style, true, params);
 
 		final ChatBaseComponent translateComponent = new ChatMessage(key, components.toArray());
 		translateComponent.setChatModifier(style);

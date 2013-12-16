@@ -44,7 +44,7 @@ public abstract class Element {
 	protected abstract void modifyStyle(ChatModifier style);
 
 	private static final Pattern FUNCTION_PATTERN = Pattern.compile("^([^(]+)\\('(.*)'\\)$");
-	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements) throws JAXBException {
+	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements, Object[] params) throws JAXBException {
 		modifyStyle(style);
 
 		if (onClick != null) {
@@ -54,7 +54,7 @@ public abstract class Element {
 			}
 
 			final String eventType = matcher.group(1);
-			final String eventString = matcher.group(2);
+			final String eventString = String.format(matcher.group(2), params);
 			final EnumClickAction enumClickAction = EnumClickAction.a(eventType.toLowerCase());
 			if (enumClickAction == null) {
 				throw new RuntimeException("Unknown click action "+eventType);
@@ -76,7 +76,7 @@ public abstract class Element {
 				throw new RuntimeException("Unknown click action "+eventType);
 			}
 
-			style.a(new ChatHoverable(enumClickAction, Parser.parse(eventString)));
+			style.a(new ChatHoverable(enumClickAction, Parser.parse(eventString, params)));
 		}
 
 		final List<ChatBaseComponent> components = new ArrayList<>();
@@ -84,17 +84,17 @@ public abstract class Element {
 			mixedContent.add(0, "");
 		for (Object o : mixedContent) {
 			if (o instanceof String) {
-				final ChatComponentText component = new ChatComponentText((String) o);
+				final ChatComponentText component = new ChatComponentText(String.format((String) o, params));
 				component.setChatModifier(style);
 				components.add(component);
 			}
 			else if (o instanceof Element) {
 				final Element element = (Element) o;
 				if (condenseElements) {
-					components.add(element.getNmsComponent(style.clone()));
+					components.add(element.getNmsComponent(style.clone(), params));
 				}
 				else {
-					components.addAll(element.getNmsComponents(style.clone(), false));
+					components.addAll(element.getNmsComponents(style.clone(), false, params));
 				}
 			}
 			else {
@@ -105,12 +105,12 @@ public abstract class Element {
 		return components;
 	}
 
-	public ChatBaseComponent getNmsComponent() throws JAXBException {
-		return getNmsComponent(new ChatModifier());
+	public ChatBaseComponent getDefaultNmsComponent(Object[] params) throws JAXBException {
+		return getNmsComponent(new ChatModifier(), params);
 	}
 
-	public ChatBaseComponent getNmsComponent(ChatModifier style) throws JAXBException {
-		return condense(getNmsComponents(style, false));
+	public ChatBaseComponent getNmsComponent(ChatModifier style, Object[] params) throws JAXBException {
+		return condense(getNmsComponents(style, false, params));
 	}
 
 	private static ChatBaseComponent condense(List<ChatBaseComponent> components) {
