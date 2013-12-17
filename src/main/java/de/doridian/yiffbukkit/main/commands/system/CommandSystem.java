@@ -1,11 +1,14 @@
 package de.doridian.yiffbukkit.main.commands.system;
 
+import de.doridian.yiffbukkit.chat.commands.ConversationCommand;
+import de.doridian.yiffbukkit.chat.commands.PmCommand;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Cost;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -95,7 +98,7 @@ public class CommandSystem {
 					PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
 				}
 
-				if(!(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation")))
+				if(needsLogging(commandSender, icmd))
 				{
 					String logmsg = "YB Command: " + playerName + ": "  + cmd + " " + argStr;
 					plugin.ircbot.sendToStaffChannel(logmsg);
@@ -125,6 +128,20 @@ public class CommandSystem {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean needsLogging(CommandSender commandSender, ICommand command) {
+		final Class<? extends ICommand> cls = command.getClass();
+		if (cls == PmCommand.class)
+			return false;
+
+		if (cls == ConversationCommand.class)
+			return false;
+
+		if (commandSender instanceof BlockCommandSender)
+			return command.hasAbusePotential();
+
+		return true;
 	}
 
 	public boolean runCommand(CommandSender commandSender, String baseCmd) {
