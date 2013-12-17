@@ -3,11 +3,11 @@ package de.doridian.yiffbukkit.main.chat.html;
 import de.doridian.yiffbukkit.main.chat.Parser;
 import net.minecraft.server.v1_7_R1.ChatBaseComponent;
 import net.minecraft.server.v1_7_R1.ChatClickable;
-import net.minecraft.server.v1_7_R1.ChatComponentText;
 import net.minecraft.server.v1_7_R1.ChatHoverable;
 import net.minecraft.server.v1_7_R1.ChatModifier;
 import net.minecraft.server.v1_7_R1.EnumClickAction;
 import net.minecraft.server.v1_7_R1.EnumHoverAction;
+import net.minecraft.server.v1_7_R1.IChatBaseComponent;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -84,9 +84,9 @@ public abstract class Element {
 			mixedContent.add(0, "");
 		for (Object o : mixedContent) {
 			if (o instanceof String) {
-				final ChatComponentText component = new ChatComponentText(String.format((String) o, params));
-				component.setChatModifier(style);
-				components.add(component);
+				for (IChatBaseComponent baseComponent : CraftChatMessage.fromString(String.format((String) o, params), style.clone())) {
+					components.add((ChatBaseComponent) baseComponent);
+				}
 			}
 			else if (o instanceof Element) {
 				final Element element = (Element) o;
