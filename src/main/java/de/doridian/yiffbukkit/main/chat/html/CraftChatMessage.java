@@ -30,6 +30,7 @@ public final class CraftChatMessage {
 
 		private final List<IChatBaseComponent> list = new ArrayList<IChatBaseComponent>();
 		private IChatBaseComponent currentChatComponent = new ChatComponentText("");
+		private ChatModifier defaultModifier;
 		private ChatModifier modifier = new ChatModifier();
 		private StringBuilder builder = new StringBuilder();
 		private final IChatBaseComponent[] output;
@@ -37,6 +38,11 @@ public final class CraftChatMessage {
 		private int lastWord = 0;
 
 		private FromString(String message) {
+			this(message, new ChatModifier());
+		}
+
+		private FromString(String message, ChatModifier style) {
+			modifier = (defaultModifier = style).clone();
 			if (message == null) {
 				output = new IChatBaseComponent[] { currentChatComponent };
 				return;
@@ -56,7 +62,7 @@ public final class CraftChatMessage {
 					}
 
 					if (format == EnumChatFormat.RESET) {
-						modifier = new ChatModifier();
+						modifier = defaultModifier.clone();
 					} else if (format.isFormat()) {
 						switch (format) {
 						case BOLD:
@@ -78,7 +84,7 @@ public final class CraftChatMessage {
 							throw new AssertionError("Unexpected message format");
 						}
 					} else { // Color resets formatting
-						modifier = new ChatModifier().setColor(format);
+						modifier = defaultModifier.clone().setColor(format);
 					}
 					i++;
 				} else if (currentChar == '\n') {
@@ -154,5 +160,9 @@ public final class CraftChatMessage {
 	}
 
 	private CraftChatMessage() {
+	}
+
+	public static IChatBaseComponent[] fromString(String message, ChatModifier style) {
+		return new FromString(message, style).getOutput();
 	}
 }
