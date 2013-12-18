@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.advanced.commands;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.chat.Parser;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -9,11 +10,14 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import net.minecraft.server.v1_7_R1.ChatBaseComponent;
 import net.minecraft.server.v1_7_R1.IntHashMap;
 import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.xml.bind.JAXBException;
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +31,21 @@ public class SendPacketCommand extends ICommand {
 	private static final Pattern keyValuePattern = Pattern.compile("^([^=]+)=(.*)$");
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		try {
+			final ChatBaseComponent component = Parser.parse(argStr);
+			System.out.println(component);
+			final PacketPlayOutChat packet1 = new PacketPlayOutChat(component);
+			for (Player player : new Player[]{asPlayer(commandSender)}) {
+				PlayerHelper.sendPacketToPlayer(player, packet1);
+			}
+		}
+		catch (JAXBException e1) {
+			e1.printStackTrace();
+			throw new YiffBukkitCommandException("Exception occurred while parsing", e1);
+		}
+		if (true)
+			return;
+
 		if (args.length < 2)
 			throw new YiffBukkitCommandException("Too few arguments");
 
