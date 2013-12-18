@@ -249,7 +249,7 @@ public class SpawnUtils {
 				case "arrows":
 				case "pincushion":
 					if (entity instanceof CraftLivingEntity) {
-						((CraftLivingEntity) entity).getHandle().m(127);
+						((CraftLivingEntity) entity).getHandle().p(127); // v1_7_R1
 					}
 					break;
 				}
