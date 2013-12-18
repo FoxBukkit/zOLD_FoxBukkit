@@ -80,7 +80,7 @@ public abstract class Element {
 		}
 
 		final List<ChatBaseComponent> components = new ArrayList<>();
-		if (!condenseElements && (mixedContent.isEmpty() || mixedContent.get(0) instanceof Element))
+		if (!condenseElements)
 			mixedContent.add(0, "");
 		for (Object o : mixedContent) {
 			if (o instanceof String) {
