@@ -179,7 +179,7 @@
 		<dependency>
 			<groupId>de.doridian</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.7.2-R0.1-SNAPSHOT</version>
+			<version>1.7.2-R0.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

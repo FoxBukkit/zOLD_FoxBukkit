@@ -331,4 +331,5 @@ public abstract class AbstractPlayer extends CraftOfflinePlayer implements Playe
 	@Override public void giveExpLevels(int amount) { }
 	@Override public void setBedSpawnLocation(Location location, boolean force) { }
 	@Override public void playSound(Location arg0, String arg1, float arg2, float arg3) { }
+	@Override public void setResourcePack(String s) { }
 }
