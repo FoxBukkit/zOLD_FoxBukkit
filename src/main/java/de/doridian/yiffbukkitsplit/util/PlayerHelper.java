@@ -244,23 +244,23 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Messaging stuff
-	public void sendServerMessage(String msg) {
+	public static void sendServerMessage(String msg) {
 		sendServerMessage(msg,'5');
 	}
-	public void sendServerMessage(String msg, char colorCode) {
+	public static void sendServerMessage(String msg, char colorCode) {
 		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
-		plugin.getServer().broadcastMessage(msg);
+		Bukkit.broadcastMessage(msg);
 
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
-	public void sendServerMessage(String msg, int minLevel) {
+	public static void sendServerMessage(String msg, int minLevel) {
 		sendServerMessage(msg, minLevel, '5');
 	}
-	public void sendServerMessage(String msg, int minLevel, char colorCode) {
+	public static void sendServerMessage(String msg, int minLevel, char colorCode) {
 		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 
-		Player[] players = plugin.getServer().getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 
 		for (Player player : players) {
 			if (getPlayerLevel(player) < minLevel)
@@ -279,7 +279,7 @@ public class PlayerHelper extends StateContainer {
 	 * @param message The message to send
 	 * @param permission The permission required to receive the message
 	 */
-	public void sendServerMessage(String message, String permission) {
+	public static void sendServerMessage(String message, String permission) {
 		sendServerMessage(message, permission, '5');
 	}
 	/**
@@ -289,7 +289,7 @@ public class PlayerHelper extends StateContainer {
 	 * @param permission The permission required to receive the message
 	 * @param colorCode The color code to prefix
 	 */
-	public void sendServerMessage(String message, String permission, char colorCode) {
+	public static void sendServerMessage(String message, String permission, char colorCode) {
 		broadcastMessage("\u00a7"+colorCode+"[YB]\u00a7f " + message, permission);
 	}
 
@@ -299,8 +299,8 @@ public class PlayerHelper extends StateContainer {
 	 * @param message The message to send
 	 * @param permission The permission required to receive the message
 	 */
-	public void broadcastMessage(String message, String permission) {
-		Player[] players = plugin.getServer().getOnlinePlayers();
+	public static void broadcastMessage(String message, String permission) {
+		Player[] players = Bukkit.getOnlinePlayers();
 
 		for (Player player : players) {
 			if (!player.hasPermission(permission))
@@ -312,10 +312,10 @@ public class PlayerHelper extends StateContainer {
 		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(message);
 	}
 
-	public void sendServerMessage(String msg, CommandSender... exceptPlayers) {
+	public static void sendServerMessage(String msg, CommandSender... exceptPlayers) {
 		sendServerMessage(msg, '5', exceptPlayers);
 	}
-	public void sendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
+	public static void sendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
 		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 
 		Set<Player> exceptPlayersSet = new HashSet<>();
@@ -326,7 +326,7 @@ public class PlayerHelper extends StateContainer {
 			exceptPlayersSet.add((Player)exceptPlayer);
 		}
 
-		Player[] players = plugin.getServer().getOnlinePlayers();
+		Player[] players = Bukkit.getOnlinePlayers();
 
 		for (Player player : players) {
 			if (exceptPlayersSet.contains(player))
@@ -346,10 +346,10 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Ranks
-	public String getPlayerRank(Player ply) {
+	public static String getPlayerRank(Player ply) {
 		return getPlayerRank(ply.getName());
 	}
-	public String getPlayerRank(String name) {
+	public static String getPlayerRank(String name) {
 		final String rank = YiffBukkitPermissionHandler.instance.getGroup(name);
 		if (rank == null)
 			return "guest";
@@ -376,7 +376,7 @@ public class PlayerHelper extends StateContainer {
 
 	//Permission levels
 	public Map<String,String> ranklevels = RedisManager.createKeptMap("ranklevels");
-	public int getPlayerLevel(CommandSender ply) {
+	public static int getPlayerLevel(CommandSender ply) {
 		if (ply instanceof ConsoleCommandSender) {
 			return 9999;
 		}
@@ -386,11 +386,11 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerLevel(ply.getName());
 	}
 
-	public int getPlayerLevel(String name) {
+	public static int getPlayerLevel(String name) {
 		if(name.equals("[CONSOLE]"))
 			return 9999;
 
-		return getRankLevel(getPlayerRank(name));
+		return YiffBukkit.instance.playerHelper.getRankLevel(getPlayerRank(name));
 	}
 
 	public int getRankLevel(String rankname) {
@@ -490,7 +490,7 @@ public class PlayerHelper extends StateContainer {
 
 		return canPort(playerSummonPermissions, commandSender, target);
 	}
-	private boolean canPort(Set<String> playerPortPermissions, CommandSender commandSender, Player target) {
+	private static boolean canPort(Set<String> playerPortPermissions, CommandSender commandSender, Player target) {
 		int commandSenderLevel = getPlayerLevel(commandSender);
 		int targetLevel = getPlayerLevel(target);
 
@@ -577,7 +577,7 @@ public class PlayerHelper extends StateContainer {
 	public final void sendPacketToPlayersAround(final Location location, final double radius, final Packet packet, final Player except) {
 		sendPacketToPlayersAround(location, radius, packet, except, Integer.MAX_VALUE);
 	}
-	public final void sendPacketToPlayersAround(final Location location, double radius, final Packet packet, final Player except, final int maxLevel) {
+	public static void sendPacketToPlayersAround(final Location location, double radius, final Packet packet, final Player except, final int maxLevel) {
 		radius *= radius;
 		final Vector locationVector = location.toVector();
 		final World world = location.getWorld();
