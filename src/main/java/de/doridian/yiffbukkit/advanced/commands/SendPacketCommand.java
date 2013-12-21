@@ -31,18 +31,7 @@ public class SendPacketCommand extends ICommand {
 	private static final Pattern keyValuePattern = Pattern.compile("^([^=]+)=(.*)$");
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		try {
-			final ChatBaseComponent component = Parser.parse(argStr);
-			System.out.println(component);
-			final PacketPlayOutChat packet1 = new PacketPlayOutChat(component);
-			for (Player player : new Player[]{asPlayer(commandSender)}) {
-				PlayerHelper.sendPacketToPlayer(player, packet1);
-			}
-		}
-		catch (JAXBException e1) {
-			e1.printStackTrace();
-			throw new YiffBukkitCommandException("Exception occurred while parsing", e1);
-		}
+		Parser.sendToPlayer(commandSender, argStr);
 		if (true)
 			return;
 

@@ -5,6 +5,7 @@ import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.ChatBaseComponent;
 import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.xml.bind.JAXBContext;
@@ -34,12 +35,46 @@ public class Parser {
 		return parse(format, params);
 	}
 
-	public static void sendToAll(String format, Object... params) throws JAXBException {
-		final ChatBaseComponent component = format(format, params);
-		final PacketPlayOutChat packet = new PacketPlayOutChat(component);
+	public static boolean sendToAll(String format, Object... params) {
+		try {
+			final PacketPlayOutChat packet = createChatPacket(format, params);
 
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			PlayerHelper.sendPacketToPlayer(player, packet);
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				PlayerHelper.sendPacketToPlayer(player, packet);
+			}
+
+			return true;
 		}
+		catch (JAXBException e) {
+			e.printStackTrace();
+			Bukkit.broadcastMessage("Error parsing XML");
+
+			return false;
+		}
+	}
+
+	public static boolean sendToPlayer(Player player, String format, Object... params) {
+		try {
+			PlayerHelper.sendPacketToPlayer(player, createChatPacket(format, params));
+
+			return true;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			player.sendMessage("Error parsing XML");
+
+			return false;
+		}
+	}
+
+	public static boolean sendToPlayer(CommandSender commandSender, String format, Object... params) {
+		if (commandSender instanceof Player)
+			return sendToPlayer((Player) commandSender, format, params);
+
+		commandSender.sendMessage(String.format(format, params)); // TODO: strip XML tags
+		return true;
+	}
+
+		private static PacketPlayOutChat createChatPacket(String format, Object... params) throws JAXBException {
+		return new PacketPlayOutChat(format(format, params));
 	}
 }
