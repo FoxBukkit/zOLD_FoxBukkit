@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -44,6 +45,6 @@ public class ClearCommand extends ICommand {
 			inventory.setItem(i, null);
 		}
 
-		playerHelper.sendServerMessage(commandSender.getName() + " cleared " + target.getName() + "'s inventory.");
+		MessageHelper.sendServerMessage(String.format("%1$s cleared %2$s's inventory.", MessageHelper.format(commandSender), MessageHelper.format(target)));
 	}
 }
