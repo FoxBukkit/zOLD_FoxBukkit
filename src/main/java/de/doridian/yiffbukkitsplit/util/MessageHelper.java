@@ -5,6 +5,7 @@ import com.google.common.base.Predicates;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.chat.Parser;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public class MessageHelper extends StateContainer {
 			displayName = name;
 		}
 		else {
-			displayName = commandSender.getDisplayName();
+			displayName = YiffBukkit.instance.playerHelper.getPlayerRankTag(name) + commandSender.getDisplayName();
 			if (commandSender instanceof Player) {
 				final Player player = (Player) commandSender;
 				final String color = player.isOnline() ? ONLINE_COLOR : OFFLINE_COLOR;
