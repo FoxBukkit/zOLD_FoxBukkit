@@ -29,6 +29,7 @@ import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBungeeLink;
 import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
 import de.doridian.yiffbukkitsplit.util.AutoCleanup;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -72,6 +73,8 @@ public class YiffBukkit extends JavaPlugin {
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
 	public final PlayerHelper playerHelper = new PlayerHelper(this);
+	@SuppressWarnings("unused")
+	public final MessageHelper messageHelper = new MessageHelper();
 	public final Utils utils = new Utils(this);
 	public final SpawnUtils spawnUtils = new SpawnUtils(this);
 	public WarpEngine warpEngine;
