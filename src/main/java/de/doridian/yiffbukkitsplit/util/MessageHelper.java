@@ -16,10 +16,12 @@ import static de.doridian.yiffbukkit.main.chat.Parser.escape;
 
 public class MessageHelper extends StateContainer {
 	private static final String PLAYER_FORMAT = "<span onClick=\"suggest_command('/pm %1$s ')\"%3$s>%2$s</span>";
+
 	private static final String YB_DEFAULT_COLOR = "dark_purple";
+	private static final String YB_ERROR_COLOR = "dark_red";
+
 	private static final String ONLINE_COLOR = "dark_green";
 	private static final String OFFLINE_COLOR = "dark_red";
-
 
 	public static String format(CommandSender commandSender) {
 		return format(commandSender.getName(), commandSender);
@@ -80,5 +82,19 @@ public class MessageHelper extends StateContainer {
 		}
 
 		Parser.sendToPlayers(targetPlayers, format, params);
+	}
+
+	public static void sendMessage(CommandSender commandSender, String format, Object... params) {
+		sendMessage(YB_DEFAULT_COLOR, commandSender, format, params);
+	}
+
+	public static void sendErrorMessage(CommandSender commandSender, String format, Object... params) {
+		sendMessage(YB_ERROR_COLOR, commandSender, format, params);
+	}
+
+	public static void sendMessage(String color, CommandSender commandSender, String format, Object... params) {
+		format = "<color name=\"" + color + "\">[YB]</color> " + format;
+
+		Parser.sendToPlayer(commandSender, format, params);
 	}
 }
