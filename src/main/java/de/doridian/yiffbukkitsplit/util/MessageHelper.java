@@ -20,8 +20,8 @@ public class MessageHelper extends StateContainer {
 	private static final String YB_DEFAULT_COLOR = "dark_purple";
 	private static final String YB_ERROR_COLOR = "dark_red";
 
-	private static final String ONLINE_COLOR = "dark_green";
-	private static final String OFFLINE_COLOR = "dark_red";
+	public static final String ONLINE_COLOR = "dark_green";
+	public static final String OFFLINE_COLOR = "dark_red";
 
 	public static String format(CommandSender commandSender) {
 		return format(commandSender.getName(), commandSender);
