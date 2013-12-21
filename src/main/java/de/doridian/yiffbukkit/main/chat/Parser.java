@@ -12,6 +12,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
+import java.util.Arrays;
+import java.util.List;
 
 public class Parser {
 	/*
@@ -36,11 +38,20 @@ public class Parser {
 	}
 
 	public static boolean sendToAll(String format, Object... params) {
+		return sendToPlayers(Arrays.asList(Bukkit.getOnlinePlayers()), format, params);
+	}
+
+	public static boolean sendToPlayers(List<? extends CommandSender> targetPlayers, String format, Object... params) {
 		try {
 			final PacketPlayOutChat packet = createChatPacket(format, params);
 
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				PlayerHelper.sendPacketToPlayer(player, packet);
+			for (CommandSender commandSender : targetPlayers) {
+				if (!(commandSender instanceof Player)) {
+					commandSender.sendMessage(parsePlain(format, params));
+					continue;
+				}
+
+				PlayerHelper.sendPacketToPlayer((Player) commandSender, packet);
 			}
 
 			return true;
@@ -70,11 +81,15 @@ public class Parser {
 		if (commandSender instanceof Player)
 			return sendToPlayer((Player) commandSender, format, params);
 
-		commandSender.sendMessage(String.format(format, params)); // TODO: strip XML tags
+		commandSender.sendMessage(parsePlain(format, params));
 		return true;
 	}
 
-		private static PacketPlayOutChat createChatPacket(String format, Object... params) throws JAXBException {
+	private static String parsePlain(String format, Object[] params) {
+		return String.format(format, params); // TODO: strip XML tags
+	}
+
+	private static PacketPlayOutChat createChatPacket(String format, Object... params) throws JAXBException {
 		return new PacketPlayOutChat(format(format, params));
 	}
 }
