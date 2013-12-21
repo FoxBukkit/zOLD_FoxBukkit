@@ -6,6 +6,8 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
+import de.doridian.yiffbukkitsplit.util.PermissionPredicate;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.AxisAlignedBB;
 import net.minecraft.server.v1_7_R1.EntityAnimal;
@@ -136,7 +138,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 						@Override
 						public void run() {
-							plugin.playerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + player.getName() + " is a Nodus Donator! Watch out :3", "yiffbukkit.opchat");
+							PlayerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + player.getName() + " is a Nodus Donator! Watch out :3", "yiffbukkit.opchat");
 						}
 					});
 				} catch (Exception e) {
@@ -214,12 +216,12 @@ public class YiffBukkitPlayerListener extends BaseListener {
 			event.setCancelled(true);
 		}
 		else if(message.charAt(0) == '#') {
+			message = message.substring(1);
 			event.setCancelled(true);
-			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message.substring(1));
-			message = "\u00a7e[#OP] \u00a7f" + playerHelper.getPlayerRankTag(ply.getName())+ply.getDisplayName() + "\u00a7f: " + message.substring(1);
-			playerHelper.broadcastMessage(message, "yiffbukkit.opchat");
+			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message);
+			final String format = "<color name=\"yellow\">[#OP]</color> " + MessageHelper.format(ply) + ": %1$s";
 
-			event.setCancelled(true);
+			MessageHelper.sendColoredServerMessage(null, new PermissionPredicate("yiffbukkit.opchat"), format, message);
 		}
 	}
 
