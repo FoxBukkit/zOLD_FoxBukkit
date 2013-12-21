@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.NumericFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -72,8 +73,9 @@ public class AutoexecCommand extends ICommand implements Listener {
 
 			playerHelper.saveAutoexecs();
 
-			PlayerHelper.sendDirectedMessage(ply, "Removed command "+id+": \u00a79"+removedCommand+"\u00a7f.");
 			listAutoexec(ply);
+			final String restoreCommand = "/autoexec " + removedCommand;
+			MessageHelper.sendMessage(ply, "Removed command %1$d: <color name=\"blue\">%2$s</color> " + MessageHelper.button(restoreCommand, "restore", "dark_green", false), id, removedCommand);
 
 			return;
 		}
@@ -85,14 +87,17 @@ public class AutoexecCommand extends ICommand implements Listener {
 		commands.add(argStr);
 		playerHelper.saveAutoexecs();
 
-		PlayerHelper.sendDirectedMessage(ply, "Added command "+(commands.size()-1)+": \u00a79"+argStr+"\u00a7f.");
 		listAutoexec(ply);
+		final int id = commands.size() - 1;
+		final String undoCommand = "/autoexec -r " + id;
+		MessageHelper.sendMessage(ply, "Added command %1$d: <color name=\"blue\">%2$s</color> " + MessageHelper.button(undoCommand, "x", "red", true), id, argStr);
 	}
 
 	private List<String> getAutoexec(Player player) {
 		List<String> commands = playerHelper.autoexecs.get(player.getName());
 		if (commands == null)
-			playerHelper.autoexecs.put(player.getName(), commands = new ArrayList<String>());
+			playerHelper.autoexecs.put(player.getName(), commands = new ArrayList<>());
+
 		return commands;
 	}
 
@@ -105,9 +110,10 @@ public class AutoexecCommand extends ICommand implements Listener {
 			return;
 		}
 
-		for (int i = 0; i < commands.size(); ++i) {
-			String command = commands.get(i);
-			PlayerHelper.sendDirectedMessage(player, i+": \u00a79"+command);
+		for (int id = 0; id < commands.size(); ++id) {
+			final String command = commands.get(id);
+			final String removeCommand = "/autoexec -r " + id;
+			MessageHelper.sendMessage(player, "%1$d: <color name=\"blue\">%2$s</color> " + MessageHelper.button(removeCommand, "x", "red", true), id, command);
 		}
 	}
 
