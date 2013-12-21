@@ -16,6 +16,10 @@ import static de.doridian.yiffbukkit.main.chat.Parser.escape;
 
 public class MessageHelper extends StateContainer {
 	private static final String PLAYER_FORMAT = "<span onClick=\"suggest_command('/pm %1$s ')\"%3$s>%2$s</span>";
+	private static final String YB_DEFAULT_COLOR = "dark_purple";
+	private static final String ONLINE_COLOR = "dark_green";
+	private static final String OFFLINE_COLOR = "dark_red";
+
 
 	public static String format(CommandSender commandSender) {
 		return format(commandSender.getName(), commandSender);
@@ -35,7 +39,8 @@ public class MessageHelper extends StateContainer {
 			displayName = commandSender.getDisplayName();
 			if (commandSender instanceof Player) {
 				final Player player = (Player) commandSender;
-				final String hoverText = name;
+				final String color = player.isOnline() ? ONLINE_COLOR : OFFLINE_COLOR;
+				final String hoverText = String.format("<color name=\"%1$s\">%2$s</color>", color, name);
 				onHover = " onHover=\"show_text('" + escape(hoverText) + "')\"";
 			}
 			else {
@@ -45,10 +50,8 @@ public class MessageHelper extends StateContainer {
 		return String.format(PLAYER_FORMAT, name, displayName, onHover);
 	}
 
-	private static final String DEFAULT_COLOR = "dark_purple";
-
 	public static void sendServerMessage(String format, Object... params) {
-		sendColoredServerMessage(DEFAULT_COLOR, format, params);
+		sendColoredServerMessage(YB_DEFAULT_COLOR, format, params);
 	}
 
 	public static void sendColoredServerMessage(String color, String format, Object... params) {
@@ -56,7 +59,7 @@ public class MessageHelper extends StateContainer {
 	}
 
 	public static void sendServerMessage(Predicate<? super Player> predicate, String format, Object... params) {
-		sendColoredServerMessage(DEFAULT_COLOR, predicate, format, params);
+		sendColoredServerMessage(YB_DEFAULT_COLOR, predicate, format, params);
 	}
 
 	public static void sendColoredServerMessage(String color, Predicate<? super Player> predicate, String format, Object... params) {
