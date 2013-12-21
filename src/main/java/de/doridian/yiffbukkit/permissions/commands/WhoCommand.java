@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 
 import org.bukkit.Location;
@@ -34,17 +35,17 @@ public class WhoCommand extends ICommand {
 				if (commandSender.hasPermission("yiffbukkit.who.ranklevels")) {
 					str += playerHelper.formatPlayer(players[0]);
 					for (int i = 1; i < players.length; i++) {
-						str += ", " + playerHelper.formatPlayer(players[i]);
+						str += ", " + MessageHelper.format(players[i]);
 					}
 				}
 				else {
 					str += players[0].getName();
 					for (int i = 1; i < players.length; i++) {
-						str += ", " + players[i].getName();
+						str += ", " + MessageHelper.format(players[i].getName());
 					}
 				}
 			}
-			PlayerHelper.sendDirectedMessage(commandSender, str);
+			MessageHelper.sendMessage(commandSender, str);
 			return;
 		}
 
