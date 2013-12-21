@@ -52,6 +52,11 @@ public class MessageHelper extends StateContainer {
 		return String.format(PLAYER_FORMAT, name, displayName, onHover);
 	}
 
+	public static String button(String command, String label, String color, boolean run) {
+		final String eventType = run ? "run_command" : "suggest_command";
+		return String.format("<color name=\"%3$s\" onClick=\"%4$s('%1$s')\">[%2$s]</color>", escape(command), escape(label), escape(color), eventType);
+	}
+
 	public static void sendServerMessage(String format, Object... params) {
 		sendColoredServerMessage(YB_DEFAULT_COLOR, format, params);
 	}
