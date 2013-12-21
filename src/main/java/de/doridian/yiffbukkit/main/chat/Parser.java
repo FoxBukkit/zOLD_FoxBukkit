@@ -92,4 +92,14 @@ public class Parser {
 	private static PacketPlayOutChat createChatPacket(String format, Object... params) throws JAXBException {
 		return new PacketPlayOutChat(format(format, params));
 	}
+
+	public static String escape(String s) {
+		s = s.replace("&", "&amp;");
+		s = s.replace("\"", "&quot;");
+		s = s.replace("'", "&apos;");
+		s = s.replace("<", "&lt;");
+		s = s.replace(">", "&gt;");
+
+		return s;
+	}
 }
