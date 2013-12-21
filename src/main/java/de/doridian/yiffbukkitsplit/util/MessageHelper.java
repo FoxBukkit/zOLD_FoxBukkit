@@ -71,7 +71,9 @@ public class MessageHelper extends StateContainer {
 	}
 
 	public static void sendColoredServerMessage(String color, Predicate<? super Player> predicate, String format, Object... params) {
-		format = "<color name=\"" + color + "\">[YB]</color> " + format;
+		if (color != null) {
+			format = "<color name=\"" + color + "\">[YB]</color> " + format;
+		}
 
 		final Player[] players = Bukkit.getOnlinePlayers();
 		final List<CommandSender> targetPlayers = new ArrayList<>();
