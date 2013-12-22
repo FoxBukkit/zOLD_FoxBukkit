@@ -86,8 +86,10 @@ public class CheckOffCommand extends ICommand {
 	private String getButtonsForPlayer(String playerName) {
 		String buttons = MessageHelper.button("/lb player " + playerName + " sum blocks", "lb", "blue", true) + " "
 					   + MessageHelper.button("/lb player " + playerName + " chestaccess", "chest", "blue", true);
-		if (!isOnline(playerName)) {
-			buttons = MessageHelper.button("/co "+playerName, "x", "red", true) + " " + buttons;
+		if (isOnline(playerName)) {
+			buttons = MessageHelper.button("/at 0 vanish on; tp -sn \"" + playerName + '"', "tp", "blue", true) + " " + buttons;
+		} else {
+			buttons = MessageHelper.button("/co " + playerName, "x", "red", true) + " " + buttons;
 		}
 		return buttons;
 	}
