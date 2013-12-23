@@ -3,10 +3,12 @@ package de.doridian.yiffbukkit.mcbans;
 import de.doridian.yiffbukkit.database.DatabaseConnectionPool;
 
 import java.lang.ref.SoftReference;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BanResolver {
@@ -18,6 +20,56 @@ public class BanResolver {
 
     public static Ban getBan(String user) {
         return getBan(user, true);
+    }
+
+    public static void addIPForPlayer(String user, InetAddress address) {
+        if(address.isAnyLocalAddress() || address.isLoopbackAddress() || address.isLinkLocalAddress() || address.isSiteLocalAddress())
+            return;
+
+        int userID = getUserID(user, true);
+
+        try {
+            Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO user_ips (player, ip, time) VALUES (?, ?, UNIX_TIMESTAMP())");
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setBytes(2, address.getAddress());
+            preparedStatement.execute();
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<String> getPossibleAltsForPlayer(String user) {
+        int userID = getUserID(user);
+        if(userID < 1)
+            return null;
+
+        try {
+            Connection connection = DatabaseConnectionPool.instance.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT player FROM user_ips WHERE ip IN (SELECT ip FROM user_ips WHERE player = ?)");
+            preparedStatement.setInt(1, userID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<String> alts = new ArrayList<>();
+            while(resultSet.next()) {
+                int player = resultSet.getInt("player");
+                if(player == userID)
+                    continue;
+                String ply = getUserByID(player);
+                if(ply == null || ply.isEmpty()) {
+                    ply = "#" + player;
+                    System.out.println("INVALID PLAYER #" + player);
+                }
+                alts.add(ply);
+            }
+            preparedStatement.close();
+            connection.close();
+            return alts;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void addBan(Ban ban) {
@@ -57,11 +109,14 @@ public class BanResolver {
 
     protected static Ban getBan(String user, boolean useCaches) {
         int userID = getUserID(user);
+        if(userID < 1)
+            return null;
+
         if(playerBans.containsKey(userID)) {
             SoftReference<Ban> cachedBanRef = playerBans.get(userID);
             if(cachedBanRef != null) {
                 Ban cachedBan = cachedBanRef.get();
-                if(cachedBan != null && ((System.currentTimeMillis() - cachedBan.retrievalTime) < BAN_MAX_AGE_MILLIS)) {
+                if(useCaches && cachedBan != null && ((System.currentTimeMillis() - cachedBan.retrievalTime) < BAN_MAX_AGE_MILLIS)) {
                     return cachedBan;
                 } else {
                     playerBans.remove(userID);
@@ -95,7 +150,7 @@ public class BanResolver {
         }
         try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM players WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT name FROM players WHERE id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             String ret = null;
@@ -108,6 +163,7 @@ public class BanResolver {
             connection.close();
             return ret;
         } catch(Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
