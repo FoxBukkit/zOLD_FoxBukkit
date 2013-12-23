@@ -24,14 +24,6 @@ public class MCBansPlayerListener extends BaseListener {
 	}
 
 	/*
-	private void sendIRCMessage(final String msg) {
-		org.bukkit.Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			public void run() {
-				plugin.ircbot.sendToStaffChannel(msg);
-			}
-		});
-	}
-
 	private void sendServerMessage(final String msg, final String permission) {
 		org.bukkit.Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {

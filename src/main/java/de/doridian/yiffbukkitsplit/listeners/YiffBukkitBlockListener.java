@@ -89,7 +89,6 @@ public class YiffBukkitBlockListener extends BaseListener {
 		final Block block = event.getBlock();
 		Material material = block.getType();
 		if (!ply.hasPermission("yiffbukkit.place")) {
-			plugin.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
 			event.setBuild(false);
 			return;
@@ -97,7 +96,6 @@ public class YiffBukkitBlockListener extends BaseListener {
 
 		final String permission = blocklevels.get(material);
 		if (permission != null && !ply.hasPermission(permission)) {
-			plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn illegal block " + material+".");
 			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material+".");
 			event.setBuild(false);
 			return;
@@ -108,7 +106,6 @@ public class YiffBukkitBlockListener extends BaseListener {
 				for (BlockFace face : flameSpreadDirections) {
 					Material neighborMaterial = block.getRelative(face).getType();
 					if (neighborMaterial == Material.FIRE) {
-						plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
 						playerHelper.sendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
 						event.setBuild(false);
 					}
@@ -127,7 +124,6 @@ public class YiffBukkitBlockListener extends BaseListener {
 		}
 
 		if(playerHelper.getPlayerLevel(ply) < 0 && event.getInstaBreak()) {
-			plugin.ircbot.sendToStaffChannel(ply.getName() + " tried to illegaly break a block!");
 			playerHelper.sendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
 		}

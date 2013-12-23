@@ -102,15 +102,11 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
 		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists()) {
-			plugin.ircbot.sendToPublicChannel(player.getName() + " joined!");
-			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + "!");
 			event.setJoinMessage(null);
 			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
 		} else {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
-			plugin.ircbot.sendToPublicChannel(player.getName() + " joined for the first time!");
-			plugin.ircbot.sendToStaffChannel(player.getName() + " joined with the IP " + player.getAddress().toString() + " for the first time!");
 			event.setJoinMessage(null);
 			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
 		}
@@ -161,7 +157,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.teleportHistory.remove(playerName.toLowerCase());
 
 		plugin.chatManager.pushCurrentOrigin(player);
-		plugin.ircbot.sendToChannel(playerName + " disconnected!");
 		event.setQuitMessage(null);
 		plugin.chatManager.popCurrentOrigin();
 
@@ -178,7 +173,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		final Player player = event.getPlayer();
 
 		plugin.chatManager.pushCurrentOrigin(player);
-		plugin.ircbot.sendToChannel(player.getName() + " was kicked (" + event.getReason() + ")!");
 		event.setLeaveMessage(null);
 		plugin.chatManager.popCurrentOrigin();
 
@@ -218,7 +212,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		else if(message.charAt(0) == '#') {
 			message = message.substring(1);
 			event.setCancelled(true);
-			plugin.ircbot.sendToStaffChannel("[OP] [" + event.getPlayer().getName() + "]: " + message);
 			final String format = "<color name=\"yellow\">[#OP]</color> " + MessageHelper.format(ply) + ": %1$s";
 
 			MessageHelper.sendColoredServerMessage(null, new PermissionPredicate("yiffbukkit.opchat"), format, message);
@@ -240,8 +233,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		}
 		else
 		{
-			if(!(ply.hasPermission("yiffbukkit.ignoreworldeditlogging") && event.getMessage().startsWith("//")))
-				plugin.ircbot.sendToStaffChannel("Other Command: " + ply.getName() + ": " +cmdString);
 			plugin.log("Other Command: "+ply.getName()+": "+cmdString);
 		}
 		plugin.chatManager.popCurrentOrigin();

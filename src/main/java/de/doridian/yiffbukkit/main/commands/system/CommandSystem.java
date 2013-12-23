@@ -101,14 +101,12 @@ public class CommandSystem {
 				if(needsLogging(commandSender, icmd))
 				{
 					String logmsg = "YB Command: " + playerName + ": "  + cmd + " " + argStr;
-					plugin.ircbot.sendToStaffChannel(logmsg);
 					plugin.log(logmsg);
 				}
 				icmd.run(commandSender, args, argStr);
 			}
 			catch (PermissionDeniedException e) {
 				String logmsg = "YB Command denied: " + playerName + ": "  + cmd + " " + argStr;
-				plugin.ircbot.sendToStaffChannel(logmsg);
 				plugin.log(logmsg);
 
 				PlayerHelper.sendDirectedMessage(commandSender, e.getMessage(), e.getColor());

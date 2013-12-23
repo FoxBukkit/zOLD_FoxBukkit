@@ -178,7 +178,6 @@ public class ChatHelper extends StateContainer {
 
 		if (format && ply != null) {
 			if (chan == DEFAULT) {
-				plugin.ircbot.sendToPublicChannel("[" + ply.getName() + "]: " + msg);
 				plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
 				RedisHandler.sendMessage(ply, msg);
 				return;

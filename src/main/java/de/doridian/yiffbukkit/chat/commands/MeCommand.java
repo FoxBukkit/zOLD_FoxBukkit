@@ -26,7 +26,6 @@ public class MeCommand extends ICommand {
 			final ChatChannel chan = helper.getActiveChannel(commandSender);
 			final String msg = "* " + commandSender.getName() + " " + argStr;
 			if(chan == helper.DEFAULT) {
-				plugin.ircbot.sendToPublicChannel(msg);
 				plugin.sendConsoleMsg(msg, false);
 				RedisHandler.sendMessage(commandSender, "/me " + argStr);
 				return;

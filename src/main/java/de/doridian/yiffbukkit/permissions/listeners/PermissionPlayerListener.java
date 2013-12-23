@@ -33,7 +33,6 @@ public class PermissionPlayerListener extends BaseListener {
 		}
 
 		if (!ply.hasPermission("yiffbukkit.place")) {
-			YiffBukkit.instance.ircbot.sendToStaffChannel(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
 			YiffBukkit.instance.playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
@@ -43,7 +42,6 @@ public class PermissionPlayerListener extends BaseListener {
 
 		final String permission = YiffBukkitBlockListener.blocklevels.get(itemMaterial);
 		if (permission != null && !ply.hasPermission(permission)) {
-			YiffBukkit.instance.ircbot.sendToStaffChannel(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			YiffBukkit.instance.playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);

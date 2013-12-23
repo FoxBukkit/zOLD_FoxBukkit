@@ -6,7 +6,6 @@ import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.chat.listeners.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.componentsystem.ComponentSystem;
-import de.doridian.yiffbukkit.irc.Ircbot;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.system.CommandSystem;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -83,7 +82,6 @@ public class YiffBukkit extends JavaPlugin {
 	public PersistentScheduler persistentScheduler;
 
 	public MCBans mcbans;
-	public Ircbot ircbot;
 	public WorldEditPlugin worldEdit;
 	public Consumer logBlockConsumer;
 
@@ -146,8 +144,6 @@ public class YiffBukkit extends JavaPlugin {
 		log("Core components loaded.");
 		mcbans = new MCBans(this);
 		log("MCBans loaded.");
-		ircbot = new Ircbot(this).init();
-		log("IRC bot loaded.");
 
 		remote = new YiffBukkitRemote(this);
 		remote.start();
