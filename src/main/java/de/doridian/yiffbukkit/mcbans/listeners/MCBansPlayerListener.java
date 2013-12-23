@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class MCBansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
@@ -41,7 +42,7 @@ public class MCBansPlayerListener extends BaseListener {
                 final String user = player.getName();
 
                 BanResolver.addIPForPlayer(user, playerIP);
-                ArrayList<String> alts = BanResolver.getPossibleAltsForPlayer(user);
+                Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
                 if(alts == null || alts.isEmpty())
                     return;
 

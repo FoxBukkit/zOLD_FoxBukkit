@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class BanResolver {
     private static HashMap<String, Integer> playerIDs = new HashMap<String, Integer>();
@@ -41,7 +43,7 @@ public class BanResolver {
         }
     }
 
-    public static ArrayList<String> getPossibleAltsForPlayer(String user) {
+    public static Collection<String> getPossibleAltsForPlayer(String user) {
         int userID = getUserID(user);
         if(userID < 1)
             return null;
@@ -51,7 +53,7 @@ public class BanResolver {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT player FROM user_ips WHERE ip IN (SELECT ip FROM user_ips WHERE player = ?)");
             preparedStatement.setInt(1, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<String> alts = new ArrayList<>();
+            HashMap<Integer, String> alts = new HashMap<>();
             while(resultSet.next()) {
                 int player = resultSet.getInt("player");
                 if(player == userID)
@@ -61,11 +63,11 @@ public class BanResolver {
                     ply = "#" + player;
                     System.out.println("INVALID PLAYER #" + player);
                 }
-                alts.add(ply);
+                alts.put(player, ply);
             }
             preparedStatement.close();
             connection.close();
-            return alts;
+            return alts.values();
         } catch (Exception e) {
             e.printStackTrace();
         }
