@@ -11,7 +11,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.RunString;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -34,7 +34,7 @@ import java.util.Set;
 @BooleanFlags("lx")
 @StringFlags("i")
 public class BindCommand extends ICommand {
-	private static final Set<String> filter = new HashSet<String>();
+	private static final Set<String> filter = new HashSet<>();
 
 	static {
 		filter.add("/pm");
@@ -52,17 +52,17 @@ public class BindCommand extends ICommand {
 		argStr = parseFlags(argStr).trim();
 
 		if (booleanFlags.contains('l')) {
-			String playerName = ply.getName();
+			final String playerName = ply.getName();
 			for (Entry<String, ToolBind> entry : ToolBind.list(playerName).entrySet()) {
-				ToolBind toolBind = entry.getValue();
-				String toolName = entry.getKey();
+				final ToolBind toolBind = entry.getValue();
+				final String toolName = entry.getKey();
 
-				PlayerHelper.sendDirectedMessage(ply, "\u00a7e"+toolName+"\u00a7f => \u00a79"+toolBind.name);
+				MessageHelper.sendMessage(ply, "<color name=\"yellow\">%1$s</color> => <color name=\"blue\">%2$s</color>", toolName, toolBind.name);
 			}
 			return;
 		}
 
-		Material toolType;
+		final Material toolType;
 		if (stringFlags.containsKey('i')) {
 			final String materialName = stringFlags.get('i');
 
@@ -77,7 +77,7 @@ public class BindCommand extends ICommand {
 			toolType = ply.getItemInHand().getType();
 		}
 
-		boolean left = booleanFlags.contains('x');
+		final boolean left = booleanFlags.contains('x');
 
 		if (argStr.isEmpty()) {
 			unbind(ply, toolType, left);
@@ -97,15 +97,15 @@ public class BindCommand extends ICommand {
 
 		ToolBind.add(ply, toolType, left, toolBind);
 
-		PlayerHelper.sendDirectedMessage(ply, "Bound \u00a79"+parsedCommands.getCleanString()+"\u00a7f to your tool (\u00a7e"+toolType.name()+"\u00a7f). Right-click to use.");
+		MessageHelper.sendMessage(ply, "Bound <color name=\"blue\">%1$s</color> to your tool (<color name=\"yellow\">%2$s</color>). Right-click to use.", parsedCommands.getCleanString(), toolType.name());
 	}
 
 	public static void unbind(Player ply, Material toolType, boolean left) {
 		if (ToolBind.remove(ply, toolType, left)) {
-			PlayerHelper.sendDirectedMessage(ply, "Unbound your tool (\u00a7e"+toolType.name()+"\u00a7f).");
+			MessageHelper.sendMessage(ply, "Unbound your tool (<color name=\"yellow\">%1$s</color>).", toolType.name());
 		}
 		else {
-			PlayerHelper.sendDirectedMessage(ply, "Your tool (\u00a7e"+toolType.name()+"\u00a7f) was not bound.");
+			MessageHelper.sendMessage(ply, "Your tool (<color name=\"yellow\">%1$s</color>) was not bound.", toolType.name());
 		}
 	}
 }

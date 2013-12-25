@@ -24,7 +24,7 @@ public class RunString {
 		for (String command : commands) {
 
 			if (!first)
-				sb.append("\u00a7c; \u00a79");
+				sb.append("<color name=\"red\">;</color> ");
 			first = false;
 
 			sb.append(command);
