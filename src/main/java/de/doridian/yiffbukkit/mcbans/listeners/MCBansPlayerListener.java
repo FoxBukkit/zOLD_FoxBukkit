@@ -5,7 +5,8 @@ import de.doridian.yiffbukkit.mcbans.Ban;
 import de.doridian.yiffbukkit.mcbans.BanResolver;
 import de.doridian.yiffbukkitsplit.LockDownMode;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkitsplit.util.MessageHelper;
+import de.doridian.yiffbukkitsplit.util.PermissionPredicate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,39 +43,42 @@ public class MCBansPlayerListener extends BaseListener {
 				final String user = player.getName();
 
 				BanResolver.addIPForPlayer(user, playerIP);
-				Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
+				final Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
 				if(alts == null || alts.isEmpty())
 					return;
 
-				StringBuilder message = new StringBuilder();
-
-				message.append("Possible alts of ");
-				message.append(user);
-				message.append(": ");
+				final StringBuilder sb = new StringBuilder();
 
 				boolean notFirst = false;
-				for(String alt : alts) {
-					Ban altBan = BanResolver.getBan(alt);
+				boolean hasBans = false;
+				for (String alt : alts) {
+					final Ban altBan = BanResolver.getBan(alt);
 
-					if(notFirst)
-						message.append(", ");
+					if (notFirst)
+						sb.append(", ");
 					else
 						notFirst = true;
 
-					if(altBan != null)
-						message.append("\u00a7c");
+					if (altBan != null) {
+						hasBans = true;
+						sb.append("\u00a7c");
+					}
 					else
-						message.append("\u00a7a");
+						sb.append("\u00a7a");
 
-					message.append(alt);
+					sb.append(alt);
 				}
 
-				final String msgStr = message.toString();
+				final String message;
+				if (hasBans)
+					message = String.format("%1$s has some banned possible alts: %2$s", user, sb);
+				else
+					message = String.format("Possible alts of %1$s: %2$s", user, sb);
 
 				Bukkit.getScheduler().scheduleSyncDelayedTask(YiffBukkit.instance, new Runnable() {
 					@Override
 					public void run() {
-						PlayerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + msgStr, "yiffbukkit.opchat");
+						MessageHelper.sendColoredServerMessage("light_purple", new PermissionPredicate("yiffbukkit.opchat"), message);
 					}
 				});
 			}
