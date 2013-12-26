@@ -37,7 +37,9 @@ public abstract class ToolBind {
 	 */
 	public boolean run(PlayerInteractEntityEvent event) throws YiffBukkitCommandException { return false; }
 
-	private static Map<String, ToolBind> toolMappings = new HashMap<String, ToolBind>();
+	public String getRestoreCommand(String toolName, boolean left) { return null; }
+
+	private static Map<String, ToolBind> toolMappings = new HashMap<>();
 
 	public static void add(Player ply, Material toolType, boolean left, ToolBind toolBind) {
 		String key = makeKey(ply.getName(),toolType.name(), left);
@@ -56,18 +58,14 @@ public abstract class ToolBind {
 	 *
 	 * @param ply the player the mapping is associated with.
 	 * @param toolType the tool the mapping is associated with.
-	 * @return true if there was a previous mapping
+	 * @return the previous mapping, if there was one
 	 */
-	public static boolean remove(Player ply, Material toolType, boolean left) {
-		String key = makeKey(ply.getName(),toolType.name(), left);
-
-		return toolMappings.remove(key) != null;
+	public static ToolBind remove(Player ply, Material toolType, boolean left) {
+		return toolMappings.remove(makeKey(ply.getName(),toolType.name(), left));
 	}
 
-	public static void removeGlobal(Material toolType) {
-		String key = toolType.name();
-
-		toolMappings.remove(key);
+	public static ToolBind removeGlobal(Material toolType) {
+		return toolMappings.remove(toolType.name());
 	}
 
 	public static Map<String, ToolBind> list(String playerName) {

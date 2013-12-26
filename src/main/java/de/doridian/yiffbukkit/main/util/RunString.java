@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.main.util;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.chat.Parser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,25 +13,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RunString {
-	private static final Pattern commandPattern = Pattern.compile("^([^ ]+).*$");
+	private static final Pattern COMMAND_PATTERN = Pattern.compile("^([^ ]+).*$");
 	private final List<String> commands;
-	private final String cleanString;
 
 	public RunString(List<String> commands) {
 		this.commands = commands;
-
-		boolean first = true;
-		StringBuilder sb = new StringBuilder();
-		for (String command : commands) {
-
-			if (!first)
-				sb.append("<color name=\"red\">;</color> ");
-			first = false;
-
-			sb.append(command);
-		}
-
-		cleanString = sb.toString();
 	}
 
 	public RunString(String commandString, Set<String> filter) throws YiffBukkitCommandException {
@@ -38,14 +25,14 @@ public class RunString {
 	}
 
 	private static List<String> parseCommandString(String commandString, Set<String> filter) throws YiffBukkitCommandException {
-		List<String> commands = new ArrayList<String>();
+		List<String> commands = new ArrayList<>();
 
 		for (String command : commandString.split(";")) {
 			command = command.trim();
 			if (command.charAt(0) == '/')
 				command = command.substring(1);
 
-			final Matcher commandMatcher = commandPattern.matcher(command);
+			final Matcher commandMatcher = COMMAND_PATTERN.matcher(command);
 
 			if (!commandMatcher.matches())
 				continue;
@@ -57,10 +44,6 @@ public class RunString {
 			commands.add(command);
 		}
 		return commands;
-	}
-
-	public String getCleanString() {
-		return cleanString;
 	}
 
 	public List<String> getCommands() {
@@ -79,4 +62,24 @@ public class RunString {
 			Bukkit.getServer().dispatchCommand(commandSender, command);
 		}
 	}
+
+	public String getString(String delimiter) {
+		boolean first = true;
+		final StringBuilder sb = new StringBuilder();
+		for (String command : commands) {
+
+			if (!first)
+				sb.append(delimiter);
+			first = false;
+
+			sb.append(Parser.escape(command));
+		}
+
+		return sb.toString();
+	}
+
+	public String getString() {
+		return getString("; ");
+	}
+
 }

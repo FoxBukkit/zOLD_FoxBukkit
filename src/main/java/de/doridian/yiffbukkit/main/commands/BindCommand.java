@@ -19,6 +19,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Names("bind")
 @Help(
@@ -55,9 +57,16 @@ public class BindCommand extends ICommand {
 			final String playerName = ply.getName();
 			for (Entry<String, ToolBind> entry : ToolBind.list(playerName).entrySet()) {
 				final ToolBind toolBind = entry.getValue();
-				final String toolName = entry.getKey();
+				final String toolKey = entry.getKey();
+				final Pattern pattern = Pattern.compile("^(.*)(true|false)$");
+				final Matcher matcher = pattern.matcher(toolKey);
+				if (!matcher.matches()) {
+					throw new YiffBukkitCommandException("Error in one of the tool bind keys!");
+				}
+				final String toolName = matcher.group(1);
+				final boolean left = Boolean.parseBoolean(matcher.group(2));
 
-				MessageHelper.sendMessage(ply, "<color name=\"yellow\">%1$s</color> => <color name=\"blue\">%2$s</color>", toolName, toolBind.name);
+				MessageHelper.sendMessage(ply, String.format("<color name=\"yellow\">%1$s</color> => <color name=\"blue\">%2$s</color> " + getButtonsForBind(toolBind, toolName, left), toolName, toolBind.name));
 			}
 			return;
 		}
@@ -86,26 +95,65 @@ public class BindCommand extends ICommand {
 
 		final RunString parsedCommands = new RunString(argStr, filter);
 
-		final ToolBind toolBind = new ToolBind(parsedCommands.getCleanString(), ply) {
+		final ToolBind toolBind = new ToolBind(getColoredRunString(parsedCommands), ply) {
 			@Override
 			public boolean run(PlayerInteractEvent event) {
 				parsedCommands.run(event.getPlayer());
 
 				return true;
 			}
+
+			@Override
+			public String getRestoreCommand(String toolName, boolean left) {
+				return String.format("/bind -i %s %s", toolName, parsedCommands.getString());
+			}
 		};
 
 		ToolBind.add(ply, toolType, left, toolBind);
 
-		MessageHelper.sendMessage(ply, "Bound <color name=\"blue\">%1$s</color> to your tool (<color name=\"yellow\">%2$s</color>). Right-click to use.", parsedCommands.getCleanString(), toolType.name());
+		MessageHelper.sendMessage(ply, String.format("Bound <color name=\"blue\">%1$s</color> to your tool (<color name=\"yellow\">%2$s</color>). Right-click to use. " + getButtonsForBind(toolBind, toolType.name(), left), getColoredRunString(parsedCommands), toolType.name()));
+	}
+
+	private String getButtonsForBind(ToolBind toolBind, String toolName, boolean left) {
+		return getRemoveButton(toolName, left) + " " + getAutoexecButton(toolBind, toolName, left);
+	}
+
+	private String getColoredRunString(RunString parsedCommands) {
+		return parsedCommands.getString("<color name=\"red\">;</color> ");
 	}
 
 	public static void unbind(Player ply, Material toolType, boolean left) {
-		if (ToolBind.remove(ply, toolType, left)) {
-			MessageHelper.sendMessage(ply, "Unbound your tool (<color name=\"yellow\">%1$s</color>).", toolType.name());
-		}
-		else {
+		final ToolBind removedToolBind = ToolBind.remove(ply, toolType, left);
+		if (removedToolBind == null) {
 			MessageHelper.sendMessage(ply, "Your tool (<color name=\"yellow\">%1$s</color>) was not bound.", toolType.name());
+		} else {
+			MessageHelper.sendMessage(ply, "Unbound your tool (<color name=\"yellow\">%1$s</color>). " + getRestoreButton(removedToolBind, toolType.name(), left), toolType.name());
 		}
+	}
+
+	private static String getRemoveButton(String toolName, boolean left) {
+		final String format;
+		if (left)
+			format = "/bind -x -i %s";
+		else
+			format = "/bind -i %s";
+
+		return MessageHelper.button(String.format(format, toolName), "x", "red", true);
+	}
+
+	private static String getAutoexecButton(ToolBind toolBind, String toolName, boolean left) {
+		final String restoreCommand = toolBind.getRestoreCommand(toolName, left);
+		if (restoreCommand == null)
+			return "";
+
+		return MessageHelper.button(String.format("/autoexec " + restoreCommand), "auto", "blue", true);
+	}
+
+	private static String getRestoreButton(ToolBind toolBind, String toolName, boolean left) {
+		final String restoreCommand = toolBind.getRestoreCommand(toolName, left);
+		if (restoreCommand == null)
+			return "";
+
+		return MessageHelper.button(restoreCommand, "restore", "dark_green", false);
 	}
 }
