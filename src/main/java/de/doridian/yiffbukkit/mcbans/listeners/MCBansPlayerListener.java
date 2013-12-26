@@ -31,55 +31,55 @@ public class MCBansPlayerListener extends BaseListener {
 			event.disallow(Result.KICK_BANNED, "[YB] Banned: " + ban.getReason());
 	}
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		final Player player = event.getPlayer();
 
-        new Thread() {
-            public void run() {
-                final InetAddress playerIP = player.getAddress().getAddress();
+		new Thread() {
+			public void run() {
+				final InetAddress playerIP = player.getAddress().getAddress();
 
-                final String user = player.getName();
+				final String user = player.getName();
 
-                BanResolver.addIPForPlayer(user, playerIP);
-                Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
-                if(alts == null || alts.isEmpty())
-                    return;
+				BanResolver.addIPForPlayer(user, playerIP);
+				Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
+				if(alts == null || alts.isEmpty())
+					return;
 
-                StringBuilder message = new StringBuilder();
+				StringBuilder message = new StringBuilder();
 
-                message.append("Possible alts of ");
-                message.append(user);
-                message.append(": ");
+				message.append("Possible alts of ");
+				message.append(user);
+				message.append(": ");
 
-                boolean notFirst = false;
-                for(String alt : alts) {
-                    Ban altBan = BanResolver.getBan(alt);
+				boolean notFirst = false;
+				for(String alt : alts) {
+					Ban altBan = BanResolver.getBan(alt);
 
-                    if(notFirst)
-                        message.append(", ");
-                    else
-                        notFirst = true;
+					if(notFirst)
+						message.append(", ");
+					else
+						notFirst = true;
 
-                    if(altBan != null)
-                        message.append("\u00a7c");
-                    else
-                        message.append("\u00a7a");
+					if(altBan != null)
+						message.append("\u00a7c");
+					else
+						message.append("\u00a7a");
 
-                    message.append(alt);
-                }
+					message.append(alt);
+				}
 
-                final String msgStr = message.toString();
+				final String msgStr = message.toString();
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(YiffBukkit.instance, new Runnable() {
-                    @Override
-                    public void run() {
-                        PlayerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + msgStr, "yiffbukkit.opchat");
-                    }
-                });
-            }
-        }.start();
-    }
+				Bukkit.getScheduler().scheduleSyncDelayedTask(YiffBukkit.instance, new Runnable() {
+					@Override
+					public void run() {
+						PlayerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + msgStr, "yiffbukkit.opchat");
+					}
+				});
+			}
+		}.start();
+	}
 
 	/*
 	private void sendServerMessage(final String msg, final String permission) {

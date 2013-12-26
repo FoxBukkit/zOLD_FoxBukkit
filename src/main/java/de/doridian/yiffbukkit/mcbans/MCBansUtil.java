@@ -14,12 +14,12 @@ import java.net.URLEncoder;
 public class MCBansUtil {
 	private final static String APIKEY = Configuration.getValue("mcbans-api-key", "");
 	private static JSONParser parser = new JSONParser();
-	
+
 	public static boolean isKeyYesOrNo(JSONObject connret, String key) {
 		if(connret.containsKey(key) && connret.get(key).toString().toLowerCase().charAt(0) == 'y') return true;
 		return false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static JSONObject apiQuery(String data) {
 		try {
@@ -30,14 +30,14 @@ public class MCBansUtil {
 			conn.setConnectTimeout(10000);
 			conn.setReadTimeout(20000);
 			conn.setDoOutput(true);
-			
+
 			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
 			writer.write(data);
 			writer.flush();
 			writer.close();
-			
+
 			Object ret = parser.parse(new InputStreamReader(conn.getInputStream()));
-			
+
 			if(ret instanceof JSONObject) {
 				return (JSONObject)ret;
 			} else {
@@ -51,7 +51,7 @@ public class MCBansUtil {
 			return null;
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static String URLEncode(String str) {
 		try {
