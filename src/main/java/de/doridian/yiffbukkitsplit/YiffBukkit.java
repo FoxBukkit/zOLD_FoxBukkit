@@ -188,6 +188,12 @@ public class YiffBukkit extends JavaPlugin {
 		});
 
 		YiffBukkitPermissions.init();
+
+		try {
+			Runtime.getRuntime().exec("./server_online.sh");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void log(String msg) {
