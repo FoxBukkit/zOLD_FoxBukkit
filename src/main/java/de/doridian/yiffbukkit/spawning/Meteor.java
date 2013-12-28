@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.spawning;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.EntityFallingBlock;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
 import net.minecraft.server.v1_7_R1.PacketPlayOutExplosion;

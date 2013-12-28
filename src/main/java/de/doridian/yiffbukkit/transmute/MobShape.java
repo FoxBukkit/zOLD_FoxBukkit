@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.transmute;
 
 
-import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;

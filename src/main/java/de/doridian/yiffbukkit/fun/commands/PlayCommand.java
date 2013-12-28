@@ -9,6 +9,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Queue;

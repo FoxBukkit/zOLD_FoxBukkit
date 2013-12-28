@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.transmute;
 
 import com.sk89q.worldedit.blocks.BlockType;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;

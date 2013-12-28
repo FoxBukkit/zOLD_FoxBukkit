@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.chat.manager;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

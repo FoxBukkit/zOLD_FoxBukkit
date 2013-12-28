@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.core.util;
 
 import com.google.common.base.Predicate;
 import org.bukkit.command.CommandSender;

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.commands;
 
+import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -11,7 +12,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.RunString;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
-import de.doridian.yiffbukkitsplit.util.MessageHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;

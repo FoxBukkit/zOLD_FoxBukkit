@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.main.util;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.StateContainer;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 

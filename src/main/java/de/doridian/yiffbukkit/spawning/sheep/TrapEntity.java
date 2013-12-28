@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.spawning.sheep;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;

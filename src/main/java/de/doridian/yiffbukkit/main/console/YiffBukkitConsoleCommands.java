@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.main.console;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 
 public class YiffBukkitConsoleCommands {
 	public YiffBukkitConsoleCommands(YiffBukkit plugin) {

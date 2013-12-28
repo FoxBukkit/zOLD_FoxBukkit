@@ -2,12 +2,12 @@ package de.doridian.yiffbukkit.main.commands.system;
 
 import de.doridian.yiffbukkit.chat.commands.ConversationCommand;
 import de.doridian.yiffbukkit.chat.commands.PmCommand;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Cost;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 

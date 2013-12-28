@@ -2,9 +2,9 @@ package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.AutoCleanup;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.server.v1_7_R1.Packet;
@@ -24,7 +24,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 
 public class YiffBukkitHeadChopOffListener extends YBPacketListener implements Listener, YBListener {
 	private final static byte CHOPPED_PITCH = (byte) 128;

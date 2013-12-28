@@ -2,7 +2,7 @@ package de.doridian.yiffbukkit.advanced.listeners;
 
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;

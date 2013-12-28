@@ -1,14 +1,17 @@
 package de.doridian.yiffbukkit.bans;
 
 import de.doridian.yiffbukkit.bans.listeners.BansPlayerListener;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Bans {
 	private YiffBukkit plugin;
+
+	public LockDownMode lockdownMode = LockDownMode.OFF;
+
 	@SuppressWarnings("unused")
 	private BansPlayerListener playerListener;
 

@@ -1,13 +1,10 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.Blocks;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.Packet;
-
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_7_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Entity;

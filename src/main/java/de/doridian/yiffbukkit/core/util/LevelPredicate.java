@@ -1,7 +1,7 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.core.util;
 
 import com.google.common.base.Predicate;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nullable;

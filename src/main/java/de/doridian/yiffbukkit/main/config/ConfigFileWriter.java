@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.main.config;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 
 import java.io.FileWriter;
 import java.io.IOException;

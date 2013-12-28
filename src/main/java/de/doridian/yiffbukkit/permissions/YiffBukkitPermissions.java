@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.permissions;
 
 import com.sk89q.util.StringUtil;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.permissions.listeners.PermissionPlayerListener;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

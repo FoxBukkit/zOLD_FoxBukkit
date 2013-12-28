@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.spawning.sheep;
 
-import de.doridian.yiffbukkitsplit.YiffBukkit;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

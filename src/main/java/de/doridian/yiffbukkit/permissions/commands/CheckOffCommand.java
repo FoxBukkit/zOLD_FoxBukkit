@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
@@ -8,8 +10,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
-import de.doridian.yiffbukkitsplit.util.MessageHelper;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.entity.Player;
 
 @Names({"checkoff","co"})

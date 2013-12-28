@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.main.chat;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.chat.html.Element;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.ChatBaseComponent;
 import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import org.bukkit.Bukkit;

@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.spawning.fakeentity;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.transmute.EntityTypeNotFoundException;
 import de.doridian.yiffbukkit.transmute.Shape;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

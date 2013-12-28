@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.AutoCleanup;
 import de.doridian.yiffbukkit.transmute.listeners.TransmutePacketListener;
 import de.doridian.yiffbukkit.transmute.listeners.TransmutePlayerListener;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;

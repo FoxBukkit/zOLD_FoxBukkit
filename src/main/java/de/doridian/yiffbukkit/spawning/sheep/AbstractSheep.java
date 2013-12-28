@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.spawning.sheep;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Sheep;
 

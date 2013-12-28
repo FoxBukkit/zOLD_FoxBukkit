@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.server.v1_7_R1.EnumArt;

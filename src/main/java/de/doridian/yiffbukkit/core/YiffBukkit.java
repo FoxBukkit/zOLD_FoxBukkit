@@ -1,12 +1,19 @@
-package de.doridian.yiffbukkitsplit;
+package de.doridian.yiffbukkit.core;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
 import de.doridian.yiffbukkit.bans.Bans;
+import de.doridian.yiffbukkit.bans.LockDownMode;
 import de.doridian.yiffbukkit.chat.listeners.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.componentsystem.ComponentSystem;
+import de.doridian.yiffbukkit.core.listeners.YiffBukkitBlockListener;
+import de.doridian.yiffbukkit.core.listeners.YiffBukkitBungeeLink;
+import de.doridian.yiffbukkit.core.listeners.YiffBukkitEntityListener;
+import de.doridian.yiffbukkit.core.util.AutoCleanup;
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.system.CommandSystem;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -24,12 +31,6 @@ import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.warp.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBungeeLink;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitEntityListener;
-import de.doridian.yiffbukkitsplit.util.AutoCleanup;
-import de.doridian.yiffbukkitsplit.util.MessageHelper;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -85,7 +86,6 @@ public class YiffBukkit extends JavaPlugin {
 	public WorldEditPlugin worldEdit;
 	public Consumer logBlockConsumer;
 
-	public LockDownMode lockdownMode = LockDownMode.OFF;
 	public CommandSystem commandSystem;
 	public final YBBank bank = new YBBank();
 

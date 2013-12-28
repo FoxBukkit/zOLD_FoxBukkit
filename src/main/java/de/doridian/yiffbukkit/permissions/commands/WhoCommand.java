@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -8,9 +10,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.PlayerFindException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
-import de.doridian.yiffbukkitsplit.util.MessageHelper;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;

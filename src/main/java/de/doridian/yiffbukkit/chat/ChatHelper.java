@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.chat;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.entity.Player;
 
 import java.io.FileInputStream;

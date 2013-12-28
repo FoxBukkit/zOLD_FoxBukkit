@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkitsplit.listeners;
+package de.doridian.yiffbukkit.core.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import org.bukkit.entity.Entity;

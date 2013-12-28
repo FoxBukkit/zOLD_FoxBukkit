@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.transmute.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -15,7 +16,6 @@ import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
 import de.doridian.yiffbukkit.transmute.EntityShape;
 import de.doridian.yiffbukkit.transmute.Shape;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;

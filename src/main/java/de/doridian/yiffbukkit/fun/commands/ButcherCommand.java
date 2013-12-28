@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.fun.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
@@ -10,7 +11,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.World;

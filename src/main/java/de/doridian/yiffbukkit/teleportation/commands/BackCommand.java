@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -7,7 +8,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

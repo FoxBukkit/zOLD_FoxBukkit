@@ -1,12 +1,12 @@
-package de.doridian.yiffbukkitsplit.listeners;
+package de.doridian.yiffbukkit.core.listeners;
 
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
+import de.doridian.yiffbukkit.bans.Bans.BanType;
+import de.doridian.yiffbukkit.core.util.AutoCleanup;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.bans.Bans.BanType;
-import de.doridian.yiffbukkitsplit.util.AutoCleanup;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import org.bukkit.Material;
@@ -17,23 +17,9 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockCanBuildEvent;
-import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**

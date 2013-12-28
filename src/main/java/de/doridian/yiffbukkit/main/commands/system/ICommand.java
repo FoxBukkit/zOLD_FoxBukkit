@@ -1,9 +1,9 @@
 package de.doridian.yiffbukkit.main.commands.system;
 
+import de.doridian.yiffbukkit.core.AbusePotentialManager;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkitsplit.AbusePotentialManager;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TCharObjectMap;
 import gnu.trove.map.hash.TCharObjectHashMap;
 import gnu.trove.set.TCharSet;

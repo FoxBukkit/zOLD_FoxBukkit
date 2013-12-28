@@ -1,13 +1,13 @@
 package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.multicraft.api.MulticraftAPI;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.util.Configuration;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,10 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Names("restart")
 @Permission("yiffbukkit.admin.restart")

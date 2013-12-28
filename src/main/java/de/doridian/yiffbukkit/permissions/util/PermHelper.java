@@ -1,10 +1,10 @@
 package de.doridian.yiffbukkit.permissions.util;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.advanced.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
+import de.doridian.yiffbukkit.core.util.PlayerHelper.WeatherType;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -7,8 +9,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.StringFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper.WeatherType;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;

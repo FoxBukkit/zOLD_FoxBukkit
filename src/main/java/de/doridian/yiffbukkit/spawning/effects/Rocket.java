@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -9,10 +10,8 @@ import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeShapeBasedEntity;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.PacketPlayOutExplosion;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;

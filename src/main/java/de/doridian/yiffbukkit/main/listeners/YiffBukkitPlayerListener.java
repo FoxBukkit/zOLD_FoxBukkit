@@ -1,14 +1,14 @@
 package de.doridian.yiffbukkit.main.listeners;
 
 import de.doridian.yiffbukkit.chat.RedisHandler;
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.core.util.PermissionPredicate;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.ToolBind;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
-import de.doridian.yiffbukkitsplit.util.MessageHelper;
-import de.doridian.yiffbukkitsplit.util.PermissionPredicate;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.AxisAlignedBB;
 import net.minecraft.server.v1_7_R1.EntityAnimal;
 import net.minecraft.server.v1_7_R1.EntityInsentient;
@@ -32,7 +32,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -41,7 +40,6 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.SpawnEgg;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Hashtable;
@@ -52,40 +50,6 @@ import java.util.List;
  * @author Doridian
  */
 public class YiffBukkitPlayerListener extends BaseListener {
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerLogin(PlayerLoginEvent event) {
-		final Player player = event.getPlayer();
-		final String playerName = player.getName();
-		if (!playerName.matches("^.*[A-Za-z].*$")) {
-			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, get some letters into your name.");
-			return;
-		}
-
-		if (playerHelper.isGuest(player)) {
-			switch (plugin.lockdownMode) {
-			case FIREWALL:
-				final String ip = event.getAddress().getHostAddress();
-				try {
-					Runtime.getRuntime().exec("./wally I "+ip);
-					System.out.println("Firewalled IP "+ip+" of player "+playerName+".");
-					return;
-				}
-				catch (IOException e) {
-					System.out.println("Failed to firewall IP "+ip+" of player "+playerName+".");
-				}
-				/* FALL-THROUGH */
-
-			case KICK:
-				event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
-				/* FALL-THROUGH */
-
-			case OFF:
-				//noinspection UnnecessaryReturnStatement
-				return;
-			}
-		}
-	}
-
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();

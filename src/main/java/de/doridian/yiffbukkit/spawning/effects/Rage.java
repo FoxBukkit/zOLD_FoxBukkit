@@ -1,13 +1,13 @@
 package de.doridian.yiffbukkit.spawning.effects;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityLook;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityLook;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;

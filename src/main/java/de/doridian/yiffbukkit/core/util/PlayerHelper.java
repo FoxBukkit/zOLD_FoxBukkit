@@ -1,5 +1,7 @@
-package de.doridian.yiffbukkitsplit.util;
+package de.doridian.yiffbukkit.core.util;
 
+import de.doridian.yiffbukkit.core.AbusePotentialManager;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -14,8 +16,6 @@ import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
-import de.doridian.yiffbukkitsplit.AbusePotentialManager;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.procedure.TObjectIntProcedure;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
@@ -37,18 +37,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

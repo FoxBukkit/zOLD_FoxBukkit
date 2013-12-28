@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.transmute;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import net.minecraft.server.v1_7_R1.DataWatcher;
 import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.EntityTrackerEntry;

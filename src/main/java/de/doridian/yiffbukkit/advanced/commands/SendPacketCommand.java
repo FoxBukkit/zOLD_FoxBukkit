@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.advanced.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.chat.Parser;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -9,15 +10,11 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
-import net.minecraft.server.v1_7_R1.ChatBaseComponent;
 import net.minecraft.server.v1_7_R1.IntHashMap;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.xml.bind.JAXBException;
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

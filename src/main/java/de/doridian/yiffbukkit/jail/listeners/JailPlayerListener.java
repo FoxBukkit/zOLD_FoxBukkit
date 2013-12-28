@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.jail.listeners;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailEngine;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

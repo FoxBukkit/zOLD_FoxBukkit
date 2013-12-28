@@ -1,12 +1,12 @@
 package de.doridian.yiffbukkit.bans.commands;
 
+import de.doridian.yiffbukkit.bans.LockDownMode;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkitsplit.LockDownMode;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class LockdownCommand extends ICommand {
 		argStr = argStr.toUpperCase();
 		final LockDownMode newMode;
 		if (argStr.isEmpty()) {
-			newMode = plugin.lockdownMode == LockDownMode.OFF ? LockDownMode.KICK : LockDownMode.OFF;
+			newMode = plugin.bans.lockdownMode == LockDownMode.OFF ? LockDownMode.KICK : LockDownMode.OFF;
 		}
 		else if (argStr.equals("ON")){
 			newMode = LockDownMode.KICK;
@@ -36,13 +36,13 @@ public class LockdownCommand extends ICommand {
 			}
 		}
 
-		if (newMode == plugin.lockdownMode) {
+		if (newMode == plugin.bans.lockdownMode) {
 			throw new YiffBukkitCommandException(newMode.getDescription());
 		}
 
-		plugin.lockdownMode = newMode;
+		plugin.bans.lockdownMode = newMode;
 
-		if (plugin.lockdownMode == LockDownMode.FIREWALL) {
+		if (plugin.bans.lockdownMode == LockDownMode.FIREWALL) {
 			try {
 				Runtime.getRuntime().exec("./wally F");
 				System.out.println("Flushed blocked IPs.");

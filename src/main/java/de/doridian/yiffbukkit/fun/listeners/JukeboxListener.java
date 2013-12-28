@@ -1,13 +1,11 @@
 package de.doridian.yiffbukkit.fun.listeners;
 
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
-import net.minecraft.server.v1_7_R1.ItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Jukebox;
-import org.bukkit.craftbukkit.v1_7_R1.util.CraftMagicNumbers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockRedstoneEvent;

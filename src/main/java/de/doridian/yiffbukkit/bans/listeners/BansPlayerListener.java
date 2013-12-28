@@ -1,12 +1,12 @@
 package de.doridian.yiffbukkit.bans.listeners;
 
-import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.bans.Ban;
 import de.doridian.yiffbukkit.bans.BanResolver;
-import de.doridian.yiffbukkitsplit.LockDownMode;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.MessageHelper;
-import de.doridian.yiffbukkitsplit.util.PermissionPredicate;
+import de.doridian.yiffbukkit.bans.LockDownMode;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.core.util.PermissionPredicate;
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,14 +14,16 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
 
 public class BansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-		if (plugin.lockdownMode != LockDownMode.OFF)
+		if (plugin.bans.lockdownMode != LockDownMode.OFF)
 			return;
 
 		String name = event.getName();
@@ -29,6 +31,40 @@ public class BansPlayerListener extends BaseListener {
 		Ban ban = BanResolver.getBan(name);
 		if(ban != null)
 			event.disallow(Result.KICK_BANNED, "[YB] Banned: " + ban.getReason());
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerLogin(PlayerLoginEvent event) {
+		final Player player = event.getPlayer();
+		final String playerName = player.getName();
+		if (!playerName.matches("^.*[A-Za-z].*$")) {
+			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, get some letters into your name.");
+			return;
+		}
+
+		if (playerHelper.isGuest(player)) {
+			switch (plugin.bans.lockdownMode) {
+				case FIREWALL:
+					final String ip = event.getAddress().getHostAddress();
+					try {
+						Runtime.getRuntime().exec("./wally I "+ip);
+						System.out.println("Firewalled IP "+ip+" of player "+playerName+".");
+						return;
+					}
+					catch (IOException e) {
+						System.out.println("Failed to firewall IP "+ip+" of player "+playerName+".");
+					}
+				/* FALL-THROUGH */
+
+				case KICK:
+					event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, we're closed for guests right now");
+				/* FALL-THROUGH */
+
+				case OFF:
+					//noinspection UnnecessaryReturnStatement
+					return;
+			}
+		}
 	}
 
 	@EventHandler

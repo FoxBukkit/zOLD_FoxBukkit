@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.spawning.potions;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import net.minecraft.server.v1_7_R1.EntityPlayer;
 import net.minecraft.server.v1_7_R1.EntityPotion;
 import net.minecraft.server.v1_7_R1.ItemStack;

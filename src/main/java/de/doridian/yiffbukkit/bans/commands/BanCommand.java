@@ -1,5 +1,8 @@
 package de.doridian.yiffbukkit.bans.commands;
 
+import de.doridian.yiffbukkit.bans.Bans.BanType;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.jail.JailException;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
@@ -7,10 +10,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.bans.Bans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

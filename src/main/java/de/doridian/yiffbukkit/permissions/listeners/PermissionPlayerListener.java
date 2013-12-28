@@ -1,11 +1,11 @@
 package de.doridian.yiffbukkit.permissions.listeners;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.listeners.YiffBukkitBlockListener;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftHumanEntity;
 import org.bukkit.entity.Player;

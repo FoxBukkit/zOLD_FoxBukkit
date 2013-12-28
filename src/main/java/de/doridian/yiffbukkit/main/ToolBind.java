@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.main;
 
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

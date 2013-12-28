@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.remote;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.util.Configuration;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 

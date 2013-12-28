@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.spawning.effects.system;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.ScheduledTask;
 import de.doridian.yiffbukkit.spawning.effects.Jetpack;
@@ -7,7 +8,6 @@ import de.doridian.yiffbukkit.spawning.effects.LSD;
 import de.doridian.yiffbukkit.spawning.effects.Rage;
 import de.doridian.yiffbukkit.spawning.effects.Redrum;
 import de.doridian.yiffbukkit.spawning.effects.Rocket;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

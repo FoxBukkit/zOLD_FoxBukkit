@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.main.listeners;
 
 import de.doridian.yiffbukkit.componentsystem.YBListener;
-import de.doridian.yiffbukkitsplit.YiffBukkit;
-import de.doridian.yiffbukkitsplit.util.PlayerHelper;
+import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import org.bukkit.event.Listener;
 
 public abstract class BaseListener implements Listener, YBListener {
