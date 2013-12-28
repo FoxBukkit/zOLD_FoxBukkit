@@ -4,6 +4,7 @@ import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper.WeatherType;
 import net.minecraft.server.v1_7_R1.ControllerMove;
@@ -29,6 +30,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class YiffBukkitPacketListener extends YBPacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
 	private final YiffBukkit plugin;
@@ -46,16 +50,35 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
 	}
 
+	private static final Pattern LOGBLOCK_PAGE_PATTERN = Pattern.compile("^Page ([0-9]+)/([0-9]+)$");
+
 	@Override
 	public boolean onOutgoingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 3:
 			final PacketPlayOutChat p3 = (PacketPlayOutChat) packet;
-			if (p3.a.e().contains("You are in a no-PvP area."))
+			final String text = p3.a.c();
+
+			final Matcher matcher = LOGBLOCK_PAGE_PATTERN.matcher(text);
+			if (matcher.matches()) {
+				final int currentPage = Integer.parseInt(matcher.group(1));
+				final int numPages = Integer.parseInt(matcher.group(2));
+				String format = "<color name=\"dark_aqua\">%1$s</color>";
+				if (currentPage > 1) {
+					format += " " + MessageHelper.button("/lb prev", "<", "blue", true);
+				}
+				if (currentPage < numPages) {
+					format += " " + MessageHelper.button("/lb next", ">", "blue", true);
+				}
+				MessageHelper.sendMessage(null, ply, format, text);
+				return false;
+			}
+
+			if (text.contains("You are in a no-PvP area."))
 				return false;
 
 			//noinspection RedundantIfStatement
-			if (p3.a.e().contains("That player is in a no-PvP area."))
+			if (text.contains("That player is in a no-PvP area."))
 				return false;
 
 			return true;
