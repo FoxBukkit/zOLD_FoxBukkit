@@ -6,9 +6,14 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkitsplit.YiffBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,8 +83,21 @@ public class RestartCommand extends ICommand {
 			} else {
 				announceInChat(timeleft);
 				if(timeleft == 2) {
+					final ByteArrayOutputStream b = new ByteArrayOutputStream();
+					final DataOutputStream out = new DataOutputStream(b);
+
+					try {
+						out.writeUTF("Connect");
+						out.writeUTF(Configuration.getValue("failover-server", "lobby"));
+					} catch (IOException ex) {
+						ex.printStackTrace();
+						return;
+					}
+
+					final byte[] bBytes = b.toByteArray();
+
 					for(Player ply : plugin.getServer().getOnlinePlayers()) {
-						ply.kickPlayer("Server is restarting! Reconnecting instantly will slow down the restart!");
+						ply.sendPluginMessage(YiffBukkit.instance, "BungeeCord", bBytes);
 					}
 				} else if(timeleft == 1) {
 					plugin.getServer().savePlayers();
