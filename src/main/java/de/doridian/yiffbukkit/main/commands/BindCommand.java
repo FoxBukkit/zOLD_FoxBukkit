@@ -126,17 +126,20 @@ public class BindCommand extends ICommand {
 		final ToolBind removedToolBind = ToolBind.remove(ply, toolType, left);
 		if (removedToolBind == null) {
 			MessageHelper.sendMessage(ply, "Your tool (<color name=\"yellow\">%1$s</color>) was not bound.", toolType.name());
-		} else {
+		}
+		else {
 			MessageHelper.sendMessage(ply, "Unbound your tool (<color name=\"yellow\">%1$s</color>). " + getRestoreButton(removedToolBind, toolType.name(), left), toolType.name());
 		}
 	}
 
 	private static String getRemoveButton(String toolName, boolean left) {
 		final String format;
-		if (left)
+		if (left) {
 			format = "/bind -x -i %s";
-		else
+		}
+		else {
 			format = "/bind -i %s";
+		}
 
 		return MessageHelper.button(String.format(format, toolName), "x", "red", true);
 	}
