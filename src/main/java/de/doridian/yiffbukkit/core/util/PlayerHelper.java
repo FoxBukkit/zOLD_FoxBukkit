@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.core.util;
 
-import de.doridian.yiffbukkit.core.AbusePotentialManager;
+import de.doridian.yiffbukkit.permissions.AbusePotentialManager;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.main.StateContainer;

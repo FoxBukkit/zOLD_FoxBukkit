@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.permissions;
 
-import de.doridian.yiffbukkit.core.AbusePotentialManager;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import org.bukkit.command.CommandSender;

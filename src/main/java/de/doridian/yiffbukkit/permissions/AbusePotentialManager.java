@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.core;
+package de.doridian.yiffbukkit.permissions;
 
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.config.ConfigFileReader;
