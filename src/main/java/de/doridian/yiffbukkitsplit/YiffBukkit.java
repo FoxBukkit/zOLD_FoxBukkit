@@ -3,6 +3,7 @@ package de.doridian.yiffbukkitsplit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
+import de.doridian.yiffbukkit.bans.Bans;
 import de.doridian.yiffbukkit.chat.listeners.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.componentsystem.ComponentSystem;
@@ -14,7 +15,6 @@ import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkit.main.util.PersistentScheduler;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.mcbans.MCBans;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkit.portal.PortalEngine;
@@ -81,7 +81,7 @@ public class YiffBukkit extends JavaPlugin {
 	public ChatManager chatManager;
 	public PersistentScheduler persistentScheduler;
 
-	public MCBans mcbans;
+	public Bans bans;
 	public WorldEditPlugin worldEdit;
 	public Consumer logBlockConsumer;
 
@@ -142,8 +142,8 @@ public class YiffBukkit extends JavaPlugin {
 		yiffBukkitBungeeLink = new YiffBukkitBungeeLink();
 
 		log("Core components loaded.");
-		mcbans = new MCBans(this);
-		log("MCBans loaded.");
+		bans = new Bans(this);
+		log("Bans loaded.");
 
 		remote = new YiffBukkitRemote(this);
 		remote.start();

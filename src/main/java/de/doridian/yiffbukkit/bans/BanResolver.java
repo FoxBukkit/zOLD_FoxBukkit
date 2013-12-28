@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.mcbans;
+package de.doridian.yiffbukkit.bans;
 
 import de.doridian.yiffbukkit.database.DatabaseConnectionPool;
 
@@ -8,10 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class BanResolver {
 	private static HashMap<String, Integer> playerIDs = new HashMap<String, Integer>();

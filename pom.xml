@@ -227,7 +227,7 @@
 		</repository>
 		<repository>
 			<id>doridian-repo</id>
-			<url>http://repo.doridian.de/</url>
+			<url>http://repo.doridian.de</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

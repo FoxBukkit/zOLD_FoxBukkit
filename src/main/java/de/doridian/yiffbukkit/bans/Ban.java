@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.mcbans;
+package de.doridian.yiffbukkit.bans;
 
 public class Ban {
 	private String reason;

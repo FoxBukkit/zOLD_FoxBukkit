@@ -4,7 +4,7 @@ import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.bans.Bans.BanType;
 import de.doridian.yiffbukkitsplit.util.AutoCleanup;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
 import gnu.trove.map.TIntObjectMap;
@@ -141,7 +141,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
 					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", "yiffbukkit.opchat");
-					plugin.mcbans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.LOCAL);
+					plugin.bans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.LOCAL);
 					event.setCancelled(true);
 					ply.kickPlayer("[YB AUTOMATED] Torchbreak");
 				}

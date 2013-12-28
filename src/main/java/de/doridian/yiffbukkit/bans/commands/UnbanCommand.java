@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.mcbans.commands;
+package de.doridian.yiffbukkit.bans.commands;
 
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
@@ -12,6 +12,6 @@ import org.bukkit.command.CommandSender;
 public class UnbanCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) {
-		plugin.mcbans.unban(commandSender, args[0]);
+		plugin.bans.unban(commandSender, args[0]);
 	}
 }

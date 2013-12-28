@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.mcbans.commands;
+package de.doridian.yiffbukkit.bans.commands;
 
 import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.jail.JailException;
@@ -7,7 +7,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
-import de.doridian.yiffbukkit.mcbans.MCBans.BanType;
+import de.doridian.yiffbukkit.bans.Bans.BanType;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkitsplit.YiffBukkit;
 import de.doridian.yiffbukkitsplit.util.PlayerHelper;
@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 		"Flags:\n"+
 		"  -j to unjail the player first\n"+
 		"  -r to rollback\n"+
-		"  -g to issue an mcbans.com global ban\n"+
+		"  -g to issue an bans.com global ban\n"+
 		"  -t <time> to issue a temporary ban. Possible suffixes:\n"+
 		"       m=minutes, h=hours, d=days"
 )
@@ -84,7 +84,7 @@ public class BanCommand extends ICommand {
 				throw new YiffBukkitCommandException("Malformed ban duration");
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type, durationValue, measure);
+			plugin.bans.ban(commandSender, otherply, reason, type, durationValue, measure);
 		}
 		else {
 			if (global) {
@@ -93,7 +93,7 @@ public class BanCommand extends ICommand {
 				type = BanType.LOCAL;
 			}
 
-			plugin.mcbans.ban(commandSender, otherply, reason, type);
+			plugin.bans.ban(commandSender, otherply, reason, type);
 		}
 
 		if (rollback) {

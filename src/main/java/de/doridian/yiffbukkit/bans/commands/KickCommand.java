@@ -1,4 +1,4 @@
-package de.doridian.yiffbukkit.mcbans.commands;
+package de.doridian.yiffbukkit.bans.commands;
 
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;

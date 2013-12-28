@@ -24,11 +24,13 @@ import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
@@ -51,6 +53,15 @@ public class Utils {
 	public static String concat(Collection<String> parts, int start, String defaultText) {
 		// TODO: optimize
 		return concatArray(parts.toArray(new String[parts.size()]), start, defaultText);
+	}
+
+	@SuppressWarnings("deprecation")
+	public static String URLEncode(String str) {
+		try {
+			return URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return URLEncoder.encode(str);
+		}
 	}
 
 	public static String concatArray(String[] array, int start, String defaultText) {
