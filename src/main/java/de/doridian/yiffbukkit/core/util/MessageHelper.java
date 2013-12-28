@@ -101,7 +101,9 @@ public class MessageHelper extends StateContainer {
 	}
 
 	public static void sendMessage(String color, CommandSender commandSender, String format, Object... params) {
-		format = "<color name=\"" + color + "\">[YB]</color> " + format;
+		if (color != null) {
+			format = "<color name=\"" + color + "\">[YB]</color> " + format;
+		}
 
 		Parser.sendToPlayer(commandSender, format, params);
 	}
