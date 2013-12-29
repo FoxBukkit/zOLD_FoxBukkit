@@ -22,7 +22,6 @@ public class CheckOffCommand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		if (booleanFlags.contains('l')) {
-			MessageHelper.sendMessage(ply, "<color name=\"gold\">Checkov</color>:");
 			for (String playerName : YiffBukkitPermissions.checkOffPlayers) {
 				final String color = isOnline(playerName) ? MessageHelper.ONLINE_COLOR : MessageHelper.OFFLINE_COLOR;
 				MessageHelper.sendMessage(ply, String.format("<color name=\"%1$s\">%2$s</color>", color, playerName) + " " + getButtonsForPlayer(playerName));
