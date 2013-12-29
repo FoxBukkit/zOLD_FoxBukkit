@@ -2,12 +2,14 @@ package de.doridian.yiffbukkit.main.commands;
 
 import de.doridian.multicraft.api.MulticraftAPI;
 import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.util.Configuration;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,7 +30,7 @@ public class RestartCommand extends ICommand {
 		if(taskID >= 0) {
 			plugin.getServer().getScheduler().cancelTask(taskID);
 			taskID = -1;
-			plugin.playerHelper.sendServerMessage("Restart cancelled!");
+			PlayerHelper.sendServerMessage("Restart cancelled!");
 			return;
 		}
 
@@ -92,7 +94,7 @@ public class RestartCommand extends ICommand {
 
 					final byte[] bBytes = b.toByteArray();
 
-					for(Player ply : plugin.getServer().getOnlinePlayers()) {
+					for(Player ply : Bukkit.getOnlinePlayers()) {
 						ply.sendPluginMessage(YiffBukkit.instance, "BungeeCord", bBytes);
 					}
 				} else if(timeleft == 1) {
@@ -103,7 +105,7 @@ public class RestartCommand extends ICommand {
 	}
 
 	public void announceInChat(long timeleft) {
-		plugin.playerHelper.sendServerMessage("Server restarting in " + timeleft + " seconds!");
+		PlayerHelper.sendServerMessage("Server restarting in " + timeleft + " seconds!");
 	}
 
 	private static final String ENDPOINT_URL = "http://panel.mc.doridian.de/api.php";
