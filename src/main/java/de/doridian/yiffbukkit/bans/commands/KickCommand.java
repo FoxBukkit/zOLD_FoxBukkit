@@ -25,7 +25,7 @@ public class KickCommand extends ICommand {
 
 		String reason = commandSender.getName() + ": " + Utils.concatArray(args, 1, "Kicked");
 
-		otherply.kickPlayer(reason);
+		otherply.kickPlayer("kick|" + reason);
 		//playerHelper.SendServerMessage(ply.getName() + " kicked " + otherply.getName() + " (reason: "+reason+")");
 	}
 }

@@ -100,7 +100,7 @@ public class BanCommand extends ICommand {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
 		}
 
-		otherply.kickPlayer(reason);
+		otherply.kickPlayer("kick|" + reason);
 		YiffBukkitPermissions.removeCOPlayer(otherply);
 	}
 }

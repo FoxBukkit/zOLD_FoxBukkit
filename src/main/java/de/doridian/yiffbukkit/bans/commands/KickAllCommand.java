@@ -18,6 +18,8 @@ public class KickAllCommand extends ICommand {
 		if (argStr.isEmpty())
 			argStr = "Clearing server.";
 
+		argStr = "kick|" + argStr;
+
 		for (Player player : plugin.getServer().getOnlinePlayers()) {
 			if (player.equals(commandSender))
 				continue;
