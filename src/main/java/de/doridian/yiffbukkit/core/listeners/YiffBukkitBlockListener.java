@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.core.listeners;
 import com.sk89q.worldedit.PlayerDirection;
 import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.bans.Bans.BanType;
+import de.doridian.yiffbukkit.bans.commands.KickCommand;
 import de.doridian.yiffbukkit.core.util.AutoCleanup;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
@@ -75,14 +76,14 @@ public class YiffBukkitBlockListener extends BaseListener {
 		final Block block = event.getBlock();
 		Material material = block.getType();
 		if (!ply.hasPermission("yiffbukkit.place")) {
-			playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material+".");
+			PlayerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + material + ".");
 			event.setBuild(false);
 			return;
 		}
 
 		final String permission = blocklevels.get(material);
 		if (permission != null && !ply.hasPermission(permission)) {
-			playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material+".");
+			PlayerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + material + ".");
 			event.setBuild(false);
 			return;
 		}
@@ -92,7 +93,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 				for (BlockFace face : flameSpreadDirections) {
 					Material neighborMaterial = block.getRelative(face).getType();
 					if (neighborMaterial == Material.FIRE) {
-						playerHelper.sendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
+						PlayerHelper.sendServerMessage(ply.getName() + " tried to spawn flammable block " + material.toString() + " near fire.");
 						event.setBuild(false);
 					}
 				}
@@ -109,8 +110,8 @@ public class YiffBukkitBlockListener extends BaseListener {
 			return;
 		}
 
-		if(playerHelper.getPlayerLevel(ply) < 0 && event.getInstaBreak()) {
-			playerHelper.sendServerMessage(ply.getName() + " tried to illegaly break a block!");
+		if(PlayerHelper.getPlayerLevel(ply) < 0 && event.getInstaBreak()) {
+			PlayerHelper.sendServerMessage(ply.getName() + " tried to illegaly break a block!");
 			event.setCancelled(true);
 		}
 
@@ -126,10 +127,10 @@ public class YiffBukkitBlockListener extends BaseListener {
 			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
 				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
 				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
-					playerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking "+TORCH_BREAK_WINDOW+" torches in "+timeSinceStart+"ms.", "yiffbukkit.opchat");
+					PlayerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking " + TORCH_BREAK_WINDOW + " torches in " + timeSinceStart + "ms.", "yiffbukkit.opchat");
 					plugin.bans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.LOCAL);
 					event.setCancelled(true);
-					ply.kickPlayer("kick|[YB AUTOMATED] Torchbreak");
+					KickCommand.kickPlayer(ply, "[YB AUTOMATED] Torchbreak");
 				}
 			}
 		}

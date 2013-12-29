@@ -39,11 +39,11 @@ public class BanCommand extends ICommand {
 	}
 
 	public static void executeBan(CommandSender commandSender, String plyName, String reason, YiffBukkit plugin, boolean unjail, boolean rollback, boolean global, final String duration) throws YiffBukkitCommandException {
-		if(!commandSender.hasPermission("yiffbukkit.users.ban")) throw new PermissionDeniedException();
+		if (!commandSender.hasPermission("yiffbukkit.users.ban")) throw new PermissionDeniedException();
 
 		final Player otherply = plugin.playerHelper.matchPlayerSingle(plyName, false);
 
-		if(plugin.playerHelper.getPlayerLevel(commandSender) <= plugin.playerHelper.getPlayerLevel(otherply))
+		if (PlayerHelper.getPlayerLevel(commandSender) <= PlayerHelper.getPlayerLevel(otherply))
 			throw new PermissionDeniedException();
 
 		if (unjail) {
@@ -57,11 +57,11 @@ public class BanCommand extends ICommand {
 
 		YiffBukkitPermissions.removeCOPlayer(otherply);
 
-		if(global || rollback) {
+		if (global || rollback) {
 			asPlayer(commandSender).chat("/lb writelogfile player "+otherply.getName());
 		}
 
-		if(reason == null) {
+		if (reason == null) {
 			reason = "Kickbanned by " + commandSender.getName();
 		}
 
@@ -100,7 +100,7 @@ public class BanCommand extends ICommand {
 			asPlayer(commandSender).chat("/lb rollback player "+otherply.getName());
 		}
 
-		otherply.kickPlayer("kick|" + reason);
+		KickCommand.kickPlayer(otherply, reason);
 		YiffBukkitPermissions.removeCOPlayer(otherply);
 	}
 }

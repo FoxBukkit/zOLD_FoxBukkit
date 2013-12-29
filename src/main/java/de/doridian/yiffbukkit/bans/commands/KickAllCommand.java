@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.bans.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -18,15 +19,13 @@ public class KickAllCommand extends ICommand {
 		if (argStr.isEmpty())
 			argStr = "Clearing server.";
 
-		argStr = "kick|" + argStr;
-
 		for (Player player : plugin.getServer().getOnlinePlayers()) {
 			if (player.equals(commandSender))
 				continue;
 
-			player.kickPlayer(argStr);
+			KickCommand.kickPlayer(player, argStr);
 		}
 
-		playerHelper.sendServerMessage(commandSender.getName() + " kicked everyone (reason: "+argStr+")");
+		PlayerHelper.sendServerMessage(commandSender.getName() + " kicked everyone (reason: " + argStr + ")");
 	}
 }
