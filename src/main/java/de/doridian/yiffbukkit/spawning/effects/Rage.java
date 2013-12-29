@@ -47,14 +47,15 @@ public class Rage extends YBEffect {
 		final EntityLiving notchEntity = ((CraftLivingEntity) entity).getHandle();
 		Location location = entity.getLocation();
 
-		// damage animation
-		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutAnimation(notchEntity, 2));
-
 		byte yaw = (byte)(random.nextInt(255)-128);
 		byte pitch = (byte)(random.nextInt(255)-128);
 		if (entity instanceof Player) {
+			// damage animation
+			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutAnimation(notchEntity, 2));
+
 			// arm animation
 			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutAnimation(notchEntity, 1));
+
 			// random looking
 			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch), (Player) entity);
 			YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), (Player) entity);
