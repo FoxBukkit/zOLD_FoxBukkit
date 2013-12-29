@@ -81,21 +81,8 @@ public class RestartCommand extends ICommand {
 			} else {
 				announceInChat(timeleft);
 				if(timeleft == 2) {
-					final ByteArrayOutputStream b = new ByteArrayOutputStream();
-					final DataOutputStream out = new DataOutputStream(b);
-
-					try {
-						out.writeUTF("Connect");
-						out.writeUTF(Configuration.getValue("failover-server", "lobby"));
-					} catch (IOException ex) {
-						ex.printStackTrace();
-						return;
-					}
-
-					final byte[] bBytes = b.toByteArray();
-
 					for(Player ply : Bukkit.getOnlinePlayers()) {
-						ply.sendPluginMessage(YiffBukkit.instance, "BungeeCord", bBytes);
+						ply.kickPlayer("Server restarting");
 					}
 				} else if(timeleft == 1) {
 					plugin.getServer().savePlayers();
