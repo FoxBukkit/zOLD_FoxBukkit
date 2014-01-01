@@ -37,16 +37,12 @@ public class SecCamCommand extends ICommand {
 		if (itemInHandType != Material.MAP)
 			throw new YiffBukkitCommandException("Not a map!");
 
-		final MapMeta itemMeta = (MapMeta) itemInHand.getItemMeta();
-
 		final MapView mapView = Bukkit.getMap(itemInHand.getDurability());
 		for (MapRenderer mapRenderer : mapView.getRenderers()) {
 			mapView.removeRenderer(mapRenderer);
 		}
 
 		final double zoom = 1;
-		final double viewdist = 9;
-		final double ungenau = 1e-13;
 		final MapRenderer mapRenderer = new MapRenderer() {
 			boolean die = false;
 			double t = 0.0;
@@ -61,9 +57,6 @@ public class SecCamCommand extends ICommand {
 // cam coords
 				final Location location = ply.getEyeLocation();
 				final Vector origin = location.toVector();
-				double ox = -location.getX();
-				double oy = -location.getY();
-				double oz = location.getZ();
 				double rx = -Math.toRadians(location.getPitch());
 				double ry = -Math.toRadians(location.getYaw());
 				double rz = 0;
@@ -150,20 +143,6 @@ public class SecCamCommand extends ICommand {
 
 		MessageHelper.sendMessage(ply, "" + mapView.getId());
 
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-			@Override
-			public void run() {
-				if (false) ply.sendMap(mapView);
-				final Player tomyLobo = Bukkit.getPlayerExact("TomyLobo");
-				if (tomyLobo != ply && tomyLobo != null) {
-					tomyLobo.sendMap(mapView);
-				}
-			}
-		}, 0, 8);
 		ply.sendMap(mapView);
-	}
-
-	private static double sqr(double v) {
-		return v*v;
 	}
 }
