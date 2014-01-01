@@ -83,7 +83,7 @@ public class TpCommand extends ICommand {
 			plugin.playerHelper.teleportWithHistory(sender, otherply);
 		}
 
-		final List<Player> receivers = new ArrayList<Player>();
+		final List<Player> receivers = new ArrayList<>();
 
 		final boolean silentFlag = booleanFlags.contains('s');
 		boolean silent = silentFlag;
