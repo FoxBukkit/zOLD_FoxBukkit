@@ -78,7 +78,7 @@ public class ThrowCommand extends ICommand {
 		}
 	}
 
-	private static final Map<String, ThrowShapeFactory> throwShapes = new HashMap<String, ThrowShapeFactory>();
+	private static final Map<String, ThrowShapeFactory> throwShapes = new HashMap<>();
 	static {
 		throwShapes.put("circle", new SimpleThrowShapeFactory() {
 			@Override
@@ -168,7 +168,7 @@ public class ThrowCommand extends ICommand {
 				final double speedLength = speed.length();
 
 				final double maxDistance = 100;
-				final List<Vector> locations = new ArrayList<Vector>();
+				final List<Vector> locations = new ArrayList<>();
 				for (LivingEntity entity : baseLocation.getWorld().getLivingEntities()) {
 					if (entity instanceof Player)
 						continue;
@@ -204,8 +204,8 @@ public class ThrowCommand extends ICommand {
 		});
 	}
 
-	private final Map<Player, Float> lastYaws = new HashMap<Player, Float>();
-	private final Map<Player, Float> lastPitches = new HashMap<Player, Float>();
+	private final Map<Player, Float> lastYaws = new HashMap<>();
+	private final Map<Player, Float> lastPitches = new HashMap<>();
 
 	public ThrowCommand() {
 		new YBPacketListener() {
@@ -305,7 +305,7 @@ public class ThrowCommand extends ICommand {
 
 					vehicle.setVelocity(direction);
 
-					final List<Player> effectTargets = new ArrayList<Player>();
+					final List<Player> effectTargets = new ArrayList<>();
 					for (Player effectTarget : Utils.getObservingPlayers(player)) {
 						if (effectTarget.getLocation().distanceSquared(location) > 64*64)
 							continue;
