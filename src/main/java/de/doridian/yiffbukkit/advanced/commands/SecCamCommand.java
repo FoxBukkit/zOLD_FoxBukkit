@@ -6,26 +6,19 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
-import net.minecraft.server.v1_7_R1.Item;
 import net.minecraft.server.v1_7_R1.MaterialMapColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftItem;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_7_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapCanvas;
-import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
-
-import static java.lang.Math.*;
 
 @Names("seccam")
 @Permission("worldedit.generation.map")
@@ -66,23 +59,19 @@ public class SecCamCommand extends ICommand {
 				double cy = Math.cos(ry);
 				double sz = Math.sin(rz);
 				double cz = Math.cos(rz);
-				double xp = 0;
-				double yp = 72;
-				double zp = 14;
-				double rad = 9;
 
 				for (int xp2 = 0; xp2 < 128; ++xp2) {
 					for (int yp2 = 0; yp2 < 128; ++yp2) {
 						double x = xp2 / 64.0 - 1.0;
 						double y = yp2 / 64.0 - 1.0;
-						final byte color = genPixel(origin, sx, cx, sy, cy, sz, cz, xp, yp, zp, rad, x, y);
+						final byte color = genPixel(origin, sx, cx, sy, cy, sz, cz, x, y);
 
 						mapCanvas.setPixel(xp2, yp2, color);
 					}
 				}
 			}
 
-			private byte genPixel(Vector origin, double sx, double cx, double sy, double cy, double sz, double cz, double xp, double yp, double zp, double rad, double x, double y) {
+			private byte genPixel(Vector origin, double sx, double cx, double sy, double cy, double sz, double cz, double x, double y) {
 				// proj. plane coords
 				double dx = x / zoom;
 				double dy = y / zoom;
@@ -112,10 +101,13 @@ public class SecCamCommand extends ICommand {
 				final BlockIterator blockIterator = new BlockIterator(ply.getWorld(), origin, new Vector(-dx, -dy, dz), 0, 300);
 				while (blockIterator.hasNext()) {
 					final Block next = blockIterator.next();
-					if (next.getY() > 255)
-						continue;
-					if (next.getY() < 0)
-						continue;
+
+					final int nextY = next.getY();
+					if (nextY == 0)
+						return 0;
+
+					if ((nextY & 0xFF) != nextY)
+						return 0;
 
 					Material type = next.getType();
 					switch (type) {
