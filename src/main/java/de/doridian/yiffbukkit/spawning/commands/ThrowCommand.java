@@ -80,6 +80,13 @@ public class ThrowCommand extends ICommand {
 
 	private static final Map<String, ThrowShapeFactory> throwShapes = new HashMap<>();
 	static {
+		throwShapes.put("", new SimpleThrowShapeFactory() {
+			@Override
+			public Vector getDirection(int i) {
+				return Utils.toWorldAxis(baseLocation, speed);
+			}
+		});
+
 		throwShapes.put("circle", new SimpleThrowShapeFactory() {
 			@Override
 			public Vector getDirection(int i) {
@@ -288,7 +295,7 @@ public class ThrowCommand extends ICommand {
 			runnable = new ToolBind("/throw me", ply) {
 				long nextFlap = Long.MIN_VALUE;
 				@Override
-				public boolean run(PlayerInteractEvent event) {
+				public boolean run(PlayerInteractEvent event) throws YiffBukkitCommandException {
 					final Player player = event.getPlayer();
 					final Location location = player.getEyeLocation();
 					if (player.isInsideVehicle() && lastYaws.containsKey(player)) {
@@ -299,7 +306,7 @@ public class ThrowCommand extends ICommand {
 					if (!usePitch)
 						location.setPitch(0);
 
-					final Vector direction = Utils.toWorldAxis(location, speed);
+					final Vector direction = shapeFactory.createShape(1, location, speed, shapeArgs).getDirection(0);
 
 					final Entity vehicle = player.isInsideVehicle() ? player.getVehicle() : player;
 
