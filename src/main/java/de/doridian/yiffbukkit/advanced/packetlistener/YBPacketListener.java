@@ -126,7 +126,7 @@ public class YBPacketListener implements YBPacketListenerInt {
 		register(packetsInCls, packetsOutCls);
 	}
 
-	protected void register(PacketDirection direction, Class<? extends Packet>[] packets) {
+	protected void register(PacketDirection direction, Class<? extends Packet>... packets) {
 		switch (direction) {
 			case INCOMING:
 				register(packets, null);
@@ -138,7 +138,7 @@ public class YBPacketListener implements YBPacketListenerInt {
 	}
 
 	@Deprecated
-	protected void register(PacketDirection direction, int[] packets) {
+	protected void register(PacketDirection direction, int... packets) {
 		switch (direction) {
 			case INCOMING:
 				register(packets, null);
@@ -147,15 +147,6 @@ public class YBPacketListener implements YBPacketListenerInt {
 				register((int[])null, packets);
 				break;
 		}
-	}
-
-	@Deprecated
-	protected void register(PacketDirection direction, int packet) {
-		register(direction, new int[] { packet });
-	}
-
-	protected void register(PacketDirection direction, Class<? extends Packet> packet) {
-		register(direction, new Class[] { packet });
 	}
 
 	@Override
