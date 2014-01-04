@@ -37,10 +37,6 @@ public class YBPacketListener implements YBPacketListenerInt {
 		OUTGOING, INCOMING
 	}
 
-	public YBPacketListener() {
-
-	}
-
 	static {
 		packetToIDMapping = new TObjectIntHashMap<>();
 		idToPacketMappingIn = new TIntObjectHashMap<>();
@@ -97,36 +93,32 @@ public class YBPacketListener implements YBPacketListenerInt {
 		}
 	}
 
-	protected void register(Class<? extends Packet>[] packetsIn, Class<? extends Packet>[] packetsOut) {
+	protected final void register(Class<? extends Packet>[] packetsIn, Class<? extends Packet>[] packetsOut) {
 		YBRealPacketListener.register(this, packetsIn, packetsOut);
 	}
 
 	@Deprecated
-	protected void register(int[] packetsIn, int[] packetsOut) {
-		Class<? extends Packet>[] packetsInCls;
-		if(packetsIn == null) {
-			packetsInCls = null;
-		} else {
-			packetsInCls = new Class[packetsIn.length];
-			for (int i = 0; i < packetsIn.length; i++) {
-				packetsInCls[i] = idToPacketMappingIn.get(packetsIn[i]);
-			}
-		}
-
-		Class<? extends Packet>[] packetsOutCls;
-		if(packetsOut == null) {
-			packetsOutCls = null;
-		} else {
-			packetsOutCls = new Class[packetsOut.length];
-			for (int i = 0; i < packetsOut.length; i++) {
-				packetsOutCls[i] = idToPacketMappingOut.get(packetsOut[i]);
-			}
-		}
-
-		register(packetsInCls, packetsOutCls);
+	protected final void register(int[] packetsIn, int[] packetsOut) {
+		register(
+				mapIdsToPackets(packetsIn, idToPacketMappingIn),
+				mapIdsToPackets(packetsOut, idToPacketMappingOut)
+		);
 	}
 
-	protected void register(PacketDirection direction, Class<? extends Packet>... packets) {
+	private static Class<? extends Packet>[] mapIdsToPackets(int[] packetsIn, TIntObjectHashMap<Class<? extends Packet>> mapping) {
+		if (packetsIn == null)
+			return null;
+
+		@SuppressWarnings("unchecked")
+		Class<? extends Packet>[] packetsInCls = new Class[packetsIn.length];
+		for (int i = 0; i < packetsIn.length; i++) {
+			packetsInCls[i] = mapping.get(packetsIn[i]);
+		}
+		return packetsInCls;
+	}
+
+	@SafeVarargs
+	protected final void register(PacketDirection direction, Class<? extends Packet>... packets) {
 		switch (direction) {
 			case INCOMING:
 				register(packets, null);
@@ -137,29 +129,34 @@ public class YBPacketListener implements YBPacketListenerInt {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Deprecated
-	protected void register(PacketDirection direction, int... packets) {
+	protected final void register(PacketDirection direction, int... packets) {
 		switch (direction) {
 			case INCOMING:
 				register(packets, null);
 				break;
 			case OUTGOING:
-				register((int[])null, packets);
+				register((int[]) null, packets);
 				break;
 		}
 	}
 
 	@Override
 	public boolean onOutgoingPacket(Player ply, Class<? extends Packet> packetCls, Packet packet) {
-		if(!packetToIDMapping.containsKey(packetCls))
+		if (!packetToIDMapping.containsKey(packetCls))
 			return true;
+
+		//noinspection deprecation
 		return onOutgoingPacket(ply, packetToIDMapping.get(packetCls), packet);
 	}
 
 	@Override
 	public boolean onIncomingPacket(Player ply, Class<? extends Packet> packetCls, Packet packet) {
-		if(!packetToIDMapping.containsKey(packetCls))
+		if (!packetToIDMapping.containsKey(packetCls))
 			return true;
+
+		//noinspection deprecation
 		return onIncomingPacket(ply, packetToIDMapping.get(packetCls), packet);
 	}
 
