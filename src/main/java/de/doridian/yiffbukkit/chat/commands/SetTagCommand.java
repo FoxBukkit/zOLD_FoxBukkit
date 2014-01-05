@@ -1,11 +1,13 @@
 package de.doridian.yiffbukkit.chat.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
 import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @Names("settag")
 @Help(
@@ -20,29 +22,36 @@ public class SetTagCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
-		final String otherName = playerHelper.completePlayerName(args[0], false);
-		if (otherName == null) {
-			return;
-		}
+
+		final Player otherPly = playerHelper.matchPlayerSingle(args[0], false);
 
 		final String newTag = Utils.concatArray(args, 1, "").replace('$', '\u00a7');
-		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
+		if (PlayerHelper.getPlayerLevel(commandSender) < PlayerHelper.getPlayerLevel(otherPly))
 			throw new PermissionDeniedException();
 
 		final boolean useRankTag = booleanFlags.contains('r');
 		final boolean force = booleanFlags.contains('f');
 		final String tagTypeName = useRankTag ? "rank tag" : "tag";
 
+		final String previousTag = playerHelper.getPlayerTagRaw(otherPly.getName(), useRankTag);
+
+		final String undoCommand;
+		if (previousTag == null)
+			undoCommand = String.format("/%s \"%s\" none", useRankTag ? "settag -r" : "settag", otherPly.getName());
+		else {
+			undoCommand = String.format("/%s \"%s\" %s", useRankTag ? "settag -r" : "settag", otherPly.getName(), previousTag.replace('\u00a7', '$'));
+		}
+
 		if (newTag.equals("none")) {
-			playerHelper.setPlayerTag(otherName, null, useRankTag);
-			playerHelper.sendServerMessage(commandSender.getName() + " reset "+tagTypeName+" of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
+			playerHelper.setPlayerTag(otherPly.getName(), null, useRankTag);
+			SetNickCommand.announceTagChange("%1$s reset "+tagTypeName+" of %2$s!", "%2$s reset their own "+tagTypeName+"!", commandSender, otherPly, undoCommand);
 		}
 		else if (!useRankTag && !force && newTag.matches("^.*\u00a7.$")) {
 			throw new YiffBukkitCommandException("Player tag ends in color code. This belongs into the rank tag now (-r flag).");
 		}
 		else {
-			playerHelper.setPlayerTag(otherName, newTag, useRankTag);
-			playerHelper.sendServerMessage(commandSender.getName() + " set "+tagTypeName+" of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
+			playerHelper.setPlayerTag(otherPly.getName(), newTag, useRankTag);
+			SetNickCommand.announceTagChange("%1$s set "+tagTypeName+" of %2$s!", "%2$s set their own "+tagTypeName+"!", commandSender, otherPly, undoCommand);
 		}
 	}
 }

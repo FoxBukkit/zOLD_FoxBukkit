@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.chat.commands;
 
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -20,31 +22,47 @@ public class SetNickCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
-		String otherName = playerHelper.completePlayerName(args[0], false);
 
-		if (otherName == null)
-			throw new YiffBukkitCommandException("No unique player found.");
+		final Player otherPly = playerHelper.matchPlayerSingle(args[0], false);
 
-		Player otherPly = playerHelper.matchPlayerSingle(args[0]);
-
-		String newNick = Utils.concatArray(args, 1, "").replace('$', '\u00a7');
-		if (playerHelper.getPlayerLevel(commandSender) < playerHelper.getPlayerLevel(otherName))
+		final String newNick = Utils.concatArray(args, 1, "").replace('$', '\u00a7');
+		if (PlayerHelper.getPlayerLevel(commandSender) < PlayerHelper.getPlayerLevel(otherPly))
 			throw new PermissionDeniedException();
 
 		final boolean force = booleanFlags.contains('f');
 
+		final String undoCommand;
+		if (otherPly.getName().equals(otherPly.getDisplayName()))
+			undoCommand = String.format("/setnick \"%s\" none", otherPly.getName());
+		else
+			undoCommand = String.format("/setnick \"%s\" %s", otherPly.getName(), otherPly.getDisplayName().replace('\u00a7', '$'));
+
 		if (newNick.equals("none")) {
-			otherPly.setDisplayName(otherName);
-			playerHelper.setPlayerNick(otherName, null);
-			playerHelper.sendServerMessage(commandSender.getName() + " reset nickname of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
+			otherPly.setDisplayName(otherPly.getName());
+			playerHelper.setPlayerNick(otherPly.getName(), null);
+			announceTagChange("%1$s reset nickname of %2$s!", "%2$s reset their own nickname!", commandSender, otherPly, undoCommand);
 		}
 		else if (!force && newNick.matches("^\u00a7[^\u00a7]*$")) {
 			throw new YiffBukkitCommandException("Plainly colored nick detected. This color belongs into the rank tag now (/settag -r).");
 		}
 		else {
 			otherPly.setDisplayName(newNick);
-			playerHelper.setPlayerNick(otherName, newNick);
-			playerHelper.sendServerMessage(commandSender.getName() + " set nickname of " + playerHelper.formatPlayerFull(otherName) + "\u00a7f!");
+			playerHelper.setPlayerNick(otherPly.getName(), newNick);
+			announceTagChange("%1$s set nickname of %2$s!", "%2$s set their own nickname!", commandSender, otherPly, undoCommand);
 		}
+	}
+
+	public static void announceTagChange(String formatOther, String formatOwn, CommandSender commandSender, CommandSender modifiedPlayer, String undoCommand) {
+		final String format;
+		if (commandSender == modifiedPlayer)
+			format = formatOwn;
+		else
+			format = formatOther;
+
+		MessageHelper.sendServerMessage(String.format(
+				format + " " + MessageHelper.button(undoCommand, "undo", "blue", false),
+				MessageHelper.format(commandSender),
+				MessageHelper.formatWithTag(modifiedPlayer)
+		));
 	}
 }
