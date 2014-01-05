@@ -60,17 +60,17 @@ public class PlayerHelper extends StateContainer {
 
 	private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
 	public Player matchPlayerSingle(String subString, boolean implicitlyLiteral) throws PlayerNotFoundException, MultiplePlayersFoundException {
-		if(implicitlyLiteral)
+		if (implicitlyLiteral)
 			return literalMatch(subString);
 
-		Matcher matcher = quotePattern.matcher(subString);
+		final Matcher matcher = quotePattern.matcher(subString);
 
 		if (matcher.matches())
 			return literalMatch(matcher.group(1));
 
-		List<Player> players = plugin.getServer().matchPlayer(subString);
+		final List<Player> players = plugin.getServer().matchPlayer(subString);
 
-		int c = players.size();
+		final int c = players.size();
 		if (c < 1)
 				throw new PlayerNotFoundException();
 
@@ -451,14 +451,14 @@ public class PlayerHelper extends StateContainer {
 		player.setDisplayName(nick);
 	}
 
-	public void setPlayerNick(String name, String tag) {
+	public void setPlayerNick(String name, String nick) {
 		name = name.toLowerCase();
-		if (tag == null)
+		if (nick == null)
 		{
 			playernicks.remove(name);
 		}
 		else
-			playernicks.put(name, tag);
+			playernicks.put(name, nick);
 	}
 
 	public Set<String> playerTpPermissions = new HashSet<>();
