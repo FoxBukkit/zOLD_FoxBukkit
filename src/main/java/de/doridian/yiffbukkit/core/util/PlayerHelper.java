@@ -434,6 +434,13 @@ public class PlayerHelper extends StateContainer {
 			tags.put(name, tag);
 	}
 
+	public String getPlayerTagRaw(String name, boolean rankTag) {
+		name = name.toLowerCase();
+		final Map<String, String> tags = rankTag ? playerRankTags : playerTags;
+		return tags.get(name);
+	}
+
+
 	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
 
 	private String getPlayerNick(String name) {
