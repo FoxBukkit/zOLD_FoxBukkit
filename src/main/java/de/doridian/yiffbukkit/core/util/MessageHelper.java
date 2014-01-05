@@ -25,21 +25,34 @@ public class MessageHelper extends StateContainer {
 	public static final String OFFLINE_COLOR = "dark_red";
 
 	public static String format(CommandSender commandSender) {
-		return format(commandSender.getName(), commandSender);
+		return format(commandSender.getName(), commandSender, false);
+	}
+
+	public static String formatWithTag(CommandSender commandSender) {
+		return format(commandSender.getName(), commandSender, true);
 	}
 
 	public static String format(String name) {
-		return format(name, Bukkit.getPlayerExact(name));
+		return format(name, Bukkit.getPlayerExact(name), false);
 	}
-	private static String format(String name, CommandSender commandSender) {
+
+	public static String formatWithTag(String name) {
+		return format(name, Bukkit.getPlayerExact(name), true);
+	}
+
+	private static String format(String name, CommandSender commandSender, boolean withTag) {
 		final String onHover;
-		final String displayName;
+		String displayName;
 		if (commandSender == null) {
 			onHover = "";
 			displayName = name;
 		}
 		else {
 			displayName = YiffBukkit.instance.playerHelper.getPlayerRankTag(name) + commandSender.getDisplayName();
+			final String playerTag = YiffBukkit.instance.playerHelper.getPlayerTagRaw(name, false);
+			if (withTag && playerTag != null) {
+				displayName = playerTag + " " + displayName;
+			}
 			if (commandSender instanceof Player) {
 				final Player player = (Player) commandSender;
 				final String color = player.isOnline() ? ONLINE_COLOR : OFFLINE_COLOR;
