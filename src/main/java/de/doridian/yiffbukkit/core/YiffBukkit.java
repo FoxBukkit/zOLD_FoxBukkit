@@ -42,6 +42,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 import java.util.logging.Level;
@@ -191,6 +192,8 @@ public class YiffBukkit extends JavaPlugin {
 
 		try {
 			Runtime.getRuntime().exec("./server_online.sh");
+		} catch (IOException e) {
+			System.err.println("Could not run server_online.sh, skipping.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
