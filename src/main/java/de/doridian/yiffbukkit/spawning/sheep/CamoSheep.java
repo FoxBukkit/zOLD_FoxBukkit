@@ -5,6 +5,9 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Sheep;
+import org.bukkit.material.Colorable;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.TexturedMaterial;
 
 public class CamoSheep extends AbstractSheep {
 	private DyeColor dyeMap[] = {
@@ -111,9 +114,9 @@ public class CamoSheep extends AbstractSheep {
 
 	@Override
 	public DyeColor getColor() {
-		Location location = sheep.getLocation();
+		final Location location = sheep.getLocation();
 		{
-			int blockId = location.getBlock().getTypeId();
+			final int blockId = location.getBlock().getTypeId();
 			if (blockId < dyeMap.length && dyeMap[blockId] != null) {
 				return dyeMap[blockId];
 			}
@@ -121,31 +124,20 @@ public class CamoSheep extends AbstractSheep {
 
 		location.setY(location.getY()-1);
 
-		{
-			final Block block = location.getBlock();
-			int blockId = block.getTypeId();
-			if (blockId == 35) { // wool
-				return DyeColor.getByWoolData(block.getData());
-			}
-			if (blockId == 43 || blockId == 44) { // steps
-				switch (block.getData()) {
-				case 0:
-					return DyeColor.SILVER;
+		final Block block = location.getBlock();
+		final MaterialData data = block.getState().getData();
 
-				case 1:
-					return DyeColor.YELLOW;
+		if (data instanceof Colorable) { // wool, etc.
+			return ((Colorable) data).getColor();
+		}
 
-				case 2:
-					return DyeColor.BROWN;
+		if (data instanceof TexturedMaterial) { // steps, etc.
+			return dyeMap[((TexturedMaterial) data).getMaterial().getId()];
+		}
 
-				case 3:
-				default:
-					return DyeColor.GRAY;
-				}
-			}
-			else if (blockId < dyeMap.length) {
-				return dyeMap[blockId];
-			}
+		final int blockId = block.getTypeId();
+		if (blockId < dyeMap.length) {
+			return dyeMap[blockId];
 		}
 
 		return null;

@@ -13,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Colorable;
+import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -65,26 +67,26 @@ final class ShapeActions {
 			final ItemStack stack = new ItemStack(material, count, (short) itemShape.getDataValue());
 
 			if (colorName != null) {
-				colorName = colorName.toUpperCase();
-				Short dataValue = GiveCommand.getDataValue(material, colorName);
+				final Short dataValue = GiveCommand.getDataValue(material, colorName);
 				if (dataValue != null) {
 					stack.setDurability(dataValue);
 				}
-				else if (material == Material.WOOL || material == Material.INK_SACK) {
-					try {
-						DyeColor dyeColor = DyeColor.valueOf(colorName.replace("GREY", "GRAY"));
+				else {
+					final MaterialData data = stack.getData();
+					if (!(data instanceof Colorable)) {
+						throw new YiffBukkitCommandException("Material " + materialName + " cannot have a data value.");
+					}
 
-						if (material == Material.WOOL)
-							stack.setDurability(dyeColor.getWoolData());
-						else
-							stack.setDurability(dyeColor.getDyeData());
+					try {
+						final DyeColor dyeColor = DyeColor.valueOf(colorName.toUpperCase().replace("GREY", "GRAY"));
+
+						final Colorable colorable = (Colorable) data;
+						colorable.setColor(dyeColor);
+						stack.setData((MaterialData) colorable);
 					}
 					catch (IllegalArgumentException e) {
-						throw new YiffBukkitCommandException("Color "+colorName+" not found", e);
+						throw new YiffBukkitCommandException("Color " + colorName + " not found", e);
 					}
-				}
-				else {
-					throw new YiffBukkitCommandException("Material "+materialName+" cannot have a data value.");
 				}
 			}
 

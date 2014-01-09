@@ -252,8 +252,8 @@ public class YiffBukkitBlockListener extends BaseListener {
 	}
 
 	private class State {
-		private Block targetBlock;
-		private BlockState state;
+		private final Block targetBlock;
+		private final BlockState state;
 
 		public State(Block targetBlock, BlockState state) {
 			this.targetBlock = targetBlock;

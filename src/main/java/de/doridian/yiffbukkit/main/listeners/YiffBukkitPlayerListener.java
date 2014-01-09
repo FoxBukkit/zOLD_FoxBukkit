@@ -20,6 +20,7 @@ import net.minecraft.server.v1_7_R1.EntityWaterAnimal;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -36,8 +37,10 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.SpawnEgg;
+import org.bukkit.material.Wool;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -212,19 +215,26 @@ public class YiffBukkitPlayerListener extends BaseListener {
 				if (!player.hasPermission("yiffbukkit.dyepaint"))
 					return false;
 
-				Block clickedBlock = event.getClickedBlock();
+				final Block clickedBlock = event.getClickedBlock();
 				if (clickedBlock == null)
 					return false;
 				if (clickedBlock.getType() != Material.WOOL)
 					return false;
 
-				ItemStack item = event.getItem();
+				final ItemStack item = event.getItem();
 
 				final byte newData = (byte)(15 - item.getDurability());
 
+				final BlockState state = clickedBlock.getState();
+
 				if (plugin.logBlockConsumer != null)
-					plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), event.getClickedBlock().getState(), 35, newData);
-				clickedBlock.setData(newData);
+					plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), state, 35, newData);
+
+				final Wool wool = (Wool) state.getData();
+				final Dye dye = (Dye) item.getData();
+				wool.setColor(dye.getColor());
+				state.setData(wool);
+				state.update();
 
 				int newAmount = item.getAmount()-1;
 				if (newAmount > 0)
