@@ -40,7 +40,11 @@ public class YCAPICommand extends ICommand {
 				for(String plyName : plys) {
 					sb.append(' ');
 					OfflinePlayer plyOther = plugin.getServer().getOfflinePlayer(plyName);
-					if(plyOther != null && plyOther.isOnline()) {
+					if (plyOther == null) {
+						continue;
+					}
+
+					if(plyOther.isOnline()) {
 						sb.append('1');
 					} else {
 						sb.append('0');

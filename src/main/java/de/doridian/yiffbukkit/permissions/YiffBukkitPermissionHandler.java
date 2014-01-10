@@ -63,6 +63,8 @@ public class YiffBukkitPermissionHandler {
 		final File permissionsDirectory = new File(YiffBukkit.instance.getDataFolder() + "/permissions");
 		permissionsDirectory.mkdirs();
 		File[] files = permissionsDirectory.listFiles();
+		if (files == null)
+			return;
 
 		for(File file : files) {
 			try {
