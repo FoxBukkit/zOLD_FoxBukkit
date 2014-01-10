@@ -33,7 +33,7 @@ public class HelpCommand extends ICommand {
 		}
 		else {
 			String ret = "Available commands: /";
-			for (String key : new PriorityQueue<String>(commands.keySet())) {
+			for (String key : new PriorityQueue<>(commands.keySet())) {
 				if (key == "\u00a7")
 					continue;
 

@@ -20,7 +20,7 @@ import java.util.Queue;
 )
 public class LSD extends YBEffect {
 	private int i = 0;
-	Queue<Entity> toRemove = new LinkedList<Entity>();
+	Queue<Entity> toRemove = new LinkedList<>();
 	private static final int[] randomCrap = { 60, 61, 62, 63, 64, 65, 72, 73, 90, };
 
 	public LSD(Entity entity) {

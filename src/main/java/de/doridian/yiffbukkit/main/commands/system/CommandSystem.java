@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class CommandSystem {
 	private final YiffBukkit plugin;
-	private final Map<String,ICommand> commands = new HashMap<String,ICommand>();
+	private final Map<String,ICommand> commands = new HashMap<>();
 
 	public CommandSystem(YiffBukkit plugin) {
 		this.plugin = plugin;

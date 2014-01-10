@@ -26,7 +26,7 @@ public class AdvertismentCommand extends ICommand {
 		private static final long serialVersionUID = 1L;
 
 		private int delayInSeconds = 60;
-		private final ArrayList<String> advertismentMsgs = new ArrayList<String>();
+		private final ArrayList<String> advertismentMsgs = new ArrayList<>();
 	}
 
 	private final Random random = new Random();
@@ -50,22 +50,13 @@ public class AdvertismentCommand extends ICommand {
 	}
 
 	public AdvertismentCommand() {
-		AdSerializable tmp = null;
+		AdSerializable tmp;
 
-		try {
-			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/advertisments.dat");
-			try {
-				ObjectInputStream reader = new ObjectInputStream(stream);
-				try {
-					tmp = (AdSerializable)reader.readObject();
-				}
-				finally {
-					reader.close();
-				}
-			}
-			finally {
-				stream.close();
-			}
+		try (
+				FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/advertisments.dat");
+				ObjectInputStream reader = new ObjectInputStream(stream)
+		) {
+			tmp = (AdSerializable) reader.readObject();
 		} catch (IOException e) {
 			tmp = null;
 		} catch (Exception e) {

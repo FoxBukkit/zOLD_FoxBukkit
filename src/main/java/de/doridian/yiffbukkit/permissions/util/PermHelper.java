@@ -15,10 +15,10 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class PermHelper extends StateContainer {
-	private Hashtable<String,String> ranktags = new Hashtable<String,String>();
+	private Hashtable<String,String> ranktags = new Hashtable<>();
 	//Ranks
 
-	private Hashtable<String,String> playerranks = new Hashtable<String,String>();
+	private Hashtable<String,String> playerranks = new Hashtable<>();
 	public String getPlayerRank(Player ply) {
 		return getPlayerRank(ply.getName());
 	}
@@ -40,7 +40,7 @@ public class PermHelper extends StateContainer {
 	}
 
 	//Permission levels
-	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
+	public Hashtable<String,Integer> ranklevels = new Hashtable<>();
 	public int getPlayerLevel(CommandSender ply) {
 		return getPlayerLevel(ply.getName());
 	}

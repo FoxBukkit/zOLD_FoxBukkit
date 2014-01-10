@@ -38,11 +38,11 @@ public abstract class ICommand {
 		BOOLEAN, STRING, NUMERIC
 	}
 
-	private final TCharObjectMap<FlagType> flagTypes = new TCharObjectHashMap<FlagType>();
+	private final TCharObjectMap<FlagType> flagTypes = new TCharObjectHashMap<>();
 
 	protected final TCharSet booleanFlags = new TCharHashSet();
-	protected final TCharObjectMap<String> stringFlags = new TCharObjectHashMap<String>();
-	protected final TCharObjectMap<Double> numericFlags = new TCharObjectHashMap<Double>();
+	protected final TCharObjectMap<String> stringFlags = new TCharObjectHashMap<>();
+	protected final TCharObjectMap<Double> numericFlags = new TCharObjectHashMap<>();
 
 	protected YiffBukkit plugin;
 	protected PlayerHelper playerHelper;

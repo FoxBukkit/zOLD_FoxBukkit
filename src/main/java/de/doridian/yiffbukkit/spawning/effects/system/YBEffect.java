@@ -41,8 +41,8 @@ public abstract class YBEffect extends ScheduledTask {
 		}
 	}
 
-	private static final Map<Entity, YBEffect> effects = new HashMap<Entity, YBEffect>();
-	private static final Map<String, Class<? extends YBEffect>> effectClasses = new HashMap<String, Class<? extends YBEffect>>();
+	private static final Map<Entity, YBEffect> effects = new HashMap<>();
+	private static final Map<String, Class<? extends YBEffect>> effectClasses = new HashMap<>();
 	static {
 		addEffectClass(Rocket.class);
 		addEffectClass(LSD.class);

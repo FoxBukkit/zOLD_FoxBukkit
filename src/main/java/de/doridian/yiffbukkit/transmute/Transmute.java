@@ -22,8 +22,8 @@ public class Transmute implements Runnable {
 	private final TransmutePacketListener transmutePacketListener;
 	@SuppressWarnings("unused")
 	private TransmutePlayerListener transmutePlayerListener;
-	private final TIntObjectMap<Shape> transmuted = new TIntObjectHashMap<Shape>();
-	private Map<Player, Entity> lastEntities = new HashMap<Player, Entity>();
+	private final TIntObjectMap<Shape> transmuted = new TIntObjectHashMap<>();
+	private Map<Player, Entity> lastEntities = new HashMap<>();
 
 	public Transmute(YiffBukkit plugin) {
 		this.plugin = plugin;

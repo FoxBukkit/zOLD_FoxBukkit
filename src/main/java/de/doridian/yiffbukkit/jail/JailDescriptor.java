@@ -32,7 +32,7 @@ public class JailDescriptor {
 	}
 
 	public Map<String, List<String>> save() {
-		Map<String, List<String>> section = new TreeMap<String, List<String>>();
+		Map<String, List<String>> section = new TreeMap<>();
 
 		Ini.saveWorld(section, "%s", world);
 		Ini.saveVector(section, "position%s", position);

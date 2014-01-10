@@ -17,7 +17,7 @@ import java.util.Map;
 public class PortalEngine {
 	@SuppressWarnings("unused")
 	private YiffBukkit plugin;
-	public Map<String, PortalPair> portals = new HashMap<String, PortalPair>();
+	public Map<String, PortalPair> portals = new HashMap<>();
 
 	public PortalEngine(YiffBukkit plugin) {
 		this.plugin = plugin;

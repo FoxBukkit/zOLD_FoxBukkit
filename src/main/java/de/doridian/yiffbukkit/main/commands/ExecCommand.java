@@ -29,7 +29,7 @@ public class ExecCommand extends ICommand {
 		if (argStr.matches("[^-a-zA-Z0-9_ ]"))
 			throw new YiffBukkitCommandException("Invalid file name. Can only contain a-z, A-Z, 0-9, underscore(_), dash(-) and space");
 
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		try {
 			BufferedReader stream = new BufferedReader(new ConfigFileReader("scripts/"+argStr+".txt"));

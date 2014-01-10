@@ -39,22 +39,16 @@ public class StateContainer {
 					method.invoke(instance);
 				}
 			}
-			catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-			catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			catch (InvocationTargetException e) {
+			catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private static Map<String, Closure> loadersByName = new HashMap<String, Closure>();
-	private static Map<String, Closure> saversByName = new HashMap<String, Closure>();
-	private static Set<Closure> loaders = new HashSet<Closure>();
-	private static Set<Closure> savers = new HashSet<Closure>();
+	private static Map<String, Closure> loadersByName = new HashMap<>();
+	private static Map<String, Closure> saversByName = new HashMap<>();
+	private static Set<Closure> loaders = new HashSet<>();
+	private static Set<Closure> savers = new HashSet<>();
 
 	public StateContainer() {
 		for (Method method : getClass().getMethods()) {

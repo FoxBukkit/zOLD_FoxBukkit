@@ -22,7 +22,7 @@ public abstract class Ini {
 	public static Map<String, List<Map<String, List<String>>>> load(String fileName) {
 		Pattern sectionStartPattern = Pattern.compile("^\\[(.+)\\]$");
 
-		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
+		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
 
 		try {
 			BufferedReader stream = new BufferedReader(new ConfigFileReader(fileName));
@@ -43,7 +43,7 @@ public abstract class Ini {
 				List<Map<String, List<String>>> namesakes = sections.get(sectionName);
 
 				if (namesakes == null)
-					sections.put(sectionName, namesakes = new ArrayList<Map<String,List<String>>>());
+					sections.put(sectionName, namesakes = new ArrayList<>());
 
 				namesakes.add(loadSection(stream));
 			}
@@ -58,7 +58,7 @@ public abstract class Ini {
 	}
 
 	private static Map<String, List<String>> loadSection(BufferedReader stream) throws IOException {
-		Map<String, List<String>> section = new TreeMap<String, List<String>>();
+		Map<String, List<String>> section = new TreeMap<>();
 
 		Pattern linePattern = Pattern.compile("^([^=]+)=(.*)$");
 		String line;
@@ -79,7 +79,7 @@ public abstract class Ini {
 			List<String> values = section.get(key);
 
 			if (values == null)
-				section.put(key, values = new ArrayList<String>());
+				section.put(key, values = new ArrayList<>());
 
 			values.add(value);
 		}

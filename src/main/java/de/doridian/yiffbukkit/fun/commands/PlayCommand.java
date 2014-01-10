@@ -63,7 +63,7 @@ public class PlayCommand extends ICommand {
 				@SuppressWarnings("unused")
 				double note_mode   = mode_normal;
 				
-				Queue<Note> ret = new ArrayBlockingQueue<Note>(50);
+				Queue<Note> ret = new ArrayBlockingQueue<>(50);
 				StringReader iss = new StringReader(input);
 
 				// Temporary value for parameters.

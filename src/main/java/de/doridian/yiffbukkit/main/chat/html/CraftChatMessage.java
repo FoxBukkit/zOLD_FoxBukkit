@@ -28,7 +28,7 @@ public final class CraftChatMessage {
 			formatMap = builder.build();
 		}
 
-		private final List<IChatBaseComponent> list = new ArrayList<IChatBaseComponent>();
+		private final List<IChatBaseComponent> list = new ArrayList<>();
 		private IChatBaseComponent currentChatComponent = new ChatComponentText("");
 		private ChatModifier defaultModifier;
 		private ChatModifier modifier = new ChatModifier();

@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AbusePotentialManager extends StateContainer {
-	private static final Set<String> abusiveAdmins = new HashSet<String>();
-	private static Set<String> abusivePermissions = new HashSet<String>(Arrays.asList(
+	private static final Set<String> abusiveAdmins = new HashSet<>();
+	private static Set<String> abusivePermissions = new HashSet<>(Arrays.asList(
 			"bukkit.commandblock.set",
 			"worldedit.butcher",
 			"worldedit.remove",

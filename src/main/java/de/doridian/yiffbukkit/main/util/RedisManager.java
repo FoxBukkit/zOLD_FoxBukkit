@@ -74,7 +74,7 @@ public class RedisManager {
 			Set<String> keys = jedis.hkeys(name);
 			readJedisPool.returnResource(jedis);
 			if(keys == null)
-				return new HashSet<String>();
+				return new HashSet<>();
 			return keys;
 		}
 

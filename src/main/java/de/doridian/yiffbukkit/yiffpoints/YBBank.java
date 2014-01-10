@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class YBBank extends StateContainer {
-	Map<String, YBAccount> accounts = new HashMap<String, YBAccount>();
+	Map<String, YBAccount> accounts = new HashMap<>();
 
 	private YBAccount getAccount(String playerName) {
 		YBAccount account = accounts.get(playerName.toLowerCase());
@@ -85,7 +85,7 @@ public class YBBank extends StateContainer {
 
 	@Saver("bank")
 	public void save() {
-		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
+		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
 		for (Entry<String, YBAccount> entry : accounts.entrySet()) {
 			YBAccount account = entry.getValue();
 			final Map<String, List<String>> section = account.save();

@@ -24,7 +24,7 @@ public class ServerTimeCommand extends ICommand {
 		timeSwatches.put("morning", 6L);
 		timeSwatches.put("day", 12L);
 		timeSwatches.put("afternoon", 18L);
-	};
+	}
 
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

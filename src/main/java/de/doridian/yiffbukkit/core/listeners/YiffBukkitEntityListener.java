@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class YiffBukkitEntityListener extends BaseListener {
-	Map<String, String> lastAttacker = new HashMap<String, String>();
+	Map<String, String> lastAttacker = new HashMap<>();
 
-	Map<EntityType, String> monsterMap = new EnumMap<EntityType, String>(EntityType.class);
+	Map<EntityType, String> monsterMap = new EnumMap<>(EntityType.class);
 	{
 		monsterMap.put(EntityType.CREEPER, "a \u00a79creeper\u00a7f");
 		monsterMap.put(EntityType.GIANT, "a \u00a79giant\u00a7f");

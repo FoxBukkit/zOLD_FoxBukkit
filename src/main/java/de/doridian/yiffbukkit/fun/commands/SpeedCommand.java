@@ -16,7 +16,7 @@ import java.util.Map;
 @ICommand.Usage("[speed] [player]")
 @ICommand.Permission("yiffbukkit.players.speed")
 public class SpeedCommand extends ICommand implements Runnable {
-	private final HashMap<String, Integer> states = new HashMap<String, Integer>();
+	private final HashMap<String, Integer> states = new HashMap<>();
 
 	public SpeedCommand() {
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 300);

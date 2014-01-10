@@ -41,8 +41,8 @@ public class YiffBukkitPermissionHandler {
 
 	private boolean loaded = false;
 	private final Map<String,String> playerGroups = RedisManager.createKeptMap("playergroups");
-	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<GroupWorld,HashSet<String>>();
-	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<GroupWorld,HashSet<String>>();
+	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<>();
+	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<>();
 	
 	private String defaultWorld = "world";
 
@@ -94,8 +94,8 @@ public class YiffBukkitPermissionHandler {
 								groupProhibitions.put(currentGroupWorld, currentProhibitions);
 							}
 							int i = line.indexOf(' ');
-							currentPermissions = new HashSet<String>();
-							currentProhibitions = new HashSet<String>();
+							currentPermissions = new HashSet<>();
+							currentProhibitions = new HashSet<>();
 							if (i > 0) {
 								currentGroupWorld = new GroupWorld(line.substring(0, i).trim(), currentWorld);
 								GroupWorld tmp = new GroupWorld(line.substring(i + 1).trim(), currentWorld);
@@ -163,7 +163,7 @@ public class YiffBukkitPermissionHandler {
 		if(currentPermissions.contains("*")) { currentPermissions.add(permission); return true; }
 
 		if(currentProhibitions == null) {
-			currentProhibitions = new HashSet<String>();
+			currentProhibitions = new HashSet<>();
 			groupProhibitions.put(currentGroupWorld, currentProhibitions);
 		}
 		currentProhibitions.add(permission);

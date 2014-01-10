@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbstractPlayerStateCommand extends ICommand {
-	protected final Set<String> states = new HashSet<String>();
+	protected final Set<String> states = new HashSet<>();
 
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {

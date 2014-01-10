@@ -103,7 +103,7 @@ public class YiffBukkitPermissibleBase extends PermissibleBase {
 
 	@Override
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
-		return new HashSet<PermissionAttachmentInfo>();
+		return new HashSet<>();
 	}
 
 	@Override

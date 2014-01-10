@@ -24,7 +24,7 @@ import java.util.Set;
 
 public class TransmutePacketListener extends YBPacketListener implements YBListener {
 	private final Transmute transmute;
-	public final Set<Packet> ignoredPackets = new HashSet<Packet>();
+	public final Set<Packet> ignoredPackets = new HashSet<>();
 
 	public TransmutePacketListener(Transmute transmute) {
 		super();

@@ -49,7 +49,7 @@ public class YBAccount {
 		if (balance == 0.0)
 			return null;
 
-		Map<String, List<String>> section = new HashMap<String, List<String>>();
+		Map<String, List<String>> section = new HashMap<>();
 		section.put("balance", Arrays.asList(""+balance));
 		return section;
 	}

@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class SpectatePlayer {
-	private static final HashMap<Player, SpectatePlayer> wrappedPlayers = new HashMap<Player, SpectatePlayer>();
+	private static final HashMap<Player, SpectatePlayer> wrappedPlayers = new HashMap<>();
 
 	private final Player player;
 
 	private SpectatePlayer isSpectating = null;
 	private SpectatePlayer isSpectatingCur = null;
-	private HashSet<SpectatePlayer> spectatedBy = new HashSet<SpectatePlayer>();
+	private HashSet<SpectatePlayer> spectatedBy = new HashSet<>();
 
 	private ItemStack[] originalInventory = null;
 	private ItemStack[] originalArmor = null;

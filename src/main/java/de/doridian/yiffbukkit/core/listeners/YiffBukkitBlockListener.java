@@ -28,7 +28,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Doridian
  */
 public class YiffBukkitBlockListener extends BaseListener {
-	public static final Map<Material,String> blocklevels = new EnumMap<Material,String>(Material.class);
+	public static final Map<Material,String> blocklevels = new EnumMap<>(Material.class);
 	public static final Set<Material> flammableBlocks = EnumSet.noneOf(Material.class);
 	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
@@ -101,7 +101,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 		}
 	}
 
-	Map<Player, Queue<Long>> torchQueues = new HashMap<Player, Queue<Long>>();
+	Map<Player, Queue<Long>> torchQueues = new HashMap<>();
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
@@ -119,7 +119,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 		if (typeId == 50 || typeId == 76) {
 			Queue<Long> torchQueue = torchQueues.get(ply);
 			if (torchQueue == null)
-				torchQueues.put(ply, torchQueue = new ArrayBlockingQueue<Long>(TORCH_BREAK_WINDOW+1));
+				torchQueues.put(ply, torchQueue = new ArrayBlockingQueue<>(TORCH_BREAK_WINDOW+1));
 
 			final long currentTimeMillis = System.currentTimeMillis();
 			torchQueue.offer(currentTimeMillis);
@@ -172,7 +172,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 		final BlockFace pistonDirection = event.getDirection();
 		BlockFace pushDirection = pistonDirection.getOppositeFace();
 
-		final List<State> states = new ArrayList<State>();
+		final List<State> states = new ArrayList<>();
 
 		for (BlockFace face : faces.get(pushDirection)) {
 			handlePistonBlock(block, face, pushDirection, states);
@@ -201,9 +201,9 @@ public class YiffBukkitBlockListener extends BaseListener {
 		}}, 3);
 	}
 
-	private static final TIntObjectMap<BlockFace> dataAttachments = new TIntObjectHashMap<BlockFace>();
-	private static final TIntObjectMap<BlockFace> nonDataAttachments = new TIntObjectHashMap<BlockFace>();
-	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<BlockFace, BlockFace[]>();
+	private static final TIntObjectMap<BlockFace> dataAttachments = new TIntObjectHashMap<>();
+	private static final TIntObjectMap<BlockFace> nonDataAttachments = new TIntObjectHashMap<>();
+	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<>();
 	static {
 		HashMap<Integer, PlayerDirection> weDataAttachments = Utils.getPrivateValue(BlockType.class, null, "dataAttachments");
 		HashMap<Integer, PlayerDirection> weNonDataAttachments = Utils.getPrivateValue(BlockType.class, null, "nonDataAttachments");
@@ -299,7 +299,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 		final int modX = pushDirection.getModX();
 		final int modY = pushDirection.getModY();
 		final int modZ = pushDirection.getModZ();
-		blocks = new ArrayList<Block>(blocks);
+		blocks = new ArrayList<>(blocks);
 		Collections.sort(blocks, new Comparator<Block>() { public int compare(Block lhs, Block rhs) {
 			return
 			(rhs.getX()-lhs.getX())*modX +
@@ -307,7 +307,7 @@ public class YiffBukkitBlockListener extends BaseListener {
 			(rhs.getZ()-lhs.getZ())*modZ;
 		}});
 
-		final List<State> states = new ArrayList<State>();
+		final List<State> states = new ArrayList<>();
 
 		final BlockFace[] blockFaces = faces.get(pushDirection);
 		for (Block block : blocks) {

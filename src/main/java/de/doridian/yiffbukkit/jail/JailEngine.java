@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class JailEngine extends StateContainer {
-	private List<JailDescriptor> jails = new ArrayList<JailDescriptor>();
-	private Map<String, Location> inmates = new HashMap<String, Location>();
+	private List<JailDescriptor> jails = new ArrayList<>();
+	private Map<String, Location> inmates = new HashMap<>();
 	public YiffBukkit plugin;
 
 	public JailEngine(YiffBukkit plugin) {
@@ -60,15 +60,15 @@ public class JailEngine extends StateContainer {
 
 	@Saver({"jails", "jail"})
 	public void SaveJails() {
-		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<String, List<Map<String, List<String>>>>();
-		List<Map<String, List<String>>> jailSections = new ArrayList<Map<String, List<String>>>();  
+		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
+		List<Map<String, List<String>>> jailSections = new ArrayList<>();
 		for (JailDescriptor entry : jails) {
 			jailSections.add(entry.save());
 		}
 		sections.put("jail", jailSections);
 
 		for(Map.Entry<String, Location> entry : inmates.entrySet()) {
-			Map<String, List<String>> section = new TreeMap<String, List<String>>();
+			Map<String, List<String>> section = new TreeMap<>();
 			Ini.saveLocation(section, "prev%s", entry.getValue());
 
 			sections.put("inmate "+entry.getKey(), Arrays.asList(section));

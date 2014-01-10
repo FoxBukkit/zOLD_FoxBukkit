@@ -78,7 +78,7 @@ public abstract class AbstractPlayer extends CraftOfflinePlayer implements Playe
 		if (maxDistance > 120) {
 			maxDistance = 120;
 		}
-		ArrayList<Block> blocks = new ArrayList<Block>();
+		ArrayList<Block> blocks = new ArrayList<>();
 		Iterator<Block> itr = new BlockIterator(this, maxDistance);
 		while (itr.hasNext()) {
 			Block block = itr.next();
@@ -135,7 +135,7 @@ public abstract class AbstractPlayer extends CraftOfflinePlayer implements Playe
 
 	@Override
 	public Set<String> getListeningPluginChannels() {
-		return new HashSet<String>();
+		return new HashSet<>();
 	}
 
 	@Override

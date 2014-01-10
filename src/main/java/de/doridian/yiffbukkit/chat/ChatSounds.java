@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChatSounds {
-	private static final Map<String, String> chatSounds = new HashMap<String, String>();
+	private static final Map<String, String> chatSounds = new HashMap<>();
 	private static final Pattern wordPattern = Pattern.compile("([^-'\\p{L}]*)([-'\\p{L}]*)");
 	static {
 		chatSounds.put("meow", "mob.cat.meow");
@@ -66,8 +66,8 @@ public class ChatSounds {
 
 	public static void processMessage(final Player player, final String message) {
 		// Split up words
-		final List<String> prefixes = new ArrayList<String>();
-		final List<String> words = new ArrayList<String>();
+		final List<String> prefixes = new ArrayList<>();
+		final List<String> words = new ArrayList<>();
 
 		final Matcher matcher = wordPattern.matcher(message);
 		while (matcher.find()) {

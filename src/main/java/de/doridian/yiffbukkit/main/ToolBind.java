@@ -69,7 +69,7 @@ public abstract class ToolBind {
 	}
 
 	public static Map<String, ToolBind> list(String playerName) {
-		Map<String, ToolBind> ret = new HashMap<String, ToolBind>();
+		Map<String, ToolBind> ret = new HashMap<>();
 		for (Entry<String, ToolBind> entry : toolMappings.entrySet()) {
 			ToolBind toolBind = entry.getValue();
 			if (!playerName.equals(toolBind.playerName))
@@ -84,7 +84,7 @@ public abstract class ToolBind {
 	}
 
 	public static Map<String, ToolBind> listGlobal() {
-		Map<String, ToolBind> ret = new HashMap<String, ToolBind>();
+		Map<String, ToolBind> ret = new HashMap<>();
 		for (Entry<String, ToolBind> entry : toolMappings.entrySet()) {
 			ToolBind toolBind = entry.getValue();
 			if (toolBind.playerName != null)

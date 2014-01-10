@@ -76,7 +76,7 @@ public class PersistentScheduler extends StateContainer {
 		}
 
 		public Map<String, List<String>> save() {
-			Map<String, List<String>> section = new TreeMap<String, List<String>>();
+			Map<String, List<String>> section = new TreeMap<>();
 
 			section.put("timestamp", Arrays.asList(""+timestamp));
 			section.put("sender", Arrays.asList(name));
@@ -87,7 +87,7 @@ public class PersistentScheduler extends StateContainer {
 	}
 
 	private long next = Long.MAX_VALUE;
-	private final PriorityQueue<Entry> queue = new PriorityQueue<Entry>();
+	private final PriorityQueue<Entry> queue = new PriorityQueue<>();
 
 	{
 		new ScheduledTask(YiffBukkit.instance) {
@@ -118,7 +118,7 @@ public class PersistentScheduler extends StateContainer {
 
 	@Saver("scheduler")
 	public void save() {
-		final List<Map<String, List<String>>> namesakes = new ArrayList<Map<String, List<String>>>();
+		final List<Map<String, List<String>>> namesakes = new ArrayList<>();
 		for (Entry entry : queue) {
 			namesakes.add(entry.save());
 		}

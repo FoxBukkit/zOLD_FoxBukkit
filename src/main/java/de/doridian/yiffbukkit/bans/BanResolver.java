@@ -12,9 +12,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class BanResolver {
-	private static HashMap<String, Integer> playerIDs = new HashMap<String, Integer>();
-	private static HashMap<Integer, String> playerNames = new HashMap<Integer, String>();
-	private static HashMap<Integer, SoftReference<Ban>> playerBans = new HashMap<Integer, SoftReference<Ban>>();
+	private static HashMap<String, Integer> playerIDs = new HashMap<>();
+	private static HashMap<Integer, String> playerNames = new HashMap<>();
+	private static HashMap<Integer, SoftReference<Ban>> playerBans = new HashMap<>();
 
 	public static final long BAN_MAX_AGE_MILLIS = 60 * 1000;
 
@@ -86,7 +86,7 @@ public class BanResolver {
 			preparedStatement.close();
 			connection.close();
 
-			playerBans.put(ban.getUserID(), new SoftReference<Ban>(ban));
+			playerBans.put(ban.getUserID(), new SoftReference<>(ban));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,7 +133,7 @@ public class BanResolver {
 			Ban ret = null;
 			if(resultSet.next()) {
 				ret = new Ban(resultSet.getString("reason"), resultSet.getInt("admin"), resultSet.getInt("player"), resultSet.getString("type"), resultSet.getInt("time"));
-				playerBans.put(userID, new SoftReference<Ban>(ret));
+				playerBans.put(userID, new SoftReference<>(ret));
 			}
 			preparedStatement.close();
 			connection.close();

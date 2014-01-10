@@ -63,8 +63,8 @@ public class MyEntityTypes {
 		}
 
 		classToTypeName.put(cls, aliases[0]);
-		idToClass.put(Integer.valueOf(mobType), cls);
-		classToId.put(cls, Integer.valueOf(mobType));
+		idToClass.put(mobType, cls);
+		classToId.put(cls, mobType);
 	}
 
 	public static final Class<? extends net.minecraft.server.v1_7_R1.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
@@ -77,7 +77,7 @@ public class MyEntityTypes {
 		//return typeNameToClass.get(mobType);
 	}
 	
-	public static final int classToId(Class<? extends net.minecraft.server.v1_7_R1.Entity> mobType) throws EntityTypeNotFoundException {
+	public static int classToId(Class<? extends net.minecraft.server.v1_7_R1.Entity> mobType) throws EntityTypeNotFoundException {
 		final Integer id = classToId.get(mobType);
 		if (id == null)
 			throw new EntityTypeNotFoundException();
@@ -85,7 +85,7 @@ public class MyEntityTypes {
 		return id;
 	}
 
-	public static final String classToTypeName(Class<? extends net.minecraft.server.v1_7_R1.Entity> mobType) throws EntityTypeNotFoundException {
+	public static String classToTypeName(Class<? extends net.minecraft.server.v1_7_R1.Entity> mobType) throws EntityTypeNotFoundException {
 		final String typeName = classToTypeName.get(mobType);
 		if (typeName == null)
 			throw new EntityTypeNotFoundException();
@@ -93,7 +93,7 @@ public class MyEntityTypes {
 		return typeName;
 	}
 
-	public static final Class<? extends net.minecraft.server.v1_7_R1.Entity> idToClass(int id) throws EntityTypeNotFoundException {
+	public static Class<? extends net.minecraft.server.v1_7_R1.Entity> idToClass(int id) throws EntityTypeNotFoundException {
 		final Class<? extends net.minecraft.server.v1_7_R1.Entity> mobType = idToClass.get(id);
 		if (mobType == null)
 			throw new EntityTypeNotFoundException();

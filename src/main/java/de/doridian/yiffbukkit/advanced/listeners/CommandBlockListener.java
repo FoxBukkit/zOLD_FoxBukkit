@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class CommandBlockListener extends BaseListener {
     private static final Pattern argumentValuePattern = Pattern.compile("\\G(\\w{1,2})=(-?\\w+)(?:$|,)");
 
-    private static final HashMap<String, SoftReference<ParsedCommand>> parsedCommandMap = new HashMap<String, SoftReference<ParsedCommand>>();
+    private static final HashMap<String, SoftReference<ParsedCommand>> parsedCommandMap = new HashMap<>();
 
     private interface ParsedArgument {
         public List<String> getValue(Block block);
@@ -98,7 +98,7 @@ public class CommandBlockListener extends BaseListener {
                 Collections.reverse(availablePlayers);
             }
 
-            ArrayList<String> ret = new ArrayList<String>();
+            ArrayList<String> ret = new ArrayList<>();
             int count = 0;
 
             for(Player ply : availablePlayers) {
@@ -129,7 +129,7 @@ public class CommandBlockListener extends BaseListener {
         private final List<String> value;
 
         private ParsedArgumentString(String value) {
-            this.value = new ArrayList<String>();
+            this.value = new ArrayList<>();
             this.value.add(value);
         }
 
@@ -212,12 +212,12 @@ public class CommandBlockListener extends BaseListener {
         }
 
         public List<StringBuilder> getCommandsRunBy(Block block) {
-            ArrayList<StringBuilder> currentCommands = new ArrayList<StringBuilder>();
+            ArrayList<StringBuilder> currentCommands = new ArrayList<>();
             for(int i = 0; i < parsedArguments.length; i++) {
                 List<String> argVals = parsedArguments[i].getValue(block);
                 int argValSize = argVals.size();
                 if(argValSize < 1) {
-                    return new ArrayList<StringBuilder>(); // x * 0 = 0!
+                    return new ArrayList<>(); // x * 0 = 0!
                 } else if(argValSize == 1) {
                     String argVal = argVals.get(0);
                     for(StringBuilder stringBuilder : currentCommands) {
@@ -280,7 +280,7 @@ public class CommandBlockListener extends BaseListener {
 
         if(parsedCommand == null) {
             parsedCommand = new ParsedCommand(command);
-            parsedCommandMap.put(command, new SoftReference<ParsedCommand>(parsedCommand));
+            parsedCommandMap.put(command, new SoftReference<>(parsedCommand));
         }
 
         parsedCommand.runBy(block);

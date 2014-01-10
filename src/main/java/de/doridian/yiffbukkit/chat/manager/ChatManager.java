@@ -31,9 +31,9 @@ public class ChatManager {
 	*/
 
 	YiffBukkit plugin;
-	Stack<Object> currentOrigin = new Stack<Object>();
+	Stack<Object> currentOrigin = new Stack<>();
 
-	Map<String, Queue<ChatLogEntry>> chatQueues = new HashMap<String, Queue<ChatLogEntry>>();
+	Map<String, Queue<ChatLogEntry>> chatQueues = new HashMap<>();
 
 	/*
 	private Queue<ChatLogEntry> getChatQueue(Player ply) {
@@ -41,7 +41,7 @@ public class ChatManager {
 	}
 	*/
 
-	Map<Player, LinkedList<ChatEntry>> lastPlayerMessages = new HashMap<Player, LinkedList<ChatEntry>>();
+	Map<Player, LinkedList<ChatEntry>> lastPlayerMessages = new HashMap<>();
 	public ChatManager(YiffBukkit plugin) {
 		this.plugin = plugin;
 
@@ -129,7 +129,7 @@ public class ChatManager {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		final ArrayBlockingQueue<ChatLogEntry> chatQueue = new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1);
+		final ArrayBlockingQueue<ChatLogEntry> chatQueue = new ArrayBlockingQueue<>(CHAT_QUEUE_LENGTH+1);
 
 		for (int i = 0; i < CHAT_QUEUE_LENGTH; ++i) {
 			chatQueue.offer(EMPTY_CHAT_LOG_ENTRY);
@@ -182,7 +182,7 @@ public class ChatManager {
 		if (chatQueue == null)
 			return;
 
-		for (ChatLogEntry chatEntry : new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1, false, chatQueue)) {
+		for (ChatLogEntry chatEntry : new ArrayBlockingQueue<>(CHAT_QUEUE_LENGTH+1, false, chatQueue)) {
 			ply.sendRawMessage(chatEntry.getText());
 		}
 
@@ -211,7 +211,7 @@ public class ChatManager {
 		}
 
 		if (removed > 0) {
-			Queue<ChatLogEntry> newChatQueue = new ArrayBlockingQueue<ChatLogEntry>(CHAT_QUEUE_LENGTH+1);
+			Queue<ChatLogEntry> newChatQueue = new ArrayBlockingQueue<>(CHAT_QUEUE_LENGTH+1);
 
 			for (int i = 0; i < removed; ++i)
 				newChatQueue.offer(EMPTY_CHAT_LOG_ENTRY);

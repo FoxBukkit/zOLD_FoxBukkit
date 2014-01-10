@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 
 public class Configuration {
-	private static HashMap<String,String> configValues = new HashMap<String,String>();
+	private static HashMap<String,String> configValues = new HashMap<>();
 	static {
 		configValues.clear();
 		try {
