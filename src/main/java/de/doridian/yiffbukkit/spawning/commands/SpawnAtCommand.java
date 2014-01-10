@@ -6,7 +6,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -22,10 +21,22 @@ import org.bukkit.util.Vector;
 		" Offsets from that default can be specified by prefixing an 'o'."
 )
 @Usage("[<x>][,<y>][,<z>][,<yaw>][,<pitch>][,<world>][,<velX>][,<velY>][,<velZ>] <mob>")
+@ICommand.NumericFlags("m")
 @Permission("yiffbukkit.spawnat")
 public class SpawnAtCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		args = parseFlags(args);
+
+		final int amount;
+		if (numericFlags.containsKey('m')) {
+			final int maxItems = commandSender.hasPermission("yiffbukkit.throw.unlimited") ? 1000 : 10;
+			amount = Math.max(1, Math.min(maxItems, (int) (double) numericFlags.get('m')));
+		}
+		else {
+			amount = 1;
+		}
+
 		final String coordString;
 		final String mobString;
 		final String themString;
@@ -81,8 +92,10 @@ public class SpawnAtCommand extends ICommand {
 			getDouble(coords, 8, 0)
 		);
 
-		final Entity entity = plugin.spawnUtils.buildMob(mobString.split("\\+"), commandSender, player, location);
-		entity.setVelocity(velocity);
+		for(int i=0;i<amount;i++) {
+			final Entity entity = plugin.spawnUtils.buildMob(mobString.split("\\+"), commandSender, player, location);
+			entity.setVelocity(velocity);
+		}
 	}
 
 	private static String getString(String[] coords, int index, String defaultValue) {
