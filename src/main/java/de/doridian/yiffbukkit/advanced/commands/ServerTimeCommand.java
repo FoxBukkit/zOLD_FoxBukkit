@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.advanced.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper.WeatherType;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -80,19 +81,19 @@ public class ServerTimeCommand extends ICommand {
 	protected void setTime(CommandSender commandSender, Long setTime, Long displayTime, WeatherType setWeather) throws YiffBukkitCommandException {
 		if (setTime == null) {
 			playerHelper.resetFrozenServerTime();
-			playerHelper.sendServerMessage(commandSender.getName() + " reset the server time back to normal!");
+			PlayerHelper.sendServerMessage(commandSender.getName() + " reset the server time back to normal!");
 		}
 		else {
 			playerHelper.setFrozenServerTime(setTime);
-			playerHelper.sendServerMessage(commandSender.getName() + " forced the server time to be: " + displayTime + ":00");
+			PlayerHelper.sendServerMessage(commandSender.getName() + " forced the server time to be: " + displayTime + ":00");
 		}
 
 		playerHelper.frozenServerWeather = setWeather;
 		if (setWeather == null) {
-			playerHelper.sendServerMessage(commandSender.getName() + " reset the server weather back to normal!");
+			PlayerHelper.sendServerMessage(commandSender.getName() + " reset the server weather back to normal!");
 		}
 		else {
-			playerHelper.sendServerMessage(commandSender.getName() + " forced the server weather to be: " + setWeather.name + ".");
+			PlayerHelper.sendServerMessage(commandSender.getName() + " forced the server weather to be: " + setWeather.name + ".");
 		}
 
 		playerHelper.pushWeather();

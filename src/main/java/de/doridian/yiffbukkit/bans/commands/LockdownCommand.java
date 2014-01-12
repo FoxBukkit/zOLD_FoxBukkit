@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.bans.commands;
 
 import de.doridian.yiffbukkit.bans.LockDownMode;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -52,10 +53,10 @@ public class LockdownCommand extends ICommand {
 		}
 
 		if (newMode == LockDownMode.OFF) {
-			playerHelper.sendServerMessage(name + " unlocked the server for guests.", 1);
+			PlayerHelper.sendServerMessage(name + " unlocked the server for guests.", 1);
 		}
 		else {
-			playerHelper.sendServerMessage(name + " locked the server for guests.", 1);
+			PlayerHelper.sendServerMessage(name + " locked the server for guests.", 1);
 		}
 
 	}

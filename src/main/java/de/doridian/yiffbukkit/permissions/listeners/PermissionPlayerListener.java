@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.permissions.listeners;
 
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.listeners.YiffBukkitBlockListener;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissibleBase;
@@ -33,7 +34,7 @@ public class PermissionPlayerListener extends BaseListener {
 		}
 
 		if (!ply.hasPermission("yiffbukkit.place")) {
-			YiffBukkit.instance.playerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial+".");
+			PlayerHelper.sendServerMessage(ply.getName() + " is not allowed to build but tried tried to spawn " + itemMaterial + ".");
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);
@@ -42,7 +43,7 @@ public class PermissionPlayerListener extends BaseListener {
 
 		final String permission = YiffBukkitBlockListener.blocklevels.get(itemMaterial);
 		if (permission != null && !ply.hasPermission(permission)) {
-			YiffBukkit.instance.playerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
+			PlayerHelper.sendServerMessage(ply.getName() + " tried to spawn illegal block " + itemMaterial);
 			item.setType(Material.GOLD_HOE);
 			item.setAmount(1);
 			item.setDurability(Short.MAX_VALUE);

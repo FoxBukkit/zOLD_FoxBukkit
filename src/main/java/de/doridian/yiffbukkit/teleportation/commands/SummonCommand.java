@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -24,6 +25,6 @@ public class SummonCommand extends ICommand {
 
 		plugin.playerHelper.teleportWithHistory(otherply, getCommandSenderLocation(commandSender, false));
 
-		playerHelper.sendServerMessage(commandSender.getName() + " summoned " + otherply.getName());
+		PlayerHelper.sendServerMessage(commandSender.getName() + " summoned " + otherply.getName());
 	}
 }

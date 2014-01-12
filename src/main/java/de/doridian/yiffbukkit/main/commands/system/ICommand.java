@@ -251,7 +251,7 @@ public abstract class ICommand {
 		if (requiredPermission != null)
 			return commandSender.hasPermission(requiredPermission);
 
-		final int playerLevel = plugin.playerHelper.getPlayerLevel(commandSender);
+		final int playerLevel = PlayerHelper.getPlayerLevel(commandSender);
 		final int requiredLevel = getRequiredLevel();
 
 		return playerLevel >= requiredLevel;

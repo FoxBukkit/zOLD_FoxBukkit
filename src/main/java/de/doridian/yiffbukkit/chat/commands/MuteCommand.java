@@ -63,8 +63,8 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 		if (targetName.equals(commandSenderName))
 			throw new YiffBukkitCommandException("You cannot mute yourself");
 
-		final Integer commandSenderLevel = playerHelper.getPlayerLevel(commandSender);
-		final Integer targetLevel = playerHelper.getPlayerLevel(targetName);
+		final Integer commandSenderLevel = PlayerHelper.getPlayerLevel(commandSender);
+		final Integer targetLevel = PlayerHelper.getPlayerLevel(targetName);
 		if (commandSenderLevel <= targetLevel)
 			throw new PermissionDeniedException();
 
@@ -76,13 +76,13 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 				if (prevState)
 					PlayerHelper.sendDirectedMessage(commandSender, "You are already muted.");
 				else {
-					playerHelper.sendServerMessage(commandSenderName+" muted themselves.", commandSender);
+					PlayerHelper.sendServerMessage(commandSenderName + " muted themselves.", commandSender);
 					PlayerHelper.sendDirectedMessage(commandSender, "You are now muted.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.sendServerMessage(commandSenderName+" unmuted themselves.", commandSender);
+					PlayerHelper.sendServerMessage(commandSenderName + " unmuted themselves.", commandSender);
 					PlayerHelper.sendDirectedMessage(commandSender, "You are no longer muted.");
 				}
 				else
@@ -94,7 +94,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 				if (prevState)
 					PlayerHelper.sendDirectedMessage(commandSender, targetName+" is already muted.");
 				else {
-					playerHelper.sendServerMessage(commandSenderName+" muted "+targetName+".", commandSender, target);
+					PlayerHelper.sendServerMessage(commandSenderName + " muted " + targetName + ".", commandSender, target);
 					PlayerHelper.sendDirectedMessage(commandSender, "You muted "+targetName+".");
 					if (target != null)
 						PlayerHelper.sendDirectedMessage(target, commandSenderName+" muted you.");
@@ -102,7 +102,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 			}
 			else {
 				if (prevState) {
-					playerHelper.sendServerMessage(commandSenderName+" unmuted "+targetName+".", commandSender, target);
+					PlayerHelper.sendServerMessage(commandSenderName + " unmuted " + targetName + ".", commandSender, target);
 					PlayerHelper.sendDirectedMessage(commandSender, "You unmuted "+targetName+".");
 					if (target != null)
 						PlayerHelper.sendDirectedMessage(target, commandSenderName+" unmuted you.");

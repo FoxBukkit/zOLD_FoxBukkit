@@ -24,8 +24,8 @@ public class BanishCommand extends ICommand {
 
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
-		int level = playerHelper.getPlayerLevel(commandSender);
-		int otherlevel = playerHelper.getPlayerLevel(otherply);
+		int level = PlayerHelper.getPlayerLevel(commandSender);
+		int otherlevel = PlayerHelper.getPlayerLevel(otherply);
 
 		// Players with the same levels can banish each other, but not reset each other's homes
 		if (level < otherlevel || (level == otherlevel && resetHome))
@@ -55,6 +55,6 @@ public class BanishCommand extends ICommand {
 					unitsFromSpawn + "m from the spawn. Use '/banish " + otherply.getName() + " resethome' to move it to the spawn.");
 		}
 
-		playerHelper.sendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and cleared teleport history and home position!" : "!"));
+		PlayerHelper.sendServerMessage(commandSender.getName() + " banished " + otherply.getName() + (resetHome ? " and cleared teleport history and home position!" : "!"));
 	}
 }

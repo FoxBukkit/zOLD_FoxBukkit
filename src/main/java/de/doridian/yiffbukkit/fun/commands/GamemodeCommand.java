@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.fun.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -67,10 +68,10 @@ public class GamemodeCommand extends ICommand {
 		target.setGameMode(gameMode);
 
 		if (target == ply) {
-			plugin.playerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + gameMode.toString());
+			PlayerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + gameMode.toString());
 		}
 		else {
-			plugin.playerHelper.sendServerMessage(ply.getName() + " changed the gamemode of " + target.getName() + " to " + gameMode.toString());
+			PlayerHelper.sendServerMessage(ply.getName() + " changed the gamemode of " + target.getName() + " to " + gameMode.toString());
 		}
 	}
 

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -29,6 +30,6 @@ public class SendCommand extends ICommand {
 
 		plugin.playerHelper.teleportWithHistory(fromPlayer, toPlayer);
 
-		playerHelper.sendServerMessage(commandSender.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
+		PlayerHelper.sendServerMessage(commandSender.getName() + " sent " + fromPlayer.getName() + " to " + toPlayer.getName());
 	}
 }

@@ -105,7 +105,7 @@ public class ButcherCommand extends ICommand {
 				++removed;
 			}
 
-			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs.", commandSender);
+			PlayerHelper.sendServerMessage(commandSender.getName() + " killed all mobs.", commandSender);
 			PlayerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs.");
 			return;
 		}
@@ -139,7 +139,7 @@ public class ButcherCommand extends ICommand {
 		}
 
 		//if (target == commandSender) {
-			playerHelper.sendServerMessage(commandSender.getName() + " killed all mobs in a radius of "+radius+" around themselves.", commandSender);
+			PlayerHelper.sendServerMessage(commandSender.getName() + " killed all mobs in a radius of " + radius + " around themselves.", commandSender);
 			PlayerHelper.sendDirectedMessage(commandSender, "Killed "+removed+" mobs in a radius of "+radius+" around yourself.");
 		/*}
 		else {

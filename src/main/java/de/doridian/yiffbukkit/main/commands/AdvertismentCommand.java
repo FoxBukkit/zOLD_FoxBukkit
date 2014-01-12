@@ -123,7 +123,7 @@ public class AdvertismentCommand extends ICommand {
 						String msg = serializable.advertismentMsgs.get(random.nextInt(max));
 						if(msg == null || msg.isEmpty())
 							return;
-						playerHelper.sendServerMessage(msg);
+						PlayerHelper.sendServerMessage(msg);
 					}
 				});
 

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.warp.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -17,6 +18,6 @@ public class SetSpawnCommand extends ICommand {
 
 		Location loc = ply.getLocation();
 		ply.getWorld().setSpawnLocation(loc.getBlockX(),loc.getBlockY(),loc.getBlockZ());
-		playerHelper.sendServerMessage(ply.getName() + " changed the world respawn point.");
+		PlayerHelper.sendServerMessage(ply.getName() + " changed the world respawn point.");
 	}
 }

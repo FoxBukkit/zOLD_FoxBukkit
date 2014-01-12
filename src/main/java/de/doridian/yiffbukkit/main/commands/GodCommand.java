@@ -55,13 +55,13 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 				if (prevState)
 					PlayerHelper.sendDirectedMessage(commandSender, "You are already invincible.");
 				else {
-					playerHelper.sendServerMessage(commandSenderName+" made themselves invincible.", commandSender);
+					PlayerHelper.sendServerMessage(commandSenderName + " made themselves invincible.", commandSender);
 					PlayerHelper.sendDirectedMessage(commandSender, "You are now invincible.");
 				}
 			}
 			else {
 				if (prevState) {
-					playerHelper.sendServerMessage(commandSenderName+" made themselves no longer invincible.", commandSender);
+					PlayerHelper.sendServerMessage(commandSenderName + " made themselves no longer invincible.", commandSender);
 					PlayerHelper.sendDirectedMessage(commandSender, "You are no longer invincible.");
 				}
 				else
@@ -73,7 +73,7 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 				if (prevState)
 					PlayerHelper.sendDirectedMessage(commandSender, targetName+" is already invincible.");
 				else {
-					playerHelper.sendServerMessage(commandSenderName+" made "+targetName+" invincible.", commandSender, target);
+					PlayerHelper.sendServerMessage(commandSenderName + " made " + targetName + " invincible.", commandSender, target);
 					PlayerHelper.sendDirectedMessage(commandSender, "You made "+targetName+" invincible.");
 					if (target != null)
 						PlayerHelper.sendDirectedMessage(target, commandSenderName+" made you invincible.");
@@ -81,7 +81,7 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 			}
 			else {
 				if (prevState) {
-					playerHelper.sendServerMessage(commandSenderName+" made "+targetName+" no longer invincible.", commandSender, target);
+					PlayerHelper.sendServerMessage(commandSenderName + " made " + targetName + " no longer invincible.", commandSender, target);
 					PlayerHelper.sendDirectedMessage(commandSender, "You made "+targetName+" no longer invincible.");
 					if (target != null)
 						PlayerHelper.sendDirectedMessage(target, commandSenderName+" made you no longer invincible.");

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.remote.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
@@ -74,7 +75,7 @@ public class RawRconApiCommand extends ICommand {
 						}
 						return str.deleteCharAt(0).toString();
 					case 'r': //rank
-						return plugin.playerHelper.getPlayerRank(args[1]);
+						return PlayerHelper.getPlayerRank(args[1]);
 				}
 		}
 		return null;

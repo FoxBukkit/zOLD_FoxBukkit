@@ -41,7 +41,7 @@ public class Bans {
 				Ban ban = BanResolver.getBan(ply, false);
 				if(ban != null) {
 					BanResolver.deleteBan(ban);
-					plugin.playerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
+					PlayerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
 				} else {
 					PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was not banned!");
 				}
@@ -81,7 +81,7 @@ public class Bans {
 				newBan.setReason(reason);
 				newBan.setType(type.getName());
 				BanResolver.addBan(newBan);
-				plugin.playerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
+				PlayerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
 				//PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
 			}
 		}.start();

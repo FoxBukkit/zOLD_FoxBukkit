@@ -56,14 +56,14 @@ public class MuteAllCommand extends ICommand implements Listener {
 				throw new YiffBukkitCommandException("The server is already muted!");
 
 			muteall = false;
-			playerHelper.sendServerMessage(playerName + " enabled server chat and commands.");
+			PlayerHelper.sendServerMessage(playerName + " enabled server chat and commands.");
 		}
 		else {
 			if (argStr.equals("off"))
 				throw new YiffBukkitCommandException("The server is already unmuted!");
 
 			muteall = true;
-			playerHelper.sendServerMessage(playerName + " disabled server chat and commands.");
+			PlayerHelper.sendServerMessage(playerName + " disabled server chat and commands.");
 		}
 
 	}

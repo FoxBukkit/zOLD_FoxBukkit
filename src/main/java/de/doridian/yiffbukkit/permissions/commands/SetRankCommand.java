@@ -26,7 +26,7 @@ public class SetRankCommand extends ICommand {
 
 		String otherName = args[0];
 		String newRank = args[1];
-		String oldRank = playerHelper.getPlayerRank(otherName);
+		String oldRank = PlayerHelper.getPlayerRank(otherName);
 		
 		if(oldRank.equalsIgnoreCase("banned")) {
 			throw new YiffBukkitCommandException("Player is banned! /unban first!");
@@ -43,8 +43,8 @@ public class SetRankCommand extends ICommand {
 			throw new YiffBukkitCommandException("Rank does not exist!");
 		}
 
-		int selflvl = playerHelper.getPlayerLevel(commandSender);
-		int oldlvl = playerHelper.getPlayerLevel(otherName);
+		int selflvl = PlayerHelper.getPlayerLevel(commandSender);
+		int oldlvl = PlayerHelper.getPlayerLevel(otherName);
 		int newlvl = playerHelper.getRankLevel(newRank);
 
 		if(selflvl <= oldlvl)
@@ -56,7 +56,7 @@ public class SetRankCommand extends ICommand {
 		if(playerHelper.getRankLevel(newRank) >= 4 && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
 			throw new PermissionDeniedException();
 		
-		if(playerHelper.getPlayerLevel(otherName) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
+		if(PlayerHelper.getPlayerLevel(otherName) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
 			throw new PermissionDeniedException();
 
 		if(booleanFlags.contains('p') && newlvl < oldlvl)
@@ -70,7 +70,7 @@ public class SetRankCommand extends ICommand {
 
 		playerHelper.setPlayerRank(otherName, newRank);
 
-		playerHelper.sendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
+		PlayerHelper.sendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
 		
 		try {
 			ChatHelper.getInstance().verifyPlayerInDefaultChannel(plugin.getServer().getPlayerExact(otherName));

@@ -29,11 +29,11 @@ public class JailCommand extends ICommand {
 
 		if (args.length == 1) {
 			jail.engine.jailPlayer(otherply, true);
-			playerHelper.sendServerMessage(ply.getName()+" sent "+otherply.getName()+" to jail.");
+			PlayerHelper.sendServerMessage(ply.getName() + " sent " + otherply.getName() + " to jail.");
 		}
 		else if (args[1].equals("release") || args[1].equals("rel") || args[1].equals("r")) {
 			jail.engine.jailPlayer(otherply, false);
-			playerHelper.sendServerMessage(ply.getName()+" released "+otherply.getName()+" from jail.");
+			PlayerHelper.sendServerMessage(ply.getName() + " released " + otherply.getName() + " from jail.");
 		}
 		else {
 			PlayerHelper.sendDirectedMessage(ply, "Invalid argument.");

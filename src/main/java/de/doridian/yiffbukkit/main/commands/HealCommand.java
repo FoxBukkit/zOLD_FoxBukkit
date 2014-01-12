@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
@@ -67,17 +68,17 @@ public class HealCommand extends ICommand {
 			target.setFoodLevel(Math.min(20, target.getFoodLevel() + amount));
 
 			if (amount >= 20)
-				playerHelper.sendServerMessage(commandSender.getName() + " fully fed " + target.getName() + ".");
+				PlayerHelper.sendServerMessage(commandSender.getName() + " fully fed " + target.getName() + ".");
 			else
-				playerHelper.sendServerMessage(commandSender.getName() + " fed " + target.getName() + " by "+amount+" points.");
+				PlayerHelper.sendServerMessage(commandSender.getName() + " fed " + target.getName() + " by " + amount + " points.");
 		}
 		else {
 			target.setHealth(Math.min(20, target.getHealth() + amount));
 
 			if (amount >= 20)
-				playerHelper.sendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
+				PlayerHelper.sendServerMessage(commandSender.getName() + " fully healed " + target.getName() + ".");
 			else
-				playerHelper.sendServerMessage(commandSender.getName() + " healed " + target.getName() + " by "+amount+" points.");
+				PlayerHelper.sendServerMessage(commandSender.getName() + " healed " + target.getName() + " by " + amount + " points.");
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.fun.commands;
 
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -25,8 +26,8 @@ public class LeashCommand extends ICommand {
 			throw new PermissionDeniedException();
 
 		if (playerHelper.toggleLeash(ply, otherply))
-			playerHelper.sendServerMessage(ply.getName() + " leashed " + otherply.getName());
+			PlayerHelper.sendServerMessage(ply.getName() + " leashed " + otherply.getName());
 		else
-			playerHelper.sendServerMessage(ply.getName() + " unleashed " + otherply.getName());
+			PlayerHelper.sendServerMessage(ply.getName() + " unleashed " + otherply.getName());
 	}
 }
