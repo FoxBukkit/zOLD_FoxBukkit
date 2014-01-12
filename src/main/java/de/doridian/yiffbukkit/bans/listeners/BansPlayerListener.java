@@ -67,6 +67,39 @@ public class BansPlayerListener extends BaseListener {
 		}
 	}
 
+	public static String makePossibleAltString(String user) {
+		final Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
+		if(alts == null || alts.isEmpty())
+			return null;
+
+		final StringBuilder sb = new StringBuilder();
+
+		boolean notFirst = false;
+		boolean hasBans = false;
+		for (String alt : alts) {
+			final Ban altBan = BanResolver.getBan(alt);
+
+			if (notFirst)
+				sb.append(", ");
+			else
+				notFirst = true;
+
+			if (altBan != null) {
+				hasBans = true;
+				sb.append("\u00a7c");
+			}
+			else
+				sb.append("\u00a7a");
+
+			sb.append(alt);
+		}
+
+		if (hasBans)
+			return String.format("%1$s has some banned possible alts: %2$s", user, sb);
+		else
+			return String.format("Possible alts of %1$s: %2$s", user, sb);
+	}
+
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
@@ -78,42 +111,15 @@ public class BansPlayerListener extends BaseListener {
 				final String user = player.getName();
 
 				BanResolver.addIPForPlayer(user, playerIP);
-				final Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
-				if(alts == null || alts.isEmpty())
+
+				final String message = makePossibleAltString(user);
+				if(message == null)
 					return;
-
-				final StringBuilder sb = new StringBuilder();
-
-				boolean notFirst = false;
-				boolean hasBans = false;
-				for (String alt : alts) {
-					final Ban altBan = BanResolver.getBan(alt);
-
-					if (notFirst)
-						sb.append(", ");
-					else
-						notFirst = true;
-
-					if (altBan != null) {
-						hasBans = true;
-						sb.append("\u00a7c");
-					}
-					else
-						sb.append("\u00a7a");
-
-					sb.append(alt);
-				}
-
-				final String message;
-				if (hasBans)
-					message = String.format("%1$s has some banned possible alts: %2$s", user, sb);
-				else
-					message = String.format("Possible alts of %1$s: %2$s", user, sb);
 
 				Bukkit.getScheduler().scheduleSyncDelayedTask(YiffBukkit.instance, new Runnable() {
 					@Override
 					public void run() {
-						MessageHelper.sendColoredServerMessage("light_purple", new PermissionPredicate("yiffbukkit.opchat"), message);
+					MessageHelper.sendColoredServerMessage("light_purple", new PermissionPredicate("yiffbukkit.opchat"), message);
 					}
 				});
 			}
