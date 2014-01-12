@@ -16,7 +16,7 @@ public class BanResolver {
 	private static HashMap<Integer, String> playerNames = new HashMap<>();
 	private static HashMap<Integer, SoftReference<Ban>> playerBans = new HashMap<>();
 
-	public static final long BAN_MAX_AGE_MILLIS = 60 * 1000;
+	private static final long BAN_MAX_AGE_MILLIS = 60 * 1000;
 
 	public static Ban getBan(String user) {
 		return getBan(user, true);

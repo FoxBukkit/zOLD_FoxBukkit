@@ -27,9 +27,10 @@ import java.util.Map;
 @Usage("<name or id> [amount] [player]")
 @Level(0)
 public class GiveCommand extends ICommand {
-	private static final Map<String,Material> aliases = new HashMap<>();
-	private static final Map<String,Short> dataValues = new HashMap<>();
-	private static final Map<Material,Double> prices = new EnumMap<>(Material.class);
+	private static final Map<String, Material> aliases = new HashMap<>();
+	private static final Map<String, Short> dataValues = new HashMap<>();
+	private static final Map<Material, Double> prices = new EnumMap<>(Material.class);
+
 	static {
 		aliases.put("wood_shovel", Material.WOOD_SPADE);
 		aliases.put("wooden_spade", Material.WOOD_SPADE);
@@ -94,8 +95,8 @@ public class GiveCommand extends ICommand {
 		dataValues.put("44:STONEBRICK", (short) 5);
 
 		for (short i = 1; i <= 5; ++i) {
-			dataValues.put("43:"+i, i);
-			dataValues.put("44:"+i, i);
+			dataValues.put("43:" + i, i);
+			dataValues.put("44:" + i, i);
 		}
 
 		dataValues.put("5:REDWOOD", (short) 1);
@@ -117,8 +118,8 @@ public class GiveCommand extends ICommand {
 		dataValues.put("17:TROPIC", (short) 3);
 
 		for (short i = 1; i <= 3; ++i) {
-			dataValues.put("5:"+i, i);
-			dataValues.put("17:"+i, i);
+			dataValues.put("5:" + i, i);
+			dataValues.put("17:" + i, i);
 		}
 
 		prices.put(Material.BEDROCK, 1000.0);
@@ -147,11 +148,11 @@ public class GiveCommand extends ICommand {
 	}
 
 	public static Short getDataValue(final Material material, String dataName) {
-		return dataValues.get(material.getId()+":"+dataName);
+		return dataValues.get(material.getId() + ":" + dataName);
 	}
 
 	public static double getPrice(final Material material) {
-		Double price = prices.get(material);
+		final Double price = prices.get(material);
 		if (price == null)
 			return DEFAULT_PRICE;
 
@@ -212,7 +213,7 @@ public class GiveCommand extends ICommand {
 		final int colonPos = materialName.indexOf(':');
 		String colorName = null;
 		if (colonPos >= 0) {
-			colorName = materialName.substring(colonPos+1);
+			colorName = materialName.substring(colonPos + 1);
 			materialName = materialName.substring(0, colonPos);
 		}
 		final Material material = matchMaterial(materialName);
@@ -225,34 +226,32 @@ public class GiveCommand extends ICommand {
 					plugin.spawnUtils.buildMob(args[0].split("\\+"), commandSender, target, targetLocation);
 				}
 				catch (PermissionDeniedException e) {
-					throw new YiffBukkitCommandException("Material "+materialName+" not found");
+					throw new YiffBukkitCommandException("Material " + materialName + " not found");
 				}
 				catch (YiffBukkitCommandException e) {
-					PlayerHelper.sendDirectedMessage(commandSender, "Material "+materialName+" not found");
+					PlayerHelper.sendDirectedMessage(commandSender, "Material " + materialName + " not found");
 					throw e;
 				}
 			}
 
-			PlayerHelper.sendDirectedMessage(commandSender, "Created "+count+" creatures.");
+			PlayerHelper.sendDirectedMessage(commandSender, "Created " + count + " creatures.");
 			return;
 		}
 
 		if (material == Material.AIR)
-			throw new YiffBukkitCommandException("Material "+materialName+" not found");
+			throw new YiffBukkitCommandException("Material " + materialName + " not found");
 
 		final ItemStack stack = new ItemStack(material, count);
 
 		if (colorName != null) {
 			colorName = colorName.toUpperCase();
-			Short dataValue = getDataValue(material, colorName);
+			final Short dataValue = getDataValue(material, colorName);
 			if (dataValue != null) {
 				stack.setDurability(dataValue);
 			}
 			else {
 				final MaterialData data = stack.getData();
-				if (!(data instanceof Colorable)) {
-					stack.setDurability(Short.parseShort(colorName));
-				} else {
+				if (data instanceof Colorable) {
 					try {
 						final DyeColor dyeColor = DyeColor.valueOf(colorName.toUpperCase().replace("GREY", "GRAY"));
 
@@ -264,24 +263,29 @@ public class GiveCommand extends ICommand {
 						throw new YiffBukkitCommandException("Color " + colorName + " not found", e);
 					}
 				}
+				else {
+					stack.setDurability(Short.parseShort(colorName));
+				}
 			}
 		}
 
-		final double price = getPrice(material)*count;
-		final boolean usedFunds = plugin.bank.checkPermissionsOrUseFunds(commandSender, "yiffbukkit.players.give", price, "/give "+argStr);
+		final double price = getPrice(material) * count;
+		final boolean usedFunds = plugin.bank.checkPermissionsOrUseFunds(commandSender, "yiffbukkit.players.give", price, "/give " + argStr);
 
 		if (usedFunds) {
 			final double total = plugin.bank.getBalance(commandSender.getName());
-			PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
+			PlayerHelper.sendDirectedMessage(commandSender, "Used " + price + " YP from your account. You have " + total + " YP left.");
 		}
 
 		PlayerInventory inv = target.getInventory();
 		int empty = inv.firstEmpty();
 		inv.setItem(empty, stack);
 
-		if (target == commandSender)
+		if (target == commandSender) {
 			PlayerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
-		else
-			PlayerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of "+target.getName()+"'s inventory!");
+		}
+		else {
+			PlayerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of " + target.getName() + "'s inventory!");
+		}
 	}
 }

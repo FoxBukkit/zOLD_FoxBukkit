@@ -95,7 +95,7 @@ public class GamemodeCommand extends ICommand {
 		try {
 			numeric = Integer.parseInt(arg);
 		}
-		catch (NumberFormatException e) { }
+		catch (NumberFormatException ignored) { }
 
 		for (GameMode gameMode : GameMode.values()) {
 			if (gameMode.name().startsWith(arg) || gameMode.getValue() == numeric) {

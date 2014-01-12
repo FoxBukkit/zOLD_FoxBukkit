@@ -67,7 +67,7 @@ public class MyEntityTypes {
 		classToId.put(cls, mobType);
 	}
 
-	public static final Class<? extends net.minecraft.server.v1_7_R1.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
+	public static Class<? extends net.minecraft.server.v1_7_R1.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
 		for (Entry<String, Class<? extends net.minecraft.server.v1_7_R1.Entity>> entry : typeNameToClass.entrySet()) {
 			if (entry.getKey().equalsIgnoreCase(mobType))
 				return entry.getValue();

@@ -159,10 +159,8 @@ public class ButcherCommand extends ICommand {
 					return true;
 
 				final EntityPlayer eply = ((CraftPlayer) entity).getHandle();
-				if (eply.world.players.contains(eply))
-					return true;
 
-				return false;
+				return eply.world.players.contains(eply);
 			}
 
 			if (entity instanceof Wolf) {

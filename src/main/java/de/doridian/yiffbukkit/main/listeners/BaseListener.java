@@ -9,7 +9,7 @@ public abstract class BaseListener implements Listener, YBListener {
 	protected final YiffBukkit plugin;
 	protected final PlayerHelper playerHelper;
 
-	public BaseListener() {
+	protected BaseListener() {
 		plugin = YiffBukkit.instance;
 		playerHelper = plugin.playerHelper;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);

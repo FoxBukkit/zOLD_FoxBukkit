@@ -199,7 +199,6 @@ public class Rocket extends YBEffect.PotionTrail {
 				for (Entity e : toRemove) {
 					e.remove();
 				}
-				return;
 			}
 		}.scheduleSyncDelayed(60);
 	}

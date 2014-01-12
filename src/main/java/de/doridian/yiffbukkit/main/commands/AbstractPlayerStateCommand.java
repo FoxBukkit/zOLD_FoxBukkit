@@ -23,57 +23,68 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 			break;
 
 		case 1:
-			if ("on".equals(args[0])) {
+			switch (args[0]) {
+			case "on":
 				//state on - turn own state on
 				newState = true;
 				targetName = asPlayer(commandSender).getName();
-			}
-			else if ("off".equals(args[0])) {
+				break;
+
+			case "off":
 				//state off - turn own state off
 				newState = false;
 				targetName = asPlayer(commandSender).getName();
-			}
-			else {
+				break;
+			default:
+
 				//state <name> - toggle someone's state
 				newState = null;
 				targetName = playerHelper.completePlayerName(args[0], false);
 				if (targetName == null)
-					throw new YiffBukkitCommandException("No unique player found for '"+args[0]+"'");
+					throw new YiffBukkitCommandException("No unique player found for '" + args[0] + "'");
+				break;
 			}
 			break;
 
 		default:
-			if ("on".equals(args[0])) {
+			switch (args[0]) {
+			case "on":
 				//state on <name> - turn someone's state on
 				newState = true;
 				targetName = playerHelper.completePlayerName(args[1], false);
 				if (targetName == null)
-					throw new YiffBukkitCommandException("No unique player found for '"+args[1]+"'");
-			}
-			else if ("off".equals(args[0])) {
+					throw new YiffBukkitCommandException("No unique player found for '" + args[1] + "'");
+				break;
+
+			case "off":
 				//state off <name> - turn someone's state off
 				newState = false;
 				targetName = playerHelper.completePlayerName(args[1], false);
 				if (targetName == null)
-					throw new YiffBukkitCommandException("No unique player found for '"+args[1]+"'");
-			}
-			else {
+					throw new YiffBukkitCommandException("No unique player found for '" + args[1] + "'");
+				break;
+
+			default:
 				//state <name> <...> - not sure yet
 				targetName = playerHelper.completePlayerName(args[0], false);
 				if (targetName == null)
-					throw new YiffBukkitCommandException("No unique player found for '"+args[0]+"'");
+					throw new YiffBukkitCommandException("No unique player found for '" + args[0] + "'");
 
-				if ("on".equals(args[1])) {
+				switch (args[1]) {
+				case "on":
 					//state <name> on - turn someone's state on
 					newState = true;
-				}
-				else if ("off".equals(args[1])) {
+					break;
+
+				case "off":
 					//state <name> off - turn someone's state off
 					newState = false;
-				}
-				else {
+					break;
+
+				default:
 					throw new YiffBukkitCommandException("Syntax error");
 				}
+				break;
 			}
 			break;
 		}
@@ -94,5 +105,5 @@ public abstract class AbstractPlayerStateCommand extends ICommand {
 		}
 	}
 
-	protected abstract void onStateChange(boolean prevState, boolean newState, String targetName, final CommandSender commandSender) throws YiffBukkitCommandException;
+	protected abstract void onStateChange(boolean prevState, boolean newState, String targetName, CommandSender commandSender) throws YiffBukkitCommandException;
 }

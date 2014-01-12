@@ -11,8 +11,7 @@ public class PartySheep extends AbstractSheep {
 
 	@Override
 	public DyeColor getColor()  {
-		DyeColor[] dyes = DyeColor.values();
-		DyeColor dyeColor = dyes[(int)Math.floor(dyes.length*Math.random())];
-		return dyeColor;
+		final DyeColor[] dyes = DyeColor.values();
+		return dyes[(int) Math.floor(dyes.length * Math.random())];
 	}
 }

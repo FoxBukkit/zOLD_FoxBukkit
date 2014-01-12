@@ -28,8 +28,8 @@ import java.util.Map.Entry;
 @Usage("[spawn|home|here|player <name>|warp <name>|<direction>]")
 @Permission("yiffbukkit.compass")
 public class CompassCommand extends ICommand {
-	int taskId = -1;
-	protected Map<Player, Player> playerCompassTargets = new HashMap<>();
+	private int taskId = -1;
+	private final Map<Player, Player> playerCompassTargets = new HashMap<>();
 	{
 		AutoCleanup.registerPlayerMap(playerCompassTargets);
 	}

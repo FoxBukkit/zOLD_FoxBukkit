@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class ComponentSystem {
-	Map<String, Component> loadedComponents = new LinkedHashMap<>();
+	private final Map<String, Component> loadedComponents = new LinkedHashMap<>();
 
 	public void registerComponents() {
 		loadedComponents.put("advanced", new de.doridian.yiffbukkit.advanced.Main());

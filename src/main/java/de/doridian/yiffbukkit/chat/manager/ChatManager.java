@@ -30,10 +30,10 @@ public class ChatManager {
 	private static final int RATE_LIMIT = 4;
 	*/
 
-	YiffBukkit plugin;
-	Stack<Object> currentOrigin = new Stack<>();
+	private final YiffBukkit plugin;
+	private final Stack<Object> currentOrigin = new Stack<>();
 
-	Map<String, Queue<ChatLogEntry>> chatQueues = new HashMap<>();
+	private final Map<String, Queue<ChatLogEntry>> chatQueues = new HashMap<>();
 
 	/*
 	private Queue<ChatLogEntry> getChatQueue(Player ply) {
