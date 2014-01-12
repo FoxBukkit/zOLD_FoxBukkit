@@ -54,22 +54,6 @@ import java.util.logging.Level;
 public class YiffBukkit extends JavaPlugin {
 	public static YiffBukkit instance;
 	public ComponentSystem componentSystem = new ComponentSystem();
-	@SuppressWarnings("unused")
-	private AutoCleanup autoCleanup;
-	@SuppressWarnings("unused")
-	private YiffBukkitPlayerListener playerListener;
-	@SuppressWarnings("unused")
-	private YiffBukkitBlockListener blockListener;
-	@SuppressWarnings("unused")
-	private YiffBukkitEntityListener yiffBukkitEntityListener;
-    @SuppressWarnings("unused")
-    private YiffBukkitBungeeLink yiffBukkitBungeeLink;
-	@SuppressWarnings("unused")
-	private SignPortalPlayerListener signPortalPlayerListener;
-	@SuppressWarnings("unused")
-	private ChatListener chatListener;
-	@SuppressWarnings("unused")
-	private YiffBukkitConsoleCommands consoleCommands;
 
 	public Transmute transmute;
 	private YiffBukkitRemote remote;
@@ -131,16 +115,16 @@ public class YiffBukkit extends JavaPlugin {
 
 		commandSystem = new CommandSystem(this);
 		componentSystem.registerCommands();
-		autoCleanup = new AutoCleanup();
-		playerListener = new YiffBukkitPlayerListener();
-		blockListener = new YiffBukkitBlockListener();
-		yiffBukkitEntityListener = new YiffBukkitEntityListener();
-		signPortalPlayerListener = new SignPortalPlayerListener();
+		new AutoCleanup();
+		new YiffBukkitPlayerListener();
+		new YiffBukkitBlockListener();
+		new YiffBukkitEntityListener();
+		new SignPortalPlayerListener();
 		transmute = new Transmute(this);
-		chatListener = new ChatListener();
-		consoleCommands = new YiffBukkitConsoleCommands(this);
+		new ChatListener();
+		new YiffBukkitConsoleCommands(this);
 		componentSystem.registerListeners();
-		yiffBukkitBungeeLink = new YiffBukkitBungeeLink();
+		new YiffBukkitBungeeLink();
 
 		log("Core components loaded.");
 		bans = new Bans(this);

@@ -20,15 +20,13 @@ import java.util.Map;
 public class Transmute implements Runnable {
 	final YiffBukkit plugin;
 	private final TransmutePacketListener transmutePacketListener;
-	@SuppressWarnings("unused")
-	private TransmutePlayerListener transmutePlayerListener;
 	private final TIntObjectMap<Shape> transmuted = new TIntObjectHashMap<>();
 	private Map<Player, Entity> lastEntities = new HashMap<>();
 
 	public Transmute(YiffBukkit plugin) {
 		this.plugin = plugin;
 		transmutePacketListener = new TransmutePacketListener(this);
-		transmutePlayerListener = new TransmutePlayerListener(this);
+		new TransmutePlayerListener(this);
 
 		final BukkitScheduler scheduler = plugin.getServer().getScheduler();
 		scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {

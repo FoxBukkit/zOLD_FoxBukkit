@@ -105,11 +105,11 @@ public abstract class CustomPotion extends EntityPotion {
 		return false;
 	}
 
-	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) throws YiffBukkitCommandException {
+	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) {
 		return false;
 	}
 
-	protected boolean hitEntity(@SuppressWarnings("UnusedParameters") Entity hitEntity) throws YiffBukkitCommandException {
+	protected boolean hitEntity(@SuppressWarnings("UnusedParameters") Entity hitEntity) {
 		return false;
 	}
 }

@@ -30,6 +30,7 @@ public class MuteAllCommand extends ICommand implements Listener {
 		if (muteall && !event.getPlayer().hasPermission("yiffbukkit.users.muteall")) {
 			PlayerHelper.sendDirectedMessage(event.getPlayer(), "Server chat is disabled at this time for all users.");
 			event.setCancelled(true);
+			//noinspection UnnecessaryReturnStatement
 			return;
 		}
 	}
@@ -39,10 +40,20 @@ public class MuteAllCommand extends ICommand implements Listener {
 		if (muteall && !event.getPlayer().hasPermission("yiffbukkit.users.muteall")) {
 			String fullCmd = event.getMessage();
 			String cmd = fullCmd.substring(0, fullCmd.indexOf(' ')).trim();
-			if(cmd.equals("msg") || cmd.equals("pm") || cmd.equals("conv") || cmd.equals("conversation") || cmd.equals("kick") || cmd.equals("irckick") || cmd.equals("settag") || cmd.equals("setnick") || cmd.equals("setrank") || cmd.equals("jail"))
-			{
+			switch (cmd) {
+			case "msg":
+			case "pm":
+			case "conv":
+			case "conversation":
+			case "kick":
+			case "irckick":
+			case "settag":
+			case "setnick":
+			case "setrank":
+			case "jail":
 				PlayerHelper.sendDirectedMessage(event.getPlayer(), "Some server commands have been disabled for all users.");
 				event.setCancelled(true);
+				//noinspection UnnecessaryReturnStatement
 				return;
 			}
 		}

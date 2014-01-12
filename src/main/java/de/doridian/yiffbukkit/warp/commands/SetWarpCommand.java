@@ -43,7 +43,7 @@ public class SetWarpCommand extends ICommand {
 		PlayerHelper.sendDirectedMessage(commandSender, "Created warp \u00a79" + warp.name + "\u00a7f. Use '/warp help' to see how to modify it.");
 	}
 
-	private Location getWarpTargetLocation(CommandSender commandSender) throws WarpException {
+	private Location getWarpTargetLocation(CommandSender commandSender) {
 		final Location guestSpawn = playerHelper.getRankSpawnPosition(plugin.getOrCreateWorld("world", World.Environment.NORMAL), "guest");
 		return getCommandSenderLocation(commandSender, false, guestSpawn);
 	}

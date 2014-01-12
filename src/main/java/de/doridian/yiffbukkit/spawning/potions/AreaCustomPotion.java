@@ -16,7 +16,7 @@ public abstract class AreaCustomPotion extends CustomPotion {
 		this.radius = radius;
 	}
 
-	protected abstract void areaHit(Entity entity) throws YiffBukkitCommandException;
+	protected abstract void areaHit(Entity entity);
 	protected void directHit(Entity entity) throws YiffBukkitCommandException {
 		areaHit(entity);
 	}

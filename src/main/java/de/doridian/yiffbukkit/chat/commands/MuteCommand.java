@@ -34,6 +34,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 		if (muted.contains(event.getPlayer().getName())) {
 			PlayerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot speak at this time.");
 			event.setCancelled(true);
+			//noinspection UnnecessaryReturnStatement
 			return;
 		}
 	}
@@ -43,6 +44,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 		if (muted.contains(event.getPlayer().getName())) {
 			PlayerHelper.sendDirectedMessage(event.getPlayer(), "You are muted and cannot use commands at this time.");
 			event.setCancelled(true);
+			//noinspection UnnecessaryReturnStatement
 			return;
 		}
 	}

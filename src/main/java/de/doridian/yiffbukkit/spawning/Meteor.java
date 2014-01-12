@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.spawning;
 
 import de.doridian.yiffbukkit.core.YiffBukkit;
-import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.potions.CustomPotion;
@@ -22,7 +21,7 @@ public class Meteor extends CustomPotion {
 	private final double radius;
 	private final double speed;
 
-	public Meteor(Location location, EntityPlayer thrower, double radius, double speed) throws YiffBukkitCommandException {
+	public Meteor(Location location, EntityPlayer thrower, double radius, double speed) {
 		super(location, 8, thrower); // TODO: pick different potionId
 		this.radius = radius;
 		this.speed = speed;
@@ -32,7 +31,7 @@ public class Meteor extends CustomPotion {
 	}
 
 	@Override
-	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) throws YiffBukkitCommandException {
+	protected boolean hitBlock(Block hitBlock, BlockFace sideHit, Location hitLocation) {
 		final double radiusSq = radius * radius;
 
 		final Entity thisBukkitEntity = getBukkitEntity();
