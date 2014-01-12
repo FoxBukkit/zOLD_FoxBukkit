@@ -33,7 +33,14 @@ public class RawRconApiCommand extends ICommand {
 						for(int i=0;i<stacks.length;i++) {
 							ItemStack current = stacks[i];
 							if(current == null) continue;
-							str.append("\n" + i + " " + current.getTypeId() + " " + current.getAmount() + " " + current.getDurability());
+							str.append("\n");
+							str.append(i);
+							str.append(" ");
+							str.append(current.getTypeId());
+							str.append(" ");
+							str.append(current.getAmount());
+							str.append(" ");
+							str.append(current.getDurability());
 						}
 						return str.deleteCharAt(0).toString();
 					case 'g': //get
@@ -60,7 +67,10 @@ public class RawRconApiCommand extends ICommand {
 					case 'e': //enumerate
 						StringBuilder str = new StringBuilder();
 						for(Player ply : plugin.getServer().getOnlinePlayers()) {
-							str.append("\n" + ply.getName() + " " + plugin.playerHelper.GetFullPlayerName(ply));
+							str.append("\n");
+							str.append(ply.getName());
+							str.append(" ");
+							str.append(plugin.playerHelper.GetFullPlayerName(ply));
 						}
 						return str.deleteCharAt(0).toString();
 					case 'r': //rank
