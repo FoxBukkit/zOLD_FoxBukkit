@@ -9,12 +9,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.CommandBlockRunEvent;
 
 import java.lang.ref.SoftReference;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommandBlockListener extends BaseListener {
-	private static final Pattern argumentValuePattern = Pattern.compile("\\G(\\w{1,2})=(-?\\w+)(?:$|,)");
+	private static final Pattern ARGUMENT_VALUE_PATTERN = Pattern.compile("\\G(\\w{1,2})=(-?\\w+)(?:$|,)");
 
 	private static final HashMap<String, SoftReference<ParsedCommand>> parsedCommandMap = new HashMap<>();
 
@@ -152,71 +157,80 @@ public class CommandBlockListener extends BaseListener {
 
 			for (int i = 0; i < args.length; i++) {
 				final String arg = args[i];
-				if (arg.charAt(0) == '@') {
-					ParsedArgumentPlayer parsedArgumentPlayer = null;
-					switch (arg.charAt(1)) {
-					case 'a':
-						parsedArgumentPlayer = new ParsedArgumentPlayer(ParsedArgumentPlayerType.ALL);
-						break;
-					case 'p':
-						parsedArgumentPlayer = new ParsedArgumentPlayer(ParsedArgumentPlayerType.CLOSEST);
-						break;
-					case 'r':
-						parsedArgumentPlayer = new ParsedArgumentPlayer(ParsedArgumentPlayerType.RANDOM);
-						break;
-					default:
-						parsedArguments[i] = new ParsedArgumentString(arg);
-						break;
-					}
-
-					if (parsedArgumentPlayer != null) {
-						final int argLen = arg.length();
-						if (argLen >= 3) {
-							if (arg.charAt(2) == '[' && arg.charAt(argLen - 1) == ']') {
-								Matcher matcher = argumentValuePattern.matcher(arg.substring(3, argLen - 2));
-								while (matcher.find()) {
-									final String key = matcher.group(1);
-									final String value = matcher.group(2);
-									if (key.equals("x")) {
-										parsedArgumentPlayer.x = Integer.parseInt(value);
-									} else if (key.equals("y")) {
-										parsedArgumentPlayer.y = Integer.parseInt(value);
-									} else if (key.equals("z")) {
-										parsedArgumentPlayer.z = Integer.parseInt(value);
-									} else if (key.equals("r")) {
-										parsedArgumentPlayer.maxRadius = Integer.parseInt(value);
-									} else if (key.equals("rm")) {
-										parsedArgumentPlayer.minRadius = Integer.parseInt(value);
-									} else if (key.equals("l")) {
-										parsedArgumentPlayer.maxLevel = Integer.parseInt(value);
-									} else if (key.equals("lm")) {
-										parsedArgumentPlayer.minLevel = Integer.parseInt(value);
-									} else if (key.equals("m")) {
-										parsedArgumentPlayer.gameMode = GameMode.getByValue(Integer.valueOf(value));
-									} else if (key.equals("c")) {
-										parsedArgumentPlayer.maxCount = Integer.valueOf(value);
-									}
-								}
-							}
-							else {
-								parsedArguments[i] = new ParsedArgumentString(arg);
-								continue;
-							}
-						}
-
-						parsedArguments[i] = parsedArgumentPlayer;
-					}
-				}
-				else {
+				if (arg.charAt(0) != '@') {
 					parsedArguments[i] = new ParsedArgumentString(arg);
+					continue;
 				}
+
+				final ParsedArgumentPlayer parsedArgumentPlayer;
+				switch (arg.charAt(1)) {
+				case 'a':
+					parsedArgumentPlayer = new ParsedArgumentPlayer(ParsedArgumentPlayerType.ALL);
+					break;
+				case 'p':
+					parsedArgumentPlayer = new ParsedArgumentPlayer(ParsedArgumentPlayerType.CLOSEST);
+					break;
+				case 'r':
+					parsedArgumentPlayer = new ParsedArgumentPlayer(ParsedArgumentPlayerType.RANDOM);
+					break;
+				default:
+					parsedArguments[i] = new ParsedArgumentString(arg);
+					continue;
+				}
+
+				final int argLen = arg.length();
+				if (argLen < 3) {
+					parsedArguments[i] = parsedArgumentPlayer;
+					continue;
+				}
+
+				if (arg.charAt(2) != '[' || arg.charAt(argLen - 1) != ']') {
+					parsedArguments[i] = new ParsedArgumentString(arg);
+					continue;
+				}
+
+				final Matcher matcher = ARGUMENT_VALUE_PATTERN.matcher(arg.substring(3, argLen - 2));
+				while (matcher.find()) {
+					final String key = matcher.group(1);
+					final String value = matcher.group(2);
+					switch (key) {
+					case "x":
+						parsedArgumentPlayer.x = Integer.parseInt(value);
+						break;
+					case "y":
+						parsedArgumentPlayer.y = Integer.parseInt(value);
+						break;
+					case "z":
+						parsedArgumentPlayer.z = Integer.parseInt(value);
+						break;
+					case "r":
+						parsedArgumentPlayer.maxRadius = Integer.parseInt(value);
+						break;
+					case "rm":
+						parsedArgumentPlayer.minRadius = Integer.parseInt(value);
+						break;
+					case "l":
+						parsedArgumentPlayer.maxLevel = Integer.parseInt(value);
+						break;
+					case "lm":
+						parsedArgumentPlayer.minLevel = Integer.parseInt(value);
+						break;
+					case "m":
+						parsedArgumentPlayer.gameMode = GameMode.getByValue(Integer.valueOf(value));
+						break;
+					case "c":
+						parsedArgumentPlayer.maxCount = Integer.valueOf(value);
+						break;
+					}
+				}
+				parsedArguments[i] = parsedArgumentPlayer;
 			}
 		}
 
 		public List<StringBuilder> getCommandsRunBy(Block block) {
 			ArrayList<StringBuilder> currentCommands = new ArrayList<>();
-			for (int i = 0; i < parsedArguments.length; i++) {
-				List<String> argVals = parsedArguments[i].getValue(block);
+			for (ParsedArgument parsedArgument : parsedArguments) {
+				List<String> argVals = parsedArgument.getValue(block);
 				int argValSize = argVals.size();
 				if (argValSize < 1) {
 					return new ArrayList<>(); // x * 0 = 0!
