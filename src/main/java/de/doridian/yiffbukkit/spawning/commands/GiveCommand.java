@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.MaterialData;
 
@@ -277,9 +276,7 @@ public class GiveCommand extends ICommand {
 			PlayerHelper.sendDirectedMessage(commandSender, "Used " + price + " YP from your account. You have " + total + " YP left.");
 		}
 
-		PlayerInventory inv = target.getInventory();
-		int empty = inv.firstEmpty();
-		inv.setItem(empty, stack);
+		target.getInventory().addItem(stack);
 
 		if (target == commandSender) {
 			PlayerHelper.sendDirectedMessage(commandSender, "Item has been put in first free slot of your inventory!");
