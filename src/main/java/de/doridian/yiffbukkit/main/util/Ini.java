@@ -19,26 +19,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Ini {
-	public static Map<String, List<Map<String, List<String>>>> load(String fileName) {
-		Pattern sectionStartPattern = Pattern.compile("^\\[(.+)\\]$");
+	private static final Pattern SECTION_START_PATTERN = Pattern.compile("^\\[(.+)\\]$");
+	private static final Pattern LINE_PATTERN = Pattern.compile("^([^=]+)=(.*)$");
 
-		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
+	public static Map<String, List<Map<String, List<String>>>> load(String fileName) {
+		final Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
 
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader(fileName));
-			String line;
-			while((line = stream.readLine()) != null) {
+			final BufferedReader stream = new BufferedReader(new ConfigFileReader(fileName));
+			while (true) {
+				final String line = stream.readLine();
+				if (line == null)
+					break;
+
 				if (line.trim().isEmpty())
 					continue;
 
-				Matcher matcher = sectionStartPattern.matcher(line);
+				final Matcher matcher = SECTION_START_PATTERN.matcher(line);
 
 				if (!matcher.matches()) {
 					System.err.println("Malformed line in "+fileName+".");
 					continue;
 				}
 
-				String sectionName = matcher.group(1);
+				final String sectionName = matcher.group(1);
 
 				List<Map<String, List<String>>> namesakes = sections.get(sectionName);
 
@@ -58,23 +62,25 @@ public abstract class Ini {
 	}
 
 	private static Map<String, List<String>> loadSection(BufferedReader stream) throws IOException {
-		Map<String, List<String>> section = new TreeMap<>();
+		final Map<String, List<String>> section = new TreeMap<>();
 
-		Pattern linePattern = Pattern.compile("^([^=]+)=(.*)$");
-		String line;
-		while((line = stream.readLine()) != null) {
+		while (true) {
+			final String line = stream.readLine();
+			if (line == null)
+				break;
+
 			if (line.trim().isEmpty())
 				break;
 
-			Matcher matcher = linePattern.matcher(line);
+			final Matcher matcher = LINE_PATTERN.matcher(line);
 
 			if (!matcher.matches()) {
 				System.err.println("Malformed line in file.");
 				continue;
 			}
 
-			String key = matcher.group(1);
-			String value = matcher.group(2);
+			final String key = matcher.group(1);
+			final String value = matcher.group(2);
 
 			List<String> values = section.get(key);
 
@@ -88,9 +94,9 @@ public abstract class Ini {
 
 	public static void save(String fileName, Map<String, List<Map<String, List<String>>>> sections) {
 		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter(fileName));
+			final BufferedWriter stream = new BufferedWriter(new ConfigFileWriter(fileName));
 			for (Map.Entry<String, List<Map<String, List<String>>>> entry : sections.entrySet()) {
-				String sectionHeader = "["+entry.getKey()+"]";
+				final String sectionHeader = "["+entry.getKey()+"]";
 				for (Map<String, List<String>> section : entry.getValue()) {
 					stream.write(sectionHeader);
 					stream.newLine();
@@ -107,7 +113,7 @@ public abstract class Ini {
 
 	private static void saveSection(BufferedWriter stream, Map<String, List<String>> section) throws IOException {
 		for (Map.Entry<String, List<String>> entry : section.entrySet()) {
-			String key = entry.getKey();
+			final String key = entry.getKey();
 			for (String value : entry.getValue()) {
 				stream.write(key);
 				stream.write("=");
@@ -138,7 +144,7 @@ public abstract class Ini {
 					Float.valueOf(section.get(String.format(format, "pitch")).get(0))
 			);
 		}
-		catch(Exception e) {
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
