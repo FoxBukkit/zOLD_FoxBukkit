@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.portal;
 
-import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.portal.listeners.PortalPlayerListener;
@@ -15,12 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PortalEngine {
-	@SuppressWarnings("unused")
-	private YiffBukkit plugin;
 	public Map<String, PortalPair> portals = new HashMap<>();
 
-	public PortalEngine(YiffBukkit plugin) {
-		this.plugin = plugin;
+	public PortalEngine() {
 		new PortalPlayerListener();
 	}
 

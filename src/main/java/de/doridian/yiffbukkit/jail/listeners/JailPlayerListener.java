@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.jail.listeners;
 
-import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailEngine;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,14 +10,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class JailPlayerListener implements Listener {
-	private final YiffBukkit plugin;
 	private final JailEngine jailEngine;
 
 	public JailPlayerListener(JailEngine jailEngine) {
-		plugin = jailEngine.plugin;
 		this.jailEngine = jailEngine;
 
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(this, jailEngine.plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -37,5 +35,4 @@ public class JailPlayerListener implements Listener {
 		if (jailEngine.isJailed(event.getPlayer()))
 			event.setRespawnLocation(event.getPlayer().getLocation());
 	}
-
 }
