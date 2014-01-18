@@ -1,8 +1,12 @@
 package de.doridian.yiffbukkit.fun.commands;
 
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.blocks.BlockType;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -18,6 +22,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.SortedSet;
 
 @Names("pushup")
 @Help("Pushes the selected region up.")
@@ -41,7 +50,7 @@ public class PushUpCommand extends ICommand {
 			throw new YiffBukkitCommandException("Please select a region.", e);
 		}
 
-		for (BlockVector pos : selected) {
+		for (BlockVector pos : Sets.newTreeSet(selected)) {
 			final int x = pos.getBlockX();
 			final int y = pos.getBlockY();
 			final int z = pos.getBlockZ();
@@ -54,6 +63,12 @@ public class PushUpCommand extends ICommand {
 	}
 
 	private static void pushUp(World world, int x, int y, int z, double speed) {
+		if (speed <= 0) {
+			final Block blockBelow = world.getBlockAt(x, y - 1, z);
+			if (!BlockType.canPassThrough(blockBelow.getTypeId(), blockBelow.getData()))
+				return;
+		}
+
 		final Block block = world.getBlockAt(x, y, z);
 
 		final int typeId = block.getTypeId();
