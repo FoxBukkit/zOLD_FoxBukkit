@@ -169,27 +169,27 @@ public class Utils {
 		final double yaw = Math.toRadians(location.getYaw());
 		final double pitch = Math.toRadians(location.getPitch());
 
-		final double cos_y = Math.cos(yaw);
-		final double sin_y = Math.sin(yaw);
-		final double cos_p = Math.cos(pitch);
-		final double sin_p = Math.sin(pitch);
+		final double cosYaw = Math.cos(yaw);
+		final double sinYaw = Math.sin(yaw);
+		final double cosPitch = Math.cos(pitch);
+		final double sinPitch = Math.sin(pitch);
 
 		final Vector xAxis = new Vector(
-				-sin_y*cos_p,
-				-sin_y*sin_p,
-				cos_y
+				-sinYaw*cosPitch,
+				-sinYaw*sinPitch,
+				cosYaw
 		);
 
 		final Vector yAxis = new Vector(
-				-sin_p,
-				cos_p,
+				-sinPitch,
+				cosPitch,
 				0
 		);
 
 		final Vector zAxis = new Vector(
-				cos_y*cos_p,
-				cos_y*sin_p,
-				sin_y
+				cosYaw*cosPitch,
+				cosYaw*sinPitch,
+				sinYaw
 		);
 
 		return xAxis.multiply(axis.getX()).add(yAxis.multiply(axis.getY())).add(zAxis.multiply(axis.getZ()));
@@ -200,7 +200,7 @@ public class Utils {
 	}
 
 	public static Vector toLocal(Location location, Vector position) {
-		return toWorldAxis(location, position.clone().subtract(location.toVector()));
+		return toLocalAxis(location, position.clone().subtract(location.toVector()));
 	}
 
 	public static String readableDate(Date date) {
