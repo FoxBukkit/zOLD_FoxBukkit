@@ -8,11 +8,15 @@ import com.sk89q.jnbt.NBTInputStream;
 import com.sk89q.jnbt.Tag;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
+import org.bukkit.Achievement;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
+import org.bukkit.entity.EntityType;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -30,6 +34,86 @@ public class OfflinePlayer extends AbstractPlayer {
 
 	public OfflinePlayer(Server server, String name) {
 		this(server, PlayerHelper.getPlayerFile(name, "world"), name);
+	}
+
+	@Override
+	public void removeAchievement(Achievement achievement) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public boolean hasAchievement(Achievement achievement) {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void decrementStatistic(Statistic statistic) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void decrementStatistic(Statistic statistic, int i) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setStatistic(Statistic statistic, int i) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public int getStatistic(Statistic statistic) throws IllegalArgumentException {
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void decrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public int getStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void decrementStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setStatistic(Statistic statistic, Material material, int i) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void incrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void decrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public int getStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
+		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void incrementStatistic(Statistic statistic, EntityType entityType, int i) throws IllegalArgumentException {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void decrementStatistic(Statistic statistic, EntityType entityType, int i) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setStatistic(Statistic statistic, EntityType entityType, int i) {
+		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	private OfflinePlayer(Server server, File playerFile, String name) {
