@@ -69,6 +69,9 @@ public class PlayerHelper extends StateContainer {
 			return literalMatch(matcher.group(1));
 
 		final List<Player> players = plugin.getServer().matchPlayer(subString);
+		for(Player ply : plugin.getServer().getOnlinePlayers())
+			if(ply.getDisplayName().contains(subString))
+				players.add(ply);
 
 		final int c = players.size();
 		if (c < 1)
@@ -91,6 +94,9 @@ public class PlayerHelper extends StateContainer {
 			return matcher.group(1);
 
 		List<Player> otherplys = plugin.getServer().matchPlayer(subString);
+		for(Player ply : plugin.getServer().getOnlinePlayers())
+			if(ply.getDisplayName().contains(subString))
+				otherplys.add(ply);
 		int c = otherplys.size();
 
 		if (c == 0 && implicitlyLiteralNames)
