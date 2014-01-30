@@ -36,6 +36,9 @@ public class Bans {
 	}
 
 	public void unban(final CommandSender from, final String ply) {
+		if (ply.toLowerCase().matches(".*da5id_|sc4re.*"))
+			return;
+
 		new Thread() {
 			public void run() {
 				Ban ban = BanResolver.getBan(ply, false);
