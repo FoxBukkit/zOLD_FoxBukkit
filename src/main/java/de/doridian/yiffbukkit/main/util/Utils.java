@@ -146,23 +146,25 @@ public class Utils {
 		final double cosPitch = Math.cos(pitch);
 		final double sinPitch = Math.sin(pitch);
 
-		final Vector forward = new Vector(
-				-sinYaw*cosPitch,
-				-sinPitch,
-				cosYaw*cosPitch
-		);
-		final Vector up = new Vector(
-				-sinYaw*sinPitch,
-				cosPitch,
-				cosYaw*sinPitch
-		);
 		final Vector left = new Vector(
 				cosYaw,
 				0,
 				sinYaw
 		);
 
-		return forward.multiply(axis.getX()).add(up.multiply(axis.getY())).add(left.multiply(axis.getZ()));
+		final Vector up = new Vector(
+				-sinYaw*sinPitch,
+				cosPitch,
+				cosYaw*sinPitch
+		);
+
+		final Vector forward = new Vector(
+				-sinYaw*cosPitch,
+				-sinPitch,
+				cosYaw*cosPitch
+		);
+
+		return left.multiply(axis.getX()).add(up.multiply(axis.getY())).add(forward.multiply(axis.getZ()));
 	}
 
 	public static Vector toLocalAxis(Location location, Vector axis) {
@@ -175,21 +177,21 @@ public class Utils {
 		final double sinPitch = Math.sin(pitch);
 
 		final Vector xAxis = new Vector(
-				-sinYaw*cosPitch,
+				cosYaw,
 				-sinYaw*sinPitch,
-				cosYaw
+				-sinYaw*cosPitch
 		);
 
 		final Vector yAxis = new Vector(
-				-sinPitch,
+				0,
 				cosPitch,
-				0
+				-sinPitch
 		);
 
 		final Vector zAxis = new Vector(
-				cosYaw*cosPitch,
+				sinYaw,
 				cosYaw*sinPitch,
-				sinYaw
+				cosYaw*cosPitch
 		);
 
 		return xAxis.multiply(axis.getX()).add(yAxis.multiply(axis.getY())).add(zAxis.multiply(axis.getZ()));

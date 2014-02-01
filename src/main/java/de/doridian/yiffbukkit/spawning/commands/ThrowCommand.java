@@ -254,14 +254,14 @@ public class ThrowCommand extends ICommand {
 			return;
 		}
 
-		final Vector speed = new Vector(2,0,0);
+		final Vector speed = new Vector(0,0,2);
 		if (args.length >= 2) {
 			try {
-				speed.setX(Double.valueOf(args[1]));
+				speed.setZ(Double.valueOf(args[1]));
 				if (args.length >= 3) {
 					speed.setY(Double.valueOf(args[2]));
 					if (args.length >= 4) {
-						speed.setZ(Double.valueOf(args[3]));
+						speed.setX(Double.valueOf(args[3]));
 					}
 				}
 			}
