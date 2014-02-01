@@ -47,7 +47,7 @@ public class SecCamCommand extends ICommand {
 
 				die = true;
 				t += 1.0/20.0;
-// cam coords
+				// cam coords
 				final Location location = ply.getEyeLocation();
 				final Vector origin = location.toVector();
 				double rx = -Math.toRadians(location.getPitch());
