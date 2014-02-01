@@ -17,6 +17,7 @@ import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -114,6 +115,11 @@ public class OfflinePlayer extends AbstractPlayer {
 	@Override
 	public void setStatistic(Statistic statistic, EntityType entityType, int i) {
 		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public <T extends Projectile> T launchProjectile(Class<? extends T> aClass, Vector vector) {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	private OfflinePlayer(Server server, File playerFile, String name) {
