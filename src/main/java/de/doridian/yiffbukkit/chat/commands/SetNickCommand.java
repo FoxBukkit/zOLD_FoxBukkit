@@ -60,9 +60,10 @@ public class SetNickCommand extends ICommand {
 			format = formatOther;
 
 		MessageHelper.sendServerMessage(String.format(
-				format + " " + MessageHelper.button(undoCommand, "undo", "blue", false),
+				format + " %3$s",
 				MessageHelper.format(commandSender),
-				MessageHelper.formatWithTag(modifiedPlayer)
+				MessageHelper.formatWithTag(modifiedPlayer),
+				MessageHelper.button(undoCommand, "undo", "blue", false)
 		));
 	}
 }
