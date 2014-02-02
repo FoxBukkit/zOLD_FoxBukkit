@@ -13,6 +13,8 @@ import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R1.WatchableObject;
 import net.minecraft.server.v1_7_R1.Vec3D;
 import net.minecraft.server.v1_7_R1.WorldServer;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -81,6 +83,21 @@ public class Utils {
 
 	public static String serializeLocation(Location loc) {
 		return loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getYaw() + ";" + loc.getPitch() + ";" + loc.getWorld().getName() + ";" + loc.getWorld().getEnvironment().name();
+	}
+
+	public static List<Player> matchPlayer(String subString) {
+		final List<Player> players = Bukkit.matchPlayer(subString);
+		final String lowerCase = subString.toLowerCase();
+		for (Player ply : Bukkit.getOnlinePlayers()) {
+			if (players.contains(ply))
+				continue;
+
+			if (!ChatColor.stripColor(ply.getDisplayName().toLowerCase()).contains(lowerCase))
+				continue;
+
+			players.add(ply);
+		}
+		return players;
 	}
 
 	public Location unserializeLocation(String str) {

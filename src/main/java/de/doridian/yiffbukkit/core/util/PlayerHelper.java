@@ -58,14 +58,6 @@ public class PlayerHelper extends StateContainer {
 		return new OfflinePlayer(plugin.getServer(), name);
 	}
 
-	private void insertDisplayNameMatch(List<Player> list, String subString) {
-		Pattern colorCodingPattern = Pattern.compile("\u00a7.");
-		subString = subString.toLowerCase();
-		for(Player ply : plugin.getServer().getOnlinePlayers())
-			if(!list.contains(ply) && colorCodingPattern.matcher(ply.getDisplayName().toLowerCase()).replaceAll("").contains(subString))
-				list.add(ply);
-	}
-
 	private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
 	public Player matchPlayerSingle(String subString, boolean implicitlyLiteral) throws PlayerNotFoundException, MultiplePlayersFoundException {
 		if (implicitlyLiteral)
@@ -76,9 +68,7 @@ public class PlayerHelper extends StateContainer {
 		if (matcher.matches())
 			return literalMatch(matcher.group(1));
 
-		final List<Player> players = plugin.getServer().matchPlayer(subString);
-
-		insertDisplayNameMatch(players, subString);
+		final List<Player> players = Utils.matchPlayer(subString);
 
 		final int c = players.size();
 		if (c < 1)
@@ -100,8 +90,7 @@ public class PlayerHelper extends StateContainer {
 		if (matcher.matches())
 			return matcher.group(1);
 
-		List<Player> otherplys = plugin.getServer().matchPlayer(subString);
-		insertDisplayNameMatch(otherplys, subString);
+		List<Player> otherplys = Utils.matchPlayer(subString);
 		int c = otherplys.size();
 
 		if (c == 0 && implicitlyLiteralNames)
