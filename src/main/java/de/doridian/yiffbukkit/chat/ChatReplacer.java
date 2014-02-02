@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public interface ChatReplacer extends Serializable {
 	public String replace(String msg);
 	public String toString();
+	public String asCommand();
 
 	class PlainChatReplacer implements ChatReplacer {
 		private static final long serialVersionUID = 1L;
@@ -26,6 +27,11 @@ public interface ChatReplacer extends Serializable {
 		@Override
 		public String toString() {
 			return "[Plain] " + from + " => " + to;
+		}
+
+		@Override
+		public String asCommand() {
+			return "/crepl " + from + " " + to;
 		}
 
 		@Override
@@ -60,6 +66,11 @@ public interface ChatReplacer extends Serializable {
 		@Override
 		public String toString() {
 			return "[RegExp] " + from + " => " + to;
+		}
+
+		@Override
+		public String asCommand() {
+			return "/crepl -r " + from + " " + to;
 		}
 
 		@Override
