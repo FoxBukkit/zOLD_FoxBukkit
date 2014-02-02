@@ -7,6 +7,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import me.confuser.barapi.BarAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,6 +27,9 @@ public class RestartCommand extends ICommand {
 			plugin.getServer().getScheduler().cancelTask(taskID);
 			taskID = -1;
 			PlayerHelper.sendServerMessage("Restart cancelled!");
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				BarAPI.removeBar(player);
+			}
 			return;
 		}
 
@@ -48,13 +52,16 @@ public class RestartCommand extends ICommand {
 	}
 
 	private class RestartRunnable implements Runnable {
+		private final long duration;
 		long lasttimeleft = 0;
 		int taskID;
-		long endtime;
+		private final long endtime;
 
 		public RestartRunnable(long duration) {
+			this.duration = duration;
 			endtime = System.currentTimeMillis() + (duration * 1000);
 			announceInChat(duration);
+			adjustBar(duration);
 		}
 
 		@Override
@@ -62,6 +69,7 @@ public class RestartCommand extends ICommand {
 			long timeleft = (endtime - System.currentTimeMillis()) / 1000;
 			if(timeleft == lasttimeleft) return;
 			lasttimeleft = timeleft;
+			adjustBar(timeleft);
 			if(timeleft <= 0) {
 				plugin.getServer().getScheduler().cancelTask(taskID);
 				restartServer();
@@ -82,6 +90,12 @@ public class RestartCommand extends ICommand {
 				} else if(timeleft == 1) {
 					plugin.getServer().savePlayers();
 				}
+			}
+		}
+
+		public void adjustBar(long timeleft) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				BarAPI.setMessage(player, "Restarting server in " + timeleft + " seconds", 100f * timeleft / duration);
 			}
 		}
 	}
