@@ -2,6 +2,7 @@ package de.doridian.yiffbukkit.chat.commands;
 
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
+import de.doridian.yiffbukkit.main.chat.Parser;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -26,7 +27,7 @@ public class PmCommand extends ICommand {
 		final Player otherPlayer = playerHelper.matchPlayerSingle(args[0]);
 		final String message = Utils.concatArray(args, 1, "");
 
-		MessageHelper.sendMessage(commandSender, String.format("<color name=\"yellow\">[PM &gt;]</color> %1$s: %2$s", MessageHelper.format(otherPlayer), message));
-		MessageHelper.sendMessage(otherPlayer, String.format("<color name=\"yellow\">[PM &lt;]</color> %1$s: %2$s", MessageHelper.format(commandSender), message));
+		MessageHelper.sendMessage(commandSender, String.format("<color name=\"yellow\">[PM &gt;]</color> %1$s: %2$s", MessageHelper.format(otherPlayer), Parser.escape(message)));
+		MessageHelper.sendMessage(otherPlayer, String.format("<color name=\"yellow\">[PM &lt;]</color> %1$s: %2$s", MessageHelper.format(commandSender), Parser.escape(message)));
 	}
 }
