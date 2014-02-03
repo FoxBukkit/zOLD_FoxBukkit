@@ -507,7 +507,7 @@ public class Utils {
 		final double z = minZ + Math.random() * (1 - minZ);
 		final double radius = Math.sqrt(1 - z * z);
 		final double angle = 2 * Math.PI * Math.random();
-		final Vector axis = new Vector(z, Math.sin(angle) * radius, Math.cos(angle) * radius);
+		final Vector axis = new Vector(Math.sin(angle) * radius, Math.cos(angle) * radius, z);
 
 		return toWorldAxis(baseLocation, axis);
 	}
