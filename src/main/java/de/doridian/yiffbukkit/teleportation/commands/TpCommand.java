@@ -33,35 +33,40 @@ public class TpCommand extends ICommand {
 	public void Run(Player sender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		if(booleanFlags.contains('c')) {
-			if(!sender.hasPermission("yiffbukkit.teleport.tp.coords"))
+		if (booleanFlags.contains('c')) {
+			if (!sender.hasPermission("yiffbukkit.teleport.tp.coords"))
 				throw new PermissionDeniedException();
 
-			int x, y, z;
-			if(args.length == 3) {
+			final int x, y, z;
+			switch (args.length) {
+			case 3:
 				x = Integer.valueOf(args[0]);
 				y = Integer.valueOf(args[1]);
 				z = Integer.valueOf(args[2]);
-			} else if(args.length == 2) {
+				break;
+			
+			case 2:
 				x = Integer.valueOf(args[0]);
 				z = Integer.valueOf(args[1]);
 				y = sender.getWorld().getHighestBlockYAt(x, z) + 1;
-			} else {
-				throw new YiffBukkitCommandException("Wat?");
+				break;
+			
+			default:
+				throw new YiffBukkitCommandException("Wrong number of arguments.");
 			}
 
-			Location target = new Location(sender.getWorld(), x, y, z);
-			plugin.playerHelper.teleportWithHistory(sender, target);
+			final Location target = new Location(sender.getWorld(), x, y, z);
+			playerHelper.teleportWithHistory(sender, target);
 
 			return;
 		}
 
-		Player otherply = playerHelper.matchPlayerSingle(args[0]);
+		final Player otherPlayer = playerHelper.matchPlayerSingle(args[0]);
 
-		String senderName = sender.getName();
-		String otherName = otherply.getName();
+		final String senderName = sender.getName();
+		final String otherName = otherPlayer.getName();
 
-		if (!playerHelper.canTp(sender, otherply))
+		if (!playerHelper.canTp(sender, otherPlayer))
 			throw new PermissionDeniedException();
 
 		if (booleanFlags.contains('s') && !sender.hasPermission("yiffbukkit.teleport.tp.silent"))
@@ -71,16 +76,12 @@ public class TpCommand extends ICommand {
 			if (!sender.hasPermission("yiffbukkit.teleport.tp.near"))
 				throw new PermissionDeniedException();
 
-			final Location location = otherply.getLocation();
-			final Vector vec = location.toVector().subtract(location.getDirection().multiply(3.0));
-
-			location.setX(vec.getX());
-			location.setY(vec.getY());
-			location.setZ(vec.getZ());
-			plugin.playerHelper.teleportWithHistory(sender, location);
+			final Location location = otherPlayer.getLocation();
+			location.subtract(location.getDirection().multiply(3.0));
+			playerHelper.teleportWithHistory(sender, location);
 		}
 		else {
-			plugin.playerHelper.teleportWithHistory(sender, otherply);
+			playerHelper.teleportWithHistory(sender, otherPlayer);
 		}
 
 		final List<Player> receivers = new ArrayList<>();
