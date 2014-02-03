@@ -77,6 +77,7 @@ public class TpCommand extends ICommand {
 				throw new PermissionDeniedException();
 
 			final Location location = otherPlayer.getLocation();
+			location.setPitch(0);
 			location.subtract(location.getDirection().multiply(3.0));
 			playerHelper.teleportWithHistory(sender, location);
 		}
