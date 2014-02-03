@@ -68,7 +68,7 @@ public class Jetpack extends YBEffect.PotionTrail {
 			return;
 		}
 
-		velocity = velocity.add(new Vector(0.01, 0.01, 0));
+		velocity = velocity.add(new Vector(0, 0.01, 0.01));
 		if (velocity.lengthSquared() > 2)
 			velocity = velocity.normalize().multiply(2);
 
