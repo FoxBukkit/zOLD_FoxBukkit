@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.chat.commands;
 
-import de.doridian.yiffbukkit.core.util.PlayerHelper;
+import de.doridian.yiffbukkit.core.util.MessageHelper;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -17,17 +18,15 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.communication.pm")
 public class PmCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
-		if(args.length < 1){
-			PlayerHelper.sendDirectedMessage(commandSender, "Usage: /pm " + getUsage());
-			return;
+	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		if (args.length < 1) {
+			throw new YiffBukkitCommandException("Usage: /pm " + getUsage());
 		}
 
-		Player otherply = playerHelper.matchPlayerSingle(args[0]);
+		final Player otherPlayer = playerHelper.matchPlayerSingle(args[0]);
+		final String message = Utils.concatArray(args, 1, "");
 
-		String message = Utils.concatArray(args, 1, "");
-
-		PlayerHelper.sendDirectedMessage(commandSender, "\u00a7e[PM >] \u00a7f" + otherply.getName() + "\u00a7f: " + message);
-		PlayerHelper.sendDirectedMessage(otherply, "\u00a7e[PM <] \u00a7f" + commandSender.getName() + "\u00a7f: " + message);
+		MessageHelper.sendMessage(commandSender, String.format("<color name=\"yellow\">[PM &gt;]</color> %1$s: %2$s", MessageHelper.format(otherPlayer), message));
+		MessageHelper.sendMessage(otherPlayer, String.format("<color name=\"yellow\">[PM &lt;]</color> %1$s: %2$s", MessageHelper.format(commandSender), message));
 	}
 }
