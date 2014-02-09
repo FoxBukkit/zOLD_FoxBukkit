@@ -115,7 +115,7 @@ public class ThrowCommand extends ICommand {
 						final Location cone = new Location(null, 0, 0, 0, i * 360.0f / amount, -90+angle);
 						final Vector pointingDown = Utils.toWorldAxis(cone, speed);
 
-						Location location = baseLocation.clone();
+						final Location location = baseLocation.clone();
 						location.setPitch(location.getPitch()+90);
 
 						return Utils.toWorldAxis(location, pointingDown);
@@ -223,7 +223,7 @@ public class ThrowCommand extends ICommand {
 
 			@Override
 			public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
-				PacketPlayInFlying p10 = (PacketPlayInFlying) packet;
+				final PacketPlayInFlying p10 = (PacketPlayInFlying) packet;
 				lastYaws.put(ply, p10.yaw);
 				lastPitches.put(ply, p10.pitch);
 				return true;

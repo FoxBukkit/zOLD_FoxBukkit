@@ -27,7 +27,7 @@ import java.util.List;
 )
 public class Jetpack extends YBEffect.PotionTrail {
 	private int i = 0;
-	private List<Entity> toRemove = new ArrayList<>();
+	private final List<Entity> toRemove = new ArrayList<>();
 	private Vector velocity = new Vector();
 	private Player player;
 

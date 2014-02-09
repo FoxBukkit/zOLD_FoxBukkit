@@ -20,9 +20,8 @@ import org.bukkit.entity.Player;
 public class PmCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		if (args.length < 1) {
+		if (args.length < 1)
 			throw new YiffBukkitCommandException("Usage: /pm " + getUsage());
-		}
 
 		final Player otherPlayer = playerHelper.matchPlayerSingle(args[0]);
 		final String message = Utils.concatArray(args, 1, "");

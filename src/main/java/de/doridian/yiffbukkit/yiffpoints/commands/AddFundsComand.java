@@ -30,7 +30,9 @@ public class AddFundsComand extends ICommand {
 		plugin.bank.addFunds(playerName, amount);
 
 		PlayerHelper.sendDirectedMessage(commandSender, "Added "+amount+" YP to the account of "+playerName+".");
-		Player player = Bukkit.getPlayerExact(playerName);
+
+		// Notify the player if they're online
+		final Player player = Bukkit.getPlayerExact(playerName);
 		if (player != null) {
 			double total = plugin.bank.getBalance(playerName);
 			PlayerHelper.sendDirectedMessage(player, "Your balance was increased by "+amount+" YP. You now have "+total +" YP.");
