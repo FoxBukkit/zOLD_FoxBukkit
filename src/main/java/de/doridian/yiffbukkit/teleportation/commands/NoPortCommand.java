@@ -70,37 +70,20 @@ public class NoPortCommand extends ICommand {
 
 		case "allow":
 		case "accept":
-			if (args.length < 2)
-				throw new YiffBukkitCommandException("Usage: " + getUsage());
-
-			if (otherName == null)
-				throw new YiffBukkitCommandException("Sorry, multiple players found!");
-
-			setException(playerName, otherName, true);
-			PlayerHelper.sendDirectedMessage(player, "Allowed " + what() + " for " + otherName + ".");
+			setException(player, args, playerName, otherName, true);
 			return;
 
 		case "deny":
 		case "reject":
 		case "revoke":
 		case "forbid":
-			if (args.length < 2) {
-				PlayerHelper.sendDirectedMessage(player, "Usage: " + getUsage());
-				return;
-			}
-
-			if (otherName == null) {
-				PlayerHelper.sendDirectedMessage(player, "Sorry, multiple players found!");
-			}
-			else {
-				setException(playerName, otherName, false);
-				PlayerHelper.sendDirectedMessage(player, "Disallowed " + what() + " for " + otherName + ".");
-			}
+			setException(player, args, playerName, otherName, false);
 			return;
 
 		case "list":
 			final Collection<String> otherNames = getExceptions(playerName);
 
+			MessageHelper.sendMessage(player, String.format("Players that you allowed %s:", what()));
 			for (String name : otherNames) {
 				final String removeCommand = String.format("/%s deny %s", getNames()[0], name);
 				MessageHelper.sendMessage(player, name + " " + MessageHelper.button(removeCommand, "x", "red", true));
@@ -126,7 +109,23 @@ public class NoPortCommand extends ICommand {
 		}
 		playerHelper.savePortPermissions();
 
-		PlayerHelper.sendDirectedMessage(player, (newState ? "Disallowed" : "Allowed") + " " + what() + ".");
+		PlayerHelper.sendDirectedMessage(player, getStateName(!newState) + " " + what() + ".");
+	}
+
+	private void setException(Player player, String[] args, String playerName, String otherName, boolean allow) throws YiffBukkitCommandException {
+		if (args.length < 2)
+			throw new YiffBukkitCommandException("Usage: " + getUsage());
+
+		if (otherName == null)
+			throw new YiffBukkitCommandException("Sorry, multiple players found!");
+
+		setException(playerName, otherName, allow);
+		final String undoCommand = String.format("/%s %s \"%s\"", getNames()[0], allow ? "deny" : "allow", otherName);
+		MessageHelper.sendMessage(player, String.format("%s %s for %s. " + MessageHelper.button(undoCommand, "undo", "blue", false), getStateName(allow), what(), otherName));
+	}
+
+	private String getStateName(boolean allowed) {
+		return allowed ? "Allowed" : "Disallowed";
 	}
 
 	private void setException(String playerName, String otherName, boolean newState) {
