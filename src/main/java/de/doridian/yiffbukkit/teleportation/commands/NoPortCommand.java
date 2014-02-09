@@ -1,5 +1,9 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -9,6 +13,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.Set;
 
 @Names("noport")
@@ -93,6 +98,15 @@ public class NoPortCommand extends ICommand {
 			}
 			return;
 
+		case "list":
+			final Collection<String> otherNames = getExceptions(playerName);
+
+			for (String name : otherNames) {
+				final String removeCommand = String.format("/%s deny %s", getNames()[0], name);
+				MessageHelper.sendMessage(player, name + " " + MessageHelper.button(removeCommand, "x", "red", true));
+			}
+			return;
+
 		default:
 			throw new YiffBukkitCommandException("Usage: " + getUsage());
 		}
@@ -133,6 +147,25 @@ public class NoPortCommand extends ICommand {
 		}
 
 		playerHelper.savePortPermissions();
+	}
+
+	private Collection<String> getExceptions(final String playerName) throws YiffBukkitCommandException {
+		if (tpPermissions != null && summonPermissions != null)
+			throw new YiffBukkitCommandException("Usage: " + getUsage());
+
+		final Set<String> permissions = tpPermissions == null ? summonPermissions : tpPermissions;
+
+		return Collections2.transform(Collections2.filter(permissions, new Predicate<String>() {
+			@Override
+			public boolean apply(String s) {
+				return s.startsWith(playerName + " ");
+			}
+		}), new Function<String, String>() {
+			@Override
+			public String apply(String s) {
+				return s.substring(s.indexOf(' ') + 1);
+			}
+		});
 	}
 
 	protected String what() {
