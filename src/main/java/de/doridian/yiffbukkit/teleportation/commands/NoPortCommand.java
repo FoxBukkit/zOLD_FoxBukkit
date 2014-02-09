@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.teleportation.commands;
 
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -24,66 +25,76 @@ public class NoPortCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 		boolean newState;
-		String playerName = ply.getName();
+		final String playerName = player.getName();
 
-		String arg0 = args.length >= 1 ? args[0] : "";
+		final String subCommand = args.length >= 1 ? args[0] : "";
+		final String otherName = args.length >= 2 ? playerHelper.completePlayerName(args[1], true) : null;
 
-		if (argStr.equals("on") || argStr.equals("1")) {
+		switch (subCommand) {
+		case "on":
+		case "1":
 			newState = true;
-		}
-		else if (argStr.equals("off") || argStr.equals("0")) {
+			break;
+
+		case "off":
+		case "0":
 			newState = false;
-		}
-		else if (arg0.equals("allow") || arg0.equals("accept")) {
-			if (args.length < 2) {
-				PlayerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
-				return;
-			}
+			break;
 
-			String otherName = playerHelper.completePlayerName(args[1], true);
-			if (otherName == null) {
-				PlayerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
-			}
-			else {
-				setException(playerName, otherName, true);
-				PlayerHelper.sendDirectedMessage(ply, "Allowed "+what()+" for "+otherName+".");
-			}
-			return;
-		}
-		else if (arg0.equals("deny") || arg0.equals("reject") || arg0.equals("revoke") || arg0.equals("forbid")) {
-			if (args.length < 2) {
-				PlayerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
-				return;
-			}
-
-			String otherName = playerHelper.completePlayerName(args[1], true);
-			if (otherName == null) {
-				PlayerHelper.sendDirectedMessage(ply, "Sorry, multiple players found!");
-			}
-			else {
-				setException(playerName, otherName, false);
-				PlayerHelper.sendDirectedMessage(ply, "Disallowed "+what()+" for "+otherName+".");
-			}
-			return;
-		}
-		else if (argStr.isEmpty()) {
+		case "":
 			// toggle
 			if (tpPermissions == null) {
+				// /nosummon
 				newState = !summonPermissions.contains(playerName);
 			}
-			else if (summonPermissions == null || tpPermissions.contains(playerName) == summonPermissions.contains(playerName)) {
+			else if (summonPermissions == null) {
+				// /notp
+				newState = !tpPermissions.contains(playerName);
+			}
+			else if (tpPermissions.contains(playerName) == summonPermissions.contains(playerName)) {
+				// /noport, states of notp and nosummon are the same
 				newState = !tpPermissions.contains(playerName);
 			}
 			else {
-				PlayerHelper.sendDirectedMessage(ply, "The states of notp and nosummon differ. Please use !noport on/off explicitly.");
+				// /noport, states differ
+				throw new YiffBukkitCommandException("The states of notp and nosummon differ. Please use /noport on/off explicitly.");
+			}
+			break;
+
+		case "allow":
+		case "accept":
+			if (args.length < 2)
+				throw new YiffBukkitCommandException("Usage: " + getUsage());
+
+			if (otherName == null)
+				throw new YiffBukkitCommandException("Sorry, multiple players found!");
+
+			setException(playerName, otherName, true);
+			PlayerHelper.sendDirectedMessage(player, "Allowed " + what() + " for " + otherName + ".");
+			return;
+
+		case "deny":
+		case "reject":
+		case "revoke":
+		case "forbid":
+			if (args.length < 2) {
+				PlayerHelper.sendDirectedMessage(player, "Usage: " + getUsage());
 				return;
 			}
-		}
-		else {
-			PlayerHelper.sendDirectedMessage(ply, "Usage: " + getUsage());
+
+			if (otherName == null) {
+				PlayerHelper.sendDirectedMessage(player, "Sorry, multiple players found!");
+			}
+			else {
+				setException(playerName, otherName, false);
+				PlayerHelper.sendDirectedMessage(player, "Disallowed " + what() + " for " + otherName + ".");
+			}
 			return;
+
+		default:
+			throw new YiffBukkitCommandException("Usage: " + getUsage());
 		}
 
 		if (tpPermissions != null) {
@@ -101,11 +112,11 @@ public class NoPortCommand extends ICommand {
 		}
 		playerHelper.savePortPermissions();
 
-		PlayerHelper.sendDirectedMessage(ply, (newState ? "Disallowed" : "Allowed")+" "+what()+".");
+		PlayerHelper.sendDirectedMessage(player, (newState ? "Disallowed" : "Allowed") + " " + what() + ".");
 	}
 
 	private void setException(String playerName, String otherName, boolean newState) {
-		String pair = playerName+" "+otherName;
+		final String pair = playerName+" "+otherName;
 
 		if (tpPermissions != null) {
 			if (newState)
@@ -113,12 +124,14 @@ public class NoPortCommand extends ICommand {
 			else
 				tpPermissions.remove(pair);
 		}
+
 		if (summonPermissions != null) {
 			if (newState)
 				summonPermissions.add(pair);
 			else
 				summonPermissions.remove(pair);
 		}
+
 		playerHelper.savePortPermissions();
 	}
 
