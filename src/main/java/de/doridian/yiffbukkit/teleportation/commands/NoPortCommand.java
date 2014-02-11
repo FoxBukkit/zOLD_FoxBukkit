@@ -86,7 +86,7 @@ public class NoPortCommand extends ICommand {
 			MessageHelper.sendMessage(player, String.format("Players that you allowed %s:", what()));
 			for (String name : otherNames) {
 				final String removeCommand = String.format("/%s deny %s", getNames()[0], name);
-				MessageHelper.sendMessage(player, name + " " + MessageHelper.button(removeCommand, "x", "red", true));
+				MessageHelper.sendMessage(player, MessageHelper.format(name) + " " + MessageHelper.button(removeCommand, "x", "red", true));
 			}
 			return;
 
@@ -121,7 +121,7 @@ public class NoPortCommand extends ICommand {
 
 		setException(playerName, otherName, allow);
 		final String undoCommand = String.format("/%s %s \"%s\"", getNames()[0], allow ? "deny" : "allow", otherName);
-		MessageHelper.sendMessage(player, String.format("%s %s for %s. " + MessageHelper.button(undoCommand, "undo", "blue", false), getStateName(allow), what(), otherName));
+		MessageHelper.sendMessage(player, String.format("%s %s for %s. " + MessageHelper.button(undoCommand, "undo", "blue", false), getStateName(allow), what(), MessageHelper.format(otherName)));
 	}
 
 	private String getStateName(boolean allowed) {
