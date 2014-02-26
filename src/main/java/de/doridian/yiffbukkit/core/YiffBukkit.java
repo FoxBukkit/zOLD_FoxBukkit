@@ -130,9 +130,11 @@ public class YiffBukkit extends JavaPlugin {
 		bans = new Bans(this);
 		log("Bans loaded.");
 
-		remote = new YiffBukkitRemote(this);
-		remote.start();
-		log("Remote loaded.");
+		if(Boolean.valueOf(Configuration.getValue("enable-rcon", "true"))) {
+			remote = new YiffBukkitRemote(this);
+			remote.start();
+			log("Remote loaded.");
+		}
 
 		log( "Plugin enabled!" );
 
