@@ -29,6 +29,14 @@ public class BansPlayerListener extends BaseListener {
 		String name = event.getName();
 
 		Ban ban = BanResolver.getBan(name);
+		if(ban == null) {
+			ban = BanResolver.getBan("[IP]" + event.getAddress().getHostAddress());
+			if(ban != null) {
+				ban.setUser(name);
+				BanResolver.addBan(ban);
+			}
+		}
+
 		if(ban != null)
 			event.disallow(Result.KICK_BANNED, "[YB] Banned: " + ban.getReason());
 	}
