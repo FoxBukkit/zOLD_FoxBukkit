@@ -15,7 +15,6 @@ import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.system.CommandSystem;
-import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
@@ -36,15 +35,10 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_7_R1.command.ColouredConsoleSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -139,40 +133,6 @@ public class YiffBukkit extends JavaPlugin {
 		log( "Plugin enabled!" );
 
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraft");
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "yiffcraftp");
-		Bukkit.getMessenger().registerIncomingPluginChannel(this, "yiffcraft", new PluginMessageListener() {
-			@Override
-			public void onPluginMessageReceived(String s, Player ply, byte[] bytes) {
-				String argStr = new String(bytes);
-
-				playerHelper.setYiffcraftState(ply, true);
-				//SSLUtils.nagIfNoSSL(playerHelper, ply);
-
-				if(argStr.equalsIgnoreCase("getcommands")) {
-					playerHelper.sendYiffcraftClientCommand(ply, 'c', Configuration.getValue("yiffcraft-command-url", "http://commands.yiffcraft.net/servers/mc_doridian_de.txt"));
-				} else if(argStr.equalsIgnoreCase("writecommands")) {
-					try {
-						Map<String, ICommand> commands = commandSystem.getCommands();
-
-						PrintWriter writer = new PrintWriter(new FileWriter("yb_commands.txt"));
-
-						for(Map.Entry<String, ICommand> command : commands.entrySet()) {
-							ICommand cmd = command.getValue();
-							String help = cmd.getHelp();
-							if(help.indexOf("\n") > 0) {
-								help = help.substring(0, help.indexOf("\n"));
-							}
-							writer.println('/' + command.getKey() + '|' + cmd.getUsage() + " - " + help);
-						}
-
-						writer.close();
-					}
-					catch(Exception e) { PlayerHelper.sendDirectedMessage(ply, "Error: " + e.getMessage()); }
-				}
-			}
-		});
 
 		YiffBukkitPermissions.init();
 

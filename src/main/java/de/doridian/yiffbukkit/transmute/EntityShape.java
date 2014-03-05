@@ -1,16 +1,15 @@
 package de.doridian.yiffbukkit.transmute;
 
 import com.sk89q.worldedit.blocks.BlockType;
-import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.Packet;
 import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityStatus;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -67,7 +66,6 @@ public abstract class EntityShape extends Shape {
 		if (entity instanceof Player) {
 			try {
 				String typeName = MyEntityTypes.classToTypeName(MyEntityTypes.idToClass(mobType));
-				YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', typeName+"|"+yawOffset+"|"+yOffset);
 			}
 			catch (EntityTypeNotFoundException e) {
 			}
@@ -185,6 +183,5 @@ public abstract class EntityShape extends Shape {
 		packetPlayOutEntityStatus.a = entityId; // v1_7_R1
 		packetPlayOutEntityStatus.b = status; // v1_7_R1
 		sendPacketToPlayersAround(packetPlayOutEntityStatus);
-		sendYCData(ShapeYCData.ENTITY_STATUS, status);
 	}
 }

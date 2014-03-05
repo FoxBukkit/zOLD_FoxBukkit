@@ -59,7 +59,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		playerHelper.applyTime(player);
 
-		playerHelper.setYiffcraftState(player, false);
 		playerHelper.pushPlayerLocationOntoTeleportStack(player);
 
 		playerHelper.setPlayerDisplayName(player);

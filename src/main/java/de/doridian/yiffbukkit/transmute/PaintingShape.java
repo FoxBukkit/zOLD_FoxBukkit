@@ -24,8 +24,6 @@ public class PaintingShape extends EntityShape {
 	@Override
 	public void createTransmutedEntity() {
 		super.createTransmutedEntity();
-
-		sendYCData(ShapeYCData.PAINTING_NAME, paintingName);
 	}
 
 	@Override

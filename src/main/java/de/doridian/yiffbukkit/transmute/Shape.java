@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.transmute;
 
-import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
 import net.minecraft.server.v1_7_R1.DataWatcher;
@@ -8,8 +7,8 @@ import net.minecraft.server.v1_7_R1.EntityLiving;
 import net.minecraft.server.v1_7_R1.EntityTrackerEntry;
 import net.minecraft.server.v1_7_R1.ItemStack;
 import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
@@ -45,9 +44,6 @@ public abstract class Shape {
 	}
 
 	public void createOriginalEntity() {
-		if (entity instanceof Player)
-			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 't', "");
-
 		sendPacketToPlayersAround(transmute.ignorePacket(createOriginalSpawnPacket()));
 	}
 
@@ -113,18 +109,10 @@ public abstract class Shape {
 	public void setData(int index, Object value) {
 		final PacketPlayOutEntityMetadata p40 = createMetadataPacket(index, value);
 
-		if (entity instanceof Player) {
-			sendYCData(index, value);
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40), (Player) entity);
-		}
-		else {
-			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40));
-		}
-	}
-
-	public void sendYCData(int index, Object value) {
 		if (entity instanceof Player)
-			YiffBukkit.instance.playerHelper.sendYiffcraftClientCommand((Player) entity, 'd', index+"|"+value.getClass().getCanonicalName()+"|"+value);
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40), (Player) entity);
+		else
+			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, transmute.ignorePacket(p40));
 	}
 
 	protected PacketPlayOutEntityMetadata createMetadataPacket(int index, Object value) {

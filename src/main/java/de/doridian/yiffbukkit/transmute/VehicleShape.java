@@ -82,8 +82,6 @@ public class VehicleShape extends EntityShape {
 	@Override
 	public void createTransmutedEntity() {
 		super.createTransmutedEntity();
-
-		sendYCData(ShapeYCData.VEHICLE_TYPE, vehicleType);
 	}
 
 	@Override

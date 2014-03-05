@@ -902,61 +902,6 @@ public class PlayerHelper extends StateContainer {
 		return getPlayerRankTag(playerName) + playerName;
 	}
 
-	public HashSet<String> yiffcraftPlayers = new HashSet<>();
-	public void setYiffcraftState(Player ply, boolean hasYC) {
-		String plyName = ply.getName().toLowerCase();
-		if(hasYC) {
-			if(!yiffcraftPlayers.contains(plyName)) {
-				yiffcraftPlayers.add(plyName);
-			}
-		} else {
-			if(yiffcraftPlayers.contains(plyName)) {
-				yiffcraftPlayers.remove(plyName);
-			}
-		}
-	}
-
-	public void sendYiffcraftClientCommand(Player ply, char command, String... args) {
-		StringBuilder sb = new StringBuilder();
-		boolean notfirst = false;
-		for (String arg : args) {
-			if (notfirst)
-				sb.append('|');
-
-			notfirst = true;
-
-			sb.append(arg);
-		}
-
-		sendYiffcraftClientCommand(ply, command, sb);
-	}
-
-	public boolean hasYiffcraft(Player ply) {
-		return yiffcraftPlayers.contains(ply.getName().toLowerCase());
-	}
-
-	private static final int MAX_MESSAGE_SIZE = 4000;//Messenger.MAX_MESSAGE_SIZE;
-	public void sendYiffcraftClientCommand(Player ply, char command, CharSequence args) {
-		if(!hasYiffcraft(ply))
-			return;
-
-		byte[] bytes = (command + args.toString()).getBytes();
-		final int length = bytes.length;
-		if (length > MAX_MESSAGE_SIZE) {
-			int numChunks = (int) (Math.ceil(length / (double)MAX_MESSAGE_SIZE)) - 1;
-			for (int i = 0; i < numChunks; ++i) {
-				final int from = i * MAX_MESSAGE_SIZE;
-				byte[] buf = Arrays.copyOfRange(bytes, from, from + MAX_MESSAGE_SIZE);
-				ply.sendPluginMessage(plugin, "yiffcraftp", buf);
-			}
-
-			final int from = numChunks * MAX_MESSAGE_SIZE;
-			bytes = Arrays.copyOfRange(bytes, from, bytes.length);
-		}
-
-		ply.sendPluginMessage(plugin, "yiffcraft", bytes);
-	}
-
 	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<>();
 	public void pushPlayerLocationOntoTeleportStack(Player ply) {
 		String name = ply.getName().toLowerCase();
