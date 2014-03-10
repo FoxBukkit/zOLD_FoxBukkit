@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.bans.listeners;
 
 import de.doridian.yiffbukkit.bans.Ban;
+import de.doridian.yiffbukkit.bans.BanPlayer;
 import de.doridian.yiffbukkit.bans.BanResolver;
 import de.doridian.yiffbukkit.bans.LockDownMode;
 import de.doridian.yiffbukkit.core.YiffBukkit;
@@ -78,7 +79,7 @@ public class BansPlayerListener extends BaseListener {
 	}
 
 	public static String makePossibleAltString(String user, String uuid) {
-		final Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user, uuid);
+		final Collection<BanPlayer> alts = BanResolver.getPossibleAltsForPlayer(user, uuid);
 		if(alts == null || alts.isEmpty())
 			return null;
 
@@ -86,8 +87,8 @@ public class BansPlayerListener extends BaseListener {
 
 		boolean notFirst = false;
 		boolean hasBans = false;
-		for (String alt : alts) {
-			final Ban altBan = BanResolver.getBan(null, alt);
+		for (BanPlayer alt : alts) {
+			final Ban altBan = BanResolver.getBan(alt.name, alt.uuid);
 
 			if (notFirst)
 				sb.append(", ");
@@ -101,7 +102,7 @@ public class BansPlayerListener extends BaseListener {
 			else
 				sb.append("\u00a7a");
 
-			sb.append(alt);
+			sb.append(alt.name);
 		}
 
 		if (hasBans)

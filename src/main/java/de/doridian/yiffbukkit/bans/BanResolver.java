@@ -41,7 +41,7 @@ public class BanResolver {
 		}
 	}
 
-	public static Collection<String> getPossibleAltsForPlayer(String username, String uuid) {
+	public static Collection<BanPlayer> getPossibleAltsForPlayer(String username, String uuid) {
 		int userID = getUserID(username, uuid);
 		if(userID < 1)
 			return null;
@@ -51,17 +51,16 @@ public class BanResolver {
 			PreparedStatement preparedStatement = connection.prepareStatement("SELECT player FROM user_ips WHERE ip IN (SELECT ip FROM user_ips WHERE player = ?)");
 			preparedStatement.setInt(1, userID);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			HashMap<Integer, String> alts = new HashMap<>();
+			HashMap<Integer, BanPlayer> alts = new HashMap<>();
 			while(resultSet.next()) {
 				int player = resultSet.getInt("player");
 				if(player == userID)
 					continue;
-				String ply = getUserByID(player).uuid;
-				if(ply == null || ply.isEmpty()) {
-					ply = "#" + player;
+				BanPlayer ply = getUserByID(player);
+				if(ply == null)
 					System.out.println("INVALID PLAYER #" + player);
-				}
-				alts.put(player, ply);
+				else
+					alts.put(player, ply);
 			}
 			preparedStatement.close();
 			connection.close();
