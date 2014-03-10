@@ -22,7 +22,7 @@ public class LookupCommand extends ICommand {
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		final Player otherply = plugin.playerHelper.matchPlayerSingle(args[0], false);
 		final String user = otherply.getName();
-		final String uuid = otherply.getUniqueId().toString();
+		final String uuid = otherply.getUniqueId() != null ? otherply.getUniqueId().toString() : null;
 		new Thread() {
 			public void run() {
 				final Ban ban = BanResolver.getBan(user, uuid);
