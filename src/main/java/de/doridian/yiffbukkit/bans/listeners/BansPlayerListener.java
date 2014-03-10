@@ -34,6 +34,7 @@ public class BansPlayerListener extends BaseListener {
 			ban = BanResolver.getBan("[IP]" + event.getAddress().getHostAddress(), null);
 			if(ban != null) {
 				ban.setUser(name, uuid);
+				ban.refreshTime();
 				BanResolver.addBan(ban);
 			}
 		}
