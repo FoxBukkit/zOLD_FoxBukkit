@@ -175,9 +175,13 @@ public class BanResolver {
 	public static int getUserID(String username, String uuid, boolean create) {
 		uuid = uuid != null ? uuid.toLowerCase() : null;
 		username = username != null ? username.toLowerCase() : null;
-		if(playerIDs.containsKey(uuid)) {
+
+		if(username != null && username.charAt(0) == '[')
+			uuid = username;
+
+		if(uuid != null && playerIDs.containsKey(uuid))
 			return playerIDs.get(uuid);
-		}
+
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
 			PreparedStatement preparedStatement;

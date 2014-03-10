@@ -20,7 +20,7 @@ public class Ban {
 
 	public Ban() {
 		this.retrievalTime = System.currentTimeMillis();
-		this.time = (int)(this.retrievalTime / 1000);
+		refreshTime();
 	}
 
 	public String getReason() {
@@ -70,6 +70,8 @@ public class Ban {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public void refreshTime() { this.time = (int)(System.currentTimeMillis() / 1000); }
 
 	public int getTime() {
 		return time;
