@@ -21,13 +21,24 @@ public class FishBansResolver {
 			for(Object banEntry : serviceBans.entrySet()) {
 				Map.Entry actualBanEntry = (Map.Entry)banEntry;
 				result.put((String)actualBanEntry.getKey(), (int)(long)(Long)(((JSONObject)actualBanEntry.getValue()).get("bans")));
-				//System.out.println("A " + (String)actualBanEntry.getKey());
-				//System.out.println("B " + (Integer)(((JSONObject)actualBanEntry.getValue()).get("bans")));
 			}
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new HashMap<>();
+		}
+	}
+
+	public static String getUUID(String username) {
+		try {
+			HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("http://api.fishbans.com/uuid/" + username).openConnection();
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(httpURLConnection.getInputStream()));
+			//->uuid
+			return (String)jsonObject.get("uuid");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
