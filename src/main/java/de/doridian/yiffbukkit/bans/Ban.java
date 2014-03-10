@@ -39,11 +39,11 @@ public class Ban {
 		return user;
 	}
 
-	public String getAdmin() {
+	public BanPlayer getAdmin() {
 		return BanResolver.getUserByID(admin);
 	}
 
-	public String getUser() {
+	public BanPlayer getUser() {
 		return BanResolver.getUserByID(user);
 	}
 

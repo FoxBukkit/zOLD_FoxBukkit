@@ -39,7 +39,7 @@ public class LookupCommand extends ICommand {
 					@Override
 					public void run() {
 						if(ban != null) {
-							PlayerHelper.sendDirectedMessage(commandSender, String.format("Player %1$s IS banned by %2$s for the reason of \"%3$s\"", user, ban.getAdmin(), ban.getReason()));
+							PlayerHelper.sendDirectedMessage(commandSender, String.format("Player %1$s IS banned by %2$s for the reason of \"%3$s\"", user, ban.getAdmin().name, ban.getReason()));
 						} else {
 							PlayerHelper.sendDirectedMessage(commandSender, String.format("Player %1$s is NOT banned", user));
 						}
