@@ -27,12 +27,13 @@ public class BansPlayerListener extends BaseListener {
 			return;
 
 		String name = event.getName();
+		String uuid = null;
 
-		Ban ban = BanResolver.getBan(name);
+		Ban ban = BanResolver.getBan(name, uuid);
 		if(ban == null) {
-			ban = BanResolver.getBan("[IP]" + event.getAddress().getHostAddress());
+			ban = BanResolver.getBan("[IP]" + event.getAddress().getHostAddress(), null);
 			if(ban != null) {
-				ban.setUser(name);
+				ban.setUser(name, uuid);
 				BanResolver.addBan(ban);
 			}
 		}
@@ -75,8 +76,8 @@ public class BansPlayerListener extends BaseListener {
 		}
 	}
 
-	public static String makePossibleAltString(String user) {
-		final Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user);
+	public static String makePossibleAltString(String user, String uuid) {
+		final Collection<String> alts = BanResolver.getPossibleAltsForPlayer(user, uuid);
 		if(alts == null || alts.isEmpty())
 			return null;
 
@@ -85,7 +86,7 @@ public class BansPlayerListener extends BaseListener {
 		boolean notFirst = false;
 		boolean hasBans = false;
 		for (String alt : alts) {
-			final Ban altBan = BanResolver.getBan(alt);
+			final Ban altBan = BanResolver.getBan(null, alt);
 
 			if (notFirst)
 				sb.append(", ");
@@ -117,10 +118,11 @@ public class BansPlayerListener extends BaseListener {
 				final InetAddress playerIP = player.getAddress().getAddress();
 
 				final String user = player.getName();
+				final String uuid = player.getUniqueId().toString();
 
-				BanResolver.addIPForPlayer(user, playerIP);
+				BanResolver.addIPForPlayer(user, uuid, playerIP);
 
-				final String message = makePossibleAltString(user);
+				final String message = makePossibleAltString(user, uuid);
 				if(message == null)
 					return;
 

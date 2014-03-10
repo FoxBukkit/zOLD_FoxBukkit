@@ -41,7 +41,7 @@ public class Bans {
 
 		new Thread() {
 			public void run() {
-				Ban ban = BanResolver.getBan(ply, false);
+				Ban ban = BanResolver.getBan(ply, null, false);
 				if(ban != null) {
 					BanResolver.deleteBan(ban);
 					PlayerHelper.sendServerMessage(from.getName() + " unbanned " + ply + "!");
@@ -79,13 +79,12 @@ public class Bans {
 		new Thread() {
 			public void run() {
 				Ban newBan = new Ban();
-				newBan.setUser(ply);
-				newBan.setAdmin(from.getName());
+				newBan.setUser(ply, null);
+				newBan.setAdmin(from.getName(), null);
 				newBan.setReason(reason);
 				newBan.setType(type.getName());
 				BanResolver.addBan(newBan);
 				PlayerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
-				//PlayerHelper.sendDirectedMessage(from, "Player with the name " + ply + " was already banned!");
 			}
 		}.start();
 	}
