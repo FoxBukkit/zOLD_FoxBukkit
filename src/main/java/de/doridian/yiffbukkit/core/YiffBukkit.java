@@ -19,6 +19,7 @@ import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkit.main.util.PersistentScheduler;
+import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.AbusePotentialManager;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
@@ -95,6 +96,8 @@ public class YiffBukkit extends JavaPlugin {
 
 	public void onEnable() {
 		setupIPC();
+
+		RedisManager.initialize();
 
 		YiffBukkitPermissionHandler.instance.load();
 

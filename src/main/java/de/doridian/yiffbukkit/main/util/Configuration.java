@@ -6,11 +6,12 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 
 public class Configuration {
-	private static HashMap<String,String> configValues = new HashMap<>();
+	private final static HashMap<String,String> configValues;
 	static {
+		configValues = new HashMap<>();
 		configValues.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("yiffbukkit-config.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("config.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
@@ -18,7 +19,7 @@ public class Configuration {
 			}
 			stream.close();
 		}
-		catch (Exception e) { }
+		catch (Exception e) { e.printStackTrace(); }
 	}
 	public static String getValue(String key, String def) {
 		if(configValues.containsKey(key)) {
