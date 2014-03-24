@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.spawning;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 public abstract class AbstractSpawnable<V extends Entity> implements Spawnable<V> {
@@ -15,7 +15,7 @@ public abstract class AbstractSpawnable<V extends Entity> implements Spawnable<V
 	}
 
 	@Override
-	public net.minecraft.server.v1_7_R1.Entity getInternalEntity() throws YiffBukkitCommandException {
+	public net.minecraft.server.v1_7_R2.Entity getInternalEntity() throws YiffBukkitCommandException {
 		ensureSpawned();
 		return ((CraftEntity) entity).getHandle();
 	}

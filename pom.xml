@@ -179,7 +179,7 @@
 		<dependency>
 			<groupId>de.doridian</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.7.2-R0.4-SNAPSHOT</version>
+			<version>1.7.5-R0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -219,8 +219,8 @@
 	</dependencies>
 	<repositories>
 		<repository>
-			<id>spout-repo</id>
-			<url>http://repo.spout.org</url>
+			<id>doridian-repo</id>
+			<url>http://repo.doridian.de</url>
 		</repository>
 		<repository>
 			<id>mikeprimm-repo</id>
@@ -229,10 +229,6 @@
 		<repository>
 			<id>sk89q-repo</id>
 			<url>http://mvn2.sk89q.com/repo</url>
-		</repository>
-		<repository>
-			<id>doridian-repo</id>
-			<url>http://repo.doridian.de</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

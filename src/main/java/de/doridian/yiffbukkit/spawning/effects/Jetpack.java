@@ -8,7 +8,7 @@ import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeEntity;
 import de.doridian.yiffbukkit.spawning.fakeentity.FakeExperienceOrb;
-import net.minecraft.server.v1_7_R1.PacketPlayOutExplosion;
+import net.minecraft.server.v1_7_R2.PacketPlayOutExplosion;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;

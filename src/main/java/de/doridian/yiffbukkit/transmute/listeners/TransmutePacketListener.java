@@ -5,17 +5,17 @@ import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.transmute.Shape;
 import de.doridian.yiffbukkit.transmute.Transmute;
-import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
-import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R1.PacketPlayOutCollect;
-import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntity;
-import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntity;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_7_R1.PacketPlayOutUpdateAttributes;
+import net.minecraft.server.v1_7_R2.Packet;
+import net.minecraft.server.v1_7_R2.PacketPlayOutBed;
+import net.minecraft.server.v1_7_R2.PacketPlayOutAnimation;
+import net.minecraft.server.v1_7_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R2.PacketPlayOutCollect;
+import net.minecraft.server.v1_7_R2.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R2.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R2.PacketPlayOutEntity;
+import net.minecraft.server.v1_7_R2.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R2.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R2.PacketPlayOutUpdateAttributes;
 
 import org.bukkit.entity.Player;
 

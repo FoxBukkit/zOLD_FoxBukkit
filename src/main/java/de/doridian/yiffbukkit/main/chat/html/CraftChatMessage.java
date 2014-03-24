@@ -1,20 +1,19 @@
 package de.doridian.yiffbukkit.main.chat.html;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
+import net.minecraft.server.v1_7_R2.ChatClickable;
+import net.minecraft.server.v1_7_R2.ChatComponentText;
+import net.minecraft.server.v1_7_R2.ChatModifier;
+import net.minecraft.server.v1_7_R2.EnumChatFormat;
+import net.minecraft.server.v1_7_R2.EnumClickAction;
+import net.minecraft.server.v1_7_R2.IChatBaseComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.minecraft.server.v1_7_R1.ChatComponentText;
-import net.minecraft.server.v1_7_R1.ChatModifier;
-import net.minecraft.server.v1_7_R1.EnumChatFormat;
-import net.minecraft.server.v1_7_R1.IChatBaseComponent;
-import net.minecraft.server.v1_7_R1.ChatClickable;
-import net.minecraft.server.v1_7_R1.EnumClickAction;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 
 public final class CraftChatMessage {
 	private static class FromString {
@@ -126,9 +125,9 @@ public final class CraftChatMessage {
 				builder.append(fullUrl);
 				ChatClickable link = new ChatClickable(EnumClickAction.OPEN_URL,
 						(protocol!=null?protocol:"http") + "://" + url + (path!=null?path:""));
-				modifier.a(link);
+				modifier.setChatClickable(link);
 				appendNewComponent();
-				modifier.a((ChatClickable) null);
+				modifier.setChatClickable(null);
 				if (!newWord) { //Force new word to prevent double checking
 					lastWord = i + 1;
 				}

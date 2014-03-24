@@ -1,7 +1,5 @@
 package de.doridian.yiffbukkit.fun.commands;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.IncompleteRegionException;
@@ -16,17 +14,12 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R1.EntityFallingBlock;
+import net.minecraft.server.v1_7_R2.EntityFallingBlock;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.SortedSet;
 
 @Names("pushup")
 @Help("Pushes the selected region up.")

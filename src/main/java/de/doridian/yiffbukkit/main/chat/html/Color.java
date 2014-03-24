@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.main.chat.html;
 
-import net.minecraft.server.v1_7_R1.ChatModifier;
-import net.minecraft.server.v1_7_R1.EnumChatFormat;
+import net.minecraft.server.v1_7_R2.ChatModifier;
+import net.minecraft.server.v1_7_R2.EnumChatFormat;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;

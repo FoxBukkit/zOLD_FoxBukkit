@@ -21,17 +21,17 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapEntity;
 import de.doridian.yiffbukkit.transmute.ItemShape;
-import net.minecraft.server.v1_7_R1.EntityFallingBlock;
-import net.minecraft.server.v1_7_R1.EntityLargeFireball;
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.EntitySnowball;
-import net.minecraft.server.v1_7_R1.EntityTNTPrimed;
-import net.minecraft.server.v1_7_R1.Items;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
-import net.minecraft.server.v1_7_R1.NBTTagCompound;
-import net.minecraft.server.v1_7_R1.NBTTagList;
-import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
-import net.minecraft.server.v1_7_R1.WorldServer;
+import net.minecraft.server.v1_7_R2.EntityFallingBlock;
+import net.minecraft.server.v1_7_R2.EntityLargeFireball;
+import net.minecraft.server.v1_7_R2.EntityPlayer;
+import net.minecraft.server.v1_7_R2.EntitySnowball;
+import net.minecraft.server.v1_7_R2.EntityTNTPrimed;
+import net.minecraft.server.v1_7_R2.Items;
+import net.minecraft.server.v1_7_R2.MovingObjectPosition;
+import net.minecraft.server.v1_7_R2.NBTTagCompound;
+import net.minecraft.server.v1_7_R2.NBTTagList;
+import net.minecraft.server.v1_7_R2.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_7_R2.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -40,10 +40,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
@@ -288,7 +288,7 @@ public class SpawnUtils {
 		if (type.equals("lightning") || (type.equals("potion") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-			final net.minecraft.server.v1_7_R1.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+			final net.minecraft.server.v1_7_R2.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 				@Override
 				protected boolean hit(MovingObjectPosition movingobjectposition) {
 					org.bukkit.World world = getBukkitEntity().getWorld();
@@ -507,7 +507,7 @@ public class SpawnUtils {
 		case "fireworks":
 		case "firework":
 		case "fw":
-			final net.minecraft.server.v1_7_R1.ItemStack fireworks;
+			final net.minecraft.server.v1_7_R2.ItemStack fireworks;
 			if (commandSender instanceof Player && ((Player) commandSender).getItemInHand().getType() == Material.FIREWORK) {
 				fireworks = CraftItemStack.asNMSCopy(((Player) commandSender).getItemInHand());
 			}
@@ -729,7 +729,7 @@ public class SpawnUtils {
 		return new Vector(x, y, z);
 	}
 
-	public static Entity explodeFirework(Location location, net.minecraft.server.v1_7_R1.ItemStack fireworks) {
+	public static Entity explodeFirework(Location location, net.minecraft.server.v1_7_R2.ItemStack fireworks) {
 		final FakeVehicle fakeEntity = new FakeVehicle(location, 76);
 		fakeEntity.send();
 
@@ -742,10 +742,10 @@ public class SpawnUtils {
 		return fakeEntity;
 	}
 
-	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(final String fireworkType) {
+	public static net.minecraft.server.v1_7_R2.ItemStack makeFireworks(final String fireworkType) {
 		final String[] parameters = fireworkType.split("/");
 		final int[] colors = parseColors(parameters[0].split(","));
-		final net.minecraft.server.v1_7_R1.ItemStack fireworks = makeFireworks(-127, 0, colors);
+		final net.minecraft.server.v1_7_R2.ItemStack fireworks = makeFireworks(-127, 0, colors);
 		final NBTTagCompound explosionTag = fireworks.getTag().getCompound("Fireworks").getList("Explosions", Utils.mapNBT("Explosions")).get(0);
 		for (int i = 1; i < parameters.length; ++i) {
 			final String[] kv = parameters[i].split("=");
@@ -776,7 +776,7 @@ public class SpawnUtils {
 		return colors;
 	}
 
-	public static net.minecraft.server.v1_7_R1.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
+	public static net.minecraft.server.v1_7_R2.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
 		final NBTTagCompound explosionTag = new NBTTagCompound();
 		explosionTag.setByte("Type", (byte) explosionType);
 		explosionTag.setIntArray("Colors", explosionColors);
@@ -791,7 +791,7 @@ public class SpawnUtils {
 		final NBTTagCompound itemStackTag = new NBTTagCompound();
 		itemStackTag.set("Fireworks", fireworksTag);
 
-		final net.minecraft.server.v1_7_R1.ItemStack stack = new net.minecraft.server.v1_7_R1.ItemStack(Items.FIREWORKS);
+		final net.minecraft.server.v1_7_R2.ItemStack stack = new net.minecraft.server.v1_7_R2.ItemStack(Items.FIREWORKS);
 		stack.setTag(itemStackTag);
 		return stack;
 	}

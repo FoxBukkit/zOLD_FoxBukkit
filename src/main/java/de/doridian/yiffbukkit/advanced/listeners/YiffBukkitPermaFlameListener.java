@@ -6,11 +6,11 @@ import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.AutoCleanup;
 import de.doridian.yiffbukkit.main.util.Utils;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_7_R1.Packet;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_7_R1.WatchableObject;
+import net.minecraft.server.v1_7_R2.Packet;
+import net.minecraft.server.v1_7_R2.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R2.WatchableObject;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -77,7 +77,7 @@ public class YiffBukkitPermaFlameListener extends YBPacketListener implements YB
 		}
 
 		if (!found) {
-			final net.minecraft.server.v1_7_R1.Entity notchEntity;
+			final net.minecraft.server.v1_7_R2.Entity notchEntity;
 			byte value = 0;
 			if (entity == null) {
 				notchEntity = Utils.getEntityByID(entityId, world);
