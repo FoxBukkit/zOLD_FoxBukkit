@@ -42,8 +42,8 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
-		register(PacketDirection.INCOMING, PacketPlayInPosition.class);
-		register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
+		//register(PacketDirection.INCOMING, PacketPlayInPosition.class);
+		//register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		//case 10:
 		case 11:
 		//case 12:
-		case 13:
+		case 13: // Disabled for now by not registering the packets
 			if (!ply.isInsideVehicle())
 				break;
 
