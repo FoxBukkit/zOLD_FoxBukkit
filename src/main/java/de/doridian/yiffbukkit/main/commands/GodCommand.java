@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,12 +30,22 @@ public class GodCommand extends AbstractPlayerStateCommand implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamage(EntityDamageEvent event) {
-		if (!(event.getEntity() instanceof Player))
+		final Entity entity = event.getEntity();
+		if (entity instanceof Player) {
+			handleEntityDamage(event, entity);
 			return;
+		}
 
-		Player ply = (Player)event.getEntity();
+		final Entity passenger = entity.getPassenger();
+		if (passenger instanceof Player) {
+			handleEntityDamage(event, passenger);
+		}
+	}
 
-		String playerName = ply.getName();
+	private void handleEntityDamage(EntityDamageEvent event, Entity entity) {
+		final Player ply = (Player) entity;
+
+		final String playerName = ply.getName();
 
 		if (godded.contains(playerName))
 			event.setCancelled(true);
