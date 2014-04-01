@@ -138,14 +138,6 @@ public class YiffBukkit extends JavaPlugin {
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 		YiffBukkitPermissions.init();
-
-		try {
-			Runtime.getRuntime().exec("./server_online.sh");
-		} catch (IOException e) {
-			System.err.println("Could not run server_online.sh, skipping.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void log(String msg) {
