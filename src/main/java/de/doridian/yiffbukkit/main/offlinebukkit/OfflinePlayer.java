@@ -37,6 +37,10 @@ public class OfflinePlayer extends AbstractPlayer {
 		this(server, PlayerHelper.getPlayerFile(name, "world"), name);
 	}
 
+	public void sendSignChange(Location loc, String[] str) {
+
+	}
+
 	@Override
 	public void removeAchievement(Achievement achievement) {
 		//To change body of implemented methods use File | Settings | File Templates.

@@ -16,7 +16,6 @@ import net.minecraft.server.v1_7_R2.EntityLiving;
 import net.minecraft.server.v1_7_R2.EntityPlayer;
 import net.minecraft.server.v1_7_R2.EntityTameableAnimal;
 import net.minecraft.server.v1_7_R2.EntityWaterAnimal;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -43,8 +42,6 @@ import org.bukkit.material.SpawnEgg;
 import org.bukkit.material.Wool;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -78,36 +75,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		}
 
 		RedisHandler.sendMessage(player, "\u0123join");
-
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					HttpURLConnection conn = (HttpURLConnection)(new URL("https://dl.dropbox.com/u/44740336/Nodus/capes/"+player.getName().toLowerCase()+".png").openConnection());
-					conn.setRequestMethod("HEAD");
-					System.setProperty("http.agent", "");
-					conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30");
-					conn.setConnectTimeout(10000);
-					conn.setReadTimeout(20000);
-
-					int responseCode = conn.getResponseCode();
-					if(responseCode == 403 || responseCode == 404) {
-						return; //No nodus (donator)
-					} else if(responseCode >= 500 && responseCode <= 599) {
-						throw new Exception("Error from fetching Nodus details from DropBox: " + responseCode);
-					}
-
-					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-						@Override
-						public void run() {
-                        PlayerHelper.broadcastMessage("\u00a7d[YB]\u00a7f " + player.getName() + " is a Nodus Donator! Watch out :3", "yiffbukkit.opchat");
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
 
 		ToolBind.updateToolMappings(player);
 		plugin.chatManager.popCurrentOrigin();
