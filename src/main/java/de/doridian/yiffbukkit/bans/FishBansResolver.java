@@ -13,6 +13,8 @@ public class FishBansResolver {
 	public static HashMap<String, Integer> getBanCounts(String username) {
 		try {
 			HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("http://api.fishbans.com/bans/" + username).openConnection();
+			httpURLConnection.setConnectTimeout(5000);
+			httpURLConnection.setReadTimeout(5000);
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(httpURLConnection.getInputStream()));
 			//->bans->service->[key]->bans=[value]
@@ -32,6 +34,8 @@ public class FishBansResolver {
 	public static String getUUID(String username) {
 		try {
 			HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("http://api.fishbans.com/uuid/" + username).openConnection();
+			httpURLConnection.setConnectTimeout(5000);
+			httpURLConnection.setReadTimeout(5000);
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(httpURLConnection.getInputStream()));
 			//->uuid
