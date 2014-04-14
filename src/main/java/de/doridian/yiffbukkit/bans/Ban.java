@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.bans;
 
+import java.util.UUID;
+
 public class Ban {
 	private String reason;
 	private int admin;
@@ -47,11 +49,11 @@ public class Ban {
 		return BanResolver.getUserByID(user);
 	}
 
-	public void setUser(String username, String uuid) {
+	public void setUser(String username, UUID uuid) {
 		this.user = BanResolver.getUserID(username, uuid, true);
 	}
 
-	public void setAdmin(String adminname, String uuid) {
+	public void setAdmin(String adminname, UUID uuid) {
 		this.admin = BanResolver.getUserID(adminname, uuid, true);
 	}
 

@@ -82,7 +82,7 @@ public class YiffCommand extends ICommand {
 			// TODO: make sure packets are sent before being reused or stop reusing them.
 			this.packet20NamedEntitySpawn = new PacketPlayOutNamedEntitySpawn();
 
-			packet20NamedEntitySpawn.b = new GameProfile(UUID.fromString("DoriBot"), "DoriBot"); // v1_7_R1
+			packet20NamedEntitySpawn.b = new GameProfile(UUID.nameUUIDFromBytes("SPECIAL:DoriBot".getBytes()), "DoriBot"); // v1_7_R1
 
 			this.packet29DestroyEntity = new PacketPlayOutEntityDestroy(0);
 

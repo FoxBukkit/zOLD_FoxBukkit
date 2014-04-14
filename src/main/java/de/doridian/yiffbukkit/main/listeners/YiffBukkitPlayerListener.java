@@ -62,7 +62,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		playerHelper.setPlayerListName(player);
 
-		final File playerFile = PlayerHelper.getPlayerFile(player.getName(), "world");
+		final File playerFile = PlayerHelper.getPlayerFile(player.getUniqueId(), "world");
 		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists()) {
 			event.setJoinMessage(null);

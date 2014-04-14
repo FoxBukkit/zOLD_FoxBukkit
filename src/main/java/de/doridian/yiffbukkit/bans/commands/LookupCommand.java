@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @ICommand.Names("lookup")
 @ICommand.Help("Gets ban and alt information about specified user")
@@ -22,7 +23,7 @@ public class LookupCommand extends ICommand {
 	public void run(final CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		final Player otherply = plugin.playerHelper.matchPlayerSingle(args[0], false);
 		final String user = otherply.getName();
-		final String uuid = otherply.getUniqueId() != null ? otherply.getUniqueId().toString() : null;
+		final UUID uuid = otherply.getUniqueId() != null ? otherply.getUniqueId() : null;
 		new Thread() {
 			public void run() {
 				final Ban ban = BanResolver.getBan(user, uuid);

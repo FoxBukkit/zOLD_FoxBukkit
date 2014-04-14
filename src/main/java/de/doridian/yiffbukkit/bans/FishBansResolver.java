@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class FishBansResolver {
 	public static HashMap<String, Integer> getBanCounts(String username) {
@@ -31,7 +32,12 @@ public class FishBansResolver {
 		}
 	}
 
-	public static String getUUID(String username) {
+	private static final HashMap<String, UUID> playerUUIDMap = new HashMap<>();
+
+	public static UUID getUUID(String username) {
+		UUID ret = playerUUIDMap.get(username.toLowerCase());
+		if(ret != null)
+			return ret;
 		try {
 			HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("http://api.fishbans.com/uuid/" + username).openConnection();
 			httpURLConnection.setConnectTimeout(5000);
@@ -39,7 +45,9 @@ public class FishBansResolver {
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(httpURLConnection.getInputStream()));
 			//->uuid
-			return (String)jsonObject.get("uuid");
+			ret = UUID.fromString(jsonObject.get("uuid").toString());
+			playerUUIDMap.put(username.toLowerCase(), ret);
+			return ret;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
+import java.util.UUID;
 
 public class BansPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGH)
@@ -28,7 +29,7 @@ public class BansPlayerListener extends BaseListener {
 			return;
 
 		String name = event.getName();
-		String uuid = null;
+		UUID uuid = event.getUniqueId();
 
 		Ban ban = BanResolver.getBan(name, uuid);
 		if(ban == null) {
@@ -78,7 +79,7 @@ public class BansPlayerListener extends BaseListener {
 		}
 	}
 
-	public static String makePossibleAltString(String user, String uuid) {
+	public static String makePossibleAltString(String user, UUID uuid) {
 		final Collection<BanPlayer> alts = BanResolver.getPossibleAltsForPlayer(user, uuid);
 		if(alts == null || alts.isEmpty())
 			return null;
@@ -120,7 +121,7 @@ public class BansPlayerListener extends BaseListener {
 				final InetAddress playerIP = player.getAddress().getAddress();
 
 				final String user = player.getName();
-				final String uuid = player.getUniqueId().toString();
+				final UUID uuid = player.getUniqueId();
 
 				BanResolver.addIPForPlayer(user, uuid, playerIP);
 

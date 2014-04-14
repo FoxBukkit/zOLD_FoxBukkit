@@ -54,7 +54,7 @@ import java.util.UUID;
 
 public abstract class AbstractPlayer extends CraftOfflinePlayer implements Player {
 	public AbstractPlayer(CraftServer server, String name) {
-		super(server, new GameProfile(UUID.fromString("OfflinePlayer:" + name), name));
+		super(server, new GameProfile(UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes()), name));
 	}
 	@Override public ItemStack getItemInHand() {
 		return getInventory().getItemInHand();

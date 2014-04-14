@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.core.util;
 
+import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.permissions.AbusePotentialManager;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailComponent;
@@ -710,18 +711,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public static Date lastLogout(Player player) {
-		File playerFile = getPlayerFile(player.getName(), "world");
-		if (playerFile == null)
-			return null;
-
-		if (!playerFile.exists())
-			return null;
-
-		return new Date(playerFile.lastModified());
-	}
-
-	public static Date lastLogoutBackup(Player player) {
-		File playerFile = getPlayerFile(player.getName(), "world_backup");
+		File playerFile = getPlayerFile(player.getUniqueId(), "world");
 		if (playerFile == null)
 			return null;
 
@@ -732,21 +722,11 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public static File getPlayerFile(String playerName, String world) {
-		File directory = new File(world+"/players/");
+		return getPlayerFile(FishBansResolver.getUUID(playerName), world);
+	}
 
-		if (!directory.exists())
-			return null;
-
-		if (!directory.isDirectory())
-			return null;
-
-		for (String file : directory.list()){
-			if (!file.equalsIgnoreCase(playerName+".dat"))
-				continue;
-
-			return new File(world+"/players/"+file);
-		}
-		return null;
+	public static File getPlayerFile(UUID playerUUID, String world) {
+		return new File(world+"/playerdata/"+playerUUID.toString()+".dat");
 	}
 
 	public String formatPlayerFull(String playerName) {

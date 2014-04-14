@@ -63,10 +63,6 @@ public class WhoCommand extends ICommand {
 			PlayerHelper.sendDirectedMessage(commandSender, "Last logout: " + Utils.readableDate(PlayerHelper.lastLogout(target)));
 		}
 
-		if (commandSender.hasPermission("yiffbukkit.who.lastlogoutbackup")) {
-			PlayerHelper.sendDirectedMessage(commandSender, "Last logout before backup: " + Utils.readableDate(PlayerHelper.lastLogoutBackup(target)));
-		}
-
 		final List<String> distances = new ArrayList<>();
 
 		final Location targetLocation = target.getLocation();
