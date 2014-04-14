@@ -55,6 +55,9 @@ import java.util.UUID;
 public abstract class AbstractPlayer extends CraftOfflinePlayer implements Player {
 	public AbstractPlayer(CraftServer server, String name) {
 		super(server, new GameProfileOffline(FishBansResolver.getUUID(name), name));
+		System.out.println(name + "|" + FishBansResolver.getUUID(name));
+		System.out.println(new GameProfileOffline(FishBansResolver.getUUID(name), name).getName());
+		System.out.println(getName());
 	}
 	@Override public ItemStack getItemInHand() {
 		return getInventory().getItemInHand();
