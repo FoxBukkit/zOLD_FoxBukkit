@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.main.chat;
 
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.chat.html.Element;
-import net.minecraft.server.v1_7_R2.ChatBaseComponent;
-import net.minecraft.server.v1_7_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R3.ChatBaseComponent;
+import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

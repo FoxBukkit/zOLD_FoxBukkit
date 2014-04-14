@@ -6,12 +6,12 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
-import net.minecraft.server.v1_7_R2.MaterialMapColor;
+import net.minecraft.server.v1_7_R3.MaterialMapColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R2.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_7_R3.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapCanvas;
@@ -123,7 +123,7 @@ public class SecCamCommand extends ICommand {
 
 					if (next.getRelative(0, 1, 0).getType() == Material.SNOW)
 						type = Material.SNOW;
-					final net.minecraft.server.v1_7_R2.Block notchBlock = CraftMagicNumbers.getBlock(type);
+					final net.minecraft.server.v1_7_R3.Block notchBlock = CraftMagicNumbers.getBlock(type);
 					final MaterialMapColor materialMapColor = notchBlock.f(next.getData());
 					int offset = 0;
 					return (byte) (materialMapColor.M * 4 + offset);

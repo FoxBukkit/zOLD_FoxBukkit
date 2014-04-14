@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.spawning;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 public class ConstantSpawnable<V extends Entity> implements Spawnable<V> {
@@ -22,7 +22,7 @@ public class ConstantSpawnable<V extends Entity> implements Spawnable<V> {
 	}
 
 	@Override
-	public net.minecraft.server.v1_7_R2.Entity getInternalEntity() throws YiffBukkitCommandException {
+	public net.minecraft.server.v1_7_R3.Entity getInternalEntity() throws YiffBukkitCommandException {
 		return ((CraftEntity) entity).getHandle();
 	}
 }

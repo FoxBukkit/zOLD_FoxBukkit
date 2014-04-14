@@ -4,23 +4,23 @@ import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import net.minecraft.server.v1_7_R2.Block;
-import net.minecraft.server.v1_7_R2.DataWatcher;
-import net.minecraft.server.v1_7_R2.EntityBat;
-import net.minecraft.server.v1_7_R2.EntityFallingBlock;
-import net.minecraft.server.v1_7_R2.Item;
-import net.minecraft.server.v1_7_R2.PacketPlayOutNamedSoundEffect;
-import net.minecraft.server.v1_7_R2.WatchableObject;
-import net.minecraft.server.v1_7_R2.Vec3D;
-import net.minecraft.server.v1_7_R2.WorldServer;
+import net.minecraft.server.v1_7_R3.Block;
+import net.minecraft.server.v1_7_R3.DataWatcher;
+import net.minecraft.server.v1_7_R3.EntityBat;
+import net.minecraft.server.v1_7_R3.EntityFallingBlock;
+import net.minecraft.server.v1_7_R3.Item;
+import net.minecraft.server.v1_7_R3.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_7_R3.WatchableObject;
+import net.minecraft.server.v1_7_R3.Vec3D;
+import net.minecraft.server.v1_7_R3.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R2.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R3.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -512,7 +512,7 @@ public class Utils {
 		return toWorldAxis(baseLocation, axis);
 	}
 
-	public static net.minecraft.server.v1_7_R2.Entity getEntityByID(int entityId, World world) {
+	public static net.minecraft.server.v1_7_R3.Entity getEntityByID(int entityId, World world) {
 		return ((CraftWorld)world).getHandle().getEntity(entityId);
 	}
 

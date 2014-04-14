@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.spawning.potions;
 
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import net.minecraft.server.v1_7_R2.EntityPlayer;
-import net.minecraft.server.v1_7_R2.MovingObjectPosition;
+import net.minecraft.server.v1_7_R3.EntityPlayer;
+import net.minecraft.server.v1_7_R3.MovingObjectPosition;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;

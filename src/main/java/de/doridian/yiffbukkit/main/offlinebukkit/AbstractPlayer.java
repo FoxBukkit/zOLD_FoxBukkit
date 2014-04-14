@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.offlinebukkit;
 
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Achievement;
 import org.bukkit.Effect;
 import org.bukkit.EntityEffect;
@@ -14,8 +15,8 @@ import org.bukkit.WeatherType;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.v1_7_R2.CraftOfflinePlayer;
-import org.bukkit.craftbukkit.v1_7_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_7_R3.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.v1_7_R3.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -53,7 +54,7 @@ import java.util.UUID;
 
 public abstract class AbstractPlayer extends CraftOfflinePlayer implements Player {
 	public AbstractPlayer(CraftServer server, String name) {
-		super(server, name);
+		super(server, new GameProfile(UUID.fromString("OfflinePlayer:" + name), name));
 	}
 	@Override public ItemStack getItemInHand() {
 		return getInventory().getItemInHand();

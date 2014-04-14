@@ -14,7 +14,7 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R2.EntityFallingBlock;
+import net.minecraft.server.v1_7_R3.EntityFallingBlock;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;

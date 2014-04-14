@@ -7,7 +7,7 @@ import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.spawning.commands.GiveCommand;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import net.minecraft.server.v1_7_R2.EnumArt;
+import net.minecraft.server.v1_7_R3.EnumArt;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -154,7 +154,7 @@ final class ShapeActions {
 				new EntityStatusMobAction(17, "Exploding..."),
 				"set",
 				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-					final net.minecraft.server.v1_7_R2.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
+					final net.minecraft.server.v1_7_R3.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
 					shape.setData(8, stack);
 
 					PlayerHelper.sendDirectedMessage(commandSender, "Preparing...");

@@ -2,8 +2,8 @@ package de.doridian.yiffbukkit.advanced.packetlistener;
 
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.core.YiffBukkit;
-import net.minecraft.server.v1_7_R2.NetworkManager;
-import net.minecraft.server.v1_7_R2.Packet;
+import net.minecraft.server.v1_7_R3.NetworkManager;
+import net.minecraft.server.v1_7_R3.Packet;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

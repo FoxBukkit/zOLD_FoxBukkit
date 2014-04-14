@@ -3,15 +3,15 @@ package de.doridian.yiffbukkit.spawning.potions;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R2.EntityPlayer;
-import net.minecraft.server.v1_7_R2.EntityPotion;
-import net.minecraft.server.v1_7_R2.ItemStack;
-import net.minecraft.server.v1_7_R2.MovingObjectPosition;
+import net.minecraft.server.v1_7_R3.EntityPlayer;
+import net.minecraft.server.v1_7_R3.EntityPotion;
+import net.minecraft.server.v1_7_R3.ItemStack;
+import net.minecraft.server.v1_7_R3.MovingObjectPosition;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 
 public abstract class CustomPotion extends EntityPotion {

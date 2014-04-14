@@ -5,13 +5,13 @@ import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.spawning.effects.system.EffectProperties;
 import de.doridian.yiffbukkit.spawning.effects.system.YBEffect;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_7_R2.MathHelper;
-import net.minecraft.server.v1_7_R2.Packet;
-import net.minecraft.server.v1_7_R2.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_7_R2.PacketPlayOutRelEntityMove;
+import net.minecraft.server.v1_7_R3.MathHelper;
+import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R3.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_7_R3.PacketPlayOutRelEntityMove;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -71,7 +71,7 @@ public class Redrum extends YBEffect {
 		byte yaw = (byte) (i*255*3/ticks+startYaw);
 		final byte entz = (byte) (i%2*2-1);
 		final Player except = entity instanceof Player ? (Player) entity : null;
-		final net.minecraft.server.v1_7_R2.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_7_R3.Entity notchEntity = ((CraftEntity) entity).getHandle();
 
 		paused = true;
 		YiffBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), except);

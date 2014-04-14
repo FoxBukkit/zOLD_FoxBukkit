@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.transmute;
 
-import net.minecraft.server.v1_7_R2.MathHelper;
-import net.minecraft.server.v1_7_R2.Packet;
-import net.minecraft.server.v1_7_R2.PacketPlayOutSpawnEntityExperienceOrb;
+import net.minecraft.server.v1_7_R3.MathHelper;
+import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R3.PacketPlayOutSpawnEntityExperienceOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 

@@ -1,8 +1,8 @@
 package de.doridian.yiffbukkit.main.chat.html;
 
-import net.minecraft.server.v1_7_R2.ChatBaseComponent;
-import net.minecraft.server.v1_7_R2.ChatMessage;
-import net.minecraft.server.v1_7_R2.ChatModifier;
+import net.minecraft.server.v1_7_R3.ChatBaseComponent;
+import net.minecraft.server.v1_7_R3.ChatMessage;
+import net.minecraft.server.v1_7_R3.ChatModifier;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAttribute;
