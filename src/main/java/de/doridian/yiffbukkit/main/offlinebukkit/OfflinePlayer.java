@@ -127,7 +127,7 @@ public class OfflinePlayer extends AbstractPlayer {
 	}
 
 	private OfflinePlayer(Server server, File playerFile, String name) {
-		super((CraftServer) server, getCaseCorrectName(playerFile, name));
+		super((CraftServer) server, name);
 
 		world = server.getWorld("world"); // default value
 		location = world.getSpawnLocation(); // default value
@@ -160,15 +160,6 @@ public class OfflinePlayer extends AbstractPlayer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private static String getCaseCorrectName(File playerFile, String name) {
-		if (playerFile == null)
-			return name;
-
-		final String playerFileName = playerFile.getName();
-		// Correct the case of the player name, if the player has been online before.
-		return playerFileName.substring(0, playerFileName.length() - 4);
 	}
 
 	private static Vector listTagToVector(Tag tag) {
