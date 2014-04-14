@@ -804,7 +804,7 @@ public class SpawnUtils {
 	public static HumanEntity makeNPC(String name, Location location) {
 		throw new RuntimeException("not ported yet!");
 		/*
-		final String id = name;
+		final UUID id = FishBansResolver.getUUID(name);
 		// Get some notch-type references
 		final WorldServer worldServer = ((CraftWorld)location.getWorld()).getHandle();
 		final MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();

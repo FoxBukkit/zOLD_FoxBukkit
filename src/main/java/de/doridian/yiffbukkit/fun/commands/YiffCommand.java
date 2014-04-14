@@ -1,9 +1,15 @@
 package de.doridian.yiffbukkit.fun.commands;
 
+import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
-import de.doridian.yiffbukkit.main.commands.system.ICommand.*;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.AbusePotential;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
+import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import net.minecraft.server.v1_7_R3.MathHelper;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
@@ -15,7 +21,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.UUID;
 
 @Names({"yiff","raep"})
 @Help("RAEP! -s = stop, -v = Anti-Anti-Vanish [FU NODUS c:]")
@@ -82,7 +87,7 @@ public class YiffCommand extends ICommand {
 			// TODO: make sure packets are sent before being reused or stop reusing them.
 			this.packet20NamedEntitySpawn = new PacketPlayOutNamedEntitySpawn();
 
-			packet20NamedEntitySpawn.b = new GameProfile(UUID.nameUUIDFromBytes("SPECIAL:DoriBot".getBytes()), "DoriBot"); // v1_7_R1
+			packet20NamedEntitySpawn.b = new GameProfile(FishBansResolver.getUUID("DoriBot"), "DoriBot"); // v1_7_R1
 
 			this.packet29DestroyEntity = new PacketPlayOutEntityDestroy(0);
 
