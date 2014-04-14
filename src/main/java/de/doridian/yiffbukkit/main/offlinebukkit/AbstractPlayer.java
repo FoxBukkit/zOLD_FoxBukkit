@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.main.offlinebukkit;
 
 import de.doridian.yiffbukkit.bans.FishBansResolver;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Achievement;
 import org.bukkit.Effect;
 import org.bukkit.EntityEffect;
@@ -55,7 +54,7 @@ import java.util.UUID;
 
 public abstract class AbstractPlayer extends CraftOfflinePlayer implements Player {
 	public AbstractPlayer(CraftServer server, String name) {
-		super(server, new GameProfile(FishBansResolver.getUUID(name), name));
+		super(server, new GameProfileOffline(FishBansResolver.getUUID(name), name));
 	}
 	@Override public ItemStack getItemInHand() {
 		return getInventory().getItemInHand();

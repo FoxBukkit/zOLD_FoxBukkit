@@ -10,11 +10,11 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
+import de.doridian.yiffbukkit.main.offlinebukkit.GameProfileOffline;
 import net.minecraft.server.v1_7_R3.MathHelper;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -87,7 +87,7 @@ public class YiffCommand extends ICommand {
 			// TODO: make sure packets are sent before being reused or stop reusing them.
 			this.packet20NamedEntitySpawn = new PacketPlayOutNamedEntitySpawn();
 
-			packet20NamedEntitySpawn.b = new GameProfile(FishBansResolver.getUUID("DoriBot"), "DoriBot"); // v1_7_R1
+			packet20NamedEntitySpawn.b = new GameProfileOffline(FishBansResolver.getUUID("DoriBot"), "DoriBot"); // v1_7_R1
 
 			this.packet29DestroyEntity = new PacketPlayOutEntityDestroy(0);
 
