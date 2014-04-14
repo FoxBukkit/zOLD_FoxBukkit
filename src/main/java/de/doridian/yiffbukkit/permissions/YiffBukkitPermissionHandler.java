@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.UUID;
 
 public class YiffBukkitPermissionHandler {
 	public static final YiffBukkitPermissionHandler instance = new YiffBukkitPermissionHandler();
@@ -130,16 +131,15 @@ public class YiffBukkitPermissionHandler {
 	}
 
 	public boolean has(Player player, String permission) {
-		return has(player.getWorld().getName(), player.getName(), permission);
+		return has(player.getWorld().getName(), player.getUniqueId(), permission);
 	}
 
-	public boolean has(String worldName, String playerName, String permission) {
-		playerName = playerName.toLowerCase();
+	public boolean has(String worldName, UUID uuid, String permission) {
 		permission = permission.toLowerCase();
-		if (AbusePotentialManager.isBlocked(playerName, permission))
+		if (AbusePotentialManager.isBlocked(uuid, permission))
 			return false;
 
-		GroupWorld currentGroupWorld = new GroupWorld(getGroup(playerName), worldName);
+		GroupWorld currentGroupWorld = new GroupWorld(getGroup(uuid), worldName);
 
 		HashSet<String> currentPermissions = groupPermissions.get(currentGroupWorld);
 		if(currentPermissions == null) {
@@ -172,29 +172,25 @@ public class YiffBukkitPermissionHandler {
 		return false;
 	}
 
-	public boolean has(String playerName, String permission) {
-		return has(defaultWorld, playerName, permission);
+	public boolean has(UUID uuid, String permission) {
+		return has(defaultWorld, uuid, permission);
 	}
 
-	public String getGroup(String name) {
-		name = name.toLowerCase();
-		if (name.equals("tomylobo"))
-			return "doridian";
-
-		return playerGroups.containsKey(name) ? playerGroups.get(name) : "guest";
+	public String getGroup(UUID uuid) {
+		return playerGroups.containsKey(uuid.toString()) ? playerGroups.get(uuid.toString()) : "guest";
 	}
 
-	public void setGroup(String name, String group) {
+	public void setGroup(UUID uuid, String group) {
 		group = group.toLowerCase();
-		playerGroups.put(name.toLowerCase(), group);
+		playerGroups.put(uuid.toString(), group);
 		save();
 	}
 
-	public boolean inGroup(String world, String name, String group) {
-		return getGroup(name).equalsIgnoreCase(group);
+	public boolean inGroup(String world, UUID uuid, String group) {
+		return getGroup(uuid).equalsIgnoreCase(group);
 	}
 
-	public boolean inGroup(String name, String group) {
-		return inGroup(defaultWorld, name, group);
+	public boolean inGroup(UUID uuid, String group) {
+		return inGroup(defaultWorld, uuid, group);
 	}
 }

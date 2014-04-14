@@ -28,6 +28,7 @@ import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.v1_7_R3.command.CraftConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -44,10 +45,17 @@ import java.util.regex.Pattern;
 
 public class PlayerHelper extends StateContainer {
 	private YiffBukkit plugin;
-	public Map<String, String> conversations = new HashMap<>();
+	public Map<UUID, UUID> conversations = new HashMap<>();
 
 	public PlayerHelper(YiffBukkit plug) {
 		plugin = plug;
+	}
+
+	public Player getPlayerByUUID(UUID uuid) {
+		Player ply = Bukkit.getPlayer(uuid);
+		if(ply == null)
+			ply = new OfflinePlayer(plugin.getServer(), uuid);
+		return ply;
 	}
 
 	public Player literalMatch(String name) {
@@ -107,13 +115,13 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Home position stuff
-	private TObjectIntHashMap<String> playerHomePosLimits = new TObjectIntHashMap<>();
-	private HashMap<String,HashMap<String,Location>> playerhomepos = new HashMap<>();
+	private TObjectIntHashMap<UUID> playerHomePosLimits = new TObjectIntHashMap<>();
+	private HashMap<UUID,HashMap<String,Location>> playerhomepos = new HashMap<>();
 	public Location getPlayerHomePosition(Player ply, String posName) throws YiffBukkitCommandException {
-		String name = ply.getName().toLowerCase();
+		UUID uuid = ply.getUniqueId();
 		posName = posName.toLowerCase();
-		if(playerhomepos.containsKey(name)) {
-			HashMap<String, Location> playersPositions = playerhomepos.get(name);
+		if(playerhomepos.containsKey(uuid)) {
+			HashMap<String, Location> playersPositions = playerhomepos.get(uuid);
 			if(playersPositions.containsKey(posName)) {
 				return playersPositions.get(posName);
 			}
@@ -128,16 +136,16 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 	public void setPlayerHomePosition(Player ply, String posName, Location pos) throws YiffBukkitCommandException {
-		String name = ply.getName().toLowerCase();
+		UUID uuid = ply.getUniqueId();
 		posName = posName.toLowerCase();
-		HashMap<String, Location> playerHomePositions = getPlayersHomePositions(name);
+		HashMap<String, Location> playerHomePositions = getPlayersHomePositions(uuid);
 		if(pos == null) {
 			if(playerHomePositions.containsKey(posName)) {
 				playerHomePositions.remove(posName);
 			} else {
 				throw new YiffBukkitCommandException("Home position with that name was not found");
 			}
-		} else if(playerHomePositions.containsKey(posName) || posName.equals("default") || playerHomePositions.size() <= getPlayerHomePositionLimit(name)) {
+		} else if(playerHomePositions.containsKey(posName) || posName.equals("default") || playerHomePositions.size() <= getPlayerHomePositionLimit(uuid)) {
 			playerHomePositions.put(posName, pos);
 		} else {
 			throw new YiffBukkitCommandException("You cannot set more home positions");
@@ -146,41 +154,36 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public Set<String> getPlayerHomePositionNames(Player ply) {
-		String name = ply.getName().toLowerCase();
-		return getPlayersHomePositions(name).keySet();
+		return getPlayersHomePositions(ply.getUniqueId()).keySet();
 	}
 
-	public int getPlayerHomePositionLimit(String name) {
-		name = name.toLowerCase();
-		if(playerHomePosLimits.containsKey(name)) {
-			return playerHomePosLimits.get(name);
+	public int getPlayerHomePositionLimit(UUID uuid) {
+		if(playerHomePosLimits.containsKey(uuid)) {
+			return playerHomePosLimits.get(uuid);
 		} else {
 			return 0;
 		}
 	}
 
-	public void setPlayerHomePositionLimit(String name, int value) {
-		name = name.toLowerCase();
-		playerHomePosLimits.put(name, value);
+	public void setPlayerHomePositionLimit(UUID uuid, int value) {
+		playerHomePosLimits.put(uuid, value);
 		savePlayerHomePositions();
 	}
 
-	private HashMap<String, Location> getPlayersHomePositions(String name) {
-		name = name.toLowerCase();
+	private HashMap<String, Location> getPlayersHomePositions(UUID uuid) {
 		HashMap<String, Location> playersPositions;
-		if(playerhomepos.containsKey(name)) {
-			playersPositions = playerhomepos.get(name);
+		if(playerhomepos.containsKey(uuid)) {
+			playersPositions = playerhomepos.get(uuid);
 		} else {
 			playersPositions = new HashMap<>();
-			playerhomepos.put(name, playersPositions);
+			playerhomepos.put(uuid, playersPositions);
 		}
 		return playersPositions;
 	}
 
 	public void clearPlayerHomePositionsAndTeleportHistory(Player ply) {
-		final String name = ply.getName().toLowerCase();
-		playerhomepos.remove(name);
-		teleportHistory.remove(name);
+		playerhomepos.remove(ply.getUniqueId());
+		teleportHistory.remove(ply.getUniqueId());
 		savePlayerHomePositions();
 	}
 
@@ -197,9 +200,9 @@ public class PlayerHelper extends StateContainer {
 					locName = lineSplit[2];
 				}
 				if(locName.equals("LIMIT")) {
-					playerHomePosLimits.put(lineSplit[0], Integer.parseInt(lineSplit[1]));
+					playerHomePosLimits.put(UUID.fromString(lineSplit[0]), Integer.parseInt(lineSplit[1]));
 				} else {
-					getPlayersHomePositions(lineSplit[0]).put(locName, plugin.utils.unserializeLocation(lineSplit[1]));
+					getPlayersHomePositions(UUID.fromString(lineSplit[0])).put(locName, plugin.utils.unserializeLocation(lineSplit[1]));
 				}
 			}
 			stream.close();
@@ -210,17 +213,17 @@ public class PlayerHelper extends StateContainer {
 	public void savePlayerHomePositions() {
 		try {
 			final BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-homepositions.txt"));
-			for(Entry<String, HashMap<String, Location>> entry : playerhomepos.entrySet()) {
+			for(Entry<UUID, HashMap<String, Location>> entry : playerhomepos.entrySet()) {
 				for(Entry<String, Location> homepos : entry.getValue().entrySet()) {
-					stream.write(entry.getKey() + "=" + Utils.serializeLocation(homepos.getValue()) + "=" + homepos.getKey());
+					stream.write(entry.getKey().toString() + "=" + Utils.serializeLocation(homepos.getValue()) + "=" + homepos.getKey());
 					stream.newLine();
 				}
 			}
-			playerHomePosLimits.forEachEntry(new TObjectIntProcedure<String>() {
+			playerHomePosLimits.forEachEntry(new TObjectIntProcedure<UUID>() {
 				@Override
-				public boolean execute(String name, int limit) {
+				public boolean execute(UUID name, int limit) {
 					try {
-						stream.write(name + "=" + limit + "=LIMIT");
+						stream.write(name.toString() + "=" + limit + "=LIMIT");
 						stream.newLine();
 					} catch(Exception e) {
 						return false;
@@ -329,20 +332,20 @@ public class PlayerHelper extends StateContainer {
 
 	//Ranks
 	public static String getPlayerRank(Player ply) {
-		return getPlayerRank(ply.getName());
+		return getPlayerRank(ply.getUniqueId());
 	}
-	public static String getPlayerRank(String name) {
-		final String rank = YiffBukkitPermissionHandler.instance.getGroup(name);
+	public static String getPlayerRank(UUID uuid) {
+		final String rank = YiffBukkitPermissionHandler.instance.getGroup(uuid);
 		if (rank == null)
 			return "guest";
 
 		return rank;
 	}
-	public void setPlayerRank(String name, String rankname) {
-		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
-		YiffBukkitPermissionHandler.instance.setGroup(name, rankname);
+	public void setPlayerRank(UUID uuid, String rankname) {
+		if(getPlayerRank(uuid).equalsIgnoreCase(rankname)) return;
+		YiffBukkitPermissionHandler.instance.setGroup(uuid, rankname);
 
-		Player ply = plugin.getServer().getPlayerExact(name);
+		Player ply = plugin.getServer().getPlayer(uuid);
 		if (ply == null) return;
 
 		setPlayerListName(ply);
@@ -365,14 +368,14 @@ public class PlayerHelper extends StateContainer {
 		if (ply instanceof BlockCommandSender) {
 			return 9998;
 		}
-		return getPlayerLevel(ply.getName());
+		return getPlayerLevel(ply.getUniqueId());
 	}
 
-	public static int getPlayerLevel(String name) {
-		if(name.equals("[CONSOLE]"))
+	public static int getPlayerLevel(UUID uuid) {
+		if(CraftConsoleCommandSender.CONSOLE_UUID.equals(uuid))
 			return 9999;
 
-		return YiffBukkit.instance.playerHelper.getRankLevel(getPlayerRank(name));
+		return YiffBukkit.instance.playerHelper.getRankLevel(getPlayerRank(uuid));
 	}
 
 	public int getRankLevel(String rankname) {
@@ -393,14 +396,13 @@ public class PlayerHelper extends StateContainer {
 	private final Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
 
 	public String getPlayerTag(CommandSender commandSender) {
-		return getPlayerTag(commandSender.getName());
+		return getPlayerTag(commandSender.getUniqueId());
 	}
 
-	public String getPlayerRankTag(String name) {
-		name = name.toLowerCase();
-		final String rank = getPlayerRank(name).toLowerCase();
-		if (playerRankTags.containsKey(name))
-			return playerRankTags.get(name);
+	public String getPlayerRankTag(UUID uuid) {
+		final String rank = getPlayerRank(uuid).toLowerCase();
+		if (playerRankTags.containsKey(uuid.toString()))
+			return playerRankTags.get(uuid.toString());
 
 		if (rankTags.containsKey(rank))
 			return rankTags.get(rank);
@@ -408,56 +410,49 @@ public class PlayerHelper extends StateContainer {
 		return "\u00a77";
 	}
 
-	public String getPlayerTag(String name) {
-		name = name.toLowerCase();
-		final String rankTag = getPlayerRankTag(name);
+	public String getPlayerTag(UUID uuid) {
+		final String rankTag = getPlayerRankTag(uuid);
 
-		if (playerTags.containsKey(name))
-			return playerTags.get(name) + " " + rankTag;
+		if (playerTags.containsKey(uuid.toString()))
+			return playerTags.get(uuid.toString()) + " " + rankTag;
 
 		return rankTag;
 	}
-	public void setPlayerTag(String name, String tag, boolean rankTag) {
-		name = name.toLowerCase();
+	public void setPlayerTag(UUID uuid, String tag, boolean rankTag) {
 		final Map<String, String> tags = rankTag ? playerRankTags : playerTags;
 		if (tag == null)
-			tags.remove(name);
+			tags.remove(uuid.toString());
 		else
-			tags.put(name, tag);
+			tags.put(uuid.toString(), tag);
 	}
 
-	public String getPlayerTagRaw(String name, boolean rankTag) {
-		name = name.toLowerCase();
+	public String getPlayerTagRaw(UUID uuid, boolean rankTag) {
 		final Map<String, String> tags = rankTag ? playerRankTags : playerTags;
-		return tags.get(name);
+		return tags.get(uuid.toString());
 	}
 
 
 	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
 
-	private String getPlayerNick(String name) {
-		name = name.toLowerCase();
-		if(playernicks.containsKey(name))
-			return playernicks.get(name);
+	private String getPlayerNick(UUID uuid) {
+		if(playernicks.containsKey(uuid.toString()))
+			return playernicks.get(uuid.toString());
 		else
 			return null;
 	}
 
 	public void setPlayerDisplayName(Player player) {
-		String nick = getPlayerNick(player.getName());
+		String nick = getPlayerNick(player.getUniqueId());
 		if (nick == null)
 			nick = player.getName();
 		player.setDisplayName(nick);
 	}
 
-	public void setPlayerNick(String name, String nick) {
-		name = name.toLowerCase();
+	public void setPlayerNick(UUID uuid, String nick) {
 		if (nick == null)
-		{
-			playernicks.remove(name);
-		}
+			playernicks.remove(uuid.toString());
 		else
-			playernicks.put(name, nick);
+			playernicks.put(uuid.toString(), nick);
 	}
 
 	public Set<String> playerTpPermissions = new HashSet<>();
@@ -483,8 +478,8 @@ public class PlayerHelper extends StateContainer {
 		int commandSenderLevel = getPlayerLevel(commandSender);
 		int targetLevel = getPlayerLevel(target);
 
-		String commandSenderName = commandSender.getName();
-		String targetName = target.getName();
+		String commandSenderName = commandSender.getUniqueId().toString();
+		String targetName = target.getUniqueId().toString();
 
 		// Was an exception given?
 		if (playerPortPermissions.contains(targetName+" "+commandSenderName))
@@ -495,7 +490,7 @@ public class PlayerHelper extends StateContainer {
 			return false;
 
 		// Higher-ranked people can always port.
-		if (commandSenderLevel > targetLevel && !AbusePotentialManager.isAbusive(commandSenderName))
+		if (commandSenderLevel > targetLevel && !AbusePotentialManager.isAbusive(commandSender.getUniqueId()))
 			return true;
 
 		// Same-ranked people can deny each other teleportation.
@@ -553,7 +548,7 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception ignored) { }
 	}
 
-	private Hashtable<String, Long> frozenTimes = new Hashtable<>();
+	private Hashtable<UUID, Long> frozenTimes = new Hashtable<>();
 	private Long frozenServerTime;
 
 	public static void sendPacketToPlayer(final Player ply, final Packet packet) {
@@ -596,15 +591,15 @@ public class PlayerHelper extends StateContainer {
 		return jail.engine.isJailed(ply);
 	}
 
-	Map<String, String> leashMasters = new HashMap<>();
+	Map<UUID, UUID> leashMasters = new HashMap<>();
 	private int leashTaskId;
 
 	public boolean toggleLeash(Player master, Player slave) {
-		if (!leashMasters.containsKey(slave.getName())) {
+		if (!leashMasters.containsKey(slave.getUniqueId())) {
 			addLeash(master, slave);
 			return true;
 		}
-		else if (leashMasters.get(slave.getName()).equals(master.getName())) {
+		else if (leashMasters.get(slave.getUniqueId()).equals(master.getUniqueId())) {
 			removeLeash(slave);
 			return false;
 		}
@@ -621,21 +616,21 @@ public class PlayerHelper extends StateContainer {
 			Runnable task = new Runnable() {
 				public void run() {
 					//for (Entry<String, String> entry : leashMasters.entrySet()) {
-					for ( Iterator<Entry<String, String>> leashMastersIter = leashMasters.entrySet().iterator(); leashMastersIter.hasNext(); ) {
-						Entry<String, String> entry = leashMastersIter.next();
+					for ( Iterator<Entry<UUID, UUID>> leashMastersIter = leashMasters.entrySet().iterator(); leashMastersIter.hasNext(); ) {
+						Entry<UUID, UUID> entry = leashMastersIter.next();
 
-						final String slaveName = entry.getKey();
+						final UUID slaveName = entry.getKey();
 						final Player slave = server.getPlayer(slaveName);
 
 						if (slave == null)
 							continue;
 
-						final String masterName = entry.getValue();
+						final UUID masterName = entry.getValue();
 						final Player master = server.getPlayer(masterName);
 
 						if (master == null || !master.isOnline()) {
 							leashMastersIter.remove();
-							sendServerMessage(masterName+" left, unleashing "+slaveName+".");
+							sendServerMessage("Player "+slave.getName()+" was unleashed automatically.");
 							removeHandler(slave);
 							continue;
 						}
@@ -677,7 +672,7 @@ public class PlayerHelper extends StateContainer {
 			leashTaskId = server.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0, 10);
 		}
 
-		leashMasters.put(slave.getName(), master.getName());
+		leashMasters.put(slave.getUniqueId(), master.getUniqueId());
 		/*Control permissionsHandler = (Control)plugin.permissions.getHandler();
 
 		permissionsHandler.setCacheItem(slave.getWorld().getName(), slave.getName(), "nocheat.speedhack", true);
@@ -696,7 +691,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void removeLeash(Player slave) {
-		leashMasters.remove(slave.getName());
+		leashMasters.remove(slave.getUniqueId());
 
 		removeHandler(slave);
 	}
@@ -720,12 +715,12 @@ public class PlayerHelper extends StateContainer {
 		return new File(world+"/playerdata/"+playerUUID.toString()+".dat");
 	}
 
-	public String formatPlayerFull(String playerName) {
-		String nick = getPlayerNick(playerName);
+	public String formatPlayerFull(UUID uuid) {
+		String nick = getPlayerNick(uuid);
 		if (nick == null)
-			nick = playerName;
+			nick = getPlayerByUUID(uuid).getName();
 
-		return getPlayerTag(playerName) + nick;
+		return getPlayerTag(uuid) + nick;
 	}
 
 	public enum WeatherType {
@@ -737,7 +732,7 @@ public class PlayerHelper extends StateContainer {
 			this.name = name;
 		}
 	}
-	public Hashtable<String, WeatherType> frozenWeathers = new Hashtable<>();
+	public Hashtable<UUID, WeatherType> frozenWeathers = new Hashtable<>();
 	public WeatherType frozenServerWeather;
 
 	public void pushWeather(Player ply) {
@@ -748,7 +743,7 @@ public class PlayerHelper extends StateContainer {
 		else if (world.hasStorm())
 			weatherType = WeatherType.RAIN;
 
-		WeatherType frozenWeather = frozenWeathers.get(ply.getName());
+		WeatherType frozenWeather = frozenWeathers.get(ply.getUniqueId());
 
 		if (frozenWeather != null) {
 			weatherType = frozenWeather;
@@ -768,7 +763,7 @@ public class PlayerHelper extends StateContainer {
 		}
 	}
 
-	public Map<String, List<String>> autoexecs = new HashMap<>();
+	public Map<UUID, List<String>> autoexecs = new HashMap<>();
 
 	private static final Pattern sectionPattern = Pattern.compile("^\\[(.*)\\]$");
 	@Loader({ "autoexecs", "autoexec" })
@@ -778,7 +773,7 @@ public class PlayerHelper extends StateContainer {
 			BufferedReader stream = new BufferedReader(new ConfigFileReader("autoexecs.txt"));
 
 			String line;
-			String currentPlayerName = null;
+			UUID currentPlayerName = null;
 			List<String> commands = null;
 			while((line = stream.readLine()) != null) {
 				if (line.isEmpty())
@@ -790,7 +785,7 @@ public class PlayerHelper extends StateContainer {
 						autoexecs.put(currentPlayerName, commands);
 					}
 
-					currentPlayerName = matcher.group(1);
+					currentPlayerName = UUID.fromString(matcher.group(1));
 					commands = new ArrayList<>();
 					continue;
 				}
@@ -815,8 +810,8 @@ public class PlayerHelper extends StateContainer {
 	public void saveAutoexecs() {
 		try {
 			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("autoexecs.txt"));
-			for (Entry<String, List<String>> entry : autoexecs.entrySet()) {
-				stream.write('['+entry.getKey()+']');
+			for (Entry<UUID, List<String>> entry : autoexecs.entrySet()) {
+				stream.write('['+entry.getKey().toString()+']');
 				stream.newLine();
 
 				for (String command : entry.getValue()) {
@@ -870,17 +865,17 @@ public class PlayerHelper extends StateContainer {
 
 	public String formatPlayer(Player player) {
 		final String playerName = player.getName();
-		return getPlayerRankTag(playerName) + playerName;
+		return getPlayerRankTag(player.getUniqueId()) + playerName;
 	}
 
-	public HashMap<String, LinkedList<Location>> teleportHistory = new HashMap<>();
+	public HashMap<UUID, LinkedList<Location>> teleportHistory = new HashMap<>();
 	public void pushPlayerLocationOntoTeleportStack(Player ply) {
-		String name = ply.getName().toLowerCase();
+		UUID uuid = ply.getUniqueId();
 
-		LinkedList<Location> locs = teleportHistory.get(name);
+		LinkedList<Location> locs = teleportHistory.get(uuid);
 		if(locs == null) {
 			locs = new LinkedList<>();
-			teleportHistory.put(name, locs);
+			teleportHistory.put(uuid, locs);
 		}
 
 		locs.push(ply.getLocation());
@@ -913,13 +908,13 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void setFrozenServerTime(Player player, long setTime) {
-		frozenTimes.put(player.getName(), setTime);
+		frozenTimes.put(player.getUniqueId(), setTime);
 		player.setPlayerTime(setTime, false);
 		applyTime(player);
 	}
 
 	public void resetFrozenServerTime(Player player) {
-		frozenTimes.remove(player.getName());
+		frozenTimes.remove(player.getUniqueId());
 		applyTime(player);
 	}
 
@@ -930,7 +925,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void applyTime(Player player) {
-		Long frozenTime = frozenTimes.get(player.getName());
+		Long frozenTime = frozenTimes.get(player.getUniqueId());
 
 		if (frozenTime != null) {
 			player.setPlayerTime(frozenTime, false);
@@ -952,26 +947,26 @@ public class PlayerHelper extends StateContainer {
 		return guestRanks.contains(rank);
 	}
 
-    public static final HashMap<String, String> playerHosts = new HashMap<>();
-    public static final HashMap<String, String> playerIPs = new HashMap<>();
+    public static final HashMap<UUID, String> playerHosts = new HashMap<>();
+    public static final HashMap<UUID, String> playerIPs = new HashMap<>();
 
     public static String getPlayerIP(CommandSender player) {
-        return getPlayerIP(player.getName());
+        return getPlayerIP(player.getUniqueId());
     }
 
-    public static String getPlayerIP(String player) {
+    public static String getPlayerIP(UUID uuid) {
         synchronized(PlayerHelper.playerIPs) {
-            return playerIPs.get(player.toLowerCase());
+            return playerIPs.get(uuid);
         }
     }
 
     public static String getPlayerHost(CommandSender player) {
-        return getPlayerHost(player.getName());
+        return getPlayerHost(player.getUniqueId());
     }
 
-    public static String getPlayerHost(String player) {
+    public static String getPlayerHost(UUID uuid) {
         synchronized(PlayerHelper.playerIPs) {
-            return playerHosts.get(player.toLowerCase());
+            return playerHosts.get(uuid);
         }
     }
 }

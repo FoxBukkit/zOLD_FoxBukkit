@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.warp.commands;
 
+import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -13,6 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
+import java.util.UUID;
+
 @Names("setwarp")
 @Help("Creates a warp point with the specified name, for the specified player or yourself. When run from the console, the warp is created at the guest spawn.")
 @Usage("<warp point name> [<exact owner name>]")
@@ -22,7 +25,7 @@ public class SetWarpCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		final String warpName;
-		final String ownerName;
+		final UUID ownerName;
 
 		switch (args.length) {
 		case 0:
@@ -30,12 +33,12 @@ public class SetWarpCommand extends ICommand {
 
 		case 1:
 			warpName = args[0];
-			ownerName = asPlayer(commandSender).getName();
+			ownerName = asPlayer(commandSender).getUniqueId();
 			break;
 
 		default:
 			warpName = args[0];
-			ownerName = args[1];
+			ownerName = FishBansResolver.getUUID(args[1]);
 		}
 
 		WarpDescriptor warp = plugin.warpEngine.setWarp(ownerName, warpName, getWarpTargetLocation(commandSender));

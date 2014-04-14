@@ -40,7 +40,7 @@ public class WhoCommand extends ICommand {
 				else {
 					str += players[0].getName();
 					for (int i = 1; i < players.length; i++) {
-						str += ", " + MessageHelper.format(players[i].getName());
+						str += ", " + MessageHelper.format(players[i].getUniqueId());
 					}
 				}
 			}

@@ -66,7 +66,7 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 			throw new YiffBukkitCommandException("You cannot mute yourself");
 
 		final Integer commandSenderLevel = PlayerHelper.getPlayerLevel(commandSender);
-		final Integer targetLevel = PlayerHelper.getPlayerLevel(targetName);
+		final Integer targetLevel = PlayerHelper.getPlayerLevel(target.getUniqueId());
 		if (commandSenderLevel <= targetLevel)
 			throw new PermissionDeniedException();
 

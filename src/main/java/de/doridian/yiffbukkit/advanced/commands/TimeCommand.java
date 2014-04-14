@@ -56,11 +56,11 @@ public class TimeCommand extends ServerTimeCommand {
 		}
 
 		if (setWeather == null) {
-			playerHelper.frozenWeathers.remove(commandSender.getName());
+			playerHelper.frozenWeathers.remove(commandSender.getUniqueId());
 			PlayerHelper.sendDirectedMessage(commandSender, "Reset your weather back to normal!");
 		}
 		else {
-			playerHelper.frozenWeathers.put(commandSender.getName(), setWeather);
+			playerHelper.frozenWeathers.put(commandSender.getUniqueId(), setWeather);
 			PlayerHelper.sendDirectedMessage(commandSender, "You forced your weather to be: " + setWeather.name + ".");
 		}
 

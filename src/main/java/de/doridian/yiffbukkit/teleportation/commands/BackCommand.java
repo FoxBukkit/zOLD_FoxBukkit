@@ -31,7 +31,7 @@ public class BackCommand extends ICommand {
 			numSteps = Integer.parseInt(args[0]);
 		}
 
-		LinkedList<Location> teleports = plugin.playerHelper.teleportHistory.get(ply.getName().toLowerCase());
+		LinkedList<Location> teleports = plugin.playerHelper.teleportHistory.get(ply.getUniqueId());
 		if(teleports == null) {
 			PlayerHelper.sendDirectedMessage(ply, "No teleport history found!");
 			return;

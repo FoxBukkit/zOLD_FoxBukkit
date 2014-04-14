@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ChatChannelContainer implements Serializable {
 	private static final long serialVersionUID = 2L;
@@ -11,7 +12,7 @@ public class ChatChannelContainer implements Serializable {
 	/**
 	 * Maps player name to active chat channel.
 	 */
-	public HashMap<String, ChatChannel> activeChannel = new HashMap<>();
+	public HashMap<UUID, ChatChannel> activeChannel = new HashMap<>();
 
 	/**
 	 * Maps channel name to chat channel.

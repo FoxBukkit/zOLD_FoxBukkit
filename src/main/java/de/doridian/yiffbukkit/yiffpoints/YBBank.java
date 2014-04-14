@@ -10,35 +10,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class YBBank extends StateContainer {
-	Map<String, YBAccount> accounts = new HashMap<>();
+	Map<UUID, YBAccount> accounts = new HashMap<>();
 
-	private YBAccount getAccount(String playerName) {
-		YBAccount account = accounts.get(playerName.toLowerCase());
+	private YBAccount getAccount(UUID playerName) {
+		YBAccount account = accounts.get(playerName);
 
 		if (account == null) {
-			accounts.put(playerName.toLowerCase(), account = new YBAccount(this));
+			accounts.put(playerName, account = new YBAccount(this));
 		}
 
 		return account;
 	}
 
 
-	public double getBalance(String playerName) {
+	public double getBalance(UUID playerName) {
 		return getAccount(playerName).getBalance();
 	}
 
-	public void setBalance(String playerName, double balance) {
+	public void setBalance(UUID playerName, double balance) {
 		getAccount(playerName).setBalance(balance);
 	}
 
 
-	public void addFunds(String playerName, double cents) {
+	public void addFunds(UUID playerName, double cents) {
 		getAccount(playerName).addFunds(cents);
 	}
 
-	public void useFunds(String playerName, double cents, String purpose) throws NotEnoughFundsException, ItemHasNoPriceException {
+	public void useFunds(UUID playerName, double cents, String purpose) throws NotEnoughFundsException, ItemHasNoPriceException {
 		if(cents <= 0)
 			throw new ItemHasNoPriceException();
 		System.out.println(String.format("Player %s is trying to use %.0f YP on '%s'.", playerName, cents, purpose));
@@ -61,7 +62,7 @@ public class YBBank extends StateContainer {
 		if (commandSender.hasPermission(permission))
 			return false;
 
-		useFunds(commandSender.getName(), cents, purpose);
+		useFunds(commandSender.getUniqueId(), cents, purpose);
 		return true;
 	}
 
@@ -74,10 +75,10 @@ public class YBBank extends StateContainer {
 			return;
 
 		for (Entry<String, List<Map<String, List<String>>>> entry : sections.entrySet()) {
-			String playerName = entry.getKey();
+			UUID playerName = UUID.fromString(entry.getKey());
 			List<Map<String, List<String>>> namesakes = entry.getValue();
 
-			accounts.put(playerName.toLowerCase(), new YBAccount(this, namesakes.get(0)));
+			accounts.put(playerName, new YBAccount(this, namesakes.get(0)));
 
 			if (namesakes.size() > 1) {
 				System.err.println("Duplicate section in bank.txt.");
@@ -88,13 +89,13 @@ public class YBBank extends StateContainer {
 	@Saver("bank")
 	public void save() {
 		Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
-		for (Entry<String, YBAccount> entry : accounts.entrySet()) {
+		for (Entry<UUID, YBAccount> entry : accounts.entrySet()) {
 			YBAccount account = entry.getValue();
 			final Map<String, List<String>> section = account.save();
 			if (section == null)
 				continue;
 
-			sections.put(entry.getKey(), Arrays.asList(section));
+			sections.put(entry.getKey().toString(), Arrays.asList(section));
 		}
 
 		Ini.save("bank.txt", sections);

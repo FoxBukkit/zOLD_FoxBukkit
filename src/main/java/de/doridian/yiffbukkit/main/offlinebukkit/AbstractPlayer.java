@@ -51,11 +51,21 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public abstract class AbstractPlayer extends CraftOfflinePlayer implements Player {
-	public AbstractPlayer(CraftServer server, String name) {
-		super(server, new GameProfile(FishBansResolver.getUUID(name), name));
+	public AbstractPlayer(CraftServer server, UUID uuid, String name) {
+		super(server, new GameProfile((uuid == null) ? FishBansResolver.getUUID(name) : uuid, name));
 	}
+
+	public AbstractPlayer(CraftServer server, String name) {
+		this(server, null, name);
+	}
+
+	public AbstractPlayer(CraftServer server, UUID uuid) {
+		this(server, uuid, null);
+	}
+
 	@Override public ItemStack getItemInHand() {
 		return getInventory().getItemInHand();
 	}

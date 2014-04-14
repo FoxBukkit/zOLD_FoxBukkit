@@ -244,7 +244,7 @@ public abstract class ICommand {
 
 
 	public boolean canPlayerUseCommand(CommandSender commandSender) {
-		if (hasAbusePotential() && AbusePotentialManager.isAbusive(commandSender.getName()))
+		if (hasAbusePotential() && AbusePotentialManager.isAbusive(commandSender.getUniqueId()))
 			return false;
 
 		final String requiredPermission = getRequiredPermission();

@@ -3,6 +3,7 @@ package de.doridian.yiffbukkit.teleportation.commands;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 @Names("noport")
 @Help("Prevents teleportation and summoning or grants/revokes exceptions.")
@@ -32,10 +34,10 @@ public class NoPortCommand extends ICommand {
 	@Override
 	public void Run(Player player, String[] args, String argStr) throws YiffBukkitCommandException {
 		boolean newState;
-		final String playerName = player.getName();
+		final UUID playerName = player.getUniqueId();
 
 		final String subCommand = args.length >= 1 ? args[0] : "";
-		final String otherName = args.length >= 2 ? playerHelper.completePlayerName(args[1], true) : null;
+		final UUID otherName = args.length >= 2 ? FishBansResolver.getUUID(playerHelper.completePlayerName(args[1], true)) : null;
 
 		switch (subCommand) {
 		case "on":
@@ -52,15 +54,15 @@ public class NoPortCommand extends ICommand {
 			// toggle
 			if (tpPermissions == null) {
 				// /nosummon
-				newState = !summonPermissions.contains(playerName);
+				newState = !summonPermissions.contains(playerName.toString());
 			}
 			else if (summonPermissions == null) {
 				// /notp
-				newState = !tpPermissions.contains(playerName);
+				newState = !tpPermissions.contains(playerName.toString());
 			}
-			else if (tpPermissions.contains(playerName) == summonPermissions.contains(playerName)) {
+			else if (tpPermissions.contains(playerName.toString()) == summonPermissions.contains(playerName.toString())) {
 				// /noport, states of notp and nosummon are the same
-				newState = !tpPermissions.contains(playerName);
+				newState = !tpPermissions.contains(playerName.toString());
 			}
 			else {
 				// /noport, states differ
@@ -81,12 +83,13 @@ public class NoPortCommand extends ICommand {
 			return;
 
 		case "list":
-			final Collection<String> otherNames = getExceptions(playerName);
+			final Collection<UUID> otherNames = getExceptions(playerName);
 
 			MessageHelper.sendMessage(player, String.format("Players that you allowed %s:", what()));
-			for (String name : otherNames) {
-				final String removeCommand = String.format("/%s deny %s", getNames()[0], name);
-				MessageHelper.sendMessage(player, MessageHelper.format(name) + " " + MessageHelper.button(removeCommand, "x", "red", true));
+			for (UUID uuid : otherNames) {
+				Player playerUUID = playerHelper.getPlayerByUUID(uuid);
+				final String removeCommand = String.format("/%s deny %s", getNames()[0], playerUUID.getName());
+				MessageHelper.sendMessage(player, MessageHelper.format(uuid) + " " + MessageHelper.button(removeCommand, "x", "red", true));
 			}
 			return;
 
@@ -96,23 +99,23 @@ public class NoPortCommand extends ICommand {
 
 		if (tpPermissions != null) {
 			if (newState)
-				tpPermissions.add(playerName);
+				tpPermissions.add(playerName.toString());
 			else
-				tpPermissions.remove(playerName);
+				tpPermissions.remove(playerName.toString());
 		}
 
 		if (summonPermissions != null) {
 			if (newState)
-				summonPermissions.add(playerName);
+				summonPermissions.add(playerName.toString());
 			else
-				summonPermissions.remove(playerName);
+				summonPermissions.remove(playerName.toString());
 		}
 		playerHelper.savePortPermissions();
 
 		PlayerHelper.sendDirectedMessage(player, getStateName(!newState) + " " + what() + ".");
 	}
 
-	private void setException(Player player, String[] args, String playerName, String otherName, boolean allow) throws YiffBukkitCommandException {
+	private void setException(Player player, String[] args, UUID playerName, UUID otherName, boolean allow) throws YiffBukkitCommandException {
 		if (args.length < 2)
 			throw new YiffBukkitCommandException("Usage: " + getUsage());
 
@@ -128,8 +131,8 @@ public class NoPortCommand extends ICommand {
 		return allowed ? "Allowed" : "Disallowed";
 	}
 
-	private void setException(String playerName, String otherName, boolean newState) {
-		final String pair = playerName+" "+otherName;
+	private void setException(UUID playerName, UUID otherName, boolean newState) {
+		final String pair = playerName.toString()+" "+otherName.toString();
 
 		if (tpPermissions != null) {
 			if (newState)
@@ -148,7 +151,7 @@ public class NoPortCommand extends ICommand {
 		playerHelper.savePortPermissions();
 	}
 
-	private Collection<String> getExceptions(final String playerName) throws YiffBukkitCommandException {
+	private Collection<UUID> getExceptions(final UUID playerName) throws YiffBukkitCommandException {
 		if (tpPermissions != null && summonPermissions != null)
 			throw new YiffBukkitCommandException("Usage: " + getUsage());
 
@@ -157,12 +160,12 @@ public class NoPortCommand extends ICommand {
 		return Collections2.transform(Collections2.filter(permissions, new Predicate<String>() {
 			@Override
 			public boolean apply(String s) {
-				return s.startsWith(playerName + " ");
+				return s.startsWith(playerName.toString() + " ");
 			}
-		}), new Function<String, String>() {
+		}), new Function<String, UUID>() {
 			@Override
-			public String apply(String s) {
-				return s.substring(s.indexOf(' ') + 1);
+			public UUID apply(String s) {
+				return UUID.fromString(s.substring(s.indexOf(' ') + 1));
 			}
 		});
 	}

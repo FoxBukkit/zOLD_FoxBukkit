@@ -4,6 +4,8 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import org.bukkit.command.CommandSender;
 
+import java.util.UUID;
+
 @ICommand.Names("sethomelimit")
 @ICommand.BooleanFlags("a")
 @ICommand.Help("Sets home location limit for a player")
@@ -13,9 +15,12 @@ public class SetHomeLocationLimit extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		int newLimit = Integer.parseInt(args[1]);
+
+		UUID playerUUID = UUID.fromString(args[0]);
+
 		if(booleanFlags.contains('a')) {
-			newLimit += playerHelper.getPlayerHomePositionLimit(args[0]);
+			newLimit += playerHelper.getPlayerHomePositionLimit(playerUUID);
 		}
-		playerHelper.setPlayerHomePositionLimit(args[0], newLimit);
+		playerHelper.setPlayerHomePositionLimit(playerUUID, newLimit);
 	}
 }

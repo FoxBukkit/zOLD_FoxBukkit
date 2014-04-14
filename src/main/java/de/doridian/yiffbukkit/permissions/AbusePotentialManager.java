@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class AbusePotentialManager extends StateContainer {
-	private static final Set<String> abusiveAdmins = new HashSet<>();
+	private static final Set<UUID> abusiveAdmins = new HashSet<>();
 	private static Set<String> abusivePermissions = new HashSet<>(Arrays.asList(
 			"bukkit.commandblock.set",
 			"worldedit.butcher",
@@ -37,7 +38,7 @@ public class AbusePotentialManager extends StateContainer {
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				abusiveAdmins.add(line.trim().toLowerCase());
+				abusiveAdmins.add(UUID.fromString(line.trim()));
 			}
 
 			reader.close();
@@ -49,12 +50,12 @@ public class AbusePotentialManager extends StateContainer {
 		}
 	}
 
-	public static boolean isAbusive(String name) {
-		return abusiveAdmins.contains(name.toLowerCase());
+	public static boolean isAbusive(UUID uuid) {
+		return abusiveAdmins.contains(uuid);
 	}
 
-	public static boolean isBlocked(String name, String permission) {
-		if (!isAbusive(name))
+	public static boolean isBlocked(UUID uuid, String permission) {
+		if (!isAbusive(uuid))
 			return false;
 
 		if (abusivePermissions.contains(permission))

@@ -33,7 +33,7 @@ public class SetTagCommand extends ICommand {
 		final boolean force = booleanFlags.contains('f');
 		final String tagTypeName = useRankTag ? "rank tag" : "tag";
 
-		final String previousTag = playerHelper.getPlayerTagRaw(otherPly.getName(), useRankTag);
+		final String previousTag = playerHelper.getPlayerTagRaw(otherPly.getUniqueId(), useRankTag);
 
 		final String undoCommand;
 		if (previousTag == null)
@@ -43,14 +43,14 @@ public class SetTagCommand extends ICommand {
 		}
 
 		if (newTag.equals("none")) {
-			playerHelper.setPlayerTag(otherPly.getName(), null, useRankTag);
+			playerHelper.setPlayerTag(otherPly.getUniqueId(), null, useRankTag);
 			SetNickCommand.announceTagChange("%1$s reset "+tagTypeName+" of %2$s!", "%2$s reset their own "+tagTypeName+"!", commandSender, otherPly, undoCommand);
 		}
 		else if (!useRankTag && !force && newTag.matches("^.*\u00a7.$")) {
 			throw new YiffBukkitCommandException("Player tag ends in color code. This belongs into the rank tag now (-r flag).");
 		}
 		else {
-			playerHelper.setPlayerTag(otherPly.getName(), newTag, useRankTag);
+			playerHelper.setPlayerTag(otherPly.getUniqueId(), newTag, useRankTag);
 			SetNickCommand.announceTagChange("%1$s set "+tagTypeName+" of %2$s!", "%2$s set their own "+tagTypeName+"!", commandSender, otherPly, undoCommand);
 		}
 	}

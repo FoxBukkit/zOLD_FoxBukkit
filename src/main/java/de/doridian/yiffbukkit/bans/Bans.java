@@ -7,6 +7,8 @@ import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class Bans {
 	private YiffBukkit plugin;
 
@@ -36,9 +38,6 @@ public class Bans {
 	}
 
 	public void unban(final CommandSender from, final String ply) {
-		if (ply.toLowerCase().matches(".*da5id_|sc4re.*"))
-			return;
-
 		new Thread() {
 			public void run() {
 				Ban ban = BanResolver.getBan(ply, null, false);
@@ -64,27 +63,33 @@ public class Bans {
 		} else {
 			addr = ply.getAddress().getAddress().getHostAddress();
 		}
-		ban(from, ply.getName(), addr, reason, type, duration, measure);
+		ban(from, ply.getName(), ply.getUniqueId(), addr, reason, type, duration, measure);
 	}
 
-	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type) {
+	public void ban(final CommandSender from, final String plyName, final UUID plyUUID, final String ip, final String reason, final BanType type) {
 		if (type == BanType.TEMPORARY) return;
-		ban(from, ply, ip, reason, type, 0, "");
+		ban(from, plyName, plyUUID, ip, reason, type, 0, "");
 	}
 
-	public void ban(final CommandSender from, final String ply, final String ip, final String reason, final BanType type, final long duration, final String measure) {
+	public void ban(final CommandSender from, final String _plyName, final UUID plyUUID, final String ip, final String reason, final BanType type, final long duration, final String measure) {
 		if (type == null) return;
 		if (type == BanType.TEMPORARY) return;
+
+		final String plyName;
+		if(_plyName == null)
+			plyName = YiffBukkit.instance.playerHelper.getPlayerByUUID(plyUUID).getName();
+		else
+			plyName = _plyName;
 
 		new Thread() {
 			public void run() {
 				Ban newBan = new Ban();
-				newBan.setUser(ply, null);
-				newBan.setAdmin(from.getName(), null);
+				newBan.setUser(plyName, plyUUID);
+				newBan.setAdmin(from.getName(), from.getUniqueId());
 				newBan.setReason(reason);
 				newBan.setType(type.getName());
 				BanResolver.addBan(newBan);
-				PlayerHelper.sendServerMessage(from.getName() + " banned " + ply + " [Reason: " + reason + "]!");
+				PlayerHelper.sendServerMessage(from.getName() + " banned " + plyName + " [Reason: " + reason + "]!");
 			}
 		}.start();
 	}

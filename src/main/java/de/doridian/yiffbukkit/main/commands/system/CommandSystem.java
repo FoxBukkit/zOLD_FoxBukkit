@@ -93,8 +93,8 @@ public class CommandSystem {
 						throw new PermissionDeniedException();
 
 					final double price = costAnnotation.value();
-					plugin.bank.useFunds(playerName, price, "/"+cmd+" "+argStr);
-					final double total = plugin.bank.getBalance(playerName);
+					plugin.bank.useFunds(commandSender.getUniqueId(), price, "/"+cmd+" "+argStr);
+					final double total = plugin.bank.getBalance(commandSender.getUniqueId());
 					PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
 				}
 

@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 public class ChatHelper extends StateContainer {
 	private static ChatHelper instance;
@@ -28,11 +29,11 @@ public class ChatHelper extends StateContainer {
 	public final ChatChannel DEFAULT;
 
 	public void joinChannel(Player player, ChatChannel channel) throws YiffBukkitCommandException {
-		final String plyname = player.getName().toLowerCase();
-		if (channel.players.containsKey(plyname))
+		final UUID plyUUID = player.getUniqueId();
+		if (channel.players.containsKey(plyUUID))
 			throw new YiffBukkitCommandException("Player already in channel!");
 
-		channel.players.put(plyname, true);
+		channel.players.put(plyUUID, true);
 		saveChannels();
 	}
 
@@ -40,15 +41,15 @@ public class ChatHelper extends StateContainer {
 		if (channel == DEFAULT)
 			throw new YiffBukkitCommandException("You cannot leave the default channel! Mute it!");
 
-		final String plyname = player.getName().toLowerCase();
-		if (!channel.players.containsKey(plyname))
+		UUID plyUUID = player.getUniqueId();
+		if (!channel.players.containsKey(plyUUID))
 			throw new YiffBukkitCommandException("Player not in channel!");
 
-		if (container.activeChannel.get(plyname) == channel) {
-			container.activeChannel.put(plyname, DEFAULT);
+		if (container.activeChannel.get(plyUUID) == channel) {
+			container.activeChannel.put(plyUUID, DEFAULT);
 		}
 
-		channel.players.remove(plyname);
+		channel.players.remove(plyUUID);
 		saveChannels();
 	}
 
@@ -73,7 +74,7 @@ public class ChatHelper extends StateContainer {
 		if (owner == null)
 			newChan.owner = null;
 		else
-			newChan.owner = owner.getName().toLowerCase();
+			newChan.owner = owner.getUniqueId();
 
 		saveChannels();
 		return newChan;
@@ -81,7 +82,7 @@ public class ChatHelper extends StateContainer {
 
 	@SuppressWarnings("unchecked")
 	public void removeChannel(ChatChannel channel) {
-		for (Entry<String,ChatChannel> entry : new HashMap<>(container.activeChannel).entrySet()) {
+		for (Entry<UUID,ChatChannel> entry : new HashMap<>(container.activeChannel).entrySet()) {
 			if (entry.getValue() != channel)
 				continue;
 
@@ -115,7 +116,7 @@ public class ChatHelper extends StateContainer {
 		if (ply == null)
 			return DEFAULT;
 
-		ChatChannel chan = container.activeChannel.get(ply.getName().toLowerCase());
+		ChatChannel chan = container.activeChannel.get(ply.getUniqueId());
 		if (chan == null) {
 			verifyPlayerInDefaultChannel(ply);
 			return DEFAULT;
@@ -125,10 +126,10 @@ public class ChatHelper extends StateContainer {
 	}
 
 	public void setActiveChannel(Player ply, ChatChannel chan) throws YiffBukkitCommandException {
-		String plyname = ply.getName().toLowerCase();
-		if (chan.players.containsKey(plyname)) {
-			chan.players.put(plyname, true);
-			container.activeChannel.put(plyname, chan);
+		UUID plyUUID = ply.getUniqueId();
+		if (chan.players.containsKey(plyUUID)) {
+			chan.players.put(plyUUID, true);
+			container.activeChannel.put(plyUUID, chan);
 		}
 		else {
 			throw new PermissionDeniedException();
@@ -141,7 +142,7 @@ public class ChatHelper extends StateContainer {
 
 		boolean needsSave = false;
 
-		String plyname = ply.getName().toLowerCase();
+		UUID plyUUID = ply.getUniqueId();
 
 		try {
 			joinChannel(ply, DEFAULT);
@@ -149,8 +150,8 @@ public class ChatHelper extends StateContainer {
 		}
 		catch (Exception ignored) { }
 
-		if (container.activeChannel.get(plyname) == null) {
-			container.activeChannel.put(plyname, DEFAULT);
+		if (container.activeChannel.get(plyUUID) == null) {
+			container.activeChannel.put(plyUUID, DEFAULT);
 			needsSave = true;
 		}
 
@@ -184,18 +185,18 @@ public class ChatHelper extends StateContainer {
 			} else {
 				plugin.sendConsoleMsg("[" + chan.name + "] <" + ply.getName() + "> " + msg, false);
 			}
-			msg = plugin.playerHelper.formatPlayerFull(ply.getName()) + ":\u00a7f " + msg;
+			msg = plugin.playerHelper.formatPlayerFull(ply.getUniqueId()) + ":\u00a7f " + msg;
 		}
 
 		boolean noOneHearsYou = true;
 
 		if (chan != DEFAULT) msg = "\u00a72[" + chan.name + "]\u00a7f " + msg;
 
-		for (Entry<String,Boolean> entry : chan.players.entrySet()) {
+		for (Entry<UUID,Boolean> entry : chan.players.entrySet()) {
 			if (!entry.getValue())
 				continue; //for speed!
 
-			Player player = plugin.getServer().getPlayerExact(entry.getKey());
+			Player player = plugin.getServer().getPlayer(entry.getKey());
 			if (player == null)
 				continue;
 

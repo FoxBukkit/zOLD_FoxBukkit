@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
+import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
@@ -13,6 +14,8 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import org.bukkit.command.CommandSender;
 
+import java.util.UUID;
+
 @Names("setrank")
 @Help("Sets rank of specified user")
 @Usage("<full name> <rank>")
@@ -25,8 +28,9 @@ public class SetRankCommand extends ICommand {
 		args = parseFlags(args);
 
 		String otherName = args[0];
+		UUID otherUUID = FishBansResolver.getUUID(args[0]);
 		String newRank = args[1];
-		String oldRank = PlayerHelper.getPlayerRank(otherName);
+		String oldRank = PlayerHelper.getPlayerRank(otherUUID);
 		
 		if(oldRank.equalsIgnoreCase("banned")) {
 			throw new YiffBukkitCommandException("Player is banned! /unban first!");
@@ -44,7 +48,7 @@ public class SetRankCommand extends ICommand {
 		}
 
 		int selflvl = PlayerHelper.getPlayerLevel(commandSender);
-		int oldlvl = PlayerHelper.getPlayerLevel(otherName);
+		int oldlvl = PlayerHelper.getPlayerLevel(otherUUID);
 		int newlvl = playerHelper.getRankLevel(newRank);
 
 		if(selflvl <= oldlvl)
@@ -56,7 +60,7 @@ public class SetRankCommand extends ICommand {
 		if(playerHelper.getRankLevel(newRank) >= 4 && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
 			throw new PermissionDeniedException();
 		
-		if(PlayerHelper.getPlayerLevel(otherName) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
+		if(PlayerHelper.getPlayerLevel(otherUUID) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
 			throw new PermissionDeniedException();
 
 		if(booleanFlags.contains('p') && newlvl < oldlvl)
@@ -68,7 +72,7 @@ public class SetRankCommand extends ICommand {
 			YiffBukkitPermissions.removeCOPlayer(otherName);
 		}
 
-		playerHelper.setPlayerRank(otherName, newRank);
+		playerHelper.setPlayerRank(otherUUID, newRank);
 
 		PlayerHelper.sendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
 		

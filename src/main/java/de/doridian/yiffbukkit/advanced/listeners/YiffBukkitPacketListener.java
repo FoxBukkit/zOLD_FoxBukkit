@@ -13,8 +13,6 @@ import net.minecraft.server.v1_7_R3.EntityLiving;
 import net.minecraft.server.v1_7_R3.MathHelper;
 import net.minecraft.server.v1_7_R3.Packet;
 import net.minecraft.server.v1_7_R3.PacketPlayInFlying;
-import net.minecraft.server.v1_7_R3.PacketPlayInPosition;
-import net.minecraft.server.v1_7_R3.PacketPlayInPositionLook;
 import net.minecraft.server.v1_7_R3.PacketPlayOutBlockChange;
 import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
@@ -94,7 +92,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 				return true;
 			}
 
-			final WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getName());
+			final WeatherType frozenWeather = playerHelper.frozenWeathers.get(ply.getUniqueId());
 
 			if (frozenWeather != null) {
 				final boolean frozenRainState = frozenWeather != WeatherType.CLEAR;

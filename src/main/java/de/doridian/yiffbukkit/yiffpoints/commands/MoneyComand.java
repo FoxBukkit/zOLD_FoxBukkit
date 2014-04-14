@@ -14,8 +14,7 @@ import org.bukkit.entity.Player;
 public class MoneyComand extends ICommand {
 	@Override
 	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
-		final String playerName = ply.getName();
-		final double amount = plugin.bank.getBalance(playerName);
+		final double amount = plugin.bank.getBalance(ply.getUniqueId());
 
 		PlayerHelper.sendDirectedMessage(ply, "Your current balance is "+amount+" YP.");
 	}

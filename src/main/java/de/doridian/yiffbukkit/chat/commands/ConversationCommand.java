@@ -10,6 +10,8 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 @Names({"conv", "conversation"})
 @Help("Opens or closes a conversation with the given player. This means that all your chat is going to them until you close the conversation by running the command without parameters.")
 @Usage("[<name>]")
@@ -17,9 +19,9 @@ import org.bukkit.entity.Player;
 public class ConversationCommand extends ICommand {
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		final String playerName = commandSender.getName();
+		final UUID playerName = commandSender.getUniqueId();
 		if (argStr.isEmpty()) {
-			String otherName = playerHelper.conversations.get(playerName);
+			UUID otherName = playerHelper.conversations.get(playerName);
 			if (otherName == null)
 				throw new YiffBukkitCommandException("No conversation to close.");
 
@@ -30,7 +32,7 @@ public class ConversationCommand extends ICommand {
 		}
 
 		final Player otherply = playerHelper.matchPlayerSingle(argStr);
-		final String otherName = otherply.getName();
+		final UUID otherName = otherply.getUniqueId();
 		playerHelper.conversations.put(playerName, otherName);
 
 		PlayerHelper.sendDirectedMessage(commandSender, "Opened conversation with "+otherName+".");

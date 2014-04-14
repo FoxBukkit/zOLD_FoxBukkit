@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.warp.commands;
 
+import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 @Names("warp")
 @Help("Teleports you to the specified warp point.")
@@ -107,7 +109,7 @@ public class WarpCommand extends ICommand {
 			case "chown":
 			case "changeowner":
 				//warp <warp point name> changeowner <new owner>
-				final String newOwnerName = playerHelper.completePlayerName(args[2], false);
+				final UUID newOwnerName = FishBansResolver.getUUID(playerHelper.completePlayerName(args[2], false));
 				if (newOwnerName == null)
 					throw new WarpException("No unique player found for '" + args[2] + "'");
 
@@ -205,14 +207,14 @@ public class WarpCommand extends ICommand {
 
 				final StringBuilder sb = new StringBuilder("Access list: ");
 				boolean first = true;
-				for (Entry<String, Integer> entry : warp.getRanks().entrySet()) {
+				for (Entry<UUID, Integer> entry : warp.getRanks().entrySet()) {
 					if (!first)
 						sb.append(", ");
 
 					if (entry.getValue() >= 2)
 						sb.append('@');
 
-					sb.append(entry.getKey());
+					sb.append(playerHelper.getPlayerByUUID(entry.getKey()).getName());
 
 					first = false;
 				}

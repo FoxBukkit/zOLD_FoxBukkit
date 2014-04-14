@@ -7,21 +7,22 @@ import org.bukkit.entity.Player;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class ChatChannel implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	public ChatChannelMode mode = ChatChannelMode.PUBLIC;
 	public final String name;
 	public String password = "";
 
-	public final HashSet<String> users = new HashSet<>();
-	public final HashSet<String> moderators = new HashSet<>();
-	public String owner;
+	public final HashSet<UUID> users = new HashSet<>();
+	public final HashSet<UUID> moderators = new HashSet<>();
+	public UUID owner;
 
 	public int range = 0;
 
-	public final HashMap<String,Boolean> players = new HashMap<>();
+	public final HashMap<UUID,Boolean> players = new HashMap<>();
 
 	public ChatChannel(String name) {
 		this.name = name;
@@ -35,7 +36,7 @@ public class ChatChannel implements Serializable {
 		if (ply.hasPermission("yiffbukkit.channels.force.user"))
 			return true;
 
-		final String playerName = ply.getName().toLowerCase();
+		final UUID playerName = ply.getUniqueId();
 
 		if (users.contains(playerName))
 			return true;
@@ -63,7 +64,7 @@ public class ChatChannel implements Serializable {
 		if (target == source)
 			return true;
 
-		final String targetName = target.getName().toLowerCase();
+		final UUID targetName = target.getUniqueId();
 
 		//is the player in the channel?
 		if (!players.containsKey(targetName))
@@ -92,7 +93,7 @@ public class ChatChannel implements Serializable {
 		if (player == null)
 			return true;
 
-		final String playerName = player.getName().toLowerCase();
+		final UUID playerName = player.getUniqueId();
 
 		//is the player in the channel?
 		if (!players.containsKey(playerName))
@@ -114,7 +115,7 @@ public class ChatChannel implements Serializable {
 		if (player == null)
 			throw new PlayerNotFoundException();
 
-		final String playerName = player.getName().toLowerCase();
+		final UUID playerName = player.getUniqueId();
 		if (this.users.contains(playerName))
 			throw new YiffBukkitCommandException("Player is already a user of this channel!");
 
@@ -130,7 +131,7 @@ public class ChatChannel implements Serializable {
 		}
 		catch (YiffBukkitCommandException ignored) { }
 
-		final String playerName = player.getName().toLowerCase();
+		final UUID playerName = player.getUniqueId();
 		if (!this.users.contains(playerName))
 			throw new YiffBukkitCommandException("Player is not a user of this channel!");
 
@@ -146,7 +147,7 @@ public class ChatChannel implements Serializable {
 		}
 		catch (YiffBukkitCommandException ignored) { }
 
-		final String playerName = player.getName().toLowerCase();
+		final UUID playerName = player.getUniqueId();
 		if (this.moderators.contains(playerName))
 			throw new YiffBukkitCommandException("Player is already a moderator of this channel!");
 
@@ -157,7 +158,7 @@ public class ChatChannel implements Serializable {
 		if (player == null)
 			throw new PlayerNotFoundException();
 
-		final String playerName = player.getName().toLowerCase();
+		final UUID playerName = player.getUniqueId();
 		if (!this.moderators.contains(playerName))
 			throw new YiffBukkitCommandException("Player is not a moderator of this channel!");
 
@@ -165,7 +166,7 @@ public class ChatChannel implements Serializable {
 	}
 
 	public boolean isOwner(Player player) {
-		if (player.getName().toLowerCase().equals(this.owner))
+		if (player.getUniqueId().equals(this.owner))
 			return true;
 
 		//noinspection RedundantIfStatement
@@ -179,7 +180,7 @@ public class ChatChannel implements Serializable {
 		if (isOwner(player))
 			return true;
 
-		if (moderators.contains(player.getName().toLowerCase()))
+		if (moderators.contains(player.getUniqueId()))
 			return true;
 
 		//noinspection RedundantIfStatement
@@ -194,7 +195,7 @@ public class ChatChannel implements Serializable {
 			return true;
 
 		//noinspection RedundantIfStatement
-		if (users.contains(player.getName().toLowerCase()))
+		if (users.contains(player.getUniqueId()))
 			return true;
 
 		return false;

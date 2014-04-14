@@ -39,7 +39,7 @@ public class SetNickCommand extends ICommand {
 
 		if (newNick.equals("none")) {
 			otherPly.setDisplayName(otherPly.getName());
-			playerHelper.setPlayerNick(otherPly.getName(), null);
+			playerHelper.setPlayerNick(otherPly.getUniqueId(), null);
 			announceTagChange("%1$s reset nickname of %2$s!", "%2$s reset their own nickname!", commandSender, otherPly, undoCommand);
 		}
 		else if (!force && newNick.matches("^\u00a7[^\u00a7]*$")) {
@@ -47,7 +47,7 @@ public class SetNickCommand extends ICommand {
 		}
 		else {
 			otherPly.setDisplayName(newNick);
-			playerHelper.setPlayerNick(otherPly.getName(), newNick);
+			playerHelper.setPlayerNick(otherPly.getUniqueId(), newNick);
 			announceTagChange("%1$s set nickname of %2$s!", "%2$s set their own nickname!", commandSender, otherPly, undoCommand);
 		}
 	}

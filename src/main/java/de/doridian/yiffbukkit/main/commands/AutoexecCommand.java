@@ -58,7 +58,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 		}
 
 		if (numericFlags.containsKey('r')) {
-			final List<String> commands = playerHelper.autoexecs.get(ply.getName());
+			final List<String> commands = playerHelper.autoexecs.get(ply.getUniqueId());
 
 			final int id = (int) (double) numericFlags.get('r');
 
@@ -69,7 +69,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 
 			String removedCommand = commands.remove(id);
 			if (commands.isEmpty())
-				playerHelper.autoexecs.remove(ply.getName());
+				playerHelper.autoexecs.remove(ply.getUniqueId());
 
 			playerHelper.saveAutoexecs();
 
@@ -94,9 +94,9 @@ public class AutoexecCommand extends ICommand implements Listener {
 	}
 
 	private List<String> getAutoexec(Player player) {
-		List<String> commands = playerHelper.autoexecs.get(player.getName());
+		List<String> commands = playerHelper.autoexecs.get(player.getUniqueId());
 		if (commands == null)
-			playerHelper.autoexecs.put(player.getName(), commands = new ArrayList<>());
+			playerHelper.autoexecs.put(player.getUniqueId(), commands = new ArrayList<>());
 
 		return commands;
 	}
@@ -104,7 +104,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 	private void listAutoexec(Player player) {
 		PlayerHelper.sendDirectedMessage(player, "Current autoexec:");
 
-		List<String> commands = playerHelper.autoexecs.get(player.getName());
+		List<String> commands = playerHelper.autoexecs.get(player.getUniqueId());
 		if (commands == null || commands.isEmpty()) {
 			PlayerHelper.sendDirectedMessage(player, "<empty>");
 			return;
@@ -118,7 +118,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 	}
 
 	private void execCommands(final Player player) {
-		List<String> commands = playerHelper.autoexecs.get(player.getName());
+		List<String> commands = playerHelper.autoexecs.get(player.getUniqueId());
 		if (commands == null)
 			return;
 

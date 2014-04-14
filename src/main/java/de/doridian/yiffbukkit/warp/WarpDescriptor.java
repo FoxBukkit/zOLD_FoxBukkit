@@ -14,10 +14,11 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class WarpDescriptor {
 	private YiffBukkit plugin;
-	private String ownerName;
+	private UUID ownerName;
 	public String name;
 	public Location location;
 	public boolean isPublic = false;
@@ -28,9 +29,9 @@ public class WarpDescriptor {
 	 * 2 = op, can set guest permissions
 	 * 3 = admin/owner, can remove warp
 	 */
-	private Map<String, Integer> ranks = new HashMap<>();
+	private Map<UUID, Integer> ranks = new HashMap<>();
 
-	public WarpDescriptor(YiffBukkit plugin, String ownerName, String name, Location location) {
+	public WarpDescriptor(YiffBukkit plugin, UUID ownerName, String name, Location location) {
 		this.plugin = plugin;
 		this.ownerName = ownerName;
 		this.name = name;
@@ -47,7 +48,7 @@ public class WarpDescriptor {
 		if (commandSender == null)
 			return 1;
 		
-		String playerName = commandSender.getName();
+		UUID playerName = commandSender.getUniqueId();
 		if (playerName.equals(ownerName))
 			return 3;
 
@@ -77,32 +78,32 @@ public class WarpDescriptor {
 			throw new WarpException("Permission denied: You do not exceed the specified rank!").setColor('4');
 
 		if (rank == 0) {
-			ranks.remove(player.getName());
+			ranks.remove(player.getUniqueId());
 		}
 		else {
-			ranks.put(player.getName(), rank);
+			ranks.put(player.getUniqueId(), rank);
 		}
 	}
 
-	public void setOwner(CommandSender commandSender, String newOwnerName) throws WarpException {
+	public void setOwner(CommandSender commandSender, UUID newOwnerName) throws WarpException {
 		if (checkAccess(commandSender) < 3)
 			throw new WarpException("Permission denied: You do not own this warp!").setColor('4');
 
 		ownerName = newOwnerName;
 	}
 
-	public String getOwner() {
+	public UUID getOwner() {
 		return ownerName;
 	}
 
-	public Map<String, Integer> getRanks() {
+	public Map<UUID, Integer> getRanks() {
 		return new Hashtable<>(ranks);
 	}
 
 	public Map<String, List<String>> save() {
 		Map<String, List<String>> section = new TreeMap<>();
 
-		section.put("owner", Arrays.asList(ownerName));
+		section.put("owner", Arrays.asList(ownerName.toString()));
 
 		Ini.saveLocation(section, "%s", location);
 		section.put("public", Arrays.asList(String.valueOf(isPublic)));
@@ -110,15 +111,15 @@ public class WarpDescriptor {
 
 		List<String> ops = new ArrayList<>();
 		List<String> guests = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : ranks.entrySet()) {
+		for (Map.Entry<UUID, Integer> entry : ranks.entrySet()) {
 			int rank = entry.getValue();
 			switch (rank) {
 			case 1:
-				guests.add(entry.getKey());
+				guests.add(entry.getKey().toString());
 				break;
 
 			case 2:
-				ops.add(entry.getKey());
+				ops.add(entry.getKey().toString());
 				break;
 
 			default:
@@ -137,17 +138,17 @@ public class WarpDescriptor {
 	}
 
 	private void load(Map<String, List<String>> section) {
-		ownerName = section.get("owner").get(0);
+		ownerName = UUID.fromString(section.get("owner").get(0));
 		location = Ini.loadLocation(section, "%s");
 		isPublic = Boolean.valueOf(section.get("public").get(0));
 		isHidden = Boolean.valueOf(section.get("hidden").get(0));
 
 		if (section.containsKey("guest"))
 			for (String name : section.get("guest"))
-				ranks.put(name, 1);
+				ranks.put(UUID.fromString(name), 1);
 
 		if (section.containsKey("op"))
 			for (String name : section.get("op"))
-				ranks.put(name, 2);
+				ranks.put(UUID.fromString(name), 2);
 	}
 }

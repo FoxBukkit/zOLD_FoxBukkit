@@ -44,6 +44,7 @@ import org.bukkit.material.Wool;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Handle events for all Player related events
@@ -87,7 +88,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
 
-		playerHelper.teleportHistory.remove(playerName.toLowerCase());
+		playerHelper.teleportHistory.remove(player.getUniqueId());
 
 		plugin.chatManager.pushCurrentOrigin(player);
 		event.setQuitMessage(null);
@@ -128,7 +129,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:\u00a7f %s");
 
 		final Player ply = event.getPlayer();
-		final String conversationTargetName = playerHelper.conversations.get(ply.getName());
+		final UUID conversationTargetName = playerHelper.conversations.get(ply.getUniqueId());
 		final Player conversationTarget = conversationTargetName == null ? null : plugin.getServer().getPlayer(conversationTargetName);
 		String message = event.getMessage();
 		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);

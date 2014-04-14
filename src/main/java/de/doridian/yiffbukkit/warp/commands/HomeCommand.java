@@ -33,7 +33,7 @@ public class HomeCommand extends ICommand {
 
 		if(booleanFlags.contains('l')) {
 			Set<String> homeNames = playerHelper.getPlayerHomePositionNames(ply);
-			PlayerHelper.sendDirectedMessage(ply, "Home locations [" + ((homeNames.size() > 0) ? (homeNames.size() - 1) : 0) + "/" + playerHelper.getPlayerHomePositionLimit(ply.getName()) + "]: " + Utils.concat(homeNames, 0, ""));
+			PlayerHelper.sendDirectedMessage(ply, "Home locations [" + ((homeNames.size() > 0) ? (homeNames.size() - 1) : 0) + "/" + playerHelper.getPlayerHomePositionLimit(ply.getUniqueId()) + "]: " + Utils.concat(homeNames, 0, ""));
 			return;
 		}
 

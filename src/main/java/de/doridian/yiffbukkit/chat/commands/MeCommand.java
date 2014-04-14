@@ -11,6 +11,8 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 @Names({"me", "emote"})
 @Help("Well, it's /me, durp")
 @Usage("<stuff here>")
@@ -20,7 +22,7 @@ public class MeCommand extends ICommand {
 	public void Run(Player commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		String message = "\u00a77* "+playerHelper.getPlayerTag(commandSender) + commandSender.getDisplayName() + "\u00a77 " + argStr;
 
-		final String conversationTarget = playerHelper.conversations.get(commandSender.getName());
+		final UUID conversationTarget = playerHelper.conversations.get(commandSender.getUniqueId());
 		if (conversationTarget == null) {
 			final ChatHelper helper = ChatHelper.getInstance();
 			final ChatChannel chan = helper.getActiveChannel(commandSender);

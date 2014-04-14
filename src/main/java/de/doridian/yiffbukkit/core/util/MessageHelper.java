@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static de.doridian.yiffbukkit.main.chat.Parser.escape;
 
@@ -24,38 +25,41 @@ public class MessageHelper extends StateContainer {
 	public static final String OFFLINE_COLOR = "dark_red";
 
 	public static String format(CommandSender commandSender) {
-		return format(commandSender.getName(), commandSender, false);
+		return format(commandSender.getUniqueId(), commandSender, false);
 	}
 
 	public static String formatWithTag(CommandSender commandSender) {
-		return format(commandSender.getName(), commandSender, true);
+		return format(commandSender.getUniqueId(), commandSender, true);
 	}
 
-	public static String format(String name) {
-		return format(name, Bukkit.getPlayerExact(name), false);
+	public static String format(UUID uuid) {
+		return format(uuid, Bukkit.getPlayer(uuid), false);
 	}
 
-	public static String formatWithTag(String name) {
-		return format(name, Bukkit.getPlayerExact(name), true);
+	public static String formatWithTag(UUID uuid) {
+		return format(uuid, Bukkit.getPlayer(uuid), true);
 	}
 
-	private static String format(String name, CommandSender commandSender, boolean withTag) {
+	private static String format(UUID uuid, CommandSender commandSender, boolean withTag) {
 		final String onHover;
-		String displayName;
+		String displayName, name;
 		if (commandSender == null) {
+			commandSender = YiffBukkit.instance.playerHelper.getPlayerByUUID(uuid);
 			onHover = "";
-			displayName = name;
+			displayName = commandSender.getName();
+			name = commandSender.getName();
 		}
 		else {
-			displayName = YiffBukkit.instance.playerHelper.getPlayerRankTag(name) + commandSender.getDisplayName();
-			final String playerTag = YiffBukkit.instance.playerHelper.getPlayerTagRaw(name, false);
+			name = commandSender.getName();
+			displayName = YiffBukkit.instance.playerHelper.getPlayerRankTag(uuid) + commandSender.getDisplayName();
+			final String playerTag = YiffBukkit.instance.playerHelper.getPlayerTagRaw(uuid, false);
 			if (withTag && playerTag != null) {
 				displayName = playerTag + " " + displayName;
 			}
 			if (commandSender instanceof Player) {
 				final Player player = (Player) commandSender;
 				final String color = player.isOnline() ? ONLINE_COLOR : OFFLINE_COLOR;
-				final String hoverText = String.format("<color name=\"%1$s\">%2$s</color>", color, name);
+				final String hoverText = String.format("<color name=\"%1$s\">%2$s</color>", color, commandSender.getName());
 				onHover = " onHover=\"show_text('" + escape(hoverText) + "')\"";
 			}
 			else {

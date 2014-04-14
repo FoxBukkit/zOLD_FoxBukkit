@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class WarpEngine extends StateContainer {
@@ -55,7 +56,7 @@ public class WarpEngine extends StateContainer {
 		Ini.save("warps.txt", sections);
 	}
 
-	public WarpDescriptor setWarp(String ownerName, String name, Location location) throws WarpException {
+	public WarpDescriptor setWarp(UUID ownerName, String name, Location location) throws WarpException {
 		if (!Pattern.matches("^[-A-Za-z0-9_]+$", name))
 			throw new WarpException("Warp name invalid.");
 

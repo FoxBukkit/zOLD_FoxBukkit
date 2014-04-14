@@ -13,6 +13,10 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @Names({"channel", "channels", "c"})
 @Help("YiffBukkit chat system :3")
 @Usage("Read help...")
@@ -23,7 +27,8 @@ public class ChannelCommand extends ICommand {
 		final String cmd = args[0].toUpperCase();
 
 		final ChatHelper helper = ChatHelper.getInstance();
-		final String plyname = ply.getName().toLowerCase();
+
+		final UUID plyUUID = ply.getUniqueId();
 
 		final ChatChannel chan;
 		if (cmd.equals("CREATE")) {
@@ -56,14 +61,18 @@ public class ChannelCommand extends ICommand {
 		case "LIST":
 			if (args.length >= 2) {
 				// List users
-				PlayerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concat(chan.players.keySet(), 0, "No users"));
+				List<String> playerNames = new ArrayList<>();
+				for(UUID uuid : chan.players.keySet()) {
+					playerNames.add(playerHelper.getPlayerByUUID(uuid).getName());
+				}
+				PlayerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concat(playerNames, 0, "No users"));
 				return; //prevents saving!
 			}
 
 			final StringBuilder sb = new StringBuilder();
 			for (ChatChannel channel : helper.container.channels.values()) {
-				if (channel.players.containsKey(plyname)) {
-					if (channel.players.get(plyname)) {
+				if (channel.players.containsKey(plyUUID)) {
+					if (channel.players.get(plyUUID)) {
 						sb.append("\u00a72");
 					}
 					else {
@@ -123,7 +132,11 @@ public class ChannelCommand extends ICommand {
 				break;
 
 			case "list":
-				PlayerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concat(chan.moderators, 0, "No moderators"));
+				List<String> playerNames = new ArrayList<>();
+				for(UUID uuid : chan.moderators) {
+					playerNames.add(playerHelper.getPlayerByUUID(uuid).getName());
+				}
+				PlayerHelper.sendDirectedMessage(ply, "Channel moderators: " + Utils.concat(playerNames, 0, "No moderators"));
 				return; //prevents saving!
 
 			default:
@@ -194,7 +207,11 @@ public class ChannelCommand extends ICommand {
 				break;
 
 			case "list":
-				PlayerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concat(chan.users, 0, "No users"));
+				List<String> playerNames = new ArrayList<>();
+				for(UUID uuid : chan.users) {
+					playerNames.add(playerHelper.getPlayerByUUID(uuid).getName());
+				}
+				PlayerHelper.sendDirectedMessage(ply, "Channel users: " + Utils.concat(playerNames, 0, "No users"));
 				return; //prevents saving!
 
 			default:
@@ -212,7 +229,7 @@ public class ChannelCommand extends ICommand {
 			return; //prevents saving!
 
 		case "MUTE":
-			if (!chan.players.containsKey(plyname))
+			if (!chan.players.containsKey(plyUUID))
 				throw new YiffBukkitCommandException("You are not in that channel!");
 
 			final boolean state;
@@ -226,10 +243,10 @@ public class ChannelCommand extends ICommand {
 				break;
 
 			default:
-				state = !chan.players.get(plyname);
+				state = !chan.players.get(plyUUID);
 			}
 
-			chan.players.put(plyname, state);
+			chan.players.put(plyUUID, state);
 
 			if (state) {
 				PlayerHelper.sendDirectedMessage(ply, "Channel " + chan.name + " UNMUTED");
@@ -240,15 +257,15 @@ public class ChannelCommand extends ICommand {
 			break;
 
 		case "SINGLE":
-			if (!chan.players.containsKey(plyname)) {
+			if (!chan.players.containsKey(plyUUID)) {
 				throw new YiffBukkitCommandException("You are not in that channel!");
 			}
 
-			chan.players.put(plyname, true);
+			chan.players.put(plyUUID, true);
 
 			for (ChatChannel otherchan : helper.container.channels.values()) {
-				if (otherchan == chan || !otherchan.players.containsKey(plyname)) continue;
-				otherchan.players.put(plyname, false);
+				if (otherchan == chan || !otherchan.players.containsKey(plyUUID)) continue;
+				otherchan.players.put(plyUUID, false);
 			}
 
 			PlayerHelper.sendDirectedMessage(ply, "Muted all channels except " + chan.name);

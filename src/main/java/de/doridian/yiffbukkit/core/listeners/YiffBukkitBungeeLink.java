@@ -9,11 +9,12 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
 public class YiffBukkitBungeeLink extends BaseListener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-		final String name = event.getPlayer().getName().toLowerCase();
+		final UUID name = event.getPlayer().getUniqueId();
 		final InetSocketAddress inet = event.getPlayer().getAddress();
 		final String ip = inet.getAddress().getHostAddress();
 		final String host = inet.getAddress().getCanonicalHostName();
@@ -25,7 +26,7 @@ public class YiffBukkitBungeeLink extends BaseListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDisconnect(PlayerQuitEvent event) {
-        final String name = event.getPlayer().getName().toLowerCase();
+		final UUID name = event.getPlayer().getUniqueId();
         synchronized(PlayerHelper.playerIPs) {
             PlayerHelper.playerIPs.remove(name);
             PlayerHelper.playerHosts.remove(name);
@@ -36,7 +37,7 @@ public class YiffBukkitBungeeLink extends BaseListener {
     public void onPlayerKick(PlayerKickEvent event) {
         if(event.isCancelled())
             return;
-        final String name = event.getPlayer().getName().toLowerCase();
+		final UUID name = event.getPlayer().getUniqueId();
         synchronized(PlayerHelper.playerIPs) {
             PlayerHelper.playerIPs.remove(name);
             PlayerHelper.playerHosts.remove(name);

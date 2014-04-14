@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 public class OfflinePlayer extends AbstractPlayer {
@@ -32,6 +33,14 @@ public class OfflinePlayer extends AbstractPlayer {
 	private Location location;
 	private String displayName;
 	private World world;
+
+	public OfflinePlayer(Server server, String name) {
+		this(server, null, name);
+	}
+
+	public OfflinePlayer(Server server, UUID uuid) {
+		this(server, uuid, null);
+	}
 
 	public void sendSignChange(Location loc, String[] str) {
 
@@ -122,8 +131,8 @@ public class OfflinePlayer extends AbstractPlayer {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	public OfflinePlayer(Server server, String name) {
-		super((CraftServer) server, name);
+	public OfflinePlayer(Server server, UUID uuid, String name) {
+		super((CraftServer) server, uuid, name);
 
 		File playerFile = PlayerHelper.getPlayerFile(this.getUniqueId(), "world");
 
