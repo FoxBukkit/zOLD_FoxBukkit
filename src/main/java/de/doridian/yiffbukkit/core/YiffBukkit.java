@@ -17,7 +17,6 @@ import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.commands.system.CommandSystem;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
-import de.doridian.yiffbukkit.main.util.Configuration;
 import de.doridian.yiffbukkit.main.util.PersistentScheduler;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkit.main.util.Utils;
@@ -25,7 +24,6 @@ import de.doridian.yiffbukkit.permissions.AbusePotentialManager;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissions;
 import de.doridian.yiffbukkit.portal.PortalEngine;
-import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.spawning.SpawnUtils;
 import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkit.warp.WarpEngine;
@@ -39,7 +37,6 @@ import org.bukkit.craftbukkit.v1_7_R3.command.ColouredConsoleSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.util.logging.Level;
 
 /**
@@ -51,7 +48,6 @@ public class YiffBukkit extends JavaPlugin {
 	public ComponentSystem componentSystem = new ComponentSystem();
 
 	public Transmute transmute;
-	private YiffBukkitRemote remote;
 	public final PlayerHelper playerHelper = new PlayerHelper(this);
 	@SuppressWarnings("unused")
 	public final MessageHelper messageHelper = new MessageHelper();
@@ -75,7 +71,6 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		remote.stopme();
 		log("Plugin disabled!" ) ;
 	}
 
@@ -126,12 +121,6 @@ public class YiffBukkit extends JavaPlugin {
 		log("Core components loaded.");
 		bans = new Bans(this);
 		log("Bans loaded.");
-
-		if(Boolean.valueOf(Configuration.getValue("enable-rcon", "true"))) {
-			remote = new YiffBukkitRemote(this);
-			remote.start();
-			log("Remote loaded.");
-		}
 
 		log( "Plugin enabled!" );
 

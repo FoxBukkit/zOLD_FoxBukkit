@@ -14,7 +14,6 @@ import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
-import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
 import de.doridian.yiffbukkit.warp.WarpException;
 import gnu.trove.map.hash.TObjectIntHashMap;
@@ -241,8 +240,6 @@ public class PlayerHelper extends StateContainer {
 	public static void sendServerMessage(String msg, char colorCode) {
 		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
 		Bukkit.broadcastMessage(msg);
-
-		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
 	public static void sendServerMessage(String msg, int minLevel) {
@@ -259,8 +256,6 @@ public class PlayerHelper extends StateContainer {
 
 			player.sendMessage(msg);
 		}
-
-		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
 	
@@ -299,8 +294,6 @@ public class PlayerHelper extends StateContainer {
 
 			player.sendMessage(message);
 		}
-
-		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(message);
 	}
 
 	public static void sendServerMessage(String msg, CommandSender... exceptPlayers) {
@@ -325,8 +318,6 @@ public class PlayerHelper extends StateContainer {
 
 			player.sendMessage(msg);
 		}
-
-		if(YiffBukkitRemote.currentCommandSender != null) YiffBukkitRemote.currentCommandSender.sendMessage(msg);
 	}
 
 	public static void sendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {

@@ -5,7 +5,6 @@ import com.google.common.base.Predicates;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.chat.Parser;
-import de.doridian.yiffbukkit.remote.YiffBukkitRemote;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -96,10 +95,6 @@ public class MessageHelper extends StateContainer {
 				continue;
 
 			targetPlayers.add(player);
-		}
-
-		if (YiffBukkitRemote.currentCommandSender != null) {
-			targetPlayers.add(YiffBukkitRemote.currentCommandSender);
 		}
 
 		Parser.sendToPlayers(targetPlayers, format, params);
