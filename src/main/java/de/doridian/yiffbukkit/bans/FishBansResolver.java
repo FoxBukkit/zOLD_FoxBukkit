@@ -1,5 +1,7 @@
 package de.doridian.yiffbukkit.bans;
 
+import com.mojang.api.profiles.HttpProfileRepository;
+import com.mojang.api.profiles.Profile;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -34,20 +36,20 @@ public class FishBansResolver {
 
 	private static final HashMap<String, UUID> playerUUIDMap = new HashMap<>();
 
+	private static final HttpProfileRepository HTTP_PROFILE_REPOSITORY = new HttpProfileRepository("minecraft");
+
 	public static UUID getUUID(String username) {
 		UUID ret = playerUUIDMap.get(username.toLowerCase());
 		if(ret != null)
 			return ret;
 		try {
-			HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("http://api.fishbans.com/uuid/" + username).openConnection();
-			httpURLConnection.setConnectTimeout(5000);
-			httpURLConnection.setReadTimeout(5000);
-			JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(httpURLConnection.getInputStream()));
-			//->uuid
-			ret = UUID.fromString(jsonObject.get("uuid").toString());
-			playerUUIDMap.put(username.toLowerCase(), ret);
-			return ret;
+			Profile[] profiles = HTTP_PROFILE_REPOSITORY.findProfilesByNames(username);
+			if(profiles.length == 1) {
+				ret = UUID.fromString(profiles[0].getId());
+				playerUUIDMap.put(username.toLowerCase(), ret);
+				return ret;
+			}
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
