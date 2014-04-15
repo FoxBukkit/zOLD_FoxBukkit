@@ -31,7 +31,7 @@ public class ServerTimeCommand extends ICommand {
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		String weather = stringFlags.get('w').toLowerCase();
+		final String weather = stringFlags.get('w');
 		final WeatherType weatherType = getWeatherType(weather);
 
 		long displayTime;
@@ -61,7 +61,7 @@ public class ServerTimeCommand extends ICommand {
 			return null;
 		}
 
-		switch (weather) {
+		switch (weather.toLowerCase()) {
 		case "rain":
 			return WeatherType.RAIN;
 
