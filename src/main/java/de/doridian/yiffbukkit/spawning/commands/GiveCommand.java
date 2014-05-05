@@ -192,6 +192,9 @@ public class GiveCommand extends ICommand {
 			otherName = args[1];
 		}
 
+		if(count < 1)
+			throw new YiffBukkitCommandException("Invalid count (less than 1)");
+
 		final Player target;
 		final Location targetLocation;
 		if (otherName != null) {
