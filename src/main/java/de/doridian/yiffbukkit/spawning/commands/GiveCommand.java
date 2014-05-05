@@ -136,7 +136,7 @@ public class GiveCommand extends ICommand {
 		prices.put(Material.SLIME_BALL, 1.0);
 	}
 
-	private static final double DEFAULT_PRICE = 1000.0;
+	private static final double DEFAULT_PRICE = 0.0;
 
 	public static Material matchMaterial(String materialName) {
 		Material material = aliases.get(materialName.toLowerCase());

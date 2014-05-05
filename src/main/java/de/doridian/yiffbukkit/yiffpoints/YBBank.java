@@ -38,7 +38,9 @@ public class YBBank extends StateContainer {
 		getAccount(playerName).addFunds(cents);
 	}
 
-	public void useFunds(String playerName, double cents, String purpose) throws NotEnoughFundsException {
+	public void useFunds(String playerName, double cents, String purpose) throws NotEnoughFundsException, ItemHasNoPriceException {
+		if(cents <= 0)
+			throw new ItemHasNoPriceException();
 		System.out.println(String.format("Player %s is trying to use %.0f YP on '%s'.", playerName, cents, purpose));
 		getAccount(playerName).useFunds(cents);
 		System.out.println(String.format("Player %s used %.0f YP on '%s'.", playerName, cents, purpose));
@@ -55,7 +57,7 @@ public class YBBank extends StateContainer {
 	 * @return true if funds were used, false if no funds were needed
 	 * @throws NotEnoughFundsException if there were not enough funds
 	 */
-	public boolean checkPermissionsOrUseFunds(CommandSender commandSender, String permission, double cents, String purpose) throws NotEnoughFundsException {
+	public boolean checkPermissionsOrUseFunds(CommandSender commandSender, String permission, double cents, String purpose) throws NotEnoughFundsException, ItemHasNoPriceException {
 		if (commandSender.hasPermission(permission))
 			return false;
 
