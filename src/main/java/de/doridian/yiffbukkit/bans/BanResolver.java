@@ -174,8 +174,6 @@ public class BanResolver {
 	}
 
 	public static int getUserID(String username, UUID uuid, boolean create) {
-		username = username != null ? username.toLowerCase() : null;
-
 		if(username != null && username.charAt(0) == '[')
 			uuid = UUID.nameUUIDFromBytes(("SPECIAL:" + username).getBytes());
 
