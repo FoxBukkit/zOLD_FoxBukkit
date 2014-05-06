@@ -33,10 +33,6 @@ public class OfflinePlayer extends AbstractPlayer {
 	private String displayName;
 	private World world;
 
-	public OfflinePlayer(Server server, String name) {
-		this(server, PlayerHelper.getPlayerFile(name, "world"), name);
-	}
-
 	public void sendSignChange(Location loc, String[] str) {
 
 	}
@@ -126,15 +122,17 @@ public class OfflinePlayer extends AbstractPlayer {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	private OfflinePlayer(Server server, File playerFile, String name) {
+	public OfflinePlayer(Server server, String name) {
 		super((CraftServer) server, name);
+
+		File playerFile = PlayerHelper.getPlayerFile(this.getUniqueId(), "world");
 
 		world = server.getWorld("world"); // default value
 		location = world.getSpawnLocation(); // default value
 
 		YiffBukkit.instance.playerHelper.setPlayerDisplayName(this);
 
-		if (playerFile == null)
+		if (playerFile == null || !playerFile.exists())
 			return;
 
 		try {

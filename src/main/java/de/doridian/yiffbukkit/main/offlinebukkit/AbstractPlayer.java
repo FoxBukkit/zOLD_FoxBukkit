@@ -51,7 +51,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public abstract class AbstractPlayer extends CraftOfflinePlayer implements Player {
 	public AbstractPlayer(CraftServer server, String name) {
@@ -231,7 +230,6 @@ public abstract class AbstractPlayer extends CraftOfflinePlayer implements Playe
 	@Override public void playNote(Location loc, byte instrument, byte note) { }
 	@Override public void sendBlockChange(Location loc, Material material, byte data) { }
 	@Override public void sendBlockChange(Location loc, int material, byte data) { }
-	@Override public UUID getUniqueId() { return null; }
 	@Override public long getPlayerTime() { return 0; }
 	@Override public long getPlayerTimeOffset() { return 0; }
 	@Override public boolean isPlayerTimeRelative() { return false; }
