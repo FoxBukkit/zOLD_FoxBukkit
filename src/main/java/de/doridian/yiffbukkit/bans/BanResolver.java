@@ -198,8 +198,9 @@ public class BanResolver {
 			if(resultSet.next()) {
 				ret = resultSet.getInt("id");
 				uuid = UUID.fromString(resultSet.getString("uuid"));
-				if(!resultSet.getString("name").equals(username)) {
+				if(username == null)
 					username = resultSet.getString("name");
+				if(!resultSet.getString("name").equals(username)) {
 					preparedStatement.close();
 					preparedStatement = connection.prepareStatement("UPDATE players SET name = ? WHERE uuid = ?");
 					preparedStatement.setString(1, username);
