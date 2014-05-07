@@ -8,6 +8,7 @@ import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PermissionPredicate;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
+import de.doridian.yiffbukkit.main.util.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,14 +19,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Collection;
 import java.util.UUID;
 
 public class BansPlayerListener extends BaseListener {
+	private final boolean IS_BAN_AND_ALT_CHECK_ENABLED = Configuration.getValue("enable-ban-and-alt-check", "true").equalsIgnoreCase("true");
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-		if (plugin.bans.lockdownMode != LockDownMode.OFF)
+		if (!IS_BAN_AND_ALT_CHECK_ENABLED || plugin.bans.lockdownMode != LockDownMode.OFF)
 			return;
 
 		String name = event.getName();
@@ -49,10 +51,6 @@ public class BansPlayerListener extends BaseListener {
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		final Player player = event.getPlayer();
 		final String playerName = player.getName();
-		if (!playerName.matches("^.*[A-Za-z].*$")) {
-			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "[YB] Sorry, get some letters into your name.");
-			return;
-		}
 
 		if (playerHelper.isGuest(player)) {
 			switch (plugin.bans.lockdownMode) {
@@ -118,12 +116,11 @@ public class BansPlayerListener extends BaseListener {
 
 		new Thread() {
 			public void run() {
-				final InetAddress playerIP = player.getAddress().getAddress();
-
 				final String user = player.getName();
 				final UUID uuid = player.getUniqueId();
 
-				BanResolver.addIPForPlayer(user, uuid, playerIP);
+				if(IS_BAN_AND_ALT_CHECK_ENABLED)
+					BanResolver.addIPForPlayer(user, uuid, player.getAddress().getAddress());
 
 				final String message = makePossibleAltString(user, uuid);
 				if(message == null)
@@ -138,14 +135,4 @@ public class BansPlayerListener extends BaseListener {
 			}
 		}.start();
 	}
-
-	/*
-	private void sendServerMessage(final String msg, final String permission) {
-		org.bukkit.Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			public void run() {
-				plugin.playerHelper.sendServerMessage(msg, permission);
-			}
-		});
-	}
-	*/
 }
