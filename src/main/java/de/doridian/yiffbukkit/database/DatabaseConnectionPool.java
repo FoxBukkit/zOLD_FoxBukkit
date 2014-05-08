@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.database;
 
+import de.doridian.yiffbukkit.main.util.Configuration;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
@@ -29,7 +30,7 @@ public class DatabaseConnectionPool {
 		connectionPool.setTestOnReturn(true);
 		connectionPool.setTestWhileIdle(true);
 
-		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory("jdbc:mysql://" + DatabaseConfiguration.HOST + "/" + DatabaseConfiguration.NAME, DatabaseConfiguration.USER, DatabaseConfiguration.PASSWORD);
+		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(Configuration.getValue("database-uri", ""), Configuration.getValue("database-user", ""), Configuration.getValue("database-password", ""));
 		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 				connectionFactory,
 				connectionPool,
