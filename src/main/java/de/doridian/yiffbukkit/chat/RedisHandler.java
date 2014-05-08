@@ -31,7 +31,9 @@ public class RedisHandler extends JedisPubSub implements Runnable {
 	}
 
 	public static void initialize() {
-		new Thread(new RedisHandler()).start();
+		Thread t = new Thread(new RedisHandler());
+		t.setDaemon(true);
+		t.start();
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
 import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.CacheMap;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,6 +43,7 @@ public class YiffBukkitPermissionHandler {
 
 	private boolean loaded = false;
 	private final Map<String,String> playerGroups = RedisManager.createKeptMap("playergroups");
+	private final CacheMap<UUID,String> playerGroupCache = new CacheMap<>(10000L);
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<>();
 	
@@ -177,12 +179,19 @@ public class YiffBukkitPermissionHandler {
 	}
 
 	public String getGroup(UUID uuid) {
-		return playerGroups.containsKey(uuid.toString()) ? playerGroups.get(uuid.toString()) : "guest";
+		String group = playerGroupCache.get(uuid);
+		if(group == null)
+			group = playerGroups.get(uuid.toString());
+		if(group == null)
+			group = "guest";
+		playerGroupCache.put(uuid, group);
+		return group;
 	}
 
 	public void setGroup(UUID uuid, String group) {
 		group = group.toLowerCase();
 		playerGroups.put(uuid.toString(), group);
+		playerGroupCache.put(uuid, group);
 		save();
 	}
 
