@@ -145,7 +145,10 @@ public class RedisManager {
 		}
 	}
 
-	public static Map<String,String> createKeptMap(String name) {
+	public static Map<String,String> createRedisMap(String name) {
 		return new RedisMap(name);
+	}
+	public static Map<String,String> createCachedRedisMap(String name, long expiry) {
+		return new CacheMap(expiry, name, new RedisMap(name));
 	}
 }

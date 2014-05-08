@@ -360,7 +360,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Permission levels
-	public Map<String,String> ranklevels = RedisManager.createKeptMap("ranklevels");
+	public Map<String,String> ranklevels = RedisManager.createRedisMap("ranklevels");
 	public static int getPlayerLevel(CommandSender ply) {
 		if (ply instanceof ConsoleCommandSender) {
 			return 9999;
@@ -391,9 +391,9 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Tags
-	private final Map<String,String> rankTags = RedisManager.createKeptMap("ranktags");
-	private final Map<String,String> playerTags = RedisManager.createKeptMap("playerTags");
-	private final Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
+	private final Map<String,String> rankTags = RedisManager.createRedisMap("ranktags");
+	private final Map<String,String> playerTags = RedisManager.createRedisMap("playerTags");
+	private final Map<String,String> playerRankTags = RedisManager.createRedisMap("playerRankTags");
 
 	public String getPlayerTag(CommandSender commandSender) {
 		return getPlayerTag(commandSender.getUniqueId());
@@ -432,7 +432,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 
-	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
+	private Map<String,String> playernicks = RedisManager.createRedisMap("playernicks");
 
 	private String getPlayerNick(UUID uuid) {
 		if(playernicks.containsKey(uuid.toString()))
