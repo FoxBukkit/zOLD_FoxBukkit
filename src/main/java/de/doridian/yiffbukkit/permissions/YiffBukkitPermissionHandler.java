@@ -177,7 +177,10 @@ public class YiffBukkitPermissionHandler {
 	}
 
 	public String getGroup(UUID uuid) {
-		return playerGroups.get(uuid.toString());
+		String result = playerGroups.get(uuid.toString());
+		if(result == null)
+			return "guest";
+		return result;
 	}
 
 	public void setGroup(UUID uuid, String group) {
