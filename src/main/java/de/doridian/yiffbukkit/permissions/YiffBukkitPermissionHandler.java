@@ -41,7 +41,7 @@ public class YiffBukkitPermissionHandler {
 	}
 
 	private boolean loaded = false;
-	private final Map<String,String> playerGroups = RedisManager.createCachedRedisMap("playergroups", 10000L);
+	private final Map<String,String> playerGroups = RedisManager.createCachedRedisMap("playergroups");
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<>();
 	
