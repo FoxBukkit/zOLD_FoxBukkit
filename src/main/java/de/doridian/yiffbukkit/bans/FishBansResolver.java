@@ -56,6 +56,11 @@ public class FishBansResolver {
 
 	public static UUID getUUID(String username) {
 		try {
+			throw new Exception("getUUID was called!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
 			return playerUUIDMap.get(username.toLowerCase());
 		} catch (Exception e) {
 			e.printStackTrace();
