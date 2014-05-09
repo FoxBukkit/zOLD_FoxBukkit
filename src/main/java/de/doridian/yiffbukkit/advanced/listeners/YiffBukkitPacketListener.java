@@ -6,18 +6,9 @@ import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper.WeatherType;
-import net.minecraft.server.v1_7_R3.ControllerMove;
-import net.minecraft.server.v1_7_R3.EntityCreature;
-import net.minecraft.server.v1_7_R3.EntityInsentient;
-import net.minecraft.server.v1_7_R3.EntityLiving;
-import net.minecraft.server.v1_7_R3.MathHelper;
-import net.minecraft.server.v1_7_R3.Packet;
-import net.minecraft.server.v1_7_R3.PacketPlayInFlying;
-import net.minecraft.server.v1_7_R3.PacketPlayOutBlockChange;
-import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R3.PacketPlayOutGameStateChange;
-import net.minecraft.server.v1_7_R3.WorldServer;
+import net.minecraft.server.v1_7_R3.*;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.PropertyMap;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
@@ -26,6 +17,8 @@ import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.UUID;
 
 public class YiffBukkitPacketListener extends YBPacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
@@ -40,13 +33,60 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
+		register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class);
+
 		//register(PacketDirection.INCOMING, PacketPlayInPosition.class);
 		//register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
+	}
+
+	public class GameProfileProxy extends GameProfile {
+		private final GameProfile parent;
+		private final String _name;
+
+		public GameProfileProxy(GameProfile parent, String name) {
+			super(parent.id, name);
+			this.legacy = parent.legacy;
+			this.parent = parent;
+			this._name = name;
+		}
+
+		@Override
+		public String getName() {
+			return _name;
+		}
+
+		@Override
+		public UUID getId() {
+			return parent.getId();
+		}
+
+		@Override
+		public boolean isComplete() {
+			return parent.isComplete();
+		}
+
+		@Override
+		public PropertyMap getProperties() {
+			return parent.getProperties();
+		}
+
+		@Override
+		public boolean isLegacy() {
+			return parent.isLegacy();
+		}
 	}
 
 	@Override
 	public boolean onOutgoingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
+		case 20:
+			final PacketPlayOutNamedEntitySpawn spawn = (PacketPlayOutNamedEntitySpawn)packet;
+			final UUID uuid = spawn.b.getId();
+			if(uuid != null) {
+				final String nick = playerHelper.getPlayerNick(uuid);
+				spawn.b = new GameProfileProxy(spawn.b, playerHelper.getPlayerRankTag(uuid) + ((nick != null) ? nick : spawn.b.getName()));
+			}
+			return true;
 		case 3:
 			final PacketPlayOutChat p3 = (PacketPlayOutChat) packet;
 			final String text = p3.a.c();

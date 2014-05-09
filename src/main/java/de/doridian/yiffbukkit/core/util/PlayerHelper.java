@@ -434,7 +434,7 @@ public class PlayerHelper extends StateContainer {
 
 	private Map<String,String> playernicks = RedisManager.createCachedRedisMap("playernicks");
 
-	private String getPlayerNick(UUID uuid) {
+	public String getPlayerNick(UUID uuid) {
 		if(playernicks.containsKey(uuid.toString()))
 			return playernicks.get(uuid.toString());
 		else

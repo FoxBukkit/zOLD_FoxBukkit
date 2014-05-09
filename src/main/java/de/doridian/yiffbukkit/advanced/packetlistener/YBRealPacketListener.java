@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListener implements YBListener {
+public class YBRealPacketListener extends NetworkManager.DoriBukkitPacketListener {
 	private final HashMap<Class<? extends Packet>, HashSet<YBPacketListener>> incomingPacketListeners;
 	private final HashMap<Class<? extends Packet>, HashSet<YBPacketListener>> outgoingPacketListeners;
 
