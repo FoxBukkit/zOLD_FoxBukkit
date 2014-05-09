@@ -33,7 +33,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
-		register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class);
+		//register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class); DISABLED UNTIL MOJANG ALLOWS LONGER NAMES
 
 		//register(PacketDirection.INCOMING, PacketPlayInPosition.class);
 		//register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
