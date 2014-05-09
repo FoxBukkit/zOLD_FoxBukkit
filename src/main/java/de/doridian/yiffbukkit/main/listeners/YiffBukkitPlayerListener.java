@@ -40,7 +40,6 @@ import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.SpawnEgg;
 import org.bukkit.material.Wool;
-import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import java.io.File;
 import java.util.Hashtable;
@@ -122,12 +121,12 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setRespawnLocation(location);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	/*@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerSpawn(PlayerSpawnLocationEvent event) {
 		Player ply = event.getPlayer();
-		Location location = playerHelper.getPlayerSpawnPosition(ply);
+		Location location = playerHelper.getPlayerSpawnPosition(ply);)
 		event.setSpawnLocation(location);
-	}
+	}*/
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
