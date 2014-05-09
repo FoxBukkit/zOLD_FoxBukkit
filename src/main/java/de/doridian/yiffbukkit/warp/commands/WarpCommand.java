@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.warp.commands;
 
-import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -109,7 +108,7 @@ public class WarpCommand extends ICommand {
 			case "chown":
 			case "changeowner":
 				//warp <warp point name> changeowner <new owner>
-				final UUID newOwnerName = FishBansResolver.getUUID(playerHelper.completePlayerName(args[2], false));
+				final UUID newOwnerName = playerHelper.matchPlayerSingle(args[2]).getUniqueId();
 				if (newOwnerName == null)
 					throw new WarpException("No unique player found for '" + args[2] + "'");
 

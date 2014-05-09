@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.warp.commands;
 
-import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -38,7 +37,7 @@ public class SetWarpCommand extends ICommand {
 
 		default:
 			warpName = args[0];
-			ownerName = FishBansResolver.getUUID(args[1]);
+			ownerName = playerHelper.matchPlayerSingle(args[1]).getUniqueId();
 		}
 
 		WarpDescriptor warp = plugin.warpEngine.setWarp(ownerName, warpName, getWarpTargetLocation(commandSender));

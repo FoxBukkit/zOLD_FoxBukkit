@@ -3,7 +3,6 @@ package de.doridian.yiffbukkit.teleportation.commands;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -37,7 +36,7 @@ public class NoPortCommand extends ICommand {
 		final UUID playerName = player.getUniqueId();
 
 		final String subCommand = args.length >= 1 ? args[0] : "";
-		final UUID otherName = args.length >= 2 ? FishBansResolver.getUUID(playerHelper.completePlayerName(args[1], true)) : null;
+		final UUID otherName = args.length >= 2 ? playerHelper.matchPlayerSingle(args[1]).getUniqueId() : null;
 
 		switch (subCommand) {
 		case "on":
