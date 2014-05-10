@@ -1,14 +1,35 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
+import com.google.common.base.Charsets;
 import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper.WeatherType;
-import net.minecraft.server.v1_7_R3.*;
+import net.minecraft.server.v1_7_R3.ControllerMove;
+import net.minecraft.server.v1_7_R3.EntityCreature;
+import net.minecraft.server.v1_7_R3.EntityInsentient;
+import net.minecraft.server.v1_7_R3.EntityLiving;
+import net.minecraft.server.v1_7_R3.MathHelper;
+import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R3.PacketPlayInFlying;
+import net.minecraft.server.v1_7_R3.PacketPlayOutBlockChange;
+import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R3.PacketPlayOutGameStateChange;
+import net.minecraft.server.v1_7_R3.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R3.WorldServer;
+import net.minecraft.util.com.google.common.collect.Iterables;
+import net.minecraft.util.com.google.gson.Gson;
+import net.minecraft.util.com.google.gson.GsonBuilder;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import net.minecraft.util.com.mojang.authlib.properties.PropertyMap;
+import net.minecraft.util.com.mojang.authlib.yggdrasil.response.MinecraftTexturesPayload;
+import net.minecraft.util.com.mojang.util.UUIDTypeAdapter;
+import net.minecraft.util.org.apache.commons.codec.binary.Base64;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
@@ -25,6 +46,8 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 	private final YiffBukkit plugin;
 	private PlayerHelper playerHelper;
 
+	private final Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
+
 	public YiffBukkitPacketListener(YiffBukkit instance) {
 		plugin = instance;
 		playerHelper = plugin.playerHelper;
@@ -33,7 +56,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
-		//register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class); DISABLED UNTIL MOJANG ALLOWS LONGER NAMES
+		register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class);
 
 		//register(PacketDirection.INCOMING, PacketPlayInPosition.class);
 		//register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
@@ -80,11 +103,29 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 	public boolean onOutgoingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
 		case 20:
-			final PacketPlayOutNamedEntitySpawn spawn = (PacketPlayOutNamedEntitySpawn)packet;
-			final UUID uuid = spawn.b.getId();
-			if(uuid != null) {
-				final String nick = playerHelper.getPlayerNick(uuid);
-				spawn.b = new GameProfileProxy(spawn.b, playerHelper.getPlayerRankTag(uuid) + ((nick != null) ? nick : spawn.b.getName()));
+			try {
+				final PacketPlayOutNamedEntitySpawn spawn = (PacketPlayOutNamedEntitySpawn) packet;
+				final GameProfile oldProfile = spawn.b;
+				final UUID uuid = spawn.b.getId();
+				final String name = spawn.b.getName();
+				if (uuid != null) {
+					/*String nick = playerHelper.getPlayerNick(uuid);
+					nick = playerHelper.getPlayerRankTag(uuid) + ((nick != null) ? nick : spawn.b.getName());*/ //DISABLED UNTIL MOJANG ALLOWS LONGER NAMES
+					if(!name.equalsIgnoreCase("doridian"))
+						return true;
+					spawn.b = new GameProfile(uuid, name);
+					PropertyMap properties = spawn.b.getProperties();
+					properties.putAll(oldProfile.getProperties());
+					Property texturePropertiesOld = Iterables.getFirst(properties.get("textures"), null);
+					String json = new String(Base64.decodeBase64(texturePropertiesOld.getValue()), Charsets.UTF_8);
+					MinecraftTexturesPayload result = gson.fromJson(json, MinecraftTexturesPayload.class);
+					result.textures.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("http://mc.doridian.de/capes/" + uuid.toString() + ".png"));
+					Property texturePropertiesNew = new Property("textures", gson.toJson(result), "NONE");
+					properties.removeAll("textures");
+					properties.put("textures", texturePropertiesNew);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return true;
 		case 3:
