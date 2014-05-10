@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.advanced.listeners;
 
-import com.google.common.base.Charsets;
 import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
@@ -20,16 +19,11 @@ import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R3.PacketPlayOutGameStateChange;
 import net.minecraft.server.v1_7_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_7_R3.WorldServer;
-import net.minecraft.util.com.google.common.collect.Iterables;
 import net.minecraft.util.com.google.gson.Gson;
 import net.minecraft.util.com.google.gson.GsonBuilder;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
-import net.minecraft.util.com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.util.com.mojang.authlib.properties.Property;
 import net.minecraft.util.com.mojang.authlib.properties.PropertyMap;
-import net.minecraft.util.com.mojang.authlib.yggdrasil.response.MinecraftTexturesPayload;
 import net.minecraft.util.com.mojang.util.UUIDTypeAdapter;
-import net.minecraft.util.org.apache.commons.codec.binary.Base64;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
@@ -56,7 +50,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
-		register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class);
+		//register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class);
 
 		//register(PacketDirection.INCOMING, PacketPlayInPosition.class);
 		//register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
@@ -111,7 +105,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 				if (uuid != null) {
 					/*String nick = playerHelper.getPlayerNick(uuid);
 					nick = playerHelper.getPlayerRankTag(uuid) + ((nick != null) ? nick : spawn.b.getName());*/ //DISABLED UNTIL MOJANG ALLOWS LONGER NAMES
-					if(!name.equalsIgnoreCase("doridian"))
+					/*if(!name.equalsIgnoreCase("doridian"))
 						return true;
 					spawn.b = new GameProfile(uuid, name);
 					PropertyMap properties = spawn.b.getProperties();
@@ -122,7 +116,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 					result.textures.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("http://mc.doridian.de/capes/" + uuid.toString() + ".png"));
 					Property texturePropertiesNew = new Property("textures", gson.toJson(result), "NONE");
 					properties.removeAll("textures");
-					properties.put("textures", texturePropertiesNew);
+					properties.put("textures", texturePropertiesNew);*/ //IMPOSSIBLE DUE TO SIGNATURE REQUIREMENT
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
