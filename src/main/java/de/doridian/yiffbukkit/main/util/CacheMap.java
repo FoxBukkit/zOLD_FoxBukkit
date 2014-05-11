@@ -14,6 +14,8 @@ public class CacheMap implements Map<String, String> {
 	private final long expiryTime;
 	private final String name;
 
+	private final JedisPubSubListener jedisPubSubListener;
+
 	private class JedisPubSubListener extends JedisPubSub {
 		@Override
 		public void onMessage(final String channel, final String c_message) {
@@ -45,6 +47,8 @@ public class CacheMap implements Map<String, String> {
 		this.parentMap = parentMap;
 		this.name = "cachemap_changes:" + _name;
 
+		this.jedisPubSubListener = new JedisPubSubListener();
+
 		final CacheMap _this = this;
 
 		Thread cleanupThread = new Thread() {
@@ -74,12 +78,16 @@ public class CacheMap implements Map<String, String> {
 			@Override
 			public void run() {
 				while(true) {
+					Jedis jedis = null;
 					try {
 						Thread.sleep(1000);
-						RedisManager.readJedisPool.getResource().subscribe(new JedisPubSubListener(), name);
+						jedis = RedisManager.readJedisPool.getResource();
+						jedis.subscribe(jedisPubSubListener, name);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					if(jedis != null)
+						RedisManager.readJedisPool.returnBrokenResource(jedis);
 				}
 			}
 		};
