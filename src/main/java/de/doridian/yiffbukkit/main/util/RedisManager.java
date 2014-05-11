@@ -189,7 +189,8 @@ public class RedisManager {
 			try {
 				jedis = jedisPool.getResource();
 				jedis.publish(key, value);
-				jedisPool.returnBrokenResource(jedis);
+				jedisPool.returnResource(jedis);
+				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 				if(jedis != null)
