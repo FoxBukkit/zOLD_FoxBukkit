@@ -1,14 +1,8 @@
 package de.doridian.yiffbukkit.main.util;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CacheMap implements Map<String, String> {
 	private final long expiryTime;
@@ -78,16 +72,12 @@ public class CacheMap implements Map<String, String> {
 			@Override
 			public void run() {
 				while(true) {
-					Jedis jedis = null;
 					try {
 						Thread.sleep(1000);
-						jedis = RedisManager.readJedisPool.getResource();
-						jedis.subscribe(jedisPubSubListener, name);
+						RedisManager.subscribe(name, jedisPubSubListener);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					if(jedis != null)
-						RedisManager.readJedisPool.returnBrokenResource(jedis);
 				}
 			}
 		};
@@ -179,11 +169,7 @@ public class CacheMap implements Map<String, String> {
 		synchronized (internalMap) {
 			internalMap.put(key, new CacheEntry(value));
 		}
-		for(JedisPool writeJedisPool : RedisManager.writeJedisPools) {
-			Jedis jedis = writeJedisPool.getResource();
-			jedis.publish(name, key + '\0' + value);
-			writeJedisPool.returnResource(jedis);
-		}
+		RedisManager.publish(name, key + '\0' + value);
 		synchronized (parentMap) {
 			return parentMap.put(key, value);
 		}
@@ -194,11 +180,7 @@ public class CacheMap implements Map<String, String> {
 		synchronized (internalMap) {
 			internalMap.remove(key);
 		}
-		for(JedisPool writeJedisPool : RedisManager.writeJedisPools) {
-			Jedis jedis = writeJedisPool.getResource();
-			jedis.publish(name, key.toString());
-			writeJedisPool.returnResource(jedis);
-		}
+		RedisManager.publish(name, key.toString());
 		synchronized (parentMap) {
 			return parentMap.remove(key);
 		}
@@ -216,11 +198,7 @@ public class CacheMap implements Map<String, String> {
 		synchronized (internalMap) {
 			internalMap.clear();
 		}
-		for(JedisPool writeJedisPool : RedisManager.writeJedisPools) {
-			Jedis jedis = writeJedisPool.getResource();
-			jedis.publish(name, "\1");
-			writeJedisPool.returnResource(jedis);
-		}
+		RedisManager.publish(name, "\1");
 		synchronized (parentMap) {
 			parentMap.clear();
 		}

@@ -3,16 +3,17 @@ package de.doridian.yiffbukkit.main.util;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisPubSub;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class RedisManager {
-	public static JedisPool readJedisPool;
-	public static JedisPool[] writeJedisPools;
+	private static JedisPool jedisPool;
 
 	private static String REDIS_PASSWORD;
 	private static int REDIS_DB;
@@ -20,8 +21,7 @@ public class RedisManager {
 	public static void initialize() {
 		REDIS_PASSWORD = Configuration.getValue("redis-pw", "");
 		REDIS_DB = Integer.parseInt(Configuration.getValue("redis-db", "1"));
-		readJedisPool = createPool(Configuration.getValue("redis-host", ""));
-		writeJedisPools = new JedisPool[] { readJedisPool };
+		jedisPool = createPool(Configuration.getValue("redis-host", ""));
 	}
 
 	private static JedisPool createPool(String host) {
@@ -35,6 +35,169 @@ public class RedisManager {
 		return new JedisPool(jedisPoolConfig, host, 6379, 1000, REDIS_PASSWORD, REDIS_DB);
 	}
 
+	public static long hlen(String key) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+
+				long ret;
+				if (!jedis.exists(key))
+					ret = 0L;
+				else
+					ret = jedis.hlen(key);
+
+				jedisPool.returnResource(jedis);
+
+				return ret;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static boolean hexists(String key, String index) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				boolean exists = jedis.hexists(key, index);
+				jedisPool.returnResource(jedis);
+				return exists;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static String hget(String key, String index) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				String value = jedis.hget(key, index);
+				jedisPool.returnResource(jedis);
+				return value;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static void hset(String key, String index, String value) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				jedis.hset(key, index, value);
+				jedisPool.returnResource(jedis);
+				return;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static void hdel(String key, String index) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				jedis.hdel(key, index);
+				jedisPool.returnResource(jedis);
+				return;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static Set<String> hkeys(String key) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				Set<String> keys = jedis.hkeys(key);
+				jedisPool.returnResource(jedis);
+				return keys;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static List<String> hvals(String key) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				List<String> values = jedis.hvals(key);
+				jedisPool.returnResource(jedis);
+				return values;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static Map<String, String> hgetAll(String key) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				Map<String, String> values = jedis.hgetAll(key);
+				jedisPool.returnResource(jedis);
+				return values;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
+	public static void subscribe(String key, JedisPubSub listener) throws Exception {
+		Jedis jedis = null;
+		try {
+			jedis = jedisPool.getResource();
+			jedis.subscribe(listener, key);
+			jedisPool.returnResource(jedis);
+		} catch (Exception e) {
+			if(jedis != null)
+				jedisPool.returnBrokenResource(jedis);
+			throw e;
+		}
+	}
+
+	public static void publish(String key, String value) {
+		Jedis jedis = null;
+		while(true) {
+			try {
+				jedis = jedisPool.getResource();
+				jedis.publish(key, value);
+				jedisPool.returnResource(jedis);
+			} catch (Exception e) {
+				e.printStackTrace();
+				if(jedis != null)
+					jedisPool.returnBrokenResource(jedis);
+			}
+		}
+	}
+
 	public static class RedisMap implements Map<String, String> {
 		private final String name;
 		public RedisMap(String name) {
@@ -43,17 +206,7 @@ public class RedisManager {
 
 		@Override
 		public int size() {
-			Jedis jedis = readJedisPool.getResource();
-
-			int ret;
-			if(!jedis.exists(name))
-				ret = 0;
-			else
-				ret = (int)(long)jedis.hlen(name);
-
-			readJedisPool.returnResource(jedis);
-
-			return ret;
+			return (int)hlen(name);
 		}
 
 		@Override
@@ -63,10 +216,7 @@ public class RedisManager {
 
 		@Override
 		public boolean containsKey(Object key) {
-			Jedis jedis = readJedisPool.getResource();
-			boolean exists = jedis.hexists(name, key.toString());
-			readJedisPool.returnResource(jedis);
-			return exists;
+			return hexists(name, key.toString());
 		}
 
 		@Override
@@ -76,17 +226,12 @@ public class RedisManager {
 
 		@Override
 		public String get(Object key) {
-			Jedis jedis = readJedisPool.getResource();
-			String ret = jedis.hget(name, key.toString());
-			readJedisPool.returnResource(jedis);
-			return ret;
+			return hget(name, key.toString());
 		}
 
 		@Override
 		public Set<String> keySet() {
-			Jedis jedis = readJedisPool.getResource();
-			Set<String> keys = jedis.hkeys(name);
-			readJedisPool.returnResource(jedis);
+			Set<String> keys = hkeys(name);
 			if(keys == null)
 				return new HashSet<>();
 			return keys;
@@ -94,9 +239,7 @@ public class RedisManager {
 
 		@Override
 		public Collection<String> values() {
-			Jedis jedis = readJedisPool.getResource();
-			Collection<String> values = jedis.hvals(name);
-			readJedisPool.returnResource(jedis);
+			Collection<String> values = hvals(name);
 			if(values == null)
 				return Collections.emptyList();
 			return values;
@@ -104,9 +247,7 @@ public class RedisManager {
 
 		@Override
 		public Set<Entry<String, String>> entrySet() {
-			Jedis jedis = readJedisPool.getResource();
-			Map<String, String> entryMap = jedis.hgetAll(name);
-			readJedisPool.returnResource(jedis);
+			Map<String, String> entryMap = hgetAll(name);
 			if(entryMap == null)
 				return Collections.emptySet();
 			return entryMap.entrySet();
@@ -115,34 +256,21 @@ public class RedisManager {
 		@Override
 		public String put(String key, String value) {
 			String old = get(key);
-			for(JedisPool writeJedisPool : writeJedisPools) {
-				Jedis jedis = writeJedisPool.getResource();
-				jedis.hset(name, key, value);
-				writeJedisPool.returnResource(jedis);
-			}
+			hset(name, key, value);
 			return old;
 		}
 
 		@Override
 		public String remove(Object key) {
 			String old = get(key);
-			String keyS = key.toString();
-			for(JedisPool writeJedisPool : writeJedisPools) {
-				Jedis jedis = writeJedisPool.getResource();
-				jedis.hdel(name, keyS);
-				writeJedisPool.returnResource(jedis);
-			}
+			hdel(name, key.toString());
 			return old;
 		}
 
 		@Override
 		public void putAll(Map<? extends String, ? extends String> m) {
-			for(JedisPool writeJedisPool : writeJedisPools) {
-				Jedis jedis = writeJedisPool.getResource();
-				for(Entry<? extends String, ? extends String> e : m.entrySet()) {
-					jedis.hset(name, e.getKey(),  e.getValue());
-				}
-				writeJedisPool.returnResource(jedis);
+			for(Entry<? extends String, ? extends String> e : m.entrySet()) {
+				put(e.getKey(), e.getValue());
 			}
 		}
 

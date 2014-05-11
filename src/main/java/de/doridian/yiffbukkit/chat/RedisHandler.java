@@ -13,25 +13,19 @@ public class RedisHandler extends JedisPubSub implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			Jedis jedis = null;
 			try {
 				Thread.sleep(1000);
-				jedis = RedisManager.readJedisPool.getResource();
-				jedis.subscribe(this, "yiffbukkit:to_server_xml");
+				RedisManager.subscribe("yiffbukkit:to_server_xml", this);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(jedis != null)
-				RedisManager.readJedisPool.returnBrokenResource(jedis);
 		}
 	}
 
 	public static void sendMessage(final Player player, final String  message) {
 		if(player == null || message == null)
 			throw new NullPointerException();
-		final Jedis jedis = RedisManager.readJedisPool.getResource();
-		jedis.publish("yiffbukkit:from_server", Configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
-		RedisManager.readJedisPool.returnResource(jedis);
+		RedisManager.publish("yiffbukkit:from_server", Configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
 	}
 
 	public static void initialize() {
