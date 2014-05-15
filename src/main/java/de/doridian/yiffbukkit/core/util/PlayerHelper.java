@@ -32,6 +32,8 @@ import org.bukkit.craftbukkit.v1_7_R3.command.CraftConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
@@ -349,14 +351,61 @@ public class PlayerHelper extends StateContainer {
 		if (ply == null) return;
 
 		setPlayerListName(ply);
+		setPlayerScoreboardTeam(ply);
 	}
 	
 	public void setPlayerListName(Player ply) {
 		try {
 			String listName = formatPlayer(ply);
-			if(listName.length() > 16) listName = listName.substring(0, 15);
+			if(listName.length() > 16) listName = listName.substring(0, 16);
 			ply.setPlayerListName(listName);
 		} catch(Exception ignored) { }
+	}
+
+	private final ArrayList<Scoreboard> registeredScoreboards = new ArrayList<>();
+	private boolean mainScoreboardRegistered = false;
+
+	public void setPlayerScoreboardTeam(Player ply) {
+		if(!mainScoreboardRegistered) {
+			registeredScoreboards.add(plugin.getServer().getScoreboardManager().getMainScoreboard());
+			mainScoreboardRegistered = true;
+		}
+		final String rank = getPlayerRank(ply);
+		for(Scoreboard scoreboard : registeredScoreboards) {
+			boolean playerAlreadyInTeam = false;
+			for(Team oldTeam : scoreboard.getTeams()) {
+				if(oldTeam.getName().equals(rank)) {
+					if(oldTeam.hasPlayer(ply)) {
+						playerAlreadyInTeam = true;
+						break;
+					}
+				} else {
+					oldTeam.removePlayer(ply);
+				}
+			}
+			if(playerAlreadyInTeam)
+				continue;
+			Team team = scoreboard.getTeam(rank);
+			if(team == null) {
+				team = scoreboard.registerNewTeam(rank);
+				team.setPrefix(getRankTag(rank));
+				team.setSuffix("\u00a7r");
+			}
+			team.addPlayer(ply);
+		}
+	}
+
+	private void refreshScoreboards() {
+		for(Player ply : plugin.getServer().getOnlinePlayers()) {
+			setPlayerScoreboardTeam(ply);
+		}
+	}
+
+	public Scoreboard createYBScoreboard() {
+		Scoreboard scoreboard = plugin.getServer().getScoreboardManager().getNewScoreboard();
+		registeredScoreboards.add(scoreboard);
+		refreshScoreboards();
+		return scoreboard;
 	}
 
 	//Permission levels
@@ -404,6 +453,10 @@ public class PlayerHelper extends StateContainer {
 		if (playerRankTags.containsKey(uuid.toString()))
 			return playerRankTags.get(uuid.toString());
 
+		return getRankTag(rank);
+	}
+
+	public String getRankTag(String rank) {
 		if (rankTags.containsKey(rank))
 			return rankTags.get(rank);
 

@@ -62,6 +62,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.setPlayerDisplayName(player);
 
 		playerHelper.setPlayerListName(player);
+		playerHelper.setPlayerScoreboardTeam(player);
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getUniqueId(), "world");
 		plugin.chatManager.pushCurrentOrigin(player);

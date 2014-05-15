@@ -121,7 +121,7 @@ public class YiffBukkitPermissions {
 	}
 
 	public static final String DUMMY_CRITERION = "dummy";
-	private static final Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+	private static final Scoreboard board = YiffBukkit.instance.playerHelper.createYBScoreboard();
 	private static final Objective objective = board.registerNewObjective("checkoff", DUMMY_CRITERION);
 	static {
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
