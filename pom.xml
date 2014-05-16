@@ -102,6 +102,12 @@
 			<version>3.1-SNAPSHOT</version>
 		</dependency>
         <dependency>
+            <groupId>de.kumpelblase2</groupId>
+            <artifactId>remoteentities</artifactId>
+            <version>1.8-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.mojang</groupId>
             <artifactId>AccountsClient</artifactId>
             <version>latest</version>

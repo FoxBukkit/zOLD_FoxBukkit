@@ -29,6 +29,8 @@ import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.warp.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
+import de.kumpelblase2.remoteentities.EntityManager;
+import de.kumpelblase2.remoteentities.RemoteEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -57,6 +59,8 @@ public class YiffBukkit extends JavaPlugin {
 	public PortalEngine portalEngine;
 	public ChatManager chatManager;
 	public PersistentScheduler persistentScheduler;
+
+	public EntityManager entityManager;
 
 	public Bans bans;
 	public WorldEditPlugin worldEdit;
@@ -95,6 +99,8 @@ public class YiffBukkit extends JavaPlugin {
 		RedisManager.initialize();
 
 		YiffBukkitPermissionHandler.instance.load();
+
+		entityManager = RemoteEntities.createManager(this);
 
 		warpEngine = new WarpEngine(this);
 		persistentScheduler = new PersistentScheduler();

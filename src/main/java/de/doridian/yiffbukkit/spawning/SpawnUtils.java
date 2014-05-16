@@ -21,6 +21,10 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapEntity;
 import de.doridian.yiffbukkit.transmute.ItemShape;
+import de.kumpelblase2.remoteentities.EntityManager;
+import de.kumpelblase2.remoteentities.RemoteEntities;
+import de.kumpelblase2.remoteentities.api.RemoteEntity;
+import de.kumpelblase2.remoteentities.api.RemoteEntityType;
 import net.minecraft.server.v1_7_R3.EntityFallingBlock;
 import net.minecraft.server.v1_7_R3.EntityLargeFireball;
 import net.minecraft.server.v1_7_R3.EntityPlayer;
@@ -638,7 +642,7 @@ public class SpawnUtils {
 
 		case "npc":
 			final String name = data == null ? "" : data;
-			return makeNPC(name, location);
+			return makeNPC(name, location).getBukkitEntity();
 
 		case "ocelot":
 		case "cat":
@@ -801,8 +805,9 @@ public class SpawnUtils {
 			throw new PermissionDeniedException();
 	}
 
-	public static HumanEntity makeNPC(String name, Location location) {
-		throw new RuntimeException("not ported yet!");
+	public static RemoteEntity makeNPC(String name, Location location) {
+		RemoteEntity entity = YiffBukkit.instance.entityManager.createNamedEntity(RemoteEntityType.Human, location, name);
+		return entity;
 		/*
 		final UUID id = FishBansResolver.getUUID(name);
 		// Get some notch-type references
