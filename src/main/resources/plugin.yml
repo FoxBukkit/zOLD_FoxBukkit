@@ -2,7 +2,7 @@ name: YiffBukkit
 main: de.doridian.yiffbukkit.core.YiffBukkit
 version: 1.0.0
 depend: [WorldEdit]
-softdepend: [dynmap, LogBlock]
+softdepend: [dynmap, LogBlock, RemoteEntities]
 commands:
     yb:
         description: Runs any YiffBukkit command (used for console)
