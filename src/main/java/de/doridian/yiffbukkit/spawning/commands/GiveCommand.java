@@ -200,10 +200,12 @@ public class GiveCommand extends ICommand {
 		if (otherName != null) {
 			target = playerHelper.matchPlayerSingle(otherName);
 			targetLocation = target.getLocation();
+			targetLocation.setY(targetLocation.getY() - 1.62);
 		}
 		else {
 			targetLocation = getCommandSenderLocation(commandSender, true);
 			if (commandSender instanceof Player) {
+				targetLocation.setY(targetLocation.getY() - 1.62);
 				target = (Player) commandSender;
 			}
 			else {
