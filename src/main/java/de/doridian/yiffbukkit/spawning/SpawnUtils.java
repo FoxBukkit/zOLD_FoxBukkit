@@ -807,6 +807,8 @@ public class SpawnUtils {
 
 	public static RemoteEntity makeNPC(String name, Location location) {
 		RemoteEntity entity = YiffBukkit.instance.entityManager.createNamedEntity(RemoteEntityType.Human, location, name);
+		entity.setPushable(false);
+		entity.setStationary(true, true);
 		return entity;
 		/*
 		final UUID id = FishBansResolver.getUUID(name);
