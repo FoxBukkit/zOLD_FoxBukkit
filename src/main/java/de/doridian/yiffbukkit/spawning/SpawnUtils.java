@@ -21,10 +21,6 @@ import de.doridian.yiffbukkit.spawning.sheep.CamoSheep;
 import de.doridian.yiffbukkit.spawning.sheep.PartySheep;
 import de.doridian.yiffbukkit.spawning.sheep.TrapEntity;
 import de.doridian.yiffbukkit.transmute.ItemShape;
-import de.kumpelblase2.remoteentities.EntityManager;
-import de.kumpelblase2.remoteentities.RemoteEntities;
-import de.kumpelblase2.remoteentities.api.RemoteEntity;
-import de.kumpelblase2.remoteentities.api.RemoteEntityType;
 import net.minecraft.server.v1_7_R3.EntityFallingBlock;
 import net.minecraft.server.v1_7_R3.EntityLargeFireball;
 import net.minecraft.server.v1_7_R3.EntityPlayer;
@@ -54,7 +50,6 @@ import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Ocelot;
@@ -68,11 +63,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.Vector;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -642,7 +632,7 @@ public class SpawnUtils {
 
 		case "npc":
 			final String name = data == null ? "" : data;
-			return makeNPC(name, location).getBukkitEntity();
+			return SpawnUtilsNPCDependency.makeNPC(name, location).getBukkitEntity();
 
 		case "ocelot":
 		case "cat":
@@ -803,66 +793,6 @@ public class SpawnUtils {
 	public void checkMobSpawn(CommandSender commandSender, String mobName) throws PermissionDeniedException {
 		if (!commandSender.hasPermission("yiffbukkit.mobspawn."+mobName.toLowerCase()))
 			throw new PermissionDeniedException();
-	}
-
-	public static RemoteEntity makeNPC(String name, Location location) {
-		RemoteEntity entity = YiffBukkit.instance.entityManager.createNamedEntity(RemoteEntityType.Human, location, name);
-		entity.setPushable(false);
-		entity.setStationary(true, true);
-		return entity;
-		/*
-		final UUID id = FishBansResolver.getUUID(name);
-		// Get some notch-type references
-		final WorldServer worldServer = ((CraftWorld)location.getWorld()).getHandle();
-		final MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
-
-		// Create the new player
-		final EntityPlayer eply = new EntityPlayer(minecraftServer, worldServer, new GameProfile(id, name), new PlayerInteractManager(worldServer));
-
-		// Create network manager for the player
-		final NetworkManager networkManager;
-		try {
-			networkManager = new NetworkManager(null, new NPCSocket(), eply.getName(), null, null);
-		} catch(IOException e) { return null; }
-
-		// Create NetServerHandler. This will automatically write itself to the player and networkmanager
-		new PlayerConnection(minecraftServer, networkManager, eply);
-
-		// teleport it to the target location
-		eply.playerConnection.teleport(location);
-		//bukkitEntity.teleport(location);
-
-		// Finally, put the entity into the world.
-		worldServer.addEntity(eply);
-
-		// The entity should neither show up in the world player list...
-		worldServer.players.remove(eply);
-
-		// ...nor in the server player list (i.e. /list /who and the likes)
-		minecraftServer.server.getHandle().players.remove(eply);
-
-		// finally obtain a bukkit entity and return it
-		return eply.getBukkitEntity();
-		*/
-	}
-
-	private static class NPCSocket extends Socket {
-		final OutputStream os = new OutputStream() {
-			public void write(int b) {}
-			public void write(byte[] b) { }
-			public void write(byte[] b, int off, int len) { }
-		};
-		final InputStream is = new ByteArrayInputStream(new byte[0]);
-
-		@Override
-		public OutputStream getOutputStream() throws IOException {
-			return os;
-		}
-
-		@Override
-		public InputStream getInputStream() throws IOException {
-			return is;
-		}
 	}
 
 	public static void makeParticles(Location location, Vector scatter, double particleSpeed, int numParticles, String particleName) {

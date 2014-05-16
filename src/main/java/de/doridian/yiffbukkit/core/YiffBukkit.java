@@ -60,8 +60,6 @@ public class YiffBukkit extends JavaPlugin {
 	public ChatManager chatManager;
 	public PersistentScheduler persistentScheduler;
 
-	public EntityManager entityManager;
-
 	public Bans bans;
 	public WorldEditPlugin worldEdit;
 	public Consumer logBlockConsumer;
@@ -99,8 +97,6 @@ public class YiffBukkit extends JavaPlugin {
 		RedisManager.initialize();
 
 		YiffBukkitPermissionHandler.instance.load();
-
-		entityManager = RemoteEntities.createManager(this);
 
 		warpEngine = new WarpEngine(this);
 		persistentScheduler = new PersistentScheduler();
