@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.database;
 
-import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkit.main.config.Configuration;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
@@ -11,7 +11,6 @@ import org.apache.commons.pool.impl.StackKeyedObjectPoolFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DatabaseConnectionPool {
 	private static PoolingDataSource dataSource;

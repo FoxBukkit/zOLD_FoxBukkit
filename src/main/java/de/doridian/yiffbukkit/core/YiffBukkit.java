@@ -92,6 +92,8 @@ public class YiffBukkit extends JavaPlugin {
 	}
 
 	public void onEnable() {
+		getDataFolder().mkdirs();
+
 		setupIPC();
 
 		RedisManager.initialize();

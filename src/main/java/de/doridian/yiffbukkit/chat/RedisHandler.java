@@ -1,10 +1,9 @@
 package de.doridian.yiffbukkit.chat;
 
 import de.doridian.yiffbukkit.main.chat.Parser;
-import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkit.main.config.Configuration;
 import de.doridian.yiffbukkit.main.util.RedisManager;
 import org.bukkit.entity.Player;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 import java.util.UUID;

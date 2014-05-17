@@ -8,7 +8,7 @@ import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PermissionPredicate;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
-import de.doridian.yiffbukkit.main.util.Configuration;
+import de.doridian.yiffbukkit.main.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

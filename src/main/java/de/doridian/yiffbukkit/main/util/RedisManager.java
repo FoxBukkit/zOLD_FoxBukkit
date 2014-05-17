@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.util;
 
+import de.doridian.yiffbukkit.main.config.Configuration;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
