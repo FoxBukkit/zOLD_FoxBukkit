@@ -39,6 +39,7 @@ import org.bukkit.util.Vector;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
@@ -209,7 +210,8 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception ignored) { }
+		catch (FileNotFoundException e) { }
+		catch (Exception e) { e.printStackTrace(); }
 	}
 	@Saver({ "homepositions", "home_positions", "homes", "home" })
 	public void savePlayerHomePositions() {
@@ -565,7 +567,8 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception ignored) { }
+		catch (FileNotFoundException e) { }
+		catch (Exception e) { e.printStackTrace(); }
 
 		playerSummonPermissions.clear();
 		try {
@@ -576,7 +579,8 @@ public class PlayerHelper extends StateContainer {
 			}
 			stream.close();
 		}
-		catch (Exception ignored) { }
+		catch (FileNotFoundException e) { }
+		catch (Exception e) { e.printStackTrace(); }
 	}
 	@Saver({ "portpermissions", "port_permissions", "noport" })
 	public void savePortPermissions() {
@@ -857,7 +861,8 @@ public class PlayerHelper extends StateContainer {
 
 			stream.close();
 		}
-		catch (IOException ignored) { }
+		catch (FileNotFoundException e) { }
+		catch (Exception e) { e.printStackTrace(); }
 	}
 	@Saver({ "autoexecs", "autoexec" })
 	public void saveAutoexecs() {

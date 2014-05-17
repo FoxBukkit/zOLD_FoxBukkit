@@ -9,6 +9,7 @@ import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +54,7 @@ public abstract class Ini {
 			}
 			stream.close();
 		}
+		catch (FileNotFoundException e) { return null; }
 		catch (IOException e) {
 			e.printStackTrace();
 			return null;

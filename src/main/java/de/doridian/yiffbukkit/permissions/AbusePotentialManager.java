@@ -43,8 +43,7 @@ public class AbusePotentialManager extends StateContainer {
 
 			reader.close();
 		}
-		catch (FileNotFoundException e) {
-		}
+		catch (FileNotFoundException e) { }
 		catch (IOException e) {
 			e.printStackTrace();
 		}

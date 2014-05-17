@@ -4,6 +4,7 @@ import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +30,9 @@ public class Configuration {
 						configValues.put(line.substring(0, lpos), line.substring(lpos + 1));
 				}
 				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			catch (FileNotFoundException e) { }
+			catch (Exception e) { e.printStackTrace(); }
 		}
 	}
 
