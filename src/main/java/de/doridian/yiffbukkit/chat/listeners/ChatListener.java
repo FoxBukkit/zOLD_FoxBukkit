@@ -22,10 +22,8 @@ public class ChatListener extends BaseListener {
 		//screen = new ChatScreenListener(plugin);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		if (event.isCancelled()) return;
-
 		String msg = event.getMessage();
 		char fchar = msg.charAt(0);
 		if (fchar == '/' || fchar == '#')

@@ -27,11 +27,8 @@ public class TransmutePlayerListener extends BaseListener {
 		//shape.rejoin();
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
-		if (event.isCancelled())
-			return;
-
 		transmute.removeShape(event.getPlayer());
 	}
 

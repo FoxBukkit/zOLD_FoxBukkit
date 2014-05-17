@@ -33,10 +33,8 @@ public class YiffBukkitBungeeLink extends BaseListener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerKick(PlayerKickEvent event) {
-        if(event.isCancelled())
-            return;
 		final UUID name = event.getPlayer().getUniqueId();
         synchronized(PlayerHelper.playerIPs) {
             PlayerHelper.playerIPs.remove(name);

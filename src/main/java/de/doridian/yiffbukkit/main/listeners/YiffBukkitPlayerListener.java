@@ -100,11 +100,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
-		if(event.isCancelled())
-			return;
-
 		final Player player = event.getPlayer();
 
 		plugin.chatManager.pushCurrentOrigin(player);
@@ -129,11 +126,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setSpawnLocation(location);
 	}*/
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		if (event.isCancelled())
-			return;
-
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:\u00a7f %s");
 
 		final Player ply = event.getPlayer();
@@ -160,11 +154,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-		if (event.isCancelled())
-			return;
-
 		final Player ply = event.getPlayer();
 		plugin.chatManager.pushCurrentOrigin(ply);
 		final String cmdString = event.getMessage().substring(1).trim();

@@ -139,11 +139,8 @@ public class ChatManager {
 		lastPlayerMessages.put(event.getPlayer(), new LinkedList<ChatEntry>());
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
-		if (event.isCancelled())
-			return;
-
 		lastPlayerMessages.remove(event.getPlayer());
 		chatQueues.remove(event.getPlayer().getName());
 	}

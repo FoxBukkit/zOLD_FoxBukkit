@@ -152,19 +152,13 @@ public class YiffBukkitBlockListener extends BaseListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
-		if (event.isCancelled())
-			return;
-
 		handlePistons(event.getBlocks(), event.getDirection());
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
-		if (event.isCancelled())
-			return;
-
 		if (!event.isSticky())
 			return;
 

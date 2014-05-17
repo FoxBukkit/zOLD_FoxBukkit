@@ -37,18 +37,9 @@ public class SignPortalPlayerListener extends BaseListener {
 
 	private static final BlockFace[] faces = { BlockFace.NORTH,BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if (event.isCancelled())
-			return;
-
-		if (event.getAction() != Action.LEFT_CLICK_BLOCK)
-			return;
-
-		if (event.getItem() == null)
-			return;
-
-		if (event.getItem().getTypeId() != 323)
+		if (event.getAction() != Action.LEFT_CLICK_BLOCK || event.getItem() == null || event.getItem().getTypeId() != 323)
 			return;
 
 		final BlockState blockState = event.getClickedBlock().getState();
@@ -78,11 +69,8 @@ public class SignPortalPlayerListener extends BaseListener {
 	}
 
 	private final Map<Player, Block> lastTouchedPortal = new HashMap<>();
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerPortal(PlayerPortalEvent event) {
-		if (event.isCancelled())
-			return;
-
 		final Player player = event.getPlayer();
 		Block block = event.getTo().getBlock();
 		if (block.getType() != Material.PORTAL)

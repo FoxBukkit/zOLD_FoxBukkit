@@ -14,11 +14,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
 public class MinecartCollisionListener extends BaseListener {
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onVehicleEntityCollision(VehicleEntityCollisionEvent event) {
-		if (event.isCancelled())
-			return;
-		
 		final Vehicle vehicle = event.getVehicle();
 
 		if (!(vehicle instanceof Minecart))
