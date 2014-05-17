@@ -76,7 +76,7 @@ public class DatabaseConnectionPool {
 							"  CONSTRAINT `bans_player_fk` FOREIGN KEY (`player`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
 							"  CONSTRAINT `bans_admin_fk` FOREIGN KEY (`admin`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE\n" +
 							") ENGINE=InnoDB;");
-		_runSQL(connection, "CREATE TABLE IF NOT EXISTS `user_ips` (\n" +
+		_runSQL(connection, "CREATE TABLE IF NOT EXISTS `player_ips` (\n" +
 							"  `id` int(11) NOT NULL AUTO_INCREMENT,\n" +
 							"  `player` int(11) NOT NULL,\n" +
 							"  `ip` varbinary(64) NOT NULL,\n" +

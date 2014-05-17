@@ -31,7 +31,7 @@ public class BanResolver {
 
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO user_ips (player, ip, time) VALUES (?, ?, UNIX_TIMESTAMP())");
+			PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO player_ips (player, ip, time) VALUES (?, ?, UNIX_TIMESTAMP())");
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setBytes(2, address.getAddress());
 			preparedStatement.execute();
@@ -49,7 +49,7 @@ public class BanResolver {
 
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT player FROM user_ips WHERE ip IN (SELECT ip FROM user_ips WHERE player = ?)");
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT player FROM player_ips WHERE ip IN (SELECT ip FROM player_ips WHERE player = ?)");
 			preparedStatement.setInt(1, userID);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			HashMap<Integer, BanPlayer> alts = new HashMap<>();
