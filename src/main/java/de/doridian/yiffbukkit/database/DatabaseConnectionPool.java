@@ -84,7 +84,7 @@ public class DatabaseConnectionPool {
 							"  PRIMARY KEY (`id`),\n" +
 							"  UNIQUE KEY `player_ip` (`player`,`ip`),\n" +
 							"  KEY `player` (`player`),\n" +
-							"  KEY `ip` (`ip`)\n" +
+							"  KEY `ip` (`ip`),\n" +
 							"  CONSTRAINT `ips_player_fk` FOREIGN KEY (`player`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE\n" +
 							") ENGINE=InnoDB;\n");
 		connection.close();
