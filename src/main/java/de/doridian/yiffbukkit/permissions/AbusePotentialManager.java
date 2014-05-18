@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.StateContainer;
-import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -34,7 +34,7 @@ public class AbusePotentialManager extends StateContainer {
 		abusiveAdmins.clear();
 
 		try {
-			BufferedReader reader = new BufferedReader(new ConfigFileReader("abusiveadmins.txt"));
+			BufferedReader reader = new BufferedReader(YiffBukkit.instance.configuration.makeReader("abusiveadmins.txt"));
 			String line;
 
 			while ((line = reader.readLine()) != null) {

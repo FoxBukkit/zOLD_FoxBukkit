@@ -1,6 +1,6 @@
 package de.doridian.yiffbukkit.database;
 
-import de.doridian.yiffbukkit.main.config.Configuration;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
@@ -31,7 +31,7 @@ public class DatabaseConnectionPool {
 		connectionPool.setTestOnReturn(true);
 		connectionPool.setTestWhileIdle(true);
 
-		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(Configuration.getValue("database-uri", "jdbc:mysql://localhost:3306/yiffbukkit_database"), Configuration.getValue("database-user", "root"), Configuration.getValue("database-password", "password"));
+		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(YiffBukkit.instance.configuration.getValue("database-uri", "jdbc:mysql://localhost:3306/yiffbukkit_database"), YiffBukkit.instance.configuration.getValue("database-user", "root"), YiffBukkit.instance.configuration.getValue("database-password", "password"));
 		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 				connectionFactory,
 				connectionPool,

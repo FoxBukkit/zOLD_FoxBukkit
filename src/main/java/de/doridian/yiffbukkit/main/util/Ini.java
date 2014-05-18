@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.main.util;
 
-import de.doridian.yiffbukkit.main.config.ConfigFileReader;
-import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -27,7 +26,7 @@ public abstract class Ini {
 		final Map<String, List<Map<String, List<String>>>> sections = new TreeMap<>();
 
 		try {
-			final BufferedReader stream = new BufferedReader(new ConfigFileReader(fileName));
+			final BufferedReader stream = new BufferedReader(YiffBukkit.instance.configuration.makeReader(fileName));
 			while (true) {
 				final String line = stream.readLine();
 				if (line == null)
@@ -96,7 +95,7 @@ public abstract class Ini {
 
 	public static void save(String fileName, Map<String, List<Map<String, List<String>>>> sections) {
 		try {
-			final BufferedWriter stream = new BufferedWriter(new ConfigFileWriter(fileName));
+			final BufferedWriter stream = new BufferedWriter(YiffBukkit.instance.configuration.makeWriter(fileName));
 			for (Map.Entry<String, List<Map<String, List<String>>>> entry : sections.entrySet()) {
 				final String sectionHeader = "["+entry.getKey()+"]";
 				for (Map<String, List<String>> section : entry.getValue()) {

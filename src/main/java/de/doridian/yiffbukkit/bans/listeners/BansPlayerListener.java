@@ -8,7 +8,6 @@ import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PermissionPredicate;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
-import de.doridian.yiffbukkit.main.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +22,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class BansPlayerListener extends BaseListener {
-	private final boolean IS_BAN_AND_ALT_CHECK_ENABLED = Configuration.getValue("enable-ban-and-alt-check", "true").equalsIgnoreCase("true");
+	private final boolean IS_BAN_AND_ALT_CHECK_ENABLED = YiffBukkit.instance.configuration.getValue("enable-ban-and-alt-check", "true").equalsIgnoreCase("true");
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {

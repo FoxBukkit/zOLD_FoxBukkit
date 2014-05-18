@@ -1,7 +1,7 @@
 package de.doridian.yiffbukkit.permissions;
 
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbukkit.core.YiffBukkit;
-import de.doridian.yiffbukkit.main.util.RedisManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

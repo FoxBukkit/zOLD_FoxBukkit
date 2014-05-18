@@ -1,40 +1,26 @@
 package de.doridian.yiffbukkit.chat;
 
+import de.doridian.dependencies.redis.AbstractRedisHandler;
+import de.doridian.dependencies.redis.RedisManager;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.chat.Parser;
-import de.doridian.yiffbukkit.main.config.Configuration;
-import de.doridian.yiffbukkit.main.util.RedisManager;
 import org.bukkit.entity.Player;
-import redis.clients.jedis.JedisPubSub;
 
 import java.util.UUID;
 
-public class RedisHandler extends JedisPubSub implements Runnable {
-	@Override
-	public void run() {
-		while(true) {
-			try {
-				Thread.sleep(1000);
-				RedisManager.subscribe("yiffbukkit:to_server_xml", this);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+public class RedisHandler extends AbstractRedisHandler {
+	public RedisHandler() {
+		super("yiffbukkit:to_server_xml");
 	}
 
 	public static void sendMessage(final Player player, final String  message) {
 		if(player == null || message == null)
 			throw new NullPointerException();
-		RedisManager.publish("yiffbukkit:from_server", Configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
-	}
-
-	public static void initialize() {
-		Thread t = new Thread(new RedisHandler());
-		t.setDaemon(true);
-		t.start();
+		RedisManager.publish("yiffbukkit:from_server", YiffBukkit.instance.configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
 	}
 
 	@Override
-	public void onMessage(final String channel, final String c_message) {
+	public void onMessage(final String c_message) {
 		try {
 			final String[] split = c_message.split("\0", 5);
 
@@ -47,7 +33,7 @@ public class RedisHandler extends JedisPubSub implements Runnable {
 			String format = split[3];
 			final Object[] params = split[4].split("\0");
 
-			if (!server.equals(Configuration.getValue("server-name", "Main"))) {
+			if (!server.equals(YiffBukkit.instance.configuration.getValue("server-name", "Main"))) {
 				format = "<color name=\"dark_green\">[" + server + "]</color> " + format;
 			}
 
@@ -57,10 +43,4 @@ public class RedisHandler extends JedisPubSub implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
-	@Override public void onPMessage(String s, String s2, String s3) { }
-	@Override public void onSubscribe(String s, int i) { }
-	@Override public void onUnsubscribe(String s, int i) { }
-	@Override public void onPUnsubscribe(String s, int i) { }
-	@Override public void onPSubscribe(String s, int i) { }
 }

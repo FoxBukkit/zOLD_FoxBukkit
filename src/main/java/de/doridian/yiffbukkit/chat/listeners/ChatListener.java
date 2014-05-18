@@ -18,7 +18,6 @@ public class ChatListener extends BaseListener {
 
 	public ChatListener() {
 		helper = new ChatHelper(plugin);
-		RedisHandler.initialize();
 		//screen = new ChatScreenListener(plugin);
 	}
 

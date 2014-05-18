@@ -1,17 +1,15 @@
 package de.doridian.yiffbukkit.core.util;
 
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.permissions.AbusePotentialManager;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.jail.JailComponent;
 import de.doridian.yiffbukkit.main.StateContainer;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.config.ConfigFileReader;
-import de.doridian.yiffbukkit.main.config.ConfigFileWriter;
 import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.main.util.MultiplePlayersFoundException;
 import de.doridian.yiffbukkit.main.util.PlayerNotFoundException;
-import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
 import de.doridian.yiffbukkit.warp.WarpDescriptor;
@@ -194,7 +192,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadPlayerHomePositions() {
 		playerhomepos.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-homepositions.txt"));
+			BufferedReader stream = new BufferedReader(YiffBukkit.instance.configuration.makeReader("player-homepositions.txt"));
 			String line; String[] lineSplit;
 			while((line = stream.readLine()) != null) {
 				lineSplit = line.split("=");
@@ -216,7 +214,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "homepositions", "home_positions", "homes", "home" })
 	public void savePlayerHomePositions() {
 		try {
-			final BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-homepositions.txt"));
+			final BufferedWriter stream = new BufferedWriter(YiffBukkit.instance.configuration.makeWriter("player-homepositions.txt"));
 			for(Entry<UUID, HashMap<String, Location>> entry : playerhomepos.entrySet()) {
 				for(Entry<String, Location> homepos : entry.getValue().entrySet()) {
 					stream.write(entry.getKey().toString() + "=" + Utils.serializeLocation(homepos.getValue()) + "=" + homepos.getKey());
@@ -560,7 +558,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadPortPermissions() {
 		playerTpPermissions.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-notp.txt"));
+			BufferedReader stream = new BufferedReader(YiffBukkit.instance.configuration.makeReader("player-notp.txt"));
 			String line;
 			while((line = stream.readLine()) != null) {
 				playerTpPermissions.add(line);
@@ -572,7 +570,7 @@ public class PlayerHelper extends StateContainer {
 
 		playerSummonPermissions.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("player-nosummon.txt"));
+			BufferedReader stream = new BufferedReader(YiffBukkit.instance.configuration.makeReader("player-nosummon.txt"));
 			String line;
 			while((line = stream.readLine()) != null) {
 				playerSummonPermissions.add(line);
@@ -585,7 +583,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "portpermissions", "port_permissions", "noport" })
 	public void savePortPermissions() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-notp.txt"));
+			BufferedWriter stream = new BufferedWriter(YiffBukkit.instance.configuration.makeWriter("player-notp.txt"));
 			for (String element : playerTpPermissions) {
 				stream.write(element);
 				stream.newLine();
@@ -595,7 +593,7 @@ public class PlayerHelper extends StateContainer {
 		catch(Exception ignored) { }
 
 		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("player-nosummon.txt"));
+			BufferedWriter stream = new BufferedWriter(YiffBukkit.instance.configuration.makeWriter("player-nosummon.txt"));
 			for (String element : playerSummonPermissions) {
 				stream.write(element);
 				stream.newLine();
@@ -827,7 +825,7 @@ public class PlayerHelper extends StateContainer {
 	public void loadAutoexecs() {
 		autoexecs.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("autoexecs.txt"));
+			BufferedReader stream = new BufferedReader(YiffBukkit.instance.configuration.makeReader("autoexecs.txt"));
 
 			String line;
 			UUID currentPlayerName = null;
@@ -867,7 +865,7 @@ public class PlayerHelper extends StateContainer {
 	@Saver({ "autoexecs", "autoexec" })
 	public void saveAutoexecs() {
 		try {
-			BufferedWriter stream = new BufferedWriter(new ConfigFileWriter("autoexecs.txt"));
+			BufferedWriter stream = new BufferedWriter(YiffBukkit.instance.configuration.makeWriter("autoexecs.txt"));
 			for (Entry<UUID, List<String>> entry : autoexecs.entrySet()) {
 				stream.write('['+entry.getKey().toString()+']');
 				stream.newLine();

@@ -3,6 +3,8 @@ package de.doridian.yiffbukkit.core;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
+import de.doridian.dependencies.config.Configuration;
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbukkit.bans.Bans;
 import de.doridian.yiffbukkit.chat.listeners.ChatListener;
 import de.doridian.yiffbukkit.chat.manager.ChatManager;
@@ -18,7 +20,6 @@ import de.doridian.yiffbukkit.main.commands.system.CommandSystem;
 import de.doridian.yiffbukkit.main.console.YiffBukkitConsoleCommands;
 import de.doridian.yiffbukkit.main.listeners.YiffBukkitPlayerListener;
 import de.doridian.yiffbukkit.main.util.PersistentScheduler;
-import de.doridian.yiffbukkit.main.util.RedisManager;
 import de.doridian.yiffbukkit.main.util.Utils;
 import de.doridian.yiffbukkit.permissions.AbusePotentialManager;
 import de.doridian.yiffbukkit.permissions.YiffBukkitPermissionHandler;
@@ -29,8 +30,6 @@ import de.doridian.yiffbukkit.transmute.Transmute;
 import de.doridian.yiffbukkit.warp.WarpEngine;
 import de.doridian.yiffbukkit.warp.listeners.SignPortalPlayerListener;
 import de.doridian.yiffbukkit.yiffpoints.YBBank;
-import de.kumpelblase2.remoteentities.EntityManager;
-import de.kumpelblase2.remoteentities.RemoteEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -67,6 +66,8 @@ public class YiffBukkit extends JavaPlugin {
 	public CommandSystem commandSystem;
 	public final YBBank bank = new YBBank();
 
+	public Configuration configuration;
+
 	public YiffBukkit() {
 		instance = this;
 		componentSystem.registerComponents();
@@ -94,9 +95,11 @@ public class YiffBukkit extends JavaPlugin {
 	public void onEnable() {
 		getDataFolder().mkdirs();
 
+		configuration = new Configuration(getDataFolder());
+
 		setupIPC();
 
-		RedisManager.initialize();
+		RedisManager.initialize(configuration);
 
 		YiffBukkitPermissionHandler.instance.load();
 

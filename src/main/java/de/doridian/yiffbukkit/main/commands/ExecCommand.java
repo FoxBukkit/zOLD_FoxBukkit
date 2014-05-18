@@ -1,12 +1,12 @@
 package de.doridian.yiffbukkit.main.commands;
 
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkit.main.config.ConfigFileReader;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class ExecCommand extends ICommand {
 		List<String> list = new ArrayList<>();
 
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("scripts/"+argStr+".txt"));
+			BufferedReader stream = new BufferedReader(YiffBukkit.instance.configuration.makeReader("scripts/" + argStr + ".txt"));
 			String line;
 			while((line = stream.readLine()) != null) {
 				if (line.isEmpty())
