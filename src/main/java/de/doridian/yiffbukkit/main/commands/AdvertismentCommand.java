@@ -104,6 +104,11 @@ public class AdvertismentCommand extends ICommand {
 	}
 
 	private class AdvertismentThread extends Thread {
+		private AdvertismentThread() {
+			setDaemon(true);
+			setName("YiffBukkit-AdvertismentThread");
+		}
+
 		@Override
 		public void run() {
 			while(true) {
