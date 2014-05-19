@@ -7,7 +7,6 @@ import de.doridian.dependencies.config.Configuration;
 import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbukkit.bans.Bans;
 import de.doridian.yiffbukkit.chat.listeners.ChatListener;
-import de.doridian.yiffbukkit.chat.manager.ChatManager;
 import de.doridian.yiffbukkit.componentsystem.ComponentSystem;
 import de.doridian.yiffbukkit.core.listeners.YiffBukkitBlockListener;
 import de.doridian.yiffbukkit.core.listeners.YiffBukkitBungeeLink;
@@ -56,7 +55,6 @@ public class YiffBukkit extends JavaPlugin {
 	public final SpawnUtils spawnUtils = new SpawnUtils(this);
 	public WarpEngine warpEngine;
 	public PortalEngine portalEngine;
-	public ChatManager chatManager;
 	public PersistentScheduler persistentScheduler;
 
 	public Bans bans;
@@ -110,7 +108,6 @@ public class YiffBukkit extends JavaPlugin {
 		log("State components loaded.");
 		StateContainer.loadAll();
 		log("State component config loaded.");
-		chatManager = new ChatManager(this);
 
 		commandSystem = new CommandSystem(this);
 		componentSystem.registerCommands();

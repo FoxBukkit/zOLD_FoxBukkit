@@ -1,8 +1,9 @@
 package de.doridian.yiffbukkit.chat.listeners;
 
-import de.doridian.yiffbukkit.chat.ChatHelper;
+import de.doridian.yiffbukkit.chat.ChatReplacer;
 import de.doridian.yiffbukkit.chat.ChatSounds;
 import de.doridian.yiffbukkit.chat.RedisHandler;
+import de.doridian.yiffbukkit.chat.commands.ChatReplacementCommand;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import org.bukkit.entity.Player;
@@ -13,13 +14,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ChatListener extends BaseListener {
-	private final ChatHelper helper;
-	//ChatScreenListener screen;
-
 	public ChatListener() {
-		helper = new ChatHelper(plugin);
 		new RedisHandler();
-		//screen = new ChatScreenListener(plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -32,7 +28,17 @@ public class ChatListener extends BaseListener {
 		ChatSounds.processMessage(event.getPlayer(), msg);
 
 		try {
-			helper.sendChat(event.getPlayer(), msg, true);
+			final Player ply = event.getPlayer();
+
+			if(!ply.hasPermission("yiffbukkit.chatreplace.override")) {
+				String tmp;
+				for(ChatReplacer replacer : ChatReplacementCommand.chatReplacers) {
+					tmp = replacer.replace(msg);
+					if(tmp != null) msg = tmp;
+				}
+			}
+			plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
+			RedisHandler.sendMessage(ply, msg);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -40,16 +46,5 @@ public class ChatListener extends BaseListener {
 		}
 
 		event.setCancelled(true);
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player ply = event.getPlayer();
-		helper.verifyPlayerInDefaultChannel(ply);
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerQuit(PlayerQuitEvent event) {
-
 	}
 }

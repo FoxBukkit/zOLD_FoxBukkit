@@ -65,21 +65,17 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.setPlayerScoreboardTeam(player);
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getUniqueId(), "world");
-		plugin.chatManager.pushCurrentOrigin(player);
 		if (playerFile != null && playerFile.exists()) {
 			event.setJoinMessage(null);
-			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined!");
 		} else {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
 			event.setJoinMessage(null);
-			//event.setJoinMessage("\u00a72[+] \u00a7e" + playerHelper.GetFullPlayerName(player) + "\u00a7e joined for the first time!");
 		}
 
 		RedisHandler.sendMessage(player, "\u0123join");
 
 		ToolBind.updateToolMappings(player);
-		plugin.chatManager.popCurrentOrigin();
 		playerHelper.pushWeather(player);
 	}
 
@@ -91,9 +87,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		playerHelper.teleportHistory.remove(player.getUniqueId());
 
-		plugin.chatManager.pushCurrentOrigin(player);
 		event.setQuitMessage(null);
-		plugin.chatManager.popCurrentOrigin();
 
 		RedisHandler.sendMessage(player, "\u0123quit");
 
@@ -104,9 +98,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		final Player player = event.getPlayer();
 
-		plugin.chatManager.pushCurrentOrigin(player);
 		event.setLeaveMessage(null);
-		plugin.chatManager.popCurrentOrigin();
 
 		RedisHandler.sendMessage(player, "\u0123kick " + event.getReason());
 	}
@@ -138,10 +130,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		if (conversationTarget != null) {
 			formattedMessage = "\u00a7e[CONV]\u00a7f "+formattedMessage;
 
-			plugin.chatManager.pushCurrentOrigin(ply);
 			ply.sendMessage(formattedMessage);
 			conversationTarget.sendMessage(formattedMessage);
-			plugin.chatManager.popCurrentOrigin();
 
 			event.setCancelled(true);
 		}
@@ -157,7 +147,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		final Player ply = event.getPlayer();
-		plugin.chatManager.pushCurrentOrigin(ply);
 		final String cmdString = event.getMessage().substring(1).trim();
 		
 		if (plugin.commandSystem.runCommand(ply, cmdString)) {
@@ -168,7 +157,6 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		{
 			plugin.log("Other Command: "+ply.getName()+": "+cmdString);
 		}
-		plugin.chatManager.popCurrentOrigin();
 	}
 
 	{

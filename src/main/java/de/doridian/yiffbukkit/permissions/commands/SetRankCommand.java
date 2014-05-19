@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
 import de.doridian.yiffbukkit.bans.FishBansResolver;
-import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
@@ -56,11 +55,13 @@ public class SetRankCommand extends ICommand {
 
 		if(selflvl <= newlvl)
 			throw new PermissionDeniedException();
-		
-		if(playerHelper.getRankLevel(newRank) >= 4 && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
+
+		int opLvl = playerHelper.getRankLevel("op");
+
+		if(playerHelper.getRankLevel(newRank) >= opLvl && !commandSender.hasPermission("yiffbukkit.users.makestaff"))
 			throw new PermissionDeniedException();
 		
-		if(PlayerHelper.getPlayerLevel(otherUUID) >= 4 && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
+		if(PlayerHelper.getPlayerLevel(otherUUID) >= opLvl && !commandSender.hasPermission("yiffbukkit.users.modifystaff"))
 			throw new PermissionDeniedException();
 
 		if(booleanFlags.contains('p') && newlvl < oldlvl)
@@ -75,9 +76,5 @@ public class SetRankCommand extends ICommand {
 		playerHelper.setPlayerRank(otherUUID, newRank);
 
 		PlayerHelper.sendServerMessage(commandSender.getName() + " set rank of " + otherName + " to " + newRank);
-		
-		try {
-			ChatHelper.getInstance().verifyPlayerInDefaultChannel(plugin.getServer().getPlayerExact(otherName));
-		} catch(Exception e) { }
 	}
 }

@@ -1,7 +1,5 @@
 package de.doridian.yiffbukkit.chat.commands;
 
-import de.doridian.yiffbukkit.chat.ChatChannel;
-import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -24,17 +22,9 @@ public class MeCommand extends ICommand {
 
 		final UUID conversationTarget = playerHelper.conversations.get(commandSender.getUniqueId());
 		if (conversationTarget == null) {
-			final ChatHelper helper = ChatHelper.getInstance();
-			final ChatChannel chan = helper.getActiveChannel(commandSender);
 			final String msg = "* " + commandSender.getName() + " " + argStr;
-			if(chan == helper.DEFAULT) {
-				plugin.sendConsoleMsg(msg, false);
-				RedisHandler.sendMessage(commandSender, "/me " + argStr);
-				return;
-			} else {
-				plugin.sendConsoleMsg("[" + chan.name + "] " + msg, false);
-			}
-			helper.sendChat(asPlayer(commandSender), message, false);
+			plugin.sendConsoleMsg(msg, false);
+			RedisHandler.sendMessage(commandSender, "/me " + argStr);
 		}
 		else {
 			message = "\u00a7e[CONV]\u00a7f "+message;

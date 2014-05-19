@@ -1,14 +1,12 @@
 package de.doridian.yiffbukkit.chat.commands;
 
-import de.doridian.yiffbukkit.chat.ChatChannelContainer;
-import de.doridian.yiffbukkit.chat.ChatHelper;
 import de.doridian.yiffbukkit.chat.ChatReplacer;
 import de.doridian.yiffbukkit.chat.ChatReplacer.PlainChatReplacer;
 import de.doridian.yiffbukkit.chat.ChatReplacer.RegexChatReplacer;
+import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PermissionPredicate;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
-import de.doridian.yiffbukkit.main.chat.Parser;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.BooleanFlags;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
@@ -18,35 +16,43 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 @Names("crepl")
 @Help("Makes chat text replace on certain phrases")
 @Usage("<from> <to>")
 @Permission("yiffbukkit.chatreplace")
 @BooleanFlags("lrd")
 public class ChatReplacementCommand extends ICommand {
+	public static List<ChatReplacer> chatReplacers = new ArrayList<>();
+
+	public ChatReplacementCommand() {
+		loadReplacers();
+	}
+
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
-		ChatChannelContainer cont = ChatHelper.getInstance().container;
-
 		if (booleanFlags.contains('l')) {
 			MessageHelper.sendMessage(commandSender, "Listing ChatReplacements:");
-			for (int i = 0; i < cont.replacers.size(); i++) {
-				final ChatReplacer repl = cont.replacers.get(i);
+			for (int i = 0; i < chatReplacers.size(); i++) {
+				final ChatReplacer repl = chatReplacers.get(i);
 				MessageHelper.sendMessage(commandSender, formatReplacement("%2$d) %3$s", commandSender, i, repl, false));
 			}
-
 			return;
 		}
 
 		if (booleanFlags.contains('d')) {
 			final int i = Integer.parseInt(args[0]);
-			final ChatReplacer repl = cont.replacers.remove(i);
+			final ChatReplacer repl = chatReplacers.remove(i);
 			MessageHelper.sendServerMessage(new PermissionPredicate("yiffbukkit.chatreplace"), formatReplacement("%1$s removed replacement: %2$d) %3$s", commandSender, i, repl, true));
-
-			ChatHelper.saveChannels();
-
+			saveReplacers();
 			return;
 		}
 
@@ -60,10 +66,35 @@ public class ChatReplacementCommand extends ICommand {
 		else {
 			repl = new PlainChatReplacer(args[0], to);
 		}
-		cont.replacers.add(repl);
-		final int i = cont.replacers.size() - 1;
+		chatReplacers.add(repl);
+		final int i = chatReplacers.size() - 1;
 		MessageHelper.sendServerMessage(new PermissionPredicate("yiffbukkit.chatreplace"), formatReplacement("%1$s added replacement: %2$d) %3$s", commandSender, i, repl, false));
-		ChatHelper.saveChannels();
+		saveReplacers();
+	}
+
+	public static void loadReplacers() {
+		try {
+			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/chatReplacers.dat");
+			ObjectInputStream reader = new ObjectInputStream(stream);
+			chatReplacers = (List<ChatReplacer>)reader.readObject();
+			reader.close();
+			stream.close();
+		} catch (Exception e) {
+			chatReplacers = new ArrayList<>();
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveReplacers() {
+		try {
+			FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/chatReplacers.dat");
+			ObjectOutputStream writer = new ObjectOutputStream(stream);
+			writer.writeObject(chatReplacers);
+			writer.close();
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static String formatReplacement(String format, CommandSender commandSender, int index, ChatReplacer replacer, boolean undoIsAdd) {
