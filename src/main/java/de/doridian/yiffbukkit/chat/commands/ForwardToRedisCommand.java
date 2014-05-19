@@ -5,7 +5,7 @@ import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import org.bukkit.entity.Player;
 
-@ICommand.Names({"pm", "conv", "me", "tell", "msg"})
+@ICommand.Names({"pm", "conv", "emote", "me", "tell", "msg"})
 @ICommand.Help("Well, it's /me, durp")
 @ICommand.Usage("<stuff here>")
 @ICommand.Permission("yiffbukkit.redisforwardcommand")

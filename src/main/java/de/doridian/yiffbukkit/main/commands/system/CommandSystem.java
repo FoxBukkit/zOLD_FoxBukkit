@@ -1,7 +1,6 @@
 package de.doridian.yiffbukkit.main.commands.system;
 
-import de.doridian.yiffbukkit.chat.commands.ConversationCommand;
-import de.doridian.yiffbukkit.chat.commands.PmCommand;
+import de.doridian.yiffbukkit.chat.commands.ForwardToRedisCommand;
 import de.doridian.yiffbukkit.core.YiffBukkit;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.PermissionDeniedException;
@@ -130,10 +129,7 @@ public class CommandSystem {
 
 	private boolean needsLogging(CommandSender commandSender, ICommand command) {
 		final Class<? extends ICommand> cls = command.getClass();
-		if (cls == PmCommand.class)
-			return false;
-
-		if (cls == ConversationCommand.class)
+		if (cls == ForwardToRedisCommand.class)
 			return false;
 
 		if (commandSender instanceof BlockCommandSender)
