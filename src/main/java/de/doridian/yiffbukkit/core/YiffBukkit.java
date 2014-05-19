@@ -131,6 +131,8 @@ public class YiffBukkit extends JavaPlugin {
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 		YiffBukkitPermissions.init();
+
+		playerHelper.refreshPlayerListRedis();
 	}
 	
 	public void log(String msg) {
