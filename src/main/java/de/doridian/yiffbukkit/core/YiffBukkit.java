@@ -66,6 +66,8 @@ public class YiffBukkit extends JavaPlugin {
 
 	public Configuration configuration;
 
+	public RedisManager redisManager;
+
 	public YiffBukkit() {
 		instance = this;
 		componentSystem.registerComponents();
@@ -97,7 +99,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		setupIPC();
 
-		RedisManager.initialize(configuration);
+		redisManager = new RedisManager(configuration);
 
 		YiffBukkitPermissionHandler.instance.load();
 

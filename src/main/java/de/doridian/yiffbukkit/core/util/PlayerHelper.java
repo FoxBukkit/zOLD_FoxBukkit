@@ -58,8 +58,8 @@ public class PlayerHelper extends StateContainer {
 		return ply;
 	}
 
-	public Map<String,String> playerNameToUUID = RedisManager.createCachedRedisMap("playerNameToUUID");
-	public Map<String,String> playerUUIDToName = RedisManager.createCachedRedisMap("playerUUIDToName");
+	public Map<String,String> playerNameToUUID = YiffBukkit.instance.redisManager.createCachedRedisMap("playerNameToUUID");
+	public Map<String,String> playerUUIDToName = YiffBukkit.instance.redisManager.createCachedRedisMap("playerUUIDToName");
 	public void refreshUUID(Player player) {
 		playerUUIDToName.put(player.getUniqueId().toString(), player.getName());
 		playerNameToUUID.put(player.getName().toLowerCase(), player.getUniqueId().toString());
@@ -68,9 +68,9 @@ public class PlayerHelper extends StateContainer {
 	public void refreshPlayerListRedis() {
 		Player[] players = plugin.getServer().getOnlinePlayers();
 		final String keyName = "playersOnline:" + YiffBukkit.instance.configuration.getValue("server-name", "Main");
-		RedisManager.del(keyName);
+		plugin.redisManager.del(keyName);
 		for(Player ply : players) {
-			RedisManager.lpush(keyName, ply.getUniqueId().toString());
+			plugin.redisManager.lpush(keyName, ply.getUniqueId().toString());
 		}
 	}
 
@@ -424,7 +424,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Permission levels
-	public Map<String,String> ranklevels = RedisManager.createCachedRedisMap("ranklevels");
+	public Map<String,String> ranklevels = YiffBukkit.instance.redisManager.createCachedRedisMap("ranklevels");
 	public static int getPlayerLevel(CommandSender ply) {
 		if (ply instanceof ConsoleCommandSender) {
 			return 9999;
@@ -455,9 +455,9 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	//Tags
-	private final Map<String,String> rankTags = RedisManager.createCachedRedisMap("ranktags");
-	private final Map<String,String> playerTags = RedisManager.createCachedRedisMap("playerTags");
-	private final Map<String,String> playerRankTags = RedisManager.createCachedRedisMap("playerRankTags");
+	private final Map<String,String> rankTags = YiffBukkit.instance.redisManager.createCachedRedisMap("ranktags");
+	private final Map<String,String> playerTags = YiffBukkit.instance.redisManager.createCachedRedisMap("playerTags");
+	private final Map<String,String> playerRankTags = YiffBukkit.instance.redisManager.createCachedRedisMap("playerRankTags");
 
 	public String getPlayerTag(CommandSender commandSender) {
 		return getPlayerTag(commandSender.getUniqueId());
@@ -500,7 +500,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 
-	private Map<String,String> playernicks = RedisManager.createCachedRedisMap("playernicks");
+	private Map<String,String> playernicks = YiffBukkit.instance.redisManager.createCachedRedisMap("playernicks");
 
 	public String getPlayerNick(UUID uuid) {
 		if(playernicks.containsKey(uuid.toString()))
