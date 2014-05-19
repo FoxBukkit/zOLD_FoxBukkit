@@ -5,6 +5,7 @@ import de.doridian.dependencies.redis.AbstractRedisHandler;
 import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbukkit.chat.json.ChatMessage;
 import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.chat.Parser;
 import org.bukkit.entity.Player;
 
@@ -35,7 +36,9 @@ public class RedisHandler extends AbstractRedisHandler {
 			}
 
 			if (!chatMessage.server.equals(YiffBukkit.instance.configuration.getValue("server-name", "Main"))) {
-				chatMessage.contents.xml_format = "<color name=\"dark_green\">[" + chatMessage.server + "]</color> " + chatMessage.contents.xml_format;
+				chatMessage.contents.plain = "\u00a72[" + chatMessage.server + "]\u00a7f " + chatMessage.contents.plain;
+				if(chatMessage.contents.xml_format != null)
+					chatMessage.contents.xml_format = "<color name=\"dark_green\">[" + chatMessage.server + "]</color> " + chatMessage.contents.xml_format;
 			}
 
 			List<Player> allPlayers = Arrays.asList(YiffBukkit.instance.getServer().getOnlinePlayers());
@@ -58,7 +61,11 @@ public class RedisHandler extends AbstractRedisHandler {
 					break;
 			}
 
-			Parser.sendToPlayers(targetPlayers, chatMessage.contents.xml_format, chatMessage.contents.xml_format_args);
+			if(chatMessage.contents.xml_format != null)
+				Parser.sendToPlayers(targetPlayers, chatMessage.contents.xml_format, chatMessage.contents.xml_format_args);
+			else
+				for(Player plyTarget : targetPlayers)
+					plyTarget.sendMessage(chatMessage.contents.plain);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
