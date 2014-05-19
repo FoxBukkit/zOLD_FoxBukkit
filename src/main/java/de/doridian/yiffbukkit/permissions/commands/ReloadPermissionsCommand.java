@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 @Permission("yiffbukkit.reloadpermissions")
 public class ReloadPermissionsCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		YiffBukkitPermissionHandler.instance.reload();
 		PlayerHelper.sendDirectedMessage(commandSender, "Permissions system reloaded!");
 	}

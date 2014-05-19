@@ -18,7 +18,7 @@ import java.util.Set;
 @Permission("yiffbukkit.teleport.basic.home")
 public class HomeCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		if (playerHelper.isPlayerJailed(ply)) {

@@ -12,7 +12,7 @@ import java.util.UUID;
 @ICommand.Permission("yiffbukkit.teleport.admin.sethomelocationlimit")
 public class SetHomeLocationLimit extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		int newLimit = Integer.parseInt(args[1]);
 

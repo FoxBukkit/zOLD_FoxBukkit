@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -70,7 +71,7 @@ public class Rocket extends YBEffect.PotionTrail {
 	@de.doridian.yiffbukkit.main.commands.system.ICommand.Permission("")
 	public static class SetFireworkCommand extends de.doridian.yiffbukkit.main.commands.system.ICommand {
 		@Override
-		public void run(org.bukkit.command.CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+		public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 			if (args.length < 2)
 				throw new YiffBukkitCommandException("Not enough arguments.");
 

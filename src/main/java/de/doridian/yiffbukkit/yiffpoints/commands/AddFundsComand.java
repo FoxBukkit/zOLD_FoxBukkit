@@ -21,7 +21,7 @@ import java.util.UUID;
 @Permission("yiffbukkit.yiffpoints.addfunds")
 public class AddFundsComand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (commandSender instanceof Player)
 			throw new PermissionDeniedException();
 

@@ -41,7 +41,7 @@ import java.util.List;
 @AbusePotential
 public class ButcherCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		int radius;
 		Location target;

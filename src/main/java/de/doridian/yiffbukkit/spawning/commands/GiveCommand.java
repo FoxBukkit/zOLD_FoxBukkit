@@ -159,7 +159,7 @@ public class GiveCommand extends ICommand {
 	}
 
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		Integer count;
 		String otherName;
 		try {

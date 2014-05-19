@@ -50,7 +50,7 @@ public class BindCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		argStr = parseFlags(argStr).trim();
 
 		if (booleanFlags.contains('l')) {

@@ -23,7 +23,7 @@ import java.util.UUID;
 @AbusePotential
 public class SetRankCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		String otherName = args[0];

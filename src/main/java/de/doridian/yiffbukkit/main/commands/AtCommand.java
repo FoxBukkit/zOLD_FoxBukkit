@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class AtCommand extends ICommand {
 	private static final Pattern argumentPattern = Pattern.compile("^([^ ]+) (.*)$");
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		Matcher matcher = argumentPattern.matcher(argStr);
 		if (!matcher.matches())
 			throw new YiffBukkitCommandException("Syntax error");

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.experimental.rage")
 public class RageCommand extends ICommand {
 	@Override
-	public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(final Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		YBEffect.create("rage", ply).start();
 	}
 }

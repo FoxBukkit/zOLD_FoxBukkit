@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.users.kick")
 public class KickCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws PlayerFindException, PermissionDeniedException {
 		final Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
 		if (PlayerHelper.getPlayerLevel(commandSender) < PlayerHelper.getPlayerLevel(otherply))

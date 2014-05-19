@@ -22,7 +22,7 @@ public class RestartCommand extends ICommand {
 	RestartRunnable restarter;
 
 	@Override
-	public void run(final CommandSender sender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(final CommandSender sender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if(taskID >= 0) {
 			plugin.getServer().getScheduler().cancelTask(taskID);
 			taskID = -1;

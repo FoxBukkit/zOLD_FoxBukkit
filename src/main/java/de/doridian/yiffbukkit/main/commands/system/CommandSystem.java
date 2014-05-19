@@ -103,7 +103,7 @@ public class CommandSystem {
 					String logmsg = "YB Command: " + playerName + ": "  + cmd + " " + argStr;
 					plugin.log(logmsg);
 				}
-				icmd.run(commandSender, args, argStr);
+				icmd.run(commandSender, args, argStr, cmd);
 			}
 			catch (PermissionDeniedException e) {
 				String logmsg = "YB Command denied: " + playerName + ": "  + cmd + " " + argStr;

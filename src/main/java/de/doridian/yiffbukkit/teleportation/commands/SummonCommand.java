@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.teleport.summon")
 public class SummonCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		Player otherply = playerHelper.matchPlayerSingle(args[0]);
 
 		if (!playerHelper.canSummon(commandSender, otherply))

@@ -21,7 +21,7 @@ public class SoundCommand extends ICommand {
 	final Pattern argumentPattern = Pattern.compile("^([^ ]+) ([^ ]+) (.+)$");
 
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		final Matcher matcher = argumentPattern.matcher(argStr);

@@ -33,7 +33,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 @StringFlags("i")
 public class ShapeActionCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final String shapeAction = parseFlags(argStr);
 
 		if (booleanFlags.contains('e')) {

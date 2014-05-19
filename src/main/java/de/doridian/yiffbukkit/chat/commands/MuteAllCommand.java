@@ -60,7 +60,7 @@ public class MuteAllCommand extends ICommand implements Listener {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final String playerName = ply.getName();
 		if (muteall) {
 			if (argStr.equals("on"))

@@ -19,7 +19,7 @@ public class JailCommand extends ICommand {
 	private final JailComponent jail = (JailComponent) plugin.componentSystem.getComponent("jail");
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws PlayerFindException, JailException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws PlayerFindException, JailException {
 		if (args.length == 0) {
 			PlayerHelper.sendDirectedMessage(ply, "Not enough arguments.");
 			return;

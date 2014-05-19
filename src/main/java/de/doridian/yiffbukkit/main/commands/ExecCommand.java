@@ -22,7 +22,7 @@ import java.util.List;
 @Permission("yiffbukkit.exec")
 public class ExecCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (argStr.isEmpty())
 			throw new YiffBukkitCommandException("Expected file name.");
 

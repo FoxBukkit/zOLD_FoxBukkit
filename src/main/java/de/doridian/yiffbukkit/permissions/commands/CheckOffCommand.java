@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.checkoff")
 public class CheckOffCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		if (booleanFlags.contains('l')) {
 			for (String playerName : YiffBukkitPermissions.checkOffPlayers) {

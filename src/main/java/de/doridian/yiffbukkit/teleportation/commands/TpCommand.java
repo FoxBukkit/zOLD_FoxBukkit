@@ -12,7 +12,6 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
 @BooleanFlags("snc")
 public class TpCommand extends ICommand {
 	@Override
-	public void Run(Player sender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player sender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		if (booleanFlags.contains('c')) {

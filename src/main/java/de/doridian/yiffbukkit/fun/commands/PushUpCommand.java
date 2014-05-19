@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 @AbusePotential
 public class PushUpCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		final LocalSession session = plugin.worldEdit.getSession(ply);
 

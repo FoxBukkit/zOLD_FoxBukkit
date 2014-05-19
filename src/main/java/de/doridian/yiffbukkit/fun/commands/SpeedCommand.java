@@ -38,7 +38,7 @@ public class SpeedCommand extends ICommand implements Runnable {
 	}
 
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		int amplifier = 0;
 		if(args.length > 0) {
 			amplifier = Integer.parseInt(args[0]);

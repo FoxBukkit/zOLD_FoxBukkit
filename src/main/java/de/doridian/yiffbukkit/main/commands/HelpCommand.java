@@ -18,7 +18,7 @@ import java.util.PriorityQueue;
 @Permission("yiffbukkit.help")
 public class HelpCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		Map<String, ICommand> commands = plugin.commandSystem.getCommands();
 
 		if(args.length > 0) {

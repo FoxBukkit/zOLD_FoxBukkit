@@ -73,7 +73,7 @@ public class AdvertismentCommand extends ICommand {
 	}
 
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final String method = args[0].toLowerCase();
 		if(method.equals("add")) {
 			String res = Utils.concatArray(args, 1, "").trim();

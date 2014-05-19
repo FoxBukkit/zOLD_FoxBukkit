@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.players.leash")
 public class LeashCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (args.length < 1)
 			throw new YiffBukkitCommandException("Not enough arguments");
 

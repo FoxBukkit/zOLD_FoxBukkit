@@ -1,6 +1,5 @@
 package de.doridian.yiffbukkit.fun.commands;
 
-import de.doridian.yiffbukkit.bans.FishBansResolver;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
@@ -10,14 +9,11 @@ import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Permission;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Usage;
-import de.doridian.yiffbukkit.main.offlinebukkit.OfflinePlayer;
 import de.doridian.yiffbukkit.main.util.GameProfileUtil;
-import net.minecraft.server.v1_7_R3.DataWatcher;
 import net.minecraft.server.v1_7_R3.MathHelper;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
@@ -39,7 +35,7 @@ public class YiffCommand extends ICommand {
 	private static HashMap<String, RaepRunnable> raepedPlayers = new HashMap<>();
 
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		Player target = null;

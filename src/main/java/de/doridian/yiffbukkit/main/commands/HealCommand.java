@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.players.heal")
 public class HealCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		int amount;
 		Player target;

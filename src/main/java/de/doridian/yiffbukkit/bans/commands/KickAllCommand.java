@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.users.kickall")
 public class KickAllCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) {
 		if (argStr.isEmpty())
 			argStr = "Clearing server.";
 

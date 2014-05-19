@@ -50,11 +50,11 @@ public class MuteCommand extends AbstractPlayerStateCommand implements Listener 
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (args.length == 0)
 			throw new YiffBukkitCommandException("Syntax error");
 
-		super.Run(ply, args, argStr);
+		super.Run(ply, args, argStr, commandName);
 	}
 
 	@Override

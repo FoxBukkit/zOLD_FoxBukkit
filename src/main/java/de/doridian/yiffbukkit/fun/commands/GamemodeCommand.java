@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.gamemode.self")
 public class GamemodeCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final Player target;
 		final GameMode gameMode;
 

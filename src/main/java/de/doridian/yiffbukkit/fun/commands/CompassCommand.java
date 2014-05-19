@@ -35,7 +35,7 @@ public class CompassCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (args.length == 0) {
 			final float yaw = ply.getLocation().getYaw();
 			PlayerHelper.sendDirectedMessage(ply, "Direction: "+ Utils.yawToDirection(yaw)+" ("+Math.round((yaw+720)%360)+")");

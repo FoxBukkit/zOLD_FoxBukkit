@@ -31,7 +31,7 @@ public class NoPortCommand extends ICommand {
 	}
 
 	@Override
-	public void Run(Player player, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player player, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		boolean newState;
 		final UUID playerName = player.getUniqueId();
 

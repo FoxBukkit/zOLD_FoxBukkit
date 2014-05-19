@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.yiffpoints.money")
 public class MoneyComand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final double amount = plugin.bank.getBalance(ply.getUniqueId());
 
 		PlayerHelper.sendDirectedMessage(ply, "Your current balance is "+amount+" YP.");

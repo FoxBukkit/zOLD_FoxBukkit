@@ -17,7 +17,7 @@ import java.net.URLConnection;
 @ICommand.Permission("yiffbukkit.mclink")
 public class MCLinkCommand extends ICommand {
     @Override
-    public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+    public void Run(final Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
         new Thread() {
             public void run() {
                 try {

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.teleport.basic.spawn")
 public class SpawnCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) {
+	public void Run(Player ply, String[] args, String argStr, String commandName) {
 		if (playerHelper.isPlayerJailed(ply)) {
 			PlayerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;

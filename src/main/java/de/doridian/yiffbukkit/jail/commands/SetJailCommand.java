@@ -23,7 +23,7 @@ public class SetJailCommand extends ICommand {
 	private final JailComponent jail = (JailComponent) plugin.componentSystem.getComponent("jail");
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (argStr.equals("remove")) {
 			jail.engine.removeJail(ply.getLocation());
 			PlayerHelper.sendDirectedMessage(ply, "Removed the jail cell closest to you.");

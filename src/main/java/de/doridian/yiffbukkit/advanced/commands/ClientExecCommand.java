@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 @AbusePotential
 public class ClientExecCommand extends ICommand {
     @Override
-    public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+    public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
         Player target = playerHelper.matchPlayerSingle(args[0]);
         if(PlayerHelper.getPlayerLevel(commandSender) < PlayerHelper.getPlayerLevel(target))
             throw new PermissionDeniedException();

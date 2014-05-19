@@ -42,7 +42,7 @@ import java.util.List;
 @StringFlags("i")
 public class TransmuteCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		if (args.length == 0) {

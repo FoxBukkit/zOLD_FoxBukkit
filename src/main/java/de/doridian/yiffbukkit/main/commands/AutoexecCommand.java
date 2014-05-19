@@ -42,7 +42,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 	}
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (argStr.trim().isEmpty()) {
 			listAutoexec(ply);
 

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Permission("yiffbukkit.communication.emote")
 public class MeCommand extends ICommand {
 	@Override
-	public void Run(Player commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		String message = "\u00a77* "+playerHelper.getPlayerTag(commandSender) + commandSender.getDisplayName() + "\u00a77 " + argStr;
 
 		final UUID conversationTarget = playerHelper.conversations.get(commandSender.getUniqueId());

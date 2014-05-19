@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.setspawn")
 public class SetSpawnCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 
 		Location loc = ply.getLocation();
 		ply.getWorld().setSpawnLocation(loc.getBlockX(),loc.getBlockY(),loc.getBlockZ());

@@ -26,7 +26,7 @@ import java.util.List;
 @Permission("yiffbukkit.who")
 public class WhoCommand extends ICommand {
 	@Override
-	public void run(final CommandSender commandSender, String[] args, String argStr) throws PlayerFindException {
+	public void run(final CommandSender commandSender, String[] args, String argStr, String commandName) throws PlayerFindException {
 		if (args.length == 0) {
 			final Player[] players = plugin.getServer().getOnlinePlayers();
 			String str = "Online players: ";

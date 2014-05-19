@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 @AbusePotential
 public class UnbanCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) {
 		plugin.bans.unban(commandSender, args[0]);
 	}
 }

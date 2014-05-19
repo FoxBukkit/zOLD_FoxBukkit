@@ -18,7 +18,7 @@ import org.bukkit.command.CommandSender;
 @AbusePotential
 public class ReloadConfigCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final boolean success;
 		try {
 			success = StateContainer.loadSingle(argStr);

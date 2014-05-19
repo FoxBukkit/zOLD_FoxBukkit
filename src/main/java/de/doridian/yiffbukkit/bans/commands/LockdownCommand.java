@@ -18,7 +18,7 @@ import java.io.IOException;
 @Permission("yiffbukkit.users.lockdown")
 public class LockdownCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final String name = commandSender.getName();
 		argStr = argStr.toUpperCase();
 		final LockDownMode newMode;

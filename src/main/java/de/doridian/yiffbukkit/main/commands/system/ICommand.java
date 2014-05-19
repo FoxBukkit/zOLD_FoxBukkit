@@ -185,10 +185,10 @@ public abstract class ICommand {
 	}
 
 
-	public void Run(Player player, String[] args, String argStr) throws YiffBukkitCommandException { }
+	public void Run(Player player, String[] args, String argStr, String commandName) throws YiffBukkitCommandException { }
 
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
-		Run(asPlayer(commandSender), args, argStr);
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
+		Run(asPlayer(commandSender), args, argStr, commandName);
 	}
 
 	public static Player asPlayer(CommandSender commandSender) throws YiffBukkitCommandException {

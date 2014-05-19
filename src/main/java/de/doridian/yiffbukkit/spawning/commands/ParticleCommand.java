@@ -16,7 +16,7 @@ import de.doridian.yiffbukkit.spawning.SpawnUtils;
 @Permission("yiffbukkit.particle")
 public class ParticleCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final Location commandSenderLocation = getCommandSenderLocation(commandSender, true);
 		SpawnUtils.makeParticles(commandSenderLocation, new Vector(.1, .1, .1), 0, 10, argStr);
 	}

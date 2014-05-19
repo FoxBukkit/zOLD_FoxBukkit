@@ -40,7 +40,7 @@ public class PlayCommand extends ICommand {
 	}
 
 	@Override
-	public void run(final CommandSender commandSender, String[] args, final String argStr) throws YiffBukkitCommandException {
+	public void run(final CommandSender commandSender, String[] args, final String argStr, String commandName) throws YiffBukkitCommandException {
 		final Location loc = getCommandSenderLocation(commandSender, true);
 
 		final long startTime = System.currentTimeMillis()+1000;

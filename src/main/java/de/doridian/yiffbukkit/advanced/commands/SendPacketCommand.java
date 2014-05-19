@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 public class SendPacketCommand extends ICommand {
 	private static final Pattern keyValuePattern = Pattern.compile("^([^=]+)=(.*)$");
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		Parser.sendToPlayer(commandSender, argStr);
 		if (true)
 			return;

@@ -18,7 +18,7 @@ import java.util.Set;
 @Permission("yiffbukkit.teleport.basic.sethome")
 public class SetHomeCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 
 		String homeName = "default";

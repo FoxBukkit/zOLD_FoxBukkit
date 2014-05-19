@@ -24,7 +24,7 @@ import org.bukkit.util.Vector;
 @Permission("worldedit.generation.map")
 public class SecCamCommand extends ICommand {
 	@Override
-	public void Run(final Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(final Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final ItemStack itemInHand = ply.getItemInHand();
 		final Material itemInHandType = itemInHand.getType();
 		if (itemInHandType != Material.MAP)

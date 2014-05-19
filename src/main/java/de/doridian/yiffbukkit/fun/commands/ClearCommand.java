@@ -19,7 +19,7 @@ import org.bukkit.inventory.Inventory;
 @Permission("yiffbukkit.players.clear")
 public class ClearCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		args = parseFlags(args);
 		Player target;
 		switch (args.length){

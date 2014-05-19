@@ -20,7 +20,7 @@ import java.util.LinkedList;
 @StringFlags("t")
 public class BackCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if(playerHelper.isPlayerJailed(ply)) {
 			PlayerHelper.sendDirectedMessage(ply, "You are jailed!");
 			return;

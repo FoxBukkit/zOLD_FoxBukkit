@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 @Permission("yiffbukkit.teleport.send")
 public class SendCommand extends ICommand {
 	@Override
-	public void run(CommandSender commandSender, String[] args, String argStr) throws PlayerFindException, PermissionDeniedException {
+	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws PlayerFindException, PermissionDeniedException {
 		Player fromPlayer = playerHelper.matchPlayerSingle(args[0]);
 
 		Player toPlayer = playerHelper.matchPlayerSingle(args[1]);

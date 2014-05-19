@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 @ICommand.Permission("yiffbukkit.spectate")
 public class SpectateCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		SpectatePlayer currentPlayer = SpectatePlayer.wrapPlayer(ply);
 		SpectatePlayer otherPlayer = SpectatePlayer.wrapPlayer(YiffBukkit.instance.playerHelper.matchPlayerSingle(argStr));
 		currentPlayer.spectatePlayer(otherPlayer);

@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 @BooleanFlags("x")
 public class SetPortalCommand extends ICommand {
 	@Override
-	public void Run(Player ply, String[] args, String argStr) throws YiffBukkitCommandException {
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		final Material toolType = ply.getItemInHand().getType();
 
 		boolean left = booleanFlags.contains('x');
