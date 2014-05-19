@@ -46,7 +46,6 @@ import java.util.regex.Pattern;
 
 public class PlayerHelper extends StateContainer {
 	private YiffBukkit plugin;
-	public Map<UUID, UUID> conversations = new HashMap<>();
 
 	public PlayerHelper(YiffBukkit plug) {
 		plugin = plug;

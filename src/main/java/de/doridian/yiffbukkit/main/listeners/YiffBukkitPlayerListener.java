@@ -1,5 +1,6 @@
 package de.doridian.yiffbukkit.main.listeners;
 
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PermissionPredicate;
@@ -129,24 +130,10 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setFormat(playerHelper.getPlayerTag(event.getPlayer()) + "%s:\u00a7f %s");
 
 		final Player ply = event.getPlayer();
-		final UUID conversationTargetName = playerHelper.conversations.get(ply.getUniqueId());
-		final Player conversationTarget = conversationTargetName == null ? null : plugin.getServer().getPlayer(conversationTargetName);
 		String message = event.getMessage();
-		String formattedMessage = String.format(event.getFormat(), ply.getDisplayName(), message);
-		if (conversationTarget != null) {
-			formattedMessage = "\u00a7e[CONV]\u00a7f "+formattedMessage;
-
-			ply.sendMessage(formattedMessage);
-			conversationTarget.sendMessage(formattedMessage);
-
+		if(message.charAt(0) == '#') {
+			RedisHandler.sendMessage(ply, "/opchat " + message.substring(1));
 			event.setCancelled(true);
-		}
-		else if(message.charAt(0) == '#') {
-			message = message.substring(1);
-			event.setCancelled(true);
-			final String format = "<color name=\"yellow\">[#OP]</color> " + MessageHelper.format(ply) + ": %1$s";
-
-			MessageHelper.sendColoredServerMessage(null, new PermissionPredicate("yiffbukkit.opchat"), format, message);
 		}
 	}
 

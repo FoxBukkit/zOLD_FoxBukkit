@@ -21,8 +21,7 @@ public class ChatListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		String msg = event.getMessage();
-		char fchar = msg.charAt(0);
-		if (fchar == '/' || fchar == '#')
+		if (msg.charAt(0) == '/')
 			return;
 
 		ChatSounds.processMessage(event.getPlayer(), msg);
