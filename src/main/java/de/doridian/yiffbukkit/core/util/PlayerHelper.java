@@ -59,6 +59,22 @@ public class PlayerHelper extends StateContainer {
 		return ply;
 	}
 
+	public Map<String,String> playerNameToUUID = RedisManager.createCachedRedisMap("playerNameToUUID");
+	public Map<String,String> playerUUIDToName = RedisManager.createCachedRedisMap("playerUUIDToName");
+	public void refreshUUID(Player player) {
+		playerUUIDToName.put(player.getUniqueId().toString(), player.getName());
+		playerNameToUUID.put(player.getName().toLowerCase(), player.getUniqueId().toString());
+	}
+
+	public void refreshPlayerListRedis() {
+		Player[] players = plugin.getServer().getOnlinePlayers();
+		final String keyName = "playersOnline:" + YiffBukkit.instance.configuration.getValue("server-name", "Main");
+		RedisManager.del(keyName);
+		for(Player ply : players) {
+			RedisManager.lpush(keyName, ply.getUniqueId().toString());
+		}
+	}
+
 	public Player literalMatch(String name) {
 		Player onlinePlayer = plugin.getServer().getPlayer(name);
 		if (onlinePlayer != null)

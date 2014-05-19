@@ -55,6 +55,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 
+		playerHelper.refreshUUID(player);
+
 		playerHelper.applyTime(player);
 
 		playerHelper.pushPlayerLocationOntoTeleportStack(player);
@@ -65,18 +67,18 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		playerHelper.setPlayerScoreboardTeam(player);
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getUniqueId(), "world");
-		if (playerFile != null && playerFile.exists()) {
-			event.setJoinMessage(null);
-		} else {
+		if (playerFile == null || !playerFile.exists()) {
 			Location location = playerHelper.getPlayerSpawnPosition(player);
 			player.teleport(location);
-			event.setJoinMessage(null);
 		}
 
+		event.setJoinMessage(null);
 		RedisHandler.sendMessage(player, "\u0123join");
 
 		ToolBind.updateToolMappings(player);
 		playerHelper.pushWeather(player);
+
+		playerHelper.refreshPlayerListRedis();
 	}
 
 	public Hashtable<String,String> offlinePlayers = new Hashtable<>();
@@ -92,6 +94,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		RedisHandler.sendMessage(player, "\u0123quit");
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
+
+		playerHelper.refreshPlayerListRedis();
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -101,6 +105,8 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		event.setLeaveMessage(null);
 
 		RedisHandler.sendMessage(player, "\u0123kick " + event.getReason());
+
+		playerHelper.refreshPlayerListRedis();
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
