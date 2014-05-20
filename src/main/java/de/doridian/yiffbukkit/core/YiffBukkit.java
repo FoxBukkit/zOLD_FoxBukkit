@@ -48,7 +48,7 @@ public class YiffBukkit extends JavaPlugin {
 	public ComponentSystem componentSystem = new ComponentSystem();
 
 	public Transmute transmute;
-	public final PlayerHelper playerHelper = new PlayerHelper(this);
+	public PlayerHelper playerHelper;
 	@SuppressWarnings("unused")
 	public final MessageHelper messageHelper = new MessageHelper();
 	public final Utils utils = new Utils(this);
@@ -100,6 +100,8 @@ public class YiffBukkit extends JavaPlugin {
 		setupIPC();
 
 		redisManager = new RedisManager(configuration);
+
+		playerHelper = new PlayerHelper(this);
 
 		YiffBukkitPermissionHandler.instance.load();
 
