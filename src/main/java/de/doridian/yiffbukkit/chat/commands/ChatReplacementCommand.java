@@ -17,6 +17,7 @@ import de.doridian.yiffbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -74,11 +75,13 @@ public class ChatReplacementCommand extends ICommand {
 
 	public static void loadReplacers() {
 		try {
-			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/chatReplacers.dat");
+			FileInputStream stream = new FileInputStream(YiffBukkit.instance.getDataFolder() + "/chat_replacers.dat");
 			ObjectInputStream reader = new ObjectInputStream(stream);
-			chatReplacers = (List<ChatReplacer>)reader.readObject();
+			chatReplacers = (List<ChatReplacer>) reader.readObject();
 			reader.close();
 			stream.close();
+		} catch (FileNotFoundException e) {
+			chatReplacers = new ArrayList<>();
 		} catch (Exception e) {
 			chatReplacers = new ArrayList<>();
 			e.printStackTrace();
@@ -87,7 +90,7 @@ public class ChatReplacementCommand extends ICommand {
 
 	public static void saveReplacers() {
 		try {
-			FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/chatReplacers.dat");
+			FileOutputStream stream = new FileOutputStream(YiffBukkit.instance.getDataFolder() + "/chat_replacers.dat");
 			ObjectOutputStream writer = new ObjectOutputStream(stream);
 			writer.writeObject(chatReplacers);
 			writer.close();
