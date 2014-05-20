@@ -1,7 +1,9 @@
 package de.doridian.yiffbukkit.permissions.commands;
 
+import de.doridian.yiffbukkit.chat.RedisHandler;
 import de.doridian.yiffbukkit.core.util.MessageHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
+import de.doridian.yiffbukkit.main.YiffBukkitCommandException;
 import de.doridian.yiffbukkit.main.commands.system.ICommand;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Help;
 import de.doridian.yiffbukkit.main.commands.system.ICommand.Names;
@@ -26,25 +28,9 @@ import java.util.List;
 @Permission("yiffbukkit.who")
 public class WhoCommand extends ICommand {
 	@Override
-	public void run(final CommandSender commandSender, String[] args, String argStr, String commandName) throws PlayerFindException {
+	public void run(final CommandSender commandSender, String[] args, String argStr, String commandName) throws YiffBukkitCommandException {
 		if (args.length == 0) {
-			final Player[] players = plugin.getServer().getOnlinePlayers();
-			String str = "Online players: ";
-			if (players.length > 0) {
-				if (commandSender.hasPermission("yiffbukkit.who.ranklevels")) {
-					str += playerHelper.formatPlayer(players[0]);
-					for (int i = 1; i < players.length; i++) {
-						str += ", " + MessageHelper.format(players[i]);
-					}
-				}
-				else {
-					str += players[0].getName();
-					for (int i = 1; i < players.length; i++) {
-						str += ", " + MessageHelper.format(players[i].getUniqueId());
-					}
-				}
-			}
-			MessageHelper.sendMessage(commandSender, str);
+			RedisHandler.sendMessage(asPlayer(commandSender), "/list");
 			return;
 		}
 
