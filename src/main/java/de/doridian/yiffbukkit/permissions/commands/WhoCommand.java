@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-@Names({ "who", "list" })
+@Names({ "who" })
 @Help("Prints user list if used without parameters or information about the specified user")
 @Usage("[name]")
 @Permission("yiffbukkit.who")
