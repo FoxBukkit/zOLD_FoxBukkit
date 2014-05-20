@@ -24,7 +24,7 @@ import java.util.Map;
 @Names({"give", "item", "i"})
 @Help("Gives resource (use _ for spaces in name!)")
 @Usage("<name or id> [amount] [player]")
-@Level(0)
+@Level(1)
 public class GiveCommand extends ICommand {
 	private static final Map<String, Material> aliases = new HashMap<>();
 	private static final Map<String, Short> dataValues = new HashMap<>();
