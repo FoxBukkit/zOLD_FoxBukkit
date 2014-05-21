@@ -62,9 +62,12 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
 
 	private static final Map<Player, Long> playerLastUsePacket;
+	private static final Map<Player, Integer> playerLastUsePacketViolated;
 	static {
 		playerLastUsePacket = new HashMap<>();
+		playerLastUsePacketViolated = new HashMap<>();
 		AutoCleanup.registerPlayerMap(playerLastUsePacket);
+		AutoCleanup.registerPlayerMap(playerLastUsePacketViolated);
 	}
 
 	public YiffBukkitPacketListener() {
@@ -159,20 +162,29 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		switch (packetID) {
 		case 8:
 			final PacketPlayInBlockPlace packetPlayInBlockPlace = (PacketPlayInBlockPlace)packet;
-			if(packetPlayInBlockPlace.a == 255 && is255OrNeg1(packetPlayInBlockPlace.b) && packetPlayInBlockPlace.c == 255 && is255OrNeg1(packetPlayInBlockPlace.d)) {
+			if(packetPlayInBlockPlace.a == -1 && is255OrNeg1(packetPlayInBlockPlace.b) && packetPlayInBlockPlace.c == -1 && is255OrNeg1(packetPlayInBlockPlace.d)) {
 				final Long lastUseTime = playerLastUsePacket.get(ply);
 				final long currentTime = System.currentTimeMillis();
 				playerLastUsePacket.put(ply, currentTime);
 				if(lastUseTime != null && lastUseTime + USE_PACKET_LIMITER >= currentTime) {
-					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-						@Override
-						public void run() {
-							Location lolloc = ply.getLocation();
-							lolloc.setY(-100);
-							ply.teleport(lolloc);
-						}
-					});
+					Integer lastViolationCount = playerLastUsePacketViolated.get(ply);
+					if(lastViolationCount == null)
+						lastViolationCount = 0;
+					if(lastViolationCount < 9999)
+						playerLastUsePacketViolated.put(ply, lastViolationCount + 1);
+					if(lastViolationCount > 5) {
+						plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+							@Override
+							public void run() {
+								Location lolloc = ply.getLocation();
+								lolloc.setY(-100);
+								ply.teleport(lolloc);
+							}
+						});
+					}
 					return false;
+				} else {
+					playerLastUsePacketViolated.remove(ply);
 				}
 			}
 			break;
