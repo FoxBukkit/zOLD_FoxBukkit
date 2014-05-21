@@ -20,6 +20,7 @@ import com.sk89q.worldedit.blocks.BlockType;
 import de.doridian.yiffbukkit.advanced.packetlistener.YBPacketListener;
 import de.doridian.yiffbukkit.componentsystem.YBListener;
 import de.doridian.yiffbukkit.core.YiffBukkit;
+import de.doridian.yiffbukkit.core.util.AutoCleanup;
 import de.doridian.yiffbukkit.core.util.PlayerHelper;
 import de.doridian.yiffbukkit.core.util.PlayerHelper.WeatherType;
 import net.minecraft.server.v1_7_R3.ControllerMove;
@@ -28,7 +29,10 @@ import net.minecraft.server.v1_7_R3.EntityInsentient;
 import net.minecraft.server.v1_7_R3.EntityLiving;
 import net.minecraft.server.v1_7_R3.MathHelper;
 import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R3.PacketPlayInBlockDig;
+import net.minecraft.server.v1_7_R3.PacketPlayInBlockPlace;
 import net.minecraft.server.v1_7_R3.PacketPlayInFlying;
+import net.minecraft.server.v1_7_R3.PacketPlayInUseEntity;
 import net.minecraft.server.v1_7_R3.PacketPlayOutBlockChange;
 import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
@@ -41,6 +45,7 @@ import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.util.com.mojang.util.UUIDTypeAdapter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftLivingEntity;
@@ -49,95 +54,33 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class YiffBukkitPacketListener extends YBPacketListener implements YBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
-	private final YiffBukkit plugin;
-	private PlayerHelper playerHelper;
 
-	private final Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
+	private static final Map<Player, Long> playerLastUsePacket;
+	static {
+		playerLastUsePacket = new HashMap<>();
+		AutoCleanup.registerPlayerMap(playerLastUsePacket);
+	}
 
-	public YiffBukkitPacketListener(YiffBukkit instance) {
-		plugin = instance;
-		playerHelper = plugin.playerHelper;
-
+	public YiffBukkitPacketListener() {
 		register(PacketDirection.OUTGOING, PacketPlayOutChat.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutGameStateChange.class);
 
-		//register(PacketDirection.OUTGOING, PacketPlayOutNamedEntitySpawn.class);
+		register(PacketDirection.INCOMING, PacketPlayInBlockPlace.class);
 
 		//register(PacketDirection.INCOMING, PacketPlayInPosition.class);
 		//register(PacketDirection.INCOMING, PacketPlayInPositionLook.class);
 	}
 
-	public class GameProfileProxy extends GameProfile {
-		private final GameProfile parent;
-		private final String _name;
-
-		public GameProfileProxy(GameProfile parent, String name) {
-			super(parent.id, name);
-			this.legacy = parent.legacy;
-			this.parent = parent;
-			this._name = name;
-		}
-
-		@Override
-		public String getName() {
-			return _name;
-		}
-
-		@Override
-		public UUID getId() {
-			return parent.getId();
-		}
-
-		@Override
-		public boolean isComplete() {
-			return parent.isComplete();
-		}
-
-		@Override
-		public PropertyMap getProperties() {
-			return parent.getProperties();
-		}
-
-		@Override
-		public boolean isLegacy() {
-			return parent.isLegacy();
-		}
-	}
-
 	@Override
 	public boolean onOutgoingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
-		case 20:
-			try {
-				final PacketPlayOutNamedEntitySpawn spawn = (PacketPlayOutNamedEntitySpawn) packet;
-				final GameProfile oldProfile = spawn.b;
-				final UUID uuid = spawn.b.getId();
-				final String name = spawn.b.getName();
-				if (uuid != null) {
-					/*String nick = playerHelper.getPlayerNick(uuid);
-					nick = playerHelper.getPlayerRankTag(uuid) + ((nick != null) ? nick : spawn.b.getName());*/ //DISABLED UNTIL MOJANG ALLOWS LONGER NAMES
-					/*if(!name.equalsIgnoreCase("doridian"))
-						return true;
-					spawn.b = new GameProfile(uuid, name);
-					PropertyMap properties = spawn.b.getProperties();
-					properties.putAll(oldProfile.getProperties());
-					Property texturePropertiesOld = Iterables.getFirst(properties.get("textures"), null);
-					String json = new String(Base64.decodeBase64(texturePropertiesOld.getValue()), Charsets.UTF_8);
-					MinecraftTexturesPayload result = gson.fromJson(json, MinecraftTexturesPayload.class);
-					result.textures.put(MinecraftProfileTexture.Type.CAPE, new MinecraftProfileTexture("http://mc.doridian.de/capes/" + uuid.toString() + ".png"));
-					Property texturePropertiesNew = new Property("textures", gson.toJson(result), "NONE");
-					properties.removeAll("textures");
-					properties.put("textures", texturePropertiesNew);*/ //IMPOSSIBLE DUE TO SIGNATURE REQUIREMENT
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return true;
 		case 3:
 			final PacketPlayOutChat p3 = (PacketPlayOutChat) packet;
 			final String text = p3.a.c();
@@ -205,9 +148,34 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 		return true;
 	}
 
+	private static boolean is255OrNeg1(int value) {
+		return value == -1 || value == 255;
+	}
+
+	private static final long USE_PACKET_LIMITER = 100L;
+
 	@Override
-	public boolean onIncomingPacket(Player ply, int packetID, Packet packet) {
+	public boolean onIncomingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
+		case 8:
+			final PacketPlayInBlockPlace packetPlayInBlockPlace = (PacketPlayInBlockPlace)packet;
+			if(packetPlayInBlockPlace.a == 255 && is255OrNeg1(packetPlayInBlockPlace.b) && packetPlayInBlockPlace.c == 255 && is255OrNeg1(packetPlayInBlockPlace.d)) {
+				final Long lastUseTime = playerLastUsePacket.get(ply);
+				final long currentTime = System.currentTimeMillis();
+				playerLastUsePacket.put(ply, currentTime);
+				if(lastUseTime != null && lastUseTime + USE_PACKET_LIMITER >= currentTime) {
+					plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						@Override
+						public void run() {
+							Location lolloc = ply.getLocation();
+							lolloc.setY(-100);
+							ply.teleport(lolloc);
+						}
+					});
+					return false;
+				}
+			}
+			break;
 		//case 10:
 		case 11:
 		//case 12:

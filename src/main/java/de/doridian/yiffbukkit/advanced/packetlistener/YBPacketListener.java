@@ -16,9 +16,11 @@
  */
 package de.doridian.yiffbukkit.advanced.packetlistener;
 
+import de.doridian.yiffbukkit.main.listeners.BaseListener;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R3.PacketPlayInBlockPlace;
 import net.minecraft.server.v1_7_R3.PacketPlayInChat;
 import net.minecraft.server.v1_7_R3.PacketPlayInFlying;
 import net.minecraft.server.v1_7_R3.PacketPlayInLook;
@@ -43,7 +45,7 @@ import net.minecraft.server.v1_7_R3.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_7_R3.PacketPlayOutUpdateAttributes;
 import org.bukkit.entity.Player;
 
-public class YBPacketListener implements YBPacketListenerInt {
+public class YBPacketListener extends BaseListener implements YBPacketListenerInt {
 	private static final TObjectIntHashMap<Class<? extends Packet>> packetToIDMapping;
 
 	private static final TIntObjectHashMap<Class<? extends Packet>> idToPacketMappingIn;
@@ -59,6 +61,8 @@ public class YBPacketListener implements YBPacketListenerInt {
 		idToPacketMappingOut = new TIntObjectHashMap<>();
 
 		addLegacyMapping(3, PacketPlayInChat.class, PacketPlayOutChat.class);
+
+		addLegacyMappingIn(8, PacketPlayInBlockPlace.class);
 
 		addLegacyMappingIn(10, PacketPlayInFlying.class);
 		addLegacyMappingIn(11, PacketPlayInPosition.class);
