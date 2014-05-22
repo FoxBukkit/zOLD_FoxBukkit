@@ -29,10 +29,12 @@ public interface ChatReplacer extends Serializable {
 
 		private final String from;
 		private final String to;
+        private final boolean ignoreCase;
 
-		public PlainChatReplacer(String from, String to) {
+		public PlainChatReplacer(String from, String to, boolean ignoreCase) {
 			this.from = from;
 			this.to = to;
+            this.ignoreCase = ignoreCase;
 		}
 
 		@Override
