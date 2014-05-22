@@ -29,17 +29,19 @@ public interface ChatReplacer extends Serializable {
 
 		private final String from;
 		private final String to;
-        private final boolean ignoreCase;
+        private final Pattern pattern;
 
 		public PlainChatReplacer(String from, String to, boolean ignoreCase) {
 			this.from = from;
 			this.to = to;
-            this.ignoreCase = ignoreCase;
+            this.pattern = ignoreCase ? Pattern.compile(Pattern.quote(from), Pattern.CASE_INSENSITIVE) : null;
 		}
 
 		@Override
 		public String replace(String msg) {
-			return msg.replace(from, to);
+            if(pattern != null)
+			    return pattern.matcher(msg).replaceAll(to);
+            return msg.replace(from, to);
 		}
 
 		@Override
@@ -75,7 +77,7 @@ public interface ChatReplacer extends Serializable {
             this.from = Pattern.compile(from, ignoreCase ? Pattern.CASE_INSENSITIVE : 0);
 			this.to = to;
 		}
-        
+
 		@Override
 		public String replace(String msg) {
 			return from.matcher(msg).replaceAll(to);
