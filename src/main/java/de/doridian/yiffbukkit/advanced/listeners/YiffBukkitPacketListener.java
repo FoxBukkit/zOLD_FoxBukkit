@@ -172,7 +172,7 @@ public class YiffBukkitPacketListener extends YBPacketListener implements YBList
 						lastViolationCount = 0;
 					if(lastViolationCount < 9999)
 						playerLastUsePacketViolated.put(ply, lastViolationCount + 1);
-					if(lastViolationCount > 5) {
+					if(lastViolationCount > 100) {
 						plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 							@Override
 							public void run() {
