@@ -152,7 +152,7 @@ public class YiffBukkit extends JavaPlugin {
 
 		YiffBukkitPermissions.init();
 
-		playerHelper.refreshPlayerListRedis();
+		playerHelper.refreshPlayerListRedis(null);
 	}
 	
 	public void log(String msg) {

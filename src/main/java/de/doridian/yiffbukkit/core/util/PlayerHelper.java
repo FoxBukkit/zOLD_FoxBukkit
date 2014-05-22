@@ -81,11 +81,13 @@ public class PlayerHelper extends StateContainer {
 		playerNameToUUID.put(player.getName().toLowerCase(), player.getUniqueId().toString());
 	}
 
-	public void refreshPlayerListRedis() {
+	public void refreshPlayerListRedis(Player ignoreMe) {
 		Player[] players = plugin.getServer().getOnlinePlayers();
 		final String keyName = "playersOnline:" + YiffBukkit.instance.configuration.getValue("server-name", "Main");
 		plugin.redisManager.del(keyName);
 		for(Player ply : players) {
+			if(ply.equals(ignoreMe))
+				continue;
 			plugin.redisManager.lpush(keyName, ply.getUniqueId().toString());
 		}
 	}

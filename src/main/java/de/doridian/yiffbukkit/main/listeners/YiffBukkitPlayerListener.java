@@ -95,7 +95,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 		ToolBind.updateToolMappings(player);
 		playerHelper.pushWeather(player);
 
-		playerHelper.refreshPlayerListRedis();
+		playerHelper.refreshPlayerListRedis(null);
 	}
 
 	public Hashtable<String,String> offlinePlayers = new Hashtable<>();
@@ -112,7 +112,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
 
-		playerHelper.refreshPlayerListRedis();
+		playerHelper.refreshPlayerListRedis(player);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -123,7 +123,7 @@ public class YiffBukkitPlayerListener extends BaseListener {
 
 		RedisHandler.sendMessage(player, "\u0123kick " + event.getReason());
 
-		playerHelper.refreshPlayerListRedis();
+		playerHelper.refreshPlayerListRedis(player);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
