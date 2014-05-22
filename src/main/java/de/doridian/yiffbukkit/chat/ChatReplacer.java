@@ -74,6 +74,11 @@ public interface ChatReplacer extends Serializable {
 			this.to = to;
 		}
 
+        public RegexChatReplacer(String from, String to, boolean ignoreCase) {
+            this.from = Pattern.compile(from, ignoreCase ? Pattern.CASE_INSENSITIVE : 0);
+            this.to = to;
+        }
+
 		@Override
 		public String replace(String msg) {
 			return from.matcher(msg).replaceAll(to);
