@@ -41,10 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Names("crepl")
-@Help("Makes chat text replace on certain phrases")
+@Help("Makes chat text replace on certain phrases\nUse -r for Regex\nUse -l to list all current filters\nUse -i to make make the match case insensitive\nUse -d to delete a filter.")
 @Usage("<from> <to>")
 @Permission("yiffbukkit.chatreplace")
-@BooleanFlags("lrd")
+@BooleanFlags("ilrd")
 public class ChatReplacementCommand extends ICommand {
 	public static List<ChatReplacer> chatReplacers = new ArrayList<>();
 
@@ -77,12 +77,11 @@ public class ChatReplacementCommand extends ICommand {
 		if (to == null)
 			throw new YiffBukkitCommandException("Missing argument.");
 		final ChatReplacer repl;
-		if (booleanFlags.contains('r')) {
-			repl = new RegexChatReplacer(args[0], to);
-		}
-		else {
-			repl = new PlainChatReplacer(args[0], to);
-		}
+        final boolean ignoreCase = booleanFlags.contains('i');
+		if (booleanFlags.contains('r'))
+			repl = new RegexChatReplacer(args[0], to, ignoreCase);
+		else
+			repl = new PlainChatReplacer(args[0], to, ignoreCase);
 		chatReplacers.add(repl);
 		final int i = chatReplacers.size() - 1;
 		MessageHelper.sendServerMessage(new PermissionPredicate("yiffbukkit.chatreplace"), formatReplacement("%1$s added replacement: %2$d) %3$s", commandSender, i, repl, false));
