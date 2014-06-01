@@ -120,7 +120,7 @@ public class RestartCommand extends ICommand {
 		PlayerHelper.sendServerMessage("Server restarting in " + timeleft + " seconds!");
 	}
 
-	private static final String ENDPOINT_URL = "http://panel.mc.doridian.de/api.php";
+	private static final String ENDPOINT_URL = "http://panel.foxelbox.com/api.php";
 	private static final String API_USER = "admin";
 	private static final String API_KEY = "06ffd261c790e2d31d66";
 
