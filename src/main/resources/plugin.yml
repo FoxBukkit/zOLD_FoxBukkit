@@ -1,10 +1,10 @@
-name: YiffBukkit
-main: de.doridian.yiffbukkit.core.YiffBukkit
+name: FoxBukkit
+main: de.doridian.foxbukkit.core.FoxBukkit
 version: 1.0.0
 depend: [WorldEdit]
 softdepend: [dynmap, LogBlock, RemoteEntities]
 commands:
-    yb:
-        description: Runs any YiffBukkit command (used for console)
-        permission: yiffbukkit.no_one_has_this_ever
+    fb:
+        description: Runs any FoxBukkit command (used for console)
+        permission: foxbukkit.no_one_has_this_ever
         usage: /<command>
