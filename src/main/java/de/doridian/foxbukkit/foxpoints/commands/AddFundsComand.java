@@ -48,13 +48,13 @@ public class AddFundsComand extends ICommand {
 		final double amount = Double.parseDouble(args[1]);
 		plugin.bank.addFunds(playerName, amount);
 
-		PlayerHelper.sendDirectedMessage(commandSender, "Added "+amount+" YP to the account of "+playerName+".");
+		PlayerHelper.sendDirectedMessage(commandSender, "Added "+amount+" FP to the account of "+playerName+".");
 
 		// Notify the player if they're online
 		final Player player = Bukkit.getServer().getPlayer(playerName);
 		if (player != null) {
 			double total = plugin.bank.getBalance(playerName);
-			PlayerHelper.sendDirectedMessage(player, "Your balance was increased by "+amount+" YP. You now have "+total +" YP.");
+			PlayerHelper.sendDirectedMessage(player, "Your balance was increased by "+amount+" FP. You now have "+total +" FP.");
 		}
 	}
 }

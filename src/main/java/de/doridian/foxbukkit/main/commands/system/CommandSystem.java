@@ -110,7 +110,7 @@ public class CommandSystem {
 					final double price = costAnnotation.value();
 					plugin.bank.useFunds(commandSender.getUniqueId(), price, "/"+cmd+" "+argStr);
 					final double total = plugin.bank.getBalance(commandSender.getUniqueId());
-					PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" YP from your account. You have "+total+" YP left.");
+					PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" FP from your account. You have "+total+" FP left.");
 				}
 
 				if(needsLogging(commandSender, icmd))

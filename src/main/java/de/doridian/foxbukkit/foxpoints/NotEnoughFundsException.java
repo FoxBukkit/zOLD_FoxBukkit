@@ -22,10 +22,10 @@ public class NotEnoughFundsException extends FoxBukkitCommandException {
 	private static final long serialVersionUID = 1L;
 
 	public NotEnoughFundsException(double fundsMissing) {
-		super("Not enough YP. Need another "+fundsMissing+" YP.");
+		super("Not enough FP. Need another "+fundsMissing+" FP.");
 	}
 
 	public NotEnoughFundsException(double fundsMissing, Throwable cause) {
-		super("Not enough YP. Need another "+fundsMissing+" YP.", cause);
+		super("Not enough FP. Need another "+fundsMissing+" FP.", cause);
 	}
 }

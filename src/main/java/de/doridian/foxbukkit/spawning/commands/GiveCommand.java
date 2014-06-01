@@ -293,7 +293,7 @@ public class GiveCommand extends ICommand {
 
 		if (usedFunds) {
 			final double total = plugin.bank.getBalance(commandSender.getUniqueId());
-			PlayerHelper.sendDirectedMessage(commandSender, "Used " + price + " YP from your account. You have " + total + " YP left.");
+			PlayerHelper.sendDirectedMessage(commandSender, "Used " + price + " FP from your account. You have " + total + " FP left.");
 		}
 
 		target.getInventory().addItem(stack);

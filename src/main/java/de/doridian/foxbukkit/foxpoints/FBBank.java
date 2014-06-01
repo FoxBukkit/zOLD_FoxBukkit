@@ -58,9 +58,9 @@ public class FBBank extends StateContainer {
 	public void useFunds(UUID playerName, double cents, String purpose) throws NotEnoughFundsException, ItemHasNoPriceException {
 		if(cents <= 0)
 			throw new ItemHasNoPriceException();
-		System.out.println(String.format("Player %s is trying to use %.0f YP on '%s'.", playerName, cents, purpose));
+		System.out.println(String.format("Player %s is trying to use %.0f FP on '%s'.", playerName, cents, purpose));
 		getAccount(playerName).useFunds(cents);
-		System.out.println(String.format("Player %s used %.0f YP on '%s'.", playerName, cents, purpose));
+		System.out.println(String.format("Player %s used %.0f FP on '%s'.", playerName, cents, purpose));
 	}
 
 	/**

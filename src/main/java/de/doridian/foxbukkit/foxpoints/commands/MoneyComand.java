@@ -32,6 +32,6 @@ public class MoneyComand extends ICommand {
 	public void Run(Player ply, String[] args, String argStr, String commandName) throws FoxBukkitCommandException {
 		final double amount = plugin.bank.getBalance(ply.getUniqueId());
 
-		PlayerHelper.sendDirectedMessage(ply, "Your current balance is "+amount+" YP.");
+		PlayerHelper.sendDirectedMessage(ply, "Your current balance is "+amount+" FP.");
 	}
 }
