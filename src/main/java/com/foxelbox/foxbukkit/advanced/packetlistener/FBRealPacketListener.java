@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class FBRealPacketListener extends NetworkManager.DoriBukkitPacketListener {
+public class FBRealPacketListener extends NetworkManager.FoxelBoxCraftBukkitPacketListener {
 	private final HashMap<Class<? extends Packet>, HashSet<FBPacketListener>> incomingPacketListeners;
 	private final HashMap<Class<? extends Packet>, HashSet<FBPacketListener>> outgoingPacketListeners;
 
