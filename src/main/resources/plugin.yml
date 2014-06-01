@@ -1,5 +1,5 @@
 name: FoxBukkit
-main: de.doridian.foxbukkit.core.FoxBukkit
+main: com.foxelbox.foxbukkit.core.FoxBukkit
 version: 1.0.0
 depend: [WorldEdit]
 softdepend: [dynmap, LogBlock, RemoteEntities]

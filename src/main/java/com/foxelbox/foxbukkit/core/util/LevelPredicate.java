@@ -14,28 +14,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.core.util;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.google.common.base.Predicate;
+import org.bukkit.command.CommandSender;
 
-import static org.junit.Assert.*;
+import javax.annotation.Nullable;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
+public class LevelPredicate implements Predicate<CommandSender> {
+	private final int minLevel;
+
+	public LevelPredicate(final int minLevel) {
+		this.minLevel = minLevel;
 	}
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+	@Override
+	public boolean apply(@Nullable CommandSender player) {
+		if(player == null)
+			return false;
+		return PlayerHelper.getPlayerLevel(player) >= minLevel;
 	}
 }

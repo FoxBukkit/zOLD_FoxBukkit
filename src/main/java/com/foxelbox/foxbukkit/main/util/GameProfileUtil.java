@@ -14,28 +14,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.main.util;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import net.minecraft.server.v1_7_R3.MinecraftServer;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 
-import static org.junit.Assert.*;
+import java.util.Iterator;
+import java.util.UUID;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
-	}
+public class GameProfileUtil {
+	public static GameProfile getFilledGameProfile(UUID uuid, String name) {
+		GameProfile gameprofile = MinecraftServer.getServer().getUserCache().a(uuid);
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
+		if (gameprofile == null)
+			gameprofile = new GameProfile(uuid, name);
 
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+		gameprofile = MinecraftServer.getServer().av().fillProfileProperties(gameprofile, true);
+
+		Iterator iterator = gameprofile.getProperties().values().iterator();
+
+		return gameprofile;
 	}
 }

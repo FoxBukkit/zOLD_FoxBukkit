@@ -14,28 +14,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.advanced.packetlistener;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import net.minecraft.server.v1_7_R3.Packet;
+import org.bukkit.entity.Player;
 
-import static org.junit.Assert.*;
-
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
-	}
-
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
-	}
+interface FBPacketListenerInt {
+	public boolean onOutgoingPacket(Player ply, Class<? extends Packet> packetCls, Packet packet);
+	public boolean onIncomingPacket(Player ply, Class<? extends Packet> packetCls, Packet packet);
+	@Deprecated
+	public boolean onOutgoingPacket(Player ply, int packetID, Packet packet);
+	@Deprecated
+	public boolean onIncomingPacket(Player ply, int packetID, Packet packet);
 }

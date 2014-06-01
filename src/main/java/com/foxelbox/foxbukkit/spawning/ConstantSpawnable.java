@@ -16,26 +16,29 @@
  */
 package com.foxelbox.foxbukkit.spawning;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
+import org.bukkit.entity.Entity;
 
-import static org.junit.Assert.*;
+public class ConstantSpawnable<V extends Entity> implements Spawnable<V> {
+	private final V entity;
+	private boolean isSpawned = false;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
+	public ConstantSpawnable(V entity) {
+		this.entity = entity;
 	}
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
+	public static <U extends Entity> ConstantSpawnable<U> create(U entity) {
+		return new ConstantSpawnable<>(entity);
 	}
 
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+	@Override
+	public V getEntity() throws FoxBukkitCommandException {
+		return entity;
+	}
+
+	@Override
+	public net.minecraft.server.v1_7_R3.Entity getInternalEntity() throws FoxBukkitCommandException {
+		return ((CraftEntity) entity).getHandle();
 	}
 }

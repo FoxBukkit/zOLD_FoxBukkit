@@ -14,28 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.spawning.sheep;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.foxelbox.foxbukkit.core.FoxBukkit;
+import com.foxelbox.foxbukkit.main.util.ScheduledTask;
+import org.bukkit.DyeColor;
+import org.bukkit.entity.Sheep;
 
-import static org.junit.Assert.*;
+public abstract class AbstractSheep extends ScheduledTask {
+	protected final Sheep sheep;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
+	public AbstractSheep(FoxBukkit plugin, Sheep sheep) {
+		super(plugin);
+		this.sheep = sheep;
+
+		scheduleSyncRepeating(0, 10);
 	}
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
+	@Override
+	public void run() {
+		if (sheep.isDead() || sheep.isSheared()) {
+			cancel();
+			return;
+		}
+
+		final DyeColor newColor = getColor();
+		if (newColor != null && newColor != sheep.getColor()) 
+			sheep.setColor(newColor);
 	}
 
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
-	}
+	public abstract DyeColor getColor();
 }

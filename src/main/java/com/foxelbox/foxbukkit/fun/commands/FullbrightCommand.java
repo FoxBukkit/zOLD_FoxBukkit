@@ -14,28 +14,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.fun.commands;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.foxelbox.foxbukkit.main.commands.system.ICommand;
+import org.bukkit.potion.PotionEffectType;
 
-import static org.junit.Assert.*;
-
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
+@ICommand.Names("fullbright")
+@ICommand.Help("Activates or deactivates fullbright mode.")
+@ICommand.Usage("[<name>] [on|off]")
+@ICommand.Permission("foxbukkit.players.fullbright")
+public class FullbrightCommand extends AbstractPotionEffectCommand {
+	@Override
+	protected PotionEffectType getPotionEffectType() {
+		return PotionEffectType.NIGHT_VISION;
 	}
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+	@Override
+	protected String getPermissionOthers() {
+		return "foxbukkit.players.fullbright.others";
 	}
 }

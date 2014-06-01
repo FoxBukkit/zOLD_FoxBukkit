@@ -14,28 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.bans;
 
-import org.junit.Ignore;
-import org.junit.Test;
+public enum LockDownMode {
+	OFF("The server is already unlocked."),
+	KICK("The server will already kick guests."),
+	FIREWALL("The server will already firewall guests.");
 
-import static org.junit.Assert.*;
+	private final String description;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
+	private LockDownMode(String description) {
+		this.description = description;
 	}
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+	public String getDescription() {
+		return description;
 	}
 }

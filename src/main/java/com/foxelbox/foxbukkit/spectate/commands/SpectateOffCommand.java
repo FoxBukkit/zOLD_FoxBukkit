@@ -14,28 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.spectate.commands;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
+import com.foxelbox.foxbukkit.main.commands.system.ICommand;
+import com.foxelbox.foxbukkit.spectate.SpectatePlayer;
+import org.bukkit.entity.Player;
 
-import static org.junit.Assert.*;
-
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
-	}
-
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+@ICommand.Names({"spectateoff","specoff"})
+@ICommand.Permission("foxbukkit.spectate")
+public class SpectateOffCommand extends ICommand {
+	@Override
+	public void Run(Player ply, String[] args, String argStr, String commandName) throws FoxBukkitCommandException {
+		SpectatePlayer currentPlayer = SpectatePlayer.wrapPlayer(ply);
+		currentPlayer.unspectate();
 	}
 }

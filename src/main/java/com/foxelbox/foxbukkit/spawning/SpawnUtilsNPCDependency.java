@@ -16,26 +16,22 @@
  */
 package com.foxelbox.foxbukkit.spawning;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.foxelbox.foxbukkit.core.FoxBukkit;
+import de.kumpelblase2.remoteentities.EntityManager;
+import de.kumpelblase2.remoteentities.RemoteEntities;
+import de.kumpelblase2.remoteentities.api.RemoteEntity;
+import de.kumpelblase2.remoteentities.api.RemoteEntityType;
+import org.bukkit.Location;
 
-import static org.junit.Assert.*;
+public class SpawnUtilsNPCDependency {
+	public static EntityManager entityManager = null;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
-	}
-
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+	public static RemoteEntity makeNPC(String name, Location location) {
+		if(entityManager == null)
+			entityManager = RemoteEntities.createManager(FoxBukkit.instance);
+		RemoteEntity entity = entityManager.createNamedEntity(RemoteEntityType.Human, location, name);
+		entity.setPushable(false);
+		entity.setStationary(true, true);
+		return entity;
 	}
 }

@@ -14,28 +14,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.spawning;
+package com.foxelbox.foxbukkit.main.util;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.bukkit.entity.Player;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
-public class SpawnUtilsTest {
-	@Ignore
-	@Test(expected = ExceptionInInitializerError.class)
-	public void testIsValidParticle1() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("iconcrack_1"));
+public class MultiplePlayersFoundException extends PlayerFindException {
+	private static final long serialVersionUID = 1L;
+	private List<Player> players;
+
+	public MultiplePlayersFoundException(List<Player> players) {
+		super("Sorry, multiple players found!");
+		this.players = players;
 	}
 
-	@Ignore
-	@Test(expected = NoClassDefFoundError.class)
-	public void testIsValidParticle2() throws Exception {
-		assertTrue(SpawnUtils.isValidParticle("tilecrack_1_1"));
-	}
-
-	@Test
-	public void testIsValidParticle3() throws Exception {
-		assertFalse(SpawnUtils.isValidParticle("iconcrack_0"));
+	public List<Player> getPlayers() {
+		return players;
 	}
 }
