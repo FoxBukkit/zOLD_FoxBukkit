@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbukkit.advanced.commands;
 
+import com.foxelbox.dependencies.config.Configuration;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand;
@@ -37,7 +38,7 @@ public class MCLinkCommand extends ICommand {
         new Thread() {
             public void run() {
                 try {
-                    URL url = new URL("http://foxelbox.com/mclink_int.php?scode=meowmeow18372385MCLINKER&uuid=" + Utils.URLEncode(ply.getUniqueId().toString()));
+                    URL url = new URL(plugin.configuration.getValue("mclink-url", "http://foxelbox.com/mclink_int.php?scode=SOMECODE&uuid=" + Utils.URLEncode(ply.getUniqueId().toString())));
                     URLConnection conn = url.openConnection();
                     System.setProperty("http.agent", "");
                     conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30");
