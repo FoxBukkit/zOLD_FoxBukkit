@@ -51,6 +51,8 @@ public class ChatListener extends BaseListener {
 				}
 			}
 			plugin.sendConsoleMsg("<" + ply.getName() + "> " + msg, false);
+            if(msg.charAt(0) == '\u0123')
+                msg = msg.substring(1);
 			RedisHandler.sendMessage(ply, msg);
 		}
 		catch (Exception e) {
