@@ -24,11 +24,12 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Usage;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Map;
 import java.util.PriorityQueue;
 
-@Names("help")
+@Names({"help", "?", "h"})
 @Help("Prints a list of available commands or information about the specified command.")
 @Usage("[<command>]")
 @Permission("foxbukkit.help")
@@ -39,8 +40,13 @@ public class HelpCommand extends ICommand {
 
 		if(args.length > 0) {
 			ICommand val = commands.get(args[0]);
-			if (val == null || !val.canPlayerUseCommand(commandSender))
-				throw new FoxBukkitCommandException("Command not found!");
+			if (val == null || !val.canPlayerUseCommand(commandSender)) {
+                if(commandSender instanceof Player) {
+                    forwardCommandToRedis(asPlayer(commandSender), commandName, argStr);
+                    return;
+                }
+                throw new FoxBukkitCommandException("Command not found!");
+            }
 
 			for (String line : val.getHelp().split("\n")) {
 				PlayerHelper.sendDirectedMessage(commandSender, line);
@@ -61,6 +67,8 @@ public class HelpCommand extends ICommand {
 			}
 			ret = ret.substring(0,ret.length() - 3);
 			PlayerHelper.sendDirectedMessage(commandSender, ret);
+            if(commandSender instanceof Player)
+                forwardCommandToRedis(asPlayer(commandSender), commandName, argStr);
 		}
 	}
 }

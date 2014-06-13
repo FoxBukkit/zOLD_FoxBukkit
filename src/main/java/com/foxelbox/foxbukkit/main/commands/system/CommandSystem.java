@@ -16,7 +16,7 @@
  */
 package com.foxelbox.foxbukkit.main.commands.system;
 
-import com.foxelbox.foxbukkit.chat.commands.ForwardToRedisCommand;
+import com.foxelbox.foxbukkit.chat.RedisHandler;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
@@ -25,8 +25,11 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Cost;
 import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class CommandSystem {
@@ -49,12 +52,12 @@ public class CommandSystem {
 		scanCommands("com.foxelbox.foxbukkit.portal.commands");
 		scanCommands("com.foxelbox.foxbukkit.remote.commands");
 		scanCommands("com.foxelbox.foxbukkit.spawning.commands");
-		//scanCommands("com.foxelbox.foxbukkit.ssl.commands");
 		scanCommands("com.foxelbox.foxbukkit.teleportation.commands");
 		scanCommands("com.foxelbox.foxbukkit.transmute.commands");
 		scanCommands("com.foxelbox.foxbukkit.warp.commands");
 		scanCommands("com.foxelbox.foxbukkit.spectate.commands");
 		scanCommands("com.foxelbox.foxbukkit.foxpoints.commands");
+        loadRedisCommands();
 	}
 
 	public void scanCommands(String packageName) {
@@ -96,6 +99,16 @@ public class CommandSystem {
 		}
 		return runCommand(commandSender, cmd, args, argStr);
 	}
+
+    private final HashSet<String> redisCommands = new HashSet<>();
+    public void loadRedisCommands() {
+        List<String> commands = plugin.redisManager.lrange("chatLinkCommands", 0, -1);
+        synchronized (redisCommands) {
+            redisCommands.clear();
+            for (String str : commands)
+                redisCommands.add(str);
+        }
+    }
 
 	public boolean runCommand(CommandSender commandSender, String cmd, String[] args, String argStr) {
 		if (commands.containsKey(cmd)) {
@@ -139,15 +152,21 @@ public class CommandSystem {
 				}
 			}
 			return true;
-		}
+		} else {
+            final boolean contains;
+            synchronized (redisCommands) {
+                contains = redisCommands.contains(cmd);
+            }
+            if(contains) {
+                ICommand.forwardCommandToRedis((Player) commandSender, cmd, argStr);
+                return true;
+            }
+        }
 		return false;
 	}
 
 	private boolean needsLogging(CommandSender commandSender, ICommand command) {
 		final Class<? extends ICommand> cls = command.getClass();
-		if (cls == ForwardToRedisCommand.class)
-			return false;
-
 		if (commandSender instanceof BlockCommandSender)
 			return command.hasAbusePotential();
 

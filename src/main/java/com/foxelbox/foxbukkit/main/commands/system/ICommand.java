@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbukkit.main.commands.system;
 
+import com.foxelbox.foxbukkit.chat.RedisHandler;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
 import com.foxelbox.foxbukkit.permissions.AbusePotentialManager;
@@ -127,6 +128,10 @@ public abstract class ICommand {
 
 		return sb.toString();
 	}
+
+    protected static void forwardCommandToRedis(Player player, String commandName, String argStr) {
+        RedisHandler.sendMessage(player, "/" + commandName + " " + argStr);
+    }
 
 	protected String[] parseFlags(String[] args) throws FoxBukkitCommandException {
 		int nextArg = 0;
