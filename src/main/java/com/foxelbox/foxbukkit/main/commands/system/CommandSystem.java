@@ -158,7 +158,7 @@ public class CommandSystem {
                 contains = redisCommands.contains(cmd);
             }
             if(contains) {
-                ICommand.forwardCommandToRedis((Player) commandSender, cmd, argStr);
+                ICommand.forwardCommandToRedis(commandSender, cmd, argStr);
                 return true;
             }
         }

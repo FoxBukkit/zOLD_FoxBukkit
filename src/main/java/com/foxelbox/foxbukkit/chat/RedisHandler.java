@@ -21,6 +21,8 @@ import com.foxelbox.dependencies.redis.AbstractRedisHandler;
 import com.foxelbox.foxbukkit.chat.json.ChatMessage;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.chat.Parser;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_7_R3.command.CraftConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -33,10 +35,13 @@ public class RedisHandler extends AbstractRedisHandler {
 		super(FoxBukkit.instance.redisManager, "foxbukkit:to_server");
 	}
 
-	public static void sendMessage(final Player player, final String  message) {
+	public static void sendMessage(final CommandSender player, final String  message) {
 		if(player == null || message == null)
 			throw new NullPointerException();
-		FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", FoxBukkit.instance.configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
+        if(player instanceof Player)
+		    FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", FoxBukkit.instance.configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
+        else
+            FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", FoxBukkit.instance.configuration.getValue("server-name", "Main") + "|" + CraftConsoleCommandSender.CONSOLE_UUID + "|" + player.getName() + "|" + message);
 	}
 
 	private final Gson gson = new Gson();

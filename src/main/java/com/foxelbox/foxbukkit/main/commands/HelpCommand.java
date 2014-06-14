@@ -42,7 +42,7 @@ public class HelpCommand extends ICommand {
 			ICommand val = commands.get(args[0]);
 			if (val == null || !val.canPlayerUseCommand(commandSender)) {
                 if(commandSender instanceof Player) {
-                    forwardCommandToRedis(asPlayer(commandSender), commandName, argStr);
+                    forwardCommandToRedis(commandSender, commandName, argStr);
                     return;
                 }
                 throw new FoxBukkitCommandException("Command not found!");
@@ -68,7 +68,7 @@ public class HelpCommand extends ICommand {
 			ret = ret.substring(0,ret.length() - 3);
 			PlayerHelper.sendDirectedMessage(commandSender, ret);
             if(commandSender instanceof Player)
-                forwardCommandToRedis(asPlayer(commandSender), commandName, argStr);
+                forwardCommandToRedis(commandSender, commandName, argStr);
 		}
 	}
 }

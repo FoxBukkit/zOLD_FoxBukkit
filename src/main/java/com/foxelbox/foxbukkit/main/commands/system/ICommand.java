@@ -129,7 +129,7 @@ public abstract class ICommand {
 		return sb.toString();
 	}
 
-    protected static void forwardCommandToRedis(Player player, String commandName, String argStr) {
+    protected static void forwardCommandToRedis(CommandSender player, String commandName, String argStr) {
         RedisHandler.sendMessage(player, "/" + commandName + " " + argStr);
     }
 
