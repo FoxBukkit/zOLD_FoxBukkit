@@ -23,7 +23,6 @@ import com.foxelbox.foxbukkit.chat.json.ChatMessageOut;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.chat.Parser;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R3.command.CraftConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -65,8 +64,8 @@ public class RedisHandler extends AbstractRedisHandler {
 
 			if (!chatMessageOut.server.equals(FoxBukkit.instance.configuration.getValue("server-name", "Main"))) {
 				chatMessageOut.contents.plain = "\u00a72[" + chatMessageOut.server + "]\u00a7f " + chatMessageOut.contents.plain;
-				if(chatMessageOut.contents.xml_format != null)
-					chatMessageOut.contents.xml_format = "<color name=\"dark_green\">[" + chatMessageOut.server + "]</color> " + chatMessageOut.contents.xml_format;
+				if(chatMessageOut.contents.xml != null)
+					chatMessageOut.contents.xml = "<color name=\"dark_green\">[" + chatMessageOut.server + "]</color> " + chatMessageOut.contents.xml;
 			}
 
 			List<Player> allPlayers = Arrays.asList(FoxBukkit.instance.getServer().getOnlinePlayers());
@@ -89,8 +88,8 @@ public class RedisHandler extends AbstractRedisHandler {
 					break;
 			}
 
-			if(chatMessageOut.contents.xml_format != null)
-				Parser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml_format, chatMessageOut.contents.xml_format_args);
+			if(chatMessageOut.contents.xml != null)
+				Parser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml);
 			else
 				for(Player plyTarget : targetPlayers)
 					plyTarget.sendMessage(chatMessageOut.contents.plain);
