@@ -49,7 +49,7 @@ public class RedisHandler extends AbstractRedisHandler {
         synchronized (gson) {
             messageJSON = gson.toJson(messageIn);
         }
-        FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", messageJSON);
+        FoxBukkit.instance.redisManager.lpush("foxbukkit:from_server", messageJSON);
 	}
 
 	private static final Gson gson = new Gson();
