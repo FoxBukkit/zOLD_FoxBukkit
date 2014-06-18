@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import com.foxelbox.dependencies.redis.AbstractRedisHandler;
 import com.foxelbox.foxbukkit.chat.json.ChatMessageOut;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
-import com.foxelbox.foxbukkit.main.chat.Parser;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -89,7 +88,7 @@ public class RedisHandler extends AbstractRedisHandler {
 			}
 
 			if(chatMessageOut.contents.xml != null)
-				Parser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml);
+				HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml);
 			else
 				for(Player plyTarget : targetPlayers)
 					plyTarget.sendMessage(chatMessageOut.contents.plain);

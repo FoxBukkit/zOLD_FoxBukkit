@@ -16,11 +16,11 @@
  */
 package com.foxelbox.foxbukkit.core.util;
 
+import com.foxelbox.foxbukkit.chat.HTMLParser;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.StateContainer;
-import com.foxelbox.foxbukkit.main.chat.Parser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.foxelbox.foxbukkit.main.chat.Parser.escape;
+import static com.foxelbox.foxbukkit.chat.HTMLParser.escape;
 
 public class MessageHelper extends StateContainer {
 	private static final String PLAYER_FORMAT = "<span onClick=\"suggest_command('/pm %1$s ')\"%3$s>%2$s</span>";
@@ -90,19 +90,19 @@ public class MessageHelper extends StateContainer {
 		return String.format("<color name=\"%3$s\" onClick=\"%4$s('%1$s')\" onHover=\"show_text('%1$s')\">[%2$s]</color>", escape(command), escape(label), escape(color), eventType);
 	}
 
-	public static void sendServerMessage(String format, Object... params) {
+	public static void sendServerMessage(String format, String... params) {
 		sendColoredServerMessage(FB_DEFAULT_COLOR, format, params);
 	}
 
-	public static void sendColoredServerMessage(String color, String format, Object... params) {
+	public static void sendColoredServerMessage(String color, String format, String... params) {
 		sendColoredServerMessage(color, Predicates.<Player>alwaysTrue(), format, params);
 	}
 
-	public static void sendServerMessage(Predicate<? super Player> predicate, String format, Object... params) {
+	public static void sendServerMessage(Predicate<? super Player> predicate, String format, String... params) {
 		sendColoredServerMessage(FB_DEFAULT_COLOR, predicate, format, params);
 	}
 
-	public static void sendColoredServerMessage(String color, Predicate<? super Player> predicate, String format, Object... params) {
+	public static void sendColoredServerMessage(String color, Predicate<? super Player> predicate, String format, String... params) {
 		if (color != null) {
 			format = "<color name=\"" + color + "\">[FB]</color> " + format;
 		}
@@ -117,22 +117,22 @@ public class MessageHelper extends StateContainer {
 			targetPlayers.add(player);
 		}
 
-		Parser.sendToPlayers(targetPlayers, format, params);
+		HTMLParser.sendToPlayers(targetPlayers, format, params);
 	}
 
-	public static void sendMessage(CommandSender commandSender, String format, Object... params) {
+	public static void sendMessage(CommandSender commandSender, String format, String... params) {
 		sendMessage(FB_DEFAULT_COLOR, commandSender, format, params);
 	}
 
-	public static void sendErrorMessage(CommandSender commandSender, String format, Object... params) {
+	public static void sendErrorMessage(CommandSender commandSender, String format, String... params) {
 		sendMessage(FB_ERROR_COLOR, commandSender, format, params);
 	}
 
-	public static void sendMessage(String color, CommandSender commandSender, String format, Object... params) {
+	public static void sendMessage(String color, CommandSender commandSender, String format, String... params) {
 		if (color != null) {
 			format = "<color name=\"" + color + "\">[FB]</color> " + format;
 		}
 
-		Parser.sendToPlayer(commandSender, format, params);
+		HTMLParser.sendToPlayer(commandSender, format, params);
 	}
 }

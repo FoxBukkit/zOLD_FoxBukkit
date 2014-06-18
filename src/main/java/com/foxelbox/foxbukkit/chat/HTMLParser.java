@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.main.chat;
+package com.foxelbox.foxbukkit.chat;
 
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
-import com.foxelbox.foxbukkit.main.chat.html.Element;
+import com.foxelbox.foxbukkit.chat.html.Element;
 import net.minecraft.server.v1_7_R3.ChatBaseComponent;
 import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -31,7 +31,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
-public class Parser {
+public class HTMLParser {
 	/*
 	 * ChatComponentText = TextComponent
 	 * ChatMessage = TranslatableComponent
@@ -39,25 +39,36 @@ public class Parser {
 	 * ChatClickable = ClickEvent
 	 * ChatHoverable = HoverEvent
 	 */
-	public static ChatBaseComponent parse(String xmlSource, Object... params) throws JAXBException {
+	public static ChatBaseComponent parse(String xmlSource, String... params) throws JAXBException {
+        return parse(String.format(xmlSource, xmlEscapeArray(params)));
+    }
+
+    private static String[] xmlEscapeArray(String[] in) {
+        final String[] out = new String[in.length];
+        for(int i = 0; i < in.length; i++)
+            out[i] = escape(in[i]);
+        return out;
+    }
+
+    public static ChatBaseComponent parse(String xmlSource) throws JAXBException {
 		xmlSource = "<span>" + xmlSource + "</span>";
 
 		final JAXBContext jaxbContext = JAXBContext.newInstance(Element.class);
 		final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		final Element element = (Element) unmarshaller.unmarshal(new StringReader(xmlSource));
 
-		return element.getDefaultNmsComponent(params);
+		return element.getDefaultNmsComponent();
 	}
 
-	public static ChatBaseComponent format(String format, Object... params) throws JAXBException {
+	public static ChatBaseComponent format(String format, String... params) throws JAXBException {
 		return parse(format, params);
 	}
 
-	public static boolean sendToAll(String format, Object... params) {
+	public static boolean sendToAll(String format, String... params) {
 		return sendToPlayers(Arrays.asList(Bukkit.getOnlinePlayers()), format, params);
 	}
 
-	public static boolean sendToPlayers(List<? extends CommandSender> targetPlayers, String format, Object... params) {
+	public static boolean sendToPlayers(List<? extends CommandSender> targetPlayers, String format, String... params) {
 		try {
 			final PacketPlayOutChat packet = createChatPacket(format, params);
 
@@ -80,7 +91,7 @@ public class Parser {
 		}
 	}
 
-	public static boolean sendToPlayer(Player player, String format, Object... params) {
+	public static boolean sendToPlayer(Player player, String format, String... params) {
 		try {
 			PlayerHelper.sendPacketToPlayer(player, createChatPacket(format, params));
 
@@ -93,7 +104,7 @@ public class Parser {
 		}
 	}
 
-	public static boolean sendToPlayer(CommandSender commandSender, String format, Object... params) {
+	public static boolean sendToPlayer(CommandSender commandSender, String format, String... params) {
 		if (commandSender instanceof Player)
 			return sendToPlayer((Player) commandSender, format, params);
 
@@ -105,7 +116,7 @@ public class Parser {
 		return String.format(format, params); // TODO: strip XML tags
 	}
 
-	private static PacketPlayOutChat createChatPacket(String format, Object... params) throws JAXBException {
+	private static PacketPlayOutChat createChatPacket(String format, String... params) throws JAXBException {
 		return new PacketPlayOutChat(format(format, params));
 	}
 

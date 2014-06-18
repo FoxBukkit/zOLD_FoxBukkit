@@ -16,8 +16,8 @@
  */
 package com.foxelbox.foxbukkit.main.util;
 
+import com.foxelbox.foxbukkit.chat.HTMLParser;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
-import com.foxelbox.foxbukkit.main.chat.Parser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -88,7 +88,7 @@ public class RunString {
 				sb.append(delimiter);
 			first = false;
 
-			sb.append(Parser.escape(command));
+			sb.append(HTMLParser.escape(command));
 		}
 
 		return sb.toString();

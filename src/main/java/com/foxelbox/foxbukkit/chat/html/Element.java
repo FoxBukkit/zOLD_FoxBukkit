@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.main.chat.html;
+package com.foxelbox.foxbukkit.chat.html;
 
-import com.foxelbox.foxbukkit.main.chat.Parser;
+import com.foxelbox.foxbukkit.chat.HTMLParser;
 import net.minecraft.server.v1_7_R3.ChatBaseComponent;
 import net.minecraft.server.v1_7_R3.ChatClickable;
 import net.minecraft.server.v1_7_R3.ChatHoverable;
@@ -60,7 +60,7 @@ public abstract class Element {
 	protected abstract void modifyStyle(ChatModifier style);
 
 	private static final Pattern FUNCTION_PATTERN = Pattern.compile("^([^(]+)\\('(.*)'\\)$");
-	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements, Object[] params) throws JAXBException {
+	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements) throws JAXBException {
 		modifyStyle(style);
 
 		if (onClick != null) {
@@ -70,7 +70,7 @@ public abstract class Element {
 			}
 
 			final String eventType = matcher.group(1);
-			final String eventString = String.format(matcher.group(2), params);
+			final String eventString = matcher.group(2);
 			final EnumClickAction enumClickAction = EnumClickAction.a(eventType.toLowerCase());
 			if (enumClickAction == null) {
 				throw new RuntimeException("Unknown click action "+eventType);
@@ -92,7 +92,7 @@ public abstract class Element {
 				throw new RuntimeException("Unknown click action "+eventType);
 			}
 
-			style.a(new ChatHoverable(enumClickAction, Parser.parse(eventString, params)));
+			style.a(new ChatHoverable(enumClickAction, HTMLParser.parse(eventString)));
 		}
 
 		final List<ChatBaseComponent> components = new ArrayList<>();
@@ -100,17 +100,17 @@ public abstract class Element {
 			mixedContent.add(0, "");
 		for (Object o : mixedContent) {
 			if (o instanceof String) {
-				for (IChatBaseComponent baseComponent : CraftChatMessage.fromString(String.format((String) o, params), style.clone())) {
+				for (IChatBaseComponent baseComponent : CraftChatMessage.fromString(String.format((String) o), style.clone())) {
 					components.add((ChatBaseComponent) baseComponent);
 				}
 			}
 			else if (o instanceof Element) {
 				final Element element = (Element) o;
 				if (condenseElements) {
-					components.add(element.getNmsComponent(style.clone(), params));
+					components.add(element.getNmsComponent(style.clone()));
 				}
 				else {
-					components.addAll(element.getNmsComponents(style.clone(), false, params));
+					components.addAll(element.getNmsComponents(style.clone(), false));
 				}
 			}
 			else {
@@ -121,12 +121,12 @@ public abstract class Element {
 		return components;
 	}
 
-	public ChatBaseComponent getDefaultNmsComponent(Object[] params) throws JAXBException {
-		return getNmsComponent(new ChatModifier(), params);
+	public ChatBaseComponent getDefaultNmsComponent() throws JAXBException {
+		return getNmsComponent(new ChatModifier());
 	}
 
-	public ChatBaseComponent getNmsComponent(ChatModifier style, Object[] params) throws JAXBException {
-		return condense(getNmsComponents(style, false, params));
+	public ChatBaseComponent getNmsComponent(ChatModifier style) throws JAXBException {
+		return condense(getNmsComponents(style, false));
 	}
 
 	private static ChatBaseComponent condense(List<ChatBaseComponent> components) {

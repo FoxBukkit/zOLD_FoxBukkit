@@ -16,25 +16,7 @@
  */
 package com.foxelbox.foxbukkit.chat.json;
 
-import com.foxelbox.foxbukkit.main.chat.Parser;
-
 public class MessageContents {
-    public MessageContents(String plain, String formatXML, String[] formatXMLArgs) {
-        this.plain = plain;
-        this.xml = String.format(formatXML, xmlEscapeArray(formatXMLArgs));
-    }
-
-    public MessageContents(String plain) {
-        this.plain = plain;
-    }
-
-    private static String[] xmlEscapeArray(String[] in) {
-        final String[] out = new String[in.length];
-        for(int i = 0; i < in.length; i++)
-            out[i] = Parser.escape(in[i]);
-        return out;
-    }
-
     public String plain;
     public String xml;
 }

@@ -16,9 +16,9 @@
  */
 package com.foxelbox.foxbukkit.advanced.commands;
 
+import com.foxelbox.foxbukkit.chat.HTMLParser;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
-import com.foxelbox.foxbukkit.main.chat.Parser;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.AbusePotential;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Help;
@@ -44,7 +44,7 @@ public class SendPacketCommand extends ICommand {
 	private static final Pattern keyValuePattern = Pattern.compile("^([^=]+)=(.*)$");
 	@Override
 	public void run(CommandSender commandSender, String[] args, String argStr, String commandName) throws FoxBukkitCommandException {
-		Parser.sendToPlayer(commandSender, argStr);
+		HTMLParser.sendToPlayer(commandSender, argStr);
 		if (true)
 			return;
 

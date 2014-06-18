@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.main.chat.html;
+package com.foxelbox.foxbukkit.chat.html;
 
 import net.minecraft.server.v1_7_R3.ChatModifier;
 

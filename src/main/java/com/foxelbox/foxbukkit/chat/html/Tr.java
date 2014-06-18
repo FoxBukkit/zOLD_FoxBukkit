@@ -14,16 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.main.chat.html;
+package com.foxelbox.foxbukkit.chat.html;
 
+import net.minecraft.server.v1_7_R3.ChatBaseComponent;
+import net.minecraft.server.v1_7_R3.ChatMessage;
 import net.minecraft.server.v1_7_R3.ChatModifier;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Arrays;
+import java.util.List;
 
 @XmlRootElement
-public class S extends Element {
+public class Tr extends Element {
+	@XmlAttribute(required = true)
+	private String key;
+
 	@Override
 	protected void modifyStyle(ChatModifier style) {
-		style.setStrikethrough(true);
+		// TODO: get rid of this
+	}
+
+	@Override
+	public List<ChatBaseComponent> getNmsComponents(ChatModifier style, boolean condenseElements) throws JAXBException {
+		final List<ChatBaseComponent> components = super.getNmsComponents(style, true);
+
+		final ChatBaseComponent translateComponent = new ChatMessage(key, components.toArray());
+		translateComponent.setChatModifier(style);
+		return Arrays.asList(translateComponent);
 	}
 }

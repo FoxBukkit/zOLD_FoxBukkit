@@ -14,22 +14,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with FoxBukkit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.foxelbox.foxbukkit.main.chat.html;
+package com.foxelbox.foxbukkit.chat.html;
 
-import net.minecraft.server.v1_7_R3.ChatClickable;
 import net.minecraft.server.v1_7_R3.ChatModifier;
-import net.minecraft.server.v1_7_R3.EnumClickAction;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class A extends Element {
-	@XmlAttribute(required = true)
-	private String href;
-
+public class Span extends Element {
 	@Override
-	protected void modifyStyle(ChatModifier style) {
-		style.setChatClickable(new ChatClickable(EnumClickAction.OPEN_URL, href));
-	}
+	protected void modifyStyle(ChatModifier style) { }
 }

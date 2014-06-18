@@ -19,19 +19,6 @@ package com.foxelbox.foxbukkit.chat.json;
 import java.util.UUID;
 
 public class ChatMessageOut {
-    public ChatMessageOut(String server, UserInfo from, String plain) {
-        this.server = server;
-        this.from = from;
-        this.to = new MessageTarget("all", null);
-        this.contents = new MessageContents(plain);
-        this.context = UUID.randomUUID();
-    }
-
-    public ChatMessageOut(ChatMessageIn messageIn) {
-        this(messageIn.server, messageIn.from, messageIn.contents);
-        this.context = messageIn.context;
-    }
-
     public String server;
     public UserInfo from;
     public MessageTarget to;
