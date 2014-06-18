@@ -25,6 +25,7 @@ import java.util.UUID;
 
 public class ChatMessageIn {
     public ChatMessageIn(CommandSender commandSender) {
+        this();
         if(commandSender instanceof Player)
             this.from = new UserInfo(commandSender.getUniqueId(), commandSender.getName());
         else
