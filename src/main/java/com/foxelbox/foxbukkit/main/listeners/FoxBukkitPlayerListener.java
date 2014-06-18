@@ -86,7 +86,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 		}
 
 		event.setJoinMessage(null);
-		RedisHandler.sendMessage(player, "\u0123join");
+		RedisHandler.sendMessage(player, "join", "playerstate");
 
 		ToolBind.updateToolMappings(player);
 		playerHelper.pushWeather(player);
@@ -104,7 +104,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 
 		event.setQuitMessage(null);
 
-		RedisHandler.sendMessage(player, "\u0123quit");
+		RedisHandler.sendMessage(player, "quit", "playerstate");
 
 		offlinePlayers.put(player.getAddress().getAddress().getHostAddress(), playerName);
 
@@ -117,7 +117,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 
 		event.setLeaveMessage(null);
 
-		RedisHandler.sendMessage(player, "\u0123kick " + event.getReason());
+		RedisHandler.sendMessage(player, "kick " + event.getReason(), "playerstate");
 
 		playerHelper.refreshPlayerListRedis(player);
 	}

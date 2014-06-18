@@ -16,9 +16,10 @@
  */
 package com.foxelbox.foxbukkit.chat;
 
+import com.foxelbox.foxbukkit.chat.json.ChatMessageIn;
 import com.google.gson.Gson;
 import com.foxelbox.dependencies.redis.AbstractRedisHandler;
-import com.foxelbox.foxbukkit.chat.json.ChatMessage;
+import com.foxelbox.foxbukkit.chat.json.ChatMessageOut;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.chat.Parser;
 import org.bukkit.command.CommandSender;
@@ -35,56 +36,64 @@ public class RedisHandler extends AbstractRedisHandler {
 		super(FoxBukkit.instance.redisManager, "foxbukkit:to_server");
 	}
 
-	public static void sendMessage(final CommandSender player, final String  message) {
+	public static void sendMessage(final CommandSender player, final String message) {
+        sendMessage(player, message, "text");
+    }
+
+    public static void sendMessage(final CommandSender player, final String message, final String type) {
 		if(player == null || message == null)
 			throw new NullPointerException();
-        if(player instanceof Player)
-		    FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", FoxBukkit.instance.configuration.getValue("server-name", "Main") + "|" + player.getUniqueId() + "|" + player.getName() + "|" + message);
-        else
-            FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", FoxBukkit.instance.configuration.getValue("server-name", "Main") + "|" + CraftConsoleCommandSender.CONSOLE_UUID + "|" + player.getName() + "|" + message);
+        ChatMessageIn messageIn = new ChatMessageIn(player);
+        messageIn.contents = message;
+        messageIn.type = type;
+        final String messageJSON;
+        synchronized (gson) {
+            messageJSON = gson.toJson(messageIn);
+        }
+        FoxBukkit.instance.redisManager.publish("foxbukkit:from_server", messageJSON);
 	}
 
-	private final Gson gson = new Gson();
+	private static final Gson gson = new Gson();
 
 	@Override
 	public void onMessage(final String c_message) {
 		try {
-			final ChatMessage chatMessage;
+			final ChatMessageOut chatMessageOut;
 			synchronized (gson) {
-				chatMessage = gson.fromJson(c_message, ChatMessage.class);
+				chatMessageOut = gson.fromJson(c_message, ChatMessageOut.class);
 			}
 
-			if (!chatMessage.server.equals(FoxBukkit.instance.configuration.getValue("server-name", "Main"))) {
-				chatMessage.contents.plain = "\u00a72[" + chatMessage.server + "]\u00a7f " + chatMessage.contents.plain;
-				if(chatMessage.contents.xml_format != null)
-					chatMessage.contents.xml_format = "<color name=\"dark_green\">[" + chatMessage.server + "]</color> " + chatMessage.contents.xml_format;
+			if (!chatMessageOut.server.equals(FoxBukkit.instance.configuration.getValue("server-name", "Main"))) {
+				chatMessageOut.contents.plain = "\u00a72[" + chatMessageOut.server + "]\u00a7f " + chatMessageOut.contents.plain;
+				if(chatMessageOut.contents.xml_format != null)
+					chatMessageOut.contents.xml_format = "<color name=\"dark_green\">[" + chatMessageOut.server + "]</color> " + chatMessageOut.contents.xml_format;
 			}
 
 			List<Player> allPlayers = Arrays.asList(FoxBukkit.instance.getServer().getOnlinePlayers());
 			List<Player> targetPlayers = new ArrayList<>();
-			switch(chatMessage.to.type) {
+			switch(chatMessageOut.to.type) {
 				case "all":
 					targetPlayers = allPlayers;
 					break;
 				case "permission":
-					for(String permission : chatMessage.to.filter)
+					for(String permission : chatMessageOut.to.filter)
 						for (Player player : allPlayers)
 							if (player.hasPermission(permission) && !targetPlayers.contains(player))
 								targetPlayers.add(player);
 					break;
 				case "player":
-					for(String playerUUID : chatMessage.to.filter)
+					for(String playerUUID : chatMessageOut.to.filter)
 						for (Player player : allPlayers)
 							if (player.getUniqueId().equals(UUID.fromString(playerUUID)) && !targetPlayers.contains(player))
 								targetPlayers.add(player);
 					break;
 			}
 
-			if(chatMessage.contents.xml_format != null)
-				Parser.sendToPlayers(targetPlayers, chatMessage.contents.xml_format, chatMessage.contents.xml_format_args);
+			if(chatMessageOut.contents.xml_format != null)
+				Parser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml_format, chatMessageOut.contents.xml_format_args);
 			else
 				for(Player plyTarget : targetPlayers)
-					plyTarget.sendMessage(chatMessage.contents.plain);
+					plyTarget.sendMessage(chatMessageOut.contents.plain);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
