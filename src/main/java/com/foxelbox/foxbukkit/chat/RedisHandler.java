@@ -61,11 +61,8 @@ public class RedisHandler extends AbstractRedisHandler {
 				chatMessageOut = gson.fromJson(c_message, ChatMessageOut.class);
 			}
 
-			if (!chatMessageOut.server.equals(FoxBukkit.instance.configuration.getValue("server-name", "Main"))) {
-				chatMessageOut.contents.plain = "\u00a72[" + chatMessageOut.server + "]\u00a7f " + chatMessageOut.contents.plain;
-				if(chatMessageOut.contents.xml != null)
-					chatMessageOut.contents.xml = "<color name=\"dark_green\">[" + chatMessageOut.server + "]</color> " + chatMessageOut.contents.xml;
-			}
+			if(!chatMessageOut.type.equals("text"))
+				return;
 
 			List<Player> allPlayers = Arrays.asList(FoxBukkit.instance.getServer().getOnlinePlayers());
 			List<Player> targetPlayers = new ArrayList<>();
@@ -85,6 +82,15 @@ public class RedisHandler extends AbstractRedisHandler {
 							if (player.getUniqueId().equals(UUID.fromString(playerUUID)) && !targetPlayers.contains(player))
 								targetPlayers.add(player);
 					break;
+			}
+
+			if(targetPlayers.isEmpty())
+				return;
+
+			if (!chatMessageOut.server.equals(FoxBukkit.instance.configuration.getValue("server-name", "Main"))) {
+				chatMessageOut.contents.plain = "\u00a72[" + chatMessageOut.server + "]\u00a7f " + chatMessageOut.contents.plain;
+				if(chatMessageOut.contents.xml != null)
+					chatMessageOut.contents.xml = "<color name=\"dark_green\">[" + chatMessageOut.server + "]</color> " + chatMessageOut.contents.xml;
 			}
 
 			if(chatMessageOut.contents.xml != null)
