@@ -76,7 +76,6 @@ public class FoxBukkitPlayerListener extends BaseListener {
 
 		playerHelper.setPlayerDisplayName(player);
 
-		playerHelper.setPlayerListName(player);
 		playerHelper.setPlayerScoreboardTeam(player);
 
 		final File playerFile = PlayerHelper.getPlayerFile(player.getUniqueId(), "world");

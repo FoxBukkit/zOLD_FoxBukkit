@@ -382,16 +382,7 @@ public class PlayerHelper extends StateContainer {
 		Player ply = plugin.getServer().getPlayer(uuid);
 		if (ply == null) return;
 
-		setPlayerListName(ply);
 		setPlayerScoreboardTeam(ply);
-	}
-	
-	public void setPlayerListName(Player ply) {
-		/*try {
-			String listName = formatPlayer(ply);
-			if(listName.length() > 16) listName = listName.substring(0, 16);
-			ply.setPlayerListName(listName);
-		} catch(Exception ignored) { }*/
 	}
 
 	private final ArrayList<Scoreboard> registeredScoreboards = new ArrayList<>();
