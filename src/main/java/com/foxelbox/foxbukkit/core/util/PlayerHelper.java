@@ -387,11 +387,11 @@ public class PlayerHelper extends StateContainer {
 	}
 	
 	public void setPlayerListName(Player ply) {
-		try {
+		/*try {
 			String listName = formatPlayer(ply);
 			if(listName.length() > 16) listName = listName.substring(0, 16);
 			ply.setPlayerListName(listName);
-		} catch(Exception ignored) { }
+		} catch(Exception ignored) { }*/
 	}
 
 	private final ArrayList<Scoreboard> registeredScoreboards = new ArrayList<>();
