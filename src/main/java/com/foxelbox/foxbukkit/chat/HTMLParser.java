@@ -39,8 +39,8 @@ public class HTMLParser {
 	 * ChatClickable = ClickEvent
 	 * ChatHoverable = HoverEvent
 	 */
-	public static ChatBaseComponent parse(String xmlSource, String... params) throws JAXBException {
-        return parse(String.format(xmlSource, xmlEscapeArray(params)));
+	public static String formatParams(String xmlSource, String... params) {
+        return String.format(xmlSource, xmlEscapeArray(params));
     }
 
     private static String[] xmlEscapeArray(String[] in) {
@@ -60,21 +60,21 @@ public class HTMLParser {
 		return element.getDefaultNmsComponent();
 	}
 
-	public static ChatBaseComponent format(String format, String... params) throws JAXBException {
-		return parse(format, params);
+	public static ChatBaseComponent format(String format) throws JAXBException {
+		return parse(format);
 	}
 
-	public static boolean sendToAll(String format, String... params) {
-		return sendToPlayers(Arrays.asList(Bukkit.getOnlinePlayers()), format, params);
+	public static boolean sendToAll(String format) {
+		return sendToPlayers(Arrays.asList(Bukkit.getOnlinePlayers()), format);
 	}
 
-	public static boolean sendToPlayers(List<? extends CommandSender> targetPlayers, String format, String... params) {
+	public static boolean sendToPlayers(List<? extends CommandSender> targetPlayers, String format) {
 		try {
-			final PacketPlayOutChat packet = createChatPacket(format, params);
+			final PacketPlayOutChat packet = createChatPacket(format);
 
 			for (CommandSender commandSender : targetPlayers) {
 				if (!(commandSender instanceof Player)) {
-					commandSender.sendMessage(parsePlain(format, params));
+					commandSender.sendMessage(parsePlain(format));
 					continue;
 				}
 
@@ -91,9 +91,9 @@ public class HTMLParser {
 		}
 	}
 
-	public static boolean sendToPlayer(Player player, String format, String... params) {
+	public static boolean sendToPlayer(Player player, String format) {
 		try {
-			PlayerHelper.sendPacketToPlayer(player, createChatPacket(format, params));
+			PlayerHelper.sendPacketToPlayer(player, createChatPacket(format));
 
 			return true;
 		} catch (JAXBException e) {
@@ -104,20 +104,20 @@ public class HTMLParser {
 		}
 	}
 
-	public static boolean sendToPlayer(CommandSender commandSender, String format, String... params) {
+	public static boolean sendToPlayer(CommandSender commandSender, String format) {
 		if (commandSender instanceof Player)
-			return sendToPlayer((Player) commandSender, format, params);
+			return sendToPlayer((Player) commandSender, format);
 
-		commandSender.sendMessage(parsePlain(format, params));
+		commandSender.sendMessage(parsePlain(format));
 		return true;
 	}
 
-	private static String parsePlain(String format, Object[] params) {
-		return String.format(format, params); // TODO: strip XML tags
+	private static String parsePlain(String format) {
+		return String.format(format); // TODO: strip XML tags
 	}
 
-	private static PacketPlayOutChat createChatPacket(String format, String... params) throws JAXBException {
-		return new PacketPlayOutChat(format(format, params));
+	private static PacketPlayOutChat createChatPacket(String format) throws JAXBException {
+		return new PacketPlayOutChat(format(format));
 	}
 
 	public static String escape(String s) {

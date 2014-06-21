@@ -117,22 +117,22 @@ public class MessageHelper extends StateContainer {
 			targetPlayers.add(player);
 		}
 
-		HTMLParser.sendToPlayers(targetPlayers, format, params);
+		HTMLParser.sendToPlayers(targetPlayers, format);
 	}
 
 	public static void sendMessage(CommandSender commandSender, String format, String... params) {
-		sendMessage(FB_DEFAULT_COLOR, commandSender, format, params);
+		sendMessage(FB_DEFAULT_COLOR, commandSender, HTMLParser.formatParams(format, params));
 	}
 
-	public static void sendErrorMessage(CommandSender commandSender, String format, String... params) {
-		sendMessage(FB_ERROR_COLOR, commandSender, format, params);
+	public static void sendErrorMessage(CommandSender commandSender, String format) {
+		sendMessage(FB_ERROR_COLOR, commandSender, format);
 	}
 
-	public static void sendMessage(String color, CommandSender commandSender, String format, String... params) {
+	public static void sendMessage(String color, CommandSender commandSender, String format) {
 		if (color != null) {
 			format = "<color name=\"" + color + "\">[FB]</color> " + format;
 		}
 
-		HTMLParser.sendToPlayer(commandSender, format, params);
+		HTMLParser.sendToPlayer(commandSender, format);
 	}
 }

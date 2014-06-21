@@ -35,8 +35,6 @@ public class RedisHandler extends AbstractRedisHandler {
 		super(FoxBukkit.instance.redisManager, "foxbukkit:to_server");
 	}
 
-    private static Pattern ESCAPE_THINGS = Pattern.compile("%");
-
 	public static void sendMessage(final CommandSender player, final String message) {
         sendMessage(player, message, "text");
     }
@@ -97,7 +95,7 @@ public class RedisHandler extends AbstractRedisHandler {
 			}
 
 			if(chatMessageOut.contents.xml != null)
-				HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml.replace("%", "%%"));
+				HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml);
 			else
 				for(Player plyTarget : targetPlayers)
 					plyTarget.sendMessage(chatMessageOut.contents.plain);
