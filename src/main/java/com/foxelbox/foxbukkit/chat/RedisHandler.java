@@ -28,11 +28,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class RedisHandler extends AbstractRedisHandler {
 	public RedisHandler() {
 		super(FoxBukkit.instance.redisManager, "foxbukkit:to_server");
 	}
+
+    private static Pattern ESCAPE_THINGS = Pattern.compile("%");
 
 	public static void sendMessage(final CommandSender player, final String message) {
         sendMessage(player, message, "text");
@@ -94,7 +97,7 @@ public class RedisHandler extends AbstractRedisHandler {
 			}
 
 			if(chatMessageOut.contents.xml != null)
-				HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml);
+				HTMLParser.sendToPlayers(targetPlayers, ESCAPE_THINGS.matcher(chatMessageOut.contents.xml).replaceAll("%%"));
 			else
 				for(Player plyTarget : targetPlayers)
 					plyTarget.sendMessage(chatMessageOut.contents.plain);
