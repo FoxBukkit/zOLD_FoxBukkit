@@ -113,7 +113,7 @@ public class HTMLParser {
 	}
 
 	private static String parsePlain(String format) {
-		return String.format(format); // TODO: strip XML tags
+		return format; // TODO: strip XML tags
 	}
 
 	private static PacketPlayOutChat createChatPacket(String format) throws JAXBException {

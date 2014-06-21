@@ -100,7 +100,7 @@ public abstract class Element {
 			mixedContent.add(0, "");
 		for (Object o : mixedContent) {
 			if (o instanceof String) {
-				for (IChatBaseComponent baseComponent : CraftChatMessage.fromString(String.format((String) o), style.clone())) {
+				for (IChatBaseComponent baseComponent : CraftChatMessage.fromString((String)o, style.clone())) {
 					components.add((ChatBaseComponent) baseComponent);
 				}
 			}
