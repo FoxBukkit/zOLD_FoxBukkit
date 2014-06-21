@@ -97,7 +97,7 @@ public class RedisHandler extends AbstractRedisHandler {
 			}
 
 			if(chatMessageOut.contents.xml != null)
-				HTMLParser.sendToPlayers(targetPlayers, ESCAPE_THINGS.matcher(chatMessageOut.contents.xml).replaceAll("%%"));
+				HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents.xml.replace("%", "%%"));
 			else
 				for(Player plyTarget : targetPlayers)
 					plyTarget.sendMessage(chatMessageOut.contents.plain);
