@@ -32,7 +32,7 @@ public class SetHomeLocationLimit extends ICommand {
 		args = parseFlags(args);
 		int newLimit = Integer.parseInt(args[1]);
 
-		UUID playerUUID = UUID.fromString(args[0]);
+		UUID playerUUID = playerHelper.literalMatch(args[0]).getUniqueId();
 
 		if(booleanFlags.contains('a')) {
 			newLimit += playerHelper.getPlayerHomePositionLimit(playerUUID);
