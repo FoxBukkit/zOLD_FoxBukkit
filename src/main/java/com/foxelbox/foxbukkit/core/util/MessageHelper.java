@@ -26,6 +26,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,7 +108,7 @@ public class MessageHelper extends StateContainer {
 			format = "<color name=\"" + color + "\">[FB]</color> " + format;
 		}
 
-		final Player[] players = Bukkit.getOnlinePlayers();
+		final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		final List<CommandSender> targetPlayers = new ArrayList<>();
 
 		for (Player player : players) {

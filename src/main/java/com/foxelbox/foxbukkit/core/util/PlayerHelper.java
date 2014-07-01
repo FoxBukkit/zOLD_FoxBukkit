@@ -81,7 +81,7 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void refreshPlayerListRedis(Player ignoreMe) {
-		Player[] players = plugin.getServer().getOnlinePlayers();
+		Collection<? extends Player> players = plugin.getServer().getOnlinePlayers();
 		final String keyName = "playersOnline:" + FoxBukkit.instance.configuration.getValue("server-name", "Main");
 		plugin.redisManager.del(keyName);
 		for(Player ply : players) {
@@ -285,7 +285,7 @@ public class PlayerHelper extends StateContainer {
 	public static void sendServerMessage(String msg, int minLevel, char colorCode) {
 		msg = "\u00a7"+colorCode+"[FB]\u00a7f " + msg;
 
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 
 		for (Player player : players) {
 			if (getPlayerLevel(player) < minLevel)
@@ -323,7 +323,7 @@ public class PlayerHelper extends StateContainer {
 	 * @param permission The permission required to receive the message
 	 */
 	public static void broadcastMessage(String message, String permission) {
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 
 		for (Player player : players) {
 			if (!player.hasPermission(permission))
@@ -347,7 +347,7 @@ public class PlayerHelper extends StateContainer {
 			exceptPlayersSet.add((Player)exceptPlayer);
 		}
 
-		Player[] players = Bukkit.getOnlinePlayers();
+		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 
 		for (Player player : players) {
 			if (exceptPlayersSet.contains(player))

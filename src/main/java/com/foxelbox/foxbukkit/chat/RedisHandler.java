@@ -24,10 +24,7 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class RedisHandler extends AbstractRedisHandler {
@@ -65,11 +62,11 @@ public class RedisHandler extends AbstractRedisHandler {
 			if(!chatMessageOut.type.equals("text"))
 				return;
 
-			List<Player> allPlayers = Arrays.asList(FoxBukkit.instance.getServer().getOnlinePlayers());
+			Collection<? extends Player> allPlayers = FoxBukkit.instance.getServer().getOnlinePlayers();
 			List<Player> targetPlayers = new ArrayList<>();
 			switch(chatMessageOut.to.type) {
 				case "all":
-					targetPlayers = allPlayers;
+					targetPlayers = new ArrayList<>(allPlayers);
 					break;
 				case "permission":
 					for(String permission : chatMessageOut.to.filter)

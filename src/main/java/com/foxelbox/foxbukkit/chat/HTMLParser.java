@@ -28,6 +28,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class HTMLParser {
 	}
 
 	public static boolean sendToAll(String format) {
-		return sendToPlayers(Arrays.asList(Bukkit.getOnlinePlayers()), format);
+		return sendToPlayers(new ArrayList<>(Bukkit.getOnlinePlayers()), format);
 	}
 
 	public static boolean sendToPlayers(List<? extends CommandSender> targetPlayers, String format) {
