@@ -16,7 +16,7 @@
  */
 package com.foxelbox.foxbukkit.transmute;
 
-import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R4.Packet;
 import org.bukkit.entity.Entity;
 
 public class ItemFrameShape extends ItemShape {

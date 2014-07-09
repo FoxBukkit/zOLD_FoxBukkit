@@ -17,7 +17,7 @@
 package com.foxelbox.foxbukkit.spawning;
 
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 public class ConstantSpawnable<V extends Entity> implements Spawnable<V> {
@@ -38,7 +38,7 @@ public class ConstantSpawnable<V extends Entity> implements Spawnable<V> {
 	}
 
 	@Override
-	public net.minecraft.server.v1_7_R3.Entity getInternalEntity() throws FoxBukkitCommandException {
+	public net.minecraft.server.v1_7_R4.Entity getInternalEntity() throws FoxBukkitCommandException {
 		return ((CraftEntity) entity).getHandle();
 	}
 }

@@ -19,15 +19,15 @@ package com.foxelbox.foxbukkit.spawning.fakeentity;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R3.DataWatcher;
-import net.minecraft.server.v1_7_R3.ItemStack;
-import net.minecraft.server.v1_7_R3.MathHelper;
-import net.minecraft.server.v1_7_R3.Packet;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityVelocity;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityStatus;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_7_R4.ItemStack;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityVelocity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityStatus;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -147,7 +147,7 @@ public abstract class FakeEntity extends AbstractEntity {
 			datawatcher.watch(index, value);
 
 			// mark dirty
-			datawatcher.h(index);
+			datawatcher.update(index);
 
 			final PacketPlayOutEntityMetadata packet40EntityMetadata = new PacketPlayOutEntityMetadata(entityId, datawatcher, false);
 			/*TODO: postponed

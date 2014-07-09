@@ -21,5 +21,5 @@ import org.bukkit.entity.Entity;
 
 public interface Spawnable<V extends Entity> {
 	V getEntity() throws FoxBukkitCommandException;
-	net.minecraft.server.v1_7_R3.Entity getInternalEntity() throws FoxBukkitCommandException;
+	net.minecraft.server.v1_7_R4.Entity getInternalEntity() throws FoxBukkitCommandException;
 }

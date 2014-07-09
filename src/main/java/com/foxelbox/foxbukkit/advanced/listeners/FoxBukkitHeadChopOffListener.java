@@ -23,12 +23,12 @@ import com.foxelbox.foxbukkit.core.util.AutoCleanup;
 import com.foxelbox.foxbukkit.main.util.Utils;
 import gnu.trove.TDecorators;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_7_R3.Packet;
-import net.minecraft.server.v1_7_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R3.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntity;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityHeadRotation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

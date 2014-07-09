@@ -30,7 +30,7 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Help;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
 import com.foxelbox.foxbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R3.EntityFallingBlock;
+import net.minecraft.server.v1_7_R4.EntityFallingBlock;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;

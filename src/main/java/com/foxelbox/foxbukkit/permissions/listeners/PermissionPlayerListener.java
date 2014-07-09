@@ -24,7 +24,7 @@ import com.foxelbox.foxbukkit.main.util.Utils;
 import com.foxelbox.foxbukkit.permissions.FoxBukkitPermissibleBase;
 import com.foxelbox.foxbukkit.permissions.FoxBukkitPermissions;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftHumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

@@ -23,18 +23,18 @@ import com.foxelbox.foxbukkit.main.ToolBind;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand;
 import com.foxelbox.foxbukkit.spawning.SpawnUtils;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
-import net.minecraft.server.v1_7_R3.AxisAlignedBB;
-import net.minecraft.server.v1_7_R3.EntityAnimal;
-import net.minecraft.server.v1_7_R3.EntityInsentient;
-import net.minecraft.server.v1_7_R3.EntityLiving;
-import net.minecraft.server.v1_7_R3.EntityPlayer;
-import net.minecraft.server.v1_7_R3.EntityTameableAnimal;
-import net.minecraft.server.v1_7_R3.EntityWaterAnimal;
+import net.minecraft.server.v1_7_R4.AxisAlignedBB;
+import net.minecraft.server.v1_7_R4.EntityAnimal;
+import net.minecraft.server.v1_7_R4.EntityInsentient;
+import net.minecraft.server.v1_7_R4.EntityLiving;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.EntityTameableAnimal;
+import net.minecraft.server.v1_7_R4.EntityWaterAnimal;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -239,7 +239,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 					mayLeashToNonLiving = player.hasPermission("foxbukkit.leash.nonliving");
 				}
 
-				private boolean isNaturallyLeashable(net.minecraft.server.v1_7_R3.Entity entity) {
+				private boolean isNaturallyLeashable(net.minecraft.server.v1_7_R4.Entity entity) {
 					if (entity instanceof EntityTameableAnimal)
 						return ((EntityTameableAnimal) entity).isTamed();
 
@@ -253,7 +253,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 					return false;
 				}
 
-				public boolean mayLeashTo(net.minecraft.server.v1_7_R3.Entity entity) {
+				public boolean mayLeashTo(net.minecraft.server.v1_7_R4.Entity entity) {
 					if (entity instanceof EntityPlayer)
 						return mayLeashToPlayers;
 
@@ -279,9 +279,9 @@ public class FoxBukkitPlayerListener extends BaseListener {
 				final Perms perms = new Perms(player);
 
 				final Entity rightClicked = event.getRightClicked();
-				final net.minecraft.server.v1_7_R3.Entity notchRightClicked = ((CraftEntity) rightClicked).getHandle();
+				final net.minecraft.server.v1_7_R4.Entity notchRightClicked = ((CraftEntity) rightClicked).getHandle();
 				final EntityPlayer notchPlayer = ICommand.asNotchPlayer(player);
-				final net.minecraft.server.v1_7_R3.World world = notchPlayer.world;
+				final net.minecraft.server.v1_7_R4.World world = notchPlayer.world;
 
 				if (!perms.mayLeashTo(notchRightClicked))
 					return false;
@@ -302,7 +302,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 						if (!entityinsentient.bN()) // v1_7_R2
 							continue;
 
-						final net.minecraft.server.v1_7_R3.Entity leashed = entityinsentient.getLeashHolder();
+						final net.minecraft.server.v1_7_R4.Entity leashed = entityinsentient.getLeashHolder();
 
 						if (leashed == notchRightClicked) {
 							entityinsentient.setLeashHolder(notchPlayer, true);

@@ -20,23 +20,23 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import net.minecraft.server.v1_7_R3.Block;
-import net.minecraft.server.v1_7_R3.DataWatcher;
-import net.minecraft.server.v1_7_R3.EntityBat;
-import net.minecraft.server.v1_7_R3.EntityFallingBlock;
-import net.minecraft.server.v1_7_R3.Item;
-import net.minecraft.server.v1_7_R3.PacketPlayOutNamedSoundEffect;
-import net.minecraft.server.v1_7_R3.WatchableObject;
-import net.minecraft.server.v1_7_R3.Vec3D;
-import net.minecraft.server.v1_7_R3.WorldServer;
+import net.minecraft.server.v1_7_R4.Block;
+import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_7_R4.EntityBat;
+import net.minecraft.server.v1_7_R4.EntityFallingBlock;
+import net.minecraft.server.v1_7_R4.Item;
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_7_R4.WatchableObject;
+import net.minecraft.server.v1_7_R4.Vec3D;
+import net.minecraft.server.v1_7_R4.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R3.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -528,7 +528,7 @@ public class Utils {
 		return toWorldAxis(baseLocation, axis);
 	}
 
-	public static net.minecraft.server.v1_7_R3.Entity getEntityByID(int entityId, World world) {
+	public static net.minecraft.server.v1_7_R4.Entity getEntityByID(int entityId, World world) {
 		return ((CraftWorld)world).getHandle().getEntity(entityId);
 	}
 
@@ -537,7 +537,7 @@ public class Utils {
 		final EntityFallingBlock notchFallingBlock = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), getBlockById(typeId), dataValue);
 
 		// This disables the first tick code, which takes care of removing the original block etc.
-		notchFallingBlock.b = 1; // v1_7_R1
+		notchFallingBlock.ticksLived = 1; // v1_7_R1
 
 		// Do not drop an item if placing a block fails
 		notchFallingBlock.dropItem = false;

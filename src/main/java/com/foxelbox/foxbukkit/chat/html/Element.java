@@ -17,13 +17,13 @@
 package com.foxelbox.foxbukkit.chat.html;
 
 import com.foxelbox.foxbukkit.chat.HTMLParser;
-import net.minecraft.server.v1_7_R3.ChatBaseComponent;
-import net.minecraft.server.v1_7_R3.ChatClickable;
-import net.minecraft.server.v1_7_R3.ChatHoverable;
-import net.minecraft.server.v1_7_R3.ChatModifier;
-import net.minecraft.server.v1_7_R3.EnumClickAction;
-import net.minecraft.server.v1_7_R3.EnumHoverAction;
-import net.minecraft.server.v1_7_R3.IChatBaseComponent;
+import net.minecraft.server.v1_7_R4.ChatBaseComponent;
+import net.minecraft.server.v1_7_R4.ChatClickable;
+import net.minecraft.server.v1_7_R4.ChatHoverable;
+import net.minecraft.server.v1_7_R4.ChatModifier;
+import net.minecraft.server.v1_7_R4.EnumClickAction;
+import net.minecraft.server.v1_7_R4.EnumHoverAction;
+import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAttribute;

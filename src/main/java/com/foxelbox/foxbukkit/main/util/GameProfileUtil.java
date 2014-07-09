@@ -16,7 +16,7 @@
  */
 package com.foxelbox.foxbukkit.main.util;
 
-import net.minecraft.server.v1_7_R3.MinecraftServer;
+import net.minecraft.server.v1_7_R4.MinecraftServer;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 
 import java.util.Iterator;

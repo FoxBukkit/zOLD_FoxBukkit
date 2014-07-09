@@ -18,12 +18,12 @@ package com.foxelbox.foxbukkit.transmute;
 
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
-import net.minecraft.server.v1_7_R3.MathHelper;
-import net.minecraft.server.v1_7_R3.Packet;
-import net.minecraft.server.v1_7_R3.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntity;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
@@ -103,7 +103,7 @@ public class VehicleShape extends EntityShape {
 	@Override
 	protected Packet createSpawnPacket() {
 		try {
-			final net.minecraft.server.v1_7_R3.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
+			final net.minecraft.server.v1_7_R4.Entity notchEntity = ((CraftEntity) this.entity).getHandle();
 
 			final PacketPlayOutSpawnEntity p23 = new PacketPlayOutSpawnEntity(notchEntity, vehicleType, subType);
 			p23.c = MathHelper.floor((notchEntity.locY+yOffset) * 32.0D); // v1_7_R1

@@ -26,8 +26,8 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Usage;
 import com.foxelbox.foxbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R3.IntHashMap;
-import net.minecraft.server.v1_7_R3.Packet;
+import net.minecraft.server.v1_7_R4.IntHashMap;
+import net.minecraft.server.v1_7_R4.Packet;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

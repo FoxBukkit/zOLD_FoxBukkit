@@ -16,9 +16,9 @@
  */
 package com.foxelbox.foxbukkit.transmute;
 
-import net.minecraft.server.v1_7_R3.MathHelper;
-import net.minecraft.server.v1_7_R3.Packet;
-import net.minecraft.server.v1_7_R3.PacketPlayOutSpawnEntityExperienceOrb;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityExperienceOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
