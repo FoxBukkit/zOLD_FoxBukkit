@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbukkit.core;
 
+import com.foxelbox.dependencies.threading.SimpleThreadCreator;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
@@ -115,7 +116,7 @@ public class FoxBukkit extends JavaPlugin {
 
 		setupIPC();
 
-		redisManager = new RedisManager(configuration);
+		redisManager = new RedisManager(new SimpleThreadCreator(), configuration);
 
 		playerHelper = new PlayerHelper(this);
 
