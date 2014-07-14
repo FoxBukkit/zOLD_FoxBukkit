@@ -85,6 +85,7 @@ public class HTMLParser {
 			return true;
 		}
 		catch (JAXBException e) {
+			System.out.println("ERROR ON MESSAGE: " + format);
 			e.printStackTrace();
 			Bukkit.broadcastMessage("Error parsing XML");
 
@@ -98,6 +99,7 @@ public class HTMLParser {
 
 			return true;
 		} catch (JAXBException e) {
+			System.out.println("ERROR ON MESSAGE: " + format);
 			e.printStackTrace();
 			player.sendMessage("Error parsing XML");
 
