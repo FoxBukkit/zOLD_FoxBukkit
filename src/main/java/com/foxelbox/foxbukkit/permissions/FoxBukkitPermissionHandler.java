@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbukkit.permissions;
 
+import com.foxelbox.dependencies.redis.CacheMap;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -56,7 +57,12 @@ public class FoxBukkitPermissionHandler {
 	}
 
 	private boolean loaded = false;
-	private final Map<String,String> playerGroups = FoxBukkit.instance.redisManager.createCachedRedisMap("playergroups");
+	private final Map<String,String> playerGroups = FoxBukkit.instance.redisManager.createCachedRedisMap("playergroups").addOnChangeHook(new CacheMap.OnChangeHook() {
+        @Override
+        public void onEntryChanged(String key, String value) {
+            FoxBukkit.instance.playerHelper.refreshPlayerRank(UUID.fromString(key));
+        }
+    });
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<>();
 	

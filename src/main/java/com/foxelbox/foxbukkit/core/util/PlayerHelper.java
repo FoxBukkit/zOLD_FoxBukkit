@@ -379,11 +379,15 @@ public class PlayerHelper extends StateContainer {
 		if(getPlayerRank(uuid).equalsIgnoreCase(rankname)) return;
 		FoxBukkitPermissionHandler.instance.setGroup(uuid, rankname);
 
-		Player ply = plugin.getServer().getPlayer(uuid);
-		if (ply == null) return;
-
-		setPlayerScoreboardTeam(ply);
+        refreshPlayerRank(uuid);
 	}
+
+    public void refreshPlayerRank(UUID uuid) {
+        Player ply = plugin.getServer().getPlayer(uuid);
+        if (ply == null) return;
+
+        setPlayerScoreboardTeam(ply);
+    }
 
 	private final ArrayList<Scoreboard> registeredScoreboards = new ArrayList<>();
 	private boolean mainScoreboardRegistered = false;
