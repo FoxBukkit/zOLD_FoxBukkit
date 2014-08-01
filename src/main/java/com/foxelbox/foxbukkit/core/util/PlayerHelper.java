@@ -27,6 +27,7 @@ import com.foxelbox.foxbukkit.main.util.MultiplePlayersFoundException;
 import com.foxelbox.foxbukkit.main.util.PlayerNotFoundException;
 import com.foxelbox.foxbukkit.main.util.Utils;
 import com.foxelbox.foxbukkit.permissions.FoxBukkitPermissionHandler;
+import com.foxelbox.foxbukkit.permissions.FoxBukkitPermissions;
 import com.foxelbox.foxbukkit.warp.WarpDescriptor;
 import com.foxelbox.foxbukkit.warp.WarpException;
 import gnu.trove.map.hash.TObjectIntHashMap;
@@ -383,10 +384,20 @@ public class PlayerHelper extends StateContainer {
 	}
 
     public void refreshPlayerRank(UUID uuid) {
-        Player ply = plugin.getServer().getPlayer(uuid);
-        if (ply == null) return;
+        refreshPlayerRank(uuid, plugin.getServer().getPlayer(uuid));
+    }
 
-        setPlayerScoreboardTeam(ply);
+    public void refreshPlayerRank(UUID uuid, Player ply) {
+        if (ply != null)
+            setPlayerScoreboardTeam(ply);
+
+        if(ply == null)
+            ply = getPlayerByUUID(uuid);
+
+        if (FoxBukkit.instance.playerHelper.isGuest(ply))
+            FoxBukkitPermissions.addCOPlayer(ply);
+        else
+            FoxBukkitPermissions.removeCOPlayer(ply);
     }
 
 	private final ArrayList<Scoreboard> registeredScoreboards = new ArrayList<>();
@@ -1025,6 +1036,9 @@ public class PlayerHelper extends StateContainer {
 	public boolean isGuest(final Player player) {
 		return isGuestRank(getPlayerRank(player));
 	}
+    public boolean isGuest(final UUID uuid) {
+        return isGuestRank(getPlayerRank(uuid));
+    }
 
 	public static boolean isGuestRank(final String rank) {
 		return guestRanks.contains(rank);

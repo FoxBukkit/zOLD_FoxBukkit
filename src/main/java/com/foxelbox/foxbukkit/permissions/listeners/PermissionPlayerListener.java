@@ -77,12 +77,6 @@ public class PermissionPlayerListener extends BaseListener {
 			System.out.println("Sorry, invalid stuff :(");
 		}
 
-		if (FoxBukkit.instance.playerHelper.isGuest(player)) {
-			FoxBukkitPermissions.addCOPlayer(player);
-		} else {
-			FoxBukkitPermissions.removeCOPlayer(player);
-		}
-
 		FoxBukkitPermissions.setCOPlayerOnlineState(player.getName(), true);
 	}
 
