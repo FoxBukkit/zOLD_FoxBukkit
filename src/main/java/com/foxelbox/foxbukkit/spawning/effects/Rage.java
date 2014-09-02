@@ -73,11 +73,11 @@ public class Rage extends FBEffect {
 			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutAnimation(notchEntity, 1));
 
 			// random looking
-			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch), (Player) entity);
+			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch, false), (Player) entity);
 			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), (Player) entity);
 		}
 		else {
-			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch), null);
+			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch, false), null);
 			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, (byte) random.nextInt(256)), null);
 		}
 

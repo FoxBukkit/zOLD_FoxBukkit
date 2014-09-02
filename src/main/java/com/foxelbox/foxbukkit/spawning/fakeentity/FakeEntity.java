@@ -85,7 +85,7 @@ public abstract class FakeEntity extends AbstractEntity {
 	public boolean teleport(Location location) {
 		this.location = location;
 		for (Player player : location.getWorld().getPlayers()) {
-			PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutEntityTeleport(entityId, MathHelper.floor(location.getX()*32.0D), MathHelper.floor(location.getY()*32.0D), MathHelper.floor(location.getZ()*32.0D), (byte)0, (byte)0));
+			PlayerHelper.sendPacketToPlayer(player, new PacketPlayOutEntityTeleport(entityId, MathHelper.floor(location.getX()*32.0D), MathHelper.floor(location.getY()*32.0D), MathHelper.floor(location.getZ()*32.0D), (byte)0, (byte)0, false));
 		}
 		return true;
 	}

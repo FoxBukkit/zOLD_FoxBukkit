@@ -91,7 +91,7 @@ public class Redrum extends FBEffect {
 
 		paused = true;
 		FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), except);
-		FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutRelEntityMove(entity.getEntityId(), (byte) 0, (byte) 0, entz), except);
+		FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutRelEntityMove(entity.getEntityId(), (byte) 0, (byte) 0, entz, false), except);
 		paused = false;
 
 		if (++i > ticks) {
