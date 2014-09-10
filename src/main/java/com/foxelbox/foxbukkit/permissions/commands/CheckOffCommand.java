@@ -32,6 +32,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 @Names({"checkoff","co"})
@@ -50,20 +51,36 @@ public class CheckOffCommand extends ICommand {
     }
 
 	@Override
-	public void Run(Player ply, String[] args, String argStr, String commandName) throws FoxBukkitCommandException {
+	public void Run(final Player ply, String[] args, String argStr, String commandName) throws FoxBukkitCommandException {
 		args = parseFlags(args);
         if(booleanFlags.contains('e')) {
-            for (String playerName : new HashSet<>(FoxBukkitPermissions.checkOffPlayers)) {
-                if(isOnline(playerName))
-                    continue;
-                if(isChangesListEmptyFor(ply, "player", playerName) && isChangesListEmptyFor(ply, "player", playerName, "chestaccess")) {
-                    if (FoxBukkitPermissions.removeCOPlayer(playerName)) {
-                        MessageHelper.sendMessage(ply, "Removed player %1$s from CO. " + MessageHelper.button("/co -u " + playerName, "undo", "dark_green", true), playerName);
-                    } else {
-                        PlayerHelper.sendDirectedMessage(ply, "Player " + playerName + " not found on CO");
+            final HashSet<String> offlinePlayerNames = new HashSet<>();
+            for (String playerName : FoxBukkitPermissions.checkOffPlayers)
+                if(!isOnline(playerName))
+                    offlinePlayerNames.add(playerName);
+            new Thread() {
+                public void run() {
+                    final Iterator<String> it = offlinePlayerNames.iterator();
+                    while (it.hasNext()) {
+                        final String playerName = it.next();
+                        if (!isChangesListEmptyFor(ply, "player", playerName) || !isChangesListEmptyFor(ply, "player", playerName, "chestaccess"))
+                            it.remove();
                     }
+                    plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            for (final String playerName : offlinePlayerNames) {
+                                if (isChangesListEmptyFor(ply, "player", playerName) && isChangesListEmptyFor(ply, "player", playerName, "chestaccess")) {
+                                    if (FoxBukkitPermissions.removeCOPlayer(playerName))
+                                        MessageHelper.sendMessage(ply, "Removed player %1$s from CO. " + MessageHelper.button("/co -u " + playerName, "undo", "dark_green", true), playerName);
+                                    else
+                                        PlayerHelper.sendDirectedMessage(ply, "Player " + playerName + " not found on CO");
+                                }
+                            }
+                        }
+                    });
                 }
-            }
+            }.start();
             return;
         }
 
@@ -77,19 +94,17 @@ public class CheckOffCommand extends ICommand {
 
 		switch (args.length) {
 		case 0:
-			if (FoxBukkitPermissions.toggleDisplayCO(ply)) {
+			if (FoxBukkitPermissions.toggleDisplayCO(ply))
 				PlayerHelper.sendDirectedMessage(ply, "Enabled CO display");
-			} else {
+			else
 				PlayerHelper.sendDirectedMessage(ply, "Disabled CO display");
-			}
 			return;
 
 		case 1:
 			switch (args[0]) {
 			case "on":
-				if (FoxBukkitPermissions.isDisplayingCO(ply)) {
+				if (FoxBukkitPermissions.isDisplayingCO(ply))
 					PlayerHelper.sendDirectedMessage(ply, "CO display already enabled");
-				}
 				else {
 					FoxBukkitPermissions.toggleDisplayCO(ply);
 					PlayerHelper.sendDirectedMessage(ply, "Enabled CO display");
@@ -101,31 +116,28 @@ public class CheckOffCommand extends ICommand {
 					FoxBukkitPermissions.toggleDisplayCO(ply);
 					PlayerHelper.sendDirectedMessage(ply, "Disabled CO display");
 				}
-				else {
+				else
 					PlayerHelper.sendDirectedMessage(ply, "CO display already disabled");
-				}
 				return;
 			}
 		}
 
 		final String playerName = args[0];
 		if (booleanFlags.contains('u')) {
-			if (FoxBukkitPermissions.addCOPlayer(playerName)) {
+			if (FoxBukkitPermissions.addCOPlayer(playerName))
 				MessageHelper.sendMessage(ply, "Added player " + playerName + " to CO. " + getButtonsForPlayer(playerName));
-			} else {
+			else
 				PlayerHelper.sendDirectedMessage(ply, "Player "+playerName+" already on CO");
-			}
 			return;
 		}
 
 		if (!booleanFlags.contains('f') && isOnline(playerName))
 			throw new FoxBukkitCommandException("Cannot check off online player without -f flag.");
 
-		if (FoxBukkitPermissions.removeCOPlayer(playerName)) {
+		if (FoxBukkitPermissions.removeCOPlayer(playerName))
 			MessageHelper.sendMessage(ply, "Removed player %1$s from CO. " + MessageHelper.button("/co -u " + playerName, "undo", "dark_green", true), playerName);
-		} else {
+		else
 			PlayerHelper.sendDirectedMessage(ply, "Player "+playerName+" not found on CO");
-		}
 	}
 
 	private String getButtonsForPlayer(String playerName) {
