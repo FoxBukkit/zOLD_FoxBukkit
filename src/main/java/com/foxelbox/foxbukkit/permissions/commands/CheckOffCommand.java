@@ -26,17 +26,47 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Usage;
 import com.foxelbox.foxbukkit.permissions.FoxBukkitPermissions;
+import de.diddiz.LogBlock.QueryParams;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 @Names({"checkoff","co"})
 @Help("Check-Off list and system for FB")
 @Usage("[[-f|-u|] name|-l|on|off]")
-@BooleanFlags("ful")
+@BooleanFlags("fuel")
 @Permission("foxbukkit.checkoff")
 public class CheckOffCommand extends ICommand {
+    private boolean isChangesListEmptyFor(CommandSender commandSender, String... args) {
+        try {
+            return plugin.logBlock.getBlockChanges(new QueryParams(plugin.logBlock, commandSender, Arrays.asList(args))).isEmpty();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 	@Override
 	public void Run(Player ply, String[] args, String argStr, String commandName) throws FoxBukkitCommandException {
 		args = parseFlags(args);
+        if(booleanFlags.contains('e')) {
+            for (String playerName : new HashSet<>(FoxBukkitPermissions.checkOffPlayers)) {
+                if(isOnline(playerName))
+                    continue;
+                if(isChangesListEmptyFor(ply, "player", playerName) && isChangesListEmptyFor(ply, "player", playerName, "chestaccess")) {
+                    if (FoxBukkitPermissions.removeCOPlayer(playerName)) {
+                        MessageHelper.sendMessage(ply, "Removed player %1$s from CO. " + MessageHelper.button("/co -u " + playerName, "undo", "dark_green", true), playerName);
+                    } else {
+                        PlayerHelper.sendDirectedMessage(ply, "Player " + playerName + " not found on CO");
+                    }
+                }
+            }
+            return;
+        }
+
 		if (booleanFlags.contains('l')) {
 			for (String playerName : FoxBukkitPermissions.checkOffPlayers) {
 				final String color = isOnline(playerName) ? MessageHelper.ONLINE_COLOR : MessageHelper.OFFLINE_COLOR;

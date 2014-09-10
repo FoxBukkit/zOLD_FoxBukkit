@@ -76,6 +76,7 @@ public class FoxBukkit extends JavaPlugin {
 
 	public Bans bans;
 	public WorldEditPlugin worldEdit;
+	public LogBlock logBlock;
 	public Consumer logBlockConsumer;
 
 	public CommandSystem commandSystem;
@@ -101,8 +102,7 @@ public class FoxBukkit extends JavaPlugin {
 		if (worldEdit != null)
 			log( "Found WorldEdit!" );
 
-		LogBlock logBlock = (LogBlock) pm.getPlugin("LogBlock");
-
+		logBlock = (LogBlock) pm.getPlugin("LogBlock");
 		if (logBlock != null) {
 			logBlockConsumer = logBlock.getConsumer();
 			log( "Found LogBlock!" );
