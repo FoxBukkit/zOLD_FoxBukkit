@@ -66,19 +66,21 @@ public class CheckOffCommand extends ICommand {
                         if (!isChangesListEmptyFor(ply, "player", playerName) || !isChangesListEmptyFor(ply, "player", playerName, "chestaccess"))
                             it.remove();
                     }
-                    plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            for (final String playerName : offlinePlayerNames) {
-                                if (isChangesListEmptyFor(ply, "player", playerName) && isChangesListEmptyFor(ply, "player", playerName, "chestaccess")) {
-                                    if (FoxBukkitPermissions.removeCOPlayer(playerName))
-                                        MessageHelper.sendMessage(ply, "Removed player %1$s from CO. " + MessageHelper.button("/co -u " + playerName, "undo", "dark_green", true), playerName);
-                                    else
-                                        PlayerHelper.sendDirectedMessage(ply, "Player " + playerName + " not found on CO");
+                    if(!offlinePlayerNames.isEmpty()) {
+                        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                for (final String playerName : offlinePlayerNames) {
+                                    if (isChangesListEmptyFor(ply, "player", playerName) && isChangesListEmptyFor(ply, "player", playerName, "chestaccess")) {
+                                        if (FoxBukkitPermissions.removeCOPlayer(playerName))
+                                            MessageHelper.sendMessage(ply, "Removed player %1$s from CO. " + MessageHelper.button("/co -u " + playerName, "undo", "dark_green", true), playerName);
+                                        else
+                                            PlayerHelper.sendDirectedMessage(ply, "Player " + playerName + " not found on CO");
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }.start();
             return;
