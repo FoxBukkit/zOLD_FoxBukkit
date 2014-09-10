@@ -36,7 +36,7 @@ import java.util.List;
 
 @Names({"checkoff","co"})
 @Help("Check-Off list and system for FB")
-@Usage("[[-f|-u|] name|-l|on|off]")
+@Usage("[[-f|-u|] name|-e|-l|on|off]")
 @BooleanFlags("fuel")
 @Permission("foxbukkit.checkoff")
 public class CheckOffCommand extends ICommand {
