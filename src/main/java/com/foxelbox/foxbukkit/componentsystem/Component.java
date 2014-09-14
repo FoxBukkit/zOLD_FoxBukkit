@@ -46,14 +46,14 @@ public abstract class Component {
 				System.out.println("Registered Listener '"+cls.getName()+"' for component '"+packageName+"'.");
 				continue;
 			}
-			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException ignored) { }
+			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException ignored) {
+			}
 
 			try {
 				cls.newInstance();
 				System.out.println("Registered Listener '"+cls.getName()+"' for component '"+packageName+"'.");
 				continue;
-			} catch (InstantiationException | IllegalAccessException e) {
-				continue;
+			} catch (InstantiationException | IllegalAccessException ignored) {
 			}
 		}
 	}
