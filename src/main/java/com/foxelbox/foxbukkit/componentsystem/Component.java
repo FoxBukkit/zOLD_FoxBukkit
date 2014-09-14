@@ -55,6 +55,8 @@ public abstract class Component {
 				continue;
 			} catch (InstantiationException | IllegalAccessException ignored) {
 			}
+
+			System.err.println("Could not register Listener '"+cls.getName()+"' for component '"+packageName+"'.");
 		}
 	}
 
