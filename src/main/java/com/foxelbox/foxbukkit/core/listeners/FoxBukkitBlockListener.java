@@ -48,9 +48,6 @@ public class FoxBukkitBlockListener extends BaseListener {
 	public static final Set<Material> flammableBlocks = EnumSet.noneOf(Material.class);
 	public static final BlockFace[] flameSpreadDirections = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN };
 
-	private static final int TORCH_BREAK_WINDOW = 8;
-	private static final int TORCH_BREAK_TIMEOUT_MILLIS = 1000;
-
 	static {
 		blocklevels.put(Material.TNT, "foxbukkit.place.block.tnt");
 		blocklevels.put(Material.BEDROCK, "foxbukkit.place.block.bedrock");
@@ -77,7 +74,7 @@ public class FoxBukkitBlockListener extends BaseListener {
 	}
 
 	public FoxBukkitBlockListener() {
-		AutoCleanup.registerPlayerMap(torchQueues);
+
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -117,7 +114,6 @@ public class FoxBukkitBlockListener extends BaseListener {
 		}
 	}
 
-	Map<Player, Queue<Long>> torchQueues = new HashMap<>();
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockDamage(BlockDamageEvent event) {
 		Player ply = event.getPlayer();
@@ -127,28 +123,8 @@ public class FoxBukkitBlockListener extends BaseListener {
 		}
 
 		if(PlayerHelper.getPlayerLevel(ply) < 0 && event.getInstaBreak()) {
-			PlayerHelper.sendServerMessage(ply.getName() + " tried to illegaly break a block!");
+			PlayerHelper.sendDirectedMessage(ply, "You tried to illegaly break a block!");
 			event.setCancelled(true);
-		}
-
-		final int typeId = event.getBlock().getTypeId();
-		if (typeId == 50 || typeId == 76) {
-			Queue<Long> torchQueue = torchQueues.get(ply);
-			if (torchQueue == null)
-				torchQueues.put(ply, torchQueue = new ArrayBlockingQueue<>(TORCH_BREAK_WINDOW+1));
-
-			final long currentTimeMillis = System.currentTimeMillis();
-			torchQueue.offer(currentTimeMillis);
-
-			if (torchQueue.size() > TORCH_BREAK_WINDOW) {
-				final long timeSinceStart = currentTimeMillis - torchQueue.poll();
-				if (timeSinceStart < TORCH_BREAK_TIMEOUT_MILLIS) {
-					PlayerHelper.sendServerMessage(ply.getName() + " was autokicked for breaking " + TORCH_BREAK_WINDOW + " torches in " + timeSinceStart + "ms.", "foxbukkit.opchat");
-					plugin.bans.ban(plugin.getServer().getConsoleSender(), ply, "[AUTOMATED] Torchbreak", BanType.LOCAL);
-					event.setCancelled(true);
-					KickCommand.kickPlayer(ply, "[FB AUTOMATED] Torchbreak");
-				}
-			}
 		}
 	}
 
