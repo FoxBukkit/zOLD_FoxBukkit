@@ -17,8 +17,8 @@
 package com.foxelbox.foxbukkit.advanced.packetlistener;
 
 import com.foxelbox.foxbukkit.core.FoxBukkit;
-import net.minecraft.server.v1_7_R4.NetworkManager;
-import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_8_R1.NetworkManager;
+import net.minecraft.server.v1_8_R1.Packet;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

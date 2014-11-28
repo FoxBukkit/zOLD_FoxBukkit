@@ -17,8 +17,8 @@
 package com.foxelbox.foxbukkit.spawning.potions;
 
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.MovingObjectPosition;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;

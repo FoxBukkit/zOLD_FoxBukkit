@@ -26,13 +26,13 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Usage;
 import com.foxelbox.foxbukkit.main.util.GameProfileUtil;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R1.MathHelper;
+import net.minecraft.server.v1_8_R1.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R1.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R1.PacketPlayOutNamedEntitySpawn;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -104,7 +104,7 @@ public class YiffCommand extends ICommand {
 			// TODO: make sure packets are sent before being reused or stop reusing them.
 			this.packet20NamedEntitySpawn = new PacketPlayOutNamedEntitySpawn();
 			Player offlinePlayer = playerHelper.getPlayerByUUID(UUID.fromString("eff24a67-0f3d-47a6-8f45-47aac90e6c9b"));
-			packet20NamedEntitySpawn.b = GameProfileUtil.getFilledGameProfile(offlinePlayer.getUniqueId(), offlinePlayer.getName()); // v1_7_R1
+			packet20NamedEntitySpawn.b = offlinePlayer.getUniqueId();
 			packet20NamedEntitySpawn.i = ((CraftPlayer)target).getHandle().getDataWatcher();
 			this.packet29DestroyEntity = new PacketPlayOutEntityDestroy(0);
 			this.packet34EntityTeleport = new PacketPlayOutEntityTeleport();

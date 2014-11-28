@@ -20,23 +20,23 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import net.minecraft.server.v1_7_R4.Block;
-import net.minecraft.server.v1_7_R4.DataWatcher;
-import net.minecraft.server.v1_7_R4.EntityBat;
-import net.minecraft.server.v1_7_R4.EntityFallingBlock;
-import net.minecraft.server.v1_7_R4.Item;
-import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
-import net.minecraft.server.v1_7_R4.WatchableObject;
-import net.minecraft.server.v1_7_R4.Vec3D;
-import net.minecraft.server.v1_7_R4.WorldServer;
+import net.minecraft.server.v1_8_R1.Block;
+import net.minecraft.server.v1_8_R1.DataWatcher;
+import net.minecraft.server.v1_8_R1.EntityBat;
+import net.minecraft.server.v1_8_R1.EntityFallingBlock;
+import net.minecraft.server.v1_8_R1.Item;
+import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R1.WatchableObject;
+import net.minecraft.server.v1_8_R1.Vec3D;
+import net.minecraft.server.v1_8_R1.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -528,13 +528,13 @@ public class Utils {
 		return toWorldAxis(baseLocation, axis);
 	}
 
-	public static net.minecraft.server.v1_7_R4.Entity getEntityByID(int entityId, World world) {
-		return ((CraftWorld)world).getHandle().getEntity(entityId);
+	public static net.minecraft.server.v1_8_R1.Entity getEntityByID(int entityId, World world) {
+		return ((CraftWorld)world).getHandle().a(entityId);
 	}
 
 	public static EntityFallingBlock spawnFallingBlock(Location location, int typeId, int dataValue) {
 		WorldServer notchWorld = ((CraftWorld) location.getWorld()).getHandle();
-		final EntityFallingBlock notchFallingBlock = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), getBlockById(typeId), dataValue);
+		final EntityFallingBlock notchFallingBlock = new EntityFallingBlock(notchWorld, location.getX(), location.getY(), location.getZ(), getBlockById(typeId).fromLegacyData(dataValue));
 
 		// This disables the first tick code, which takes care of removing the original block etc.
 		notchFallingBlock.ticksLived = 1; // v1_7_R1

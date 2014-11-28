@@ -31,7 +31,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.Statistic;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R1.CraftServer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;

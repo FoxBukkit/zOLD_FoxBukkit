@@ -19,15 +19,15 @@ package com.foxelbox.foxbukkit.spawning.potions;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
 import com.foxelbox.foxbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntityPotion;
-import net.minecraft.server.v1_7_R4.ItemStack;
-import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.EntityPotion;
+import net.minecraft.server.v1_8_R1.ItemStack;
+import net.minecraft.server.v1_8_R1.MovingObjectPosition;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 
 public abstract class CustomPotion extends EntityPotion {
@@ -62,35 +62,35 @@ public abstract class CustomPotion extends EntityPotion {
 			case BLOCK:
 				final CraftWorld world = this.world.getWorld();
 				Block block = world.getBlockAt(
-						movingobjectposition.b, // v1_7_R1
-						movingobjectposition.c, // v1_7_R1
-						movingobjectposition.d // v1_7_R1
+						movingobjectposition.e.getX(), // v1_7_R1
+						movingobjectposition.e.getY(), // v1_7_R1
+						movingobjectposition.e.getZ() // v1_7_R1
 				);
 				Location hitVec = Utils.toLocation(movingobjectposition.pos, world);
 
 				final BlockFace sideHit;
-				switch (movingobjectposition.face) {
-				case 0:
+				switch (movingobjectposition.direction) {
+				case DOWN:
 					sideHit = BlockFace.DOWN;
 					break;
 
-				case 1:
+				case UP:
 					sideHit = BlockFace.UP;
 					break;
 
-				case 2:
+				case EAST:
 					sideHit = BlockFace.EAST;
 					break;
 
-				case 3:
+				case WEST:
 					sideHit = BlockFace.WEST;
 					break;
 
-				case 4:
+				case NORTH:
 					sideHit = BlockFace.NORTH;
 					break;
 
-				case 5:
+				case SOUTH:
 					sideHit = BlockFace.SOUTH;
 					break;
 				default:

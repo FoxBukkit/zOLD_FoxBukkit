@@ -37,17 +37,7 @@ import com.foxelbox.foxbukkit.spawning.sheep.CamoSheep;
 import com.foxelbox.foxbukkit.spawning.sheep.PartySheep;
 import com.foxelbox.foxbukkit.spawning.sheep.TrapEntity;
 import com.foxelbox.foxbukkit.transmute.ItemShape;
-import net.minecraft.server.v1_7_R4.EntityFallingBlock;
-import net.minecraft.server.v1_7_R4.EntityLargeFireball;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntitySnowball;
-import net.minecraft.server.v1_7_R4.EntityTNTPrimed;
-import net.minecraft.server.v1_7_R4.Items;
-import net.minecraft.server.v1_7_R4.MovingObjectPosition;
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
-import net.minecraft.server.v1_7_R4.NBTTagList;
-import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
-import net.minecraft.server.v1_7_R4.WorldServer;
+import net.minecraft.server.v1_8_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -56,10 +46,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
@@ -250,9 +240,9 @@ public class SpawnUtils {
 
 				case "arrows":
 				case "pincushion":
-					if (entity instanceof CraftLivingEntity) {
+					/*if (entity instanceof CraftLivingEntity) {
 						((CraftLivingEntity) entity).getHandle().p(127); // v1_7_R1
-					}
+					}*/
 					break;
 				}
 			}
@@ -298,7 +288,7 @@ public class SpawnUtils {
 		if (type.equals("lightning") || (type.equals("potion") && "LIGHTNING".equalsIgnoreCase(data))) {
 			final EntityPlayer notchPlayer = ((CraftPlayer) commandSender).getHandle();
 
-			final net.minecraft.server.v1_7_R4.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
+			final net.minecraft.server.v1_8_R1.Entity notchEntity = new CustomPotion(location, 10, notchPlayer) {
 				@Override
 				protected boolean hit(MovingObjectPosition movingobjectposition) {
 					org.bukkit.World world = getBukkitEntity().getWorld();
@@ -517,7 +507,7 @@ public class SpawnUtils {
 		case "fireworks":
 		case "firework":
 		case "fw":
-			final net.minecraft.server.v1_7_R4.ItemStack fireworks;
+			final net.minecraft.server.v1_8_R1.ItemStack fireworks;
 			if (commandSender instanceof Player && ((Player) commandSender).getItemInHand().getType() == Material.FIREWORK) {
 				fireworks = CraftItemStack.asNMSCopy(((Player) commandSender).getItemInHand());
 			}
@@ -739,7 +729,7 @@ public class SpawnUtils {
 		return new Vector(x, y, z);
 	}
 
-	public static Entity explodeFirework(Location location, net.minecraft.server.v1_7_R4.ItemStack fireworks) {
+	public static Entity explodeFirework(Location location, net.minecraft.server.v1_8_R1.ItemStack fireworks) {
 		final FakeVehicle fakeEntity = new FakeVehicle(location, 76);
 		fakeEntity.send();
 
@@ -752,10 +742,10 @@ public class SpawnUtils {
 		return fakeEntity;
 	}
 
-	public static net.minecraft.server.v1_7_R4.ItemStack makeFireworks(final String fireworkType) {
+	public static net.minecraft.server.v1_8_R1.ItemStack makeFireworks(final String fireworkType) {
 		final String[] parameters = fireworkType.split("/");
 		final int[] colors = parseColors(parameters[0].split(","));
-		final net.minecraft.server.v1_7_R4.ItemStack fireworks = makeFireworks(-127, 0, colors);
+		final net.minecraft.server.v1_8_R1.ItemStack fireworks = makeFireworks(-127, 0, colors);
 		final NBTTagCompound explosionTag = fireworks.getTag().getCompound("Fireworks").getList("Explosions", Utils.mapNBT("Explosions")).get(0);
 		for (int i = 1; i < parameters.length; ++i) {
 			final String[] kv = parameters[i].split("=");
@@ -786,7 +776,7 @@ public class SpawnUtils {
 		return colors;
 	}
 
-	public static net.minecraft.server.v1_7_R4.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
+	public static net.minecraft.server.v1_8_R1.ItemStack makeFireworks(int nGunpowder, int explosionType, int... explosionColors) {
 		final NBTTagCompound explosionTag = new NBTTagCompound();
 		explosionTag.setByte("Type", (byte) explosionType);
 		explosionTag.setIntArray("Colors", explosionColors);
@@ -801,7 +791,7 @@ public class SpawnUtils {
 		final NBTTagCompound itemStackTag = new NBTTagCompound();
 		itemStackTag.set("Fireworks", fireworksTag);
 
-		final net.minecraft.server.v1_7_R4.ItemStack stack = new net.minecraft.server.v1_7_R4.ItemStack(Items.FIREWORKS);
+		final net.minecraft.server.v1_8_R1.ItemStack stack = new net.minecraft.server.v1_8_R1.ItemStack(Items.FIREWORKS);
 		stack.setTag(itemStackTag);
 		return stack;
 	}
@@ -906,7 +896,7 @@ public class SpawnUtils {
 			throw new RuntimeException("Invalid particle name");
 
 		final PacketPlayOutWorldParticles packet63WorldParticles = new PacketPlayOutWorldParticles();
-		packet63WorldParticles.a = particleName; // v1_7_R1
+		packet63WorldParticles.a = EnumParticle.valueOf(particleName); // v1_7_R1
 
 		packet63WorldParticles.b = (float) location.getX(); // v1_7_R1
 		packet63WorldParticles.c = (float) location.getY(); // v1_7_R1

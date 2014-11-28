@@ -21,13 +21,13 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.spawning.effects.system.EffectProperties;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_7_R4.PacketPlayOutRelEntityMove;
+import net.minecraft.server.v1_8_R1.MathHelper;
+import net.minecraft.server.v1_8_R1.Packet;
+import net.minecraft.server.v1_8_R1.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_8_R1.PacketPlayOutRelEntityMove;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -87,7 +87,7 @@ public class Redrum extends FBEffect {
 		byte yaw = (byte) (i*255*3/ticks+startYaw);
 		final byte entz = (byte) (i%2*2-1);
 		final Player except = entity instanceof Player ? (Player) entity : null;
-		final net.minecraft.server.v1_7_R4.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_8_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 
 		paused = true;
 		FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), except);

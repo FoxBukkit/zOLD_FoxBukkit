@@ -16,9 +16,9 @@
  */
 package com.foxelbox.foxbukkit.chat.html;
 
-import net.minecraft.server.v1_7_R4.ChatClickable;
-import net.minecraft.server.v1_7_R4.ChatModifier;
-import net.minecraft.server.v1_7_R4.EnumClickAction;
+import net.minecraft.server.v1_8_R1.ChatClickable;
+import net.minecraft.server.v1_8_R1.ChatModifier;
+import net.minecraft.server.v1_8_R1.EnumClickAction;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;

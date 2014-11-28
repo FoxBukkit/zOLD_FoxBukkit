@@ -24,7 +24,7 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
 import gnu.trove.procedure.TObjectProcedure;
-import net.minecraft.server.v1_7_R4.Packet;
+import net.minecraft.server.v1_8_R1.Packet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -49,14 +49,14 @@ public class Transmute implements Runnable {
 			@Override
 			public void run() {
 				// clean up ignored packets
-				long minTimestamp = System.currentTimeMillis() - 1000;
+				/*long minTimestamp = System.currentTimeMillis() - 1000;
 
 				for (Iterator<Packet> iterator = transmutePacketListener.ignoredPackets.iterator(); iterator.hasNext(); ) {
 					final Packet packet = iterator.next();
 
 					if (packet.timestamp < minTimestamp)
 						iterator.remove();
-				}
+				}*/
 
 				// clean up transmuted entities
 				try {
@@ -87,7 +87,7 @@ public class Transmute implements Runnable {
 		return transmuted.containsKey(entity.getEntityId());
 	}
 
-	public boolean isTransmuted(net.minecraft.server.v1_7_R4.Entity entity) {
+	public boolean isTransmuted(net.minecraft.server.v1_8_R1.Entity entity) {
 		return transmuted.containsKey(entity.id);
 	}
 
@@ -99,7 +99,7 @@ public class Transmute implements Runnable {
 		return transmuted.get(entity.getEntityId());
 	}
 
-	public Shape getShape(net.minecraft.server.v1_7_R4.Entity entity) {
+	public Shape getShape(net.minecraft.server.v1_8_R1.Entity entity) {
 		return transmuted.get(entity.id);
 	}
 

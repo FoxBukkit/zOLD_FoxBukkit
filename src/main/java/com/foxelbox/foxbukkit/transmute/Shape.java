@@ -18,16 +18,16 @@ package com.foxelbox.foxbukkit.transmute;
 
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
 import com.foxelbox.foxbukkit.main.util.Utils;
-import net.minecraft.server.v1_7_R4.DataWatcher;
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.EntityTrackerEntry;
-import net.minecraft.server.v1_7_R4.ItemStack;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutAttachEntity;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R1.DataWatcher;
+import net.minecraft.server.v1_8_R1.EntityLiving;
+import net.minecraft.server.v1_8_R1.EntityTrackerEntry;
+import net.minecraft.server.v1_8_R1.ItemStack;
+import net.minecraft.server.v1_8_R1.Packet;
+import net.minecraft.server.v1_8_R1.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_8_R1.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R1.PacketPlayOutEntityMetadata;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -74,7 +74,7 @@ public abstract class Shape {
 	}
 
 	private Packet createOriginalSpawnPacket() {
-		final net.minecraft.server.v1_7_R4.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_8_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
 		final EntityTrackerEntry ete = new EntityTrackerEntry(notchEntity, 0, 0, false);
 
 		try {
@@ -176,7 +176,7 @@ public abstract class Shape {
 		return getShape(transmute, entity, MyEntityTypes.typeNameToClass(mobType));
 	}
 
-	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_7_R4.Entity> mobType) throws EntityTypeNotFoundException {
+	public static Shape getShape(Transmute transmute, Entity entity, Class<? extends net.minecraft.server.v1_8_R1.Entity> mobType) throws EntityTypeNotFoundException {
 		final int id = MyEntityTypes.classToId(mobType);
 
 		/*
@@ -242,9 +242,9 @@ public abstract class Shape {
 
 
 	public void reattachPassenger() {
-		final net.minecraft.server.v1_7_R4.Entity notchEntity = ((CraftEntity) entity).getHandle();
-		final net.minecraft.server.v1_7_R4.Entity passenger = notchEntity.passenger;
-		final net.minecraft.server.v1_7_R4.Entity vehicle = notchEntity.vehicle;
+		final net.minecraft.server.v1_8_R1.Entity notchEntity = ((CraftEntity) entity).getHandle();
+		final net.minecraft.server.v1_8_R1.Entity passenger = notchEntity.passenger;
+		final net.minecraft.server.v1_8_R1.Entity vehicle = notchEntity.vehicle;
 
 		if (passenger != null)
 			transmute.plugin.playerHelper.sendPacketToPlayersAround(entity.getLocation(), 1024, new PacketPlayOutAttachEntity(0, passenger, notchEntity)); //TODO: Check what this int is for in ctor PacketPlayOutAttachEntity

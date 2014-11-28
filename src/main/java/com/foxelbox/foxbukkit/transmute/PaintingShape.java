@@ -16,9 +16,7 @@
  */
 package com.foxelbox.foxbukkit.transmute;
 
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityPainting;
+import net.minecraft.server.v1_8_R1.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -50,11 +48,9 @@ public class PaintingShape extends EntityShape {
 
 		p25.a = entityId; // v1_7_R1
 
-		p25.b = location.getBlockX(); // v1_7_R1
-		p25.c = (int)(location.getY() + yOffset); // v1_7_R1
-		p25.d = location.getBlockZ(); // v1_7_R1
-		p25.e = 0; // v1_7_R1
-		p25.f = paintingName; // v1_7_R1
+		p25.b = new BlockPosition(location.getBlockX(), location.getBlockY() + yOffset, location.getBlockZ());
+		p25.c = EnumDirection.DOWN;
+		p25.d = paintingName; // v1_7_R1
 
 		return p25;
 	}

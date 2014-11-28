@@ -17,7 +17,7 @@
 package com.foxelbox.foxbukkit.main.offlinebukkit;
 
 import com.foxelbox.foxbukkit.bans.FishBansResolver;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
+import com.mojang.authlib.GameProfile;
 import org.bukkit.Achievement;
 import org.bukkit.Effect;
 import org.bukkit.EntityEffect;
@@ -32,8 +32,8 @@ import org.bukkit.WeatherType;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.v1_7_R4.CraftOfflinePlayer;
-import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R1.CraftOfflinePlayer;
+import org.bukkit.craftbukkit.v1_8_R1.CraftServer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;

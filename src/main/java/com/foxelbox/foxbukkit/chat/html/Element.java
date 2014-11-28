@@ -17,13 +17,13 @@
 package com.foxelbox.foxbukkit.chat.html;
 
 import com.foxelbox.foxbukkit.chat.HTMLParser;
-import net.minecraft.server.v1_7_R4.ChatBaseComponent;
-import net.minecraft.server.v1_7_R4.ChatClickable;
-import net.minecraft.server.v1_7_R4.ChatHoverable;
-import net.minecraft.server.v1_7_R4.ChatModifier;
-import net.minecraft.server.v1_7_R4.EnumClickAction;
-import net.minecraft.server.v1_7_R4.EnumHoverAction;
-import net.minecraft.server.v1_7_R4.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.ChatBaseComponent;
+import net.minecraft.server.v1_8_R1.ChatClickable;
+import net.minecraft.server.v1_8_R1.ChatHoverable;
+import net.minecraft.server.v1_8_R1.ChatModifier;
+import net.minecraft.server.v1_8_R1.EnumClickAction;
+import net.minecraft.server.v1_8_R1.EnumHoverAction;
+import net.minecraft.server.v1_8_R1.IChatBaseComponent;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -92,7 +92,7 @@ public abstract class Element {
 				throw new RuntimeException("Unknown click action "+eventType);
 			}
 
-			style.a(new ChatHoverable(enumClickAction, HTMLParser.parse(eventString)));
+			style.setChatHoverable(new ChatHoverable(enumClickAction, HTMLParser.parse(eventString)));
 		}
 
 		final List<ChatBaseComponent> components = new ArrayList<>();

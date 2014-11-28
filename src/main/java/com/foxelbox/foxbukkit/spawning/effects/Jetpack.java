@@ -24,7 +24,7 @@ import com.foxelbox.foxbukkit.spawning.effects.system.EffectProperties;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeEntity;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeExperienceOrb;
-import net.minecraft.server.v1_7_R4.PacketPlayOutExplosion;
+import net.minecraft.server.v1_8_R1.PacketPlayOutExplosion;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;

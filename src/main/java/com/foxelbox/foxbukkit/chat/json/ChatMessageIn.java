@@ -18,7 +18,7 @@ package com.foxelbox.foxbukkit.chat.json;
 
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R4.command.CraftConsoleCommandSender;
+import org.bukkit.craftbukkit.v1_8_R1.command.CraftConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

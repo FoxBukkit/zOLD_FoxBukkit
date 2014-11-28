@@ -50,7 +50,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
-import org.bukkit.craftbukkit.v1_7_R4.command.ColouredConsoleSender;
+import org.bukkit.craftbukkit.v1_8_R1.command.ColouredConsoleSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 

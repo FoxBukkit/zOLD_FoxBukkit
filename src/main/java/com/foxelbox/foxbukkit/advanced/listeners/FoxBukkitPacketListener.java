@@ -22,24 +22,12 @@ import com.foxelbox.foxbukkit.componentsystem.FBListener;
 import com.foxelbox.foxbukkit.core.util.AutoCleanup;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper.WeatherType;
-import net.minecraft.server.v1_7_R4.ControllerMove;
-import net.minecraft.server.v1_7_R4.EntityCreature;
-import net.minecraft.server.v1_7_R4.EntityInsentient;
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayInBlockPlace;
-import net.minecraft.server.v1_7_R4.PacketPlayInFlying;
-import net.minecraft.server.v1_7_R4.PacketPlayOutBlockChange;
-import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R4.PacketPlayOutGameStateChange;
-import net.minecraft.server.v1_7_R4.WorldServer;
+import net.minecraft.server.v1_8_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -98,7 +86,7 @@ public class FoxBukkitPacketListener extends FBPacketListener implements FBListe
 
 			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { @Override public void run() {
 				final WorldServer notchWorld = ((CraftWorld) ply.getWorld()).getHandle();
-				final PacketPlayOutBlockChange p53 = new PacketPlayOutBlockChange(x, y-1, z, notchWorld);
+				final PacketPlayOutBlockChange p53 = new PacketPlayOutBlockChange(notchWorld, new BlockPosition(x, y-1, z));
 				PlayerHelper.sendPacketToPlayer(ply, p53);
 			}});
 
@@ -150,34 +138,6 @@ public class FoxBukkitPacketListener extends FBPacketListener implements FBListe
 	@Override
 	public boolean onIncomingPacket(final Player ply, int packetID, Packet packet) {
 		switch (packetID) {
-		case 8:
-			final PacketPlayInBlockPlace packetPlayInBlockPlace = (PacketPlayInBlockPlace)packet;
-			if(packetPlayInBlockPlace.a == -1 && is255OrNeg1(packetPlayInBlockPlace.b) && packetPlayInBlockPlace.c == -1 && is255OrNeg1(packetPlayInBlockPlace.d)) {
-				final Long lastUseTime = playerLastUsePacket.get(ply);
-				final long currentTime = System.currentTimeMillis();
-				playerLastUsePacket.put(ply, currentTime);
-				if(lastUseTime != null && lastUseTime + USE_PACKET_LIMITER >= currentTime) {
-					Integer lastViolationCount = playerLastUsePacketViolated.get(ply);
-					if(lastViolationCount == null)
-						lastViolationCount = 0;
-					if(lastViolationCount < 9999)
-						playerLastUsePacketViolated.put(ply, lastViolationCount + 1);
-					if(lastViolationCount > 100) {
-						plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-							@Override
-							public void run() {
-								Location lolloc = ply.getLocation();
-								lolloc.setY(-100);
-								ply.teleport(lolloc);
-							}
-						});
-					}
-					return false;
-				} else {
-					playerLastUsePacketViolated.remove(ply);
-				}
-			}
-			break;
 		//case 10:
 		case 11:
 		//case 12:
@@ -195,9 +155,6 @@ public class FoxBukkitPacketListener extends FBPacketListener implements FBListe
 				//break;
 
 			if (p10.y != -999.0D)
-				break;
-
-			if (p10.stance != -999.0D)
 				break;
 
 			double factor = 5D;
@@ -231,11 +188,10 @@ public class FoxBukkitPacketListener extends FBPacketListener implements FBListe
 				notchEntity.moveController = controller = new IdleControllerMove(notchEntity, oldController);
 			}
 
-			if (notchEntity instanceof EntityCreature) {
+			/*if (notchEntity instanceof EntityCreature) {
 				final EntityCreature notchCreature = (EntityCreature) notchEntity;
-				notchCreature.target = null;
-				notchCreature.pathEntity = null;
-			}
+				notchCreature.setGoalTarget(null);
+			}*/
 
 			final double yaw = Math.round(Math.atan2(p10.z, p10.x)/QUARTER_CIRCLE)*QUARTER_CIRCLE;
 			final Vector normalizedVel = new Vector(Math.cos(yaw), 0, Math.sin(yaw));
