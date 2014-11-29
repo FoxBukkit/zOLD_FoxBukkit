@@ -19,6 +19,7 @@ package com.foxelbox.foxbukkit.bans;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
 import org.json.simple.JSONObject;
@@ -56,7 +57,7 @@ public class FishBansResolver {
 
 	private static final HttpProfileRepository HTTP_PROFILE_REPOSITORY = new HttpProfileRepository("minecraft");
 
-	private static final Cache<String, UUID> playerUUIDMap = CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).softValues().build(new CacheLoader<String, UUID>() {
+	private static final LoadingCache<String, UUID> playerUUIDMap = CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).softValues().build(new CacheLoader<String, UUID>() {
 		@Override
 		public UUID load(String username) throws Exception {
 			Profile[] profiles = HTTP_PROFILE_REPOSITORY.findProfilesByNames(username);

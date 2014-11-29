@@ -107,9 +107,9 @@
 			<version>2.4.2</version>
 		</dependency>
         <dependency>
-            <groupId>com.foxelbox</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.7.10-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8-R0.1-SNAPSHOT</version>
         </dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>

@@ -204,6 +204,26 @@ public class AbstractEntity implements Entity {
 	}
 
 	@Override
+	public void setCustomName(String s) {
+
+	}
+
+	@Override
+	public String getCustomName() {
+		return null;
+	}
+
+	@Override
+	public void setCustomNameVisible(boolean b) {
+
+	}
+
+	@Override
+	public boolean isCustomNameVisible() {
+		return false;
+	}
+
+	@Override
 	public void setMetadata(String s, MetadataValue metadataValue) { }
 
 	@Override
