@@ -47,6 +47,7 @@ public class FoxBukkitPermissions {
 
 	public static void load() {
 		coEnabled = FoxBukkit.instance.configuration.getValue("checkoff-enabled", "true").equalsIgnoreCase("true");
+		checkOffPlayers.clear();
 
 		if(!coEnabled)
 			return;
@@ -55,8 +56,6 @@ public class FoxBukkitPermissions {
 			final File file = new File(FoxBukkit.instance.getDataFolder(), "coplayers.txt");
 			if (!file.exists())
 				return;
-
-			checkOffPlayers.clear();
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line;
 			while((line = reader.readLine()) != null) {
@@ -169,6 +168,9 @@ public class FoxBukkitPermissions {
 	 * @param playerName the name of the player to refresh
 	 */
 	public static void refreshCOPlayerOnlineState(String playerName) {
+		if(!coEnabled)
+			return;
+
 		setCOPlayerOnlineState(playerName, Bukkit.getOfflinePlayer(playerName).isOnline());
 	}
 
@@ -179,6 +181,9 @@ public class FoxBukkitPermissions {
 	 * @param online the new online status
 	 */
 	public static void setCOPlayerOnlineState(String playerName, boolean online) {
+		if(!coEnabled)
+			return;
+
 		playerName = playerName.toLowerCase();
 
 		if(!checkOffPlayers.contains(playerName))
@@ -204,6 +209,9 @@ public class FoxBukkitPermissions {
 	 * @return new state
 	 */
 	public static boolean toggleDisplayCO(Player player) {
+		if(!coEnabled)
+			return false;
+
 		if (isDisplayingCO(player)) {
 			player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 			return false;
@@ -221,6 +229,9 @@ public class FoxBukkitPermissions {
 	 * @return current state
 	 */
 	public static boolean isDisplayingCO(Player player) {
+		if(!coEnabled)
+			return false;
+
 		return player.getScoreboard() == board;
 	}
 
