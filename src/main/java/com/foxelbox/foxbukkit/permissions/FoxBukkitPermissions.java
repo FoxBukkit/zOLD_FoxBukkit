@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbukkit.permissions;
 
+import com.foxelbox.foxbukkit.fun.commands.YiffCommand;
 import com.sk89q.util.StringUtil;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.permissions.listeners.PermissionPlayerListener;
@@ -36,6 +37,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class FoxBukkitPermissions {
+	private static boolean coEnabled = true;
+
 	public static void init() {
 		new PermissionPlayerListener();
 
@@ -43,6 +46,11 @@ public class FoxBukkitPermissions {
 	}
 
 	public static void load() {
+		coEnabled = FoxBukkit.instance.configuration.getValue("checkoff-enabled", "true").equalsIgnoreCase("true");
+
+		if(!coEnabled)
+			return;
+
 		try {
 			final File file = new File(FoxBukkit.instance.getDataFolder(), "coplayers.txt");
 			if (!file.exists())
@@ -81,6 +89,9 @@ public class FoxBukkitPermissions {
 	 * @return true if the player wasn't already on checkoff
 	 */
 	public static boolean addCOPlayer(String playerName) {
+		if(!coEnabled)
+			return false;
+
 		playerName = playerName.toLowerCase();
 		if(checkOffPlayers.contains(playerName))
 			return false;
@@ -110,6 +121,9 @@ public class FoxBukkitPermissions {
 	 * @return true if the player wasn't already on checkoff
 	 */
 	public static boolean removeCOPlayer(String playerName) {
+		if(!coEnabled)
+			return false;
+
 		playerName = playerName.toLowerCase();
 		if (!checkOffPlayers.contains(playerName))
 			return false;
@@ -124,6 +138,9 @@ public class FoxBukkitPermissions {
 	}
 
 	private static void saveCO() {
+		if(!coEnabled)
+			return;
+
 		try {
 			PrintWriter writer = new PrintWriter(new FileWriter(new File(FoxBukkit.instance.getDataFolder(), "coplayers.txt")));
 			String[] plys = checkOffPlayers.toArray(new String[checkOffPlayers.size()]);
