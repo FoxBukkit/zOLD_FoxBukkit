@@ -48,6 +48,6 @@ public class KickCommand extends ICommand {
 	}
 
 	public static void kickPlayer(Player otherply, String reason) {
-		otherply.kickPlayer(ChatColor.RESET + reason);
+		otherply.kickPlayer("[Kicked] " + reason);
 	}
 }
