@@ -144,49 +144,6 @@ public class FoxBukkitBlockListener extends BaseListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
-		handlePistons(event.getBlocks(), event.getDirection());
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
-		if (!event.isSticky())
-			return;
-
-		final Block block = event.getRetractLocation().getBlock();
-		final BlockFace pistonDirection = event.getDirection();
-		BlockFace pushDirection = pistonDirection.getOppositeFace();
-
-		final List<State> states = new ArrayList<>();
-
-		for (BlockFace face : faces.get(pushDirection)) {
-			handlePistonBlock(block, face, pushDirection, states);
-		}
-
-		do {
-			final Block attachedBlock = block.getRelative(pistonDirection);
-			final PlayerDirection attachment = BlockType.getAttachment(attachedBlock.getTypeId(), attachedBlock.getData());
-			if (attachment == null)
-				break;
-
-			if (!attachment.name().equals(pistonDirection.getOppositeFace().name()))
-				break;
-
-			final Block targetBlock = attachedBlock.getRelative(pushDirection);
-
-			states.add(new State(targetBlock, attachedBlock.getState()));
-
-			attachedBlock.setTypeIdAndData(0, (byte) 0, false);
-		} while (false);
-
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
-			for (State state : states) {
-				state.apply();
-			}
-		}}, 3);
-	}
-
 	private static final TIntObjectMap<BlockFace> dataAttachments = new TIntObjectHashMap<>();
 	private static final TIntObjectMap<BlockFace> nonDataAttachments = new TIntObjectHashMap<>();
 	private static final Map<BlockFace, BlockFace[]> faces = new HashMap<>();
@@ -276,56 +233,5 @@ public class FoxBukkitBlockListener extends BaseListener {
 				targetBlock.setTypeIdAndData(state.getTypeId(), state.getRawData(), false);
 			}
 		}
-	}
-
-	private void handlePistons(List<Block> blocks, BlockFace pushDirection) {
-		if (blocks.isEmpty())
-			return;
-
-		final int modX = pushDirection.getModX();
-		final int modY = pushDirection.getModY();
-		final int modZ = pushDirection.getModZ();
-		blocks = new ArrayList<>(blocks);
-		Collections.sort(blocks, new Comparator<Block>() { public int compare(Block lhs, Block rhs) {
-			return
-			(rhs.getX()-lhs.getX())*modX +
-			(rhs.getY()-lhs.getY())*modY +
-			(rhs.getZ()-lhs.getZ())*modZ;
-		}});
-
-		final List<State> states = new ArrayList<>();
-
-		final BlockFace[] blockFaces = faces.get(pushDirection);
-		for (Block block : blocks) {
-			for (BlockFace face : blockFaces) {
-				handlePistonBlock(block, face, pushDirection, states);
-			}
-		}
-
-		handlePistonBlock(blocks.get(0), pushDirection, pushDirection, states);
-
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() {
-			for (State state : states) {
-				state.apply();
-			}
-		}}, 2);
-	}
-
-	private void handlePistonBlock(Block block, BlockFace face, BlockFace pushDirection, final List<State> states) {
-		final Block attachedBlock = block.getRelative(face);
-		final BlockFace attachment = getAttachment(attachedBlock.getTypeId(), attachedBlock.getData());
-		if (attachment == null)
-			return;
-
-		if (attachment != face.getOppositeFace())
-			return;
-
-		final Block targetBlock = attachedBlock.getRelative(pushDirection);
-		if (!targetBlock.isEmpty())
-			return;
-
-		states.add(new State(targetBlock, attachedBlock.getState()));
-
-		attachedBlock.setTypeIdAndData(0, (byte) 0, false);
 	}
 }
