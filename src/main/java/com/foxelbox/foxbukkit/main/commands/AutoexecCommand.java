@@ -91,7 +91,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 
 			listAutoexec(ply);
 			final String restoreCommand = "/autoexec " + removedCommand;
-			MessageHelper.sendMessage(ply, "Removed command %1$d: <color name=\"blue\">%2$s</color> " + MessageHelper.button(restoreCommand, "restore", "dark_green", false), "" + id, removedCommand);
+			MessageHelper.sendMessage(ply, "Removed command %1$s: <color name=\"blue\">%2$s</color> " + MessageHelper.button(restoreCommand, "restore", "dark_green", false), "" + id, removedCommand);
 
 			return;
 		}
@@ -106,7 +106,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 		listAutoexec(ply);
 		final int id = commands.size() - 1;
 		final String undoCommand = "/autoexec -r " + id;
-		MessageHelper.sendMessage(ply, "Added command %1$d: <color name=\"blue\">%2$s</color> " + MessageHelper.button(undoCommand, "x", "red", true), "" + id, argStr);
+		MessageHelper.sendMessage(ply, "Added command %1$s: <color name=\"blue\">%2$s</color> " + MessageHelper.button(undoCommand, "x", "red", true), "" + id, argStr);
 	}
 
 	private List<String> getAutoexec(Player player) {
@@ -129,7 +129,7 @@ public class AutoexecCommand extends ICommand implements Listener {
 		for (int id = 0; id < commands.size(); ++id) {
 			final String command = commands.get(id);
 			final String removeCommand = "/autoexec -r " + id;
-			MessageHelper.sendMessage(player, "%1$d: <color name=\"blue\">%2$s</color> " + MessageHelper.button(removeCommand, "x", "red", true), "" + id, command);
+			MessageHelper.sendMessage(player, "%1$s: <color name=\"blue\">%2$s</color> " + MessageHelper.button(removeCommand, "x", "red", true), "" + id, command);
 		}
 	}
 
