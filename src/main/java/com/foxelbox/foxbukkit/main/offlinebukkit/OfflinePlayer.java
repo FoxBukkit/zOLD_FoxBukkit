@@ -16,12 +16,7 @@
  */
 package com.foxelbox.foxbukkit.main.offlinebukkit;
 
-import com.sk89q.jnbt.CompoundTag;
-import com.sk89q.jnbt.DoubleTag;
-import com.sk89q.jnbt.FloatTag;
-import com.sk89q.jnbt.IntTag;
-import com.sk89q.jnbt.NBTInputStream;
-import com.sk89q.jnbt.Tag;
+import com.sk89q.jnbt.*;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import org.bukkit.Achievement;
@@ -162,7 +157,7 @@ public class OfflinePlayer extends AbstractPlayer {
 
 		try {
 			final NBTInputStream nbtis = new NBTInputStream(new GZIPInputStream(new FileInputStream(playerFile)));
-			final CompoundTag root = (CompoundTag) nbtis.readTag();
+			final CompoundTag root = (CompoundTag) nbtis.readNamedTag().getTag();
 			final Map<String,Tag> rootMap = root.getValue();
 
 			// Read velocity

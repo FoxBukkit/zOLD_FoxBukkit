@@ -49,10 +49,6 @@
 										<exclude>LICENSE</exclude>
 										<exclude>NOTICE</exclude>
 									</excludes>
-									<artifact>cglib:cglib</artifact>
-									<includes>
-										<include>**</include>
-									</includes>
 								</filter>
 							</filters>
 						</configuration>
@@ -98,7 +94,7 @@
         <dependency>
 			<groupId>com.sk89q</groupId>
 			<artifactId>worldedit</artifactId>
-			<version>5.5.9-SNAPSHOT</version>
+			<version>LATEST-FOXELBOX</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -145,7 +141,7 @@
 		<dependency>
 			<groupId>me.confuser</groupId>
 			<artifactId>BarAPI</artifactId>
-			<version>3.1-SNAPSHOT</version>
+			<version>3.4-SNAPSHOT</version>
 		</dependency>
         <dependency>
             <groupId>de.kumpelblase2</groupId>
@@ -167,11 +163,6 @@
             <groupId>com.foxelbox</groupId>
             <artifactId>RedisDependency</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
         </dependency>
 	</dependencies>
 	<repositories>
