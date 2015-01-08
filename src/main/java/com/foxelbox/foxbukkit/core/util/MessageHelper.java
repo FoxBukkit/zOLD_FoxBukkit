@@ -17,6 +17,7 @@
 package com.foxelbox.foxbukkit.core.util;
 
 import com.foxelbox.foxbukkit.chat.HTMLParser;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
@@ -42,11 +43,11 @@ public class MessageHelper extends StateContainer {
 	public static final String OFFLINE_COLOR = "dark_red";
 
 	public static String format(CommandSender commandSender) {
-		return format(commandSender.getUniqueId(), commandSender, false);
+		return format(Utils.getCommandSenderUUID(commandSender), commandSender, false);
 	}
 
 	public static String formatWithTag(CommandSender commandSender) {
-		return format(commandSender.getUniqueId(), commandSender, true);
+		return format(Utils.getCommandSenderUUID(commandSender), commandSender, true);
 	}
 
 	public static String format(UUID uuid) {
@@ -68,7 +69,7 @@ public class MessageHelper extends StateContainer {
 		}
 		else {
 			name = commandSender.getName();
-			displayName = FoxBukkit.instance.playerHelper.getPlayerRankTag(uuid) + commandSender.getDisplayName();
+			displayName = FoxBukkit.instance.playerHelper.getPlayerRankTag(uuid) + Utils.getCommandSenderDisplayName(commandSender);
 			final String playerTag = FoxBukkit.instance.playerHelper.getPlayerTagRaw(uuid, false);
 			if (withTag && playerTag != null) {
 				displayName = playerTag + " " + displayName;

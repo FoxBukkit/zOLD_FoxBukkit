@@ -17,6 +17,7 @@
 package com.foxelbox.foxbukkit.chat.json;
 
 import com.foxelbox.foxbukkit.core.FoxBukkit;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R1.command.CraftConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -27,9 +28,9 @@ public class ChatMessageIn {
     public ChatMessageIn(CommandSender commandSender) {
         this();
         if(commandSender instanceof Player)
-            this.from = new UserInfo(commandSender.getUniqueId(), commandSender.getName());
+            this.from = new UserInfo(Utils.getCommandSenderUUID(commandSender), commandSender.getName());
         else
-            this.from = new UserInfo(CraftConsoleCommandSender.CONSOLE_UUID, commandSender.getName());
+            this.from = new UserInfo(Utils.CONSOLE_UUID, commandSender.getName());
     }
 
     public ChatMessageIn() {

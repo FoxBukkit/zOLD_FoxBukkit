@@ -18,6 +18,7 @@ package com.foxelbox.foxbukkit.foxpoints;
 
 import com.foxelbox.foxbukkit.main.StateContainer;
 import com.foxelbox.foxbukkit.main.util.Ini;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -78,7 +79,7 @@ public class FBBank extends StateContainer {
 		if (commandSender.hasPermission(permission))
 			return false;
 
-		useFunds(commandSender.getUniqueId(), cents, purpose);
+		useFunds(Utils.getCommandSenderUUID(commandSender), cents, purpose);
 		return true;
 	}
 

@@ -24,6 +24,7 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Help;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Level;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Usage;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -292,7 +293,7 @@ public class GiveCommand extends ICommand {
 		final boolean usedFunds = plugin.bank.checkPermissionsOrUseFunds(commandSender, "foxbukkit.players.give", price, "/give " + argStr);
 
 		if (usedFunds) {
-			final double total = plugin.bank.getBalance(commandSender.getUniqueId());
+			final double total = plugin.bank.getBalance(Utils.getCommandSenderUUID(commandSender));
 			PlayerHelper.sendDirectedMessage(commandSender, "Used " + price + " FP from your account. You have " + total + " FP left.");
 		}
 

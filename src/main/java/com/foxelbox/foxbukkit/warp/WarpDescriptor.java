@@ -19,6 +19,7 @@ package com.foxelbox.foxbukkit.warp;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.util.Ini;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -64,7 +65,7 @@ public class WarpDescriptor {
 		if (commandSender == null)
 			return 1;
 		
-		UUID playerName = commandSender.getUniqueId();
+		UUID playerName = Utils.getCommandSenderUUID(commandSender);
 		if (playerName.equals(ownerName))
 			return 3;
 

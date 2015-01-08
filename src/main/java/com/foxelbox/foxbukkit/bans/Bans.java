@@ -20,6 +20,7 @@ import com.foxelbox.foxbukkit.bans.listeners.BansPlayerListener;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import com.foxelbox.foxbukkit.main.offlinebukkit.OfflinePlayer;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -101,7 +102,7 @@ public class Bans {
 			public void run() {
 				Ban newBan = new Ban();
 				newBan.setUser(plyName, plyUUID);
-				newBan.setAdmin(from.getName(), from.getUniqueId());
+				newBan.setAdmin(from.getName(), Utils.getCommandSenderUUID(from));
 				newBan.setReason(reason);
 				newBan.setType(type.getName());
 				BanResolver.addBan(newBan);

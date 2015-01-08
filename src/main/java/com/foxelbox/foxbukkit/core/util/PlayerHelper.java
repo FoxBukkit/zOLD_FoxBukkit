@@ -455,11 +455,11 @@ public class PlayerHelper extends StateContainer {
 		if (ply instanceof BlockCommandSender) {
 			return 9998;
 		}
-		return getPlayerLevel(ply.getUniqueId());
+		return getPlayerLevel(Utils.getCommandSenderUUID(ply));
 	}
 
 	public static int getPlayerLevel(UUID uuid) {
-		if(CraftConsoleCommandSender.CONSOLE_UUID.equals(uuid))
+		if(Utils.CONSOLE_UUID.equals(uuid))
 			return 9999;
 
 		return FoxBukkit.instance.playerHelper.getRankLevel(getPlayerRank(uuid));
@@ -483,7 +483,7 @@ public class PlayerHelper extends StateContainer {
 	private final Map<String,String> playerRankTags = FoxBukkit.instance.redisManager.createCachedRedisMap("playerRankTags");
 
 	public String getPlayerTag(CommandSender commandSender) {
-		return getPlayerTag(commandSender.getUniqueId());
+		return getPlayerTag(Utils.getCommandSenderUUID(commandSender));
 	}
 
 	public String getPlayerRankTag(UUID uuid) {
@@ -569,7 +569,7 @@ public class PlayerHelper extends StateContainer {
 		int commandSenderLevel = getPlayerLevel(commandSender);
 		int targetLevel = getPlayerLevel(target);
 
-		String commandSenderName = commandSender.getUniqueId().toString();
+		String commandSenderName = Utils.getCommandSenderUUID(commandSender).toString();
 		String targetName = target.getUniqueId().toString();
 
 		// Was an exception given?
@@ -581,7 +581,7 @@ public class PlayerHelper extends StateContainer {
 			return false;
 
 		// Higher-ranked people can always port.
-		if (commandSenderLevel > targetLevel && !AbusePotentialManager.isAbusive(commandSender.getUniqueId()))
+		if (commandSenderLevel > targetLevel && !AbusePotentialManager.isAbusive(Utils.getCommandSenderUUID(commandSender)))
 			return true;
 
 		// Same-ranked people can deny each other teleportation.
@@ -1048,7 +1048,7 @@ public class PlayerHelper extends StateContainer {
     public static final HashMap<UUID, String> playerIPs = new HashMap<>();
 
     public static String getPlayerIP(CommandSender player) {
-        return getPlayerIP(player.getUniqueId());
+        return getPlayerIP(Utils.getCommandSenderUUID(player));
     }
 
     public static String getPlayerIP(UUID uuid) {
@@ -1058,7 +1058,7 @@ public class PlayerHelper extends StateContainer {
     }
 
     public static String getPlayerHost(CommandSender player) {
-        return getPlayerHost(player.getUniqueId());
+        return getPlayerHost(Utils.getCommandSenderUUID(player));
     }
 
     public static String getPlayerHost(UUID uuid) {

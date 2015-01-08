@@ -121,8 +121,8 @@ public class CommandSystem {
 						throw new PermissionDeniedException();
 
 					final double price = costAnnotation.value();
-					plugin.bank.useFunds(commandSender.getUniqueId(), price, "/"+cmd+" "+argStr);
-					final double total = plugin.bank.getBalance(commandSender.getUniqueId());
+					plugin.bank.useFunds(Utils.getCommandSenderUUID(commandSender), price, "/" + cmd + " " + argStr);
+					final double total = plugin.bank.getBalance(Utils.getCommandSenderUUID(commandSender));
 					PlayerHelper.sendDirectedMessage(commandSender, "Used "+price+" FP from your account. You have "+total+" FP left.");
 				}
 

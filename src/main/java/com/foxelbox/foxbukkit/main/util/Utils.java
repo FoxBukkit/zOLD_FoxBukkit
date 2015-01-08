@@ -35,6 +35,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
@@ -51,11 +53,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -71,6 +69,22 @@ public class Utils {
 	public static String concat(Collection<String> parts, int start, String defaultText) {
 		// TODO: optimize
 		return concatArray(parts.toArray(new String[parts.size()]), start, defaultText);
+	}
+
+	public static UUID CONSOLE_UUID = UUID.nameUUIDFromBytes("[CONSOLE]".getBytes());
+
+	public static UUID getCommandSenderUUID(CommandSender commandSender) {
+		if(commandSender instanceof Player)
+			return ((Player) commandSender).getUniqueId();
+		if(commandSender instanceof ConsoleCommandSender)
+			return CONSOLE_UUID;
+		return UUID.nameUUIDFromBytes(("[CSUUID:" + commandSender.getClass().getName() + "]").getBytes());
+	}
+
+	public static String getCommandSenderDisplayName(CommandSender commandSender) {
+		if(commandSender instanceof Player)
+			return ((Player) commandSender).getDisplayName();
+		return commandSender.getName();
 	}
 
 	@SuppressWarnings("deprecation")

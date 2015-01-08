@@ -25,6 +25,7 @@ import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.StringFlags;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Usage;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -72,11 +73,11 @@ public class TimeCommand extends ServerTimeCommand {
 		}
 
 		if (setWeather == null) {
-			playerHelper.frozenWeathers.remove(commandSender.getUniqueId());
+			playerHelper.frozenWeathers.remove(Utils.getCommandSenderUUID(commandSender));
 			PlayerHelper.sendDirectedMessage(commandSender, "Reset your weather back to normal!");
 		}
 		else {
-			playerHelper.frozenWeathers.put(commandSender.getUniqueId(), setWeather);
+			playerHelper.frozenWeathers.put(Utils.getCommandSenderUUID(commandSender), setWeather);
 			PlayerHelper.sendDirectedMessage(commandSender, "You forced your weather to be: " + setWeather.name + ".");
 		}
 

@@ -19,6 +19,7 @@ package com.foxelbox.foxbukkit.main.commands.system;
 import com.foxelbox.foxbukkit.chat.RedisHandler;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
+import com.foxelbox.foxbukkit.main.util.Utils;
 import com.foxelbox.foxbukkit.permissions.AbusePotentialManager;
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
 import gnu.trove.map.TCharObjectMap;
@@ -265,7 +266,7 @@ public abstract class ICommand {
 
 
 	public boolean canPlayerUseCommand(CommandSender commandSender) {
-		if (hasAbusePotential() && AbusePotentialManager.isAbusive(commandSender.getUniqueId()))
+		if (hasAbusePotential() && AbusePotentialManager.isAbusive(Utils.getCommandSenderUUID(commandSender)))
 			return false;
 
 		final String requiredPermission = getRequiredPermission();
