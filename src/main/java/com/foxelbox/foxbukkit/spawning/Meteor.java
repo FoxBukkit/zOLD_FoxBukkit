@@ -20,6 +20,7 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.util.Utils;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
 import com.foxelbox.foxbukkit.spawning.potions.CustomPotion;
+import de.diddiz.LogBlock.Actor;
 import net.minecraft.server.v1_8_R1.EntityFallingBlock;
 import net.minecraft.server.v1_8_R1.EntityPlayer;
 import net.minecraft.server.v1_8_R1.PacketPlayOutExplosion;
@@ -82,7 +83,7 @@ public class Meteor extends CustomPotion {
 					final byte data = block.getData();
 
 					if (thrower != null && FoxBukkit.instance.logBlockConsumer != null)
-						FoxBukkit.instance.logBlockConsumer.queueBlockBreak(thrower.getName(), block.getState());
+						FoxBukkit.instance.logBlockConsumer.queueBlockBreak(Actor.actorFromEntity(thrower.getBukkitEntity()), block.getState());
 					block.setTypeIdAndData(0, (byte) 0, true);
 
 					final Location fbloc = location.multiply(0.5);

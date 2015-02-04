@@ -23,6 +23,7 @@ import com.foxelbox.foxbukkit.main.ToolBind;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand;
 import com.foxelbox.foxbukkit.spawning.SpawnUtils;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
+import de.diddiz.LogBlock.Actor;
 import net.minecraft.server.v1_8_R1.AxisAlignedBB;
 import net.minecraft.server.v1_8_R1.EntityAnimal;
 import net.minecraft.server.v1_8_R1.EntityInsentient;
@@ -186,7 +187,7 @@ public class FoxBukkitPlayerListener extends BaseListener {
 				final BlockState state = clickedBlock.getState();
 
 				if (plugin.logBlockConsumer != null)
-					plugin.logBlockConsumer.queueBlockReplace(event.getPlayer().getName(), state, 35, newData);
+					plugin.logBlockConsumer.queueBlockReplace(Actor.actorFromEntity(event.getPlayer()), state, 35, newData);
 
 				final Wool wool = (Wool) state.getData();
 				final Dye dye = (Dye) item.getData();
