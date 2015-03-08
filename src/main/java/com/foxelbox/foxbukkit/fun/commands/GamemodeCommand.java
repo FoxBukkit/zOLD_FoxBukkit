@@ -83,7 +83,7 @@ public class GamemodeCommand extends ICommand {
 
 		target.setGameMode(gameMode);
 
-		if (target == ply) {
+		if (target == ply && !ply.hasPermission("foxbukkit.gamemode.silent")) {
 			PlayerHelper.sendServerMessage(ply.getName() + " changed their gamemode to " + gameMode.toString());
 		}
 		else {
