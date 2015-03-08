@@ -24,7 +24,8 @@ import com.foxelbox.foxbukkit.spawning.effects.system.EffectProperties;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeEntity;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeExperienceOrb;
-import net.minecraft.server.v1_8_R1.PacketPlayOutExplosion;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.PacketPlayOutExplosion;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -99,7 +100,7 @@ public class Jetpack extends FBEffect.PotionTrail {
 			done();
 			cancel();
 
-			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new PacketPlayOutExplosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptyList(), null));
+			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new PacketPlayOutExplosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, new ArrayList<BlockPosition>(), null));
 			Utils.makeSound(currentLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
 
 			for (int i = 0; i < 100; ++i) {

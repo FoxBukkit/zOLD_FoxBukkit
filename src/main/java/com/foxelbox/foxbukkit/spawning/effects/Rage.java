@@ -20,12 +20,12 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.spawning.SpawnUtils;
 import com.foxelbox.foxbukkit.spawning.effects.system.EffectProperties;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
-import net.minecraft.server.v1_8_R1.EntityLiving;
-import net.minecraft.server.v1_8_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityLook;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.PacketPlayOutAnimation;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntity;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityHeadRotation;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -73,11 +73,11 @@ public class Rage extends FBEffect {
 			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutAnimation(notchEntity, 1));
 
 			// random looking
-			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch, false), (Player) entity);
+			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntity.PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch, false), (Player) entity);
 			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, yaw), (Player) entity);
 		}
 		else {
-			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch, false), null);
+			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntity.PacketPlayOutEntityLook(entity.getEntityId(), yaw, pitch, false), null);
 			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(location, 32, new PacketPlayOutEntityHeadRotation(notchEntity, (byte) random.nextInt(256)), null);
 		}
 

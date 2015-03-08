@@ -26,8 +26,9 @@ import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeEntity;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeExperienceOrb;
 import com.foxelbox.foxbukkit.spawning.fakeentity.FakeShapeBasedEntity;
-import net.minecraft.server.v1_8_R1.ItemStack;
-import net.minecraft.server.v1_8_R1.PacketPlayOutExplosion;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.ItemStack;
+import net.minecraft.server.v1_8_R2.PacketPlayOutExplosion;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -193,7 +194,7 @@ public class Rocket extends FBEffect.PotionTrail {
 				return;
 			}
 
-			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new PacketPlayOutExplosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, Collections.emptyList(), null));
+			FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(currentLocation, 64, new PacketPlayOutExplosion(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ(), -1.0f, new ArrayList<BlockPosition>(), null));
 			Utils.makeSound(currentLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
 
 			for (int i = 0; i < 100; ++i) {

@@ -18,12 +18,11 @@ package com.foxelbox.foxbukkit.chat.html;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
-import net.minecraft.server.v1_8_R1.ChatClickable;
-import net.minecraft.server.v1_8_R1.ChatComponentText;
-import net.minecraft.server.v1_8_R1.ChatModifier;
-import net.minecraft.server.v1_8_R1.EnumChatFormat;
-import net.minecraft.server.v1_8_R1.EnumClickAction;
-import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.ChatClickable;
+import net.minecraft.server.v1_8_R2.ChatComponentText;
+import net.minecraft.server.v1_8_R2.ChatModifier;
+import net.minecraft.server.v1_8_R2.EnumChatFormat;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +138,7 @@ public final class CraftChatMessage {
 					appendNewComponent();
 				}
 				builder.append(fullUrl);
-				ChatClickable link = new ChatClickable(EnumClickAction.OPEN_URL,
+				ChatClickable link = new ChatClickable(ChatClickable.EnumClickAction.OPEN_URL,
 						(protocol!=null?protocol:"http") + "://" + url + (path!=null?path:""));
 				modifier.setChatClickable(link);
 				appendNewComponent();

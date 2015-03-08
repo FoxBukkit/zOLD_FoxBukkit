@@ -17,7 +17,7 @@
 package com.foxelbox.foxbukkit.spawning;
 
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 public abstract class AbstractSpawnable<V extends Entity> implements Spawnable<V> {
@@ -31,7 +31,7 @@ public abstract class AbstractSpawnable<V extends Entity> implements Spawnable<V
 	}
 
 	@Override
-	public net.minecraft.server.v1_8_R1.Entity getInternalEntity() throws FoxBukkitCommandException {
+	public net.minecraft.server.v1_8_R2.Entity getInternalEntity() throws FoxBukkitCommandException {
 		ensureSpawned();
 		return ((CraftEntity) entity).getHandle();
 	}

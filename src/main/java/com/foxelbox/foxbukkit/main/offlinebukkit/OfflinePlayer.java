@@ -26,7 +26,8 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.Statistic;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R1.CraftServer;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
@@ -36,6 +37,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
@@ -53,7 +55,22 @@ public class OfflinePlayer extends AbstractPlayer {
 		this(server, uuid, null);
 	}
 
-	public void sendSignChange(Location loc, String[] str) {
+    @Override
+    public List<Block> getLineOfSight(Set<Material> set, int i) {
+        return null;
+    }
+
+    @Override
+    public Block getTargetBlock(Set<Material> set, int i) {
+        return null;
+    }
+
+    @Override
+    public List<Block> getLastTwoTargetBlocks(Set<Material> set, int i) {
+        return null;
+    }
+
+    public void sendSignChange(Location loc, String[] str) {
 
 	}
 

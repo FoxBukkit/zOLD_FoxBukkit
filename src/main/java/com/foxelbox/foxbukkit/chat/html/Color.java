@@ -16,8 +16,8 @@
  */
 package com.foxelbox.foxbukkit.chat.html;
 
-import net.minecraft.server.v1_8_R1.ChatModifier;
-import net.minecraft.server.v1_8_R1.EnumChatFormat;
+import net.minecraft.server.v1_8_R2.ChatModifier;
+import net.minecraft.server.v1_8_R2.EnumChatFormat;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -39,8 +39,8 @@ public class Color extends Element {
 
 		if (id != null && !id.isEmpty()) {
 			@SuppressWarnings("unchecked")
-			final Map<Character, EnumChatFormat> idToChatFormat = EnumChatFormat.w; // v1_7_R1
-			style.setColor(idToChatFormat.get(id.charAt(0)));
+			final Map<String, EnumChatFormat> idToChatFormat = EnumChatFormat.w; // v1_7_R1
+			style.setColor(idToChatFormat.get(id));
 		}
 	}
 }

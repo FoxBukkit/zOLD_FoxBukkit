@@ -23,7 +23,7 @@ import com.foxelbox.foxbukkit.spawning.SpawnUtils;
 import com.foxelbox.foxbukkit.spawning.commands.GiveCommand;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import net.minecraft.server.v1_8_R1.EnumArt;
+import net.minecraft.server.v1_8_R2.EntityPainting;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -138,7 +138,7 @@ final class ShapeActions {
 				new HelpMobAction("/sac art <name>"),
 				"art", "painting", "name", "type",
 				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws FoxBukkitCommandException {
-					for (EnumArt art : EnumArt.values()) {
+					for (EntityPainting.EnumArt art : EntityPainting.EnumArt.values()) {
 						final String currentName = art.B; // v1_7_R1
 						if (!currentName.equalsIgnoreCase(argStr))
 							continue;
@@ -170,7 +170,7 @@ final class ShapeActions {
 				new EntityStatusMobAction(17, "Exploding..."),
 				"set",
 				new ShapeAction() { @Override public void run(EntityShape shape, CommandSender commandSender, String[] args, String argStr) throws FoxBukkitCommandException {
-					final net.minecraft.server.v1_8_R1.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
+					final net.minecraft.server.v1_8_R2.ItemStack stack = SpawnUtils.makeFireworks(1, 0, 0x253192);
 					shape.setData(8, stack);
 
 					PlayerHelper.sendDirectedMessage(commandSender, "Preparing...");

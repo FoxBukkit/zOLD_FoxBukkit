@@ -21,17 +21,17 @@ import com.foxelbox.foxbukkit.componentsystem.FBListener;
 import com.foxelbox.foxbukkit.main.util.Utils;
 import com.foxelbox.foxbukkit.transmute.Shape;
 import com.foxelbox.foxbukkit.transmute.Transmute;
-import net.minecraft.server.v1_8_R1.Packet;
-import net.minecraft.server.v1_8_R1.PacketPlayOutBed;
-import net.minecraft.server.v1_8_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R1.PacketPlayOutCollect;
-import net.minecraft.server.v1_8_R1.PacketPlayOutSpawnEntity;
-import net.minecraft.server.v1_8_R1.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntity;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateAttributes;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutBed;
+import net.minecraft.server.v1_8_R2.PacketPlayOutAnimation;
+import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R2.PacketPlayOutCollect;
+import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntity;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R2.PacketPlayOutUpdateAttributes;
 
 import org.bukkit.entity.Player;
 

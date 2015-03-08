@@ -22,12 +22,12 @@ import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Names;
 import com.foxelbox.foxbukkit.main.commands.system.ICommand.Permission;
-import net.minecraft.server.v1_8_R1.MaterialMapColor;
+import net.minecraft.server.v1_8_R2.MaterialMapColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R1.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_8_R2.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapCanvas;
@@ -139,7 +139,7 @@ public class SecCamCommand extends ICommand {
 
 					if (next.getRelative(0, 1, 0).getType() == Material.SNOW)
 						type = Material.SNOW;
-					final net.minecraft.server.v1_8_R1.Block notchBlock = CraftMagicNumbers.getBlock(type);
+					final net.minecraft.server.v1_8_R2.Block notchBlock = CraftMagicNumbers.getBlock(type);
 					//final MaterialMapColor materialMapColor = notchBlock.g(next.);
 					int offset = 0;
 					return 0;

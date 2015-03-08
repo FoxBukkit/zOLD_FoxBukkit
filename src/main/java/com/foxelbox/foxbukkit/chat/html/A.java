@@ -16,9 +16,8 @@
  */
 package com.foxelbox.foxbukkit.chat.html;
 
-import net.minecraft.server.v1_8_R1.ChatClickable;
-import net.minecraft.server.v1_8_R1.ChatModifier;
-import net.minecraft.server.v1_8_R1.EnumClickAction;
+import net.minecraft.server.v1_8_R2.ChatClickable;
+import net.minecraft.server.v1_8_R2.ChatModifier;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,6 +29,6 @@ public class A extends Element {
 
 	@Override
 	protected void modifyStyle(ChatModifier style) {
-		style.setChatClickable(new ChatClickable(EnumClickAction.OPEN_URL, href));
+		style.setChatClickable(new ChatClickable(ChatClickable.EnumClickAction.OPEN_URL, href));
 	}
 }

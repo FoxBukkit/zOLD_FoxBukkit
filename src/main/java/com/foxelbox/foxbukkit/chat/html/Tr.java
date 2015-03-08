@@ -16,9 +16,9 @@
  */
 package com.foxelbox.foxbukkit.chat.html;
 
-import net.minecraft.server.v1_8_R1.ChatBaseComponent;
-import net.minecraft.server.v1_8_R1.ChatMessage;
-import net.minecraft.server.v1_8_R1.ChatModifier;
+import net.minecraft.server.v1_8_R2.ChatBaseComponent;
+import net.minecraft.server.v1_8_R2.ChatMessage;
+import net.minecraft.server.v1_8_R2.ChatModifier;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAttribute;

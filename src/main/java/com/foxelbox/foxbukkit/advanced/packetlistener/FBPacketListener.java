@@ -19,30 +19,24 @@ package com.foxelbox.foxbukkit.advanced.packetlistener;
 import com.foxelbox.foxbukkit.main.listeners.BaseListener;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import net.minecraft.server.v1_8_R1.Packet;
-import net.minecraft.server.v1_8_R1.PacketPlayInBlockPlace;
-import net.minecraft.server.v1_8_R1.PacketPlayInChat;
-import net.minecraft.server.v1_8_R1.PacketPlayInFlying;
-import net.minecraft.server.v1_8_R1.PacketPlayInLook;
-import net.minecraft.server.v1_8_R1.PacketPlayInPosition;
-import net.minecraft.server.v1_8_R1.PacketPlayInPositionLook;
-import net.minecraft.server.v1_8_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutBed;
-import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R1.PacketPlayOutCollect;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntity;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityLook;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R1.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R1.PacketPlayOutGameStateChange;
-import net.minecraft.server.v1_8_R1.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
-import net.minecraft.server.v1_8_R1.PacketPlayOutRelEntityMove;
-import net.minecraft.server.v1_8_R1.PacketPlayOutRelEntityMoveLook;
-import net.minecraft.server.v1_8_R1.PacketPlayOutSpawnEntity;
-import net.minecraft.server.v1_8_R1.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_8_R1.PacketPlayOutUpdateAttributes;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayInBlockPlace;
+import net.minecraft.server.v1_8_R2.PacketPlayInChat;
+import net.minecraft.server.v1_8_R2.PacketPlayInFlying;
+import net.minecraft.server.v1_8_R2.PacketPlayOutAnimation;
+import net.minecraft.server.v1_8_R2.PacketPlayOutBed;
+import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R2.PacketPlayOutCollect;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntity;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R2.PacketPlayOutGameStateChange;
+import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R2.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R2.PacketPlayOutUpdateAttributes;
 import org.bukkit.entity.Player;
 
 public class FBPacketListener extends BaseListener implements FBPacketListenerInt {
@@ -65,9 +59,9 @@ public class FBPacketListener extends BaseListener implements FBPacketListenerIn
 		addLegacyMappingIn(8, PacketPlayInBlockPlace.class);
 
 		addLegacyMappingIn(10, PacketPlayInFlying.class);
-		addLegacyMappingIn(11, PacketPlayInPosition.class);
-		addLegacyMappingIn(12, PacketPlayInLook.class);
-		addLegacyMappingIn(13, PacketPlayInPositionLook.class);
+		addLegacyMappingIn(11, PacketPlayInFlying.PacketPlayInPosition.class);
+		addLegacyMappingIn(12, PacketPlayInFlying.PacketPlayInLook.class);
+		addLegacyMappingIn(13, PacketPlayInFlying.PacketPlayInPositionLook.class);
 
 		addLegacyMappingOut(17, PacketPlayOutBed.class);
 		addLegacyMappingOut(18, PacketPlayOutAnimation.class);
@@ -78,9 +72,9 @@ public class FBPacketListener extends BaseListener implements FBPacketListenerIn
 		addLegacyMappingOut(24, PacketPlayOutSpawnEntityLiving.class);
 
 		addLegacyMappingOut(30, PacketPlayOutEntity.class);
-		addLegacyMappingOut(31, PacketPlayOutRelEntityMove.class);
-		addLegacyMappingOut(32, PacketPlayOutEntityLook.class);
-		addLegacyMappingOut(33, PacketPlayOutRelEntityMoveLook.class);
+		addLegacyMappingOut(31, PacketPlayOutEntity.PacketPlayOutRelEntityMove.class);
+		addLegacyMappingOut(32, PacketPlayOutEntity.PacketPlayOutEntityLook.class);
+		addLegacyMappingOut(33, PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook.class);
 		addLegacyMappingOut(34, PacketPlayOutEntityTeleport.class);
 		addLegacyMappingOut(35, PacketPlayOutEntityHeadRotation.class);
 

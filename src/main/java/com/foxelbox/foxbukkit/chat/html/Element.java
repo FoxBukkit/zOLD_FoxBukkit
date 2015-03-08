@@ -17,13 +17,11 @@
 package com.foxelbox.foxbukkit.chat.html;
 
 import com.foxelbox.foxbukkit.chat.HTMLParser;
-import net.minecraft.server.v1_8_R1.ChatBaseComponent;
-import net.minecraft.server.v1_8_R1.ChatClickable;
-import net.minecraft.server.v1_8_R1.ChatHoverable;
-import net.minecraft.server.v1_8_R1.ChatModifier;
-import net.minecraft.server.v1_8_R1.EnumClickAction;
-import net.minecraft.server.v1_8_R1.EnumHoverAction;
-import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.ChatBaseComponent;
+import net.minecraft.server.v1_8_R2.ChatClickable;
+import net.minecraft.server.v1_8_R2.ChatHoverable;
+import net.minecraft.server.v1_8_R2.ChatModifier;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -71,7 +69,7 @@ public abstract class Element {
 
 			final String eventType = matcher.group(1);
 			final String eventString = matcher.group(2);
-			final EnumClickAction enumClickAction = EnumClickAction.a(eventType.toLowerCase());
+			final ChatClickable.EnumClickAction enumClickAction = ChatClickable.EnumClickAction.a(eventType.toLowerCase());
 			if (enumClickAction == null) {
 				throw new RuntimeException("Unknown click action "+eventType);
 			}
@@ -87,7 +85,7 @@ public abstract class Element {
 
 			final String eventType = matcher.group(1);
 			final String eventString = matcher.group(2);
-			final EnumHoverAction enumClickAction = EnumHoverAction.a(eventType.toLowerCase());
+			final ChatHoverable.EnumHoverAction enumClickAction = ChatHoverable.EnumHoverAction.a(eventType.toLowerCase());
 			if (enumClickAction == null) {
 				throw new RuntimeException("Unknown click action "+eventType);
 			}
@@ -139,7 +137,7 @@ public abstract class Element {
 		final ChatBaseComponent head = components.remove(0);
 
 		if (!components.isEmpty()) {
-			head.a = components;
+			head.a = (List<IChatBaseComponent>)(List)components;
 		}
 
 		return head;

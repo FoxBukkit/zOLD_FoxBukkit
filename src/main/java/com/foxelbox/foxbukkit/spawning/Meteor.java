@@ -21,9 +21,10 @@ import com.foxelbox.foxbukkit.main.util.Utils;
 import com.foxelbox.foxbukkit.spawning.effects.system.FBEffect;
 import com.foxelbox.foxbukkit.spawning.potions.CustomPotion;
 import de.diddiz.LogBlock.Actor;
-import net.minecraft.server.v1_8_R1.EntityFallingBlock;
-import net.minecraft.server.v1_8_R1.EntityPlayer;
-import net.minecraft.server.v1_8_R1.PacketPlayOutExplosion;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.EntityFallingBlock;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutExplosion;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,7 +32,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 
 public class Meteor extends CustomPotion {
@@ -54,7 +57,7 @@ public class Meteor extends CustomPotion {
 		final Entity thisBukkitEntity = getBukkitEntity();
 		final World world = thisBukkitEntity.getWorld();
 
-		FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(hitLocation, 64, new PacketPlayOutExplosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), -1.0f, Collections.emptyList(), null));
+		FoxBukkit.instance.playerHelper.sendPacketToPlayersAround(hitLocation, 64, new PacketPlayOutExplosion(hitLocation.getX(), hitLocation.getY(), hitLocation.getZ(), -1.0f, new ArrayList<BlockPosition>(), null));
 		Utils.makeSound(hitLocation, "random.explode", 4.0F, (float) ((1.0 + (Math.random() - Math.random()) * 0.2) * 0.7));
 
 		final Location min = hitLocation.clone().subtract(radius, radius, radius);
