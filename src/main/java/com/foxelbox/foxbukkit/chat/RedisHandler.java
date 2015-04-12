@@ -91,7 +91,9 @@ public class RedisHandler extends AbstractRedisHandler {
 				}
 			}
 
-			HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents);
+			if(chatMessageOut.contents != null) {
+				HTMLParser.sendToPlayers(targetPlayers, chatMessageOut.contents);
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
