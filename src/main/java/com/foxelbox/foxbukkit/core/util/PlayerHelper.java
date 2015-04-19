@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbukkit.core.util;
 
+import com.foxelbox.dependencies.redis.CacheMap;
 import com.foxelbox.foxbukkit.bans.FishBansResolver;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.main.FoxBukkitCommandException;
@@ -523,7 +524,12 @@ public class PlayerHelper extends StateContainer {
 	}
 
 
-	private Map<String,String> playernicks = FoxBukkit.instance.redisManager.createCachedRedisMap("playernicks");
+	private Map<String,String> playernicks = FoxBukkit.instance.redisManager.createCachedRedisMap("playernicks").addOnChangeHook(new CacheMap.OnChangeHook() {
+		@Override
+		public void onEntryChanged(String key, String value) {
+			setPlayerDisplayName(plugin.getServer().getPlayer(UUID.fromString(key)));
+		}
+	});
 
 	public String getPlayerNick(UUID uuid) {
 		if(playernicks.containsKey(uuid.toString()))
@@ -533,6 +539,8 @@ public class PlayerHelper extends StateContainer {
 	}
 
 	public void setPlayerDisplayName(Player player) {
+		if(player == null)
+			return;
 		String nick = getPlayerNick(player.getUniqueId());
 		if (nick == null)
 			nick = player.getName();
