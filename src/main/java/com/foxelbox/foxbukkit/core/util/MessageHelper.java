@@ -76,9 +76,7 @@ public class MessageHelper extends StateContainer {
 			}
 			if (commandSender instanceof Player) {
 				final Player player = (Player) commandSender;
-				final String color = player.isOnline() ? ONLINE_COLOR : OFFLINE_COLOR;
-				final String hoverText = String.format("<color name=\"%1$s\">%2$s</color>", color, commandSender.getName());
-				onHover = " onHover=\"show_text('" + escape(hoverText) + "')\"";
+				onHover = " onHover=\"show_entity('{id:&quot;" + player.getUniqueId() + "&quot;,name:&quot;" + player.getName() + "&quot;}')\"";
 			}
 			else {
 				onHover = "";
