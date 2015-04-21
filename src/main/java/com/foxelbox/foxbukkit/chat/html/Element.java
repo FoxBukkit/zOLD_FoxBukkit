@@ -90,8 +90,6 @@ public abstract class Element {
 				throw new RuntimeException("Unknown click action "+eventType);
 			}
 
-			System.out.println("onHover=" +eventType+";"+eventString);
-
 			style.setChatHoverable(new ChatHoverable(enumClickAction, HTMLParser.parse(eventString)));
 		}
 
