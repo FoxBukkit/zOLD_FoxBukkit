@@ -39,15 +39,6 @@ import java.util.Map;
 public class FoxBukkitPacketListener extends FBPacketListener implements FBListener {
 	private static final double QUARTER_CIRCLE = 2.0*Math.PI/4.0;
 
-	private static final Map<Player, Long> playerLastUsePacket;
-	private static final Map<Player, Integer> playerLastUsePacketViolated;
-	static {
-		playerLastUsePacket = new HashMap<>();
-		playerLastUsePacketViolated = new HashMap<>();
-		AutoCleanup.registerPlayerMap(playerLastUsePacket);
-		AutoCleanup.registerPlayerMap(playerLastUsePacketViolated);
-	}
-
 	public FoxBukkitPacketListener() {
 		register(PacketDirection.OUTGOING, PacketPlayOutChat.class);
 		register(PacketDirection.OUTGOING, PacketPlayOutEntityTeleport.class);
