@@ -17,8 +17,8 @@
 package com.foxelbox.foxbukkit.spawning.fakeentity;
 
 import com.foxelbox.foxbukkit.core.util.PlayerHelper;
-import net.minecraft.server.v1_8_R2.MathHelper;
-import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityExperienceOrb;
+import net.minecraft.server.v1_8_R3.MathHelper;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityExperienceOrb;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

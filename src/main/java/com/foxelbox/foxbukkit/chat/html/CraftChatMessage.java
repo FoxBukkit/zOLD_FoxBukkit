@@ -18,11 +18,11 @@ package com.foxelbox.foxbukkit.chat.html;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
-import net.minecraft.server.v1_8_R2.ChatClickable;
-import net.minecraft.server.v1_8_R2.ChatComponentText;
-import net.minecraft.server.v1_8_R2.ChatModifier;
-import net.minecraft.server.v1_8_R2.EnumChatFormat;
-import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.ChatClickable;
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.ChatModifier;
+import net.minecraft.server.v1_8_R3.EnumChatFormat;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 
 import java.util.ArrayList;
 import java.util.List;

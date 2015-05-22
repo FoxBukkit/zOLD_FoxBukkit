@@ -16,23 +16,23 @@
  */
 package com.foxelbox.foxbukkit.transmute;
 
-import net.minecraft.server.v1_8_R2.Entity;
-import net.minecraft.server.v1_8_R2.EntityEgg;
-import net.minecraft.server.v1_8_R2.EntityEnderDragon;
-import net.minecraft.server.v1_8_R2.EntityEnderPearl;
-import net.minecraft.server.v1_8_R2.EntityEnderSignal;
-import net.minecraft.server.v1_8_R2.EntityExperienceOrb;
-import net.minecraft.server.v1_8_R2.EntityFallingBlock;
-import net.minecraft.server.v1_8_R2.EntityFireworks;
-import net.minecraft.server.v1_8_R2.EntityFishingHook;
-import net.minecraft.server.v1_8_R2.EntityHorse;
-import net.minecraft.server.v1_8_R2.EntityLeash;
-import net.minecraft.server.v1_8_R2.EntityMagmaCube;
-import net.minecraft.server.v1_8_R2.EntityOcelot;
-import net.minecraft.server.v1_8_R2.EntityPotion;
-import net.minecraft.server.v1_8_R2.EntityTNTPrimed;
-import net.minecraft.server.v1_8_R2.EntityTypes;
-import net.minecraft.server.v1_8_R2.EntityWither;
+import net.minecraft.server.v1_8_R3.Entity;
+import net.minecraft.server.v1_8_R3.EntityEgg;
+import net.minecraft.server.v1_8_R3.EntityEnderDragon;
+import net.minecraft.server.v1_8_R3.EntityEnderPearl;
+import net.minecraft.server.v1_8_R3.EntityEnderSignal;
+import net.minecraft.server.v1_8_R3.EntityExperienceOrb;
+import net.minecraft.server.v1_8_R3.EntityFallingBlock;
+import net.minecraft.server.v1_8_R3.EntityFireworks;
+import net.minecraft.server.v1_8_R3.EntityFishingHook;
+import net.minecraft.server.v1_8_R3.EntityHorse;
+import net.minecraft.server.v1_8_R3.EntityLeash;
+import net.minecraft.server.v1_8_R3.EntityMagmaCube;
+import net.minecraft.server.v1_8_R3.EntityOcelot;
+import net.minecraft.server.v1_8_R3.EntityPotion;
+import net.minecraft.server.v1_8_R3.EntityTNTPrimed;
+import net.minecraft.server.v1_8_R3.EntityTypes;
+import net.minecraft.server.v1_8_R3.EntityWither;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,8 +83,8 @@ public class MyEntityTypes {
 		classToId.put(cls, mobType);
 	}
 
-	public static Class<? extends net.minecraft.server.v1_8_R2.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
-		for (Entry<String, Class<? extends net.minecraft.server.v1_8_R2.Entity>> entry : typeNameToClass.entrySet()) {
+	public static Class<? extends net.minecraft.server.v1_8_R3.Entity> typeNameToClass(String mobType) throws EntityTypeNotFoundException {
+		for (Entry<String, Class<? extends net.minecraft.server.v1_8_R3.Entity>> entry : typeNameToClass.entrySet()) {
 			if (entry.getKey().equalsIgnoreCase(mobType))
 				return entry.getValue();
 		}
@@ -93,7 +93,7 @@ public class MyEntityTypes {
 		//return typeNameToClass.get(mobType);
 	}
 	
-	public static int classToId(Class<? extends net.minecraft.server.v1_8_R2.Entity> mobType) throws EntityTypeNotFoundException {
+	public static int classToId(Class<? extends net.minecraft.server.v1_8_R3.Entity> mobType) throws EntityTypeNotFoundException {
 		final Integer id = classToId.get(mobType);
 		if (id == null)
 			throw new EntityTypeNotFoundException();
@@ -101,7 +101,7 @@ public class MyEntityTypes {
 		return id;
 	}
 
-	public static String classToTypeName(Class<? extends net.minecraft.server.v1_8_R2.Entity> mobType) throws EntityTypeNotFoundException {
+	public static String classToTypeName(Class<? extends net.minecraft.server.v1_8_R3.Entity> mobType) throws EntityTypeNotFoundException {
 		final String typeName = classToTypeName.get(mobType);
 		if (typeName == null)
 			throw new EntityTypeNotFoundException();
@@ -109,8 +109,8 @@ public class MyEntityTypes {
 		return typeName;
 	}
 
-	public static Class<? extends net.minecraft.server.v1_8_R2.Entity> idToClass(int id) throws EntityTypeNotFoundException {
-		final Class<? extends net.minecraft.server.v1_8_R2.Entity> mobType = idToClass.get(id);
+	public static Class<? extends net.minecraft.server.v1_8_R3.Entity> idToClass(int id) throws EntityTypeNotFoundException {
+		final Class<? extends net.minecraft.server.v1_8_R3.Entity> mobType = idToClass.get(id);
 		if (mobType == null)
 			throw new EntityTypeNotFoundException();
 

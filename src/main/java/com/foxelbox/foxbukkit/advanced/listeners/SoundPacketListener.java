@@ -19,9 +19,9 @@ package com.foxelbox.foxbukkit.advanced.listeners;
 import com.foxelbox.foxbukkit.advanced.packetlistener.FBPacketListener;
 import com.foxelbox.foxbukkit.componentsystem.FBListener;
 import com.foxelbox.foxbukkit.core.FoxBukkit;
-import net.minecraft.server.v1_8_R2.MathHelper;
-import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R3.MathHelper;
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutNamedSoundEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

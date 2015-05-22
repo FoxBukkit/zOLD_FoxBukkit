@@ -24,7 +24,7 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.procedure.TIntObjectProcedure;
 import gnu.trove.procedure.TObjectProcedure;
-import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R3.Packet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -87,7 +87,7 @@ public class Transmute implements Runnable {
 		return transmuted.containsKey(entity.getEntityId());
 	}
 
-	public boolean isTransmuted(net.minecraft.server.v1_8_R2.Entity entity) {
+	public boolean isTransmuted(net.minecraft.server.v1_8_R3.Entity entity) {
 		return transmuted.containsKey(entity.id);
 	}
 
@@ -99,7 +99,7 @@ public class Transmute implements Runnable {
 		return transmuted.get(entity.getEntityId());
 	}
 
-	public Shape getShape(net.minecraft.server.v1_8_R2.Entity entity) {
+	public Shape getShape(net.minecraft.server.v1_8_R3.Entity entity) {
 		return transmuted.get(entity.id);
 	}
 

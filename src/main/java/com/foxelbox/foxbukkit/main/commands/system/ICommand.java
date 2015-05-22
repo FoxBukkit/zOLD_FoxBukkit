@@ -27,12 +27,12 @@ import gnu.trove.map.hash.TCharObjectHashMap;
 import gnu.trove.set.TCharSet;
 import gnu.trove.set.hash.TCharHashSet;
 
-import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.annotation.Retention;

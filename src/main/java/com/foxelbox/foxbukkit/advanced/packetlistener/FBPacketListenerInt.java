@@ -16,7 +16,7 @@
  */
 package com.foxelbox.foxbukkit.advanced.packetlistener;
 
-import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R3.Packet;
 import org.bukkit.entity.Player;
 
 interface FBPacketListenerInt {

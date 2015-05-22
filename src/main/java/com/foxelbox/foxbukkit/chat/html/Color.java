@@ -16,8 +16,8 @@
  */
 package com.foxelbox.foxbukkit.chat.html;
 
-import net.minecraft.server.v1_8_R2.ChatModifier;
-import net.minecraft.server.v1_8_R2.EnumChatFormat;
+import net.minecraft.server.v1_8_R3.ChatModifier;
+import net.minecraft.server.v1_8_R3.EnumChatFormat;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;

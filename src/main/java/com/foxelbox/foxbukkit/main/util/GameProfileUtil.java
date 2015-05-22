@@ -17,7 +17,7 @@
 package com.foxelbox.foxbukkit.main.util;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
 
 import java.util.Iterator;
 import java.util.UUID;
@@ -29,7 +29,7 @@ public class GameProfileUtil {
 		if (gameprofile == null)
 			gameprofile = new GameProfile(uuid, name);
 
-		gameprofile = MinecraftServer.getServer().aC().fillProfileProperties(gameprofile, true);
+		gameprofile = MinecraftServer.getServer().aD().fillProfileProperties(gameprofile, true);
 
 		Iterator iterator = gameprofile.getProperties().values().iterator();
 

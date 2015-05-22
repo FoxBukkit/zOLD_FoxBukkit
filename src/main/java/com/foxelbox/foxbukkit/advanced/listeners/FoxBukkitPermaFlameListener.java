@@ -22,11 +22,11 @@ import com.foxelbox.foxbukkit.core.FoxBukkit;
 import com.foxelbox.foxbukkit.core.util.AutoCleanup;
 import com.foxelbox.foxbukkit.main.util.Utils;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.server.v1_8_R2.DataWatcher;
-import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R3.DataWatcher;
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -93,7 +93,7 @@ public class FoxBukkitPermaFlameListener extends FBPacketListener implements FBL
 		}
 
 		if (!found) {
-			final net.minecraft.server.v1_8_R2.Entity notchEntity;
+			final net.minecraft.server.v1_8_R3.Entity notchEntity;
 			byte value = 0;
 			if (entity == null) {
 				notchEntity = Utils.getEntityByID(entityId, world);
