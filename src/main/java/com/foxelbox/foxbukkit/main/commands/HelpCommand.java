@@ -29,7 +29,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-@Names({"help", "?", "h"})
+@Names("fbhelp")
 @Help("Prints a list of available commands or information about the specified command.")
 @Usage("[<command>]")
 @Permission("foxbukkit.help")
