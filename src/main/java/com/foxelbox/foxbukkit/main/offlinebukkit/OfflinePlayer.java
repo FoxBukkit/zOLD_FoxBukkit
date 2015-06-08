@@ -28,6 +28,7 @@ import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
@@ -71,6 +72,11 @@ public class OfflinePlayer extends AbstractPlayer {
     }
 
     public void sendSignChange(Location loc, String[] str) {
+
+	}
+
+	@Override
+	public void setSpectatorTarget(Entity entity) {
 
 	}
 
